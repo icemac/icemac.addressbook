@@ -1,0 +1,7 @@
+<ul tal:define="results view/__parent__/result"
+    tal:condition="results">
+  <li tal:repeat="result results">
+    <a tal:attributes="href result/@@absolute_url"
+       tal:content="result/@@display_title" />
+  </li>
+</ul>

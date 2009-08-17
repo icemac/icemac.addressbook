@@ -1,0 +1,27 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <gocept:pagelet
+     name="index.html"
+     for="zope.site.interfaces.IFolder"
+     class=".root.FrontPage"
+     template="rootfolder.pt"
+     permission="icemac.addressbook.AddAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+    />
+
+  <!-- Add menu -->
+  <browser:viewlet
+     name="address book"
+     viewName="@@addAddressBook.html"
+     for="zope.site.interfaces.IFolder"
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     class="z3c.menu.ready2go.item.AddMenuItem"
+     permission="icemac.addressbook.AddAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="1"
+     />
+
+</configure>

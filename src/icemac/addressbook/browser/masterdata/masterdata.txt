@@ -1,0 +1,83 @@
+=============
+ Master data
+=============
+
+There are some masterdata which can be edited by persons who are allowed to.
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> create_addressbook()
+<icemac.addressbook.addressbook.AddressBook object at 0x...>
+
+There is a master data overview which shows all parts the user can
+see, this differs between the roles.
+
+Manager
+=======
+
+At first we log in as manager:
+
+>>> manager = Browser()
+>>> manager.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> manager.open('http://localhost/++skin++AddressBook/ab')
+>>> manager.getLink('Master data').click()
+>>> print manager.contents
+<!DOCTYPE ...
+<div id="content">
+  <ul>
+    <li>
+      <a href="++attribute++keywords">Keywords</a>
+    </li>
+    <li>
+      <a href="++attribute++principals">Users</a>
+    </li>
+    <li>
+      <a href="++attribute++importer">Import data</a>
+    </li>
+  </ul>
+</div>...
+
+Editor
+======
+
+A user with the editor role sees the following parts:
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.getLink('Master data').click()
+>>> print editor.contents
+<!DOCTYPE ...
+<div id="content">
+  <ul>
+    <li>
+      <a href="++attribute++keywords">Keywords</a>
+    </li>
+    <li>
+      <a href="++attribute++principals">Users</a>
+    </li>
+  </ul>
+</div>...
+
+
+Visitor
+=======
+
+A user with the visitor role sees the fewest parts:
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Master data').click()
+>>> print visitor.contents
+<!DOCTYPE ...
+<div id="content">
+  <ul>
+    <li>
+      <a href="++attribute++keywords">Keywords</a>
+    </li>
+    <li>
+      <a href="++attribute++principals">Users</a>
+    </li>
+  </ul>
+</div>...

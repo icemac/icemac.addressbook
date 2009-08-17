@@ -1,0 +1,16 @@
+<div tal:define="addressbooks view/getAddressBooks">
+
+  <ul tal:condition="addressbooks">
+    <li tal:repeat="addressbook addressbooks">
+      <a tal:attributes="href addressbook/@@absolute_url"
+         tal:content="addressbook/title" />
+      (<tal:entries tal:replace="python:view.countEntries(addressbook)" />)
+    </li>
+  </ul>
+
+  <p tal:condition="not:addressbooks">
+    There are no address books created yet, click on "Add address
+    book" to create one.
+  </p>
+
+</div>

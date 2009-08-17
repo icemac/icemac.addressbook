@@ -1,0 +1,69 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <z3c:pagelet
+     name="addFile.html"
+     for="icemac.addressbook.file.interfaces.IFileContainer"
+     permission="icemac.addressbook.AddFile"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".file.Add"
+     />
+
+  <browser:viewlet
+     name="file"
+     viewName="@@addFile.html"
+     for="icemac.addressbook.file.interfaces.IFileContainer"
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     class="z3c.menu.ready2go.item.AddMenuItem"
+     permission="icemac.addressbook.AddFile"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="5"
+     />
+
+  <adapter
+     factory=".file.IFile_data_not_required"
+     name="required" />
+
+  <adapter
+     factory=".file.IFile_data_required"
+     name="required" />
+
+  <browser:page
+     name="download.html"
+     for="icemac.addressbook.file.interfaces.IFile"
+     class=".download.Download"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="icemac.addressbook.ViewFile"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.file.interfaces.IFile"
+     permission="icemac.addressbook.EditFile"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".file.DeleteFileForm"
+     />
+
+  <z3c:pagelet
+     name="edit.html"
+     for="icemac.addressbook.file.interfaces.IFile"
+     permission="icemac.addressbook.EditFile"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".file.Edit"
+     />
+
+  <browser:defaultView
+     name="edit.html"
+     for="icemac.addressbook.file.interfaces.IFile"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <class class=".download.DownloadResult">
+    <allow interface="zope.publisher.http.IResult"/>
+  </class>
+
+  <include file="widget.zcml" />
+
+</configure>

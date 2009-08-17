@@ -1,0 +1,171 @@
+=======
+ Login
+=======
+
+Users created inside an addressbook can log-in into the addressbook
+they were created in and they get the roles which were set for them.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook, create_user
+>>> ab = create_addressbook()
+>>> ab2 = create_addressbook(name='ab2')
+>>> create_user(ab, ab, u'Viktor', u'Visitor', u'visitor@example.com',
+...     u'12345678', ('Visitor',))
+>>> create_user(ab, ab, u'Erna', u'Editor', u'editor@example.com',
+...     u'23456789', ('Editor',))
+>>> create_user(ab, ab, u'Anne', u'Admin', u'admin@example.com',
+...     u'34567890', ('Administrator',))
+
+As the roles of a user are not displayed in the user interface, we
+look wheher the users are allowed to do some special things typical
+for the roles they have.
+
+Log in screen
+=============
+
+As cookie authorization is used an unauthorized user is redirected to
+the log-in page:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+
+
+Login failure
+=============
+
+Trying to log in with an unkown user name or wrong password leads to
+an error message displayed to the user.
+
+Wrong user name
+---------------
+
+>>> browser.getControl('User Name').value = 'wrong_username@example.com'
+>>> browser.getControl('Password').value = '23456789'
+>>> browser.getControl('Log in').click()
+>>> print browser.contents
+<!DOCTYPE...
+<p>
+  Please provide Login Information
+</p>...
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+
+Wrong password
+--------------
+
+>>> browser.getControl('User Name').value = 'editor@example.com'
+>>> browser.getControl('Password').value = '13456789'
+>>> browser.getControl('Log in').click()
+>>> print browser.contents
+<!DOCTYPE...
+<p>
+  Please provide Login Information
+</p>...
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+
+User name and passwort are not displayed if there was an error:
+
+>>> browser.getControl('User Name').value
+''
+>>> browser.getControl('Password').value
+''
+
+
+Login as editor
+===============
+
+>>> browser.getControl('User Name').value = 'editor@example.com'
+>>> browser.getControl('Password').value = '23456789'
+>>> browser.getControl('Log in').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> browser.getLink('Person list').click()
+
+Editors are allowed to create new persons:
+
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Prause'
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...Visitor, Viktor...
+...Editor, Erna...
+...Admin, Anne...
+...Prause...
+
+Selecting the ``Logout``-Link leads to the log-in form:
+
+>>> browser.getLink('Logout').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+
+
+Login as visitor
+================
+
+>>> browser.getControl('User Name').value = 'visitor@example.com'
+>>> browser.getControl('Password').value = '12345678'
+>>> browser.getControl('Log in').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> browser.getLink('Person list').click()
+
+Visitors are only able to see persons but not edit them (there are no
+text fields):
+
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> browser.getLink('Prause').click()
+>>> get_all_control_names(browser)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Logout behaves the same like for editors:
+
+>>> browser.getLink('Logout').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2FPerson-4%2F%40%40index.html'
+
+
+Login as administrator
+======================
+
+>>> browser.getControl('User Name').value = 'admin@example.com'
+>>> browser.getControl('Password').value = '34567890'
+>>> browser.getControl('Log in').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person-4/@@index.html'
+
+Administrators are able to edit users
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...Admin, Anne...
+...Editor, Erna...
+...Visitor, Viktor...
+
+>>> browser.getLink('Logout').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
+
+
+Login to other addressbook not possible
+=======================================
+
+It is not possible to log in into another addressbook besides the one
+the user was created in (password does not get accepted):
+
+>>> browser.open('http://localhost/++skin++AddressBook/ab2')
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab2/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab2%2F%40%40index.html'
+>>> browser.getControl('User Name').value = 'admin@example.com'
+>>> browser.getControl('Password').value = '34567890'
+>>> browser.getControl('Log in').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab2/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab2%2F%40%40index.html'

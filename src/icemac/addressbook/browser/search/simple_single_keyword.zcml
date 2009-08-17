@@ -1,0 +1,57 @@
+<configure 
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <gocept:pagelet
+     name="simple_single_keyword.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="search.pt"
+     class=".simple_single_keyword.SearchView"
+     />
+
+  <browser:viewlet
+     manager="icemac.addressbook.browser.search.interfaces.ISearchMenu"
+     name="Simple single keyword search"
+     viewName="@@simple_single_keyword.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     class="z3c.menu.ready2go.item.ContextMenuItem"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="1"
+     />
+
+  <browser:viewlet
+     manager="icemac.addressbook.browser.search.interfaces.ISearchForm"
+     name="form"
+     view=".simple_single_keyword.SearchView"
+     class=".simple_single_keyword.SearchForm"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+<!--   <browser:viewlet -->
+<!--      manager="icemac.addressbook.browser.search.interfaces.ISearchResult" -->
+<!--      name="result_list" -->
+<!--      view=".simple_single_keyword.SearchView" -->
+<!--      template="result_person.pt" -->
+<!--      permission="icemac.addressbook.ViewPerson" -->
+<!--      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer" -->
+<!--      /> -->
+
+  <browser:viewlet
+     manager="icemac.addressbook.browser.search.interfaces.ISearchResult"
+     name="result_table"
+     view=".simple_single_keyword.SearchView"
+     class=".result.simple.ExportForm"
+     template="result/export.pt"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <adapter factory=".simple_single_keyword.Search" />
+
+</configure>

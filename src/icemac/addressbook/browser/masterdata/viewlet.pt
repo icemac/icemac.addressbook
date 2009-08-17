@@ -1,0 +1,4 @@
+<li>
+  <a tal:attributes="href view/path"
+     tal:content="view/__name__" />
+</li>

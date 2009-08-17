@@ -1,0 +1,641 @@
+=================================
+ Adding and changing person data
+=================================
+
+Person data (name, address, ...) is stored in an address book.  The
+user can add and change the data of persons there.
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> create_addressbook()
+<icemac.addressbook.addressbook.AddressBook object at 0x...>
+>>> browser = Browser()
+
+Add a person
+============
+
+Editors are allowed to add new persons with addresses, so we log-in as
+an editor. In the add menu there is a link to create a person:
+
+>>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('person').click()
+
+Person and address data are relatively complex. There are some
+required fields which lead to an error message when they are not
+filled. Some fields get parsed, so entering rubbish leads also to an
+error message. (Note: Germany is by default selected as country.
+Clicking on it, deselects it, so no country is selected afterwards.):
+
+>>> browser.getControl('birth date').value = u'qqqqq'
+>>> browser.getControl('e-mail address').value = u'qqqqq'
+>>> browser.getControl('URL').value = 'qqqqq'
+>>> browser.getControl('Germany').click() # deselects default selection
+>>> browser.getControl('state').displayValue = ['Brandenburg']
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE...
+<div class="status">
+  <div class="summary">There were some errors.</div>
+  <ul class="errors">
+    <li>
+        last name:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+        birth date:
+      <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
+    </li>
+  </ul>
+</div>...
+<legend>postal address</legend>
+<div class="status">
+  <ul class="errors">
+    <li>
+      <div class="error">A country is required to choose a state.</div>
+    </li>
+  </ul>
+</div>...
+<div class="status">
+  <ul class="errors">
+    <li>
+      e-mail address:
+      <div class="error">Constraint not satisfied</div>
+    </li>
+  </ul>
+</div>...
+<div class="status">
+  <ul class="errors">
+    <li>
+      URL:
+      <div class="error">The specified URI is not valid.</div>
+    </li>
+  </ul>
+</div>...
+
+There are fields for the person's personal data:
+
+>>> browser.getControl('first name').value = u'Hans'
+>>> browser.getControl('last name').value = u'Tester'
+>>> browser.getControl('birth date').value = u'00/02/29'
+>>> browser.getControl('male').click()
+>>> browser.getControl('notes', index=0).value = u'first person\nfor tests'
+
+Fields for the primary postal address:
+
+>>> browser.getControl('kind', index=0).displayValue = ['private']
+>>> browser.getControl('address prefix').value = u'c/o Mama'
+>>> browser.getControl('street').value = u'Demoweg 23'
+>>> browser.getControl('city', index=0).value = u'Testhausen'
+>>> browser.getControl('zip').value = u'99999'
+>>> browser.getControl('country').displayValue = ['Austria']
+>>> browser.getControl('state').displayValue = ['Sachsen-Anhalt']
+>>> browser.getControl('notes', index=1).value = u'first address\nfor tests'
+
+Fields for the primary phone number:
+
+>>> browser.getControl('kind', index=1).displayValue = ['cell phone']
+>>> browser.getControl('number').value = u'112'
+>>> browser.getControl('notes', index=2).value = 'first phone number\nfor tests'
+
+Fields for the primary e-mail address:
+
+>>> browser.getControl('kind', index=2).displayValue = ['private']
+>>> browser.getControl('e-mail address').value = 'hans@example.com'
+>>> browser.getControl('notes', index=3).value = 'first e-mail\nfor tests'
+
+Fields for the primary home page address:
+
+>>> browser.getControl('kind', index=3).displayValue = ['work']
+>>> browser.getControl('URL').value = 'http://www.example.com'
+>>> browser.getControl('notes', index=4).value = 'first home page\nfor tests'
+
+As we selected a state which is outside the selected country we expext
+an error message when trying to add the record to the database:
+
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE...
+<legend>postal address</legend>
+<div class="status">
+  <ul class="errors">
+    <li>
+      <div class="error">The selected state does not belong to the selected country.</div>
+    </li>
+  </ul>
+</div>...
+
+After filling out the fields correctly, we can add the record to the
+database and get back to the address book where the entry is
+displayed:
+
+>>> browser.getControl('country').displayValue = ['Germany']
+>>> browser.handleErrors = False
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> print browser.contents
+<!DOCTYPE...
+...Tester, Hans...
+
+Edit a person's data
+====================
+
+The entry is a link which leads to the edit page of the person. The
+displayed values are the ones entered before:
+
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('first name').value
+'Hans'
+>>> browser.getControl('last name').value
+'Tester'
+>>> browser.getControl('birth date').value
+'00/02/29'
+>>> browser.getControl('male').selected
+True
+>>> print browser.getControl('notes', index=0).value
+first person
+for tests
+>>> browser.getControl('kind', index=0).displayValue
+['private']
+>>> browser.getControl('address prefix').value
+'c/o Mama'
+>>> browser.getControl('street').value
+'Demoweg 23'
+>>> browser.getControl('city', index=0).value
+'Testhausen'
+>>> browser.getControl('zip').value
+'99999'
+>>> browser.getControl('state').displayValue
+['Sachsen-Anhalt']
+>>> browser.getControl('country').displayValue
+['Germany']
+>>> print browser.getControl('notes', index=1).value
+first address
+for tests
+>>> browser.getControl('kind', index=1).displayValue
+['cell phone']
+>>> browser.getControl('number', index=1).value
+'112'
+>>> print browser.getControl('notes', index=2).value
+first phone number
+for tests
+>>> browser.getControl('kind', index=2).displayValue
+['private']
+>>> browser.getControl('e-mail address', index=1).value
+'hans@example.com'
+>>> print browser.getControl('notes', index=3).value
+first e-mail
+for tests
+>>> browser.getControl('kind', index=3).displayValue
+['work']
+>>> browser.getControl('URL').value
+'http://www.example.com'
+>>> print browser.getControl('notes', index=4).value
+first home page
+for tests
+
+If the user edits and decides to discard his changes he can choose the
+cancel button and is set back to the address book overview. The
+changes were not saved:
+
+>>> browser.getControl('first name').value = u'Petra'
+>>> browser.getControl('sex').displayValue = ['female']
+>>> browser.getControl('zip').value = u'88888'
+>>> browser.getControl('e-mail address', index=1).value = u'petra@example.com'
+>>> browser.getControl('URL').value = 'http://petra.example.com'
+>>> browser.getControl('number', index=1).value = u'110'
+>>> browser.getControl('Cancel').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> print browser.contents
+<!DOCTYPE...
+...Tester, Hans...
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('first name').value
+'Hans'
+>>> browser.getControl('last name').value
+'Tester'
+>>> browser.getControl('birth date').value
+'00/02/29'
+>>> browser.getControl('male').selected
+True
+>>> print browser.getControl('notes', index=0).value
+first person
+for tests
+>>> browser.getControl('zip').value
+'99999'
+>>> browser.getControl('e-mail address', index=1).value
+'hans@example.com'
+>>> browser.getControl('URL').value
+'http://www.example.com'
+>>> browser.getControl('number', index=1).value
+'112'
+
+If the user edits and decides to save his changes he chooses the apply
+button. If there are errors in the input data an error message is
+displayed:
+
+>>> browser.getControl('first name').value = u'Petra'
+>>> browser.getControl('sex').displayValue = ['female']
+>>> browser.getControl('birth date').value = u'qqqq'
+>>> browser.getControl('zip').value = u'88888'
+>>> browser.getControl('e-mail address', index=1).value = u'petra@example.com'
+>>> browser.getControl('URL').value = 'http://petra.example.com'
+>>> browser.getControl('number', index=1).value = u'110'
+>>> browser.getControl('Apply').click()
+>>> print browser.contents
+<!DOCTYPE...
+<div class="status">
+  <div class="summary">There were some errors.</div>
+  <ul class="errors">
+    <li>
+        birth date:
+      <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
+    </li>
+  </ul>
+</div>...
+
+After correction the errors and applying the changes the user is led
+back to the overview page of the address book:
+
+>>> browser.getControl('birth date').value = u'01/01/01'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> print browser.contents
+<!DOCTYPE...
+...Tester, Petra...
+
+To make sure the changes have been saved, he can visit the person's
+page again:
+
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('first name').value
+'Petra'
+>>> browser.getControl('last name').value
+'Tester'
+>>> browser.getControl('birth date').value
+'01/01/01'
+>>> browser.getControl('female').selected
+True
+>>> browser.getControl('zip').value
+'88888'
+>>> browser.getControl('e-mail address', index=1).value
+'petra@example.com'
+>>> browser.getControl('URL').value
+'http://petra.example.com'
+>>> browser.getControl('number', index=1).value
+'110'
+
+Add more data
+=============
+
+The default add from allows only to add one postal address, one phone
+number etc. But it is possible to add more of these entities.
+
+Add another phone number
+------------------------
+
+Adding another phone number is possible on the person edit form, which
+is already displayed:
+
+>>> browser.getLink('phone number').click()
+>>> browser.getControl('kind').displayValue = ['cell phone']
+>>> browser.getControl('number').value = '+4901761234567'
+>>> browser.getControl('notes').value = 'new cell number!'
+>>> browser.getControl('Add').click()
+
+After adding a new phone number, the person edit form is displayed
+where the new phone number is shown:
+
+>>> browser.getControl('number', index=2).value
+'+4901761234567'
+
+It is now possible to change this phone number in the person edit
+form:
+
+>>> browser.getControl('number', index=1).value ='+4901767654321'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('number', index=1).value
+'+4901767654321'
+
+Add another postal address
+--------------------------
+
+Adding another postal address is also possible on the person edit
+form, which is already displayed:
+
+>>> browser.getLink('postal address').click()
+>>> browser.getControl('kind').displayValue = ['work']
+>>> browser.getControl('address prefix').value = 'ABC-Computer'
+>>> browser.getControl('street').value = 'Forsterstraße 302a'
+>>> browser.getControl('city').value = 'Erfurt'
+>>> browser.getControl('zip').value = '98344'
+>>> browser.getControl('Thüringen').click()
+>>> browser.getControl('notes').value = 'new company!'
+>>> browser.getControl('Add').click()
+
+After adding a new postal address, the person edit form is displayed
+where the new postal address is shown:
+
+>>> browser.getControl('address prefix', index=1).value
+'ABC-Computer'
+>>> print browser.getControl('street', index=1).value
+Forsterstraße 302a
+>>> browser.getControl('city', index=1).value
+'Erfurt'
+
+It is now possible to change this postal address in the person edit
+form:
+
+>>> browser.getControl('address prefix', index=1).value = 'RST-Software'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('address prefix', index=1).value
+'RST-Software'
+
+Add another e-mail address
+--------------------------
+
+Adding another e-mail address is also possible on the person edit
+form, which is already displayed:
+
+>>> browser.getLink('e-mail address').click()
+>>> browser.getControl('kind').displayValue = ['work']
+>>> browser.getControl('e-mail address').value = 'pt@abc-computer.de'
+>>> browser.getControl('notes').value = 'new e-mail address in company!'
+>>> browser.getControl('Add').click()
+
+After adding a new e-mail address, the person edit form is displayed
+where the new e-mail address is shown:
+
+>>> browser.getControl('e-mail address', index=2).value
+'pt@abc-computer.de'
+
+It is now possible to change this e-mail address in the person edit
+form:
+
+>>> browser.getControl('e-mail address', index=2).value = 'pt@rst-software.de'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('e-mail address', index=2).value
+'pt@rst-software.de'
+
+Add another home page address
+-----------------------------
+
+Adding another home page address is also possible on the person edit
+form, which is already displayed:
+
+>>> browser.getLink('home page').click()
+>>> browser.getControl('kind').displayValue = ['work']
+>>> browser.getControl('URL').value = 'http://www.abc-computer.de'
+>>> browser.getControl('notes').value = 'home page of new in company!'
+>>> browser.getControl('Add').click()
+
+After adding a new home page address, the person edit form is
+displayed where the new home page address is shown:
+
+>>> browser.getControl('URL', index=1).value
+'http://www.abc-computer.de'
+
+It is now possible to change this home page address in the person edit
+form:
+
+>>> browser.getControl('URL', index=1).value = 'http://www.rst-software.de'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('URL', index=1).value
+'http://www.rst-software.de'
+
+Change the main values of the adresses
+--------------------------------------
+
+There is always one main address of each kind (by default the first
+one created). All addresses of each kind are displayed in a dropdown:
+
+>>> browser.getControl('main postal address').displayOptions
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany',
+ 'work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Th\xc3\xbcringen, Germany']
+>>> browser.getControl('main postal address').displayValue
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany']
+>>> browser.getControl('main phone number').displayOptions
+['cell phone: +4901767654321',
+ 'cell phone: +4901761234567']
+>>> browser.getControl('main phone number').displayValue
+['cell phone: +4901767654321']
+>>> browser.getControl('main e-mail address').displayOptions
+['private: petra@example.com',
+ 'work: pt@rst-software.de']
+>>> browser.getControl('main e-mail address').displayValue
+['private: petra@example.com']
+>>> browser.getControl('main home page address').displayOptions
+['work: http://petra.example.com',
+ 'work: http://www.rst-software.de']
+>>> browser.getControl('main home page address').displayValue
+['work: http://petra.example.com']
+
+Now we set the work addresses as default:
+
+>>> browser.getControl('main postal address').displayValue = ['work: '
+...     'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, '
+...     'Th\xc3\xbcringen, Germany']
+>>> browser.getControl('main e-mail address').displayValue = [
+...     'work: pt@rst-software.de']
+>>> browser.getControl('main home page address').displayValue = [
+...     'work: http://www.rst-software.de']
+>>> browser.getControl('Apply').click()
+
+
+
+Visitor
+=======
+
+Visitors can not chance any data, they can only view it:
+
+>>> visitor_browser = Browser()
+>>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor_browser.getLink('Tester, Petra').click()
+>>> print visitor_browser.contents
+<!DOCTYPE...
+...first name...Petra...
+...last name...Tester...
+...sex...female...
+...main phone number...
+...cell phone: +4901767654321...
+...zip...88888...
+...other e-mail address...
+...e-mail address...petra@example.com...
+...main e-mail address...
+...e-mail address...pt@rst-software.de...
+...other home page address...
+...URL...http://petra.example.com...
+...main home page address...
+...URL...http://www.rst-software.de...
+
+As visitors can not edit or delete persons nor addresses/numbers there
+are neither delete buttons nor input widgets:
+
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> get_all_control_names(visitor_browser)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Visitors cannot delete even they know the delete view url:
+
+>>> url = visitor_browser.url
+>>> visitor_browser.open(url + '/@@delete_entry.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor_browser.open(url + '/PostalAddress/@@delete.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor_browser.open(url + '/PhoneNumber/@@delete.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor_browser.open(url + '/EMailAddress/@@delete.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor_browser.open(url + '/HomePageAddress/@@delete.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Deleting an address or number
+=============================
+
+To delete an address or number the user has to be at least an editor.
+He has to go to the edit page of the person and has to choose the
+apporiate delete button there. He is presented with a list of the
+existing adresses and numbers:
+
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Tester, Petra').click()
+>>> person_edit_form_url = browser.url
+>>> browser.getControl('Delete single entry').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person/@@delete_entry.html'
+>>> entries = browser.getControl('Entries').displayOptions
+>>> entries
+['postal address -- private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany',
+ 'postal address -- work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Th\xc3\xbcringen, Germany',
+ 'phone number -- cell phone: +4901767654321',
+ 'phone number -- cell phone: +4901761234567',
+ 'e-mail address -- private: petra@example.com',
+ 'e-mail address -- work: pt@rst-software.de',
+ 'home page address -- work: http://petra.example.com',
+ 'home page address -- work: http://www.rst-software.de']
+
+If the user changed his mind, he can use the `cancel` button and gets
+redirected to the person edit page:
+
+>>> browser.getControl('Cancel').click()
+>>> browser.url == person_edit_form_url
+True
+
+To go back to the delete form, the user has to click the apporiate
+delete button again and choose an entry:
+
+>>> browser.getControl('Delete single entry').click()
+>>> entries == browser.getControl('Entries').displayOptions
+True
+>>> browser.getControl('RST-Software').click()
+>>> browser.getControl('Delete entry').click()
+
+Before the entry gets deleted, an `are you sure` formular is presented
+where the user can choose to cancel. In this case he is sent back to
+the person edit form:
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url == person_edit_form_url
+True
+
+To really delete the address we do the procedure again and click
+`delete` which really deletes the address and sends the user back to
+the person edit form:
+
+>>> browser.getControl('Delete single entry').click()
+>>> entries == browser.getControl('Entries').displayOptions
+True
+>>> browser.getControl('RST-Software').click()
+>>> browser.getControl('Delete entry').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url == person_edit_form_url
+True
+>>> browser.getControl('main postal address').displayOptions
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany', 'unknown: Germany']
+
+Deleting the main address creates a new, empty address:
+
+>>> browser.getControl('Delete single entry').click()
+>>> browser.getControl('Demoweg').click() # deselects default selection
+>>> browser.getControl('Demoweg').click()
+>>> browser.getControl('Delete entry').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url == person_edit_form_url
+True
+>>> browser.getControl('main postal address').displayOptions
+['unknown: Germany']
+
+Deleting also works for phone numbers, e-mail addreses and home page
+addresses:
+
+>>> browser.getControl('Delete single entry').click()
+>>> browser.getControl('+4901761234567').click()
+>>> browser.getControl('Delete entry').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url == person_edit_form_url
+True
+>>> browser.getControl('main phone number').displayOptions
+['cell phone: +4901767654321']
+
+>>> browser.getControl('Delete single entry').click()
+>>> browser.getControl('pt@rst-software.de').click()
+>>> browser.getControl('Delete entry').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url == person_edit_form_url
+True
+>>> browser.getControl('main e-mail address').displayOptions
+['private: petra@example.com', 'unknown']
+
+>>> browser.getControl('Delete single entry').click()
+>>> browser.getControl('http://petra.example.com').click()
+>>> browser.getControl('Delete entry').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url == person_edit_form_url
+True
+>>> browser.getControl('main home page address').displayOptions
+['work: http://www.rst-software.de']
+
+
+Deleting a person
+=================
+
+To delete a person the user has to be at least an editor.  He has to
+go to the edit page of the person and has to choose the delete button
+there. He is presented with an `are you sure` formular:
+
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Tester, Petra').click()
+>>> browser.getControl('Delete whole person').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person/@@delete_person.html'
+
+If he decides not to delete the entry he is led back to the person's
+edit form:
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url == person_edit_form_url
+True
+
+If he decides to delete the entry he is led back to the address book
+where the person is no longer listed:
+
+>>> browser.getControl('Delete whole person').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> 'Tester, Petra' in browser.contents
+False

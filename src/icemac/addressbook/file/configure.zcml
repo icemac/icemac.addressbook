@@ -1,0 +1,33 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope">
+
+  <permission
+     id="icemac.addressbook.AddFile"
+     title="AddFile"
+     />
+
+  <permission
+     id="icemac.addressbook.EditFile"
+     title="EditFile"
+     />
+
+  <permission
+     id="icemac.addressbook.ViewFile"
+     title="ViewFile"
+     />
+
+  <!-- File -->
+  <class class=".file.File">
+    <require
+       permission="icemac.addressbook.ViewFile"
+       interface=".interfaces.IFile"
+       />
+    <require
+       permission="icemac.addressbook.EditFile"
+       set_schema=".interfaces.IFile"
+       />
+  </class>
+
+  <adapter factory=".file.title" />
+
+</configure>

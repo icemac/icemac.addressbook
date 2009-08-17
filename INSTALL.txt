@@ -1,0 +1,93 @@
+==============
+ Installation
+==============
+
+Prerequisites
+=============
+
+You only need Python 2.5. (Other python versions are currently not
+supported.)
+
+Install
+=======
+
+CAUTION: icemac.addressbook can't be installed using ``easy_install``,
+you have to follow these simple steps:
+
+1. Download the source distribution (see Download_).
+
+2. Extract the downloaded file.
+
+3. Run ``install.py`` using your desired python, e. g.::
+
+   $ python2.5 install.py
+
+4. Answer the questions about admin user name, password and so on.
+
+Neither you need any root privileges nor it installs anything outside
+its directory.
+
+Run the tests
+=============
+
+Run the unit tests and functional tests using::
+
+  $ bin/test
+
+Run the application
+===================
+
+To run the application instance in foreground start using::
+
+  $ bin/addressbook fg
+
+To run it as a demon process start using::
+
+  $ bin/addressbook start
+
+To stop the demon process call::
+
+  $ bin/addressbook stop
+
+The default URL is to access the application is::
+
+  http://127.0.0.1:8080
+
+The hostname and port for this URL are stored in ``deploy.ini``.
+
+To log-in at this URL you need the username and password you chose
+when running ``install.py``. The are stored in ``admin.zcml``.
+
+Update
+======
+
+1. If you are updating from version 0.3.x or older follow the steps
+   described in Install_ (use a separate directory), otherwise follow
+   these steps:
+
+   1. Download and extract the source distribution (see Download_) to a
+   new a directory.
+
+   2. Run ``install.py`` using your desired python added by the path
+   to the previous installation. This way values you entered
+   previously are used as defaults instad of the application defaults.
+   Example::
+
+     $ python2.5 install.py ../icemac.addressbook-0.4
+
+   3. Answer the questions about admin user name, password and so
+   on.
+
+2. Stop the old instance of the application.
+
+3. Create a backup of the ZODB using::
+
+   $ bin/backup
+
+4. Copy the backup directory (``var/backups``) to the new instance.
+
+5. Restore the backup using::
+
+   $ bin/restore
+
+6. Start the new instance of the application.

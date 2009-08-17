@@ -1,0 +1,24 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="icemac.addressbook">
+
+  <securityPolicy
+     component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
+
+  <unauthenticatedPrincipal id="zope.anybody"
+                            title="Unauthenticated User" />
+  <unauthenticatedGroup id="zope.Anybody"
+                        title="Unauthenticated Users" />
+  <authenticatedGroup id="zope.Authenticated"
+                      title="Authenticated Users" />
+  <everybodyGroup id="zope.Everybody"
+                  title="All Users" />
+
+  <grant permission="zope.View"
+         principal="zope.Anybody" />
+  <grant permission="zope.app.dublincore.view"
+         principal="zope.Anybody" />
+
+  <role id="zope.Manager" title="Site Manager" />
+  <grantAll role="zope.Manager" />
+
+</configure>

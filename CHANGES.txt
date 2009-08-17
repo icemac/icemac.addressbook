@@ -1,0 +1,126 @@
+============
+ Change log
+============
+
+0.5 (unreleased)
+================
+
+Features
+--------
+
+-
+
+Bug fixes
+---------
+
+- Uploading a new file changes the stored name of the file.
+
+
+
+0.4 (2009-05-15)
+================
+
+Features
+--------
+
+- Files can be uploaded and added to persons. (Files are stored as
+  ZODB-Blob-Objects.)
+
+- Added logging of page accesses to `access.log`.
+
+- ``install.py`` now asks for hostname and portnumber and logging
+  configuration, so changing ``deploy.ini`` is no longer necessary.
+
+
+0.3.3 (2009-04-05)
+==================
+
+- Added two package dependencies which are necessary to convert an
+  existing ZODB of a previous addressbook version.
+
+
+0.3.2 (2009-04-03)
+==================
+
+- Fixed the sort order of the links in the master data section.
+
+
+0.3.1 (2009-03-31)
+==================
+
+- Fixed wrong recipe version.
+
+
+0.3 (2009-03-31)
+================
+
+Features
+--------
+
+- Added user management. There is now only one administrative user
+  created during installation. This user can log-in using basic
+  auth. He can create new users from existing persons inside the
+  address books (See `Master data --> Users`.)
+
+
+Bug fixes
+---------
+
+- Made the AddressBook skin the default skin.
+
+
+Other changes
+-------------
+
+- Dropped support for Python 2.4.
+
+- Renamed role `icemac.addressbook.administrator` to
+  `icemac.addressbook.global.administrator` so all global roles have
+  the same naming scheme.
+
+- Removed ZMI (Zope Management Interface) from skins in production
+  environment. There is a buildout config in ``profiles/zmi.cfg``
+  which enables ZMI.
+
+
+0.2 (2009-01-02)
+================
+
+Features
+--------
+
+- Multiple postal addresses, e-mail addresses, phone numbers and home
+  page addresses per person are now possible.
+
+- Added XLS export for all stored data (not only the default
+  addresses).
+
+- Added new attribute `kind` to postal address. Split `street` into
+  `address prefix` and `street`.
+
+- Overview page of all address books now shows number of entries in
+  each address book.
+
+Bug fixes
+---------
+
+- E-Mail adresses with hyphen in host name where not enterable due to
+  a picky constraint.
+
+- After changing a keyword title, persons using this keyword where no
+  longer found in the keyword search because the index was not
+  updated.
+
+- Changed sort order on person edit form: phone number is now
+  displayed before e-mail address. Changed XLS export accordingly.
+
+Previous Versions
+=================
+
+See ``OLD_CHANGES.txt`` inside the package.
+
+==========
+ Download
+==========
+
+

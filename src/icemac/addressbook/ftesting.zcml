@@ -1,0 +1,75 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           i18n_domain="icemac.addressbook">
+
+  <!-- Turn on the devmode -->
+  <meta:provides feature="devmode" />
+
+  <include package="icemac.addressbook" />
+  <include package="icemac.addressbook" file="base.zcml"/>
+
+  <!-- Principal that tests generally run as -->
+  <principal
+      id="zope.mgr"
+      title="Manager"
+      login="mgr"
+      password="mgrpw"
+      />
+  <!-- Bootstrap principal used to make local grant to the principal above -->
+  <principal
+      id="zope.globalmgr"
+      title="Manager"
+      login="globalmgr"
+      password="globalmgrpw"
+      />
+
+  <grant role="zope.Manager" principal="zope.globalmgr" />
+  <grant role="zope.Manager" principal="zope.mgr" />
+
+  <!-- Principal the tests normally should run as -->
+  <principal
+      id="icemac.addressbook.global.Editor"
+      title="global editor"
+      login="editor"
+      password="editor"
+      />
+  <grant role="icemac.addressbook.global.Editor"
+         principal="icemac.addressbook.global.Editor" />
+
+  <!-- Principal with only display permissions -->
+  <principal
+      id="icemac.addressbook.global.Visitor"
+      title="global vistor"
+      login="visitor"
+      password="visitor"
+      />
+  <grant role="icemac.addressbook.global.Visitor"
+         principal="icemac.addressbook.global.Visitor" />
+
+  <!-- As we use the ordered select widget for sets in the application
+       but zope.testbrowser does not interpret JavaScript, we have
+       set the widget back to the original one here. -->
+  <adapter
+     for="zope.schema.interfaces.ISet
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget" />
+
+  <!-- The ordered select widget for tuples uses JavaScript but
+       zope.testbrowser does not interpret JavaScript, so we have use a
+       JavaScript-less widget. -->
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget"
+     />
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
+     />
+
+</configure>

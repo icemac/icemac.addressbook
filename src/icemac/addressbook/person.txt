@@ -1,0 +1,40 @@
+=========
+ Persons
+=========
+
+A person has an ITitle adapter where the result depends on the values
+set on the person.
+
+
+    >>> import icemac.addressbook.person
+    >>> import icemac.addressbook.interfaces
+    >>> person = icemac.addressbook.person.Person()
+
+If first and last name is not set, the whole name is a place
+holder. This should never happen in reality as the last name is
+required:
+
+    >>> icemac.addressbook.interfaces.ITitle(person)
+    u'<no name>'
+
+If the last name is set but the first name is empty we try to compute
+salutation form the sex of the person. If the sex is not set we only
+return the last name:
+
+    >>> person.last_name = u'Tester'
+    >>> icemac.addressbook.interfaces.ITitle(person)
+    u'Tester'
+    >>> person.sex = u'male'
+    >>> icemac.addressbook.interfaces.ITitle(person)
+    u'Mr. Tester'
+    >>> person.sex = u'female'
+    >>> icemac.addressbook.interfaces.ITitle(person)
+    u'Ms. Tester'
+
+If both first and last name exist the whole name consists of the
+combination of both:
+
+    >>> person.first_name = u'Hans'
+    >>> person.last_name = u'Tester'
+    >>> icemac.addressbook.interfaces.ITitle(person)
+    u'Tester, Hans'

@@ -1,0 +1,4 @@
+
+<ul>
+  <tal:block replace="structure provider:master-data" />
+</ul>

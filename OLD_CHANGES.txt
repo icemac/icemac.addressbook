@@ -1,0 +1,21 @@
+=============
+ Old changes
+=============
+
+
+0.1.2 (2008-11-23)
+==================
+
+- Added recipe to safely install lxml dependency.
+
+
+0.1.1 (2008-11-10)
+==================
+
+- Initial public release.
+
+
+0.1 (2008-11-08)
+================
+
+- Created pypi homepage.

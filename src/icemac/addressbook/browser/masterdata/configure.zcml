@@ -1,0 +1,36 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <!-- Site menu entry -->
+  <browser:viewlet
+     name="Master data"
+     viewName="@@masterdata.html"
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     for="*"
+     class="z3c.menu.ready2go.item.SiteMenuItem"
+     permission="icemac.addressbook.ViewAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="200"
+     />
+
+  <!-- master data page -->
+  <gocept:pagelet
+     name="masterdata.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="masterdata.pt"
+     />
+
+  <!-- viewlet manager for page contents -->
+  <browser:viewletManager
+     provides=".manager.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="master-data"
+     class=".manager.MasterDataManager"
+     permission="zope.Public"
+     />
+
+</configure>

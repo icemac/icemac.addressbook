@@ -1,0 +1,153 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope">
+
+ <!-- AddressBook -->
+  <class class=".addressbook.AddressBook">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IAddressBook"
+       />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface="zope.container.interfaces.IReadContainer"
+       />
+    <require
+      permission="icemac.addressbook.EditAddressBook"
+      set_schema=".interfaces.IAddressBook"
+      />
+    <require
+       permission="icemac.addressbook.EditAddressBookContents"
+       interface="zope.container.interfaces.IWriteContainer"
+       />
+    <require
+      permission="icemac.addressbook.ViewAddressBook"
+      attributes="getSiteManager" />
+  </class>
+
+  <!-- Person -->
+  <class class=".person.Person">
+    <implements
+       interface="icemac.addressbook.file.interfaces.IFileContainer"
+       />
+    <require
+       permission="icemac.addressbook.ViewPerson"
+       interface=".interfaces.IPerson"
+       />
+    <require
+      permission="icemac.addressbook.EditPerson"
+      set_schema=".interfaces.IPerson"
+      />
+    <require
+      permission="icemac.addressbook.EditPerson"
+      set_schema=".interfaces.IPersonDefaults"
+      />
+    <require
+       permission="icemac.addressbook.ViewPerson"
+       interface=".interfaces.IPersonDefaults"
+       />
+    <require
+       permission="icemac.addressbook.ViewPerson"
+       interface="zope.container.interfaces.IReadContainer"
+       />
+    <require
+       permission="icemac.addressbook.EditPersonContents"
+       interface="zope.container.interfaces.IWriteContainer"
+       />
+  </class>
+
+  <!-- PostalAddress -->
+  <class class=".address.PostalAddress">
+    <!-- <implements -->
+    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
+    <!--   /> -->
+    <require
+       permission="icemac.addressbook.ViewPostalAddress"
+       interface=".interfaces.IPostalAddress"
+       />
+    <require
+      permission="icemac.addressbook.EditPostalAddress"
+      set_schema=".interfaces.IPostalAddress"
+      />
+  </class>
+
+  <!-- EMailAddress -->
+  <class class=".address.EMailAddress">
+    <!-- <implements -->
+    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
+    <!--   /> -->
+    <require
+       permission="icemac.addressbook.ViewEMailAddress"
+       interface=".interfaces.IEMailAddress"
+       />
+    <require
+      permission="icemac.addressbook.EditEMailAddress"
+      set_schema=".interfaces.IEMailAddress"
+      />
+  </class>
+
+  <!-- HomePageAddress -->
+  <class class=".address.HomePageAddress">
+    <!-- <implements -->
+    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
+    <!--   /> -->
+    <require
+       permission="icemac.addressbook.ViewHomePageAddress"
+       interface=".interfaces.IHomePageAddress"
+       />
+    <require
+      permission="icemac.addressbook.EditHomePageAddress"
+      set_schema=".interfaces.IHomePageAddress"
+      />
+  </class>
+
+  <!-- PhoneNumber -->
+  <class class=".address.PhoneNumber">
+    <!-- <implements -->
+    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
+    <!--   /> -->
+    <require
+       permission="icemac.addressbook.ViewPhoneNumber"
+       interface=".interfaces.IPhoneNumber"
+       />
+    <require
+      permission="icemac.addressbook.EditPhoneNumber"
+      set_schema=".interfaces.IPhoneNumber"
+      />
+  </class>
+
+  <!-- KeywordContainer -->
+  <class class=".keyword.KeywordContainer">
+    <require
+       permission="icemac.addressbook.ViewKeywordContainer"
+       interface=".interfaces.IKeywords"
+       />
+    <require
+      permission="icemac.addressbook.EditKeywordContainer"
+      set_schema=".interfaces.IKeywords"
+      />
+    <require
+       permission="icemac.addressbook.ViewKeywordContainer"
+       interface="zope.container.interfaces.IReadContainer"
+       />
+    <require
+       permission="icemac.addressbook.EditKeywordContainer"
+       interface="zope.container.interfaces.IWriteContainer"
+       />
+  </class>
+
+  <!-- Keyword -->
+  <class class=".keyword.Keyword">
+    <require
+       permission="icemac.addressbook.ViewKeyword"
+       interface=".interfaces.IKeyword"
+       />
+    <require
+      permission="icemac.addressbook.EditKeyword"
+      set_schema=".interfaces.IKeyword"
+      />
+  </class>
+
+</configure>

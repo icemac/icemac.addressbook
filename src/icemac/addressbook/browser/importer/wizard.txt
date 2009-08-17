@@ -1,0 +1,255 @@
+================
+ Importing data
+================
+
+Administrators are able to upload files and import the data therein. A
+wizard helps in this process.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+
+Upload a file
+=============
+
+Only administrators can upload import files. So we log-in as
+administrator and go to the master data area:
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+
+Let's create a simple file which will get imported fine:
+
+>>> from xlutils.tests.fixtures import make_book
+>>> import xlutils.save
+>>> from StringIO import StringIO
+>>> wb = make_book(((u'firstname', u'last_name', u'addr_city'),
+...                 (u'Rene Manfred', u'Kohn', u'Hiernase'),
+...                 (u'Jurgen', u'Krafft', u'Dortmund')))
+>>> file_data = StringIO()
+>>> xlutils.save.save(wb, file_data)
+>>> file_data.seek(0)
+
+There is an `add file` link to upload an import file:
+
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'first.xls')
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+Minimal successful import
+=========================
+
+The `import` link next to the imported file starts the wizard:
+
+>>> browser.getLink('Import').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import
+
+Choose reader
+-------------
+
+The first step is to choose a reader for the import file. Only the
+readers capable to import the file are displayed:
+
+>>> browser.getControl('Import file reader').displayOptions
+['Microsoft Excel file']
+>>> browser.getControl('Next').click()
+>>> print browser.url
+http://localhost/.../ab/++attribute++importer/File/import/map
+
+Map fields
+----------
+
+The next step is to choose fields from the import file for the fields
+in the address book.
+
+For each field in the address book the corresponding field in the
+import file can be choosen. Not only the names of the fields in the
+import file are shown but also some sample values:
+
+>>> browser.getControl('first name').displayOptions
+['no value',
+ 'firstname (Rene Manfred, Jurgen)',
+ 'last_name (Kohn, Krafft)',
+ 'addr_city (Hiernase, Dortmund)']
+
+Let's choose some values and submit the form:
+
+>>> browser.getControl('first name').displayValue = ['firstname']
+>>> browser.getControl('last name').displayValue = ['last_name']
+>>> browser.getControl('city').displayValue = ['addr_city']
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++importer/File/import/review'
+
+Review imported data
+--------------------
+
+In the next step the imported data is displayed as it was stored in
+the address book. The user can decide to keep the values:
+
+>>> print browser.contents
+<!DOCTYPE ...
+<table>
+  <thead>
+    <tr>
+      <th><i>person</i><br />first name</th>
+      <th><br />last name</th>
+      <th><br />birth date</th>
+      <th><br />sex</th>
+      <th><br />keywords</th>
+      <th><br />notes</th>
+      <th><i>postal address</i><br />kind</th>
+      <th><br />address prefix</th>
+      <th><br />street</th>
+      <th><br />city</th>
+      <th><br />zip</th>
+      <th><br />country</th>
+      <th><br />state</th>
+      <th><br />notes</th>
+      <th><i>phone number</i><br />kind</th>
+      <th><br />number</th>
+      <th><br />notes</th>
+      <th><i>e-mail address</i><br />kind</th>
+      <th><br />e-mail address</th>
+      <th><br />notes</th>
+      <th><i>home page address</i><br />kind</th>
+      <th><br />URL</th>
+      <th><br />notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td>Rene Manfred</td>
+      <td>Kohn</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Hiernase</td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>Jurgen</td>
+      <td>Krafft</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Dortmund</td>
+      <td></td>
+      <td>DE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>...
+
+>>> browser.getControl('Keep imported data?').displayValue
+['yes']
+>>> browser.getControl('Next').click()
+>>> browser.url
+'http://localhost/++skin++.../ab/++attribute++importer/File/import/complete'
+
+
+Complete
+--------
+
+The last step tells that the import is complete. The `complete` button
+leads back to the list of import files:
+
+>>> print browser.contents
+<!DOCTYPE ...
+<span>Import complete.</span>...
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+The import file is still displayed:
+
+>>> print browser.contents
+<!DOCTYPE ...
+<td><a href="http://localhost/++skin++AddressBook/ab/++attribute++importer/File">first.xls</a>...
+
+The imported persons are displayed on the person list:
+
+>>> browser.getLink('Person list').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> print browser.contents
+<!DOCTYPE ...
+...Kohn, Rene Manfred...
+...Krafft, Jurgen...
+
+Empty import file
+=================
+
+When the import file is empty, nothing gets imported:
+
+>>> file_data = StringIO()
+>>> xlutils.save.save(make_book(()), file_data)
+>>> file_data.seek(0)
+
+Next step is to upload the file:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+>>> browser.getLink('file').click()
+>>> browser.getControl('file').add_file(file_data, 'text/plain', 'empty.xls')
+>>> browser.getControl('Add').click()
+
+There is no import file reader, as the XLS reader expects a first line
+containing the field names:
+
+>>> browser.getLink('Import').click()
+>>> browser.getControl('Import file reader').displayOptions
+[]
+
+
+.. XXX testcases:
+..  - doppelte Spaltennamen im import-file --> mapping im UI 90° kippen,
+..    implementierung funktioniert schon so, dass man ein import feld nicht
+..    in zwei ab-felder schreiben kann
+..  - state testen
+..  - nicht seletierte felder des import-files
+..  - empty import row (wenn möglich) bzw. nothing imported
+..  - state interface invariables testen
+..  - required missing errors testen
+..  - constraint not satisfied testen (sources, email, www)
+..  - Sicherstellen, dass ein Feld nicht mehrmals ausgewählt werden kann, ..    evtl. dafür Feldname und Source tauschen

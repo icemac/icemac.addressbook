@@ -1,0 +1,34 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml">
+
+  <!-- zmi -->
+
+  <include package="zope.app.zcmlfiles" file="meta.zcml" />
+  <include package="zope.app.zcmlfiles" />
+  <include package="zope.formlib" />
+
+
+  <!-- apidoc -->
+
+  <include package="zope.app.preference" file="meta.zcml" />
+  <include package="zope.app.apidoc" file="meta.zcml" />
+  <include package="zope.app.onlinehelp" file="meta.zcml" />
+
+  <include package="zope.app.tree" />
+  <include package="zope.app.onlinehelp" />
+  <include package="zope.app.renderer" />
+  <include package="zope.app.preference" />
+  <include package="zope.app.apidoc" />
+  <include package="zope.app.generations" />
+
+  <grant
+     zcml:condition="have devmode"
+     permission="zope.app.apidoc.UseAPIDoc"
+     role="zope.Manager" />
+
+  <grant
+     permission="zope.ManageApplication"
+     role="zope.Manager" />
+
+</configure>
