@@ -1,0 +1,114 @@
+===========
+ Searching
+===========
+
+It is possible to search for persons. There are some different search
+types.
+
+Set up
+======
+
+We need an address book, some keywords and some persons:
+
+>>> from icemac.addressbook.testing import (create_addressbook, create_person,
+...     create_keyword)
+>>> addressbook = create_addressbook()
+>>> friends = create_keyword(addressbook, u'friends')
+>>> family = create_keyword(addressbook, u'family')
+>>> church = create_keyword(addressbook, u'church')
+>>> work = create_keyword(addressbook, u'work')
+>>> anyone_else = create_keyword(addressbook, u'anyone else')
+>>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
+...                         keywords=set([friends]))
+>>> koch = create_person(addressbook, addressbook, u'Koch',
+...                      keywords=set([family, church]))
+>>> liebig = create_person(addressbook, addressbook, u'Liebig',
+...                        keywords=set([church]))
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+
+Visitors are allowed to search, so we log in as a visitor:
+
+>>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+There is a link in the global navigation which leads to the searches
+overview providing links to the offered search types:
+
+>>> browser.getLink('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<ul><li>
+    <a href="http://localhost/++skin++AddressBook/ab/@@simple_single_keyword.html"><span>Simple single keyword search</span></a>      
+  </li>
+</ul>...
+
+Simple single keyword search
+============================
+
+This search type allows to search for persons who have a specified
+keyword assigned to:
+
+>>> browser.getLink('Simple single keyword search').click()
+
+
+When no entry in the keywords drop-down is selected an error message
+is displayed:
+
+>>> browser.getControl('anyone else').click() # deselect default selection
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<div class="status">
+  <div class="summary">There were some errors.</div>
+  <ul class="errors">
+    <li>
+      keyword: <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+</div>...
+
+
+When no result is found a message is displayed:
+
+>>> browser.getControl('work').click()
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...No person found...
+
+
+>>> browser.getControl('church').click()
+>>> browser.getControl('Search').click()
+
+The results are displayed as a table with links to the edit forms of
+the found persons:
+
+>>> print browser.contents
+<!DOCTYPE ...
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Liebig</a></td>
+    </tr>
+  </tbody>
+</table>...
+
+
+The form is displayed on the result page, too. The previously selected
+keyword is still selected:
+
+>>> browser.getControl('church').selected
+True

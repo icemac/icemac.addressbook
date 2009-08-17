@@ -1,0 +1,84 @@
+=========
+ Catalog
+=========
+
+The catalog is used for efficient searches, we demonstrate here that
+the catalog is really used.
+
+>>> from icemac.addressbook.testing import (create_addressbook, create_person,
+...     create_keyword)
+>>> addressbook = create_addressbook()
+
+IntId
+=====
+
+Persons added to the address book are added to the uid utility of the
+address book. (The int id changes with every run so we can only show,
+that there is an int id registered for the person):
+
+>>> import zope.component
+>>> import zope.intid.interfaces
+>>> kohn = create_person(addressbook, addressbook, u'Kohn')
+>>> intids = zope.component.getUtility(
+...     zope.intid.interfaces.IIntIds, context=addressbook)
+>>> intids.queryId(kohn) is not None
+True
+>>> isinstance(intids.queryId(kohn), int)
+True
+>>> intids.queryObject(intids.queryId(kohn)) is kohn
+True
+>>> intids.queryId(object()) is not None
+False
+
+Catalog
+=======
+
+Keyword-Index
+-------------
+
+The keywords on persons are indexed, to show this we have to create
+some keywords first:
+
+>>> church = create_keyword(addressbook, u'church')
+>>> friends = create_keyword(addressbook, u'friends')
+>>> family = create_keyword(addressbook, u'family')
+
+To set the keywords we have to set the site (as keywords use
+references). To get the catalog updated we have to notify it that an
+object has changed:
+
+>>> import zope.site.hooks
+>>> import zope.event
+>>> import zope.lifecycleevent
+>>> zope.site.hooks.setSite(addressbook)
+>>> kohn.keywords = set([church, friends])
+>>> zope.event.notify(zope.lifecycleevent.ObjectModifiedEvent(kohn))
+
+The index should now contain two words (the titles of the keyword.),
+so we can search for them:
+
+>>> import zope.catalog.interfaces
+>>> catalog = zope.component.getUtility(
+...     zope.catalog.interfaces.ICatalog, context=addressbook)
+>>> catalog.get('keywords').wordCount.value
+2
+>>> len(catalog.searchResults(keywords={'any_of': ('friends', )}))
+1
+>>> list(catalog.searchResults(keywords={'any_of': ('friends', )}))[0] is kohn
+True
+
+When the title of a keyword has changed the index gets updated at the
+modified event:
+
+>>> friends.title = u'Freunde'
+>>> import icemac.addressbook.interfaces
+>>> attributes = zope.lifecycleevent.Attributes(
+...     icemac.addressbook.interfaces.IKeyword, 'title')
+>>> event = zope.lifecycleevent.ObjectModifiedEvent(friends, attributes)
+>>> zope.event.notify(event)
+>>> catalog.get('keywords').wordCount.value
+2
+>>> len(catalog.searchResults(keywords={'any_of': ('Freunde', )}))
+1
+>>> list(catalog.searchResults(keywords={'any_of': ('Freunde', )}))[0] is kohn
+True

@@ -1,0 +1,144 @@
+========
+ Export
+========
+
+Search results can be exported in different formats.
+
+Set up
+======
+
+We need an address book, some keywords and some persons:
+
+>>> from icemac.addressbook.testing import (create_addressbook, create_person,
+...     create_keyword)
+>>> import datetime
+>>> addressbook = create_addressbook()
+>>> friends = create_keyword(addressbook, u'friends')
+>>> family = create_keyword(addressbook, u'family')
+>>> church = create_keyword(addressbook, u'church')
+>>> work = create_keyword(addressbook, u'work')
+>>> anyone_else = create_keyword(addressbook, u'anyone else')
+>>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
+...                         keywords=set([friends]))
+>>> koch = create_person(
+...     addressbook, addressbook, u'Koch', keywords=set([family, church]),
+...     birth_date=datetime.date(1952, 1, 24), sex='male')
+>>> liebig = create_person(addressbook, addressbook, u'Liebig',
+...                        keywords=set([church]))
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+
+Visitors are allowed to search and export, so we log in as a visitor:
+
+>>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Export
+======
+
+There is a link in the global navigation which leads to the searches,
+we choose the simple keyword search as it has export abilities:
+
+>>> browser.getLink('Search').click()
+>>> browser.getLink('Simple single keyword search').click()
+
+Before searching no export button is displayed, only the search button
+is shown:
+
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> get_submit_control_names(browser)
+['form.buttons.search']
+
+If there where no search results, there is no export button, too:
+
+>>> browser.getControl('work').click()
+>>> browser.getControl('Search').click()
+>>> get_submit_control_names(browser)
+['form.buttons.search']
+
+After performing the search a table containing the results is
+displayed, the checkboxes of the rows are pre-selected:
+
+>>> browser.getControl('church').click()
+>>> browser.getControl('Search').click()
+>>> (get_submit_control_names(form=browser.getForm(index=0)),
+...  get_submit_control_names(form=browser.getForm(index=1)))
+(['form.buttons.search'], ['form.buttons.export'])
+
+>>> print browser.contents
+<!DOCTYPE ...
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Mr. Koch</a></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Liebig</a></td>
+    </tr>
+  </tbody>
+</table>...
+
+Choosing the export button returns an XLS document, all selected
+persons are exported:
+
+>>> import xlrd
+>>> browser.getControl(name='form.buttons.export').click()
+>>> browser.headers['Content-Type']
+'application/vnd.ms-excel'
+>>> browser.headers['Content-Disposition']
+'attachment; filename=addressbook_export.xls'
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> xls_workbook.sheet_names()
+[u'Address book - Export']
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(4, 23)
+>>> for rx in range(work_sheet_0.nrows):
+...     print work_sheet_0.row(rx)
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
+[empty:'', text:u'Koch', xldate:19017.0, text:u'male', text:u'family, church', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
+[empty:'', text:u'Liebig', empty:'', empty:'', text:u'church', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
+
+When the user chooses only some persons for export only these persons
+are exported:
+
+>>> browser.goBack()
+>>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
+>>> browser.getControl(name='form.buttons.export').click()
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(3, 23)
+>>> for rx in range(work_sheet_0.nrows):
+...     print work_sheet_0.row(rx)
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
+[empty:'', text:u'Liebig', empty:'', empty:'', text:u'church', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
+
+When the user chooses no person for export a neary empty sheet gets
+exported. As all persons are selected by default, it is necessary to
+deselect them. We also test here another exporter:
+
+>>> browser.goBack()
+>>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
+>>> browser.getControl(name='persons:list').getControl(value="Person-3").click()
+>>> browser.getControl('XLS complete').click()
+>>> browser.getControl(name='form.buttons.export').click()
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(2, 6)
+>>> for rx in range(work_sheet_0.nrows):
+...     print work_sheet_0.row(rx)
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes']

@@ -1,0 +1,51 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <browser:viewlet
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     name="Search"
+     viewName="search.html"
+     weight="20"
+     class="z3c.menu.ready2go.item.SiteMenuItem"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <gocept:pagelet
+     name="search.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="search.pt"
+     class=".Search"
+     />
+
+  <browser:viewletManager
+     name="search-menu"
+     provides=".interfaces.ISearchMenu"
+     class=".menu.SearchMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="search-form"
+     provides=".interfaces.ISearchForm"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="search-result"
+     provides=".interfaces.ISearchResult"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <include file="simple_single_keyword.zcml" />
+  <include package=".result" />
+
+</configure>

@@ -1,0 +1,45 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <interface
+     interface=".interfaces.IAddressBookBrowserSkin"
+     type="zope.publisher.interfaces.browser.IBrowserSkinType"
+     name="AddressBook"
+     />
+
+  <z3c:layout
+     for="*"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="layout.pt"
+     />
+
+  <adapter
+     factory=".base.display_title"
+     name="display_title" />
+
+
+  <!-- CAUTION: This adapter ensures that the ordered select widget is
+                used for all ISet schema elements. -->
+  <adapter
+     for="zope.schema.interfaces.ISet
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.orderedselect.OrderedSelectFieldWidget" />
+
+
+  <include package=".addressbook" />
+  <include package=".authentication" />
+  <include package=".export" />
+  <include package=".file" />
+  <include package=".importer" />
+  <include package=".keyword" />
+  <include package=".masterdata" />
+  <include package=".menus" />
+  <include package=".person" />
+  <include package=".principals" />
+  <include package=".rootfolder" />
+  <include package=".search" />
+
+</configure>

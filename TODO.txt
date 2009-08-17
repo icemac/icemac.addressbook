@@ -1,0 +1,46 @@
+=======
+ To do
+=======
+
+Next version
+============
+
+- import of XLS files
+
+Longer term
+===========
+
+The following features should be implemented over the next months:
+
+- person data
+
+  * store picture per person
+
+  * add customizable free text fields
+
+- company as entity
+
+- import
+
+  * vCard
+
+  * XLS
+
+  * SQLite (Apple's Addressbook.app)
+
+- export
+
+  * custom XLS export
+
+  * LDAP export
+
+- translation of user interface into German
+
+- more search abilities
+
+  * full text search
+
+  * combined search
+
+  * wildcard search
+

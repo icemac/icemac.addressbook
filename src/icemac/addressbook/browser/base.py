@@ -1,0 +1,210 @@
+# -*- coding: latin-1 -*-
+# Copyright (c) 2008-2009 Michael Howitz
+# See also LICENSE.txt
+
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.interfaces
+import icemac.addressbook.interfaces
+import icemac.addressbook.utils
+import transaction
+import z3c.form.button
+import z3c.form.field
+import z3c.form.group
+import z3c.formui.form
+import zope.app.publication.browser
+import zope.component
+import zope.interface
+import zope.security
+import zope.security.interfaces
+import zope.traversing.api
+import zope.traversing.browser.interfaces
+import zope.traversing.publicationtraverse
+
+
+class display_title(object):
+
+    zope.component.adapts(
+        zope.interface.Interface,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+    zope.interface.implements(icemac.addressbook.interfaces.ITitle)
+
+    def __init__(self, context, request):
+        self.context = context
+
+    def __call__(self):
+        return icemac.addressbook.interfaces.ITitle(self.context)
+
+
+def create(form, class_, data):
+    obj = icemac.addressbook.utils.create_obj(class_)
+    z3c.formui.form.applyChanges(form, obj, data)
+    return obj
+
+
+def all_(*constraints):
+    """All given button constraints must evaluate to true."""
+    return lambda form: all(constraint(form) for constraint in constraints)
+
+
+class BaseAddForm(z3c.formui.form.AddForm):
+    """Simple base add form."""
+
+    interface = None # interface for form
+    class_ = None # create object from this class
+    next_url = None # target after creation, one of ('object', 'parent')
+
+    @property
+    def fields(self):
+        return z3c.form.field.Fields(self.interface)
+
+    def create(self, data):
+        return create(self, self.class_, data)
+
+    def add(self, obj):
+        try:
+            self._name = icemac.addressbook.utils.add(self.context, obj)
+        except zope.interface.Invalid, e:
+            transaction.doom()
+            raise z3c.form.interfaces.ActionExecutionError(e)
+
+    @z3c.form.button.buttonAndHandler(_('Add'), name='add')
+    def handleAdd(self, action):
+        # because we define a new action we have to duplicate the
+        # existing action because otherwise we'll lose it.
+        super(BaseAddForm, self).handleAdd(self, action)
+
+    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
+    def handleCancel(self, action):
+        self.next_url = 'parent'
+        self._finishedAdd = True
+
+    def nextURL(self):
+        if self.next_url == 'object':
+            context = self.context[self._name]
+        elif self.next_url == 'parent':
+            context = self.context
+        else:
+            raise ValueError("Don't know how to handle next_url %r.")
+        return zope.component.getMultiAdapter(
+            (context, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL)()
+
+
+class BaseEditForm(z3c.formui.form.EditForm):
+    """Base Edit form."""
+
+    next_url = None # target object after edit, one of ('object', 'parent')
+    next_view = None # target view after edit (None for default view)
+    interface = None # interface for form
+
+    @property
+    def fields(self):
+        return z3c.form.field.Fields(self.interface)
+
+    def render(self):
+        if self.status in (self.successMessage, self.noChangesMessage):
+            self.redirect_to_next_url()
+        else:
+            return super(BaseEditForm, self).render()
+
+    def redirect_to_next_url(self):
+        if self.next_url == 'object':
+            target = self.context
+        elif self.next_url == 'parent':
+            target = zope.traversing.api.getParent(self.context)
+        else:
+            raise ValueError('next_url %r unknown' % self.next_url)
+        target_url = zope.component.getMultiAdapter(
+            (target, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL)()
+        if self.next_view:
+            target_url += '/%s' % self.next_view
+        self.request.response.redirect(target_url)
+
+    def applyChanges(self, data):
+        try:
+            super(BaseEditForm, self).applyChanges(data)
+        except zope.interface.Invalid, e:
+            transaction.doom()
+            raise z3c.form.interfaces.ActionExecutionError(e)
+
+
+class BaseEditFormWithCancel(BaseEditForm):
+    "BaseEditForm with cancel button."
+
+    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
+    def handleApply(self, action):
+        # because we define a new action we have to duplicate the
+        # existing action because otherwise we'll lose it.
+        super(BaseEditFormWithCancel, self).handleApply(self, action)
+
+    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
+    def handleCancel(self, action):
+        self.status = self.noChangesMessage
+
+
+class BaseDeleteForm(BaseEditForm):
+    "Display a deletion confirmation dialog."
+
+    label = _(u'Do you really want to delete this entry?')
+    interface = None
+    field_names = () # tuple of field names for display or empty for all
+
+    mode = z3c.form.interfaces.DISPLAY_MODE
+    next_url = 'object'
+
+    @property
+    def fields(self):
+        fields = z3c.form.field.Fields(self.interface)
+        if self.field_names:
+            fields = fields.select(*self.field_names)
+        return fields
+
+    @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
+    def handleCancel(self, action):
+        self.status = self.noChangesMessage
+
+    @z3c.form.button.buttonAndHandler(_(u'Yes, delete it'), name='delete')
+    def handleDelete(self, action):
+        self.next_url = 'parent'
+        self.redirect_to_next_url()
+        self._do_delete()
+        return ''
+
+    def _do_delete(self):
+        name = zope.traversing.api.getName(self.context)
+        parent = zope.traversing.api.getParent(self.context)
+        del parent[name]
+
+
+class PrefixGroup(z3c.form.group.Group):
+    """Group which sets a prefix."""
+
+    prefix = None # to be set in subclass
+    interface = None # to be set in subclass
+
+    @property
+    def fields(self):
+        return z3c.form.field.Fields(self.interface, prefix=self.prefix)
+
+
+def can_access(uri_part):
+    """Create a button condition function to test whether the user can
+    access the URL context/@@absolute_url/<uri_part>."""
+    def can_access_form(form):
+        traverser = zope.traversing.publicationtraverse.PublicationTraverser()
+        try:
+            view = traverser.traverseRelativeURL(
+                form.request, form.context, uri_part)
+        except (zope.security.interfaces.Unauthorized,
+                zope.security.interfaces.Forbidden,
+                LookupError):
+            return False
+        else:
+            # we're assuming that view pages are callable
+            # this is a pretty sound assumption
+            if not zope.security.canAccess(view, '__call__'):
+                return False
+        return True
+    return can_access_form
+

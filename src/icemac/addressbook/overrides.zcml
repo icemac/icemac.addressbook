@@ -1,0 +1,18 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="icemacaddressbook">
+
+  <class class="zope.app.authentication.principalfolder.PrincipalFolder">
+
+    <require
+        permission="icemac.addressbook.ViewSomePrincipals"
+        interface="zope.container.interfaces.IReadContainer"
+        />
+
+    <require
+        permission="icemac.addressbook.EditAllPrincipals"
+        interface="zope.container.interfaces.IWriteContainer"
+        />
+  </class>
+
+</configure>

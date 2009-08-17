@@ -1,0 +1,346 @@
+Applikation
+===========
+
+allgemein
+---------
+
+- stxnext.pdb ausprobieren (pdb2)
+
+- http://pypi.python.org/pypi/pep362 ausprobieren
+
+- Blog über Adapter für Object created event
+
+
+Weiter
+------
+
+- Import
+
+  - Tests für Auswahl eines Importers im UI + cancel button
+
+- neue versionen
+
+- zodbupdate einsetzen, um Abhängigkeiten zu zope.app.folder etc. vor
+  Version 0.6 loszuwerden.
+
+- Bei install.py: Pfad zu alter ini in neue ini schreiben.
+
+- INSTALL.txt anpassen (nach Release, Blob-Verzeichnis muss händisch
+  mit kopiert werden!), alternativ als Option in install.py
+  integrieren bzw. alternatives Script.
+
+- Anrede, Briefanrede (auch im Export)
+
+
+Schritte
+--------
+
+- Python 2.6 funktioniert fast, bis auf das Redirect beim Login: in
+  z3c.layer.pagelet anpassen.
+
+- z3c.layer.pagelet:
+
+  * http://mail.zope.org/pipermail/zope3-checkins/2009-March/029971.html
+  --> Unterscheidung zwischen Forbidden und Unauthorized im Test
+  demonstrieren.
+
+  * Cookie auth form mit z3c.form bauen mit besserer Fehlernachricht
+    bei nicht erfolgreichem Log-in. zumindest
+    http://www.mail-archive.com/zope-dev@zope.org/msg28607.html
+
+  * Wenn man bei cookie auth auf der Login-Seite den Login-Link
+    anklickt, wird das Target des Logins die Login-Seite und die hat
+    dann die Fehlermeldung, dass man nicht genug Rechte hätte -->
+    entweder sollte die Login-Seite keinen Login-Link haben oder er
+    sollte anders berechnet werden (target wie aktuelles target.)
+
+- Wer legt index.html als defaultView fest?  Antwort:
+  zope.app.zcmlfiles/browser.zcml
+
+- buildout_script durch collective.recipe.template oder
+  z3c.recipe.filetemplate ersetzen.
+
+- versuchen loszuwerden:
+
+  - zope.app.authentication
+
+  - zope.app.container (wird von zope.app.authentication benötigt: Es
+    gib da einen View, der von z.a.c.browser.adding.Adding erbt.)
+
+  - zope.app.file (nur in ZMI-Version enthalten.)
+
+  - zope.app.form (wird von zope.app.authentication benötigt: Es
+    gib Views, die Formulare damit bauen)
+
+  - zope.app.broken
+
+  - zope.app.principalannotation
+
+  - zope.app.security
+
+  - zope.app.localpermission
+
+  - zope.app.testing
+
+  - zope.app.onlinehelp (nur in ZMI-Version enthalten.)
+
+  - zope.formlib (wird von zope.app.component gebraucht)
+
+  - RestrictedPython (wird von zope.app.pagetemplate über
+    zope.security eingebunden)
+
+  - zope.proxy (Es gibt im Adressbuch keinen "untrusted code".)
+
+  - zope.app.debug
+
+  - zope.app.applicationcontrol
+
+  - z3c.i18n (?)
+
+- später möglich loszuwerden:
+
+  - zope.app.folder (ab Version 0.6 kann zope.app.folder aus der
+      setup.py verschwinden.)
+
+  - zope.app.interface (wird mindestens noch von zope.app.folder
+      gebraucht, der verschwindet in 0.6)
+
+  - zope.app.content (geht vielleicht zusammen mit zope.app.folder)
+
+  - zope.app.component (wird von zope.app.folder gebraucht, der
+      verschwindet in 0.6, wird von zope.app.authentication für
+      ZMI-Kram gebraucht)
+
+  - zope.deprecation (wird nur noch von zope.app.component gebraucht)
+
+- unmöglich loszuwerden:
+
+  - zope.app.pagetemplate (required by z3c.profiler 0.7.1.,
+    required by zope.viewlet 3.5.0.)
+
+- Benutzerverwaltung
+
+  - http://pypi.python.org/pypi/wc.cookiecredentials/3.9 könnte hilfreich sein
+
+  - http://pypi.python.org/pypi/zc.security/4.2.0 viell. auch
+
+  - Anmelden als neu angelegter Benutzer
+
+    - Formular verschönern (richtiges z3c.form-Formular benutzen, s. o.)
+
+      * Fehlermeldung, wenn Login nicht erfolgreich
+
+      * User name-Feld vorausfüllen
+
+- Impressums-Seite, die ein paar Daten des Adressbuchs anzeigt
+  (evtl. weitere erfinden) + Name und e-mail-Adresse aller
+  Administratoren
+
+- Wenn jemand die Tests für z3c.pagelet repariert hat,
+  gocept.pagelet modernisieren.
+
+- deploy.ini, zope.conf mit z3c.recipe.paster bauen, nachdem Roger es
+  released hat.
+
+Bugs
+----
+
+- https://intra.gocept.com/projects/issues/4890 (statt isinstance
+  subClass-Test machen)
+
+- Adressbook/@@edit.html sollte einen Delete-Knopf bekommen.
+
+- In "main postal address" wird das Land nicht ins Deutsche übersetzt.
+
+- "Add" rechts oben nur anzeigen, wenn auch mindestens ein Eintrag
+  angezeigt wird. zope.viewlet.manager.WeightOrderedViewletManager
+  sollte die Lösung heißen.
+
+- Nach Auswahl vom masterdata --> keywords/principals ist im globalen
+  Menü "person list" statt "master data" als ausgewählt markiert.
+
+- Wenn Formular zu lang ist, sollte es einen Scroll-Balken haben, so
+  dass die Buttons immer unten angezeigt werden (vielleicht reicht
+  dafür ein div zum die Formularelemente + eine geeignete
+  CSS-Eigenschaft (vgl. Zeit-Projekt))
+
+- Person-List als Tabelle mit ein paar mehr Spalten + Batching
+  (vielleicht mit z3c.contents)
+
+- Export-Result mit icemac.addressbook.browser.table.Table machen.
+
+- utils.set_site mit decorator.decorator machen.
+
+- sources.py mit zope.deferredimport bauen statt lokalen imports
+
+- zope.app.testing.functional.defineLayer benutzen in testing.py
+
+- Wenn zc.buildout 1.2.2 released ist XXX in
+  icemac.addressbook.tests.test_install auflösen.
+
+
+Release How To
+==============
+
+- ``bin/importchecker``
+
+- ``python install.py`` testen.
+
+- Migration auf Kunden-DB testen.
+
+- CHANGES.txt, OLD_CHANGES.txt, TODO.txt, README.txt, INSTALL.txt
+  anpassen
+
+
+nach Release
+------------
+
+- weiter siehe wunschliste
+
+- "probably we can also find a simpler concept for make local
+  configuration available with global configration files like we have
+  done in z3c.baseregistry. This could have the benefit of both local
+  and global done with the same pattern e.g. zope.configuration." -->
+  ausprobieren
+
+- person add form: für jeden adresstypen mehrere Eingabe-Felder und
+  dann nur für die gefüllten felder adress-typen anlegen. (AJAX! oder
+  default in Preferenzen)
+
+- sortierung der keywords unabhängig von groß/kleinschreibung + test
+  (evtl. nach locale des benutzers)
+
+- pycountry: Fehler in Subdivisions kommen von Fehlerhaftem Umgang von
+  pycountry mit hierarchischer Datenstruktur der Subdivisions her:
+  Lösung: Mehrfeld-Unique-Schlüssel für Subdivisions
+
+- z3c.menu.ready2go.setup(.py) verbessern
+
+- z3c.tabular für Keyword-Edit verwenden.
+
+- icons in Appl und als Fav-Icon einbauen:
+
+  - http://www.iconarchive.com/show/system-5-icons-by-agrapha/Address-Book-3-icon.html
+
+  - http://de.wikipedia.org/wiki/Favicon
+
+- z3c.testing evaluieren
+
+- http://svn.zope.org/z3reload/trunk/README.txt evaluieren
+
+- Sortierung der Länder in gocept.country gemäß Titel (nach Übersetzung)
+
+- With grokcore.component, you can in your tests simply decide to
+  "grok" a class or not to configure it. If that class is a
+  grokcore.component.Adapter (for instance), it'll be registered. This
+  introduces a dependency on grokcore.component.
+
+- country subdivisions zu langsam! (Übergangslösung: nur
+  dt. Bundesländer), Lösungsidee: caching der Übersetzungsergebnisse
+  oder gar des HTMLs des Widgets. (Dazu einen Cache-Multiadapter
+  (context, field, request, widget) bauen, der per default vom widget
+  aufgerufen wird)
+
+- NameChooser für IPerson, IKeyword
+
+- Radio-Buttons für Geschlechtsauswahl
+
+Abhängigkeiten
+==============
+
+- 2009-03-14: 112
+
+- 2009-03-15: 121 (z3c.pt hinzugefügt)
+
+- 2009-03-17: 113 (zope.app.zcmlfiles rausgerissen)
+
+- 2009-04-05: 116 (einige alte zope.app.* Pakete sind für Migration
+                   erforderlich.)
+
+- 2009-04-23: 115 (neues zope.mimetype)
+
+Storycards
+==========
+
+Nächste Punkte aus Telefonat mit Marko: (Wunschliste)
+
+   - Gemeinde: idee: auswahlfeld mit anschrift der gemeinde, besser:
+     company-support
+
+   - anrede, briefanrede
+
+   - freitextfelder z.b. für anzahl prospekte
+
+   - suche: text mit auswahl des feldes + sortiermöglichkeit nach
+     spalten im ergebnis
+
+   - import!
+
+   - export als serienbrieffähiges word-dokument
+
+
+
+
+- Anschriftenformatierung (in Abhängigkeit vom ausgewählten Land mit
+  Default-Formatierer) für XLS-Export
+
+- Anzeige Personendaten als Plain-HTML (default) + Bearbeiten-Link der
+  zum Formular führt
+
+- Batching für Personenanzeige
+
+
+
+Meilenstein 2
+=============
+
+- Keyword anlegen beim Personbearbeiten (multi-widget)
+
+- Übersetzungen in PageTemplates:
+
+  * browser/keyword/overview.pt: "Keywords", "No keywords defined yet."
+
+  * browser/keyword/principals.pt: "Users", "No users defined yet..."
+
+  * browser/search/search_overview.pt: "Please choose a search."
+
+  * browser/search/result/simple.pt: "Export", "No Person found."
+
+  * browser/addressbook/overview.pt: "There are no persons entered yet, click on "Add person" to create one."
+
+  * browser/rootfolder/rootfolder.pt: "There are no address books created yet, click on "Add ab" to create one."
+
+  * browser/masterdata/masterdata.pt: "Keywords", "Users"
+
+
+Später
+======
+
+- Edit-View eines Keywords: Liste der Anschriften, die mit Keyword
+  verknüpft sind
+
+
+vhost.conf
+==========
+
+vgl. http://wiki.zope.org/zope3/virtualhosting.html
+
+Das ist
+/srv/www/vhosts/netzwerkplatz.de/subdomains/efkev/conf/vhost.conf auf
+netzwerkplatz.de::
+
+LoadModule proxy_module /usr/lib/apache2/mod_proxy.so
+LoadModule proxy_http_module /usr/lib/apache2/mod_proxy_http.so
+
+ProxyRequests Off
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+  RewriteEngine on
+  RewriteRule ^/zmi(/?.*) http://127.0.0.1:13080/++skin++Rotterdam/++vh++http:efkev.netzwerkplatz.de:80/zmi/++/$1 [P,L]
+  RewriteRule ^/howitz(/?.*) http://127.0.0.1:13080/howitz/++vh++http:efkev.netzwerkplatz.de:80/howitz/++/$1 [P,L]
+  RewriteRule ^/admin(/?.*) http://127.0.0.1:13080/++vh++http:efkev.netzwerkplatz.de:80/admin/++//$1 [P,L]
+  RewriteRule ^(/?.*) http://127.0.0.1:13080/efkev/++vh++http:efkev.netzwerkplatz.de:80/++/$1 [P,L]

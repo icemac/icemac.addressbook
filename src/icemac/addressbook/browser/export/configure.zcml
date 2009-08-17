@@ -1,0 +1,14 @@
+<configure 
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     name="export.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     class=".simple.SimpleExport"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="icemac.addressbook.ViewPerson"
+     />
+
+
+</configure>

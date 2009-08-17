@@ -1,0 +1,219 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <!-- Editor -->
+  <role id="icemac.addressbook.global.Editor"
+        title="Editor"
+        description="Role which allows global editing of data"
+        />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="zope.View"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditAddressBookContents"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewSomePrincipals"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddPerson"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditPerson"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditPersonContents"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewPerson"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddPostalAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditPostalAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewPostalAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddEMailAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditEMailAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewEMailAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddHomePageAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditHomePageAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewHomePageAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddPhoneNumber"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditPhoneNumber"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewPhoneNumber"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditKeywordContainer"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewKeywordContainer"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddKeyword"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditKeyword"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewKeyword"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddFile"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditFile"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewFile"
+     />
+
+  <!-- Visitor -->
+  <role id="icemac.addressbook.global.Visitor"
+        title="Visitor"
+	    description="Role which allows global visiting of data"
+	    />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="zope.View"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewSomePrincipals"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewPerson"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewPostalAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewEMailAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewHomePageAddress"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewPhoneNumber"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewKeywordContainer"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewKeyword"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewFile"
+     />
+
+  <!-- Administrator -->
+  <role
+     id="icemac.addressbook.global.Administrator"
+     title="Administrator"
+     description="Administrator for the Addressbook"
+     />
+
+  <grantAll role="icemac.addressbook.global.Administrator" />
+
+</configure>

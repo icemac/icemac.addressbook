@@ -1,0 +1,328 @@
+==========
+ Keywords
+==========
+
+A person can have one or more keywords. They can be managed in the
+master data section.
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> create_addressbook()
+<icemac.addressbook.addressbook.AddressBook object at 0x...>
+>>> browser = Browser()
+
+Editors are allowed to manage keywords, so we log in as an editor:
+
+>>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Navigating to the keywords overview page, shows that there are
+initially no keywords defined:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<ul>
+  <li>No keywords defined yet.</li>
+</ul>...
+
+Create keyword
+==============
+
+To create a keyword there is a link in the add menu which leads to the
+add form:
+
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'company coworkr'
+>>> browser.getControl('notes').value = 'first\ntest'
+>>> browser.getControl('Add').click()
+
+The added keyword is shown at the overview page:
+
+>>> print browser.contents
+<!DOCTYPE...
+...company coworkr...
+
+Edit keyword
+============
+
+The keyword is a link which leads to the edit form where the entred
+values are displayed:
+
+>>> browser.getLink('company coworkr').click()
+>>> browser.getControl('keyword').value
+'company coworkr'
+>>> print browser.getControl('notes').value
+first
+test
+
+We correct the typo to show the edit form works:
+
+>>> browser.getControl('keyword').value = 'company co-worker'
+>>> browser.getControl('notes').value = 'co-workers in my company'
+>>> browser.getControl('Apply').click()
+
+To show that the changes where saved we go again to the form:
+
+>>> browser.getLink('company co-worker').click()
+>>> browser.getControl('keyword').value
+'company co-worker'
+>>> browser.getControl('notes').value
+'co-workers in my company'
+
+Cancel edit
+===========
+
+Selecting the cancel button does not save anything:
+
+>>> browser.getControl('keyword').value = 'typo'
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('company co-worker').click()
+>>> browser.getControl('keyword').value
+'company co-worker'
+>>> browser.getControl('Cancel').click()
+
+Sort order of keywords
+======================
+
+Keywords are displayed sorted by title (keyword):
+
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'family'
+>>> browser.getControl('Add').click()
+
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'friend'
+>>> browser.getControl('Add').click()
+
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'church'
+>>> browser.getControl('Add').click()
+
+>>> print browser.contents
+<!DOCTYPE...
+...church...
+...company co-worker...
+...family...
+...friend...
+
+Assign keyword to person
+========================
+
+Assigning a keyword to a person is possible on adding or editing a
+person:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'keyword test'
+
+In browser tests keywords are selected using a simple multiselect
+widget because the testbrowser does not support JavaScript. The widget
+displays all existing keywords:
+
+>>> browser.getControl('keywords')
+<ListControl name='form.widgets.keywords:list' type='select'>
+>>> [x.mech_item.get_labels()[0]._text
+...  for x in browser.getControl('keywords').controls]
+['church', 'company co-worker', 'family', 'friend']
+
+Keyword assignments are stored when saving:
+
+>>> browser.getControl('church').click()
+>>> browser.getControl('family').click()
+>>> browser.getControl('Add').click()
+>>> browser.getLink('keyword test').click()
+>>> browser.getControl('church').selected
+True
+>>> browser.getControl('family').selected
+True
+>>> browser.getControl('church').click()
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('keyword test').click()
+>>> browser.getControl('church').selected
+False
+>>> browser.getControl('family').selected
+True
+
+Changing a keyword changes keyword at person
+============================================
+
+When a keyword's title is changed in the masterdata the keyword also
+changes at the person:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> browser.getLink('family').click()
+>>> browser.getControl('keyword').value = 'Familie'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('church').click()
+>>> browser.getControl('keyword').value = 'Kirche'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('keyword test').click()
+>>> browser.getControl('Kirche').selected
+False
+>>> browser.getControl('Familie').selected
+True
+>>> browser.getControl('church')
+Traceback (most recent call last):
+LookupError: label 'church'
+
+Delete a keyword
+================
+
+The edit form of the keyword has also a button to delete the keyword:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> browser.getLink('friend').click()
+>>> keyword_edit_form_url = browser.url
+>>> browser.getControl('Delete').click()
+
+There is a confirmation dialog where the user has to decide if he
+really wants to delete the keyword. If he decides not to delete the
+entry he is led back to the keyword's edit form:
+
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3/@@delete.html'
+>>> browser.getControl('No, cancel').click()
+>>> browser.url == keyword_edit_form_url
+True
+
+If he decides to delete the entry he is led back to the keyword list
+where the keyword is no longer listed:
+
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> get_submit_control_names(browser)
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete']
+>>> browser.getControl('Delete').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> keywords_url = browser.url
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+>>> 'friend' in browser.contents
+False
+
+But deleting a keyword is only possible when the keyword is not referenced
+by a person. If there is a reference the delete button is omitted:
+
+>>> browser.getLink('Familie').click()
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> get_submit_control_names(browser)
+['form.buttons.apply', 'form.buttons.cancel']
+
+
+Going to the delete confirmation dialog by manipulating the URL leads
+to an integrity error:
+
+>>> browser.open(browser.url + '/@@delete.html')
+>>> browser.handleErrors = False # neded for nicer error display below
+>>> browser.getControl('Yes, delete it').click()
+Traceback (most recent call last):
+IntegrityError: Can't delete or move <icemac.addressbook.keyword.Keyword object at 0x...>. The (sub-)object <icemac.addressbook.keyword.Keyword object at 0x...> is still being referenced.
+>>> browser.handleErrors = True
+
+Unique keywords
+===============
+
+The titles of keywords must be unique. This is checked at creation and
+modification:
+
+Creation
+--------
+
+Creating a keyword with a title which already exists leads to an error
+message:
+
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'Kirche'
+>>> browser.getControl('Add').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++keywords/@@addKeyword.html
+>>> print browser.contents
+<!DOCTYPE...
+<div class="status">
+  <div class="summary">There were some errors.</div>
+    <ul class="errors">
+      <li>
+        <div class="error">This keyword already exists.</div>
+      </li>
+    </ul>
+  </div>
+<div>...
+
+
+Modification
+------------
+
+Modifying the title of a keyword so that it is equal to another one
+leads also to an error message (We create a new keyword first and edit
+it afterwards.):
+
+>>> browser.getControl('keyword').value = 'Arbeit'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+>>> browser.getLink('Arbeit').click()
+>>> browser.getControl('keyword').value = 'company co-worker'
+>>> browser.getControl('Apply').click()
+>>> print browser.contents
+<!DOCTYPE...
+<div class="status">
+  <div class="summary">There were some errors.</div>
+    <ul class="errors">
+      <li>
+        <div class="error">This keyword already exists.</div>
+      </li>
+    </ul>
+  </div>
+<div>...
+
+
+
+Visitor
+=======
+
+Visitors are allowed to see the keywords but not to change them:
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Master data').click()
+>>> visitor.getLink('Keywords').click()
+>>> print visitor.contents
+<!DOCTYPE...
+...<h2>Keywords</h2>
+<ul>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3">Arbeit</a>
+  </li>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-2">Familie</a>
+  </li>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-4">Kirche</a>
+  </li>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword">company co-worker</a>
+  </li>
+</ul>...
+
+Klicking on a link leads to the display form where nothing can be
+changed and no delete button exists:
+
+>>> visitor.getLink('company co-worker').click()
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> get_all_control_names(visitor)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Trying to go to the delete confirmation dialog by manipulating the URL
+is forbidden:
+
+>>> visitor.open(visitor.url + '/@@delete.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden

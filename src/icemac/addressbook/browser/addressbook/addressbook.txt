@@ -1,0 +1,100 @@
+==============
+ Address book
+==============
+
+Person data (name, address, ...) is stored inside an address book.
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+
+Create an address book
+======================
+
+As only managers are allowed to create address books we have to login:
+
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/')
+
+On the start page there is a link to add an address book:
+
+>>> browser.getLink('address book').click()
+>>> browser.getControl('title').value = 'test book'
+>>> browser.getControl('notes'). value = 'testing address book'
+>>> browser.getControl('Add').click()
+>>> address_book_url = browser.url
+>>> address_book_url
+'http://localhost/++skin++AddressBook/AddressBook'
+
+
+Edit address book's data
+========================
+
+The manager can also edit the address book's data. The edit form shows
+the formerly entred data:
+
+>>> browser.getLink('Edit addressbook').click()
+>>> browser.getControl('title').value
+'test book'
+>>> browser.getControl('notes'). value
+'testing address book'
+>>> browser.getControl('title').value = 'ftest book'
+>>> browser.getControl('notes'). value = 'ftesting address book'
+>>> browser.getControl('Apply').click()
+
+The edit form submits to itself and shows the stored data:
+
+>>> browser.getControl('title').value
+'ftest book'
+>>> browser.getControl('notes'). value
+'ftesting address book'
+
+Person list
+===========
+
+Initially there are no persons existing:
+
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE...
+There are no persons entered yet, click on "Add person" to create one...
+
+There is also an add link in the add menu to add a person:
+
+>>> browser.getLink('person')
+<Link text='person' url='http://localhost/++skin++AddressBook/AddressBook/@@addPerson.html'>
+
+
+Editors
+=======
+
+Editors can add new persons:
+
+>>> editor_browser = Browser()
+>>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> editor_browser.handleErrors = False
+>>> editor_browser.open(address_book_url)
+>>> editor_browser.getLink('person').click()
+
+But there is no link to edit the address book's data (title, notes)
+because the editor is not allowed to do so:
+
+>>> editor_browser.goBack()
+>>> editor_browser.getLink('Edit addressbook')
+Traceback (most recent call last):
+LinkNotFoundError
+
+Visitors
+========
+
+Visitors can only visit data but are not allowed to change anything:
+
+>>> visitor_browser = Browser()
+>>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor_browser.open(address_book_url)
+>>> visitor_browser.getLink('person')
+Traceback (most recent call last):
+LinkNotFoundError
+>>> visitor_browser.getLink('Edit addressbook')
+Traceback (most recent call last):
+LinkNotFoundError
+

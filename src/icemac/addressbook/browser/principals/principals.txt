@@ -1,0 +1,797 @@
+=================
+ User management
+=================
+
+Administrators are able to create new users. Normal users can change
+thier data themselves.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import (create_addressbook, create_person,
+...     create_email_address, create_postal_address, create_phone_number,
+...     create_home_page_address)
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+Users are persons stored in the addressbook augmented by login
+information. So we have to create persons first:
+
+>>> admin = create_person(ab, ab, u'Admin', first_name=u'Arne')
+>>> create_email_address(ab, admin, email=u'arne@example.com',
+...     return_obj=False)
+>>> tester = create_person(ab, ab, u'Tester', first_name=u'Hans')
+>>> create_email_address(ab, tester, email=u'tester@example.com',
+...     return_obj=False)
+>>> utzer = create_person(ab, ab, u'Utzer', first_name=u'Ben')
+>>> create_email_address(ab, utzer, email=u'ben.utzer@example.com',
+...     return_obj=False)
+>>> create_postal_address(ab, utzer, return_obj=False)
+>>> create_phone_number(ab, utzer, return_obj=False)
+>>> create_home_page_address(ab, utzer, return_obj=False)
+>>> liebig = create_person(ab, ab, u'Liebig', first_name=u'B.')
+>>> create_email_address(ab, liebig, email=u'b@example.com',
+...     set_as_default=False, return_obj=False)
+
+
+Administrator
+=============
+
+Administrators can create new users in the master data area. So we
+log-in as administrator and go there:
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+
+The users list is initially empty because the administrator belongs to
+the global users:
+
+>>> print browser.contents
+<!DOCTYPE ...
+...No users defined yet or you are not allowed to access any...
+
+Set up
+------
+
+At first let's create a user with administrator role and log-in to run
+the tests to show that a user created inside the addressbook serves
+fine as administrator:
+
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayValue = ['Admin, Arne']
+>>> browser.getControl('Password', index=0).value = '1qay2wsx'
+>>> browser.getControl('Password repetition').value = '1qay2wsx'
+>>> browser.getControl('Administrator').click()
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> browser = Browser()
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getControl('User Name').value = 'arne@example.com'
+>>> browser.getControl('Password').value = '1qay2wsx'
+>>> browser.getControl('Log in').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+
+The list of users only containes the local administrator:
+
+>>> print browser.contents
+<!DOCTYPE ...
+...Admin, Arne...
+
+
+Create a new user
+-----------------
+
+To create a new user the administrator chooses the (Add) user
+link. Only persons with a default e-mail address who are not yet users
+are shown as possible users. (So 'B. Liebig' and 'Admin, Arne' are not
+shown.):
+
+>>> browser.getLink('user').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@addPrincipal.html'
+>>> browser.getControl('Person').displayOptions
+['Tester, Hans', 'Utzer, Ben']
+
+If the administrator redecides not to create a new user, he can use
+the cancel button in the displayed form. He is then redirected to the
+users list:
+
+>>> browser.getControl('Cancel').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> print browser.contents
+<!DOCTYPE ...
+...Admin, Arne...
+
+When the administrator decides to really create a new user, he has to
+enter a password which matches its repetition:
+
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayValue = ['Tester, Hans']
+>>> browser.getControl('Password', index=0).value = '1234567890'
+>>> browser.getControl('Password repetition').value = '0123456789'
+>>> browser.getControl('Notes').value = 'first new editor'
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<div class="error">Entry in password field was not equal to entry in password
+                   repetition field.</div>...
+
+When the entered password is too short, also an error message is shown:
+
+>>> browser.getControl('Password', index=0).value = '123'
+>>> browser.getControl('Password repetition').value = '123'
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<ul class="errors">
+  <li>
+    Password: <div class="error">Value is too short</div>
+  </li>
+  <li>
+   Password repetition: <div class="error">Value is too short</div>
+  </li>
+</ul>...
+
+When all constraints are satisfied a new user is created and the list
+of all users is shown:
+
+>>> browser.getControl('Password', index=0).value = '12345678'
+>>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('Visitor').click()
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> print browser.contents
+<!DOCTYPE ...
+<h2>Users</h2>...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...arne@example.com...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...tester@example.com...
+...first new editor...
+
+This newly created user is able to log in:
+
+>>> visitor = Browser('http://localhost/++skin++AddressBook/ab')
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+>>> visitor.getControl('User Name').value = 'tester@example.com'
+>>> visitor.getControl('Password').value = '12345678'
+>>> visitor.getControl('Log in').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+
+A logout link is shown after logging-in:
+
+>>> print visitor.contents
+<!DOCTYPE ...
+<span class="LoginLogoutBox">
+  <a href="...">Logout</a>
+</span>...
+
+Edit a user
+-----------
+
+In the users list the name of a user is a link to the edit form. The
+password is not displayed. The person connected to the user cannot be
+changed. The mail e-mai address of the user is used as login name, but
+it can be changed:
+
+>>> browser.getLink('Tester, Hans').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...Person...*...Tester, Hans...
+>>> browser.getControl('Login').value
+'tester@example.com'
+>>> browser.getControl('Password', index=0).value
+''
+>>> browser.getControl('Password repetition').value
+''
+>>> browser.getControl('Notes').value
+'first new editor'
+>>> browser.getControl('Visitor').selected
+True
+
+Entered changes can be discarded using the the `cancel` button. The
+users list is displayed then:
+
+>>> browser.getControl('Notes').value = '2nd new visitor'
+>>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('Cancel').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> print browser.contents
+<!DOCTYPE ...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...arne@example.com...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...tester@example.com...
+...first new editor...
+
+The `Cancel` button did not save the changes, but using the `Apply`
+button saves the entred values:
+
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('Notes').value
+'first new editor'
+>>> browser.getControl('Notes').value = 'Hans the tester'
+>>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('Visitor').click() # deselect
+>>> browser.getControl('Editor').click()
+>>> browser.getControl('Apply').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...arne@example.com...
+...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...hans@example.com...
+...Hans the tester...
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('Notes').value
+'Hans the tester'
+>>> browser.getControl('Login').value
+'hans@example.com'
+>>> browser.getControl('Editor').selected
+True
+>>> browser.getControl('Cancel').click()
+
+
+User with existing login
+------------------------
+
+As the e-mail address of the person is used for the credentials, it
+must be unique. Trying to create a new user with an alreadly existing
+e-mail address shows an error message:
+
+>>> tester2 = create_person(ab, ab, u'Tester2', first_name=u'Hans2')
+>>> create_email_address(ab, tester2, email=u'hans@example.com',
+...     return_obj=False)
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayValue = ['Tester2, Hans2']
+>>> browser.getControl('Password', index=0).value = '12345678'
+>>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<div class="error">Principal Login already taken!</div>...
+
+Editing a user, so he gets a login which already exists, also leads
+to an error message:
+
+>>> browser.getControl('Person').displayValue = ['Utzer, Ben']
+>>> browser.getControl('Password', index=0).value = '12345678'
+>>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('Visitor').click()
+>>> browser.getControl('Notes').value = 'Ben.Utzer the Visitor of AB'
+>>> browser.getControl('Add').click()
+>>> browser.getLink('Utzer, Ben').click()
+>>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('Apply').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<div class="error">Principal Login already taken!</div>...
+>>> browser.getControl('Cancel').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+Only persons which are not users can become a user
+--------------------------------------------------
+
+If a person is already a user, he is no longer listed in the add form
+(so 'Tester, Hans' and 'Utzer, Ben' are not shown.):
+
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayOptions
+['Tester2, Hans2']
+
+
+Changing e-mail address does not change log-in
+----------------------------------------------
+
+When the e-mail address of a person -- who is also a user -- is
+changed, the log-in name does *not* change:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('e-mail address', index=1).value = 'htester@example.com'
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> browser.getLink('Tester, Hans').click()
+>>> browser.getControl('Login').value
+'hans@example.com'
+
+It is not possible to delete the person a user belonges to
+----------------------------------------------------------
+
+When a person is assigned to a user it is no longer possible to delete
+this person, there is even no delete button shown. At first let's
+create a person and make her a user:
+
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Loscher'
+>>> browser.getControl('e-mail address').value = 'l@scher.de'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Loscher').click()
+>>> get_submit_control_names(browser)
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_entry',
+ 'form.buttons.delete_person']
+>>> browser.getControl('Delete whole person').click()
+>>> delete_confirmation_url = browser.url
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayValue = ['Loscher']
+>>> browser.getControl('Password', index=0).value = '12345678'
+>>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+There is no delete buttons for persons in the form of the person:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Loscher').click()
+>>> get_submit_control_names(browser)
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_entry']
+
+Even when the url of the delete confirmation dialog is directly
+accessed deletion is not possible: XXX there is no message yet
+                                   XXX displayed to the user
+
+>>> browser.open(delete_confirmation_url)
+>>> browser.getControl('Yes, delete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> 'Loscher' in browser.contents
+True
+
+
+Users are sorted by name
+------------------------
+
+The users list is a table which is by default sorted by the name
+column. So a user with a name which is alphabetically before ``Tester,
+Hans`` shows up in the list before hans even when he is created after
+him:
+
+>>> create_email_address(
+...     ab, create_person(ab, ab, u'Someone', first_name=u'Else'),
+...     email=u'else@example.com', return_obj=False)
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayValue = ['Someone, Else']
+>>> browser.getControl('Password', index=0).value = '12345678'
+>>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('Add').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...Admin, Arne...
+...Someone, Else...
+...Tester, Hans...
+...Utzer, Ben...
+
+
+Too long notes get truncated
+----------------------------
+
+If the notes of a user are longer than 50 charachters they get
+truncated in the list view:
+
+>>> browser.getLink('Someone, Else').click()
+>>> browser.getControl('Notes').value = 'This is someone else created to show sort order and truncation of too long notes.'
+>>> browser.getControl('Apply').click()
+>>> 'This is someone else created to show sort order and ...' in (
+...     browser.contents) # no print because ... is used as ellipsis
+True
+
+Changing roles changes permissions
+----------------------------------
+
+When the administrator changes the roles of users they get immediately
+more or less permissions. At first let's create a new user for
+demonstration:
+
+>>> from icemac.addressbook.testing import create_user
+>>> create_user(ab, ab, u'Urs', u'Unstable', u'uu@example.com', 'u1u2u3u4',
+...     ['Visitor'])
+
+The user can log in, see his user data, change his password. He is not
+able to create new persons:
+
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> unstable = Browser()
+>>> unstable.open('http://localhost/++skin++AddressBook/ab')
+>>> unstable.getControl('User Name').value = 'uu@example.com'
+>>> unstable.getControl('Password').value = 'u1u2u3u4'
+>>> unstable.getControl('Log in').click()
+>>> unstable.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> unstable.getLink('Master data').click()
+>>> unstable.getLink('Users').click()
+>>> print unstable.contents
+<!DOCTYPE ...
+...Unstable, Urs...
+>>> 'Tester, Hans' in unstable.contents
+False
+>>> unstable.getLink('Unstable, Urs').click()
+>>> get_all_control_names(unstable)
+['form.buttons.apply', 'form.buttons.cancel',
+ 'form.widgets.password', 'form.widgets.password_repetition']
+>>> unstable.getLink('Person list').click()
+>>> unstable.getLink('person').click()
+Traceback (most recent call last):
+LinkNotFoundError
+
+When the Adminstrator gives this user the Editor role, he immediately
+can create new persons and change his username:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> browser.getLink('Unstable, Urs').click()
+>>> browser.getControl('Roles').displayValue = ['Editor']
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+>>> unstable.reload()
+>>> unstable.getLink('person').click()
+>>> unstable.getLink('Master data').click()
+>>> unstable.getLink('Users').click()
+>>> 'Tester, Hans' in unstable.contents
+False
+>>> unstable.getLink('Unstable, Urs').click()
+>>> unstable.getControl('Login').value
+'uu@example.com'
+>>> get_all_control_names(unstable)
+['form.buttons.apply', 'form.buttons.cancel',
+ 'form.widgets.description', 'form.widgets.login', 'form.widgets.password',
+ 'form.widgets.password_repetition']
+
+When the user even gets the administrator role he is also able to
+change his roles and see all other users in the users list:
+
+>>> browser.getLink('Unstable, Urs').click()
+>>> browser.getControl('Roles').displayValue = ['Administrator']
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+>>> unstable.reload()
+>>> unstable.getControl('Roles').displayValue
+['Administrator']
+>>> get_all_control_names(unstable)
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_user',
+ 'form.widgets.description', 'form.widgets.login', 'form.widgets.password',
+ 'form.widgets.password_repetition', 'form.widgets.roles-empty-marker',
+ 'form.widgets.roles:list']
+>>> unstable.getControl('Cancel').click()
+>>> 'Tester, Hans' in unstable.contents
+True
+
+When the Adminstrator removes all roles from the user he can't gets an
+exception that he is forbidden to see the page, when he logs in again
+he get's an error message telling him that he hat not enough
+permissions to see anything:
+
+>>> browser.getLink('Unstable, Urs').click()
+>>> browser.getControl('Roles').displayValue = []
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+>>> unstable.reload()
+Traceback (most recent call last):
+httperror_seek_wrapper: HTTP Error 403: Forbidden
+>>> unstable = Browser()
+>>> unstable.open('http://localhost/++skin++AddressBook/ab')
+>>> unstable.getControl('User Name').value = 'uu@example.com'
+>>> unstable.getControl('Password').value = 'u1u2u3u4'
+>>> unstable.getControl('Log in').click()
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> unstable.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> print unstable.contents
+<!DOCTYPE ...
+...Unauthorized...You are not authorized...
+
+
+Security
+--------
+
+Only administrators can create new users. Logging in as editor does
+not show an `add user` link:
+
+>>> editor_browser = Browser()
+>>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> editor_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> editor_browser.getLink('Master data').click()
+>>> editor_browser.getLink('Users').click()
+>>> editor_browser.getLink('user')
+Traceback (most recent call last):
+LinkNotFoundError
+
+Users with the editor role are only able to edit their own data. As
+the editor who is logged in, is defined in a higher user folder, he
+can't see or edit any user:
+
+>>> print editor_browser.contents
+<!DOCTYPE ...
+<div id="content">
+  <h2>Users</h2>
+  ...No users defined yet or you are not allowed to access any...
+
+Manipulating the URL to directly access the add user form raises an
+error:
+
+>>> editor_browser.open('http://localhost/++skin++AddressBook/ab/++attribute++principals/@@addPrincipal.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Editor
+======
+
+Users with the editor role are allowed to see and edit their own user
+data but not the roles. We log-in as an editor:
+
+>>> editor = Browser()
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.getControl('User Name').value = 'hans@example.com'
+>>> editor.getControl('Password').value = '12345678'
+>>> editor.getControl('Log in').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> editor.getLink('Master data').click()
+>>> editor.getLink('Users').click()
+>>> print editor.contents
+<!DOCTYPE ...
+...Tester, Hans...
+>>> 'Admin, Arne' not in editor.contents
+True
+
+To edit his data the editor selects the link on his name. The edit
+form is opened and he is able to edit his log-in name, password and
+notes:
+
+>>> editor.getLink('Tester, Hans').click()
+>>> editor.getControl('Login').value
+'hans@example.com'
+>>> editor.getControl('Password', index=0).value
+''
+>>> editor.getControl('Notes').value
+'Hans the tester'
+>>> get_all_control_names(editor)
+['form.buttons.apply', 'form.buttons.cancel', 'form.widgets.description',
+ 'form.widgets.login', 'form.widgets.password',
+ 'form.widgets.password_repetition']
+>>> print editor.contents
+<!DOCTYPE...
+...Roles...Editor...
+
+The editor can change the data and save them. The login-name needn't
+even be an e-mail address. Changing the own log-in name immediately
+asks the user for its new credentials:
+
+>>> editor.getControl('Login').value = 'hans.tester'
+>>> editor.getControl('Password', index=0).value = 'testtest'
+>>> editor.getControl('Password repetition').value = 'testtest'
+>>> editor.getControl('Notes').value = 'The big HANS'
+>>> editor.getControl('Apply').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+>>> editor.getControl('User Name').value = 'hans.tester'
+>>> editor.getControl('Password').value = 'testtest'
+>>> editor.getControl('Log in').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> print editor.contents
+<!DOCTYPE...
+...hans.tester...
+
+The data was stored:
+
+>>> editor.getLink('Tester, Hans').click()
+>>> editor.getControl('Login').value
+'hans.tester'
+>>> editor.getControl('Password', index=0).value
+''
+>>> editor.getControl('Notes').value
+'The big HANS'
+
+The new log-in name an password can also be used to normally log-in:
+
+>>> editor.getLink('Logout').click()
+>>> editor.getControl('User Name').value = 'hans.tester'
+>>> editor.getControl('Password').value = 'testtest'
+>>> editor.getControl('Log in').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/2/index.html'
+
+Visitor
+=======
+
+Users with the visitor role are only allowed to change their password
+but not the other userdata. Utzer, Ben has the visitor role, so let
+hin log-in:
+
+>>> visitor = Browser()
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
+>>> visitor.getControl('Password').value = '12345678'
+>>> visitor.getControl('Log in').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> visitor.getLink('Master data').click()
+>>> visitor.getLink('Users').click()
+>>> print visitor.contents
+<!DOCTYPE ...
+...Utzer, Ben...
+>>> 'Tester, Hans' in visitor.contents
+False
+
+To edit his data the visitor selects the link on his name. The edit
+form is opened and he is able to edit his password and nothing else:
+
+>>> visitor.getLink('Utzer, Ben').click()
+>>> visitor.getControl('Password', index=0).value
+''
+>>> get_all_control_names(visitor)
+['form.buttons.apply', 'form.buttons.cancel',
+ 'form.widgets.password', 'form.widgets.password_repetition']
+>>> print visitor.contents
+<!DOCTYPE...
+...Roles...Visitor...
+...Notes...Ben.Utzer the Visitor of AB...
+
+The visitor can change the password and save it.  Changing the own
+password immediately asks the user for his new credentials:
+
+>>> visitor.getControl('Password', index=0).value = 'utzer123'
+>>> visitor.getControl('Password repetition').value = 'utzer123'
+>>> visitor.getControl('Apply').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+>>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
+>>> visitor.getControl('Password').value = 'utzer123'
+>>> visitor.getControl('Log in').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> print visitor.contents
+<!DOCTYPE...
+...ben.utzer@example.com...
+
+The new password can also be used at normal log-in:
+
+>>> visitor.getLink('Logout').click()
+>>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
+>>> visitor.getControl('Password').value = 'utzer123'
+>>> visitor.getControl('Log in').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@index.html'
+
+
+Delete a user
+=============
+
+An administrator can delete any user. Editors and vistors are not
+allowed to delete any user.
+
+Administrator
+-------------
+
+To delete a user the administrator has to open the edit form of the
+user:
+
+>>> browser = Browser()
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getControl('User Name').value = 'arne@example.com'
+>>> browser.getControl('Password').value = '1qay2wsx'
+>>> browser.getControl('Log in').click()
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Users').click()
+>>> browser.getLink('Someone, Else').click()
+>>> user_edit_form_url = browser.url
+
+On the edit form a delete button leads to an "are-you-sure-form":
+
+>>> browser.getControl('Delete user').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/5/@@delete_user.html'
+
+If the administrator decides not to delete the user he is led back to
+the user's edit form:
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url == user_edit_form_url
+True
+
+Before deleting a user the person the user is registered for can't be
+used for a new user:
+
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayOptions
+['Tester2, Hans2']
+>>> browser.getControl('Cancel').click()
+>>> browser.getLink('Someone, Else').click()
+
+When the administrator decides to delete the user he is led back to
+the user list where the user is no longer listed:
+
+>>> browser.getControl('Delete user').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/5/@@delete_user.html'
+>>> browser.getControl('Yes, delete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> 'Someone, Else' in browser.contents
+False
+
+The person can be used to create a new user:
+
+>>> browser.getLink('user').click()
+>>> browser.getControl('Person').displayOptions
+['Tester2, Hans2', 'Someone, Else']
+>>> browser.getControl('Person').displayValue = ['Someone, Else']
+>>> browser.getControl('Password', index=0).value = '09876543'
+>>> browser.getControl('Password', index=1).value = '09876543'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+
+Editor
+------
+
+An editor can't delete anybody, there is not even a delete button:
+
+>>> editor.getLink('Master data').click()
+>>> editor.getLink('Users').click()
+>>> editor.getLink('Tester, Hans').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/2'
+>>> editor_url = editor.url
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> get_submit_control_names(editor)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Calling the delete form url directly does not help either:
+
+>>> editor.open(editor_url + '/@@delete_user.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Visitor
+-------
+
+A visitor can't delete anybody, there is not even a delete button:
+
+>>> visitor.getLink('Master data').click()
+>>> visitor.getLink('Users').click()
+>>> visitor.getLink('Utzer, Ben').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/++attribute++principals/3'
+>>> visitor_url = visitor.url
+>>> get_submit_control_names(visitor)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Calling the delete form url directly does not help either:
+
+>>> visitor.open(visitor_url + '/@@delete_user.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden

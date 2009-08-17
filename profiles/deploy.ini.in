@@ -1,0 +1,56 @@
+%(main)s
+
+[server:main]
+use = egg:Paste#http
+host = %(host)s
+port = %(port)s
+
+
+# Logging configuration, see http://pylonshq.com/docs/en/0.9.7/logging
+[filter:translogger]
+use = egg:Paste#translogger
+setup_console_handler = False
+
+[loggers]
+keys = root, wsgi
+
+[logger_root]
+level = DEBUG
+handlers = console, eventlog
+
+[logger_wsgi]
+level = INFO
+handlers = accesslog
+qualname = wsgi
+propagate = 0
+
+[handlers]
+keys = console, accesslog, eventlog
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[handler_accesslog]
+class = %(log-handler)s
+args = ('log/access.log', %(log-handler-args)s)
+level = INFO
+formatter = accesslog
+
+[handler_eventlog]
+class = %(log-handler)s
+args = ('log/event.log', %(log-handler-args)s)
+level = INFO
+formatter = generic
+
+[formatters]
+keys = generic, accesslog
+
+[formatter_accesslog]
+format = %%(message)s
+
+[formatter_generic]
+format = %%(asctime)s %%(levelname)-5.5s [%%(name)s] %%(message)s
+datefmt = %%Y-%%m-%%dT%%H:%%M:%%S

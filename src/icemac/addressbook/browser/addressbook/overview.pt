@@ -1,0 +1,15 @@
+<tal:persons condition="context">
+  <h2>Persons</h2>
+  <ul>
+    <li tal:repeat="person context/values">
+      <a tal:attributes="href person/@@absolute_url"
+         tal:content="person/@@display_title">
+        Hans Tester
+      </a>
+    </li>
+  </ul>
+</tal:persons>
+
+<tal:no_persons condition="not:context">
+  There are no persons entered yet, click on "Add person" to create one.
+</tal:no_persons>

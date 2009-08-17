@@ -1,0 +1,106 @@
+=======================
+ Address book overview
+=======================
+
+The overview contains a list of all addressbooks and allows to create
+new addressbooks.
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+
+Overview
+========
+
+The overview page requires an authenticated user with the
+administrator role:
+
+>>> browser.open('http://localhost/++skin++AddressBook/')
+Traceback (most recent call last):
+HTTPError: HTTP Error 401: Unauthorized
+
+Before creating the first addressbook the overview page tells that
+there are not addressbooks:
+
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.handleErrors = False # XXX needed to test with z3c.pt
+>>> browser.open('http://localhost/++skin++AddressBook/')
+>>> print browser.contents
+<!DOCTYPE ...
+<p>
+  There are no address books created yet, click on "Add address book" to create one.
+</p>...
+>>> browser.handleErrors = True # XXX needed to test with z3c.pt
+
+
+Create an address book
+======================
+
+On the overview page is a link to add a new address book:
+
+>>> browser.getLink('address book').click()
+>>> browser.getControl('title').value = 'test book'
+>>> browser.getControl('notes'). value = 'testing address book'
+>>> browser.getControl('Add').click()
+>>> address_book_url = browser.url
+>>> address_book_url
+'http://localhost/++skin++AddressBook/AddressBook'
+
+View Addressbooks
+=================
+
+The overview page contains a list of the existing addressbooks
+together with the number of entries inside:
+
+>>> browser.open('http://localhost/++skin++AddressBook/')
+>>> print browser.contents
+<!DOCTYPE ...
+<ul>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+  </li>
+</ul>...
+
+This view only displays addressbooks, when another object is in the
+root folder it is not listed. (As there is no user interface to add an
+object, I add it directly to the root folder.):
+
+>>> from zope.container.btree import BTreeContainer
+>>> getRootFolder()['btree'] = BTreeContainer()
+>>> browser.open('http://localhost/++skin++AddressBook/')
+>>> print browser.contents
+<!DOCTYPE ...
+<ul>
+  <li>
+    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+  </li>
+</ul>...
+
+After creating a person one entry is displayed:
+
+>>> from icemac.addressbook.testing import create_addressbook, create_person
+>>> ab = create_addressbook(name='ab2', title=u'ab w/ content')
+>>> create_person(ab, ab, u'Tester', return_obj=False)
+>>> browser.reload()
+>>> print browser.contents
+<!DOCTYPE ...
+<ul>
+   <li>
+     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+   </li>
+   <li>
+     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a> (1 entry)
+   </li>
+</ul>...
+
+>>> dummy = create_person(ab, ab, u'Tester2')
+>>> browser.reload()
+>>> print browser.contents
+<!DOCTYPE ...
+<ul>
+   <li>
+     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+   </li>
+   <li>
+     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a> (2 entries)
+   </li>
+</ul>...

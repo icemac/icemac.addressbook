@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <principal
+     id="zope.manager"
+     title="Manager"
+     login="mac"
+     password_manager="Plain Text"
+     password="cam" />
+  <grant
+     role="zope.Manager"
+     principal="zope.manager" />
+
+</configure>

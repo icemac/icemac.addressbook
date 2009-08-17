@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="icemac.addressbook">
+
+  %(prepend_zcml)s
+
+  <include package="icemac.addressbook" />
+  <include package="icemac.addressbook" file="base.zcml"/>
+
+  %(append_zcml)s
+
+</configure>

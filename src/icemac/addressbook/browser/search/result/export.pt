@@ -1,0 +1,14 @@
+<tal:def define="result view/__parent__/result">
+  <tal:result condition="result">
+    <div metal:use-macro="macro:form">
+      <div metal:fill-slot="extra-info">
+        <tal:table content="structure view/renderTable" />
+      </div>
+    </div>
+  </tal:result>
+
+  <tal:no_result
+   condition="python: result is not None and len(result) == 0">
+    No person found.
+  </tal:no_result>
+</tal:def>

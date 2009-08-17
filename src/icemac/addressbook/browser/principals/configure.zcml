@@ -1,0 +1,99 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <!-- list of principals -->
+  <browser:viewlet
+     manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Users"
+     permission="icemac.addressbook.ViewSomePrincipals"
+     template="../masterdata/viewlet.pt"
+     weight="20"
+     path="++attribute++principals"
+     />
+
+  <gocept:pagelet
+     name="index.html"
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
+     permission="icemac.addressbook.ViewSomePrincipals"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".principals.Overview"
+     template="principals.pt"
+     />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
+     />
+
+
+  <adapter
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer
+          icemac.addressbook.browser.interfaces.IAddressBookLayer
+          z3c.table.interfaces.ITable
+          z3c.table.interfaces.IColumn"
+     provides="z3c.table.interfaces.IColumnHeader"
+     factory="z3c.table.header.SortingColumnHeader"
+     />
+
+  <!-- add principal -->
+  <z3c:pagelet
+     name="addPrincipal.html"
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
+     permission="icemac.addressbook.AddPrincipal"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".principals.AddForm"
+     />
+
+  <browser:viewlet
+     name="user"
+     viewName="@@addPrincipal.html"
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     class="z3c.menu.ready2go.item.AddMenuItem"
+     permission="icemac.addressbook.AddPrincipal"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="1"
+     />
+
+  <adapter factory=".principals.PersonFieldDataManager" />
+  <adapter name="required"
+           factory=".principals.password_required"
+           />
+
+  <!-- edit principal -->
+  <z3c:pagelet
+     name="index.html"
+     for="icemac.addressbook.principals.interfaces.IPrincipal"
+     permission="icemac.addressbook.ViewPrincipal"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".principals.EditForm"
+     />
+
+  <adapter
+     name="required"
+     factory=".principals.password_not_required"
+     />
+  <adapter factory=".principals.EditForm_password_Validator" />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="icemac.addressbook.principals.interfaces.IPrincipal"
+     />
+
+  <!-- delete confirmation -->
+  <z3c:pagelet
+     name="delete_user.html"
+     for="icemac.addressbook.principals.interfaces.IPrincipal"
+     permission="icemac.addressbook.EditAllPrincipals"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".principals.DeleteUserForm"
+     />
+
+
+</configure>
