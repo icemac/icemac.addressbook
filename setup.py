@@ -58,7 +58,6 @@ setuptools.setup(
     package_dir = {'': 'src'},
     namespace_packages = ['icemac'],
     include_package_data=True,
-    exclude_package_data = {'': ['DE_TODO.txt']},
     zip_safe=False,
     install_requires=[
         'setuptools',
