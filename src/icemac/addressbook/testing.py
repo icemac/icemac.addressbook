@@ -68,8 +68,12 @@ def FunctionalDocFileSuite(*paths, **kw):
     kw['optionflags'] = (kw.get('optionflags', 0) |
                          doctest.ELLIPSIS |
                          doctest.NORMALIZE_WHITESPACE)
+    if kw.has_key('layer'):
+        layer = kw.pop('layer')
+    else:
+        layer = FunctionalLayer
     suite = zope.app.testing.functional.FunctionalDocFileSuite(*paths, **kw)
-    suite.layer = FunctionalLayer
+    suite.layer = layer
     return suite
 
 
