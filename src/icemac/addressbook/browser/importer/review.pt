@@ -1,6 +1,0 @@
-<div metal:use-macro="macro:wizard">
-  <metal:header fill-slot="wizard-header">
-    <metal:default-header use-macro="macro:wizard-header" />
-    <tal:table content="structure view/renderImportedTable" />
-  </metal:header>
-</div>

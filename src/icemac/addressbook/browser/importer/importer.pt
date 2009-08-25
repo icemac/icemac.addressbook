@@ -1,3 +1,0 @@
-
-<h2 i18n:translate="">Files for import</h2>
-<div tal:replace="structure view/renderTable" />

@@ -1,5 +1,0 @@
-<div metal:use-macro="macro:wizard">
-  <metal:info fill-slot="info">
-    <span i18n:translate="">Import complete.</span>
-  </metal:info>
-</div>

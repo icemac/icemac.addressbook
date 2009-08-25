@@ -90,7 +90,6 @@ setuptools.setup(
         'z3c.menu.ready2go',
         'zc.catalog',
         'xlwt',
-        'xlrd',
         'z3c.table',
         'classproperty',
         'icemac.truncatetext',
@@ -117,12 +116,13 @@ setuptools.setup(
                            # generation 4 fails.)
         ],
     extras_require = dict(
-        test=['zope.testing',
-              'zope.app.testing',
-              'zope.testbrowser',
-              'zc.buildout',
-              'xlutils',
-              ]),
+        test=[
+            'xlrd',
+            'zc.buildout',
+            'zope.app.testing',
+            'zope.testbrowser',
+            'zope.testing',
+            ]),
     entry_points = """
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt
