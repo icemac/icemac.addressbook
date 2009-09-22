@@ -13,6 +13,7 @@ import icemac.addressbook.principals.sources
 import icemac.addressbook.utils
 import os
 import os.path
+import re
 import tempfile
 import unittest
 import zope.annotation.attribute
@@ -20,7 +21,9 @@ import zope.app.testing.functional
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testing.cleanup
+import zope.testing.renormalizing
 import zope.testing.testrunner.layer
+
 
 class AddressBookUnitTests(zope.testing.testrunner.layer.UnitTests):
     """Layer for gathering addressbook unit tests."""
@@ -72,6 +75,12 @@ def FunctionalDocFileSuite(*paths, **kw):
         layer = kw.pop('layer')
     else:
         layer = FunctionalLayer
+    if not kw.has_key('checker'):
+        kw['checker'] = zope.testing.renormalizing.RENormalizing([
+            (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
+             '<DATETIME>')
+            ])
+
     suite = zope.app.testing.functional.FunctionalDocFileSuite(*paths, **kw)
     suite.layer = layer
     return suite
@@ -129,11 +138,12 @@ def create_addressbook(parent=None, name='ab', title=u'test address book'):
     return ab
 
 
-def create_keyword(addressbook, title, notes=u''):
+def create_keyword(addressbook, title, notes=u'', return_obj=True):
     parent = addressbook.keywords
     name = icemac.addressbook.utils.create_and_add(
         parent, icemac.addressbook.keyword.Keyword, title=title, notes=notes)
-    return parent[name]
+    if return_obj:
+        return parent[name]
 
 
 @icemac.addressbook.utils.set_site

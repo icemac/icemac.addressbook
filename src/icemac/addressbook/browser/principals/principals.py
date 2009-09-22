@@ -5,6 +5,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.principals.interfaces
 import icemac.addressbook.principals.principals
@@ -18,6 +19,7 @@ import zope.schema
 import zope.schema.interfaces
 import zope.security
 import zope.traversing.browser.interfaces
+
 
 class Overview(icemac.addressbook.browser.table.PageletTable):
 
@@ -99,8 +101,10 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
     request=None, view=None, field=zope.schema.Password, widget=None)
 
 
-class EditForm(icemac.addressbook.browser.base.BaseEditFormWithCancel):
+class EditForm(z3c.form.group.GroupForm,
+               icemac.addressbook.browser.base.BaseEditFormWithCancel):
 
+    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
     next_url = 'parent'
     fields = (
         z3c.form.field.Fields(

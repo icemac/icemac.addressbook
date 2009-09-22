@@ -10,10 +10,11 @@ import icemac.addressbook.interfaces
 import z3c.form.button
 import zope.component
 import zope.traversing.browser.interfaces
+import icemac.addressbook.browser.metadata
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
-    
+
     label = _(u'Add new keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     class_ = icemac.addressbook.keyword.Keyword
@@ -29,11 +30,21 @@ def can_delete_keyword(form):
             form.context).is_referenced()
         )
 
-class EditForm(icemac.addressbook.browser.base.BaseEditForm):
+class EditForm(z3c.form.group.GroupForm,
+               icemac.addressbook.browser.base.BaseEditForm):
 
+    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
     label = _(u'Edit keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     next_url = 'parent'
+
+    def applyChanges(self, data):
+        # GroupForm has its own applyChanges but we need the one from
+        # BaseEditForm here as inside the goups no changes are made
+        # but there is a subscriber which raises an error which is
+        # handled by BaseEditForm.
+        return icemac.addressbook.browser.base.BaseEditForm.applyChanges(
+            self, data)
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):

@@ -7,13 +7,16 @@ from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference.interfaces
 import icemac.addressbook.address
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
 import icemac.addressbook.sources
 import icemac.addressbook.utils
 import z3c.form.button
 import z3c.form.datamanager
+import z3c.form.field
 import z3c.form.group
+import z3c.form.interfaces
 import zc.sourcefactory.contextual
 import zope.component
 import zope.traversing.browser.interfaces
@@ -31,6 +34,8 @@ class AddGroup(icemac.addressbook.browser.base.PrefixGroup):
 
 class EditGroup(AddGroup):
     "PrefixGroup for EditForm."
+
+    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
 
     def __init__(
         self, context, request, parent, interface, label, prefix, index, key):
@@ -108,7 +113,8 @@ class PersonEditForm(
 
     def __init__(self, *args, **kw):
         super(PersonEditForm, self).__init__(*args, **kw)
-        groups = [DefaultSelectGroup]
+        groups = [icemac.addressbook.browser.metadata.ModifiedGroup,
+                  DefaultSelectGroup]
         for address in icemac.addressbook.address.address_mapping:
             index = 0
             default_obj = getattr(self.context,

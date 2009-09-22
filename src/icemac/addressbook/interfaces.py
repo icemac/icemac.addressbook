@@ -152,6 +152,13 @@ class IKeywords(zope.interface.Interface):
     def get_keywords():
         """Get the keywords in the collection."""
 
+    def get_keyword_by_title(title, default=None):
+        "Get the keyword with the given title or `default`."
+
+
+class IKeywordTitles(zope.interface.Interface):
+    """Collection of keywords titles."""
+
     def get_titles():
         """Get the titles of the keywords in the collection."""
 

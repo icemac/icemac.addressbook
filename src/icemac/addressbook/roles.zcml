@@ -8,6 +8,11 @@
 
   <grant
      role="icemac.addressbook.global.Editor"
+     permission="zope.app.dublincore.view"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
      permission="zope.View"
      />
 
@@ -151,6 +156,11 @@
         title="Visitor"
 	    description="Role which allows global visiting of data"
 	    />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="zope.app.dublincore.view"
+     />
 
   <grant
      role="icemac.addressbook.global.Visitor"

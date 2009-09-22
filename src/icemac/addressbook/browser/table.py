@@ -61,25 +61,31 @@ class AttrGetAttrColumn(GetAttrColumn):
     masterAttrName = None
 
     def getValue(self, obj):
-        obj = getattr(obj, self.masterAttrName, None)
-        return super(AttrGetAttrColumn, self).getValue(obj)
+        master_obj = getattr(obj, self.masterAttrName, None)
+        return super(AttrGetAttrColumn, self).getValue(master_obj)
 
 
 class CountryAttrGetAttrColumn(AttrGetAttrColumn):
     """AttrGetAttrColumn for gocept.country objects."""
 
     def getValue(self, obj):
-        obj = super(CountryAttrGetAttrColumn, self).getValue(obj)
-        return obj.token
+        country = super(CountryAttrGetAttrColumn, self).getValue(obj)
+        if country != u'':
+            # country set
+            country = country.token
+        return country
 
 
-class IterableGetAttrColumn(GetAttrColumn):
-    """GetAttrColumn where attr is an iterable."""
+class KeywordsGetAttrColumn(GetAttrColumn):
+    """GetAttrColumn where attr is an iterable of keywords."""
+    # XXX move to icemac.ab.importer
 
     def getValue(self, obj):
-        return ', '.join(x or u''
-                         for x in super(IterableGetAttrColumn,
-                                        self).getValue(obj))
+        values = super(KeywordsGetAttrColumn, self).getValue(obj)
+        if values != u'':
+            return u', '.join(
+                icemac.addressbook.interfaces.ITitle(x) for x in values)
+        return values
 
 # Tables
 

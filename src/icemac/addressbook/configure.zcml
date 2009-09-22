@@ -78,8 +78,7 @@
   <include package=".principals" />
 
   <include file="permissions.zcml" />
-  <include file="roles.zcml" />
-  <include file="classes.zcml" />
+ <include file="classes.zcml" />
 
   <subscriber handler=".addressbook.create_address_book_infrastructure" />
   <subscriber handler=".person.person_created" />

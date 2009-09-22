@@ -122,7 +122,7 @@ def add_more_addressbook_infrastructure(addressbook):
     # indexes
     if 'keywords' not in catalog:
         catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
-            'get_titles', icemac.addressbook.interfaces.IKeywords,
+            'get_titles', icemac.addressbook.interfaces.IKeywordTitles,
             field_callable=True)
 
     # authenticator (PAU)
