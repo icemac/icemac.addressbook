@@ -49,6 +49,7 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
 class Table(z3c.table.table.Table):
     "Table which supports a no-rows-found message."
 
+    startBatchingAt = 1000000
     no_rows_message = u'' # Set at subclass.
 
     def renderTable(self):
