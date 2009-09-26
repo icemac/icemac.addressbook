@@ -163,6 +163,7 @@ class BaseDeleteForm(BaseEditForm):
     label = _(u'Do you really want to delete this entry?')
     interface = None
     field_names = () # tuple of field names for display or empty for all
+    next_view_after_delete = None # when None, use same view as self.next_view
 
     mode = z3c.form.interfaces.DISPLAY_MODE
     next_url = 'object'
@@ -180,8 +181,7 @@ class BaseDeleteForm(BaseEditForm):
 
     @z3c.form.button.buttonAndHandler(_(u'Yes, delete it'), name='delete')
     def handleDelete(self, action):
-        self.next_url = 'parent'
-        self.redirect_to_next_url()
+        self.redirect_to_next_url('parent', self.next_view_after_delete)
         self._do_delete()
         return ''
 
