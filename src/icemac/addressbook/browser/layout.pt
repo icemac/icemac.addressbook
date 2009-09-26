@@ -129,6 +129,11 @@
         background-color: #d0d0d0;
       }
 
+      .table-even-row ul.errors li,
+      .table-odd-row ul.errors li {
+        color: #ff0000;
+      }
+
       -->
     </style>
   </head>
