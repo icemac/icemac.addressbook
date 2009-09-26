@@ -49,11 +49,10 @@ def all_(*constraints):
 class BaseForm(object):
     """Basis for all forms."""
 
-    def url(self, obj=None):
-        if obj is None:
-            obj = self.context
+    def url(self):
         adapter = zope.component.getMultiAdapter(
-            (obj, self.request), zope.traversing.browser.interfaces.IAbsoluteURL)
+            (obj, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL)
         return adapter()
 
 
