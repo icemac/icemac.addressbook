@@ -163,20 +163,14 @@ class PersonEditForm(
             icemac.addressbook.browser.base.can_access('@@delete_person.html'),
             person_deletable))
     def handleDeletePerson(self, action):
-        url = zope.component.getMultiAdapter(
-            (self.context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        self.request.response.redirect(url + '/@@delete_person.html')
+        self.redirect_to_next_url('object', '@@delete_person.html')
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete single entry'), name='delete_entry',
         condition=icemac.addressbook.browser.base.can_access(
             '@@delete_entry.html'))
     def handleDeleteAddress(self, action):
-        url = zope.component.getMultiAdapter(
-            (self.context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        self.request.response.redirect(url + '/@@delete_entry.html')
+        self.redirect_to_next_url('object', '@@delete_entry.html')
 
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
@@ -238,6 +232,7 @@ class IPersonEntries(zope.interface.Interface):
 
 
 class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
+    "Form to choose entry for deletion."
 
     label = _(u'Please choose an entry for deletion:')
     interface = IPersonEntries
@@ -252,9 +247,7 @@ class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
             return
         selected_entry = data['entry']
 
-        url = zope.component.getMultiAdapter(
-            (selected_entry, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
+        url = self.url(selected_entry)
         self.request.response.redirect(url + '/@@delete.html')
 
     @z3c.form.button.buttonAndHandler(_(u'Cancel'), name='cancel')

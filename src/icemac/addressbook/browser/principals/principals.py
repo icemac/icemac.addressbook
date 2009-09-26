@@ -137,10 +137,7 @@ class EditForm(z3c.form.group.GroupForm,
         condition=icemac.addressbook.browser.base.can_access(
             '@@delete_user.html'))
     def handleDeleteUser(self, action):
-        url = zope.component.getMultiAdapter(
-            (self.context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        self.request.response.redirect(url + '/@@delete_user.html')
+        self.redirect_to_next_url('object', '@@delete_user.html')
 
     def applyChanges(self, data):
         try:

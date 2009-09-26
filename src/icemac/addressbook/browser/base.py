@@ -46,7 +46,18 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
-class BaseAddForm(z3c.formui.form.AddForm):
+class BaseForm(object):
+    """Basis for all forms."""
+
+    def url(self, obj=None):
+        if obj is None:
+            obj = self.context
+        adapter = zope.component.getMultiAdapter(
+            (obj, self.request), zope.traversing.browser.interfaces.IAbsoluteURL)
+        return adapter()
+
+
+class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     """Simple base add form."""
 
     interface = None # interface for form
@@ -85,12 +96,10 @@ class BaseAddForm(z3c.formui.form.AddForm):
             context = self.context
         else:
             raise ValueError("Don't know how to handle next_url %r.")
-        return zope.component.getMultiAdapter(
-            (context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
+        return self.url(context)
 
 
-class BaseEditForm(z3c.formui.form.EditForm):
+class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
     """Base Edit form."""
 
     next_url = None # target object after edit, one of ('object', 'parent')
@@ -102,23 +111,28 @@ class BaseEditForm(z3c.formui.form.EditForm):
         return z3c.form.field.Fields(self.interface)
 
     def render(self):
+        if self.request.response.getStatus() in (302, 303, 304):
+            # redirecting
+            return ''
         if self.status in (self.successMessage, self.noChangesMessage):
             self.redirect_to_next_url()
         else:
             return super(BaseEditForm, self).render()
 
-    def redirect_to_next_url(self):
-        if self.next_url == 'object':
+    def redirect_to_next_url(self, next_url=None, next_view=None):
+        if next_url is None:
+            next_url = self.next_url
+        if next_url == 'object':
             target = self.context
-        elif self.next_url == 'parent':
+        elif next_url == 'parent':
             target = zope.traversing.api.getParent(self.context)
         else:
-            raise ValueError('next_url %r unknown' % self.next_url)
-        target_url = zope.component.getMultiAdapter(
-            (target, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        if self.next_view:
-            target_url += '/%s' % self.next_view
+            raise ValueError('next_url %r unknown' % next_url)
+        target_url = self.url(target)
+        if next_view is None:
+            next_view = self.next_view
+        if next_view:
+            target_url += '/%s' % next_view
         self.request.response.redirect(target_url)
 
     def applyChanges(self, data):

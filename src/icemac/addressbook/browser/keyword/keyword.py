@@ -59,10 +59,7 @@ class EditForm(z3c.form.group.GroupForm,
     @z3c.form.button.buttonAndHandler(
         _(u'Delete'), name='delete', condition=can_delete_keyword)
     def handleDelete(self, action):
-        url = zope.component.getMultiAdapter(
-            (self.context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        self.request.response.redirect(url + '/@@delete.html')
+        self.redirect_to_next_url('object', '@@delete.html')
 
 
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
