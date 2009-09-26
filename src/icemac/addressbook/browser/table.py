@@ -44,49 +44,6 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
         return icemac.truncatetext.truncate(value, self.length)
 
 
-class GetAttrColumn(z3c.table.column.GetAttrColumn):
-    "GetAttrColumn which does not display `None` but empty string instead."
-
-    def getValue(self, obj):
-        value = super(GetAttrColumn, self).getValue(obj)
-        if value is None:
-            value = u''
-        return value
-
-
-class AttrGetAttrColumn(GetAttrColumn):
-    """Fetch the object on the attribute named `masterAttrName` and select the
-    attribute `attrName` on it."""
-
-    masterAttrName = None
-
-    def getValue(self, obj):
-        master_obj = getattr(obj, self.masterAttrName, None)
-        return super(AttrGetAttrColumn, self).getValue(master_obj)
-
-
-class CountryAttrGetAttrColumn(AttrGetAttrColumn):
-    """AttrGetAttrColumn for gocept.country objects."""
-
-    def getValue(self, obj):
-        country = super(CountryAttrGetAttrColumn, self).getValue(obj)
-        if country != u'':
-            # country set
-            country = country.token
-        return country
-
-
-class KeywordsGetAttrColumn(GetAttrColumn):
-    """GetAttrColumn where attr is an iterable of keywords."""
-    # XXX move to icemac.ab.importer
-
-    def getValue(self, obj):
-        values = super(KeywordsGetAttrColumn, self).getValue(obj)
-        if values != u'':
-            return u', '.join(
-                icemac.addressbook.interfaces.ITitle(x) for x in values)
-        return values
-
 # Tables
 
 class Table(z3c.table.table.Table):
