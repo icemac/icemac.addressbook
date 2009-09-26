@@ -79,7 +79,6 @@ setuptools.setup(
         'zope.app.generations',
         'z3c.form',
         'z3c.formui',
-        'z3c.wizard',
         'z3c.layer.pagelet',
         'z3c.pagelet',
         'z3c.ptcompat',
