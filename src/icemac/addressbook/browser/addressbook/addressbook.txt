@@ -32,7 +32,6 @@ Edit address book's data
 The manager can also edit the address book's data. The edit form shows
 the formerly entred data:
 
->>> browser.handleErrors = False
 >>> browser.getLink('Edit address book').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/AddressBook/@@edit.html'
