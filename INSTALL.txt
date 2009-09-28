@@ -1,5 +1,5 @@
 ==============
- Installation
+ NInstallation
 ==============
 
 Prerequisites
@@ -70,8 +70,8 @@ Update
 
    2. Run ``install.py`` using your desired python added by the path
    to the previous installation. This way values you entered
-   previously are used as defaults instad of the application defaults.
-   Example::
+   previously are used as defaults instead of the application
+   defaults.  Example::
 
      $ python2.5 install.py ../icemac.addressbook-0.4
 
