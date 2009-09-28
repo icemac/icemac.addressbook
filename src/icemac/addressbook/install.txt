@@ -71,7 +71,7 @@ d  parts
 >>> from icemac.addressbook.install import check_prerequisites
 >>> check_prerequisites()
 ERROR: buildout.cfg already exists.
-       Please move the existing one and restart install.
+       Please (re-)move the existing one and restart install.
 False
 
 If there is no `buildout.cfg` file, ``True`` is returned:
@@ -137,6 +137,8 @@ Setup
 ... when = midnight
 ... interval = 1
 ... backups = 5
+...
+... [packages]
 ... """)
 
 Nothing entered
@@ -156,6 +158,12 @@ Hint: to use the default value (the one in [brackets]), enter no value.
     Details see http://docs.python.org/library/logging.html#handler-objects
  Log-Handler, choose between FileHandler, RotatingFileHandler,
  TimedRotatingFileHandler: [FileHandler]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   ...
+ Package 1: []
 creating admin.zcml ...
 creating buildout.cfg ...
 saving config ...
@@ -166,6 +174,9 @@ The configuration values are stored in `install.user.ini`:
 [admin]
 login = me
 password = secret
+<BLANKLINE>
+[packages]
+package_1 =
 <BLANKLINE>
 [log]
 interval = 1
@@ -185,6 +196,8 @@ To run the installation two more files are written:
 
 >>> cat(sample_buildout, 'buildout.cfg')
 [buildout]
+newest = true
+allow-picked-versions = true
 extends = profiles/prod.cfg
 eggs-directory = py-eggs
 <BLANKLINE>
@@ -238,6 +251,12 @@ Hint: to use the default value (the one in [brackets]), enter no value.
  TimedRotatingFileHandler: [FileHandler]
  Maximum file size before rotating in bytes: [1000]
  Number of log file backups: [5]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   ...
+ Package 1: []
 creating admin.zcml ...
 creating buildout.cfg ...
 saving config ...
@@ -246,6 +265,9 @@ saving config ...
 [admin]
 login = admin
 password = apass
+<BLANKLINE>
+[packages]
+package_1 =
 <BLANKLINE>
 [log]
 interval = 1
@@ -263,6 +285,8 @@ port = 8080
 
 >>> cat(sample_buildout, 'buildout.cfg')
 [buildout]
+newest = true
+allow-picked-versions = true
 extends = profiles/prod.cfg
 eggs-directory = eggs
 <BLANKLINE>
@@ -322,10 +346,17 @@ ERROR: 'does not matter' is not in ('FileHandler', 'RotatingFileHandler',
  'TimedRotatingFileHandler').
 Please choose one handler out of the list.
  Log-Handler, choose between FileHandler, RotatingFileHandler,
- TimedRotatingFileHandler: [does not matter]
- Type of rotation interval, choose between S, M, H, D, W, midnight: [midnight]
+  TimedRotatingFileHandler: [does not matter]
+ Type of rotation interval, choose between S, M, H, D, W, midnight:
+ [midnight]
  Rotation interval size: [1]
  Number of log file backups: [5]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   ...
+ Package 1: []
 creating admin.zcml ...
 creating buildout.cfg ...
 saving config ...
@@ -334,6 +365,9 @@ saving config ...
 [admin]
 login = me
 password = apass
+<BLANKLINE>
+[packages]
+package_1 =
 <BLANKLINE>
 [log]
 interval = 7
@@ -351,6 +385,8 @@ port = 13090
 
 >>> cat(sample_buildout, 'buildout.cfg')
 [buildout]
+newest = true
+allow-picked-versions = true
 extends = profiles/prod.cfg
 eggs-directory = /Users/icemac/eggs
 <BLANKLINE>
@@ -409,6 +445,12 @@ Hint: to use the default value (the one in [brackets]), enter no value.
  Type of rotation interval, choose between S, M, H, D, W, midnight: [D]
  Rotation interval size: [7]
  Number of log file backups: [5]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   ...
+ Package 1: []
 creating admin.zcml ...
 creating buildout.cfg ...
 saving config ...
@@ -417,6 +459,9 @@ saving config ...
 [admin]
 login = me
 password = apass
+<BLANKLINE>
+[packages]
+package_1 =
 <BLANKLINE>
 [log]
 interval = 7
@@ -434,6 +479,8 @@ port = 13090
 
 >>> cat(sample_buildout, 'buildout.cfg')
 [buildout]
+newest = true
+allow-picked-versions = true
 extends = profiles/prod.cfg
 eggs-directory = /home/icemac/eggs
 <BLANKLINE>

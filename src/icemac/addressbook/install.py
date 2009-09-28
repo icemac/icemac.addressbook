@@ -7,9 +7,15 @@ import sys
 import ConfigParser
 
 
-def ask_user(conf, question, section, option):
+def ask_user(conf, question, section, option, global_default=None):
     "Ask the user for a value of section/option and store it in config."
-    default = conf.get(section, option)
+    try:
+        default = conf.get(section, option)
+    except ConfigParser.NoOptionError:
+        if global_default is None:
+            raise
+        else:
+            default = global_default
     print ' %s: [%s] ' % (question, default),
     got = sys.stdin.readline().strip()
     print
@@ -23,7 +29,7 @@ def check_prerequisites():
     "Check whether icemac.addressbook can be installed."
     if os.path.exists('buildout.cfg'):
         print "ERROR: buildout.cfg already exists."
-        print "       Please move the existing one and restart install."
+        print "       Please (re-)move the existing one and restart install."
         return False
     if sys.version_info[:2] != (2, 5):
         print "ERROR: icemac.addressbook currently only supports python 2.5,"
@@ -95,6 +101,22 @@ def config(user_config=None):
         log_backups = ask_user(
             conf, 'Number of log file backups', 'log', 'backups')
 
+    print ' When you need additional packages (e. g. import readers)'
+    print ' enter the package names here separated by a newline.'
+    print ' When you are done enter an empty line.'
+    print ' Known packages:'
+    print '   icemac.ab.importxls -- Import of XLS (Excel) files'
+    packages = []
+    index = 1
+    while True:
+        package = ask_user(
+            conf, 'Package %s' % index, 'packages', 'package_%s' % index,
+            global_default = '')
+        index += 1
+        if not package:
+            break
+        packages.append(package)
+
     # create admin.zcml
     print 'creating admin.zcml ...'
     admin_zcml = file('admin.zcml', 'w')
@@ -118,6 +140,8 @@ def config(user_config=None):
     buildout_cfg = ConfigParser.SafeConfigParser()
     buildout_cfg.add_section('buildout')
     buildout_cfg.set('buildout', 'extends', 'profiles/prod.cfg')
+    buildout_cfg.set('buildout', 'newest', 'true')
+    buildout_cfg.set('buildout', 'allow-picked-versions', 'true')
     buildout_cfg.set('buildout', 'eggs-directory', eggs_dir)
     buildout_cfg.add_section('deploy.ini')
     buildout_cfg.set('deploy.ini', 'host', host)
@@ -136,8 +160,23 @@ def config(user_config=None):
         log_when = "'%s'" % log_when
         log_args = ', '.join((log_when, log_interval, log_backups))
     buildout_cfg.set('deploy.ini', 'log-handler-args', log_args)
+    if packages:
+        buildout_cfg.add_section('site.zcml')
+        permissions_zcml = ('<include package="' +
+                            '" />\n<include package="'.join(packages) +
+                            '" />')
+        buildout_cfg.set('site.zcml', 'permissions_zcml', permissions_zcml)
+
     buildout_cfg_file = file('buildout.cfg', 'w')
     buildout_cfg.write(buildout_cfg_file)
+    if packages:
+        # ConfigParser can't write '+=' instead of '='
+        eggs = 'eggs += %s\n\n' % '\n      '.join(packages)
+        buildout_cfg_file.write('[app]\n')
+        buildout_cfg_file.write(eggs)
+        buildout_cfg_file.write('[test]\n')
+        buildout_cfg_file.write(eggs)
+
     buildout_cfg_file.close()
 
     # save confing

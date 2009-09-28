@@ -8,9 +8,12 @@
 Features
 --------
 
-- Added ability to delete whole address book.
+- Added ability to delete a whole address book.
 
 - Last modification time of objects is now stored and displayed.
+
+- Added ability to enter additional packages names at installation
+  (e. g. to install a specific import file reader).
 
 Bug fixes
 ---------
