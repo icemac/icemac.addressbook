@@ -18,6 +18,9 @@
 
   <!-- File -->
   <class class=".file.File">
+    <implements
+       interface="zope.annotation.interfaces.IAttributeAnnotatable"
+       />
     <require
        permission="icemac.addressbook.ViewFile"
        interface=".interfaces.IFile"

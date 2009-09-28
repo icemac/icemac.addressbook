@@ -5,6 +5,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.principals.interfaces
 import icemac.addressbook.principals.principals
@@ -19,8 +20,8 @@ import zope.schema.interfaces
 import zope.security
 import zope.traversing.browser.interfaces
 
-class Overview(z3c.pagelet.browser.BrowserPagelet,
-               icemac.addressbook.browser.table.Table):
+
+class Overview(icemac.addressbook.browser.table.PageletTable):
 
     no_rows_message = _(
         u'No users defined yet or you are not allowed to access any.')
@@ -102,8 +103,10 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
     request=None, view=None, field=zope.schema.Password, widget=None)
 
 
-class EditForm(icemac.addressbook.browser.base.BaseEditFormWithCancel):
+class EditForm(z3c.form.group.GroupForm,
+               icemac.addressbook.browser.base.BaseEditFormWithCancel):
 
+    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
     next_url = 'parent'
     fields = (
         z3c.form.field.Fields(
@@ -136,10 +139,7 @@ class EditForm(icemac.addressbook.browser.base.BaseEditFormWithCancel):
         condition=icemac.addressbook.browser.base.can_access(
             '@@delete_user.html'))
     def handleDeleteUser(self, action):
-        url = zope.component.getMultiAdapter(
-            (self.context, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        self.request.response.redirect(url + '/@@delete_user.html')
+        self.redirect_to_next_url('object', '@@delete_user.html')
 
     def applyChanges(self, data):
         try:

@@ -38,6 +38,9 @@
 
   <!-- Principal -->
   <class class=".principals.Principal">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewPrincipal"
        interface=".interfaces.IPrincipal

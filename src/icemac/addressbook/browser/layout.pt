@@ -113,6 +113,11 @@
       div#body {
         clear: both;
       }
+      .table-even-row ul.errors li,
+      .table-odd-row ul.errors li {
+        color: #ff0000;
+      }
+
       -->
     </style>
   </head>

@@ -1,6 +1,7 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
    xmlns:gocept="http://namespaces.gocept.com/zcml">
 
   <!-- Site menu entry -->
@@ -31,6 +32,12 @@
      name="master-data"
      class=".manager.MasterDataManager"
      permission="zope.Public"
+     />
+
+  <z3c:template
+     for=".viewlet.Viewlet"
+     template="viewlet.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 
 </configure>

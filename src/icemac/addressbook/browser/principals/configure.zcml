@@ -10,7 +10,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Users"
      permission="icemac.addressbook.ViewSomePrincipals"
-     template="../masterdata/viewlet.pt"
+     class="..masterdata.viewlet.Viewlet"
      weight="20"
      path="++attribute++principals"
      />

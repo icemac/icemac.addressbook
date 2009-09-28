@@ -11,7 +11,6 @@ def test_suite():
         "browser/addressbook/addressbook.txt",
         "browser/authentication/login.txt",
         "browser/export/export.txt",
-        "browser/importer/importer.txt",
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
         "browser/person/file.txt",

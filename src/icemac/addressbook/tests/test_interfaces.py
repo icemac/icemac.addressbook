@@ -52,14 +52,16 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IKeywords,
             icemac.addressbook.keyword.KeywordContainer())
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IKeywords,
-            icemac.addressbook.person.Keywords(None))
 
     def test_keyword(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IKeyword,
             icemac.addressbook.keyword.Keyword())
+
+    def test_keywordtitles(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IKeywordTitles,
+            icemac.addressbook.person.Keywords(None))
 
 
 def test_suite():

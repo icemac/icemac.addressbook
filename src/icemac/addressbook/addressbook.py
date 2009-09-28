@@ -3,8 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
-import icemac.addressbook.importer.importer
-import icemac.addressbook.importer.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.utils
@@ -71,10 +69,6 @@ def create_address_book_infrastructure(addressbook, event=None):
         addressbook, 'keywords', icemac.addressbook.keyword.KeywordContainer,
         icemac.addressbook.interfaces.IKeywords)
 
-    # add importer
-    create_and_register(
-        addressbook, 'importer', icemac.addressbook.importer.importer.Importer,
-        icemac.addressbook.importer.interfaces.IImporter)
 
     # add principals folder
     create_and_register(
@@ -128,7 +122,7 @@ def add_more_addressbook_infrastructure(addressbook):
     # indexes
     if 'keywords' not in catalog:
         catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
-            'get_titles', icemac.addressbook.interfaces.IKeywords,
+            'get_titles', icemac.addressbook.interfaces.IKeywordTitles,
             field_callable=True)
 
     # authenticator (PAU)

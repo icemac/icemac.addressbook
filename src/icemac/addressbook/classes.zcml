@@ -60,9 +60,9 @@
 
   <!-- PostalAddress -->
   <class class=".address.PostalAddress">
-    <!-- <implements -->
-    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
-    <!--   /> -->
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewPostalAddress"
        interface=".interfaces.IPostalAddress"
@@ -75,9 +75,9 @@
 
   <!-- EMailAddress -->
   <class class=".address.EMailAddress">
-    <!-- <implements -->
-    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
-    <!--   /> -->
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewEMailAddress"
        interface=".interfaces.IEMailAddress"
@@ -90,9 +90,9 @@
 
   <!-- HomePageAddress -->
   <class class=".address.HomePageAddress">
-    <!-- <implements -->
-    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
-    <!--   /> -->
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewHomePageAddress"
        interface=".interfaces.IHomePageAddress"
@@ -105,9 +105,9 @@
 
   <!-- PhoneNumber -->
   <class class=".address.PhoneNumber">
-    <!-- <implements -->
-    <!--   interface="zope.annotation.interfaces.IAttributeAnnotatable" -->
-    <!--   /> -->
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewPhoneNumber"
        interface=".interfaces.IPhoneNumber"
@@ -120,6 +120,9 @@
 
   <!-- KeywordContainer -->
   <class class=".keyword.KeywordContainer">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewKeywordContainer"
        interface=".interfaces.IKeywords"
@@ -140,6 +143,9 @@
 
   <!-- Keyword -->
   <class class=".keyword.Keyword">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewKeyword"
        interface=".interfaces.IKeyword"

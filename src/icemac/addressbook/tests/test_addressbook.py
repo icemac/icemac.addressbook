@@ -12,7 +12,6 @@ import icemac.addressbook.testing
 import unittest
 import zope.interface.verify
 import zope.location.interfaces
-import icemac.addressbook.importer.interfaces
 import zope.intid.interfaces
 import zope.catalog.interfaces
 import zope.authentication.interfaces
@@ -35,8 +34,6 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
         self.assertTrue(zope.location.interfaces.ISite.providedBy(ab))
         self.assertAttribute(
             ab, 'keywords', icemac.addressbook.interfaces.IKeywords)
-        self.assertAttribute(
-            ab, 'importer', icemac.addressbook.importer.interfaces.IImporter)
         self.assertAttribute(
             ab, 'principals',
             zope.app.authentication.interfaces.IAuthenticatorPlugin)
