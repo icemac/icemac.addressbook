@@ -20,14 +20,14 @@ setuptools.setup(
         read('TODO.txt') +
         read('CHANGES.txt')
         ),
-    keywords='python address book addressbook zope3 zope application web '
-             'phone number e-mail email home page homepage',
+    keywords='python address addressbook zope3 zope application web phone '
+             'number e-mail email home page homepage',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
     url='http://pypi.python.org/pypi/icemac.addressbook',
     license='ZPL 2.1',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'Framework :: Paste',
         'Framework :: Zope3',
@@ -58,6 +58,7 @@ setuptools.setup(
     package_dir = {'': 'src'},
     namespace_packages = ['icemac'],
     include_package_data=True,
+    exclude_package_data = {'': ['DE_TODO.txt']},
     zip_safe=False,
     install_requires=[
         'setuptools',
@@ -89,6 +90,7 @@ setuptools.setup(
         'z3c.menu.ready2go',
         'zc.catalog',
         'xlwt',
+        'xlrd',
         'z3c.table',
         'classproperty',
         'icemac.truncatetext',
@@ -115,13 +117,11 @@ setuptools.setup(
                            # generation 4 fails.)
         ],
     extras_require = dict(
-        test=[
-            'xlrd',
-            'zc.buildout',
-            'zope.app.testing',
-            'zope.testbrowser',
-            'zope.testing',
-            ]),
+        test=['zope.testing',
+              'zope.app.testing',
+              'zope.testbrowser',
+              'zc.buildout',
+              ]),
     entry_points = """
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt

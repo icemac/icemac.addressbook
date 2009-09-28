@@ -5,9 +5,8 @@
 
 import zope.app.generations.generations
 
-GENERATION = 6
 
 manager = zope.app.generations.generations.SchemaManager(
-    minimum_generation=GENERATION,
-    generation=GENERATION,
+    minimum_generation=5,
+    generation=5,
     package_name='icemac.addressbook.generations')

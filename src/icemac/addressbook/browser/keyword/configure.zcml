@@ -43,7 +43,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Keywords"
      permission="icemac.addressbook.ViewKeywordContainer"
-     class="..masterdata.viewlet.Viewlet"
+     template="../masterdata/viewlet.pt"
      weight="10"
      path="++attribute++keywords"
      />

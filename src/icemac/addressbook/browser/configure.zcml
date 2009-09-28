@@ -33,6 +33,7 @@
   <include package=".authentication" />
   <include package=".export" />
   <include package=".file" />
+  <include package=".importer" />
   <include package=".keyword" />
   <include package=".masterdata" />
   <include package=".menus" />

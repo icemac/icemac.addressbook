@@ -195,14 +195,6 @@ for tests
 first home page
 for tests
 
-The last modification date is also displayed:
-
->>> print browser.contents
-<!DOCTYPE ...
-<legend>last modification information</legend>...
-<span>Modification Date</span>...<DATETIME>...
-
-
 If the user edits and decides to discard his changes he can choose the
 cancel button and is set back to the address book overview. The
 changes were not saved:

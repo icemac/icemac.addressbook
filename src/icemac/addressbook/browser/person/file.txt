@@ -111,13 +111,10 @@ the file name are replaced by underscores:
 >>> browser.goBack()
 
 It is possible to upload a new file, this changes the name and the
-mime type if necessary. When the browser does not know the mime type
-and sends ``application/octet-stream``q, the mime type is guessed using
-the file extension and file contents:
+mime type if necessary:
 
->>> fd, filename = write_temp_file('special data, blah', '.js')
->>> browser.getControl('file').add_file(fd, 'application/octet-stream',
-...     filename)
+>>> fd, filename = write_temp_file('special data, blah', '.txt')
+>>> browser.getControl('file').add_file(fd, 'text/enriched', filename)
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
@@ -125,13 +122,13 @@ the file extension and file contents:
 >>> browser.getControl('name', index=2).value == filename
 True
 >>> browser.getControl('Mime Type').value
-'application/x-javascript'
+'text/enriched'
 
 The downloaded file behaves accordingly:
 
 >>> browser.getLink('Download file').click()
 >>> browser.headers['content-type']
-'application/x-javascript'
+'text/enriched'
 >>> browser.headers['content-disposition'] == 'attachment; filename=' + filename
 True
 >>> browser.contents
@@ -152,7 +149,7 @@ the filename or file content, it is set to ``application/octet-stream``.
 'application/octet-stream'
 
 If the user deletes the mime type in the form, the type at download is
-set to ``application/octet-stream``.
+set to application/octet-stream.
 
 >>> browser.getControl('Mime Type').value = ''
 >>> browser.getControl('Apply').click()

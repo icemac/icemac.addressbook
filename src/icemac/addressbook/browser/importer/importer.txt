@@ -1,0 +1,173 @@
+================
+ Importing data
+================
+
+Administrators are able to upload files and import the data therein.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+
+
+Upload files
+============
+
+Administrators can upload import files in the master data area. So we
+log-in as administrator and go there:
+
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Import data').click()
+
+The file list is initially empty:
+
+>>> print browser.contents
+<!DOCTYPE ...
+...No import files uploaded, yet...
+
+To upload a file the add file link can be used:
+
+>>> from icemac.addressbook.testing import write_temp_file
+>>> browser.getLink('file').click()
+>>> fd, filename = write_temp_file('Import data file', '.txt')
+>>> browser.getControl('file').add_file(fd, 'text/plain', filename)
+>>> browser.getControl('notes').value = 'first\nimporttest'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+The uploaded file gets displayed in the list:
+
+>>> print browser.contents
+<!DOCTYPE...
+...txt...Delete...Import...
+>>> browser.getLink('Import').url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@import.html'
+
+
+Edit uploaded file
+==================
+
+It is possible to upload a new file instead of the previously uploaded
+one:
+
+>>> browser.getLink('txt').click()
+>>> browser.getControl('name').value == filename
+True
+>>> browser.getControl('Mime Type').value
+'text/plain'
+>>> print browser.getControl('notes').value
+first
+importtest
+>>> browser.getLink('Download file').click()
+>>> browser.headers['content-type']
+'text/plain'
+>>> browser.headers['content-disposition'] == 'attachment; filename=' + filename
+True
+>>> browser.contents
+'Import data file'
+>>> browser.goBack()
+
+>>> fd, filename2 = write_temp_file('Import2 data2 file2', '.csv')
+>>> browser.getControl('file').add_file(fd, 'text/csv', filename2)
+>>> browser.getControl('notes').value = '2nd\nimporttest'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+
+Choosing a reader for importing
+===============================
+
+To import a file the user at first has to select a reader. Only
+readers which are able to import the file are displayed:
+
+.. XXX
+
+
+Security
+========
+
+Editors and Visitors are not able to:
+
+  - see the list of import files,
+
+  - upload new files for import,
+
+  - start importing an uploaded file
+
+even when they know the URL.
+
+Editor
+------
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+
+The addressbook opens correctly, as the authorization succeeded, but
+the import files list, the upload file form and the import form are
+not accessible:
+
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer'
+...             '/@@addFile.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> editor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer/'
+...             'File/@@import.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Visitor
+-------
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+
+The addressbook opens correctly, as the authorization succeeded, but
+the import files list and the upload file form are not accessible:
+
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open(
+...     'http://localhost/++skin++AddressBook/ab/++attribute++importer')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/++attribute++importer'
+...             '/@@addFile.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/'
+...              '++attribute++importer/File/@@import.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Delete File
+===========
+
+There is a `delete` link to delete a file (The first link is the one
+in the table header to sort te columns, so we use the second one
+here):
+
+>>> browser.getLink('Delete').click()
+>>> print browser.url
+http://localhost/++skin++AddressBook/ab/++attribute++importer/File/@@delete.html
+>>> print browser.contents
+<!DOCTYPE ...
+...csv...
+...2nd
+importtest...
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++importer'
+>>> 'csv' in browser.contents
+False
+
+

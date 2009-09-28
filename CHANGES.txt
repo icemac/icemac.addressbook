@@ -8,18 +8,12 @@
 Features
 --------
 
-- Added ability to delete whole address book.
-
-- Last modification time of objects is now stored and displayed.
+-
 
 Bug fixes
 ---------
 
 - Uploading a new file changes the stored name of the file.
-
-- When uploading a file with an unknown mime type (aka
-  `application/octet-stream`) the actual mime type is guessed using
-  the file extension and file content.
 
 
 
@@ -42,7 +36,7 @@ Features
 ==================
 
 - Added two package dependencies which are necessary to convert an
-  existing ZODB of a previous address book version.
+  existing ZODB of a previous addressbook version.
 
 
 0.3.2 (2009-04-03)
@@ -88,6 +82,37 @@ Other changes
   environment. There is a buildout config in ``profiles/zmi.cfg``
   which enables ZMI.
 
+
+0.2 (2009-01-02)
+================
+
+Features
+--------
+
+- Multiple postal addresses, e-mail addresses, phone numbers and home
+  page addresses per person are now possible.
+
+- Added XLS export for all stored data (not only the default
+  addresses).
+
+- Added new attribute `kind` to postal address. Split `street` into
+  `address prefix` and `street`.
+
+- Overview page of all address books now shows number of entries in
+  each address book.
+
+Bug fixes
+---------
+
+- E-Mail adresses with hyphen in host name where not enterable due to
+  a picky constraint.
+
+- After changing a keyword title, persons using this keyword where no
+  longer found in the keyword search because the index was not
+  updated.
+
+- Changed sort order on person edit form: phone number is now
+  displayed before e-mail address. Changed XLS export accordingly.
 
 Previous Versions
 =================

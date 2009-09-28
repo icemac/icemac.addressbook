@@ -2,10 +2,10 @@
  To do
 =======
 
-Next major version
-==================
+Next version
+============
 
-- import of CSV and XLS files
+- import of XLS files
 
 Longer term
 ===========
@@ -23,6 +23,8 @@ The following features should be implemented over the next months:
 - import
 
   * vCard
+
+  * XLS
 
   * SQLite (Apple's Addressbook.app)
 

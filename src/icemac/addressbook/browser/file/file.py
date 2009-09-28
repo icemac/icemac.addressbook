@@ -58,8 +58,6 @@ def update_blob(widget, file):
     fd.close()
 
     content_type = widget.headers.get('Content-Type')
-    if content_type == 'application/octet-stream':
-        content_type = None
     mime_type_getter = zope.component.getUtility(
         zope.mimetype.interfaces.IMimeTypeGetter)
     mime_type = mime_type_getter(data=data, content_type=content_type,

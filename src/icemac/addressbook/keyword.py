@@ -24,20 +24,13 @@ class KeywordContainer(zope.container.btree.BTreeContainer):
     def get_keywords(self):
         return sorted(self.values(), key=lambda x: x.title)
 
-    def get_keyword_by_title(self, title, default=None):
-        for keyword in self.values():
-            if keyword.title == title:
-                return keyword
-        return default
+    def get_titles(self):
+        return [x.title for x in self.get_keywords()]
+
 
 class Keyword(persistent.Persistent, zope.container.contained.Contained):
     "A keyword."
     zope.interface.implements(icemac.addressbook.interfaces.IKeyword)
-
-    def __init__(self, title=None):
-        super(Keyword, self).__init__()
-        if title is not None:
-            self.title = title
 
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IKeyword['title'])
@@ -45,8 +38,9 @@ class Keyword(persistent.Persistent, zope.container.contained.Contained):
         icemac.addressbook.interfaces.IKeyword['notes'])
 
 
-@zope.component.adapter(icemac.addressbook.interfaces.IKeyword,
-                        zope.lifecycleevent.IObjectModifiedEvent)
+@zope.component.adapter(
+    icemac.addressbook.interfaces.IKeyword,
+    zope.lifecycleevent.IObjectModifiedEvent)
 def changed(obj, event):
     for desc in event.descriptions:
         if (desc.interface == icemac.addressbook.interfaces.IKeyword and
@@ -55,7 +49,6 @@ def changed(obj, event):
                 zope.catalog.interfaces.ICatalog)
             catalog.updateIndex(catalog.get('keywords'))
             break
-
 
 @zope.component.adapter(icemac.addressbook.interfaces.IKeyword)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)

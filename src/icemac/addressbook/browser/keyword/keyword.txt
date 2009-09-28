@@ -57,14 +57,6 @@ values are displayed:
 first
 test
 
-The last modification date is also displayed:
-
->>> print browser.contents
-<!DOCTYPE ...
-<legend>last modification information</legend>...
-<span>Modification Date</span>...<DATETIME>...
-
-
 We correct the typo to show the edit form works:
 
 >>> browser.getControl('keyword').value = 'company co-worker'

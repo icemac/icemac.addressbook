@@ -32,10 +32,7 @@ Edit address book's data
 The manager can also edit the address book's data. The edit form shows
 the formerly entred data:
 
->>> browser.getLink('Edit address book').click()
->>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook/@@edit.html'
->>> edit_address_book_url = browser.url
+>>> browser.getLink('Edit addressbook').click()
 >>> browser.getControl('title').value
 'test book'
 >>> browser.getControl('notes'). value
@@ -64,8 +61,7 @@ There are no persons entered yet, click on "Add person" to create one...
 There is also an add link in the add menu to add a person:
 
 >>> browser.getLink('person')
-<Link text='person'
-      url='http://localhost/++skin++AddressBook/AddressBook/@@addPerson.html'>
+<Link text='person' url='http://localhost/++skin++AddressBook/AddressBook/@@addPerson.html'>
 
 
 Editors
@@ -75,6 +71,7 @@ Editors can add new persons:
 
 >>> editor_browser = Browser()
 >>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> editor_browser.handleErrors = False
 >>> editor_browser.open(address_book_url)
 >>> editor_browser.getLink('person').click()
 
@@ -82,16 +79,9 @@ But there is no link to edit the address book's data (title, notes)
 because the editor is not allowed to do so:
 
 >>> editor_browser.goBack()
->>> editor_browser.getLink('Edit address book')
+>>> editor_browser.getLink('Edit addressbook')
 Traceback (most recent call last):
 LinkNotFoundError
-
-Even opening the URL is not possible:
-
->>> editor_browser.open(edit_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
 
 Visitors
 ========
@@ -104,71 +94,7 @@ Visitors can only visit data but are not allowed to change anything:
 >>> visitor_browser.getLink('person')
 Traceback (most recent call last):
 LinkNotFoundError
-
-There is also no link to edit the address book's data (title, notes)
-because the visitor is not allowed to do so:
-
->>> visitor_browser.getLink('Edit address book')
+>>> visitor_browser.getLink('Edit addressbook')
 Traceback (most recent call last):
 LinkNotFoundError
 
-Even opening the URL is not possible:
-
->>> visitor_browser.open(edit_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
-
-Delete address book
-===================
-
-The Administrator is able to delete the whole address book on the edit
-form.  But Editors and visitors are not allowed to do so even they
-know the URL.
-
-Editor
-------
-
->>> delete_address_book_url = address_book_url + '/@@delete_address_book.html'
->>> editor_browser.open(delete_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
-Visitor
--------
-
->>> visitor_browser.open(delete_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
-
-Administrator
--------------
-
-The Adminstrator has to open the `edit address book` form and select
-the `Delete whole address book` button there. Then an `are you sure`
-form is displayed:
-
->>> browser.getLink('Edit address book').click()
->>> browser.getControl('Delete whole address book').click()
->>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html'
-
-When the adminstrator decides not to delete the address book he is led
-back to the address books's edit form:
-
->>> browser.getControl('No, cancel').click()
->>> browser.url == edit_address_book_url
-True
-
-When he decides to delete the address book he is led back to the
-administration form for all address books:
-
-
->>> browser.getControl('Delete whole address book').click()
->>> browser.getControl('Yes, delete it').click()
->>> browser.url
-'http://localhost/++skin++AddressBook/@@index.html'
->>> print browser.contents
-<!DOCTYPE ...
-There are no address books created yet, click on "Add address book" to create one...

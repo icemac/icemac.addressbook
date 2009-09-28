@@ -75,12 +75,14 @@ def person_created(person, event):
 
 class Keywords(object):
 
-    zope.interface.implements(icemac.addressbook.interfaces.IKeywordTitles)
+    zope.interface.implements(icemac.addressbook.interfaces.IKeywords)
     zope.component.adapts(icemac.addressbook.interfaces.IPerson)
 
     def __init__(self, context):
         self.context = context
 
+    def get_keywords(self):
+        return self.context.keywords
+
     def get_titles(self):
-        return [icemac.addressbook.interfaces.ITitle(x)
-                for x in self.context.keywords]
+        return [x.title for x in self.get_keywords()]
