@@ -20,14 +20,14 @@ setuptools.setup(
         read('TODO.txt') +
         read('CHANGES.txt')
         ),
-    keywords='python address addressbook zope3 zope application web phone '
-             'number e-mail email home page homepage',
+    keywords='python address book addressbook zope3 zope application web '
+             'phone number e-mail email home page homepage',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
     url='http://pypi.python.org/pypi/icemac.addressbook',
     license='ZPL 2.1',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Framework :: Paste',
         'Framework :: Zope3',
