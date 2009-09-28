@@ -56,15 +56,14 @@ def title(person):
     return u'%s, %s' % (person.last_name, person.first_name)
 
 
-@zope.component.adapter(
-    icemac.addressbook.interfaces.IPerson,
-    zope.lifecycleevent.IObjectCreatedEvent)
+@zope.component.adapter(icemac.addressbook.interfaces.IPerson,
+                        zope.lifecycleevent.IObjectCreatedEvent)
 def person_created(person, event):
     """Create initial infrastructure or update existing infrastructure to
     current requirements (using generation)."""
-    # set default values for references as z3c.form accesses the
+    # Set default values for references as z3c.form accesses the
     # attributes before a value is assigned and gets an AttributeError
-    # otherwise
+    # otherwise.
     if not hasattr(person, 'keywords'):
         person.keywords = set()
     for attrib in ['default_postal_address', 'default_email_address',
@@ -75,14 +74,12 @@ def person_created(person, event):
 
 class Keywords(object):
 
-    zope.interface.implements(icemac.addressbook.interfaces.IKeywords)
+    zope.interface.implements(icemac.addressbook.interfaces.IKeywordTitles)
     zope.component.adapts(icemac.addressbook.interfaces.IPerson)
 
     def __init__(self, context):
         self.context = context
 
-    def get_keywords(self):
-        return self.context.keywords
-
     def get_titles(self):
-        return [x.title for x in self.get_keywords()]
+        return [icemac.addressbook.interfaces.ITitle(x)
+                for x in self.context.keywords]

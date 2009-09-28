@@ -41,7 +41,8 @@ def update_blob(widget, file):
     # Zope stores the path to the file in the FileUpload in the `name`
     # attribute, but in tests it is stored in `filename` attribute, so
     # we have to differentiate.
-    file_name = getattr(widget.value, 'name', widget.value.filename)
+    widget_file = widget.value
+    file_name = getattr(widget_file, 'name', widget_file.filename)
 
     if os.path.exists(file_name):
         # If the file exists, use it.
@@ -49,8 +50,15 @@ def update_blob(widget, file):
     else:
         # If not (python stores small files in a StringIO instead of a
         # real file on hard disk) update the contents.
-        widget.value.seek(0)
-        file.data = widget.value.read()
+        widget_file.seek(0)
+        file.data = widget_file.read()
+
+    try:
+        widget_file.close()
+    except OSError:
+        # When the file was consumed (see file.replace) unlinking of the
+        # original file fails as the path is wrong then.
+        pass
 
     # get a sample of the file contents for fingerprinting
     fd = zope.security.proxy.removeSecurityProxy(file.open())
@@ -58,6 +66,8 @@ def update_blob(widget, file):
     fd.close()
 
     content_type = widget.headers.get('Content-Type')
+    if content_type == 'application/octet-stream':
+        content_type = None
     mime_type_getter = zope.component.getUtility(
         zope.mimetype.interfaces.IMimeTypeGetter)
     mime_type = mime_type_getter(data=data, content_type=content_type,

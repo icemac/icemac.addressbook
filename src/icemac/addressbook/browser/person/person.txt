@@ -52,7 +52,7 @@ Clicking on it, deselects it, so no country is selected afterwards.):
 <div class="status">
   <ul class="errors">
     <li>
-      <div class="error">You can't select a state without selecting a country.</div>
+      <div class="error">A country is required to choose a state.</div>
     </li>
   </ul>
 </div>...
@@ -120,7 +120,7 @@ an error message when trying to add the record to the database:
 <div class="status">
   <ul class="errors">
     <li>
-      <div class="error">You selected a state which does not belong to the selected country.</div>
+      <div class="error">The selected state does not belong to the selected country.</div>
     </li>
   </ul>
 </div>...
@@ -194,6 +194,14 @@ for tests
 >>> print browser.getControl('notes', index=4).value
 first home page
 for tests
+
+The last modification date is also displayed:
+
+>>> print browser.contents
+<!DOCTYPE ...
+<legend>last modification information</legend>...
+<span>Modification Date</span>...<DATETIME>...
+
 
 If the user edits and decides to discard his changes he can choose the
 cancel button and is set back to the address book overview. The

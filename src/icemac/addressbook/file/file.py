@@ -41,7 +41,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
         def __get__(self):
             # This method can't be used to read the data, use
             # openDetached instead. This is necessary because of the
-            # stupidity of z3c.form which read the whole file when
+            # stupidity of z3c.form which reads the whole file when
             # rendering a form.
             return ''
         def __set__(self, data):

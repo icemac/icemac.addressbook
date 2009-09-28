@@ -15,7 +15,7 @@ from icemac.addressbook.i18n import MessageFactory as _
 
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
     "Abstract base class for sources using a mapping between value and title."
-    
+
     _mapping = None # to be set in child class
 
     def getValues(self):
@@ -31,9 +31,16 @@ class SexSource(TitleMappingSource):
          (u'female', _(u'female'))))
 
 
+class YesNoSource(TitleMappingSource):
+    _mapping = stabledict.StableDict(
+        ((True, _(u'yes')),
+         (False, _(u'no'))))
+
+yes_no_source = YesNoSource()
+
 class SalutationSource(TitleMappingSource):
     _mapping = stabledict.StableDict(
-        ((u'male', _(u'Mr.')), 
+        ((u'male', _(u'Mr.')),
          (u'female', _(u'Ms.'))))
 
 salutation_source = SalutationSource()
@@ -88,7 +95,7 @@ class ContextByInterfaceSource(
         for value in context.values():
             if self.interface.providedBy(value):
                 yield value
-    
+
     def getTitle(self, context, value):
         import icemac.addressbook.interfaces # avoid circular import
         return icemac.addressbook.interfaces.ITitle(value)

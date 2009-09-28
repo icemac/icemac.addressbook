@@ -55,7 +55,7 @@
 
   <browser:viewlet
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
-     name="Edit addressbook"
+     name="Edit address book"
      viewName="@@edit.html"
      weight="999"
      class="z3c.menu.ready2go.item.SiteMenuItem"
@@ -74,6 +74,14 @@
      permission="icemac.addressbook.AddPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      weight="1"
+     />
+
+  <z3c:pagelet
+     name="delete_address_book.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     permission="icemac.addressbook.EditAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".edit.DeleteForm"
      />
 
 

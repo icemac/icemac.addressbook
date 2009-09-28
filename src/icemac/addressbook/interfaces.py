@@ -3,23 +3,23 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
 import gocept.country
 import gocept.country.db
+import gocept.reference.field
+import icemac.addressbook.sources
 import re
 import zope.interface
 import zope.schema
 
-import icemac.addressbook.sources
-from icemac.addressbook.i18n import MessageFactory as _
-
 
 class StateWithoutCountryError(zope.schema.ValidationError):
-    __doc__ = _("""You can't select a state without selecting a country.""")
+    __doc__ = _("""A country is required to choose a state.""")
 
 
 class StateCountryMismatchError(zope.schema.ValidationError):
     __doc__ = _(
-        "You selected a state which does not belong to the selected country.")
+        "The selected state does not belong to the selected country.")
 
 
 PACKAGE_ID = 'icemac.addressbook'
@@ -54,7 +54,7 @@ class IPerson(zope.interface.Interface):
     sex = zope.schema.Choice(
         title=_(u'sex'), source=icemac.addressbook.sources.SexSource(),
         required=False)
-    keywords = zope.schema.Set(
+    keywords = gocept.reference.field.Set(
         title=_('keywords'), required=False,
         value_type=zope.schema.Choice(
             title=_('keywords'),
@@ -151,6 +151,13 @@ class IKeywords(zope.interface.Interface):
 
     def get_keywords():
         """Get the keywords in the collection."""
+
+    def get_keyword_by_title(title, default=None):
+        "Get the keyword with the given title or `default`."
+
+
+class IKeywordTitles(zope.interface.Interface):
+    """Collection of keywords titles."""
 
     def get_titles():
         """Get the titles of the keywords in the collection."""

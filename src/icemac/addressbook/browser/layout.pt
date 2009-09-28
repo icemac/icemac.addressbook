@@ -9,8 +9,9 @@
       * {
          margin: 0;
          padding: 0;
-         font-family: Arial;
+         font-family: 'trebuchet ms',arial,sans-serif;
        }
+
        body {
          padding: 1em;
        }
@@ -113,6 +114,26 @@
       div#body {
         clear: both;
       }
+
+      /* fuer import-table: */
+
+      .table-even-row {
+        background-color: #e0e0e0;
+      }
+
+      td ul {
+        padding-left: 1em
+      }
+
+      .table-odd-row {
+        background-color: #d0d0d0;
+      }
+
+      .table-even-row ul.errors li,
+      .table-odd-row ul.errors li {
+        color: #ff0000;
+      }
+
       -->
     </style>
   </head>

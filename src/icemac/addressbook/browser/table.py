@@ -49,9 +49,16 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
 class Table(z3c.table.table.Table):
     "Table which supports a no-rows-found message."
 
+    startBatchingAt = 1000000
     no_rows_message = u'' # Set at subclass.
 
     def renderTable(self):
         if self.rows:
             return super(Table, self).renderTable()
         return self.no_rows_message
+
+
+class PageletTable(z3c.pagelet.browser.BrowserPagelet, Table):
+    """Render the table as a pagelet."""
+
+    update = Table.update
