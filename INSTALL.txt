@@ -1,5 +1,5 @@
 ==============
- NInstallation
+ Installation
 ==============
 
 Prerequisites
@@ -8,11 +8,14 @@ Prerequisites
 You only need Python 2.5. (Other python versions are currently not
 supported.)
 
-Install
-=======
+First installation
+==================
 
 CAUTION: icemac.addressbook can't be installed using ``easy_install``,
-you have to follow these simple steps:
+you have to follow these simple steps.
+
+Neither you need any root privileges nor it installs anything outside
+its directory.
 
 1. Download the source distribution (see Download_).
 
@@ -24,46 +27,16 @@ you have to follow these simple steps:
 
 4. Answer the questions about admin user name, password and so on.
 
-Neither you need any root privileges nor it installs anything outside
-its directory.
+5. Run the tests. See `Run the tests`_
 
-Run the tests
-=============
-
-Run the unit tests and functional tests using::
-
-  $ bin/test
-
-Run the application
-===================
-
-To run the application instance in foreground start using::
-
-  $ bin/addressbook fg
-
-To run it as a demon process start using::
-
-  $ bin/addressbook start
-
-To stop the demon process call::
-
-  $ bin/addressbook stop
-
-The default URL is to access the application is::
-
-  http://127.0.0.1:8080
-
-The hostname and port for this URL are stored in ``deploy.ini``.
-
-To log-in at this URL you need the username and password you chose
-when running ``install.py``. The are stored in ``admin.zcml``.
+6. Start the application. See `Run the application`_
 
 Update
 ======
 
 1. If you are updating from version 0.3.x or older follow the steps
-   described in Install_ (use a separate directory), otherwise follow
-   these steps:
+   described in `First installation`_ (but use a separate directory),
+   otherwise follow these steps:
 
    1. Download and extract the source distribution (see Download_) to a
    new a directory.
@@ -91,3 +64,91 @@ Update
    $ bin/restore
 
 6. Start the new instance of the application.
+
+Run the tests
+=============
+
+Run the unit tests and functional tests using::
+
+  $ bin/test
+
+Run the application
+===================
+
+To run the application instance in foreground start using::
+
+  $ bin/addressbook fg
+
+To run it as a demon process start using::
+
+  $ bin/addressbook start
+
+To stop the demon process call::
+
+  $ bin/addressbook stop
+
+The default URL is to access the application is::
+
+  http://127.0.0.1:8080
+
+To log-in at this URL you need the username and password you chose
+when running ``install.py``. The are stored in ``admin.zcml``.
+
+Create a new address book using the `add address book` link on the
+right. How to create new users inside this address book is described
+in `Create new users`_.
+
+
+Change configuration of the installation
+========================================
+
+The values you entered during installation resp. update are stored in
+a file named `install.user.ini` in the address book directory.
+
+To change the configuration values call `install.py` using python and
+enter a `.` as parameter like this::
+
+  $ python2.5 install.py .
+
+The configuration questions get presented to you with your previously
+entered values as default.
+
+To remove additional packages you have to edit to ``[package]``
+section of `install.user.ini`. There is currently no other way for
+removal.
+
+=================
+ User management
+=================
+
+Roles
+=====
+
+Access to the address book is only granted after authentication. There
+are three roles to authorize a user:
+
+- visitor: visit all person's data, search and export, change own
+  password
+
+- editor: permissions of visitor + edit all person's data, change own
+  log-in name
+
+- administrator: permissions of editor + create and change address
+  book and users
+
+Create new users
+================
+
+Users are persons from the addressbook augmented by log-in
+information.
+
+To create the first new user inside an addressbook the adminstrator
+(who was created in `First installation`_) has to log-in and then do
+the following:
+
+  1. create a new person with an e-mail address using `Add person`.
+
+  2. create a new user using `Master data --> Users --> Add user`.
+
+The newly created user has now a log-in (e-mail address) for the
+addressbook the person belonges to.

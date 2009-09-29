@@ -117,6 +117,8 @@ whose values are used when the user does not enter a value.
 Setup
 -----
 
+We need a `install.default.ini` in the working directory as ``config`` searches only there:
+
 >>> from icemac.addressbook.install import config
 >>> write(sample_buildout, 'install.default.ini',
 ... """
@@ -498,6 +500,100 @@ port = 13090
     login="me"
     password_manager="Plain Text"
     password="apass" />
+  <grant
+    role="zope.Manager"
+    principal="icemac.addressbook.global.Administrator" />
+</configure>
+
+Additional packages
+-------------------
+
+The user can enter the names of additional packages. Those packages are added as runtime and test dependenies. They need a `configure.zcml` as they get integrated using this file:
+
+>>> call_with_user_input(
+...     """\n\n\n\n\n\nicemac.ab.importxls\nicemac.ab.importcsv\n""", config)
+Welcome to icemac.addressbook installation
+<BLANKLINE>
+Hint: to use the default value (the one in [brackets]), enter no value.
+<BLANKLINE>
+ Directory to store python eggs: [py-eggs]
+ Log-in name for the administrator: [me]
+ Password for the administrator: [secret]
+ Hostname: [my.computer.local]
+ Port number: [13090]
+ Please choose Log-Handler:
+    Details see http://docs.python.org/library/logging.html#handler-objects
+ Log-Handler, choose between FileHandler, RotatingFileHandler,
+ TimedRotatingFileHandler: [FileHandler]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   ...
+ Package 1: []
+ Package 2: []
+ Package 3: []
+creating admin.zcml ...
+creating buildout.cfg ...
+saving config ...
+
+>>> cat(sample_buildout, 'install.user.ini')
+[admin]
+login = me
+password = secret
+<BLANKLINE>
+[packages]
+package_1 = icemac.ab.importxls
+package_2 = icemac.ab.importcsv
+package_3 =
+<BLANKLINE>
+[log]
+interval = 1
+when = midnight
+handler = FileHandler
+backups = 5
+max_size = 1000
+<BLANKLINE>
+[install]
+eggs_dir = py-eggs
+<BLANKLINE>
+[server]
+host = my.computer.local
+port = 13090
+
+>>> cat(sample_buildout, 'buildout.cfg')
+[buildout]
+newest = true
+allow-picked-versions = true
+extends = profiles/prod.cfg
+eggs-directory = py-eggs
+<BLANKLINE>
+[site.zcml]
+permissions_zcml = <include package="icemac.ab.importxls" />
+	<include package="icemac.ab.importcsv" />
+<BLANKLINE>
+[deploy.ini]
+log-handler-args = 'a'
+host = my.computer.local
+log-handler = FileHandler
+port = 13090
+<BLANKLINE>
+[app]
+eggs += icemac.ab.importxls
+      icemac.ab.importcsv
+<BLANKLINE>
+[test]
+eggs += icemac.ab.importxls
+      icemac.ab.importcsv
+
+>>> cat(sample_buildout, 'admin.zcml')
+<configure xmlns="http://namespaces.zope.org/zope">
+  <principal
+    id="icemac.addressbook.global.Administrator"
+    title="global administrator"
+    login="me"
+    password_manager="Plain Text"
+    password="secret" />
   <grant
     role="zope.Manager"
     principal="icemac.addressbook.global.Administrator" />
