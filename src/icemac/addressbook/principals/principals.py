@@ -31,7 +31,7 @@ class Principal(zope.app.authentication.principalfolder.InternalPrincipal):
         icemac.addressbook.principals.interfaces.IRoles,
         zope.annotation.interfaces.IAttributeAnnotatable)
 
-    _person = gocept.reference.Reference(ensure_integrity=True)
+    _person = gocept.reference.Reference('_person', ensure_integrity=True)
     _login = None
     _password = None
     description = None

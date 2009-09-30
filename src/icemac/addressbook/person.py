@@ -31,12 +31,16 @@ class Person(zope.container.btree.BTreeContainer):
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPerson['notes'])
 
-    keywords = gocept.reference.ReferenceCollection(ensure_integrity=True)
-    default_postal_address = gocept.reference.Reference(ensure_integrity=True)
-    default_email_address = gocept.reference.Reference(ensure_integrity=True)
+    keywords = gocept.reference.ReferenceCollection(
+        'keywords', ensure_integrity=True)
+    default_postal_address = gocept.reference.Reference(
+        'default_postal_address',ensure_integrity=True)
+    default_email_address = gocept.reference.Reference(
+        'default_email_address', ensure_integrity=True)
     default_home_page_address = gocept.reference.Reference(
-        ensure_integrity=True)
-    default_phone_number = gocept.reference.Reference(ensure_integrity=True)
+        'default_home_page_address', ensure_integrity=True)
+    default_phone_number = gocept.reference.Reference(
+        'default_phone_number', ensure_integrity=True)
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPerson)
