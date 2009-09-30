@@ -3,13 +3,14 @@
 # See also LICENSE.txt
 # $Id$
 
-from cStringIO import StringIO
 from icemac.addressbook.i18n import MessageFactory as _
+import cStringIO
 import datetime
 import icemac.addressbook.address
 import icemac.addressbook.export.interfaces
 import icemac.addressbook.interfaces
 import xlwt
+import zope.component
 import zope.interface
 
 
@@ -61,6 +62,11 @@ class XLSExport(object):
     title = None # to be set in subclass
     description = None # to be set in subclass
 
+    @property
+    def fields(self):
+        return zope.component.getUtility(
+            icemac.addressbook.interfaces.IFields)
+
     def export(self, *persons):
         self.workbook = xlwt.Workbook()
         self.sheet = self.workbook.add_sheet(_(u'Address book - Export'))
@@ -69,13 +75,13 @@ class XLSExport(object):
 
         self._export()
 
-        io = StringIO()
+        io = cStringIO.StringIO()
         self.workbook.save(io)
         return io.getvalue()
 
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
-        for name, field in zope.schema.getFieldsInOrder(interface):
+        for name, field in self.fields.getFieldsInOrder(interface):
             self.sheet.write(1, col, field.title, head_style)
             col += 1
         return col
@@ -97,7 +103,7 @@ class XLSExport(object):
         if obj is None:
             return col
         idx = 0
-        for name, field in zope.schema.getFieldsInOrder(interface):
+        for name, field in self.fields.getFieldsInOrder(interface):
             self.write_cell(row, col + idx, getattr(obj, name))
             idx += 1
         return col + idx

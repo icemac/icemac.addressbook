@@ -59,7 +59,7 @@
   <include package="z3c.form" />
   <include package="z3c.formui" />
   <include package="z3c.macro" />
- <include package="z3c.menu.ready2go"/>
+  <include package="z3c.menu.ready2go"/>
   <include package="z3c.pagelet" />
   <include package="z3c.table" />
   <include package="zc.catalog"/>
@@ -76,7 +76,7 @@
   <include package=".principals" />
 
   <include file="permissions.zcml" />
- <include file="classes.zcml" />
+  <include file="classes.zcml" />
 
   <subscriber handler=".addressbook.create_address_book_infrastructure" />
   <subscriber handler=".person.person_created" />
@@ -105,6 +105,8 @@
   <adapter factory=".address.email_address_title" />
   <adapter factory=".address.home_page_address_title" />
   <adapter factory=".address.phone_number_title" />
+
+  <utility component=".fields.fields" />
 
   <includeOverrides file="overrides.zcml" />
 

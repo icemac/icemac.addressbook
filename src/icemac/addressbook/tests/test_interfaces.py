@@ -9,6 +9,7 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.person
 import icemac.addressbook.testing
+import icemac.addressbook.fields
 import unittest
 import zope.interface.verify
 
@@ -63,6 +64,10 @@ class TestInterfaces(unittest.TestCase):
             icemac.addressbook.interfaces.IKeywordTitles,
             icemac.addressbook.person.Keywords(None))
 
+    def test_fields(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IFields,
+            icemac.addressbook.fields.Fields())
 
 def test_suite():
     return icemac.addressbook.testing.UnittestSuite(TestInterfaces)

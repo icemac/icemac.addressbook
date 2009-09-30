@@ -168,3 +168,10 @@ class IKeyword(zope.interface.Interface):
 
     title = zope.schema.TextLine(title=_(u'keyword'))
     notes = zope.schema.Text(title=_(u'notes'), required=False)
+
+
+class IFields(zope.interface.Interface):
+    """Predefined and user defined schema fields of objects."""
+
+    def getFieldsInOrder(interface):
+        """Get name, field tuples of the schema fields of an interface."""
