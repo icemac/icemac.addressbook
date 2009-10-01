@@ -46,6 +46,20 @@ class SalutationSource(TitleMappingSource):
 salutation_source = SalutationSource()
 
 
+class FieldTypeSource(TitleMappingSource):
+    _mapping = stabledict.StableDict(
+        ((u'Bool', _(u'bool')),
+         (u'Choice', _('choice')),
+         (u'Date', _(u'date')),
+         (u'Datetime', _(u'datetime')),
+         (u'Decimal', _('decimal number')),
+         (u'Int', _(u'integer number')),
+         (u'Text', _(u'text area')),
+         (u'TextLine', _(u'text line')),
+         (u'URI', _(u'URL')),
+         ))
+
+
 class PhoneNumberKindSource(TitleMappingSource):
     _mapping = stabledict.StableDict((
             (u'cell phone', _(u'cell phone')),

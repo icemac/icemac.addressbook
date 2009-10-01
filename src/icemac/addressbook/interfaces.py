@@ -175,3 +175,23 @@ class IFields(zope.interface.Interface):
 
     def getFieldsInOrder(interface):
         """Get name, field tuples of the schema fields of an interface."""
+
+
+class IField(zope.interface.Interface):
+    """User defined field."""
+
+    type = zope.schema.Choice(
+        title=_(u'type'),
+        source=icemac.addressbook.sources.FieldTypeSource())
+    title = zope.schema.TextLine(title=_(u'title'))
+    values = zope.schema.List(
+        title=_(u'values'), unique=True, required=False,
+        value_type=zope.schema.TextLine(title=_(u'value')))
+
+    order = zope.schema.Float(title=u'order position')
+
+    @zope.interface.invariant
+    def choice_type_needs_values(field):
+        if field.type == u'Choice' and not field.values:
+            raise zope.interface.Invalid(
+                _(u'type "choice" requires values.'))

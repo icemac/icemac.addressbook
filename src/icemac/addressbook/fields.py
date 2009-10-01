@@ -2,8 +2,11 @@
 # Copyright (c) 2009 Michael Howitz
 # See also LICENSE.txt
 
-import zope.interface
 import icemac.addressbook.interfaces
+import persistent
+import zope.container.contained
+import zope.interface
+import zope.schema.fieldproperty
 
 
 class Fields(object):
@@ -15,3 +18,18 @@ class Fields(object):
         return zope.schema.getFieldsInOrder(interface)
 
 fields = Fields()
+
+
+class Field(persistent.Persistent, zope.container.contained.Contained):
+    """User defined field."""
+
+    zope.interface.implements(icemac.addressbook.interfaces.IField)
+
+    type = zope.schema.fieldproperty.FieldProperty(
+        icemac.addressbook.interfaces.IField['type'])
+    title = zope.schema.fieldproperty.FieldProperty(
+        icemac.addressbook.interfaces.IField['title'])
+    values = zope.schema.fieldproperty.FieldProperty(
+        icemac.addressbook.interfaces.IField['values'])
+    order = zope.schema.fieldproperty.FieldProperty(
+        icemac.addressbook.interfaces.IField['order'])
