@@ -1,0 +1,15 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:viewlet
+     manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Edit fields"
+     permission="icemac.addressbook.EditFields"
+     class="icemac.addressbook.browser.masterdata.viewlet.Viewlet"
+     weight="30"
+     path="++attribute++fields"
+     />
+
+</configure>

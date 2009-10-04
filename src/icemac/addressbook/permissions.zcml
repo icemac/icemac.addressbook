@@ -140,6 +140,12 @@
     title="XXX"
     />
 
+  <!-- user defined fields -->
+  <permission
+    id="icemac.addressbook.EditFields"
+    title="XXX"
+    />
+
   <grantAll principal="zope.manager" />
 
 </configure>

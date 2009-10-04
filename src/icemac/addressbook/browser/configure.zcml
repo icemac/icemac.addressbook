@@ -40,5 +40,6 @@
   <include package=".principals" />
   <include package=".rootfolder" />
   <include package=".search" />
+  <include package=".fields" />
 
 </configure>

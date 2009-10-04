@@ -1,0 +1,48 @@
+=====================
+ User defined fields
+=====================
+
+User with the `Administrator` role are able to add user defined fields to the existing entities.
+
+Set up
+======
+
+Create an address book and a browser to access it. Log in as `Administrator`:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+The fields can be edited in the master data area:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit fields').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++fields'
+
+
+Add a new field
+===============
+
+
+.. Selecting the `choice` type requires values:
+
+..    >>> browser.getControl('type').displayValue = ['choice']
+..    >>> browser.getControl('title').value = 'foobar'
+..    >>> browser.getControl('Add').click()
+..    >>> browser.url
+..    >>> print browser.contents
+..    <?xml ...
+..    ...Type "choice" requires values...
+
+.. When all invariants are satisfied the form gets saved:
+
+..    >>> browser.getControl('type').displayValue = ['text line']
+..    >>> browser.getControl('title').value = 'baz'
+..    >>> browser.getControl('Add').click()
+..    >>> browser.url
+
+.. XXX Test security for editor and visitor
