@@ -66,21 +66,26 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     label = _(u'Add new user')
     class_ = icemac.addressbook.principals.principals.Principal
     next_url = 'parent'
-    fields = (
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPrincipal).select(
-            'person')
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPasswordFields)
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IRoles)
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPrincipal).omit(
-            'login', 'person')
-        )
+
+    @property
+    def fields(self):
+        fields_util = icemac.addressbook.browser.base.get_fields_util()
+        return (
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IPrincipal).select(
+                'person')
+            +
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IPasswordFields)
+            +
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IRoles)
+            +
+            z3c.form.field.Fields(
+                *fields_util.getFieldValuesInOrder(
+                    icemac.addressbook.principals.interfaces.IPrincipal)).omit(
+                'login', 'person')
+            )
 
     def add(self, obj):
         try:
@@ -106,21 +111,26 @@ class EditForm(z3c.form.group.GroupForm,
 
     groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
     next_url = 'parent'
-    fields = (
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPrincipal).select(
-            'person', 'login')
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPasswordFields)
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IRoles)
-        +
-        z3c.form.field.Fields(
-            icemac.addressbook.principals.interfaces.IPrincipal).omit(
-            'person', 'login')
-        )
+
+    @property
+    def fields(self):
+        fields_util = icemac.addressbook.browser.base.get_fields_util()
+        return (
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IPrincipal).select(
+                'person', 'login')
+            +
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IPasswordFields)
+            +
+            z3c.form.field.Fields(
+                icemac.addressbook.principals.interfaces.IRoles)
+            +
+            z3c.form.field.Fields(
+                *fields_util.getFieldValuesInOrder(
+                    icemac.addressbook.principals.interfaces.IPrincipal)).omit(
+                'person', 'login')
+            )
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):

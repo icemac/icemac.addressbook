@@ -54,6 +54,14 @@ def get_fields_util():
 class BaseForm(object):
     """Basis for all forms."""
 
+    interface = None # interface for form
+
+    @property
+    def fields(self):
+        fields_util = get_fields_util()
+        return z3c.form.field.Fields(
+            *fields_util.getFieldValuesInOrder(self.interface))
+
     def url(self, obj):
         adapter = zope.component.getMultiAdapter(
             (obj, self.request),
@@ -64,15 +72,8 @@ class BaseForm(object):
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     """Simple base add form."""
 
-    interface = None # interface for form
     class_ = None # create object from this class
     next_url = None # target after creation, one of ('object', 'parent')
-
-    @property
-    def fields(self):
-        fields_util = get_fields_util()
-        return z3c.form.field.Fields(
-            *fields_util.getFieldValuesInOrder(self.interface))
 
     def create(self, data):
         return create(self, self.class_, data)
@@ -110,11 +111,6 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
 
     next_url = None # target object after edit, one of ('object', 'parent')
     next_view = None # target view after edit (None for default view)
-    interface = None # interface for form
-
-    @property
-    def fields(self):
-        return z3c.form.field.Fields(self.interface)
 
     def render(self):
         if self.request.response.getStatus() in (302, 303, 304):
@@ -168,7 +164,7 @@ class BaseDeleteForm(BaseEditForm):
 
     label = _(u'Do you really want to delete this entry?')
     interface = None
-    field_names = () # tuple of field names for display or empty for all
+    field_names = () # tuple of field names for display; empty for all
     next_view_after_delete = None # when None, use same view as self.next_view
 
     mode = z3c.form.interfaces.DISPLAY_MODE
@@ -176,7 +172,7 @@ class BaseDeleteForm(BaseEditForm):
 
     @property
     def fields(self):
-        fields = z3c.form.field.Fields(self.interface)
+        fields = super(BaseDeleteForm, self).fields
         if self.field_names:
             fields = fields.select(*self.field_names)
         return fields
