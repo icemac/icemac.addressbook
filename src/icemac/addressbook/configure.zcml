@@ -106,7 +106,7 @@
   <adapter factory=".address.home_page_address_title" />
   <adapter factory=".address.phone_number_title" />
 
-  <utility component=".fields.fields" />
+  <utility factory=".fields.Fields" />
 
   <includeOverrides file="overrides.zcml" />
 

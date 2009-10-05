@@ -68,6 +68,9 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IFields,
             icemac.addressbook.fields.Fields())
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IFields,
+            icemac.addressbook.fields.PersistentFields())
 
     def test_field(self):
         zope.interface.verify.verifyObject(

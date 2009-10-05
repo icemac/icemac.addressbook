@@ -31,6 +31,9 @@ At first we log in as manager:
     <li>
       <a href="++attribute++principals">Users</a>
     </li>
+    <li>
+      <a href="++attribute++fields">Edit fields</a>
+    </li>
   </ul>
 </div>...
 

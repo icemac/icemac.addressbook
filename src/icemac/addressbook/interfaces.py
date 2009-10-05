@@ -40,6 +40,7 @@ class IAddressBook(zope.interface.Interface):
         u'zope.app.authentication.interfaces.IInternalPrincipalContainer')
     importer =  zope.interface.Attribute(
         u'icemac.addressbook.importer.interfaces.IImportContainer')
+    fields =  zope.interface.Attribute(u'icemac.addressbook.interfaces.IFields')
 
     title = zope.schema.TextLine(title=_(u'title'))
     notes = zope.schema.Text(title=_(u'notes'), required=False)
@@ -174,7 +175,10 @@ class IFields(zope.interface.Interface):
     """Predefined and user defined schema fields of objects."""
 
     def getFieldsInOrder(interface):
-        """Get name, field tuples of the schema fields of an interface."""
+        "Get ordered name, field tuples of the schema fields of an interface."
+
+    def getFieldValuesInOrder(interface):
+        """Get ordered list of the schema fields of an interface."""
 
 
 class IField(zope.interface.Interface):

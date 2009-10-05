@@ -4,20 +4,33 @@
 
 import icemac.addressbook.interfaces
 import persistent
+import zope.container.btree
 import zope.container.contained
 import zope.interface
 import zope.schema.fieldproperty
 
 
 class Fields(object):
-    """Predefined and user defined schema fields of objects."""
+    """Predefined schema fields of objects.
+
+    Global utility as fallback when creating a new address book.
+    """
 
     zope.interface.implements(icemac.addressbook.interfaces.IFields)
 
     def getFieldsInOrder(self, interface):
         return zope.schema.getFieldsInOrder(interface)
 
-fields = Fields()
+    def getFieldValuesInOrder(self, interface):
+        return [field
+                for name, field in zope.schema.getFieldsInOrder(interface)]
+
+
+class PersistentFields(zope.container.btree.BTreeContainer, Fields):
+    """Predefined and user defined schema fields of objects.
+
+    Local utility.
+    """
 
 
 class Field(persistent.Persistent, zope.container.contained.Contained):

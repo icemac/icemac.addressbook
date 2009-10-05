@@ -9,10 +9,11 @@ __docformat__ = "reStructuredText"
 import icemac.addressbook.generations
 
 
-generation = 5
+generation = 7
 
 
 def evolve(context):
-    """Installs the the importer."""
+    """Install user defined fields utility.
+    """
     icemac.addressbook.generations.update_address_book_infrastructure(context)
 

@@ -46,6 +46,11 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
+def get_fields_util():
+    """Return the user defined fields utility."""
+    return zope.component.getUtility(icemac.addressbook.interfaces.IFields)
+
+
 class BaseForm(object):
     """Basis for all forms."""
 
@@ -65,7 +70,9 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
 
     @property
     def fields(self):
-        return z3c.form.field.Fields(self.interface)
+        fields_util = get_fields_util()
+        return z3c.form.field.Fields(
+            *fields_util.getFieldValuesInOrder(self.interface))
 
     def create(self, data):
         return create(self, self.class_, data)
@@ -198,7 +205,10 @@ class PrefixGroup(z3c.form.group.Group):
 
     @property
     def fields(self):
-        return z3c.form.field.Fields(self.interface, prefix=self.prefix)
+        fields_util = get_fields_util()
+        return z3c.form.field.Fields(
+            *fields_util.getFieldValuesInOrder(self.interface),
+            **dict(prefix=self.prefix))
 
 
 def can_access(uri_part):

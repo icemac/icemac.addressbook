@@ -81,7 +81,7 @@ class XLSExport(object):
 
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
-        for name, field in self.fields.getFieldsInOrder(interface):
+        for field in self.fields.getFieldValuesInOrder(interface):
             self.sheet.write(1, col, field.title, head_style)
             col += 1
         return col

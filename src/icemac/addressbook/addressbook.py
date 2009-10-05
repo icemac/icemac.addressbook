@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
+import icemac.addressbook.fields
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.utils
@@ -32,9 +33,10 @@ class AddressBook(zope.container.btree.BTreeContainer,
 
     zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
 
+    fields = None
+    importer = None
     keywords = None
     principals = None
-    importer = None
 
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IAddressBook['title'])
@@ -69,13 +71,17 @@ def create_address_book_infrastructure(addressbook, event=None):
         addressbook, 'keywords', icemac.addressbook.keyword.KeywordContainer,
         icemac.addressbook.interfaces.IKeywords)
 
-
     # add principals folder
     create_and_register(
         addressbook, 'principals',
         zope.app.authentication.principalfolder.PrincipalFolder,
         zope.app.authentication.interfaces.IAuthenticatorPlugin,
         name=u'icemac.addressbook.principals')
+
+    # add fields utility
+    create_and_register(
+        addressbook, 'fields', icemac.addressbook.fields.PersistentFields,
+        icemac.addressbook.interfaces.IFields)
 
     add_more_addressbook_infrastructure(addressbook, addressbook)
 

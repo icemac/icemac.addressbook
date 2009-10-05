@@ -15,18 +15,33 @@ class IDummy(zope.interface.Interface):
     dummy = zope.schema.Text(title=u'dummy')
     dummy2 = zope.schema.Text(title=u'dummy2')
 
+class FieldsTests(object):
 
-class TestFields(unittest.TestCase):
+    fields_class = None
 
     def setUp(self):
-        self.fields = icemac.addressbook.fields.Fields()
+        self.fields = self.fields_class()
 
-    def test_static_fields(self):
+    def test_getFieldsInOrder_static_fields(self):
         self.assertEqual(
             [('dummy', IDummy['dummy']),
              ('dummy2', IDummy['dummy2'])],
             self.fields.getFieldsInOrder(IDummy))
 
+    def test_getFieldValuesInOrder(self):
+        self.assertEqual(
+            [IDummy['dummy'], IDummy['dummy2']],
+            self.fields.getFieldValuesInOrder(IDummy))
+
+
+class TestFields(FieldsTests, unittest.TestCase):
+
+    fields_class = icemac.addressbook.fields.Fields
+
+
+class TestPersistentFields(FieldsTests, unittest.TestCase):
+
+    fields_class = icemac.addressbook.fields.PersistentFields
 
 class TestField(unittest.TestCase):
 
