@@ -5,11 +5,12 @@
 import gocept.reference.verify
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
+import icemac.addressbook.fields
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
+import icemac.addressbook.entities
 import icemac.addressbook.person
 import icemac.addressbook.testing
-import icemac.addressbook.fields
 import unittest
 import zope.interface.verify
 
@@ -63,6 +64,11 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IKeywordTitles,
             icemac.addressbook.person.Keywords(None))
+
+    def test_entities(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IEntities,
+            icemac.addressbook.entities.Entities())
 
     def test_fields(self):
         zope.interface.verify.verifyObject(

@@ -171,6 +171,26 @@ class IKeyword(zope.interface.Interface):
     notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
+class IEntities(zope.interface.Interface):
+    """Predefined entities in the address book."""
+
+    def getPrefixes():
+        """Get the internal prefixes of the entities."""
+
+    def getTitle(something):
+        """Get the title of `something` (prefix, class, interface)."""
+
+
+class IEntity(zope.interface.Interface):
+    """Entity in the address book."""
+
+    title = zope.schema.TextLine(title=u"title of the entity")
+#zope.interface.Attribute("i18n message id of the title")
+    prefix = zope.schema.ASCIILine(title=u"internal prefix")
+    interface = zope.schema.InterfaceField(title=u"interface")
+    class_ = zope.schema.DottedName(title=u"dotted name of class")
+
+
 class IFields(zope.interface.Interface):
     """Predefined and user defined schema fields of objects."""
 
