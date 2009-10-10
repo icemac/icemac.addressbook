@@ -61,6 +61,12 @@ class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
         self.context.person = value
 
 
+def get_principal_entity():
+    entities_util = icemac.addressbook.browser.base.get_entities_util()
+    return entities_util.getEntity(
+        icemac.addressbook.principals.interfaces.IPrincipal)
+
+
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     label = _(u'Add new user')
@@ -69,7 +75,6 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     @property
     def fields(self):
-        fields_util = icemac.addressbook.browser.base.get_fields_util()
         return (
             z3c.form.field.Fields(
                 icemac.addressbook.principals.interfaces.IPrincipal).select(
@@ -82,8 +87,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
                 icemac.addressbook.principals.interfaces.IRoles)
             +
             z3c.form.field.Fields(
-                *fields_util.getFieldValuesInOrder(
-                    icemac.addressbook.principals.interfaces.IPrincipal)).omit(
+                *get_principal_entity().getFieldValuesInOrder()).omit(
                 'login', 'person')
             )
 
@@ -114,7 +118,6 @@ class EditForm(z3c.form.group.GroupForm,
 
     @property
     def fields(self):
-        fields_util = icemac.addressbook.browser.base.get_fields_util()
         return (
             z3c.form.field.Fields(
                 icemac.addressbook.principals.interfaces.IPrincipal).select(
@@ -127,8 +130,7 @@ class EditForm(z3c.form.group.GroupForm,
                 icemac.addressbook.principals.interfaces.IRoles)
             +
             z3c.form.field.Fields(
-                *fields_util.getFieldValuesInOrder(
-                    icemac.addressbook.principals.interfaces.IPrincipal)).omit(
+                *get_principal_entity().getFieldValuesInOrder()).omit(
                 'person', 'login')
             )
 

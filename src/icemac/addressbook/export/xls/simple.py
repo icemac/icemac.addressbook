@@ -62,10 +62,9 @@ class XLSExport(object):
     title = None # to be set in subclass
     description = None # to be set in subclass
 
-    @property
-    def fields(self):
+    def getEntity(self, interface):
         return zope.component.getUtility(
-            icemac.addressbook.interfaces.IFields)
+            icemac.addressbook.interfaces.IEntities).getEntity(interface)
 
     def export(self, *persons):
         self.workbook = xlwt.Workbook()
@@ -81,7 +80,7 @@ class XLSExport(object):
 
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
-        for field in self.fields.getFieldValuesInOrder(interface):
+        for field in self.getEntity(interface).getFieldValuesInOrder():
             self.sheet.write(1, col, field.title, head_style)
             col += 1
         return col
@@ -103,7 +102,7 @@ class XLSExport(object):
         if obj is None:
             return col
         idx = 0
-        for name, field in self.fields.getFieldsInOrder(interface):
+        for name, field in self.getEntity(interface).getFieldsInOrder():
             self.write_cell(row, col + idx, getattr(obj, name))
             idx += 1
         return col + idx

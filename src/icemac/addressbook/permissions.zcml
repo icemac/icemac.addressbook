@@ -140,9 +140,9 @@
     title="XXX"
     />
 
-  <!-- user defined fields -->
+  <!-- edit the entities and their fields -->
   <permission
-    id="icemac.addressbook.EditFields"
+    id="icemac.addressbook.EditEntities"
     title="XXX"
     />
 

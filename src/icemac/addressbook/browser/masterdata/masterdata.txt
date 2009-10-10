@@ -32,7 +32,7 @@ At first we log in as manager:
       <a href="++attribute++principals">Users</a>
     </li>
     <li>
-      <a href="++attribute++fields">Edit fields</a>
+      <a href="++attribute++entities">Edit entities</a>
     </li>
   </ul>
 </div>...

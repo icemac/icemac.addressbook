@@ -1,17 +1,19 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2008-2009 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference
+import icemac.addressbook.entities
+import icemac.addressbook.interfaces
+import icemac.addressbook.sources
 import zope.annotation.interfaces
 import zope.container.btree
 import zope.interface
 import zope.lifecycleevent
 import zope.schema.fieldproperty
 
-import icemac.addressbook.interfaces
-import icemac.addressbook.sources
 
 class Person(zope.container.btree.BTreeContainer):
     "A person."
@@ -41,6 +43,11 @@ class Person(zope.container.btree.BTreeContainer):
         'default_home_page_address', ensure_integrity=True)
     default_phone_number = gocept.reference.Reference(
         'default_phone_number', ensure_integrity=True)
+
+
+person = icemac.addressbook.entities.Entity(
+    _(u'Person'), icemac.addressbook.interfaces.IPerson,
+    'icemac.addressbook.person.Person')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPerson)

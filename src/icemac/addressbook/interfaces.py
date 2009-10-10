@@ -40,7 +40,8 @@ class IAddressBook(zope.interface.Interface):
         u'zope.app.authentication.interfaces.IInternalPrincipalContainer')
     importer =  zope.interface.Attribute(
         u'icemac.addressbook.importer.interfaces.IImportContainer')
-    fields =  zope.interface.Attribute(u'icemac.addressbook.interfaces.IFields')
+    entities =  zope.interface.Attribute(
+        u'icemac.addressbook.interfaces.IEntities')
 
     title = zope.schema.TextLine(title=_(u'title'))
     notes = zope.schema.Text(title=_(u'notes'), required=False)
@@ -172,32 +173,45 @@ class IKeyword(zope.interface.Interface):
 
 
 class IEntities(zope.interface.Interface):
-    """Predefined entities in the address book."""
+    """Entities in the address book."""
 
-    def getPrefixes():
-        """Get the internal prefixes of the entities."""
+    sort_order = zope.interface.Attribute(
+        "List of sorted entity class names")
+
+    def getEntity(something):
+        """Get the entity for `something` (class name, interface).
+
+        Entities can be predefined as named utilities (class name as name).
+        When `something` is an interface and no entity utility exists which
+        has this interface on its interface attribute an entity gets created
+        on the fly. All attributes besides `interface` are ``None`` in this
+        case.
+        """
 
     def getTitle(something):
-        """Get the title of `something` (prefix, class, interface)."""
+        """Get the title of `something` (class name, interface)."""
+
+    def getAllEntities():
+        """Get an iterable of all known entities.
+
+        Entities are sorted according to `sort_order`.
+        Entities which are not in `sort_order` are put at the end.
+        """
 
 
 class IEntity(zope.interface.Interface):
     """Entity in the address book."""
 
-    title = zope.schema.TextLine(title=u"title of the entity")
-#zope.interface.Attribute("i18n message id of the title")
-    prefix = zope.schema.ASCIILine(title=u"internal prefix")
+    title = zope.schema.TextLine(
+        title=u"title of the entity", required=False)
     interface = zope.schema.InterfaceField(title=u"interface")
-    class_ = zope.schema.DottedName(title=u"dotted name of class")
+    class_name = zope.schema.DottedName(
+        title=u"dotted name of the class", required=False)
 
-
-class IFields(zope.interface.Interface):
-    """Predefined and user defined schema fields of objects."""
-
-    def getFieldsInOrder(interface):
+    def getFieldsInOrder():
         "Get ordered name, field tuples of the schema fields of an interface."
 
-    def getFieldValuesInOrder(interface):
+    def getFieldValuesInOrder():
         """Get ordered list of the schema fields of an interface."""
 
 

@@ -46,9 +46,9 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
-def get_fields_util():
-    """Return the user defined fields utility."""
-    return zope.component.getUtility(icemac.addressbook.interfaces.IFields)
+def get_entities_util():
+    """Return the user entities utility."""
+    return zope.component.getUtility(icemac.addressbook.interfaces.IEntities)
 
 
 class BaseForm(object):
@@ -58,9 +58,8 @@ class BaseForm(object):
 
     @property
     def fields(self):
-        fields_util = get_fields_util()
-        return z3c.form.field.Fields(
-            *fields_util.getFieldValuesInOrder(self.interface))
+        fields = get_entities_util().getEntity(self.interface)
+        return z3c.form.field.Fields(*fields.getFieldValuesInOrder())
 
     def url(self, obj):
         adapter = zope.component.getMultiAdapter(
@@ -201,10 +200,9 @@ class PrefixGroup(z3c.form.group.Group):
 
     @property
     def fields(self):
-        fields_util = get_fields_util()
+        fields = get_entities_util().getEntity(self.interface)
         return z3c.form.field.Fields(
-            *fields_util.getFieldValuesInOrder(self.interface),
-            **dict(prefix=self.prefix))
+            *fields.getFieldValuesInOrder(), **dict(prefix=self.prefix))
 
 
 def can_access(uri_part):

@@ -1,8 +1,8 @@
-=====================
- User defined fields
-=====================
+===============================
+ Editing address book entities
+===============================
 
-User with the `Administrator` role are able to add user defined fields to the existing entities.
+User with the `Administrator` role are able to edit the entities in the address book.
 
 Set up
 ======
@@ -16,12 +16,12 @@ Create an address book and a browser to access it. Log in as `Administrator`:
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
-The fields can be edited in the master data area:
+The entities can be edited in the master data area:
 
 >>> browser.getLink('Master data').click()
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit entities').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++fields'
+'http://localhost/++skin++AddressBook/ab/++attribute++entities'
 
 
 Add a new field

@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
-import icemac.addressbook.fields
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.utils
@@ -33,7 +33,7 @@ class AddressBook(zope.container.btree.BTreeContainer,
 
     zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
 
-    fields = None
+    entities = None
     importer = None
     keywords = None
     principals = None
@@ -78,10 +78,11 @@ def create_address_book_infrastructure(addressbook, event=None):
         zope.app.authentication.interfaces.IAuthenticatorPlugin,
         name=u'icemac.addressbook.principals')
 
-    # add fields utility
+    # add entities utility
     create_and_register(
-        addressbook, 'fields', icemac.addressbook.fields.PersistentFields,
-        icemac.addressbook.interfaces.IFields)
+        addressbook, 'entities',
+        icemac.addressbook.entities.PersistentEntities,
+        icemac.addressbook.interfaces.IEntities)
 
     add_more_addressbook_infrastructure(addressbook, addressbook)
 

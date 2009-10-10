@@ -5,17 +5,21 @@
 import gocept.reference.verify
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
-import icemac.addressbook.fields
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
-import icemac.addressbook.entities
 import icemac.addressbook.person
 import icemac.addressbook.testing
 import unittest
+import zope.component.testing
+import zope.interface
 import zope.interface.verify
 
 
 class TestInterfaces(unittest.TestCase):
+
+    def tearDown(self):
+        zope.component.testing.tearDown()
 
     def test_person(self):
         person = icemac.addressbook.person.Person()
@@ -69,19 +73,22 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IEntities,
             icemac.addressbook.entities.Entities())
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IEntities,
+            icemac.addressbook.entities.PersistentEntities())
 
-    def test_fields(self):
+    def test_entity(self):
+        class IE(zope.interface.Interface):
+            pass
         zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IFields,
-            icemac.addressbook.fields.Fields())
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IFields,
-            icemac.addressbook.fields.PersistentFields())
+            icemac.addressbook.interfaces.IEntity,
+            icemac.addressbook.entities.Entity(
+                u'E', IE, 'icemac.addressbook.TestInterfaces'))
 
     def test_field(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IField,
-            icemac.addressbook.fields.Field())
+            icemac.addressbook.entities.Field())
 
 def test_suite():
     return icemac.addressbook.testing.UnittestSuite(TestInterfaces)

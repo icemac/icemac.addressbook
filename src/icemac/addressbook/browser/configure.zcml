@@ -28,9 +28,9 @@
      provides="z3c.form.interfaces.IFieldWidget"
      factory="z3c.form.browser.orderedselect.OrderedSelectFieldWidget" />
 
-
   <include package=".addressbook" />
   <include package=".authentication" />
+  <include package=".entities" />
   <include package=".export" />
   <include package=".file" />
   <include package=".keyword" />
@@ -40,6 +40,5 @@
   <include package=".principals" />
   <include package=".rootfolder" />
   <include package=".search" />
-  <include package=".fields" />
 
 </configure>
