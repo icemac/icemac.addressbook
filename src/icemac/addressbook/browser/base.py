@@ -74,6 +74,14 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     class_ = None # create object from this class
     next_url = None # target after creation, one of ('object', 'parent')
 
+
+    def createAndAdd(self, data):
+        # overwriting method as otherwise object created event would
+        # get send twice
+        obj = self.create(data)
+        self.add(obj)
+        return obj
+
     def create(self, data):
         return create(self, self.class_, data)
 
