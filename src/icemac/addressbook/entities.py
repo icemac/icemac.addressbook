@@ -34,13 +34,7 @@ class Entities(object):
         if isinstance(something, str):
             return self._get_entity_by_name(something)
         if issubclass(something, zope.interface.Interface):
-            for entity in self.getAllEntities():
-                if entity.interface == something:
-                    return entity
-            # no utility found, create entity on the fly, so all even
-            # not preconfigured entities can be used the same way as the
-            # preconfigured ones.
-            return Entity(None, something, None)
+            return self._get_entity_by_interface(something)
         raise TypeError("Don't know how to handle %r." % something)
 
     def getTitle(self, something):
@@ -65,6 +59,14 @@ class Entities(object):
             raise ValueError("Unknown name: %r" % name)
         return entity
 
+    def _get_entity_by_interface(self, interface):
+        for entity in self.getAllEntities():
+            if entity.interface == interface:
+                return entity
+        # no utility found, create entity on the fly, so all even
+        # not preconfigured entities can be used the same way as the
+        # preconfigured ones.
+        return Entity(None, interface, None)
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
