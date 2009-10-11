@@ -1,0 +1,66 @@
+===========================
+ Unique names name chooser
+===========================
+
+This name chooser assures that the choosen names are unique forever.  It assures this by storing the last choosen suffix in an annotation on the container object.
+
+When a containers provides ``icemac.addressbook.namechooser.interfaces.IDontReuseNames`` this name chooser is used. (It also needs to provide ``zope.annotation.interfaces.IAttributeAnnotatable`` as the information gets stored in an annotation.)
+
+
+Set up
+======
+
+Create a container which provides the ``IDontReuseNames`` interface.
+
+>>> import icemac.addressbook.namechooser.interfaces
+>>> import zope.annotation.interfaces
+>>> import zope.container.sample
+>>> import zope.interface
+>>> container = zope.container.sample.SampleContainer()
+>>> zope.interface.alsoProvides(
+...    container, icemac.addressbook.namechooser.interfaces.IDontReuseNames)
+>>> zope.interface.alsoProvides(
+...    container, zope.annotation.interfaces.IAttributeAnnotatable)
+
+Create a name chooser for this container:
+
+>>> import icemac.addressbook.namechooser.namechooser
+>>> nc = icemac.addressbook.namechooser.namechooser.DontReuseNames(container)
+
+DontReuseNames name chooser
+===========================
+
+The name chooser always includes a suffix number in the choosen name:
+
+>>> nc.chooseName('foo', object())
+u'foo-1'
+>>> nc.chooseName('foo', object())
+u'foo-2'
+
+There is only one suffix for name prefixes:
+
+>>> nc.chooseName('bar', object())
+u'bar-3'
+
+When the name prefix contains an extension, the suffix is put before it:
+
+>>> nc.chooseName('baz.txt', object())
+u'baz-4.txt'
+
+The name is not allowed to start with `@` or `+` and must not contain slashes, these characters get stripped resp. replaced:
+
+>>> nc.chooseName('+b/a/z', object())
+u'b-a-z-5'
+>>> nc.chooseName('@@foo/bar', object())
+u'foo-bar-6'
+
+When the prefix name is empty the class of the object is used:
+
+>>> nc.chooseName('+', object())
+u'object-7'
+
+When a name alredy exists in the container the next one is choosen:
+
+>>> container['foo-8'] = object()
+>>> nc.chooseName('foo', object())
+u'foo-9'
