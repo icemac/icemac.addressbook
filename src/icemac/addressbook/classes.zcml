@@ -37,6 +37,14 @@
        interface=".interfaces.IPerson"
        />
     <require
+       permission="icemac.addressbook.ViewPerson"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditPerson"
+      set_attributes="__annotations__"
+      />
+    <require
       permission="icemac.addressbook.EditPerson"
       set_schema=".interfaces.IPerson"
       />
@@ -155,5 +163,55 @@
       set_schema=".interfaces.IKeyword"
       />
   </class>
+
+  <!-- PersistentEntities -->
+  <class class=".entities.PersistentEntities">
+    <implements
+       interface="
+                  zope.annotation.interfaces.IAttributeAnnotatable
+                  icemac.addressbook.namechooser.interfaces.IDontReuseNames"
+       />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntities"
+       />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface="zope.container.interfaces.IReadContainer"
+       />
+   <require
+      permission="icemac.addressbook.EditEntities"
+      set_schema=".interfaces.IEntities"
+      />
+   <require
+      permission="icemac.addressbook.EditEntities"
+      interface="zope.container.interfaces.IWriteContainer"
+      />
+ </class>
+
+  <!-- Entity -->
+  <class class=".entities.Entity">
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntity"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IEntity"
+       />
+  </class>
+
+  <!-- Field -->
+  <class class=".entities.Field">
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IField"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IField"
+       />
+  </class>
+
 
 </configure>

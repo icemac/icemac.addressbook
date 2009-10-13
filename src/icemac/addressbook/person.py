@@ -45,9 +45,8 @@ class Person(zope.container.btree.BTreeContainer):
         'default_phone_number', ensure_integrity=True)
 
 
-person = icemac.addressbook.entities.Entity(
-    _(u'Person'), icemac.addressbook.interfaces.IPerson,
-    'icemac.addressbook.person.Person')
+person = icemac.addressbook.entities.create_entity(
+    _(u'Person'), icemac.addressbook.interfaces.IPerson, Person)
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPerson)

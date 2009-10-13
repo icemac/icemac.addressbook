@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2009 Michael Howitz
+# See also LICENSE.txt
+
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.table
+import icemac.addressbook.interfaces
+import z3c.table.column
+import zope.container.traversal
+import zope.location
+import zope.publisher.interfaces.http
+import zope.traversing.browser.absoluteurl
+
+
+class List(icemac.addressbook.browser.table.Table):
+    """List existing entities."""
+
+    def setUpColumns(self):
+        return [
+            z3c.table.column.addColumn(
+                self, z3c.table.column.GetAttrColumn, 'title', weight=1,
+                header=_(u'Entity'), attrName='title'),
+            z3c.table.column.addColumn(
+                self, z3c.table.column.LinkColumn, 'fields', weight=200,
+                header=_(u''), linkContent=_(u'Edit fields')),
+            ]
+
+    @property
+    def values(self):
+        return self.context.getAllEntities()
+
+
+class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
+    """AbsoluteURL adapter for an entity."""
+
+    zope.component.adapts(icemac.addressbook.interfaces.IEntity,
+                          zope.publisher.interfaces.http.IHTTPRequest)
+
+    def __str__(self):
+        # parent is the entities utility and name is the class name
+        parent = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        url = str(zope.component.getMultiAdapter(
+            (parent, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL))
+        url += '/' + self.context.class_name
+        return url
+
+
+class EntitiesTraverser(zope.container.traversal.ItemTraverser):
+
+    zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
+    zope.component.adapts(icemac.addressbook.interfaces.IEntities,
+                          zope.publisher.interfaces.http.IHTTPRequest)
+
+    def __init__(self, context, request):
+        self.context = context
+
+    def publishTraverse(self, request, name):
+        entity = zope.component.queryUtility(
+            icemac.addressbook.interfaces.IEntity, name=name)
+        if entity is not None:
+            return zope.location.LocationProxy(entity, self.context, name)
+        return super(EntitiesTraverser, self).publishTraverse(request, name)
+

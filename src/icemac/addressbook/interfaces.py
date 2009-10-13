@@ -208,28 +208,54 @@ class IEntity(zope.interface.Interface):
     class_name = zope.schema.DottedName(
         title=u"dotted name of the class", required=False)
 
+    def getRawFields():
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Returnes static (zope.schema) and user defined (IField) fields.
+
+        """
+
     def getFieldsInOrder():
-        "Get ordered name, field tuples of the schema fields of an interface."
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
 
     def getFieldValuesInOrder():
-        """Get ordered list of the schema fields of an interface."""
+        """Get ordered list of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
+
+    def getClass():
+        """Get the class object for `self.class_name`."""
 
 
 class IField(zope.interface.Interface):
     """User defined field."""
+
+    __name__ = zope.interface.Attribute('internal field name')
 
     type = zope.schema.Choice(
         title=_(u'type'),
         source=icemac.addressbook.sources.FieldTypeSource())
     title = zope.schema.TextLine(title=_(u'title'))
     values = zope.schema.List(
-        title=_(u'values'), unique=True, required=False,
+        title=_(u'choice field values'), unique=True, required=False,
         value_type=zope.schema.TextLine(title=_(u'value')))
-
-    order = zope.schema.Float(title=u'order position')
 
     @zope.interface.invariant
     def choice_type_needs_values(field):
         if field.type == u'Choice' and not field.values:
             raise zope.interface.Invalid(
-                _(u'type "choice" requires values.'))
+                _(u'type "choice" requires at least one field value.'))
+
+
+class IMayHaveUserFields(zope.interface.Interface):
+    """Marker interface: Object may have user defined fields."""
+
+
+class IUserFieldStorage(zope.interface.Interface):
+    """Storage for user defined field values."""

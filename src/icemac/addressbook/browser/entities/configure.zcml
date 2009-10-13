@@ -1,6 +1,16 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
-   xmlns:browser="http://namespaces.zope.org/browser">
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <!-- z3c.form -->
+
+  <adapter factory=".datamanager.UserDefinedField" />
+
+  <!-- entities -->
+
+  <adapter factory=".entities.EntitiesTraverser" />
 
   <browser:viewlet
      manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
@@ -11,5 +21,84 @@
      weight="30"
      path="++attribute++entities"
      />
+
+    <adapter
+     for="icemac.addressbook.interfaces.IEntities
+          icemac.addressbook.browser.interfaces.IAddressBookLayer
+          *
+          *"
+     factory="z3c.table.header.SortingColumnHeader"
+     />
+
+    <z3c:pagelet
+       name="index.html"
+       for="icemac.addressbook.interfaces.IEntities"
+       permission="icemac.addressbook.EditEntities"
+       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+       class=".entities.List"
+       />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="icemac.addressbook.interfaces.IEntities"
+     />
+
+  <!-- entity -->
+
+  <adapter
+     provides="zope.traversing.browser.interfaces.IAbsoluteURL"
+     factory=".entities.EntityAbsoluteURL"
+     />
+
+    <z3c:pagelet
+       name="index.html"
+       for="icemac.addressbook.interfaces.IEntity"
+       permission="icemac.addressbook.EditEntities"
+       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+       class=".fields.List"
+       />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="icemac.addressbook.interfaces.IEntity"
+     />
+
+  <z3c:pagelet
+     name="addField.html"
+     for="icemac.addressbook.interfaces.IEntity"
+     permission="icemac.addressbook.EditEntities"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class="icemac.addressbook.browser.entities.fields.AddForm"
+     />
+
+
+  <!-- field -->
+    <browser:viewlet
+     name="field"
+     viewName="@@addField.html"
+     for="icemac.addressbook.interfaces.IEntity"
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     class="z3c.menu.ready2go.item.AddMenuItem"
+     permission="icemac.addressbook.EditEntities"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     weight="1"
+     />
+
+    <z3c:pagelet
+       name="index.html"
+       for="icemac.addressbook.interfaces.IField"
+       permission="icemac.addressbook.EditEntities"
+       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+       class=".fields.EditForm"
+       />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="icemac.addressbook.interfaces.IField"
+     />
+
 
 </configure>

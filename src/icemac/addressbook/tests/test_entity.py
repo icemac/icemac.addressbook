@@ -40,3 +40,12 @@ class TestEntity(unittest.TestCase):
         self.assertEqual(
             [IDummy['dummy'], IDummy['dummy2']],
             self.entity.getFieldValuesInOrder())
+
+    def test_getRawFields(self):
+        self.fail('untested')
+
+    def test_getFieldsInOrder_user_defined_fields(self):
+        self.fail('untested')
+
+    def test_getClass(self):
+        self.fail('untested')

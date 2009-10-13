@@ -107,6 +107,7 @@
   <adapter factory=".address.phone_number_title" />
 
   <utility factory=".entities.Entities" />
+  <adapter factory=".entities.field_storage" />
 
   <includeOverrides file="overrides.zcml" />
 
