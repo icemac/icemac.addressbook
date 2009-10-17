@@ -46,6 +46,7 @@
 
   <!-- entity -->
 
+  <adapter factory=".fields.FieldsTraverser" />
   <adapter
      provides="zope.traversing.browser.interfaces.IAbsoluteURL"
      factory=".entities.EntityAbsoluteURL"
@@ -72,6 +73,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class="icemac.addressbook.browser.entities.fields.AddForm"
      />
+
 
 
   <!-- field -->

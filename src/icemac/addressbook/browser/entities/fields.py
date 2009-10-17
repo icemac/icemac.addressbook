@@ -8,12 +8,39 @@ import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import persistent
 import z3c.table.column
+import zope.app.publication.traversers
+import zope.publisher.interfaces
+import zope.publisher.interfaces.http
 import zope.publisher.interfaces.http
 import zope.security.proxy
-import zope.traversing.browser.absoluteurl
+import zope.traversing.browser.interfaces
+
+
+class FieldsTraverser(
+    zope.app.publication.traversers.SimpleComponentTraverser):
+
+    zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
+    zope.component.adapts(icemac.addressbook.interfaces.IEntity,
+                          zope.publisher.interfaces.http.IHTTPRequest)
+
+    def publishTraverse(self, request, name):
+        entities = zope.component.queryUtility(
+            icemac.addressbook.interfaces.IEntities)
+        try:
+            return entities[name]
+        except KeyError:
+            return super(FieldsTraverser, self).publishTraverse(request, name)
 
 
 class LinkColumn(z3c.table.column.LinkColumn):
+
+    def getLinkURL(self, item):
+        entities = icemac.addressbook.browser.base.get_entities_util()
+        url = zope.component.getMultiAdapter(
+            (entities, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL)()
+        url += "/" + self.context.__name__ + "/" + item.__name__
+        return url
 
     def renderCell(self, item):
         if icemac.addressbook.interfaces.IField.providedBy(item):
@@ -76,4 +103,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 class EditForm(icemac.addressbook.browser.base.BaseEditForm):
 
     interface = icemac.addressbook.interfaces.IField
-    next_url = 'parent'
+
+    def redirect_to_next_url(self, *args):
+        # redirect to the entity
+        self.request.response.redirect(self.request.URL.get(-2))

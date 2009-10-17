@@ -49,13 +49,12 @@ class EntitiesTests(object):
         self.entities.sort_order = (
             'icemac.addressbook.tests.test_entities.Kwack',
             'icemac.addressbook.tests.test_entities.Duck')
-        self.cat = icemac.addressbook.entities.Entity(
-            _('Cat'), ICat, 'icemac.addressbook.tests.test_entities.Cat')
-        self.duck = icemac.addressbook.entities.Entity(
-            _('Duck'), IDuck, 'icemac.addressbook.tests.test_entities.Duck')
-        self.kwack = icemac.addressbook.entities.Entity(
-            _('Kwack'), IKwack,
-            'icemac.addressbook.tests.test_entities.Kwack')
+        self.cat = icemac.addressbook.entities.create_entity(
+            _('Cat'), ICat, Cat)
+        self.duck = icemac.addressbook.entities.create_entity(
+            _('Duck'), IDuck, Duck)
+        self.kwack = icemac.addressbook.entities.create_entity(
+            _('Kwack'), IKwack, Kwack)
 
     def tearDown(self):
         zope.component.testing.tearDown()

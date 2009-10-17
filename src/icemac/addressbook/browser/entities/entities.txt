@@ -2,12 +2,14 @@
  Editing address book entities
 ===============================
 
-User with the `Administrator` role are able to edit the entities in the address book.
+User with the `Administrator` role are able to edit the entities in
+the address book.
 
 Set up
 ======
 
-Create an address book and a browser to access it. Log in as `Administrator`:
+Create an address book and a browser to access it. Log in as
+`Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from zope.testbrowser.testing import Browser
@@ -20,29 +22,299 @@ The entities can be edited in the master data area:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.url
+>>> edit_entities_url = browser.url
+>>> edit_entities_url
 'http://localhost/++skin++AddressBook/ab/++attribute++entities'
 
 
 Add a new field
 ===============
 
+New fields can only be added to existing entities, so the user has to
+select an entity first and then choose the `add field` link:
 
-.. Selecting the `choice` type requires values:
+>>> browser.handleErrors = False
+>>> browser.getLink('Edit fields').click()
+>>> edit_entity_url = browser.url
+>>> edit_entity_url
+'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('field').click()
+>>> add_field_url = browser.url
+>>> add_field_url
+'http://localhost/.../icemac.addressbook.person.Person/@@addField.html'
 
-..    >>> browser.getControl('type').displayValue = ['choice']
-..    >>> browser.getControl('title').value = 'foobar'
-..    >>> browser.getControl('Add').click()
-..    >>> browser.url
-..    >>> print browser.contents
-..    <?xml ...
-..    ...Type "choice" requires values...
+Selecting the `choice` type requires values:
 
-.. When all invariants are satisfied the form gets saved:
+>>> browser.getControl('type').displayValue = ['choice']
+>>> browser.getControl('title').value = 'foobar'
+>>> browser.getControl(name='form.buttons.add').click()
+>>> browser.url
+'http://localhost/.../icemac.addressbook.person.Person/@@addField.html'
+>>> print browser.contents
+<!DOCTYPE ...
+<div class="error">type "choice" requires at least one field value.</div>...
 
-..    >>> browser.getControl('type').displayValue = ['text line']
-..    >>> browser.getControl('title').value = 'baz'
-..    >>> browser.getControl('Add').click()
-..    >>> browser.url
 
-.. XXX Test security for editor and visitor
+When all invariants are satisfied, the form gets saved:
+
+>>> browser.getControl('type').displayValue = ['text line']
+>>> browser.getControl('title').value = 'baz'
+>>> browser.getControl('notes').value = 'the\nbaz\nfield'
+>>> browser.getControl(name='form.buttons.add').click()
+>>> browser.url
+'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+>>> print browser.contents
+<!DOCTYPE ...
+<tr>
+  <td>baz</td>
+  <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field">Edit</a></td>
+</tr>...
+
+
+Edit a field
+============
+
+When editing the added field the previously entered values are displayed:
+
+>>> browser.getLink('Edit', index=1).click()
+>>> edit_field_url = browser.url
+>>> edit_field_url
+'http://localhost/...++entities/icemac.addressbook.person.Person/Field'
+>>> browser.getControl('type').displayValue
+['text line']
+>>> browser.getControl('title').value
+'baz'
+>>> print browser.getControl('notes').value
+the
+baz
+field
+>>> browser.getControl('title').value = 'foobar'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
+
+
+Use a field
+===========
+
+The previously defined field now shows up when editing the entity it
+is assigned to:
+
+Add Form
+--------
+
+The field shows up on the add form as a text line:
+
+>>> browser.getLink('Person list').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html'
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Tester'
+>>> browser.getControl('foobar').value
+''
+>>> browser.getControl('foobar').value = 'monster'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+Edit form
+---------
+
+The field also shows up on the edit form and contains the value
+assigned in the add form:
+
+>>> browser.getLink('Tester').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> browser.getControl('foobar').value
+'monster'
+>>> browser.getControl('foobar').value = 'my value'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('foobar').value
+'my value'
+>>> browser.getControl('Cancel').click()
+
+
+Editor
+======
+
+Users with the role `editor` are not allowed to edit user defined
+fields, but they are allowed to use them.
+
+Edit fields
+-----------
+
+Users with the `editor` role are not able to edit fields even when
+they know the URL.
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+
+There is no edit link at master data:
+
+>>> editor.getLink('Master data').click()
+>>> editor.getLink('Edit entities')
+Traceback (most recent call last):
+LinkNotFoundError
+
+The URL to edit the entities is not accessable:
+
+>>> editor.open(edit_entities_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to edit an entity is not accessable:
+
+>>> editor.open(edit_entity_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to add a field is not accessable:
+
+>>> editor.open(add_field_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to edit a field is not accessable:
+
+>>> editor.open(edit_field_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Use user defined fields
+-----------------------
+
+The editor is allowed to use previously defined fields both in the add
+form and in the edit form.
+
+Edit form of admin created content
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The editor is able to edit content which has user defined fields and
+was created by an administrator:
+
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.getLink('Person list').click()
+>>> editor.getLink('Tester').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> editor.getControl('foobar').value
+'my value'
+>>> editor.getControl('foobar').value = 'editor was here'
+>>> editor.getControl('Apply').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab'
+
+The entered values get persisted:
+
+>>> editor.getLink('Tester').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> editor.getControl('foobar').value
+'editor was here'
+>>> editor.getControl('Cancel').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab'
+
+Add form
+~~~~~~~~
+
+The editor can entrer values in user defined fields in the add form:
+
+>>> editor.getLink('person').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/@@addPerson.html'
+>>> editor.getControl('last name').value = 'Bester'
+>>> editor.getControl('foobar').value
+''
+>>> editor.getControl('foobar').value = 'better'
+>>> editor.getControl('Add').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab'
+
+Edit form
+---------
+
+The editor is also able to edit the values he entered himself:
+
+>>> editor.getLink('Bester').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/Person-2'
+>>> editor.getControl('foobar').value
+'better'
+>>> editor.getControl('foobar').value = 'still better'
+>>> editor.getControl('Apply').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab'
+>>> editor.getLink('Bester').click()
+>>> editor.getControl('foobar').value
+'still better'
+>>> editor.getControl('Cancel').click()
+
+
+Visitor
+=======
+
+Users with the role `visitor` are not allowed to edit user defined
+fields. They are only able to see the field contents a higher privilaged user has entered.
+
+Edit fields
+-----------
+
+Users with the `visitor` role are not able to edit fields even when
+they know the URL.
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+
+There is no edit link at master data:
+
+>>> visitor.getLink('Master data').click()
+>>> visitor.getLink('Edit entities')
+Traceback (most recent call last):
+LinkNotFoundError
+
+The URL to edit the entities is not accessable:
+
+>>> visitor.open(edit_entities_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to edit an entity is not accessable:
+
+>>> visitor.open(edit_entity_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to add a field is not accessable:
+
+>>> visitor.open(add_field_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+The URL to edit a field is not accessable:
+
+>>> visitor.open(edit_field_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Use user defined fields
+-----------------------
+
+The visitor can only see field contents of predefinded and user defined fields:
+
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Person list').click()
+>>> visitor.getLink('Tester').click()
+>>> visitor.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> get_all_control_names(visitor)
+['form.buttons.apply', 'form.buttons.cancel']
+
+.. XXX delete field (incl. nc)

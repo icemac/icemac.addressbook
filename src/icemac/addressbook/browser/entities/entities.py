@@ -53,13 +53,9 @@ class EntitiesTraverser(zope.container.traversal.ItemTraverser):
     zope.component.adapts(icemac.addressbook.interfaces.IEntities,
                           zope.publisher.interfaces.http.IHTTPRequest)
 
-    def __init__(self, context, request):
-        self.context = context
-
     def publishTraverse(self, request, name):
         entity = zope.component.queryUtility(
             icemac.addressbook.interfaces.IEntity, name=name)
         if entity is not None:
             return zope.location.LocationProxy(entity, self.context, name)
         return super(EntitiesTraverser, self).publishTraverse(request, name)
-

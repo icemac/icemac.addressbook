@@ -33,8 +33,9 @@ class TestField(unittest.TestCase):
         self.assert_(errors[0][0] is None)
         self.assert_(
             isinstance(errors[0][1], zope.interface.exceptions.Invalid))
-        self.assertEqual(errors[0][1].args,
-                         (u'type "choice" requires values.',))
+        self.assertEqual(
+            (u'type "choice" requires at least one field value.',),
+            errors[0][1].args)
 
     def test_invariants_choice_with_values(self):
         self.field.type = u'Choice'

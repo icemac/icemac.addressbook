@@ -6,6 +6,7 @@ import icemac.addressbook.interfaces
 import persistent
 import sys
 import zope.container.contained
+import zope.dottedname.resolve
 import zope.interface
 import zope.schema
 import zope.security.proxy
@@ -140,7 +141,7 @@ class Entity(object):
 
     def getClass(self):
         if self.class_name:
-            return zope.dottedname.resolve(self.class_name)
+            return zope.dottedname.resolve.resolve(self.class_name)
         raise ValueError("class_name is not set.")
 
 
@@ -155,7 +156,8 @@ class Field(persistent.Persistent, zope.container.contained.Contained):
         icemac.addressbook.interfaces.IField['title'])
     values = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IField['values'])
-
+    notes = zope.schema.fieldproperty.FieldProperty(
+        icemac.addressbook.interfaces.IField['notes'])
 
 class FieldStorage(persistent.Persistent):
     """Storage for field values in annotations."""
@@ -181,3 +183,4 @@ def create_entity(title, interface, class_):
         zope.component.provideUtility(entity, name=class_name)
         zope.interface.classImplements(
             class_, icemac.addressbook.interfaces.IMayHaveUserFields)
+    return entity

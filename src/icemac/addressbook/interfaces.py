@@ -245,6 +245,7 @@ class IField(zope.interface.Interface):
     values = zope.schema.List(
         title=_(u'choice field values'), unique=True, required=False,
         value_type=zope.schema.TextLine(title=_(u'value')))
+    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
     @zope.interface.invariant
     def choice_type_needs_values(field):
