@@ -74,6 +74,7 @@
   <include package=".file" />
   <include package=".generations" />
   <include package=".principals" />
+  <include package=".namechooser" />
 
   <include file="permissions.zcml" />
   <include file="classes.zcml" />

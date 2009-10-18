@@ -7,6 +7,7 @@ import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import persistent
+import urlparse
 import z3c.table.column
 import zope.app.publication.traversers
 import zope.publisher.interfaces
@@ -33,6 +34,7 @@ class FieldsTraverser(
 
 
 class LinkColumn(z3c.table.column.LinkColumn):
+    """Special link column which keeps the entity name in the url."""
 
     def getLinkURL(self, item):
         entities = icemac.addressbook.browser.base.get_entities_util()
@@ -40,6 +42,8 @@ class LinkColumn(z3c.table.column.LinkColumn):
             (entities, self.request),
             zope.traversing.browser.interfaces.IAbsoluteURL)()
         url += "/" + self.context.__name__ + "/" + item.__name__
+        if self.linkName:
+            url += '/' + self.linkName
         return url
 
     def renderCell(self, item):
@@ -59,8 +63,11 @@ class List(icemac.addressbook.browser.table.Table):
                 self, z3c.table.column.GetAttrColumn, 'title', weight=1,
                 header=_(u'Field'), attrName='title'),
             z3c.table.column.addColumn(
-                self, LinkColumn, 'edit', weight=200,
-                header=_(u''), linkContent=_(u'Edit')),
+                self, LinkColumn, 'delete', weight=190, header=_(u''),
+                linkContent=_(u'Delete'), linkName='@@delete.html'),
+            z3c.table.column.addColumn(
+                self, LinkColumn, 'edit', weight=200, header=_(u''),
+                linkContent=_(u'Edit')),
             ]
 
     @property
@@ -99,11 +106,36 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
                       zope.security.proxy.getObject(self.context.interface)),
             name=self._name)
 
-
-class EditForm(icemac.addressbook.browser.base.BaseEditForm):
-
-    interface = icemac.addressbook.interfaces.IField
+class BaseForm(object):
 
     def redirect_to_next_url(self, *args):
         # redirect to the entity
         self.request.response.redirect(self.request.URL.get(-2))
+
+
+class EditForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):
+
+    interface = icemac.addressbook.interfaces.IField
+
+
+class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
+
+    label = _(
+        u'When you delete this field, you are no longer able to access the '
+        u'information on the entities which was stored in this field!')
+    interface = icemac.addressbook.interfaces.IField
+    field_names = ('type', 'title', 'notes')
+
+    def _do_delete(self):
+        # We need the name of the entity from the url here to
+        # unregister the adapter.
+        path = urlparse.urlsplit(self.request.getURL()).path
+        entity_name = path.split('/')[-3]
+        entity = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntity, name=entity_name)
+        sm = zope.site.hooks.getSiteManager()
+        sm.unregisterAdapter(
+            provided=icemac.addressbook.interfaces.IField,
+            required=(icemac.addressbook.interfaces.IEntity, entity.interface),
+            name=self.context.__name__)
+        return super(DeleteForm, self)._do_delete()

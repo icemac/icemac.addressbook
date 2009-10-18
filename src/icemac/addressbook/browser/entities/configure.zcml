@@ -74,33 +74,39 @@
      class="icemac.addressbook.browser.entities.fields.AddForm"
      />
 
-
-
   <!-- field -->
-    <browser:viewlet
-     name="field"
-     viewName="@@addField.html"
-     for="icemac.addressbook.interfaces.IEntity"
-     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.EditEntities"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     weight="1"
-     />
+  <browser:viewlet
+      name="field"
+      viewName="@@addField.html"
+      for="icemac.addressbook.interfaces.IEntity"
+      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+      class="z3c.menu.ready2go.item.AddMenuItem"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      weight="1"
+      />
 
-    <z3c:pagelet
-       name="index.html"
-       for="icemac.addressbook.interfaces.IField"
-       permission="icemac.addressbook.EditEntities"
-       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-       class=".fields.EditForm"
-       />
+  <z3c:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IField"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".fields.EditForm"
+      />
 
   <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IField"
-     />
+      name="index.html"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      for="icemac.addressbook.interfaces.IField"
+      />
+
+  <z3c:pagelet
+      name="delete.html"
+      for="icemac.addressbook.interfaces.IField"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".fields.DeleteForm"
+      />
 
 
 </configure>

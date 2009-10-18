@@ -67,7 +67,8 @@ When all invariants are satisfied, the form gets saved:
 <!DOCTYPE ...
 <tr>
   <td>baz</td>
-  <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field">Edit</a></td>
+  <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
+  <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
 </tr>...
 
 
@@ -79,7 +80,7 @@ When editing the added field the previously entered values are displayed:
 >>> browser.getLink('Edit', index=1).click()
 >>> edit_field_url = browser.url
 >>> edit_field_url
-'http://localhost/...++entities/icemac.addressbook.person.Person/Field'
+'http://localhost/...++entities/icemac.addressbook.person.Person/Field-1'
 >>> browser.getControl('type').displayValue
 ['text line']
 >>> browser.getControl('title').value
@@ -317,4 +318,108 @@ The visitor can only see field contents of predefinded and user defined fields:
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']
 
-.. XXX delete field (incl. nc)
+
+Delete a user defined field
+===========================
+
+Only an administrator can delete a user defined field. This field is
+then no longer used in the forms.
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Edit fields').click()
+>>> 'foobar' in browser.contents
+True
+>>> browser.getLink('Delete').click()
+>>> delete_field_url = browser.url
+>>> delete_field_url
+'http://...entities/icemac.addressbook.person.Person/Field-1/@@delete.html'
+
+After choosing to delete a field the user is asked whether he is sure
+about the deletion. When choosing cancel the field does not get deleted:
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url
+'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
+
+Neither editors nor visitors are able to delete a field even when they
+know the url:
+
+>>> editor.open(delete_field_url).click()
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor.open(delete_field_url).click()
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+When the administrator is sure to delete the field, the field gets deleted:
+
+>>> browser.getLink('Delete').click()
+>>> browser.getControl('Yes, delete it').click()
+>>> browser.url
+'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
+
+>>> 'foobar' in browser.contents
+False
+
+
+Field no longer displayed
+-------------------------
+
+The field is no longer displayed in the add form and in the edit form:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('foobar')
+Traceback (most recent call last):
+LookupError: label 'foobar'
+>>> browser.getControl('Cancel').click()
+
+>>> browser.getLink('person').click()
+>>> browser.getControl('foobar')
+Traceback (most recent call last):
+LookupError: label 'foobar'
+
+The field is not displayed for editors, too:
+
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.getLink('Person list').click()
+>>> editor.getLink('Tester').click()
+>>> editor.getControl('foobar')
+Traceback (most recent call last):
+LookupError: label 'foobar'
+>>> editor.getControl('Cancel').click()
+
+>>> editor.getLink('person').click()
+>>> editor.getControl('foobar')
+Traceback (most recent call last):
+LookupError: label 'foobar'
+
+The field is not displayed for visitors, too:
+
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Person list').click()
+>>> visitor.getLink('Tester').click()
+>>> 'foobar' in visitor.contents
+False
+
+Create new field
+----------------
+
+When the administrator creates a new field it gets a unique id, the id
+of the previously deleted field is not reused:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Edit fields').click()
+>>> browser.getLink('field').click()
+>>> browser.getControl('type').displayValue = ['bool']
+>>> browser.getControl('title').value = 'really?'
+>>> browser.getControl(name='form.buttons.add').click()
+>>> browser.url
+'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('Edit', index=1).url
+'http://localhost/...++entities/icemac.addressbook.person.Person/Field-2'
+>>> browser.getLink('Edit', index=1).url == edit_field_url
+False
