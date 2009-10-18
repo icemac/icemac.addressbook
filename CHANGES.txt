@@ -8,12 +8,21 @@
 Features
 --------
 
-- Added ability to delete a whole address book.
+- Users having the role `Administrator` can delete the whole address
+  book on the address book edit form.
 
 - Last modification time of objects is now stored and displayed.
 
+- Users having the role `Administrator` can import data in the master
+  data area.
+
 - Added ability to enter additional packages names at installation
   (e. g. to install a specific import file reader).
+
+- Users having the role `Administrator` can add new fields to address
+  book entities in the master data area. These fields as useable for
+  editors and visitors, too.
+
 
 Bug fixes
 ---------
