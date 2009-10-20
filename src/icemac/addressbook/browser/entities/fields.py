@@ -106,11 +106,12 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
                       zope.security.proxy.getObject(self.context.interface)),
             name=self._name)
 
+
 class BaseForm(object):
 
     def redirect_to_next_url(self, *args):
         # redirect to the entity
-        self.request.response.redirect(self.request.URL.get(-2))
+        self.request.response.redirect(self.request.getURL(2))
 
 
 class EditForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):
