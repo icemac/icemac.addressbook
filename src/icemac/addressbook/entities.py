@@ -20,20 +20,6 @@ class Entities(object):
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
-    sort_order = (
-        'icemac.addressbook.person.Person', )
-
-    # ['address_book',
-    #               'person',
-    #               'postal_address',
-    #               'phone_number',
-    #               'email_address',
-    #               'home_page_address',
-    #               'file',
-    #               'keyword',
-    #               ]
-
-
     def getEntity(self, something):
         if isinstance(something, str):
             return self._get_entity_by_name(something)
@@ -45,16 +31,8 @@ class Entities(object):
         return self.getEntity(something).title
 
     def getAllEntities(self):
-        entities = zope.component.getAllUtilitiesRegisteredFor(
+        return zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
-        def key(entity):
-            try:
-                # XXX in py25 tuple has no index method yet
-                return list(self.sort_order).index(entity.class_name)
-            except ValueError:
-                # not in sort_order --> put to end
-                return sys.maxint
-        return sorted(entities, key=key)
 
     def _get_entity_by_name(self, name, default=marker):
         entity = zope.component.queryUtility(
