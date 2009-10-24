@@ -192,7 +192,6 @@ class BaseDeleteForm(BaseEditForm):
     def handleDelete(self, action):
         self.redirect_to_next_url('parent', self.next_view_after_delete)
         self._do_delete()
-        return ''
 
     def _do_delete(self):
         name = zope.traversing.api.getName(self.context)
