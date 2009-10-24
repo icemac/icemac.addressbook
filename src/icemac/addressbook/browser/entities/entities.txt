@@ -33,7 +33,6 @@ Add a new field
 New fields can only be added to existing entities, so the user has to
 select an entity first and then choose the `add field` link:
 
->>> browser.handleErrors = False
 >>> browser.getLink('Edit fields').click()
 >>> edit_entity_url = browser.url
 >>> edit_entity_url
