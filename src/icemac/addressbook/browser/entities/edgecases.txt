@@ -1,0 +1,123 @@
+=====================
+ Entities edge cases
+=====================
+
+There are some edge cases on using entities.
+
+Delete used values of a choice
+==============================
+
+Scenario: A user defined field is a choice. One of the values of this
+choice was chosen by a user. The administrator deletes this value in
+the choice. The form where the no longer existing choice value would
+be displayed does not break.
+
+
+Set up
+======
+
+Register the keywords entity as utility so keyword can have user
+defined fields:
+
+>>> import icemac.addressbook.keyword
+>>> import zope.component
+>>> zope.component.provideUtility(icemac.addressbook.keyword.keyword_entity,
+...                               name=u'icemac.addressbook.keyword.Keyword')
+
+Create an address book and a browser to access it. Log in as `Administrator`:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> ab = create_addressbook()
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Create Field
+============
+
+We create a field for keywords:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Edit fields').click()
+>>> browser.url
+'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
+>>> browser.getLink('field').click()
+>>> browser.url
+'http://localhost/.../icemac.addressbook.keyword.Keyword/@@addField.html'
+
+We choose the type `choice` and add values:
+
+>>> browser.getControl('type').displayValue = ['choice']
+>>> browser.getControl('title').value = 'kind'
+>>> browser.getControl(name='form.widgets.values.buttons.add').click()
+>>> browser.getControl(name='form.widgets.values.0').value = 'one'
+>>> browser.getControl(name='form.widgets.values.buttons.add').click()
+>>> browser.getControl(name='form.widgets.values.1').value = 'two'
+>>> browser.getControl(name='form.widgets.values.buttons.add').click()
+>>> browser.getControl(name='form.widgets.values.2').value = 'three'
+>>> browser.getControl(name='form.buttons.add').click()
+>>> browser.url
+'http://local.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
+
+Use field
+=========
+
+To use the field create a keyword:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> browser.getLink('keyword').click()
+>>> browser.getControl('keyword').value = 'foo'
+>>> browser.getControl('kind').displayOptions
+['no value', 'one', 'two', 'three']
+>>> browser.getControl('kind').displayValue = ['two']
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+
+Editing is possible, the entered values were stored:
+
+>>> browser.getLink('foo').click()
+>>> browser.getControl('keyword').value
+'foo'
+>>> browser.getControl('kind').displayValue
+['two']
+
+Delete value of choice
+======================
+
+When the selected value of the choice gets deleted:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Edit fields').click()
+>>> browser.url
+'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
+>>> browser.getLink('Edit', index=1).click()
+>>> browser.url
+'http://...++attribute++entities/icemac.addressbook.keyword.Keyword/Field-1'
+>>> remove = browser.getControl(name='form.widgets.values.1.remove')
+>>> remove.getControl(value='1').click()
+>>> browser.getControl(name='form.widgets.values.buttons.remove').click()
+>>> browser.getControl('Apply').click()
+
+The value is no longer displayed for the keyword:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Keywords').click()
+>>> browser.getLink('foo').click()
+>>> browser.getControl('kind').displayOptions
+['no value', 'one', 'three']
+>>> browser.getControl('kind').displayValue
+['no value']
+
+
+Tear down
+=========
+
+>>> zope.component.getGlobalSiteManager().unregisterUtility(
+...     icemac.addressbook.keyword.keyword_entity,
+...     name=u'icemac.addressbook.keyword.Keyword')
+True

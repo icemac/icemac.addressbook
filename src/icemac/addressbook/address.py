@@ -7,7 +7,7 @@ import persistent
 import zope.container.contained
 import zope.interface
 import zope.schema.fieldproperty
-
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 
 from icemac.addressbook.i18n import MessageFactory as _
@@ -35,6 +35,11 @@ class PostalAddress(
         icemac.addressbook.interfaces.IPostalAddress['country'])
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPostalAddress['notes'])
+
+
+postal_address_entity = icemac.addressbook.entities.create_entity(
+    _(u'postal address'), icemac.addressbook.interfaces.IPostalAddress,
+    PostalAddress)
 
 
 def get_kind_title(obj, iface):
@@ -79,6 +84,11 @@ class EMailAddress(
         icemac.addressbook.interfaces.IEMailAddress['notes'])
 
 
+e_mail_address_entity = icemac.addressbook.entities.create_entity(
+    _(u'e-mail address'), icemac.addressbook.interfaces.IEMailAddress,
+    EMailAddress)
+
+
 @zope.component.adapter(icemac.addressbook.interfaces.IEMailAddress)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def email_address_title(email):
@@ -103,6 +113,11 @@ class HomePageAddress(
         icemac.addressbook.interfaces.IHomePageAddress['notes'])
 
 
+home_page_address_entity = icemac.addressbook.entities.create_entity(
+    _(u'home page address'), icemac.addressbook.interfaces.IHomePageAddress,
+    HomePageAddress)
+
+
 @zope.component.adapter(icemac.addressbook.interfaces.IHomePageAddress)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def home_page_address_title(hp):
@@ -125,6 +140,10 @@ class PhoneNumber(
         icemac.addressbook.interfaces.IPhoneNumber['number'])
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPhoneNumber['notes'])
+
+
+phone_number_entity = icemac.addressbook.entities.create_entity(
+    _(u'phone number'), icemac.addressbook.interfaces.IPhoneNumber, PhoneNumber)
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPhoneNumber)

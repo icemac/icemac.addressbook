@@ -2,8 +2,10 @@
 # Copyright (c) 2009 Michael Howitz
 # See also LICENSE.txt
 
+from icemac.addressbook.i18n import MessageFactory as _
 import ZODB.blob
 import classproperty
+import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
 import persistent
@@ -58,6 +60,10 @@ class File(persistent.Persistent, zope.container.contained.Contained):
 
     def open(self, mode='r'):
         return self._data.open(mode)
+
+
+file_entity = icemac.addressbook.entities.create_entity(
+    _(u'file'), icemac.addressbook.file.interfaces.IFile, File)
 
 
 @zope.component.adapter(icemac.addressbook.file.interfaces.IFile)

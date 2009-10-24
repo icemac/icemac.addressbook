@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
@@ -42,6 +43,10 @@ class AddressBook(zope.container.btree.BTreeContainer,
         icemac.addressbook.interfaces.IAddressBook['title'])
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPerson['notes'])
+
+
+address_book_entity = icemac.addressbook.entities.create_entity(
+    _(u'address book'), icemac.addressbook.interfaces.IAddressBook, AddressBook)
 
 
 def create_and_register(addressbook, attrib_name, class_, interface, name=''):

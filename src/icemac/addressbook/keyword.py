@@ -45,6 +45,10 @@ class Keyword(persistent.Persistent, zope.container.contained.Contained):
         icemac.addressbook.interfaces.IKeyword['notes'])
 
 
+keyword_entity = icemac.addressbook.entities.create_entity(
+    _(u'keyword'), icemac.addressbook.interfaces.IKeyword, Keyword)
+
+
 @zope.component.adapter(icemac.addressbook.interfaces.IKeyword,
                         zope.lifecycleevent.IObjectModifiedEvent)
 def changed(obj, event):

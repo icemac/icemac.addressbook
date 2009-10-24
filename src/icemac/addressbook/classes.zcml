@@ -1,5 +1,4 @@
-<configure
-  xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope">
 
  <!-- AddressBook -->
   <class class=".addressbook.AddressBook">
@@ -8,23 +7,20 @@
       />
     <require
        permission="icemac.addressbook.ViewAddressBook"
-       interface=".interfaces.IAddressBook"
-       />
-    <require
-       permission="icemac.addressbook.ViewAddressBook"
-       interface="zope.container.interfaces.IReadContainer"
+       interface=".interfaces.IAddressBook
+                  zope.container.interfaces.IReadContainer"
+       attributes="__annotations__
+                   getSiteManager"
        />
     <require
       permission="icemac.addressbook.EditAddressBook"
       set_schema=".interfaces.IAddressBook"
+      set_attributes="__annotations__"
       />
     <require
        permission="icemac.addressbook.EditAddressBookContents"
        interface="zope.container.interfaces.IWriteContainer"
        />
-    <require
-      permission="icemac.addressbook.ViewAddressBook"
-      attributes="getSiteManager" />
   </class>
 
   <!-- Person -->
@@ -34,32 +30,17 @@
        />
     <require
        permission="icemac.addressbook.ViewPerson"
-       interface=".interfaces.IPerson"
-       />
-    <require
-       permission="icemac.addressbook.ViewPerson"
+       interface=".interfaces.IPerson
+                  .interfaces.IPersonDefaults
+                  zope.container.interfaces.IReadContainer"
        attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditPerson"
+      set_schema=".interfaces.IPerson
+                  .interfaces.IPersonDefaults"
       set_attributes="__annotations__"
       />
-    <require
-      permission="icemac.addressbook.EditPerson"
-      set_schema=".interfaces.IPerson"
-      />
-    <require
-      permission="icemac.addressbook.EditPerson"
-      set_schema=".interfaces.IPersonDefaults"
-      />
-    <require
-       permission="icemac.addressbook.ViewPerson"
-       interface=".interfaces.IPersonDefaults"
-       />
-    <require
-       permission="icemac.addressbook.ViewPerson"
-       interface="zope.container.interfaces.IReadContainer"
-       />
     <require
        permission="icemac.addressbook.EditPersonContents"
        interface="zope.container.interfaces.IWriteContainer"
@@ -74,10 +55,12 @@
     <require
        permission="icemac.addressbook.ViewPostalAddress"
        interface=".interfaces.IPostalAddress"
+       attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditPostalAddress"
       set_schema=".interfaces.IPostalAddress"
+      set_attributes="__annotations__"
       />
   </class>
 
@@ -89,10 +72,12 @@
     <require
        permission="icemac.addressbook.ViewEMailAddress"
        interface=".interfaces.IEMailAddress"
+       attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditEMailAddress"
       set_schema=".interfaces.IEMailAddress"
+      set_attributes="__annotations__"
       />
   </class>
 
@@ -104,10 +89,12 @@
     <require
        permission="icemac.addressbook.ViewHomePageAddress"
        interface=".interfaces.IHomePageAddress"
+       attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditHomePageAddress"
       set_schema=".interfaces.IHomePageAddress"
+      set_attributes="__annotations__"
       />
   </class>
 
@@ -119,10 +106,12 @@
     <require
        permission="icemac.addressbook.ViewPhoneNumber"
        interface=".interfaces.IPhoneNumber"
+       attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditPhoneNumber"
       set_schema=".interfaces.IPhoneNumber"
+      set_attributes="__annotations__"
       />
   </class>
 
@@ -133,20 +122,16 @@
       />
     <require
        permission="icemac.addressbook.ViewKeywordContainer"
-       interface=".interfaces.IKeywords"
-       />
-    <require
-      permission="icemac.addressbook.EditKeywordContainer"
-      set_schema=".interfaces.IKeywords"
-      />
-    <require
-       permission="icemac.addressbook.ViewKeywordContainer"
-       interface="zope.container.interfaces.IReadContainer"
+       interface=".interfaces.IKeywords
+                  zope.container.interfaces.IReadContainer"
+       attributes="__annotations__"
        />
     <require
        permission="icemac.addressbook.EditKeywordContainer"
        interface="zope.container.interfaces.IWriteContainer"
-       />
+       set_schema=".interfaces.IKeywords"
+       set_attributes="__annotations__"
+      />
   </class>
 
   <!-- Keyword -->
@@ -157,10 +142,12 @@
     <require
        permission="icemac.addressbook.ViewKeyword"
        interface=".interfaces.IKeyword"
+       attributes="__annotations__"
        />
     <require
       permission="icemac.addressbook.EditKeyword"
       set_schema=".interfaces.IKeyword"
+      set_attributes="__annotations__"
       />
   </class>
 
@@ -173,19 +160,13 @@
        />
     <require
        permission="icemac.addressbook.ViewAddressBook"
-       interface=".interfaces.IEntities"
+       interface=".interfaces.IEntities
+                  zope.container.interfaces.IReadContainer"
        />
-    <require
-       permission="icemac.addressbook.ViewAddressBook"
-       interface="zope.container.interfaces.IReadContainer"
-       />
-   <require
-      permission="icemac.addressbook.EditEntities"
-      set_schema=".interfaces.IEntities"
-      />
    <require
       permission="icemac.addressbook.EditEntities"
       interface="zope.container.interfaces.IWriteContainer"
+      set_schema=".interfaces.IEntities"
       />
  </class>
 
@@ -212,6 +193,5 @@
        set_schema=".interfaces.IField"
        />
   </class>
-
 
 </configure>

@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.namechooser.namechooser
+import zope.annotation.attribute
 import zope.testing.cleanup
 import zope.testing.testrunner.layer
 

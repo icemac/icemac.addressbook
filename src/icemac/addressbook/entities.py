@@ -31,7 +31,7 @@ class Entities(object):
     #               'home_page_address',
     #               'file',
     #               'keyword',
-    #               'principal',]
+    #               ]
 
 
     def getEntity(self, something):
