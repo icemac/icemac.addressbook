@@ -46,9 +46,6 @@ class EntitiesTests(object):
     def setUp(self):
         zope.component.testing.setUp()
         self.entities = self.entities_class()
-        self.entities.sort_order = (
-            'icemac.addressbook.tests.test_entities.Kwack',
-            'icemac.addressbook.tests.test_entities.Duck')
         self.cat = icemac.addressbook.entities.create_entity(
             _('Cat'), ICat, Cat)
         self.duck = icemac.addressbook.entities.create_entity(
@@ -61,8 +58,8 @@ class EntitiesTests(object):
 
     def test_getAllEntities(self):
         self.assertEqual(
-            [self.kwack, self.duck, self.cat],
-            list(self.entities.getAllEntities()))
+            sorted([self.kwack, self.duck, self.cat]),
+            sorted(self.entities.getAllEntities()))
 
     def test_getEntity_unknown_type(self):
         self.assertRaises(TypeError, self.entities.getEntity, None)

@@ -175,9 +175,6 @@ class IKeyword(zope.interface.Interface):
 class IEntities(zope.interface.Interface):
     """Entities in the address book."""
 
-    sort_order = zope.interface.Attribute(
-        "List of sorted entity class names")
-
     def getEntity(something):
         """Get the entity for `something` (class name, interface).
 
