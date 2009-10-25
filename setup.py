@@ -77,7 +77,7 @@ setuptools.setup(
         'zc.sourcefactory',
         'zope.securitypolicy',
         'zope.app.generations',
-        'z3c.form',
+        'z3c.form >= 2.2.0dev',
         'z3c.formui',
         'z3c.layer.pagelet',
         'z3c.pagelet',
