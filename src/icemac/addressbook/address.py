@@ -29,8 +29,6 @@ class PostalAddress(
         icemac.addressbook.interfaces.IPostalAddress['city'])
     zip = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPostalAddress['zip'])
-    state = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['state'])
     country = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPostalAddress['country'])
     notes = zope.schema.fieldproperty.FieldProperty(
@@ -63,8 +61,7 @@ def postal_address_title(address):
     title = get_kind_title(
         address, icemac.addressbook.interfaces.IPostalAddress)
     values = [icemac.addressbook.interfaces.ITitle(getattr(address, x))
-              for x in ('address_prefix', 'street', 'zip', 'city', 'state',
-                        'country')
+              for x in ('address_prefix', 'street', 'zip', 'city', 'country')
               if getattr(address, x)]
     if values:
         title += ': ' + ', '.join(values)

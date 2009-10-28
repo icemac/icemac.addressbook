@@ -31,7 +31,6 @@ Clicking on it, deselects it, so no country is selected afterwards.):
 >>> browser.getControl('e-mail address').value = u'qqqqq'
 >>> browser.getControl('URL').value = 'qqqqq'
 >>> browser.getControl('Germany').click() # deselects default selection
->>> browser.getControl('state').displayValue = ['Brandenburg']
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE...
@@ -45,14 +44,6 @@ Clicking on it, deselects it, so no country is selected afterwards.):
     <li>
         birth date:
       <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
-    </li>
-  </ul>
-</div>...
-<legend>postal address</legend>
-<div class="status">
-  <ul class="errors">
-    <li>
-      <div class="error">A country is required to choose a state.</div>
     </li>
   </ul>
 </div>...
@@ -89,7 +80,6 @@ Fields for the primary postal address:
 >>> browser.getControl('city', index=0).value = u'Testhausen'
 >>> browser.getControl('zip').value = u'99999'
 >>> browser.getControl('country').displayValue = ['Austria']
->>> browser.getControl('state').displayValue = ['Sachsen-Anhalt']
 >>> browser.getControl('notes', index=1).value = u'first address\nfor tests'
 
 Fields for the primary phone number:
@@ -110,27 +100,10 @@ Fields for the primary home page address:
 >>> browser.getControl('URL').value = 'http://www.example.com'
 >>> browser.getControl('notes', index=4).value = 'first home page\nfor tests'
 
-As we selected a state which is outside the selected country we expext
-an error message when trying to add the record to the database:
-
->>> browser.getControl('Add').click()
->>> print browser.contents
-<!DOCTYPE...
-<legend>postal address</legend>
-<div class="status">
-  <ul class="errors">
-    <li>
-      <div class="error">The selected state does not belong to the selected country.</div>
-    </li>
-  </ul>
-</div>...
-
 After filling out the fields correctly, we can add the record to the
 database and get back to the address book where the entry is
 displayed:
 
->>> browser.getControl('country').displayValue = ['Germany']
->>> browser.handleErrors = False
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
@@ -166,10 +139,8 @@ for tests
 'Testhausen'
 >>> browser.getControl('zip').value
 '99999'
->>> browser.getControl('state').displayValue
-['Sachsen-Anhalt']
 >>> browser.getControl('country').displayValue
-['Germany']
+['Austria']
 >>> print browser.getControl('notes', index=1).value
 first address
 for tests
@@ -341,7 +312,6 @@ form, which is already displayed:
 >>> browser.getControl('street').value = 'Forsterstraße 302a'
 >>> browser.getControl('city').value = 'Erfurt'
 >>> browser.getControl('zip').value = '98344'
->>> browser.getControl('Thüringen').click()
 >>> browser.getControl('notes').value = 'new company!'
 >>> browser.getControl('Add').click()
 
@@ -425,10 +395,10 @@ There is always one main address of each kind (by default the first
 one created). All addresses of each kind are displayed in a dropdown:
 
 >>> browser.getControl('main postal address').displayOptions
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany',
- 'work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Th\xc3\xbcringen, Germany']
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
 >>> browser.getControl('main postal address').displayValue
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany']
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria']
 >>> browser.getControl('main phone number').displayOptions
 ['cell phone: +4901767654321',
  'cell phone: +4901761234567']
@@ -448,8 +418,7 @@ one created). All addresses of each kind are displayed in a dropdown:
 Now we set the work addresses as default:
 
 >>> browser.getControl('main postal address').displayValue = ['work: '
-...     'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, '
-...     'Th\xc3\xbcringen, Germany']
+...     'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
 >>> browser.getControl('main e-mail address').displayValue = [
 ...     'work: pt@rst-software.de']
 >>> browser.getControl('main home page address').displayValue = [
@@ -527,8 +496,8 @@ existing adresses and numbers:
 'http://localhost/++skin++AddressBook/ab/Person/@@delete_entry.html'
 >>> entries = browser.getControl('Entries').displayOptions
 >>> entries
-['postal address -- private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany',
- 'postal address -- work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Th\xc3\xbcringen, Germany',
+['postal address -- private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'postal address -- work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany',
  'phone number -- cell phone: +4901767654321',
  'phone number -- cell phone: +4901761234567',
  'e-mail address -- private: petra@example.com',
@@ -573,7 +542,8 @@ True
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Sachsen-Anhalt, Germany', 'unknown: Germany']
+['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'unknown: Germany']
 
 Deleting the main address creates a new, empty address:
 

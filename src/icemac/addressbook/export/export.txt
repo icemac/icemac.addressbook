@@ -30,7 +30,7 @@ persons with data:
 >>> liebig.keywords = set([church, family])
 >>> create_postal_address(
 ...     addressbook, liebig, zip=u'06333', city=u'Testhausen',
-...     street=u'A-Street 1a', state=gocept.country.db.Subdivision('DE-ST'))
+...     street=u'A-Street 1a')
 <icemac.addressbook.address.PostalAddress object at 0x...>
 >>> create_email_address(
 ...     addressbook, liebig, kind=u'private', email=u'b.liebig@example.com')
@@ -78,13 +78,13 @@ numbers as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 23)
+(4, 22)
 >>> for rx in range(work_sheet_0.nrows):
 ...     print work_sheet_0.row(rx)
-[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
-[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
-[text:u'B.', text:u'Liebig', xldate:29332.0, text:u'male', text:u'church, family', empty:'', empty:'', empty:'', text:u'A-Street 1a', text:u'Testhausen', text:u'06333', text:u'Germany', text:u'Sachsen-Anhalt', empty:'', text:u'private phone', text:u'01234-5678-90', empty:'', text:u'private', text:u'b.liebig@example.com', empty:'', text:u'work', text:u'http://www.example.org', empty:'']
-[text:u'Michael', text:u'Howitz', empty:'', text:u'male', empty:'', empty:'', empty:'', empty:'', text:u'Eine-Stra\xc3\x9fe 99x', text:u'Hettstedt', text:u'06333', text:u'Germany', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
+[text:u'B.', text:u'Liebig', xldate:29332.0, text:u'male', text:u'church, family', empty:'', empty:'', empty:'', text:u'A-Street 1a', text:u'Testhausen', text:u'06333', text:u'Germany', empty:'', text:u'private phone', text:u'01234-5678-90', empty:'', text:u'private', text:u'b.liebig@example.com', empty:'', text:u'work', text:u'http://www.example.org', empty:'']
+[text:u'Michael', text:u'Howitz', empty:'', text:u'male', empty:'', empty:'', empty:'', empty:'', text:u'Eine-Stra\xc3\x9fe 99x', text:u'Hettstedt', text:u'06333', text:u'Germany', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
 
 Also works with nothing for export:
 
@@ -94,11 +94,11 @@ Also works with nothing for export:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 23)
+(2, 22)
 >>> for rx in range(work_sheet_0.nrows):
 ...     print work_sheet_0.row(rx)
-[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
-[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'phone number', empty:'', empty:'', text:u'e-mail address', empty:'', empty:'', text:u'home page address', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
 
 
 
@@ -116,13 +116,13 @@ as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 37)
+(4, 35)
 >>> for rx in range(work_sheet_0.nrows):
 ...     print work_sheet_0.row(rx)
-[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'main postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'other postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'main phone number', empty:'', empty:'', text:u'other phone number', empty:'', empty:'', text:u'other phone number', empty:'', empty:'', text:u'main e-mail address', empty:'', empty:'', text:u'main home page address', empty:'', empty:'']
-[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'state', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
-[text:u'B.', text:u'Liebig', xldate:29332.0, text:u'male', text:u'church, family', empty:'', empty:'', empty:'', text:u'A-Street 1a', text:u'Testhausen', text:u'06333', text:u'Germany', text:u'Sachsen-Anhalt', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'private phone', text:u'01234-5678-90', empty:'', text:u'cell phone', text:u'017612345678', text:u'new\nnumber', text:u'work fax', text:u'+49-3453-23434', empty:'', text:u'private', text:u'b.liebig@example.com', empty:'', text:u'work', text:u'http://www.example.org', empty:'']
-[text:u'Michael', text:u'Howitz', empty:'', text:u'male', empty:'', empty:'', empty:'', empty:'', text:u'Eine-Stra\xc3\x9fe 99x', text:u'Hettstedt', text:u'06333', text:u'Germany', empty:'', empty:'', text:u'other', empty:'', empty:'', text:u'Beispieldorf', text:u'00001', text:u'Germany', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
+[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'main postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'other postal address', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'main phone number', empty:'', empty:'', text:u'other phone number', empty:'', empty:'', text:u'other phone number', empty:'', empty:'', text:u'main e-mail address', empty:'', empty:'', text:u'main home page address', empty:'', empty:'']
+[text:u'first name', text:u'last name', text:u'birth date', text:u'sex', text:u'keywords', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'notes', text:u'kind', text:u'address prefix', text:u'street', text:u'city', text:u'zip', text:u'country', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'number', text:u'notes', text:u'kind', text:u'e-mail address', text:u'notes', text:u'kind', text:u'URL', text:u'notes']
+[text:u'B.', text:u'Liebig', xldate:29332.0, text:u'male', text:u'church, family', empty:'', empty:'', empty:'', text:u'A-Street 1a', text:u'Testhausen', text:u'06333', text:u'Germany', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', text:u'private phone', text:u'01234-5678-90', empty:'', text:u'cell phone', text:u'017612345678', text:u'new\nnumber', text:u'work fax', text:u'+49-3453-23434', empty:'', text:u'private', text:u'b.liebig@example.com', empty:'', text:u'work', text:u'http://www.example.org', empty:'']
+[text:u'Michael', text:u'Howitz', empty:'', text:u'male', empty:'', empty:'', empty:'', empty:'', text:u'Eine-Stra\xc3\x9fe 99x', text:u'Hettstedt', text:u'06333', text:u'Germany', empty:'', text:u'other', empty:'', empty:'', text:u'Beispieldorf', text:u'00001', text:u'Germany', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'', empty:'']
 
 Also works with nothing for export:
 

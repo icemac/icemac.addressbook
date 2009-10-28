@@ -23,6 +23,14 @@ Features
   book entities in the master data area. These fields as useable for
   editors and visitors, too.
 
+Removed features
+----------------
+
+- Removed the state attribute of the postal address: it only displayed
+  German states which are not really usefull outside
+  Germany. Furthermore this feature can now be emulated using the user
+  defined fields.
+
 
 Bug fixes
 ---------

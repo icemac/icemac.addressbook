@@ -13,15 +13,6 @@ import zope.interface
 import zope.schema
 
 
-class StateWithoutCountryError(zope.schema.ValidationError):
-    __doc__ = _("""A country is required to choose a state.""")
-
-
-class StateCountryMismatchError(zope.schema.ValidationError):
-    __doc__ = _(
-        "The selected state does not belong to the selected country.")
-
-
 PACKAGE_ID = 'icemac.addressbook'
 
 
@@ -79,19 +70,7 @@ class IPostalAddress(zope.interface.Interface):
     country = zope.schema.Choice(
         title=_(u'country'), source=gocept.country.countries,
         required=False, default=gocept.country.db.Country('DE'))
-    state = zope.schema.Choice(
-        title=_(u'state'), required=False,
-        source=gocept.country.SubdivisionSource(country_code=['DE']))
     notes = zope.schema.Text(title=_(u'notes'), required=False)
-
-    @zope.interface.invariant
-    def state_country(obj):
-        if not obj.state:
-            return None
-        if obj.state and not obj.country:
-            raise StateWithoutCountryError(obj)
-        if obj.country.alpha2 != obj.state.country_code:
-            raise StateCountryMismatchError(obj)
 
 
 class IEMailAddress(zope.interface.Interface):
