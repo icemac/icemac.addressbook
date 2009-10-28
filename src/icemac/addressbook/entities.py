@@ -105,7 +105,7 @@ class Entity(object):
         adapters = zope.component.getAdapters(
             (self, self._fake_object), icemac.addressbook.interfaces.IField)
         for name, field in adapters:
-            yield field.__name__, field
+            yield str(field.__name__), field
 
     def getFieldsInOrder(self):
         for name, field in self.getRawFields():
