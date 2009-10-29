@@ -184,6 +184,9 @@ class IEntity(zope.interface.Interface):
     class_name = zope.schema.DottedName(
         title=u"dotted name of the class", required=False)
 
+    name = zope.interface.Attribute(
+        "Uniqe name of the entity which only contains letters.")
+
     def getRawFields():
         """Get ordered name, field tuples of the schema fields on the entity.
 

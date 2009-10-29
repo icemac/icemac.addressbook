@@ -51,6 +51,10 @@ class TestEntity(unittest.TestCase):
     def tearDown(self):
         zope.component.testing.tearDown()
 
+    def test_name(self):
+        self.assertEqual('IcemacAddressbookTestsTestEntityDummy',
+                         self.entity.name)
+
     def test_getRawFields(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),

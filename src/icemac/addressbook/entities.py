@@ -97,6 +97,11 @@ class Entity(object):
         self._fake_object = FakeObject()
         zope.interface.directlyProvides(self._fake_object, self.interface)
 
+    @property
+    def name(self):
+        parts = self.class_name.replace('_', '.').split('.')
+        return ''.join(x.capitalize() for x in parts)
+
     def getRawFields(self):
         for name, field in zope.schema.getFieldsInOrder(self.interface):
             yield name, field
