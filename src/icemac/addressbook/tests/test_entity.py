@@ -72,6 +72,16 @@ class TestEntity(unittest.TestCase):
             [IDummy['dummy'], IDummy['dummy2'], self.schemaized_field],
             self.entity.getFieldValuesInOrder())
 
+    def test_getField_unknown_field(self):
+        self.assertRaises(KeyError, self.entity.getField, 'asdf')
+
+    def test_getField_schema_field(self):
+        self.assertEqual(IDummy['dummy2'], self.entity.getField('dummy2'))
+
+    def test_getField_user_field(self):
+        self.assertEqual(
+            self.schemaized_field, self.entity.getField('Field#1'))
+
     def test_getClass(self):
         self.assertEqual(Dummy, self.entity.getClass())
 

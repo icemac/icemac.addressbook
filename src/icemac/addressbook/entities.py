@@ -125,6 +125,9 @@ class Entity(object):
     def getFieldValuesInOrder(self):
         return [field for name, field in self.getFieldsInOrder()]
 
+    def getField(self, field_name):
+        return dict(self.getFieldsInOrder())[field_name]
+
     def getClass(self):
         if self.class_name:
             return zope.dottedname.resolve.resolve(self.class_name)

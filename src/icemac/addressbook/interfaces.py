@@ -186,6 +186,9 @@ class IEntity(zope.interface.Interface):
     name = zope.interface.Attribute(
         "Uniqe name of the entity which only contains letters.")
 
+    def getField(field_name):
+        """Get a zope.schema field by its name."""
+
     def getRawFields():
         """Get ordered name, field tuples of the schema fields on the entity.
 
