@@ -33,7 +33,7 @@ Add a new field
 New fields can only be added to existing entities, so the user has to
 select an entity first and then choose the `add field` link:
 
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit fields', index=5).click()
 >>> edit_entity_url = browser.url
 >>> edit_entity_url
 'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
@@ -326,7 +326,7 @@ then no longer used in the forms.
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit fields', index=5).click()
 >>> 'foobar' in browser.contents
 True
 >>> browser.getLink('Delete').click()
@@ -411,7 +411,7 @@ of the previously deleted field is not reused:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit fields', index=5).click()
 >>> browser.getLink('field').click()
 >>> browser.getControl('type').displayValue = ['bool']
 >>> browser.getControl('title').value = 'really?'

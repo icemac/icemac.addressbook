@@ -31,6 +31,10 @@
        />
   </class>
 
+  <utility
+      component="icemac.addressbook.file.file.file_entity"
+      name="icemac.addressbook.file.file.File" />
+
   <adapter factory=".file.title" />
 
 </configure>

@@ -75,7 +75,7 @@ class FakeObject(object):
 
 class Entity(object):
     "An entity int the address book universe."
-    # Use `create_entity` factory (see below) which also does the ZCA set up.
+    # Use `create_entity` factory for easier usage.
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntity)
 
@@ -157,8 +157,6 @@ def create_entity(title, interface, class_):
     "Factory to create an entity and to the ZCA set up."
     class_name = '%s.%s' % (class_.__module__, class_.__name__)
     entity = Entity(title, interface, class_name)
-    if class_name:
-        zope.component.provideUtility(entity, name=class_name)
-        zope.interface.classImplements(
-            class_, icemac.addressbook.interfaces.IMayHaveUserFields)
+    zope.interface.classImplements(
+        class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity

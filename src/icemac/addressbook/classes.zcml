@@ -23,6 +23,10 @@
        />
   </class>
 
+  <utility
+      component="icemac.addressbook.addressbook.address_book_entity"
+      name="icemac.addressbook.addressbook.AddressBook" />
+
   <!-- Person -->
   <class class=".person.Person">
     <implements
@@ -47,6 +51,10 @@
        />
   </class>
 
+  <utility
+      component="icemac.addressbook.person.person_entity"
+      name="icemac.addressbook.person.Person" />
+
   <!-- PostalAddress -->
   <class class=".address.PostalAddress">
     <implements
@@ -63,6 +71,10 @@
       set_attributes="__annotations__"
       />
   </class>
+
+  <utility
+      component="icemac.addressbook.address.postal_address_entity"
+      name="icemac.addressbook.address.PostalAddress" />
 
   <!-- EMailAddress -->
   <class class=".address.EMailAddress">
@@ -81,6 +93,10 @@
       />
   </class>
 
+  <utility
+      component="icemac.addressbook.address.e_mail_address_entity"
+      name="icemac.addressbook.address.EMailAddress" />
+
   <!-- HomePageAddress -->
   <class class=".address.HomePageAddress">
     <implements
@@ -98,6 +114,10 @@
       />
   </class>
 
+  <utility
+      component="icemac.addressbook.address.home_page_address_entity"
+      name="icemac.addressbook.address.HomePageAddress" />
+
   <!-- PhoneNumber -->
   <class class=".address.PhoneNumber">
     <implements
@@ -114,6 +134,10 @@
       set_attributes="__annotations__"
       />
   </class>
+
+  <utility
+      component="icemac.addressbook.address.phone_number_entity"
+      name="icemac.addressbook.address.PhoneNumber" />
 
   <!-- KeywordContainer -->
   <class class=".keyword.KeywordContainer">
@@ -150,6 +174,10 @@
       set_attributes="__annotations__"
       />
   </class>
+
+  <utility
+      component="icemac.addressbook.keyword.keyword_entity"
+      name="icemac.addressbook.keyword.Keyword" />
 
   <!-- PersistentEntities -->
   <class class=".entities.PersistentEntities">

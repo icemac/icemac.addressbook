@@ -48,10 +48,14 @@ class EntitiesTests(object):
         self.entities = self.entities_class()
         self.cat = icemac.addressbook.entities.create_entity(
             _('Cat'), ICat, Cat)
+        zope.component.provideUtility(self.cat, name=self.cat.class_name)
         self.duck = icemac.addressbook.entities.create_entity(
             _('Duck'), IDuck, Duck)
+        zope.component.provideUtility(self.duck, name=self.duck.class_name)
         self.kwack = icemac.addressbook.entities.create_entity(
             _('Kwack'), IKwack, Kwack)
+        zope.component.provideUtility(
+            self.kwack, name=self.kwack.class_name)
 
     def tearDown(self):
         zope.component.testing.tearDown()

@@ -72,11 +72,4 @@
      factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
      />
 
-  <!-- Entities must be reregistered using ZCML as the original registration
-       done at import time gets cleared at test set up. -->
-
-  <utility
-      component="icemac.addressbook.person.person_entity"
-      name="icemac.addressbook.person.Person" />
-
 </configure>

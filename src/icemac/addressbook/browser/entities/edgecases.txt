@@ -16,15 +16,8 @@ be displayed does not break.
 Set up
 ======
 
-Register the keywords entity as utility so keyword can have user
-defined fields:
-
->>> import icemac.addressbook.keyword
->>> import zope.component
->>> zope.component.provideUtility(icemac.addressbook.keyword.keyword_entity,
-...                               name=u'icemac.addressbook.keyword.Keyword')
-
-Create an address book and a browser to access it. Log in as `Administrator`:
+Create an address book and a browser to access it. Log in as
+`Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from zope.testbrowser.testing import Browser
@@ -40,7 +33,7 @@ We create a field for keywords:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit fields', index=4).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
 >>> browser.getLink('field').click()
@@ -92,7 +85,7 @@ When the selected value of the choice gets deleted:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Edit entities').click()
->>> browser.getLink('Edit fields').click()
+>>> browser.getLink('Edit fields', index=4).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
 >>> browser.getLink('Edit', index=1).click()
@@ -112,12 +105,3 @@ The value is no longer displayed for the keyword:
 ['no value', 'one', 'three']
 >>> browser.getControl('kind').displayValue
 ['no value']
-
-
-Tear down
-=========
-
->>> zope.component.getGlobalSiteManager().unregisterUtility(
-...     icemac.addressbook.keyword.keyword_entity,
-...     name=u'icemac.addressbook.keyword.Keyword')
-True
