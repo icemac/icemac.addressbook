@@ -35,9 +35,12 @@ class Entities(object):
             icemac.addressbook.interfaces.IEntity)
 
     def _get_entity_by_name(self, name, default=marker):
-        entity = zope.component.queryUtility(
-            icemac.addressbook.interfaces.IEntity, name=name)
-        if entity is None and default is marker:
+        entity = default
+        for candidate in self.getAllEntities():
+            if candidate.name == name:
+                entity = candidate
+                break
+        if entity is marker:
             raise ValueError("Unknown name: %r" % name)
         return entity
 

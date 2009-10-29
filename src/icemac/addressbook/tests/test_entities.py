@@ -74,7 +74,7 @@ class EntitiesTests(object):
     def test_getEntity_known_class_name(self):
         self.assertEqual(
             self.duck, self.entities.getEntity(
-                'icemac.addressbook.tests.test_entities.Duck'))
+                'IcemacAddressbookTestsTestEntitiesDuck'))
 
     def test_getEntity_unknown_interface(self):
         entity = self.entities.getEntity(IDog)
@@ -88,8 +88,8 @@ class EntitiesTests(object):
 
     def test_getTitle(self):
         self.assertEqual(
-            _(u'Duck'), self.entities.getTitle(
-                'icemac.addressbook.tests.test_entities.Duck'))
+            _(u'Kwack'), self.entities.getTitle(
+                'IcemacAddressbookTestsTestEntitiesKwack'))
 
 
 class TestEntities(EntitiesTests, unittest.TestCase):
