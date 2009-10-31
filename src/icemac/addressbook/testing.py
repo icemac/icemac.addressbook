@@ -217,3 +217,13 @@ def create_user(ab, first_name, last_name, email, password, roles):
     icemac.addressbook.utils.create_and_add(
         ab.principals, icemac.addressbook.principals.principals.Principal,
         person=person, password=password, roles=selected_roles)
+
+
+@icemac.addressbook.utils.set_site
+def create_field(entity_name, type, title, **kw):
+    "Create a user defined field for an entity."
+    field = icemac.addressbook.utils.create_obj(
+        icemac.addressbook.entities.Field, type=type, title=title, **kw)
+    entity = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntity, name=entity_name)
+    icemac.addressbook.entities.store_and_register_field(field, entity)

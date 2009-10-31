@@ -21,15 +21,6 @@ class Dummy(object):
     pass
 
 
-class Factory(object):
-
-    def __init__(self, obj):
-        self._obj = obj
-
-    def __call__(self, *args):
-        return self._obj
-
-
 class TestEntity(unittest.TestCase):
 
     def setUp(self):
@@ -40,7 +31,7 @@ class TestEntity(unittest.TestCase):
         self.user_field.__name__ = 'Field#1'
         self.user_field.type = 'TextLine'
         zope.component.provideAdapter(
-            Factory(self.user_field),
+            icemac.addressbook.entities.FieldAdapterFactory(self.user_field),
             adapts=(icemac.addressbook.interfaces.IEntity, IDummy),
             provides=icemac.addressbook.interfaces.IField,
             name=self.user_field.__name__)

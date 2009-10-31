@@ -148,6 +148,32 @@ class Field(persistent.Persistent, zope.container.contained.Contained):
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IField['notes'])
 
+
+class FieldAdapterFactory(persistent.Persistent):
+    "Factory to register a field as an adapter."
+
+    def __init__(self, field):
+        self._field = field
+
+    def __call__(self, *args):
+        return self._field
+
+
+def store_and_register_field(field, entity):
+    "Store a `field` in the ZODB and register it for an `entity`."
+    # store in entities utility
+    parent = zope.component.getUtility(icemac.addressbook.interfaces.IEntities)
+    name = icemac.addressbook.utils.add(parent, field)
+    # register as adapter
+    sm = zope.site.hooks.getSiteManager()
+    sm.registerAdapter(
+        FieldAdapterFactory(field),
+        provided=icemac.addressbook.interfaces.IField,
+        required=(icemac.addressbook.interfaces.IEntity, entity.interface),
+        name=name)
+    return name
+
+
 class FieldStorage(persistent.Persistent):
     """Storage for field values in annotations."""
     zope.component.adapts(

@@ -78,15 +78,6 @@ class List(icemac.addressbook.browser.table.Table):
                 for name, field in self.context.getRawFields()]
 
 
-class FieldAdapterFactory(persistent.Persistent):
-
-    def __init__(self, field):
-        self._field = field
-
-    def __call__(self, *args):
-        return self._field
-
-
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     class_ = icemac.addressbook.entities.Field
@@ -94,17 +85,8 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     next_url = 'parent'
 
     def add(self, obj):
-        parent = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities)
-        self._name = icemac.addressbook.utils.add(parent, obj)
-        # register as adapter
-        sm = zope.site.hooks.getSiteManager()
-        sm.registerAdapter(
-            FieldAdapterFactory(obj),
-            provided=icemac.addressbook.interfaces.IField,
-            required=(icemac.addressbook.interfaces.IEntity,
-                      zope.security.proxy.getObject(self.context.interface)),
-            name=self._name)
+        self._name = icemac.addressbook.entities.store_and_register_field(
+            obj, zope.security.proxy.getObject(self.context))
 
 
 class BaseForm(object):
