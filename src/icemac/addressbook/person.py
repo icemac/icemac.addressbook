@@ -66,6 +66,15 @@ def title(person):
     return u'%s, %s' % (person.last_name, person.first_name)
 
 
+def get_default_field(interface):
+    "Find the field of a default value attribute on person."
+    names_descrs = (
+        icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
+    for name, descr in names_descrs:
+        if descr.source.factory.interface == interface:
+            return icemac.addressbook.interfaces.IPersonDefaults[name]
+
+
 @zope.component.adapter(icemac.addressbook.interfaces.IPerson,
                         zope.lifecycleevent.IObjectCreatedEvent)
 def person_created(person, event):
