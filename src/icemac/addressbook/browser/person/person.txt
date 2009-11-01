@@ -69,7 +69,6 @@ There are fields for the person's personal data:
 >>> browser.getControl('first name').value = u'Hans'
 >>> browser.getControl('last name').value = u'Tester'
 >>> browser.getControl('birth date').value = u'00/02/29'
->>> browser.getControl('male').click()
 >>> browser.getControl('notes', index=0).value = u'first person\nfor tests'
 
 Fields for the primary postal address:
@@ -124,8 +123,6 @@ displayed values are the ones entered before:
 'Tester'
 >>> browser.getControl('birth date').value
 '00/02/29'
->>> browser.getControl('male').selected
-True
 >>> print browser.getControl('notes', index=0).value
 first person
 for tests
@@ -179,7 +176,6 @@ cancel button and is set back to the address book overview. The
 changes were not saved:
 
 >>> browser.getControl('first name').value = u'Petra'
->>> browser.getControl('sex').displayValue = ['female']
 >>> browser.getControl('zip').value = u'88888'
 >>> browser.getControl('e-mail address', index=1).value = u'petra@example.com'
 >>> browser.getControl('URL').value = 'http://petra.example.com'
@@ -197,8 +193,6 @@ changes were not saved:
 'Tester'
 >>> browser.getControl('birth date').value
 '00/02/29'
->>> browser.getControl('male').selected
-True
 >>> print browser.getControl('notes', index=0).value
 first person
 for tests
@@ -216,7 +210,6 @@ button. If there are errors in the input data an error message is
 displayed:
 
 >>> browser.getControl('first name').value = u'Petra'
->>> browser.getControl('sex').displayValue = ['female']
 >>> browser.getControl('birth date').value = u'qqqq'
 >>> browser.getControl('zip').value = u'88888'
 >>> browser.getControl('e-mail address', index=1).value = u'petra@example.com'
@@ -256,8 +249,6 @@ page again:
 'Tester'
 >>> browser.getControl('birth date').value
 '01/01/01'
->>> browser.getControl('female').selected
-True
 >>> browser.getControl('zip').value
 '88888'
 >>> browser.getControl('e-mail address', index=1).value
@@ -440,7 +431,6 @@ Visitors can not chance any data, they can only view it:
 <!DOCTYPE...
 ...first name...Petra...
 ...last name...Tester...
-...sex...female...
 ...main phone number...
 ...cell phone: +4901767654321...
 ...zip...88888...

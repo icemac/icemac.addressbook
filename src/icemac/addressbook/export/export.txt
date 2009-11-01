@@ -24,7 +24,7 @@ persons with data:
 >>> family = create_keyword(addressbook, u'family')
 
 >>> liebig = create_person(
-...     addressbook, addressbook, u'Liebig', first_name=u'B.', sex=u'male',
+...     addressbook, addressbook, u'Liebig', first_name=u'B.',
 ...     birth_date=datetime.date(1980, 4, 21))
 >>> zope.site.hooks.setSite(addressbook)
 >>> liebig.keywords = set([church, family])
@@ -43,7 +43,7 @@ persons with data:
 <icemac.addressbook.address.HomePageAddress object at 0x...>
 
 >>> howitz = create_person(
-...     addressbook, addressbook, u'Howitz', first_name=u'Michael', sex=u'male')
+...     addressbook, addressbook, u'Howitz', first_name=u'Michael')
 >>> create_postal_address(
 ...     addressbook, howitz, zip=u'06333', city=u'Hettstedt',
 ...     street=u'Eine-Straße 99x')
@@ -79,11 +79,10 @@ numbers as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 22)
+(4, 21)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -107,7 +106,6 @@ numbers as an XLS file:
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes',
  text:u'kind',
@@ -129,7 +127,6 @@ numbers as an XLS file:
 [text:u'B.',
  text:u'Liebig',
  xldate:29332.0,
- text:u'male',
  text:u'church, family',
  empty:'',
  empty:'',
@@ -151,7 +148,6 @@ numbers as an XLS file:
 [text:u'Michael',
  text:u'Howitz',
  empty:'',
- text:u'male',
  empty:'',
  empty:'',
  empty:'',
@@ -179,11 +175,10 @@ Also works with nothing for export:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 22)
+(2, 21)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -207,7 +202,6 @@ Also works with nothing for export:
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes',
  text:u'kind',
@@ -242,11 +236,10 @@ as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 35)
+(4, 34)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -283,7 +276,6 @@ as an XLS file:
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes',
  text:u'kind',
@@ -318,7 +310,6 @@ as an XLS file:
 [text:u'B.',
  text:u'Liebig',
  xldate:29332.0,
- text:u'male',
  text:u'church, family',
  empty:'',
  empty:'',
@@ -353,7 +344,6 @@ as an XLS file:
 [text:u'Michael',
  text:u'Howitz',
  empty:'',
- text:u'male',
  empty:'',
  empty:'',
  empty:'',
@@ -394,13 +384,12 @@ Also works with nothing for export:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 6)
+(2, 5)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
-[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'']
+[text:u'person', empty:'', empty:'', empty:'', empty:'']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes']

@@ -22,7 +22,7 @@ We need an address book, some keywords and some persons:
 ...                         keywords=set([friends]))
 >>> koch = create_person(
 ...     addressbook, addressbook, u'Koch', keywords=set([family, church]),
-...     birth_date=datetime.date(1952, 1, 24), sex='male')
+...     birth_date=datetime.date(1952, 1, 24))
 >>> liebig = create_person(addressbook, addressbook, u'Liebig',
 ...                        keywords=set([church]))
 
@@ -78,7 +78,7 @@ displayed, the checkboxes of the rows are pre-selected:
   <tbody>
     <tr>
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Mr. Koch</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
     </tr>
     <tr>
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
@@ -102,11 +102,10 @@ persons are exported:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 22)
+(4, 21)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -130,7 +129,6 @@ persons are exported:
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes',
  text:u'kind',
@@ -152,7 +150,6 @@ persons are exported:
 [empty:'',
  text:u'Koch',
  xldate:19017.0,
- text:u'male',
  text:u'family, church',
  empty:'',
  empty:'',
@@ -173,7 +170,6 @@ persons are exported:
  empty:'']
 [empty:'',
  text:u'Liebig',
- empty:'',
  empty:'',
  text:u'church',
  empty:'',
@@ -203,11 +199,10 @@ are exported:
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(3, 22)
+(3, 21)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -231,7 +226,6 @@ are exported:
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes',
  text:u'kind',
@@ -252,7 +246,6 @@ are exported:
  text:u'notes']
 [empty:'',
  text:u'Liebig',
- empty:'',
  empty:'',
  text:u'church',
  empty:'',
@@ -285,13 +278,12 @@ deselect them. We also test here another exporter:
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 6)
+(2, 5)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
-[text:u'person', empty:'', empty:'', empty:'', empty:'', empty:'']
+[text:u'person', empty:'', empty:'', empty:'', empty:'']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
- text:u'sex',
  text:u'keywords',
  text:u'notes']
