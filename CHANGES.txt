@@ -11,7 +11,8 @@ Features
 - Users having the role `Administrator` can delete the whole address
   book on the address book edit form.
 
-- Last modification time of objects is now stored and displayed.
+- Last modification time of objects is now stored and displayed (in
+  UTC!).
 
 - Users having the role `Administrator` can import data in the master
   data area.
