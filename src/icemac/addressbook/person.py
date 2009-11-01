@@ -28,8 +28,6 @@ class Person(zope.container.btree.BTreeContainer):
         icemac.addressbook.interfaces.IPerson['last_name'])
     birth_date = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPerson['birth_date'])
-    sex = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['sex'])
     notes = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPerson['notes'])
 
@@ -56,13 +54,7 @@ def title(person):
     if not(person.first_name or person.last_name):
         return u'<no name>'
     if not person.first_name:
-        if not person.sex:
-            return person.last_name
-        else:
-            return u'%s %s' % (
-                icemac.addressbook.sources.salutation_source.factory.
-                    getTitle(person.sex),
-                person.last_name)
+        return person.last_name
     return u'%s, %s' % (person.last_name, person.first_name)
 
 

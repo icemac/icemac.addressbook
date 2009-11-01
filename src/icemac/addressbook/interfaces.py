@@ -44,9 +44,6 @@ class IPerson(zope.interface.Interface):
     first_name = zope.schema.TextLine(title=_(u'first name'), required=False)
     last_name = zope.schema.TextLine(title=_(u'last name'))
     birth_date = zope.schema.Date(title=_(u'birth date'), required=False)
-    sex = zope.schema.Choice(
-        title=_(u'sex'), source=icemac.addressbook.sources.SexSource(),
-        required=False)
     keywords = gocept.reference.field.Set(
         title=_('keywords'), required=False,
         value_type=zope.schema.Choice(

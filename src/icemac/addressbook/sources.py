@@ -25,25 +25,12 @@ class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
         return self._mapping[value]
 
 
-class SexSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
-        ((u'male', _(u'male')),
-         (u'female', _(u'female'))))
-
-
 class YesNoSource(TitleMappingSource):
     _mapping = stabledict.StableDict(
         ((True, _(u'yes')),
          (False, _(u'no'))))
 
 yes_no_source = YesNoSource()
-
-class SalutationSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
-        ((u'male', _(u'Mr.')),
-         (u'female', _(u'Ms.'))))
-
-salutation_source = SalutationSource()
 
 
 class FieldTypeSource(TitleMappingSource):
