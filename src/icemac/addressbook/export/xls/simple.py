@@ -6,6 +6,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import cStringIO
 import datetime
+import decimal
 import icemac.addressbook.address
 import icemac.addressbook.export.interfaces
 import icemac.addressbook.interfaces
@@ -35,9 +36,12 @@ group_style.font = group_font
 date_style = xlwt.XFStyle()
 date_style.num_format_str = 'DD.MM.YY'
 
+datetime_style = xlwt.XFStyle()
+datetime_style.num_format_str = 'DD.MM.YY HH:MM:SS'
 
 value_style_mapping = {
-    datetime.date: date_style
+    datetime.date: date_style,
+    datetime.datetime: datetime_style,
     }
 
 
@@ -45,7 +49,8 @@ def convert_value(value):
     """Convert the value for xls export."""
     if value is None:
         return value
-    if value.__class__ in (str, unicode, float, int, datetime.date):
+    if value.__class__ in (str, unicode, float, int, bool, datetime.date,
+                           datetime.datetime, decimal.Decimal):
         return value
     if hasattr(value, '__iter__'):
         return ', '.join(convert_value(v) for v in value)
@@ -103,7 +108,8 @@ class XLSExport(object):
             return col
         idx = 0
         for name, field in self.getEntity(interface).getFieldsInOrder():
-            self.write_cell(row, col + idx, getattr(obj, name))
+            context = field.interface(obj)
+            self.write_cell(row, col + idx, getattr(context, name))
             idx += 1
         return col + idx
 

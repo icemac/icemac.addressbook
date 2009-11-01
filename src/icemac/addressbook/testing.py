@@ -201,6 +201,26 @@ def create_phone_number(person, set_as_default=True, return_obj=True, **kw):
 
 
 @icemac.addressbook.utils.set_site
+def create(
+    parent, entity_name, return_obj=False, set_as_default=False, *args, **kw):
+    "Create an object using an entity."
+    entity = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntity, name=entity_name)
+    name = icemac.addressbook.utils.create_and_add(
+        parent, entity.getClass(), *args)
+    obj = parent[name]
+    for key, value in kw.items():
+        field = entity.getField(key)
+        context = field.interface(obj)
+        field.set(context, value)
+    if set_as_default:
+        field = icemac.addressbook.person.get_default_field(entity.interface)
+        field.set(parent, obj)
+    if return_obj:
+        return obj
+
+
+@icemac.addressbook.utils.set_site
 def create_user(ab, first_name, last_name, email, password, roles):
     person = create_person(
         ab, ab, last_name, first_name=first_name)

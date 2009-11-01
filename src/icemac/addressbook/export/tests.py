@@ -28,6 +28,7 @@ class TestInterfaces(unittest.TestCase):
 def test_suite():
     suite = icemac.addressbook.testing.UnittestSuite(TestInterfaces)
     suite.addTest(icemac.addressbook.testing.FunctionalDocFileSuite(
-            'export/export.txt'))
+        'export/export.txt',
+        'export/userfields.txt'))
     return suite
 
