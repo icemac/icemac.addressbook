@@ -19,6 +19,9 @@
      factory=".base.display_title"
      name="display_title" />
 
+  <adapter
+      factory=".metadata.ModifiedLabel"
+      name="label" />
 
   <!-- CAUTION: This adapter ensures that the ordered select widget is
                 used for all ISet schema elements. -->

@@ -31,3 +31,7 @@ class ModifiedGroup(z3c.form.group.Group):
         self.widgets.mode = self.mode
         self.widgets.update()
 
+
+ModifiedLabel = z3c.form.widget.StaticWidgetAttribute(
+    _(u'Modification Date (UTC)'),
+      field=zope.dublincore.interfaces.IDCTimes['modified'])
