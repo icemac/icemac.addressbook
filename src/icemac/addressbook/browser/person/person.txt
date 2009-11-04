@@ -69,7 +69,6 @@ There are fields for the person's personal data:
 >>> browser.getControl('first name').value = u'Hans'
 >>> browser.getControl('last name').value = u'Tester'
 >>> browser.getControl('birth date').value = u'00/02/29'
->>> browser.getControl('notes', index=0).value = u'first person\nfor tests'
 
 Fields for the primary postal address:
 
@@ -79,25 +78,21 @@ Fields for the primary postal address:
 >>> browser.getControl('city', index=0).value = u'Testhausen'
 >>> browser.getControl('zip').value = u'99999'
 >>> browser.getControl('country').displayValue = ['Austria']
->>> browser.getControl('notes', index=1).value = u'first address\nfor tests'
 
 Fields for the primary phone number:
 
 >>> browser.getControl('kind', index=1).displayValue = ['cell phone']
 >>> browser.getControl('number').value = u'112'
->>> browser.getControl('notes', index=2).value = 'first phone number\nfor tests'
 
 Fields for the primary e-mail address:
 
 >>> browser.getControl('kind', index=2).displayValue = ['private']
 >>> browser.getControl('e-mail address').value = 'hans@example.com'
->>> browser.getControl('notes', index=3).value = 'first e-mail\nfor tests'
 
 Fields for the primary home page address:
 
 >>> browser.getControl('kind', index=3).displayValue = ['work']
 >>> browser.getControl('URL').value = 'http://www.example.com'
->>> browser.getControl('notes', index=4).value = 'first home page\nfor tests'
 
 After filling out the fields correctly, we can add the record to the
 database and get back to the address book where the entry is
@@ -123,9 +118,6 @@ displayed values are the ones entered before:
 'Tester'
 >>> browser.getControl('birth date').value
 '00/02/29'
->>> print browser.getControl('notes', index=0).value
-first person
-for tests
 >>> browser.getControl('kind', index=0).displayValue
 ['private']
 >>> browser.getControl('address prefix').value
@@ -138,30 +130,18 @@ for tests
 '99999'
 >>> browser.getControl('country').displayValue
 ['Austria']
->>> print browser.getControl('notes', index=1).value
-first address
-for tests
 >>> browser.getControl('kind', index=1).displayValue
 ['cell phone']
 >>> browser.getControl('number', index=1).value
 '112'
->>> print browser.getControl('notes', index=2).value
-first phone number
-for tests
 >>> browser.getControl('kind', index=2).displayValue
 ['private']
 >>> browser.getControl('e-mail address', index=1).value
 'hans@example.com'
->>> print browser.getControl('notes', index=3).value
-first e-mail
-for tests
 >>> browser.getControl('kind', index=3).displayValue
 ['work']
 >>> browser.getControl('URL').value
 'http://www.example.com'
->>> print browser.getControl('notes', index=4).value
-first home page
-for tests
 
 The last modification date is also displayed:
 
@@ -193,9 +173,6 @@ changes were not saved:
 'Tester'
 >>> browser.getControl('birth date').value
 '00/02/29'
->>> print browser.getControl('notes', index=0).value
-first person
-for tests
 >>> browser.getControl('zip').value
 '99999'
 >>> browser.getControl('e-mail address', index=1).value
@@ -273,7 +250,6 @@ is already displayed:
 >>> browser.getLink('phone number').click()
 >>> browser.getControl('kind').displayValue = ['cell phone']
 >>> browser.getControl('number').value = '+4901761234567'
->>> browser.getControl('notes').value = 'new cell number!'
 >>> browser.getControl('Add').click()
 
 After adding a new phone number, the person edit form is displayed
@@ -303,7 +279,6 @@ form, which is already displayed:
 >>> browser.getControl('street').value = 'Forsterstraße 302a'
 >>> browser.getControl('city').value = 'Erfurt'
 >>> browser.getControl('zip').value = '98344'
->>> browser.getControl('notes').value = 'new company!'
 >>> browser.getControl('Add').click()
 
 After adding a new postal address, the person edit form is displayed
@@ -334,7 +309,6 @@ form, which is already displayed:
 >>> browser.getLink('e-mail address').click()
 >>> browser.getControl('kind').displayValue = ['work']
 >>> browser.getControl('e-mail address').value = 'pt@abc-computer.de'
->>> browser.getControl('notes').value = 'new e-mail address in company!'
 >>> browser.getControl('Add').click()
 
 After adding a new e-mail address, the person edit form is displayed
@@ -361,7 +335,6 @@ form, which is already displayed:
 >>> browser.getLink('home page').click()
 >>> browser.getControl('kind').displayValue = ['work']
 >>> browser.getControl('URL').value = 'http://www.abc-computer.de'
->>> browser.getControl('notes').value = 'home page of new in company!'
 >>> browser.getControl('Add').click()
 
 After adding a new home page address, the person edit form is

@@ -27,13 +27,16 @@ Features
 Removed features
 ----------------
 
-- Removed the state attribute of the postal address: it only displayed
-  German states which are not really usefull outside
-  Germany. Furthermore this feature can now be emulated using the user
-  defined fields.
+- Removed some fields which are not always necessary and which can be
+  re-added when needed as user defined fields:
 
-- Removed the sex attribute for persons. When it is really needed it
-  can be added using user defined fields.
+  - state field on the postal address (It only displayed German
+    states.),
+
+  - sex field on person,
+
+  - notes fields on address book, postal address, phone number, e-mail
+    address, home page address, file and keyword.
 
 
 Bug fixes

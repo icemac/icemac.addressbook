@@ -28,8 +28,6 @@ class File(persistent.Persistent, zope.container.contained.Contained):
         icemac.addressbook.file.interfaces.IFile['name'])
     mimeType = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.file.interfaces.IFile['mimeType'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.file.interfaces.IFile['notes'])
 
     @property
     def size(self):

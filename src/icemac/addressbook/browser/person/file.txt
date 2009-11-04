@@ -32,7 +32,6 @@ Adding a file is possible on the person edit form:
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(
 ...     StringIO('File contents'), 'text/plain', 'test.txt')
->>> browser.getControl('notes').value = 'first\ntest'
 
 Deciding to cancel adding redirects to the person edit form:
 
@@ -59,7 +58,6 @@ Really adding the file shows the file on the person edit form:
 >>> browser.getLink('file').click()
 >>> fd, filename = write_temp_file('File contents', '.txt')
 >>> browser.getControl('file').add_file(fd, 'text/plain', filename)
->>> browser.getControl('notes').value = 'first\ntest'
 >>> browser.getControl('Add').click()
 
 The new file is shown there including a widget displaying the
@@ -71,9 +69,6 @@ True
 'text/plain'
 >>> browser.getControl('file').value is None
 True
->>> print browser.getControl('notes', index=5).value
-first
-test
 
 There is also a download link for the file:
 
@@ -180,7 +175,6 @@ hard disk, so let's put the data into a StringIO:
 >>> browser.getLink('file').click()
 >>> browser.getControl('file').add_file(
 ...     StringIO('2nd file'), 'text/plain', '2nd.txt')
->>> browser.getControl('notes').value = '2nd\ntest'
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
@@ -190,9 +184,6 @@ True
 'text/plain'
 >>> browser.getControl('file', index=1).value is None
 True
->>> print browser.getControl('notes', index=6).value
-2nd
-test
 
 Download
 --------

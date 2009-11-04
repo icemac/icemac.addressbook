@@ -19,7 +19,6 @@ On the start page there is a link to add an address book:
 
 >>> browser.getLink('address book').click()
 >>> browser.getControl('title').value = 'test book'
->>> browser.getControl('notes'). value = 'testing address book'
 >>> browser.getControl('Add').click()
 >>> address_book_url = browser.url
 >>> address_book_url
@@ -38,18 +37,13 @@ the formerly entred data:
 >>> edit_address_book_url = browser.url
 >>> browser.getControl('title').value
 'test book'
->>> browser.getControl('notes'). value
-'testing address book'
 >>> browser.getControl('title').value = 'ftest book'
->>> browser.getControl('notes'). value = 'ftesting address book'
 >>> browser.getControl('Apply').click()
 
 The edit form submits to itself and shows the stored data:
 
 >>> browser.getControl('title').value
 'ftest book'
->>> browser.getControl('notes'). value
-'ftesting address book'
 
 Person list
 ===========
@@ -78,7 +72,7 @@ Editors can add new persons:
 >>> editor_browser.open(address_book_url)
 >>> editor_browser.getLink('person').click()
 
-But there is no link to edit the address book's data (title, notes)
+But there is no link to edit the address book's data (title)
 because the editor is not allowed to do so:
 
 >>> editor_browser.goBack()
@@ -105,7 +99,7 @@ Visitors can only visit data but are not allowed to change anything:
 Traceback (most recent call last):
 LinkNotFoundError
 
-There is also no link to edit the address book's data (title, notes)
+There is also no link to edit the address book's data (title)
 because the visitor is not allowed to do so:
 
 >>> visitor_browser.getLink('Edit address book')

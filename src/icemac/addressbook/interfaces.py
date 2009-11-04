@@ -35,7 +35,6 @@ class IAddressBook(zope.interface.Interface):
         u'icemac.addressbook.interfaces.IEntities')
 
     title = zope.schema.TextLine(title=_(u'title'))
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IPerson(zope.interface.Interface):
@@ -67,7 +66,6 @@ class IPostalAddress(zope.interface.Interface):
     country = zope.schema.Choice(
         title=_(u'country'), source=gocept.country.countries,
         required=False, default=gocept.country.db.Country('DE'))
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IEMailAddress(zope.interface.Interface):
@@ -80,7 +78,6 @@ class IEMailAddress(zope.interface.Interface):
         title=_(u'e-mail address'), required=False,
         constraint=re.compile(
             "^[=+A-Za-z0-9_.-]+@([A-Za-z0-9_\-]+\.)+[A-Za-z]{2,6}$").match)
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IHomePageAddress(zope.interface.Interface):
@@ -90,7 +87,6 @@ class IHomePageAddress(zope.interface.Interface):
         title=_(u'kind'), required=False,
         source=icemac.addressbook.sources.work_private_kind_source)
     url = zope.schema.URI(title=_(u'URL'), required=False)
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IPhoneNumber(zope.interface.Interface):
@@ -100,7 +96,6 @@ class IPhoneNumber(zope.interface.Interface):
         title=_(u'kind'), required=False,
         source=icemac.addressbook.sources.phone_number_kind_source)
     number = zope.schema.TextLine(title=_(u'number'), required=False)
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IPersonDefaults(zope.interface.Interface):
@@ -145,7 +140,6 @@ class IKeyword(zope.interface.Interface):
     """A keyword."""
 
     title = zope.schema.TextLine(title=_(u'keyword'))
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
 class IEntities(zope.interface.Interface):

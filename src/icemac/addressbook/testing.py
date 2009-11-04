@@ -138,10 +138,10 @@ def create_addressbook(parent=None, name='ab', title=u'test address book'):
     return ab
 
 
-def create_keyword(addressbook, title, notes=u'', return_obj=True):
+def create_keyword(addressbook, title, return_obj=True):
     parent = addressbook.keywords
     name = icemac.addressbook.utils.create_and_add(
-        parent, icemac.addressbook.keyword.Keyword, title=title, notes=notes)
+        parent, icemac.addressbook.keyword.Keyword, title=title)
     if return_obj:
         return parent[name]
 

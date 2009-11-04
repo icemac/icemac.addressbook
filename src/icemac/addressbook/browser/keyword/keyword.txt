@@ -35,7 +35,6 @@ add form:
 
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'company coworkr'
->>> browser.getControl('notes').value = 'first\ntest'
 >>> browser.getControl('Add').click()
 
 The added keyword is shown at the overview page:
@@ -53,9 +52,6 @@ values are displayed:
 >>> browser.getLink('company coworkr').click()
 >>> browser.getControl('keyword').value
 'company coworkr'
->>> print browser.getControl('notes').value
-first
-test
 
 The last modification date is also displayed:
 
@@ -68,7 +64,6 @@ The last modification date is also displayed:
 We correct the typo to show the edit form works:
 
 >>> browser.getControl('keyword').value = 'company co-worker'
->>> browser.getControl('notes').value = 'co-workers in my company'
 >>> browser.getControl('Apply').click()
 
 To show that the changes where saved we go again to the form:
@@ -76,8 +71,6 @@ To show that the changes where saved we go again to the form:
 >>> browser.getLink('company co-worker').click()
 >>> browser.getControl('keyword').value
 'company co-worker'
->>> browser.getControl('notes').value
-'co-workers in my company'
 
 Cancel edit
 ===========
