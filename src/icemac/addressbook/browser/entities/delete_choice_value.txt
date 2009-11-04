@@ -1,11 +1,6 @@
-=====================
- Entities edge cases
-=====================
-
-There are some edge cases on using entities.
-
-Delete used values of a choice
-==============================
+================================
+ Delete used values of a choice
+================================
 
 Scenario: A user defined field is a choice. One of the values of this
 choice was chosen by a user. The administrator deletes this value in
