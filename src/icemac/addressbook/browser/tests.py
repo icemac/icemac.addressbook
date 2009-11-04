@@ -10,8 +10,9 @@ def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
         "browser/addressbook/addressbook.txt",
         "browser/authentication/login.txt",
+        "browser/entities/delete_choice_value.txt",
         "browser/entities/entities.txt",
-        "browser/entities/edgecases.txt",
+        "browser/entities/file.txt",
         "browser/export/export.txt",
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",

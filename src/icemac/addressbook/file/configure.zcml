@@ -24,10 +24,12 @@
     <require
        permission="icemac.addressbook.ViewFile"
        interface=".interfaces.IFile"
+       attributes="__annotations__"
        />
     <require
        permission="icemac.addressbook.EditFile"
        set_schema=".interfaces.IFile"
+       set_attributes="__annotations__"
        />
   </class>
 

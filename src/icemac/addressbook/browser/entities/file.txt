@@ -1,0 +1,77 @@
+==============================
+ User defined fields on files
+==============================
+
+Files are a bit different, when handling user defined fields so a
+special test is needed here.
+
+Set up
+======
+
+Create an address book, a user defined field for a file inside:
+
+>>> from icemac.addressbook.testing import (
+...     create_field, create_person, create_addressbook)
+>>> ab = create_addressbook()
+>>> create_field(ab, 'icemac.addressbook.file.file.File', 'Text', u'mynotes')
+
+Create a browser to access the address book. Log in as
+`Administrator`:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Create a person using the web ui as it is easier than doing it in code:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Tester'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+
+Add file to person
+==================
+
+In the add form the field should be displayed:
+
+>>> from StringIO import StringIO
+>>> browser.getLink('Tester').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> browser.handleErrors = False
+>>> browser.getLink('file').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person/@@addFile.html'
+>>> browser.getControl('file').add_file(
+...     StringIO('Dear Tester, CU.'), 'text/plain', 'letter.txt')
+>>> browser.getControl('mynotes').value = 'first\nletter'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person'
+
+The entered values got saved:
+
+>>> browser.getControl('Mime Type').value
+'text/plain'
+>>> browser.getControl('name', index=2).value
+'letter.txt'
+>>> print browser.getControl('mynotes').value
+first
+letter
+
+Edit file data
+==============
+
+The data in the user defined field can be edited as well:
+
+>>> browser.getControl('mynotes').value = 'second letter'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Tester').click()
+>>> print browser.getControl('mynotes').value
+second letter
