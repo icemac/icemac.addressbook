@@ -1,0 +1,4 @@
+<div>
+  <h2 tal:content="context/title" />
+  <table tal:replace="structure view/renderTable" />
+</div>
