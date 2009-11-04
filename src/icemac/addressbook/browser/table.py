@@ -59,6 +59,9 @@ class Table(z3c.table.table.Table):
 
 
 class PageletTable(z3c.pagelet.browser.BrowserPagelet, Table):
-    """Render the table as a pagelet."""
+    """Render the table in a pagelet which also has a template.
+
+    When no template is required the `Table` class can be used.
+    """
 
     update = Table.update

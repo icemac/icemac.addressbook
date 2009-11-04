@@ -22,21 +22,21 @@
      path="++attribute++entities"
      />
 
-    <adapter
-     for="icemac.addressbook.interfaces.IEntities
-          icemac.addressbook.browser.interfaces.IAddressBookLayer
-          *
-          *"
-     factory="z3c.table.header.SortingColumnHeader"
-     />
+  <adapter
+      for="icemac.addressbook.interfaces.IEntities
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           *
+           *"
+      factory="z3c.table.header.SortingColumnHeader"
+      />
 
-    <z3c:pagelet
-       name="index.html"
-       for="icemac.addressbook.interfaces.IEntities"
-       permission="icemac.addressbook.EditEntities"
-       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-       class=".entities.List"
-       />
+  <z3c:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IEntities"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".entities.List"
+      />
 
   <browser:defaultView
      name="index.html"
@@ -52,13 +52,14 @@
      factory=".entities.EntityAbsoluteURL"
      />
 
-    <z3c:pagelet
-       name="index.html"
-       for="icemac.addressbook.interfaces.IEntity"
-       permission="icemac.addressbook.EditEntities"
-       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-       class=".fields.List"
-       />
+  <gocept:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IEntity"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".fields.List"
+      template="fields_list.pt"
+      />
 
   <browser:defaultView
      name="index.html"

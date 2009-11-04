@@ -52,7 +52,7 @@ class LinkColumn(z3c.table.column.LinkColumn):
         return ''
 
 
-class List(icemac.addressbook.browser.table.Table):
+class List(icemac.addressbook.browser.table.PageletTable):
     """List fields of an entity."""
 
     sortOn = None # do not sort
