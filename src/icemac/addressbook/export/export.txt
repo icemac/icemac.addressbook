@@ -54,7 +54,7 @@ do not show up in defaults export but in complete export:
 
 >>> create_phone_number(
 ...     addressbook, liebig, kind='cell phone', number=u'017612345678',
-...     notes=u'new\nnumber', set_as_default=False, return_obj=False)
+...     set_as_default=False, return_obj=False)
 >>> create_phone_number(
 ...     addressbook, liebig, kind='work fax', number=u'+49-3453-23434',
 ...     set_as_default=False, return_obj=False)
@@ -79,7 +79,7 @@ numbers as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 21)
+(4, 17)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -93,15 +93,11 @@ numbers as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  empty:'',
  text:u'e-mail address',
  empty:'',
- empty:'',
  text:u'home page address',
- empty:'',
  empty:'']
 [text:u'first name',
  text:u'last name',
@@ -114,16 +110,12 @@ numbers as an XLS file:
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'e-mail address',
- text:u'notes',
  text:u'kind',
- text:u'URL',
- text:u'notes']
+ text:u'URL']
 [text:u'B.',
  text:u'Liebig',
  xldate:29332.0,
@@ -135,16 +127,12 @@ numbers as an XLS file:
  text:u'Testhausen',
  text:u'06333',
  text:u'Germany',
- empty:'',
  text:u'private phone',
  text:u'01234-5678-90',
- empty:'',
  text:u'private',
  text:u'b.liebig@example.com',
- empty:'',
  text:u'work',
- text:u'http://www.example.org',
- empty:'']
+ text:u'http://www.example.org']
 [text:u'Michael',
  text:u'Howitz',
  empty:'',
@@ -161,10 +149,6 @@ numbers as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'']
 
 Also works with nothing for export:
@@ -175,7 +159,7 @@ Also works with nothing for export:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 21)
+(2, 17)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -189,15 +173,11 @@ Also works with nothing for export:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  empty:'',
  text:u'e-mail address',
  empty:'',
- empty:'',
  text:u'home page address',
- empty:'',
  empty:'']
 [text:u'first name',
  text:u'last name',
@@ -210,16 +190,12 @@ Also works with nothing for export:
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'e-mail address',
- text:u'notes',
  text:u'kind',
- text:u'URL',
- text:u'notes']
+ text:u'URL']
 
 
 XLS complete export
@@ -236,7 +212,7 @@ as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 34)
+(4, 27)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -250,9 +226,7 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'other postal address',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -260,18 +234,13 @@ as an XLS file:
  empty:'',
  text:u'main phone number',
  empty:'',
- empty:'',
  text:u'other phone number',
  empty:'',
- empty:'',
  text:u'other phone number',
- empty:'',
  empty:'',
  text:u'main e-mail address',
  empty:'',
- empty:'',
  text:u'main home page address',
- empty:'',
  empty:'']
 [text:u'first name',
  text:u'last name',
@@ -284,29 +253,22 @@ as an XLS file:
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'e-mail address',
- text:u'notes',
  text:u'kind',
- text:u'URL',
- text:u'notes']
+ text:u'URL']
 [text:u'B.',
  text:u'Liebig',
  xldate:29332.0,
@@ -324,23 +286,16 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
- empty:'',
  text:u'private phone',
  text:u'01234-5678-90',
- empty:'',
  text:u'cell phone',
  text:u'017612345678',
- text:u'new\nnumber',
  text:u'work fax',
  text:u'+49-3453-23434',
- empty:'',
  text:u'private',
  text:u'b.liebig@example.com',
- empty:'',
  text:u'work',
- text:u'http://www.example.org',
- empty:'']
+ text:u'http://www.example.org']
 [text:u'Michael',
  text:u'Howitz',
  empty:'',
@@ -352,19 +307,12 @@ as an XLS file:
  text:u'Hettstedt',
  text:u'06333',
  text:u'Germany',
- empty:'',
  text:u'other',
  empty:'',
  empty:'',
  text:u'Beispieldorf',
  text:u'00001',
  text:u'Germany',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',

@@ -21,8 +21,6 @@ class IFile(zope.interface.Interface):
         title=_("Size"), description=_("Size in bytes"),
         readonly=True, required=True)
 
-    notes = zope.schema.Text(title=_(u'notes'), required=False)
-
     def open(mode="r"):
         """Return an object providing access to the file data.
 

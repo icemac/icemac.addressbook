@@ -1,3 +1,4 @@
+
 ========
  Export
 ========
@@ -102,7 +103,7 @@ persons are exported:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 21)
+(4, 17)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -116,15 +117,11 @@ persons are exported:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  empty:'',
  text:u'e-mail address',
  empty:'',
- empty:'',
  text:u'home page address',
- empty:'',
  empty:'']
 [text:u'first name',
  text:u'last name',
@@ -137,24 +134,16 @@ persons are exported:
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'e-mail address',
- text:u'notes',
  text:u'kind',
- text:u'URL',
- text:u'notes']
+ text:u'URL']
 [empty:'',
  text:u'Koch',
  xldate:19017.0,
  text:u'family, church',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -172,10 +161,6 @@ persons are exported:
  text:u'Liebig',
  empty:'',
  text:u'church',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -199,7 +184,7 @@ are exported:
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(3, 21)
+(3, 17)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -213,15 +198,11 @@ are exported:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  empty:'',
  text:u'e-mail address',
  empty:'',
- empty:'',
  text:u'home page address',
- empty:'',
  empty:'']
 [text:u'first name',
  text:u'last name',
@@ -234,24 +215,16 @@ are exported:
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'notes',
  text:u'kind',
  text:u'number',
- text:u'notes',
  text:u'kind',
  text:u'e-mail address',
- text:u'notes',
  text:u'kind',
- text:u'URL',
- text:u'notes']
+ text:u'URL']
 [empty:'',
  text:u'Liebig',
  empty:'',
  text:u'church',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',

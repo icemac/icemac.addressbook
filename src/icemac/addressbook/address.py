@@ -31,8 +31,6 @@ class PostalAddress(
         icemac.addressbook.interfaces.IPostalAddress['zip'])
     country = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPostalAddress['country'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['notes'])
 
 
 postal_address_entity = icemac.addressbook.entities.create_entity(
@@ -77,8 +75,6 @@ class EMailAddress(
         icemac.addressbook.interfaces.IEMailAddress['kind'])
     email = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IEMailAddress['email'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEMailAddress['notes'])
 
 
 e_mail_address_entity = icemac.addressbook.entities.create_entity(
@@ -106,8 +102,6 @@ class HomePageAddress(
         icemac.addressbook.interfaces.IHomePageAddress['kind'])
     url = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IHomePageAddress['url'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IHomePageAddress['notes'])
 
 
 home_page_address_entity = icemac.addressbook.entities.create_entity(
@@ -135,8 +129,6 @@ class PhoneNumber(
         icemac.addressbook.interfaces.IPhoneNumber['kind'])
     number = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPhoneNumber['number'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPhoneNumber['notes'])
 
 
 phone_number_entity = icemac.addressbook.entities.create_entity(

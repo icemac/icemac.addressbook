@@ -41,8 +41,6 @@ class Keyword(persistent.Persistent, zope.container.contained.Contained):
 
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IKeyword['title'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IKeyword['notes'])
 
 
 keyword_entity = icemac.addressbook.entities.create_entity(

@@ -132,4 +132,4 @@ class DeleteFileForm(icemac.addressbook.browser.base.BaseDeleteForm):
     next_url = 'parent'
     label = _(u'Do you really want to delete this file?')
     interface = icemac.addressbook.file.interfaces.IFile
-    field_names = ('name', 'notes')
+    field_names = ('name', )

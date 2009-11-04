@@ -39,7 +39,6 @@ On the overview page is a link to add a new address book:
 
 >>> browser.getLink('address book').click()
 >>> browser.getControl('title').value = 'test book'
->>> browser.getControl('notes'). value = 'testing address book'
 >>> browser.getControl('Add').click()
 >>> address_book_url = browser.url
 >>> address_book_url

@@ -41,8 +41,6 @@ class AddressBook(zope.container.btree.BTreeContainer,
 
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IAddressBook['title'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['notes'])
 
 
 address_book_entity = icemac.addressbook.entities.create_entity(
