@@ -72,26 +72,22 @@ There are fields for the person's personal data:
 
 Fields for the primary postal address:
 
->>> browser.getControl('kind', index=0).displayValue = ['private']
 >>> browser.getControl('address prefix').value = u'c/o Mama'
 >>> browser.getControl('street').value = u'Demoweg 23'
 >>> browser.getControl('city', index=0).value = u'Testhausen'
 >>> browser.getControl('zip').value = u'99999'
 >>> browser.getControl('country').displayValue = ['Austria']
 
-Fields for the primary phone number:
+The primary phone number:
 
->>> browser.getControl('kind', index=1).displayValue = ['cell phone']
 >>> browser.getControl('number').value = u'112'
 
-Fields for the primary e-mail address:
+The primary e-mail address:
 
->>> browser.getControl('kind', index=2).displayValue = ['private']
 >>> browser.getControl('e-mail address').value = 'hans@example.com'
 
-Fields for the primary home page address:
+The primary home page address:
 
->>> browser.getControl('kind', index=3).displayValue = ['work']
 >>> browser.getControl('URL').value = 'http://www.example.com'
 
 After filling out the fields correctly, we can add the record to the
@@ -118,8 +114,6 @@ displayed values are the ones entered before:
 'Tester'
 >>> browser.getControl('birth date').value
 '00/02/29'
->>> browser.getControl('kind', index=0).displayValue
-['private']
 >>> browser.getControl('address prefix').value
 'c/o Mama'
 >>> browser.getControl('street').value
@@ -130,16 +124,10 @@ displayed values are the ones entered before:
 '99999'
 >>> browser.getControl('country').displayValue
 ['Austria']
->>> browser.getControl('kind', index=1).displayValue
-['cell phone']
 >>> browser.getControl('number', index=1).value
 '112'
->>> browser.getControl('kind', index=2).displayValue
-['private']
 >>> browser.getControl('e-mail address', index=1).value
 'hans@example.com'
->>> browser.getControl('kind', index=3).displayValue
-['work']
 >>> browser.getControl('URL').value
 'http://www.example.com'
 
@@ -248,7 +236,6 @@ Adding another phone number is possible on the person edit form, which
 is already displayed:
 
 >>> browser.getLink('phone number').click()
->>> browser.getControl('kind').displayValue = ['cell phone']
 >>> browser.getControl('number').value = '+4901761234567'
 >>> browser.getControl('Add').click()
 
@@ -274,7 +261,6 @@ Adding another postal address is also possible on the person edit
 form, which is already displayed:
 
 >>> browser.getLink('postal address').click()
->>> browser.getControl('kind').displayValue = ['work']
 >>> browser.getControl('address prefix').value = 'ABC-Computer'
 >>> browser.getControl('street').value = 'Forsterstraße 302a'
 >>> browser.getControl('city').value = 'Erfurt'
@@ -307,7 +293,6 @@ Adding another e-mail address is also possible on the person edit
 form, which is already displayed:
 
 >>> browser.getLink('e-mail address').click()
->>> browser.getControl('kind').displayValue = ['work']
 >>> browser.getControl('e-mail address').value = 'pt@abc-computer.de'
 >>> browser.getControl('Add').click()
 
@@ -333,7 +318,6 @@ Adding another home page address is also possible on the person edit
 form, which is already displayed:
 
 >>> browser.getLink('home page').click()
->>> browser.getControl('kind').displayValue = ['work']
 >>> browser.getControl('URL').value = 'http://www.abc-computer.de'
 >>> browser.getControl('Add').click()
 
@@ -359,34 +343,34 @@ There is always one main address of each kind (by default the first
 one created). All addresses of each kind are displayed in a dropdown:
 
 >>> browser.getControl('main postal address').displayOptions
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
- 'work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
+['c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
 >>> browser.getControl('main postal address').displayValue
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria']
+['c/o Mama, Demoweg 23, 88888, Testhausen, Austria']
 >>> browser.getControl('main phone number').displayOptions
-['cell phone: +4901767654321',
- 'cell phone: +4901761234567']
+['+4901767654321',
+ '+4901761234567']
 >>> browser.getControl('main phone number').displayValue
-['cell phone: +4901767654321']
+['+4901767654321']
 >>> browser.getControl('main e-mail address').displayOptions
-['private: petra@example.com',
- 'work: pt@rst-software.de']
+['petra@example.com',
+ 'pt@rst-software.de']
 >>> browser.getControl('main e-mail address').displayValue
-['private: petra@example.com']
+['petra@example.com']
 >>> browser.getControl('main home page address').displayOptions
-['work: http://petra.example.com',
- 'work: http://www.rst-software.de']
+['http://petra.example.com',
+ 'http://www.rst-software.de']
 >>> browser.getControl('main home page address').displayValue
-['work: http://petra.example.com']
+['http://petra.example.com']
 
 Now we set the work addresses as default:
 
->>> browser.getControl('main postal address').displayValue = ['work: '
+>>> browser.getControl('main postal address').displayValue = [
 ...     'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
 >>> browser.getControl('main e-mail address').displayValue = [
-...     'work: pt@rst-software.de']
+...     'pt@rst-software.de']
 >>> browser.getControl('main home page address').displayValue = [
-...     'work: http://www.rst-software.de']
+...     'http://www.rst-software.de']
 >>> browser.getControl('Apply').click()
 
 
@@ -405,10 +389,10 @@ Visitors can not chance any data, they can only view it:
 ...first name...Petra...
 ...last name...Tester...
 ...main phone number...
-...cell phone: +4901767654321...
+...+4901767654321...
 ...zip...88888...
 ...other e-mail address...
-...e-mail address...petra@example.com...
+...petra@example.com...
 ...main e-mail address...
 ...e-mail address...pt@rst-software.de...
 ...other home page address...
@@ -459,14 +443,14 @@ existing adresses and numbers:
 'http://localhost/++skin++AddressBook/ab/Person/@@delete_entry.html'
 >>> entries = browser.getControl('Entries').displayOptions
 >>> entries
-['postal address -- private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
- 'postal address -- work: RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany',
- 'phone number -- cell phone: +4901767654321',
- 'phone number -- cell phone: +4901761234567',
- 'e-mail address -- private: petra@example.com',
- 'e-mail address -- work: pt@rst-software.de',
- 'home page address -- work: http://petra.example.com',
- 'home page address -- work: http://www.rst-software.de']
+['postal address -- c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'postal address -- RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany',
+ 'phone number -- +4901767654321',
+ 'phone number -- +4901761234567',
+ 'e-mail address -- petra@example.com',
+ 'e-mail address -- pt@rst-software.de',
+ 'home page address -- http://petra.example.com',
+ 'home page address -- http://www.rst-software.de']
 
 If the user changed his mind, he can use the `cancel` button and gets
 redirected to the person edit page:
@@ -505,8 +489,8 @@ True
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
-['private: c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
- 'unknown: Germany']
+['c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
+ 'Germany']
 
 Deleting the main address creates a new, empty address:
 
@@ -518,7 +502,7 @@ Deleting the main address creates a new, empty address:
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
-['unknown: Germany']
+['Germany']
 
 Deleting also works for phone numbers, e-mail addreses and home page
 addresses:
@@ -530,7 +514,7 @@ addresses:
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main phone number').displayOptions
-['cell phone: +4901767654321']
+['+4901767654321']
 
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('pt@rst-software.de').click()
@@ -539,7 +523,7 @@ True
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main e-mail address').displayOptions
-['private: petra@example.com', 'unknown']
+['petra@example.com', 'none']
 
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('http://petra.example.com').click()
@@ -548,7 +532,7 @@ True
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main home page address').displayOptions
-['work: http://www.rst-software.de']
+['http://www.rst-software.de']
 
 
 Deleting a person

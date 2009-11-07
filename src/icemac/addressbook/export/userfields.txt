@@ -58,7 +58,7 @@ Let's create some additional phone numbers and postal addresses which
 do not show up in defaults export but in complete export:
 
 >>> create(ab, liebig, 'icemac.addressbook.address.PhoneNumber',
-...        **{'kind': u'cell phone', 'Field-5': decimal.Decimal('1e2')})
+...        **{'Field-5': decimal.Decimal('1e2')})
 >>> create(ab, liebig, 'icemac.addressbook.address.PhoneNumber',
 ...       **{'number': u'+49-3453-23434', 'Field-5': decimal.Decimal('28')})
 >>> create(ab, howitz, 'icemac.addressbook.address.PostalAddress',
@@ -87,7 +87,7 @@ numbers as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 23)
+(4, 19)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -104,15 +104,11 @@ numbers as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
  empty:'',
  empty:'',
- empty:'',
  text:u'e-mail address',
- empty:'',
- text:u'home page address',
- empty:'']
+ text:u'home page address']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
@@ -120,7 +116,6 @@ numbers as an XLS file:
  text:u'notes',
  text:u'photo permission?',
  text:u'last seen',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
@@ -128,13 +123,10 @@ numbers as an XLS file:
  text:u'country',
  text:u'number of letters',
  text:u'state',
- text:u'kind',
  text:u'number',
  text:u'cost per minute',
  text:u'mail box text',
- text:u'kind',
  text:u'e-mail address',
- text:u'kind',
  text:u'URL']
 [text:u'B.',
  text:u'Liebig',
@@ -145,18 +137,14 @@ numbers as an XLS file:
  xldate:40118.584027777775,
  empty:'',
  empty:'',
- empty:'',
  text:u'Testhausen',
  empty:'',
  text:u'Germany',
  number:3.0,
  text:u'Sachsen-Anhalt',
- empty:'',
  text:u'01234-5678-90',
  number:1.4299999999999999,
  text:u'I am not here, leave a message, beep.',
- empty:'',
- empty:'',
  empty:'',
  empty:'']
 [empty:'',
@@ -168,15 +156,11 @@ numbers as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'Hettstedt',
  empty:'',
  text:u'Germany',
  empty:'',
  text:u'Brandenburg',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -198,7 +182,7 @@ as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 35)
+(4, 30)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -215,9 +199,7 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'other postal address',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -227,13 +209,10 @@ as an XLS file:
  text:u'main phone number',
  empty:'',
  empty:'',
- empty:'',
  text:u'other phone number',
  empty:'',
  empty:'',
- empty:'',
  text:u'other phone number',
- empty:'',
  empty:'',
  empty:'']
 [text:u'first name',
@@ -243,7 +222,6 @@ as an XLS file:
  text:u'notes',
  text:u'photo permission?',
  text:u'last seen',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
@@ -251,7 +229,6 @@ as an XLS file:
  text:u'country',
  text:u'number of letters',
  text:u'state',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
@@ -259,15 +236,12 @@ as an XLS file:
  text:u'country',
  text:u'number of letters',
  text:u'state',
- text:u'kind',
  text:u'number',
  text:u'cost per minute',
  text:u'mail box text',
- text:u'kind',
  text:u'number',
  text:u'cost per minute',
  text:u'mail box text',
- text:u'kind',
  text:u'number',
  text:u'cost per minute',
  text:u'mail box text']
@@ -278,7 +252,6 @@ as an XLS file:
  empty:'',
  bool:1,
  xldate:40118.584027777775,
- empty:'',
  empty:'',
  empty:'',
  text:u'Testhausen',
@@ -293,15 +266,11 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
- empty:'',
  text:u'01234-5678-90',
  number:1.4299999999999999,
  text:u'I am not here, leave a message, beep.',
- text:u'cell phone',
  empty:'',
  number:100.0,
- empty:'',
  empty:'',
  text:u'+49-3453-23434',
  number:28.0,
@@ -315,7 +284,6 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'Hettstedt',
  empty:'',
  text:u'Germany',
@@ -324,13 +292,9 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'00001',
  text:u'Germany',
  number:123456.0,
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',

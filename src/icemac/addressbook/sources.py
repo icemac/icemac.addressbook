@@ -47,29 +47,6 @@ class FieldTypeSource(TitleMappingSource):
          ))
 
 
-class PhoneNumberKindSource(TitleMappingSource):
-    _mapping = stabledict.StableDict((
-            (u'cell phone', _(u'cell phone')),
-            (u'private fax', _(u'private fax')),
-            (u'private phone', _(u'private phone')),
-            (u'work fax', _(u'work fax')),
-            (u'work phone', _(u'work phone')),
-            (u'other', _(u'other')),
-            ))
-
-phone_number_kind_source = PhoneNumberKindSource()
-
-
-class WorkPrivateKindSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
-        ((u'private', _(u'private')),
-         (u'work', _(u'work')),
-         (u'other', _(u'other'))))
-
-
-work_private_kind_source = WorkPrivateKindSource()
-
-
 class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
 
     def getValues(self):

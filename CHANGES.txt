@@ -36,7 +36,10 @@ Removed features
   - sex field on person,
 
   - notes fields on address book, postal address, phone number, e-mail
-    address, home page address, file and keyword.
+    address, home page address, file and keyword,
+
+  - kind fields on postal address, phone number, e-mail address and
+    home page address.
 
 
 Bug fixes
