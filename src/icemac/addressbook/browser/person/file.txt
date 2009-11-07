@@ -236,10 +236,10 @@ Files can be deleted using the ``Delete single entry`` button.
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person/@@delete_entry.html'
 >>> entries = browser.getControl('Entries').displayOptions
->>> entries == ['postal address -- unknown: Germany',
-...             'phone number -- unknown',
-...             'e-mail address -- unknown',
-...             'home page address -- unknown',
+>>> entries == ['postal address -- Germany',
+...             'phone number -- none',
+...             'e-mail address -- none',
+...             'home page address -- none',
 ...             'file -- ' + filename,
 ...             'file -- ' + filename3]
 True

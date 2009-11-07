@@ -32,14 +32,12 @@ persons with data:
 ...     addressbook, liebig, zip=u'06333', city=u'Testhausen',
 ...     street=u'A-Street 1a')
 <icemac.addressbook.address.PostalAddress object at 0x...>
->>> create_email_address(
-...     addressbook, liebig, kind=u'private', email=u'b.liebig@example.com')
+>>> create_email_address(addressbook, liebig, email=u'b.liebig@example.com')
 <icemac.addressbook.address.EMailAddress object at 0x...>
->>> create_phone_number(
-...     addressbook, liebig, kind=u'private phone', number=u'01234-5678-90')
+>>> create_phone_number(addressbook, liebig, number=u'01234-5678-90')
 <icemac.addressbook.address.PhoneNumber object at 0x...>
 >>> create_home_page_address(
-...     addressbook, liebig, kind=u'work', url='http://www.example.org')
+...    addressbook, liebig, url='http://www.example.org')
 <icemac.addressbook.address.HomePageAddress object at 0x...>
 
 >>> howitz = create_person(
@@ -53,13 +51,13 @@ Let's create some additional phone numbers and postal addresses which
 do not show up in defaults export but in complete export:
 
 >>> create_phone_number(
-...     addressbook, liebig, kind='cell phone', number=u'017612345678',
+...     addressbook, liebig, number=u'017612345678',
 ...     set_as_default=False, return_obj=False)
 >>> create_phone_number(
-...     addressbook, liebig, kind='work fax', number=u'+49-3453-23434',
+...     addressbook, liebig, number=u'+49-3453-23434',
 ...     set_as_default=False, return_obj=False)
 >>> create_postal_address(
-...     addressbook, howitz, kind='other', city=u'Beispieldorf', zip=u'00001',
+...     addressbook, howitz, city=u'Beispieldorf', zip=u'00001',
 ...     set_as_default=False, return_obj=False)
 
 
@@ -79,7 +77,7 @@ numbers as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 17)
+(4, 13)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -92,29 +90,21 @@ numbers as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  text:u'e-mail address',
- empty:'',
- text:u'home page address',
- empty:'']
+ text:u'home page address']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
  text:u'keywords',
  text:u'notes',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'kind',
  text:u'number',
- text:u'kind',
  text:u'e-mail address',
- text:u'kind',
  text:u'URL']
 [text:u'B.',
  text:u'Liebig',
@@ -122,20 +112,15 @@ numbers as an XLS file:
  text:u'church, family',
  empty:'',
  empty:'',
- empty:'',
  text:u'A-Street 1a',
  text:u'Testhausen',
  text:u'06333',
  text:u'Germany',
- text:u'private phone',
  text:u'01234-5678-90',
- text:u'private',
  text:u'b.liebig@example.com',
- text:u'work',
  text:u'http://www.example.org']
 [text:u'Michael',
  text:u'Howitz',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -144,9 +129,6 @@ numbers as an XLS file:
  text:u'Hettstedt',
  text:u'06333',
  text:u'Germany',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'']
@@ -159,7 +141,7 @@ Also works with nothing for export:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(2, 17)
+(2, 13)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -172,29 +154,21 @@ Also works with nothing for export:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'phone number',
- empty:'',
  text:u'e-mail address',
- empty:'',
- text:u'home page address',
- empty:'']
+ text:u'home page address']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
  text:u'keywords',
  text:u'notes',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'kind',
  text:u'number',
- text:u'kind',
  text:u'e-mail address',
- text:u'kind',
  text:u'URL']
 
 
@@ -212,7 +186,7 @@ as an XLS file:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 27)
+(4, 20)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -225,55 +199,40 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'other postal address',
  empty:'',
  empty:'',
  empty:'',
  empty:'',
- empty:'',
  text:u'main phone number',
- empty:'',
  text:u'other phone number',
- empty:'',
  text:u'other phone number',
- empty:'',
  text:u'main e-mail address',
- empty:'',
- text:u'main home page address',
- empty:'']
+ text:u'main home page address']
 [text:u'first name',
  text:u'last name',
  text:u'birth date',
  text:u'keywords',
  text:u'notes',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'kind',
  text:u'address prefix',
  text:u'street',
  text:u'city',
  text:u'zip',
  text:u'country',
- text:u'kind',
  text:u'number',
- text:u'kind',
  text:u'number',
- text:u'kind',
  text:u'number',
- text:u'kind',
  text:u'e-mail address',
- text:u'kind',
  text:u'URL']
 [text:u'B.',
  text:u'Liebig',
  xldate:29332.0,
  text:u'church, family',
- empty:'',
  empty:'',
  empty:'',
  text:u'A-Street 1a',
@@ -285,20 +244,13 @@ as an XLS file:
  empty:'',
  empty:'',
  empty:'',
- empty:'',
- text:u'private phone',
  text:u'01234-5678-90',
- text:u'cell phone',
  text:u'017612345678',
- text:u'work fax',
  text:u'+49-3453-23434',
- text:u'private',
  text:u'b.liebig@example.com',
- text:u'work',
  text:u'http://www.example.org']
 [text:u'Michael',
  text:u'Howitz',
- empty:'',
  empty:'',
  empty:'',
  empty:'',
@@ -307,17 +259,11 @@ as an XLS file:
  text:u'Hettstedt',
  text:u'06333',
  text:u'Germany',
- text:u'other',
  empty:'',
  empty:'',
  text:u'Beispieldorf',
  text:u'00001',
  text:u'Germany',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
- empty:'',
  empty:'',
  empty:'',
  empty:'',

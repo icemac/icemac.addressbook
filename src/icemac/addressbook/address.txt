@@ -90,27 +90,23 @@ empty address:
     >>> germany = pa.country
     >>> pa.country = None
     >>> icemac.addressbook.interfaces.ITitle(pa)
-    u'unknown'
+    u'none'
 
 Setting attribute values leads to more telling titles:
 
-    >>> pa.kind = 'private'
+   >>> pa.street = u'Papa street 3 a'
     >>> icemac.addressbook.interfaces.ITitle(pa)
-    u'private'
-
-    >>> pa.street = u'Papa street 3 a'
-    >>> icemac.addressbook.interfaces.ITitle(pa)
-    u'private: Papa street 3 a'
+    u'Papa street 3 a'
 
     >>> pa.address_prefix = u'c/o Mama'
     >>> icemac.addressbook.interfaces.ITitle(pa)
-    u'private: c/o Mama, Papa street 3 a'
+    u'c/o Mama, Papa street 3 a'
 
     >>> pa.zip = u'12345'
     >>> pa.city = u'Dingshausen'
     >>> pa.country = germany
     >>> icemac.addressbook.interfaces.ITitle(pa)
-    u'private: c/o Mama, Papa street 3 a, 12345, Dingshausen, Germany'
+    u'c/o Mama, Papa street 3 a, 12345, Dingshausen, Germany'
 
 E-mail address
 --------------
@@ -120,17 +116,13 @@ E-mail address
 The title of an empy e-mail address is a bit untelling:
 
     >>> icemac.addressbook.interfaces.ITitle(ea)
-    u'unknown'
+    u'none'
 
 Setting attribute values leads to more telling titles:
 
-    >>> ea.kind = 'work'
-    >>> icemac.addressbook.interfaces.ITitle(ea)
-    u'work'
-
     >>> ea.email = u'tester@example.org'
     >>> icemac.addressbook.interfaces.ITitle(ea)
-    u'work: tester@example.org'
+    u'tester@example.org'
 
 Home page address
 -----------------
@@ -140,17 +132,13 @@ Home page address
 The title of an empy home page address is a bit untelling:
 
     >>> icemac.addressbook.interfaces.ITitle(hp)
-    u'unknown'
+    u'none'
 
 Setting attribute values leads to more telling titles:
 
-    >>> hp.kind = 'other'
+   >>> hp.url = 'http://www.example.org'
     >>> icemac.addressbook.interfaces.ITitle(hp)
-    u'other'
-
-    >>> hp.url = 'http://www.example.org'
-    >>> icemac.addressbook.interfaces.ITitle(hp)
-    u'other: http://www.example.org'
+    u'http://www.example.org'
 
 Phone number
 ------------
@@ -160,17 +148,13 @@ Phone number
 The title of an empy phone number is a bit untelling:
 
     >>> icemac.addressbook.interfaces.ITitle(n)
-    u'unknown'
+    u'none'
 
 Setting attribute values leads to more telling titles:
 
-    >>> n.kind = 'cell phone'
-    >>> icemac.addressbook.interfaces.ITitle(n)
-    u'cell phone'
-
     >>> n.number = u'+017912345678'
     >>> icemac.addressbook.interfaces.ITitle(n)
-    u'cell phone: +017912345678'
+    u'+017912345678'
 
 
 Helper functions

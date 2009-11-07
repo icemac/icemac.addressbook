@@ -19,8 +19,6 @@ class PostalAddress(
 
     zope.interface.implements(icemac.addressbook.interfaces.IPostalAddress)
 
-    kind = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['kind'])
     address_prefix = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPostalAddress['address_prefix'])
     street = zope.schema.fieldproperty.FieldProperty(
@@ -38,31 +36,16 @@ postal_address_entity = icemac.addressbook.entities.create_entity(
     PostalAddress)
 
 
-def get_kind_title(obj, iface):
-    """Get the title for the kind attribute of an object.
-
-    iface: ... interface, used for look up title of kind's value
-    """
-
-    if obj.kind is None:
-        title = _(u'unknown')
-    else:
-        title = zope.component.getMultiAdapter(
-            (iface['kind'], obj.kind), icemac.addressbook.interfaces.ITitle)
-    return title
-
-
 @zope.component.adapter(icemac.addressbook.interfaces.IPostalAddress)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def postal_address_title(address):
     """Title of a postal address."""
-    title = get_kind_title(
-        address, icemac.addressbook.interfaces.IPostalAddress)
+    title = _('none')
     values = [icemac.addressbook.interfaces.ITitle(getattr(address, x))
               for x in ('address_prefix', 'street', 'zip', 'city', 'country')
               if getattr(address, x)]
     if values:
-        title += ': ' + ', '.join(values)
+        title = ', '.join(values)
     return title
 
 class EMailAddress(
@@ -71,8 +54,6 @@ class EMailAddress(
 
     zope.interface.implements(icemac.addressbook.interfaces.IEMailAddress)
 
-    kind = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEMailAddress['kind'])
     email = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IEMailAddress['email'])
 
@@ -86,9 +67,9 @@ e_mail_address_entity = icemac.addressbook.entities.create_entity(
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def email_address_title(email):
     """Title of an e-mail address."""
-    title = get_kind_title(email, icemac.addressbook.interfaces.IEMailAddress)
+    title = _('none')
     if email.email:
-        title += ': %s' % email.email
+        title = email.email
     return title
 
 
@@ -98,8 +79,6 @@ class HomePageAddress(
 
     zope.interface.implements(icemac.addressbook.interfaces.IHomePageAddress)
 
-    kind = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IHomePageAddress['kind'])
     url = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IHomePageAddress['url'])
 
@@ -113,9 +92,9 @@ home_page_address_entity = icemac.addressbook.entities.create_entity(
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def home_page_address_title(hp):
     """Title of a home page address."""
-    title = get_kind_title(hp, icemac.addressbook.interfaces.IHomePageAddress)
+    title = _('none')
     if hp.url:
-        title += ': %s' % hp.url
+        title = unicode(hp.url)
     return title
 
 
@@ -125,8 +104,6 @@ class PhoneNumber(
 
     zope.interface.implements(icemac.addressbook.interfaces.IPhoneNumber)
 
-    kind = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPhoneNumber['kind'])
     number = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IPhoneNumber['number'])
 
@@ -139,9 +116,9 @@ phone_number_entity = icemac.addressbook.entities.create_entity(
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def phone_number_title(tel):
     """Title of a phone number."""
-    title = get_kind_title(tel, icemac.addressbook.interfaces.IPhoneNumber)
+    title = _('none')
     if tel.number:
-        title += ': %s' % tel.number
+        title = tel.number
     return title
 
 

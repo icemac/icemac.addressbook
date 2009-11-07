@@ -54,9 +54,6 @@ class IPerson(zope.interface.Interface):
 class IPostalAddress(zope.interface.Interface):
     """A postal address."""
 
-    kind = zope.schema.Choice(
-        title=_(u'kind'), required=False,
-        source=icemac.addressbook.sources.work_private_kind_source)
     address_prefix = zope.schema.TextLine(
         title=_(u'address prefix'), required=False,
         description=_(u'e. g. company name or c/o'))
@@ -71,9 +68,6 @@ class IPostalAddress(zope.interface.Interface):
 class IEMailAddress(zope.interface.Interface):
     """An e-mail address."""
 
-    kind = zope.schema.Choice(
-        title=_(u'kind'), required=False,
-        source=icemac.addressbook.sources.work_private_kind_source)
     email = zope.schema.TextLine(
         title=_(u'e-mail address'), required=False,
         constraint=re.compile(
@@ -83,18 +77,12 @@ class IEMailAddress(zope.interface.Interface):
 class IHomePageAddress(zope.interface.Interface):
     """A home page address."""
 
-    kind = zope.schema.Choice(
-        title=_(u'kind'), required=False,
-        source=icemac.addressbook.sources.work_private_kind_source)
     url = zope.schema.URI(title=_(u'URL'), required=False)
 
 
 class IPhoneNumber(zope.interface.Interface):
     """A phone number."""
 
-    kind = zope.schema.Choice(
-        title=_(u'kind'), required=False,
-        source=icemac.addressbook.sources.phone_number_kind_source)
     number = zope.schema.TextLine(title=_(u'number'), required=False)
 
 
