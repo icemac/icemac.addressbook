@@ -14,6 +14,7 @@ def test_suite():
         "browser/entities/entities.txt",
         "browser/entities/file.txt",
         "browser/export/export.txt",
+        "browser/export/userfields.txt",
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
         "browser/person/file.txt",
