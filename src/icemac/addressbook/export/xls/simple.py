@@ -13,6 +13,7 @@ import icemac.addressbook.interfaces
 import xlwt
 import zope.component
 import zope.interface
+import zope.security.proxy
 
 
 # fonts
@@ -108,7 +109,9 @@ class XLSExport(object):
             return col
         idx = 0
         for name, field in self.getEntity(interface).getFieldsInOrder():
-            context = field.interface(obj)
+            # Need to remove the security proxy to access the user
+            # defined fields.
+            context = field.interface(zope.security.proxy.getObject(obj))
             self.write_cell(row, col + idx, getattr(context, name))
             idx += 1
         return col + idx

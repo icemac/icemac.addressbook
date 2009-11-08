@@ -1,0 +1,112 @@
+===============================
+ Exporting user defined fields
+===============================
+
+The user definded fields can be exported in the same way like other
+fields.
+
+Setup
+=====
+
+Create an addressbook:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+
+Create a defined field:
+
+>>> from icemac.addressbook.testing import create_field
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Bool', u'photo permission?')
+
+Create a keyword and a person using this keyword:
+
+>>> from icemac.addressbook.testing import create, create_keyword
+>>> church = create_keyword(ab, u'church')
+>>> liebig = create(
+...     ab, ab, 'icemac.addressbook.person.Person', return_obj=True,
+...     **{'last_name': u'Liebig', 'Field-1': True, 'keywords': set([church])})
+>>> create(ab, liebig, 'icemac.addressbook.address.PostalAddress',
+...        set_as_default=True, **{'city': u'Testhausen'})
+
+Let's create an additional postal address which does not show up in
+the defaults export but in complete export:
+>>> create(ab, liebig, 'icemac.addressbook.address.PostalAddress',
+...        **{'zip': u'00001'})
+
+As visitors are allowed to search and export, so we log in as a visitor:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+XLS main adresses and numbers export
+====================================
+
+There is a link in the global navigation which leads to the searches,
+we choose the simple keyword search as it has export abilities:
+
+>>> browser.getLink('Search').click()
+>>> browser.getLink('Simple single keyword search').click()
+>>> browser.getControl('keyword').displayValue = ['church']
+>>> browser.getControl('Search').click()
+
+The export produces an XLS file:
+
+>>> import pprint
+>>> import xlrd
+>>> browser.getControl('Export using').displayValue = [
+...    'XLS main (Exports person data and main addresses resp. phone numbers.)']
+>>> browser.getControl(name='form.buttons.export').click()
+>>> browser.headers['Content-Type']
+'application/vnd.ms-excel'
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(3, 14)
+>>> for rx in range(work_sheet_0.nrows):
+...     pprint.pprint(work_sheet_0.row(rx))
+[text:u'person',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'postal address',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'phone number',
+ text:u'e-mail address',
+ text:u'home page address']
+[text:u'first name',
+ text:u'last name',
+ text:u'birth date',
+ text:u'keywords',
+ text:u'notes',
+ text:u'photo permission?',
+ text:u'address prefix',
+ text:u'street',
+ text:u'city',
+ text:u'zip',
+ text:u'country',
+ text:u'number',
+ text:u'e-mail address',
+ text:u'URL']
+[empty:'',
+ text:u'Liebig',
+ empty:'',
+ text:u'church',
+ empty:'',
+ bool:1,
+ empty:'',
+ empty:'',
+ text:u'Testhausen',
+ empty:'',
+ text:u'Germany',
+ empty:'',
+ empty:'',
+ empty:'']
