@@ -1,7 +1,7 @@
 <tal:persons condition="context">
   <h2>Persons</h2>
   <ul>
-    <li tal:repeat="person context/values">
+    <li tal:repeat="person view/values">
       <a tal:attributes="href person/@@absolute_url"
          tal:content="person/@@display_title">
         Hans Tester
