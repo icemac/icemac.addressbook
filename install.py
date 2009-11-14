@@ -17,7 +17,7 @@ if __name__ == '__main__':
     conf_args = []
     if len(sys.argv) > 1:
         conf_args.append(os.path.join(sys.argv[1], 'install.user.ini'))
-    icemac.addressbook.install.config(*conf_args)
+    icemac.addressbook.install.Configurator(*conf_args)()
 
     print 'running %s bootstrap.py ...' % python
     res = subprocess.call([python, 'bootstrap.py'])
