@@ -2,53 +2,8 @@
  Installation helpers
 ======================
 
-As icemac.addressbook is not installable using easy_install, there are
+As icemac.addressbook is not installable using `easy_install`, there are
 some helpers for installation.
-
-ask_user
-========
-
-This is a function which ask the user for input, it displays the
-default value as set in the configuration file. If the user does not
-enter a value the default value is used. The entered value is stored
-in the configuration and also returned.
-
-A configuration is needed, it must store the default values:
-
->>> import ConfigParser
->>> conf = ConfigParser.SafeConfigParser()
->>> conf.add_section('install')
->>> conf.set('install', 'path', '$HOME')
-
-When the user does not enter a value (only hits `enter`) the default
-is used:
-
->>> from icemac.addressbook.install import ask_user
->>> call_with_user_input(
-...     '\n', ask_user, conf, 'Choose install dir', 'install', 'path')
-Choose install dir: [$HOME]
-'$HOME'
->>> conf.get('install', 'path')
-'$HOME'
-
-When the user enter a value it is returned and stored:
-
->>> call_with_user_input(
-...     '/Users/mac\n', ask_user, conf, 'Choose install dir', 'install', 'path')
-Choose install dir: [$HOME]
-'/Users/mac'
->>> conf.get('install', 'path')
-'/Users/mac'
-
-The next time the stored value is presented as default:
-
->>> call_with_user_input(
-...     '/home/mac\n', ask_user, conf, 'Choose install dir', 'install', 'path')
-Choose install dir: [/Users/mac]
-'/home/mac'
->>> conf.get('install', 'path')
-'/home/mac'
-
 
 check_prerequisites
 ===================
@@ -59,16 +14,17 @@ Existing buildout.cfg
 ---------------------
 
 If there is already a `buildout.cfg` file, an error message is
-displayed and ``False`` is returned. In the current directory already
-exists a `buildout.cfg`:
+displayed and ``False`` is returned.
 
+In the current directory already exists a `buildout.cfg`:
+
+>>> from icemac.addressbook.install import check_prerequisites
 >>> ls(sample_buildout)
 d  bin
 -  buildout.cfg
 d  develop-eggs
 d  eggs
 d  parts
->>> from icemac.addressbook.install import check_prerequisites
 >>> check_prerequisites()
 ERROR: buildout.cfg already exists.
        Please (re-)move the existing one and restart install.
@@ -83,15 +39,15 @@ True
 Wrong python version
 --------------------
 
-icemac.addressbook currently only runs with python 2.5 if another
-version is used an error is displayed. We expect here that the version
+icemac.addressbook currently only runs with python 2.5. If another
+version is used, an error is displayed. We expect here that the version
 of the python which runs the tests matches the requirement, so
 ``True`` is returned:
 
 >>> check_prerequisites()
 True
 
-Faking the python version results in the described error message:
+Faking the python version, results in the described error message:
 
 >>> import sys
 >>> orig_version_info = sys.version_info
@@ -108,18 +64,19 @@ False
 >>> sys.version_info = orig_version_info
 
 
-Config
-======
+Configurator
+============
 
-This function reads a default config file (`install.default.ini`)
-whose values are used when the user does not enter a value.
+An instance of this class reads the default configuration file
+(`install.default.ini`). Whose values are used when the user does not
+enter a value.
 
 Setup
 -----
 
-We need a `install.default.ini` in the working directory as ``config`` searches only there:
+We need a `install.default.ini` in the working directory as
+``Configurator`` searches only there:
 
->>> from icemac.addressbook.install import config
 >>> write(sample_buildout, 'install.default.ini',
 ... """
 ... [install]
@@ -143,10 +100,61 @@ We need a `install.default.ini` in the working directory as ``config`` searches 
 ... [packages]
 ... """)
 
+ask_user
+--------
+
+This is a helper method which ask the user for input, it displays the
+default value as set in the configuration file. When the user does not
+enter a value, the default value is used. The entered value is stored
+in the configuration and is also returned.
+
+.. XXX hier
+
+A Configurator is needed, it must store the default values:
+
+>>> import ConfigParser
+>>> conf = ConfigParser.SafeConfigParser()
+>>> conf.add_section('install')
+>>> conf.set('install', 'path', '$HOME')
+
+When the user does not enter a value (only hits `enter`) the default
+is used:
+
+>>> from icemac.addressbook.install import Configurator
+>>> config = Configurator()
+>>> config.conf = conf
+>>> call_with_user_input(
+...     '\n', config.ask_user, 'Choose install dir', 'install', 'path')
+Choose install dir: [$HOME]
+'$HOME'
+>>> conf.get('install', 'path')
+'$HOME'
+
+When the user enter a value it is returned and stored:
+
+>>> call_with_user_input(
+...     '/Users/mac\n', config.ask_user, 'Choose install dir',
+...     'install', 'path')
+Choose install dir: [$HOME]
+'/Users/mac'
+>>> conf.get('install', 'path')
+'/Users/mac'
+
+The next time the stored value is presented as default:
+
+>>> call_with_user_input(
+...     '/home/mac\n', config.ask_user, 'Choose install dir', 'install',
+...     'path')
+Choose install dir: [/Users/mac]
+'/home/mac'
+>>> conf.get('install', 'path')
+'/home/mac'
+
+
 Nothing entered
 ---------------
 
->>> call_with_user_input('\n\n\n\n\n\n', config)
+>>> call_with_user_input('\n\n\n\n\n\n', Configurator())
 Welcome to icemac.addressbook installation
 <BLANKLINE>
 Hint: to use the default value (the one in [brackets]), enter no value.
@@ -237,7 +245,7 @@ Entered values are stored in all created files. Choosing
 ... RotatingFileHandler
 ... 12345
 ... 2
-... """, config)
+... """, Configurator())
 Welcome to icemac.addressbook installation
 <BLANKLINE>
 Hint: to use the default value (the one in [brackets]), enter no value.
@@ -330,7 +338,7 @@ name he is asked to enter it again. Choosing
 ... D
 ... 7
 ...
-... """, config)
+... """, Configurator())
 Welcome to icemac.addressbook installation
 <BLANKLINE>
 Hint: to use the default value (the one in [brackets]), enter no value.
@@ -421,7 +429,8 @@ the config file where the user values are stored.
 An error is raises when the file does not exist:
 
 >>> call_with_user_input(
-...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n", config, 'i-do-not-exist.ini')
+...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n",
+...     Configurator('i-do-not-exist.ini'))
 Traceback (most recent call last):
 IOError: 'i-do-not-exist.ini' does not exist.
 
@@ -429,8 +438,8 @@ Using a valid file, its values override the defaults, we use the
 previously created file here:
 
 >>> call_with_user_input(
-...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n", config,
-...     join(sample_buildout, 'install.user.ini'))
+...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n", Configurator(
+...         join(sample_buildout, 'install.user.ini')))
 Welcome to icemac.addressbook installation
 <BLANKLINE>
 Hint: to use the default value (the one in [brackets]), enter no value.
@@ -511,7 +520,8 @@ Additional packages
 The user can enter the names of additional packages. Those packages are added as runtime and test dependenies. They need a `configure.zcml` as they get integrated using this file:
 
 >>> call_with_user_input(
-...     """\n\n\n\n\n\nicemac.ab.importxls\nicemac.ab.importcsv\n""", config)
+...     """\n\n\n\n\n\nicemac.ab.importxls\nicemac.ab.importcsv\n""",
+...     Configurator())
 Welcome to icemac.addressbook installation
 <BLANKLINE>
 Hint: to use the default value (the one in [brackets]), enter no value.
