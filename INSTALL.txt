@@ -34,9 +34,11 @@ its directory.
 Update
 ======
 
-1. If you are updating from version 0.3.x or older follow the steps
-   described in `First installation`_ (but use a separate directory),
-   otherwise follow these steps:
+- If you are updating from version 0.3.x or earlier follow the steps
+  described in `First installation`_ followed by the steps described
+  in `Second part of steps for older versions`_.
+
+- If you are updating from version 0.4 or newer follow these steps:
 
    1. Download and extract the source distribution (see Download_) to a
    new a directory.
@@ -46,24 +48,28 @@ Update
    previously are used as defaults instead of the application
    defaults.  Example::
 
-     $ python2.5 install.py ../icemac.addressbook-0.4
+     $ python2.5 install.py ../icemac.addressbook-0.5
 
-   3. Answer the questions about admin user name, password and so
-   on.
+   3. Answer the questions about admin user name, password and so on.
 
-2. Stop the old instance of the application.
+   4. Start the new instance of the application.
 
-3. Create a backup of the ZODB using::
+Second part of steps for older versions
+---------------------------------------
+
+1. Stop the old instance of the application.
+
+2. Create a backup of the ZODB og the old instance using::
 
    $ bin/backup
 
-4. Copy the backup directory (``var/backups``) to the new instance.
+3. Copy the backup directory (``var/backups``) to the new instance.
 
-5. Restore the backup using::
+4. Restore the backup into the new instance using::
 
    $ bin/restore
 
-6. Start the new instance of the application.
+5. Start the new instance of the application.
 
 Run the tests
 =============
