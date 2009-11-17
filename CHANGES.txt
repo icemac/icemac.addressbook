@@ -51,7 +51,8 @@ Bug fixes
   `application/octet-stream`) the actual mime type is guessed using
   the file extension and file content.
 
-
+- The person list is now ordered by the displayed titles instead of
+  the internal ids.
 
 0.4 (2009-05-15)
 ================
