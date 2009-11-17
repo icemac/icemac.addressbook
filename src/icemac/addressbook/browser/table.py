@@ -19,7 +19,7 @@ class TitleLinkColumn(z3c.table.column.LinkColumn):
     weight = 2
 
     def getSortKey(self, item):
-        return icemac.addressbook.interfaces.ITitle(item)
+        return icemac.addressbook.interfaces.ITitle(item).lower()
 
     def getLinkContent(self, item):
         return icemac.addressbook.interfaces.ITitle(item)
