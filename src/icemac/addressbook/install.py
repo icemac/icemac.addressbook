@@ -32,20 +32,21 @@ class Configurator(object):
         self.user_config = user_config
 
     def __call__(self):
-        self.read_config()
+        self.load()
         self.print_intro()
         self.get_global_options()
         self.get_server_options()
         self.get_log_options()
+        self.print_additional_packages_intro()
         self.get_additional_packages()
         self.create_admin_zcml()
         self.create_buildout_cfg()
-        self.save_confing()
+        self.store()
 
     def ask_user(self, question, section, option, global_default=None):
         "Ask the user for a value of section/option and store it in config."
         try:
-            default = self.conf.get(section, option)
+            default = self.get(section, option)
         except ConfigParser.NoOptionError:
             if global_default is None:
                 raise
@@ -56,10 +57,19 @@ class Configurator(object):
         print
         if not got:
             got = default
-        self.conf.set(section, option, got)
+        self._conf.set(section, option, got)
         return got
 
-    def read_config(self):
+    def get(self, section, key):
+        return self._conf.get(section, key)
+
+    def load(self):
+        """Load the configutation from file.
+
+        Default configuration is always read and user configuration is
+        read when `user_config` is set on instance.
+
+        """
         if (self.user_config is not None and
             not os.path.exists(self.user_config)):
             raise IOError('%r does not exist.' % self.user_config)
@@ -69,8 +79,8 @@ class Configurator(object):
             to_read.append(self.user_config)
 
         # create config
-        self.conf = ConfigParser.SafeConfigParser()
-        self.conf.read(to_read)
+        self._conf = ConfigParser.SafeConfigParser()
+        self._conf.read(to_read)
 
     def print_intro(self):
         print 'Welcome to icemac.addressbook installation'
@@ -120,12 +130,14 @@ class Configurator(object):
                 'Number of log file backups', 'log', 'backups')
         self.log_handler = log_handler
 
-    def get_additional_packages(self):
+    def print_additional_packages_intro(self):
         print ' When you need additional packages (e. g. import readers)'
         print ' enter the package names here separated by a newline.'
         print ' When you are done enter an empty line.'
         print ' Known packages:'
         print '   icemac.ab.importxls -- Import of XLS (Excel) files'
+
+    def get_additional_packages(self):
         packages = []
         index = 1
         while True:
@@ -204,7 +216,7 @@ class Configurator(object):
 
         buildout_cfg_file.close()
 
-    def save_confing(self):
+    def store(self):
         print 'saving config ...'
         user_conf = file('install.user.ini', 'w')
-        self.conf.write(user_conf)
+        self._conf.write(user_conf)
