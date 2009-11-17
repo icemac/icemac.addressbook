@@ -74,7 +74,7 @@ enter a value.
 Setup
 -----
 
-We need a `install.default.ini` in the working directory as
+We need an `install.default.ini` in the working directory as
 ``Configurator`` searches only there:
 
 >>> write(sample_buildout, 'install.default.ini',
@@ -100,457 +100,346 @@ We need a `install.default.ini` in the working directory as
 ... [packages]
 ... """)
 
-ask_user
---------
-
-This is a helper method which ask the user for input, it displays the
-default value as set in the configuration file. When the user does not
-enter a value, the default value is used. The entered value is stored
-in the configuration and is also returned.
-
-.. XXX hier
-
-A Configurator is needed, it must store the default values:
-
->>> import ConfigParser
->>> conf = ConfigParser.SafeConfigParser()
->>> conf.add_section('install')
->>> conf.set('install', 'path', '$HOME')
-
-When the user does not enter a value (only hits `enter`) the default
-is used:
+Create a configurator and read the file above:
 
 >>> from icemac.addressbook.install import Configurator
 >>> config = Configurator()
->>> config.conf = conf
->>> call_with_user_input(
-...     '\n', config.ask_user, 'Choose install dir', 'install', 'path')
-Choose install dir: [$HOME]
-'$HOME'
->>> conf.get('install', 'path')
-'$HOME'
+>>> config.load()
+>>> config.get('install', 'eggs_dir')
+'py-eggs'
 
-When the user enter a value it is returned and stored:
+
+ask_user
+--------
+
+This is a helper method, which ask the user for input, it displays the
+default value as set in the configuration file. The entered value is
+stored in the configuration and is also returned. When the user does
+not enter a value (only hits `enter`), the default value is used
+instead:
 
 >>> call_with_user_input(
-...     '/Users/mac\n', config.ask_user, 'Choose install dir',
-...     'install', 'path')
-Choose install dir: [$HOME]
-'/Users/mac'
->>> conf.get('install', 'path')
-'/Users/mac'
+...     '\n', config.ask_user, 'Server port', 'server', 'port')
+Server port: [13090]
+'13090'
+>>> config.get('server', 'port')
+'13090'
+
+When the user enters a value, it is returned and stored:
+
+>>> call_with_user_input(
+...     '4711\n', config.ask_user, 'Server port', 'server', 'port')
+Server port: [13090]
+'4711'
+>>> config.get('server', 'port')
+'4711'
 
 The next time the stored value is presented as default:
 
 >>> call_with_user_input(
-...     '/home/mac\n', config.ask_user, 'Choose install dir', 'install',
-...     'path')
-Choose install dir: [/Users/mac]
-'/home/mac'
->>> conf.get('install', 'path')
-'/home/mac'
+...     '0815\n', config.ask_user, 'Server port', 'server', 'port')
+Server port: [4711]
+'0815'
+>>> config.get('server', 'port')
+'0815'
 
 
-Nothing entered
----------------
+load
+----
 
->>> call_with_user_input('\n\n\n\n\n\n', Configurator())
-Welcome to icemac.addressbook installation
-<BLANKLINE>
-Hint: to use the default value (the one in [brackets]), enter no value.
-<BLANKLINE>
- Directory to store python eggs: [py-eggs]
- Log-in name for the administrator: [me]
- Password for the administrator: [secret]
- Hostname: [my.computer.local]
- Port number: [13090]
- Please choose Log-Handler:
-    Details see http://docs.python.org/library/logging.html#handler-objects
- Log-Handler, choose between FileHandler, RotatingFileHandler,
- TimedRotatingFileHandler: [FileHandler]
- When you need additional packages (e. g. import readers)
- enter the package names here separated by a newline.
- When you are done enter an empty line.
- Known packages:
-   ...
- Package 1: []
-creating admin.zcml ...
-creating buildout.cfg ...
-saving config ...
+(Re-) loads the configuration from the configuration file(s):
 
-The configuration values are stored in `install.user.ini`:
+>>> config.load()
+>>> config.get('server', 'port')
+'13090'
 
->>> cat(sample_buildout, 'install.user.ini')
-[admin]
-login = me
-password = secret
-<BLANKLINE>
-[packages]
-package_1 =
-<BLANKLINE>
-[log]
-interval = 1
-when = midnight
-handler = FileHandler
-backups = 5
-max_size = 1000
-<BLANKLINE>
-[install]
-eggs_dir = py-eggs
-<BLANKLINE>
-[server]
-host = my.computer.local
-port = 13090
+When a user config is set on the configurator this file is read. When
+the file does not exist an error is raised:
 
-To run the installation two more files are written:
-
->>> cat(sample_buildout, 'buildout.cfg')
-[buildout]
-newest = true
-allow-picked-versions = true
-extends = profiles/prod.cfg
-eggs-directory = py-eggs
-<BLANKLINE>
-[deploy.ini]
-log-handler-args = 'a'
-host = my.computer.local
-log-handler = FileHandler
-port = 13090
-
->>> cat(sample_buildout, 'admin.zcml')
-<configure xmlns="http://namespaces.zope.org/zope">
-  <principal
-    id="icemac.addressbook.global.Administrator"
-    title="global administrator"
-    login="me"
-    password_manager="Plain Text"
-    password="secret" />
-  <grant
-    role="zope.Manager"
-    principal="icemac.addressbook.global.Administrator" />
-</configure>
-
-Entered values
---------------
-
-Entered values are stored in all created files. Choosing
-`RotatingFileHandler` two more questions are asked:
-
->>> call_with_user_input(
-... """eggs
-... admin
-... apass
-... localhost
-... 8080
-... RotatingFileHandler
-... 12345
-... 2
-... """, Configurator())
-Welcome to icemac.addressbook installation
-<BLANKLINE>
-Hint: to use the default value (the one in [brackets]), enter no value.
-<BLANKLINE>
- Directory to store python eggs: [py-eggs]
- Log-in name for the administrator: [me]
- Password for the administrator: [secret]
- Hostname: [my.computer.local]
- Port number: [13090]
- Please choose Log-Handler:
-    Details see http://docs.python.org/library/logging.html#handler-objects
- Log-Handler, choose between FileHandler, RotatingFileHandler,
- TimedRotatingFileHandler: [FileHandler]
- Maximum file size before rotating in bytes: [1000]
- Number of log file backups: [5]
- When you need additional packages (e. g. import readers)
- enter the package names here separated by a newline.
- When you are done enter an empty line.
- Known packages:
-   ...
- Package 1: []
-creating admin.zcml ...
-creating buildout.cfg ...
-saving config ...
-
->>> cat(sample_buildout, 'install.user.ini')
-[admin]
-login = admin
-password = apass
-<BLANKLINE>
-[packages]
-package_1 =
-<BLANKLINE>
-[log]
-interval = 1
-when = midnight
-handler = RotatingFileHandler
-backups = 2
-max_size = 12345
-<BLANKLINE>
-[install]
-eggs_dir = eggs
-<BLANKLINE>
-[server]
-host = localhost
-port = 8080
-
->>> cat(sample_buildout, 'buildout.cfg')
-[buildout]
-newest = true
-allow-picked-versions = true
-extends = profiles/prod.cfg
-eggs-directory = eggs
-<BLANKLINE>
-[deploy.ini]
-log-handler-args = 'a', 12345, 2
-host = localhost
-log-handler = handlers.RotatingFileHandler
-port = 8080
-
->>> cat(sample_buildout, 'admin.zcml')
-<configure xmlns="http://namespaces.zope.org/zope">
-  <principal
-    id="icemac.addressbook.global.Administrator"
-    title="global administrator"
-    login="admin"
-    password_manager="Plain Text"
-    password="apass" />
-  <grant
-    role="zope.Manager"
-    principal="icemac.addressbook.global.Administrator" />
-</configure>
-
-Partly entered data
--------------------
-
-If some data is entered those values are stored in the created files
-otherwise the defaults are used. When the user enters a wron handler
-name he is asked to enter it again. Choosing
-`TimedRotatingFileHandler` three additional questions are asked:
-
->>> call_with_user_input(
-... """/Users/icemac/eggs
-...
-... apass
-... localhost
-...
-... does not matter
-... TimedRotatingFileHandler
-... D
-... 7
-...
-... """, Configurator())
-Welcome to icemac.addressbook installation
-<BLANKLINE>
-Hint: to use the default value (the one in [brackets]), enter no value.
-<BLANKLINE>
- Directory to store python eggs: [py-eggs]
- Log-in name for the administrator: [me]
- Password for the administrator: [secret]
- Hostname: [my.computer.local]
- Port number: [13090]
- Please choose Log-Handler:
-    Details see http://docs.python.org/library/logging.html#handler-objects
- Log-Handler, choose between FileHandler, RotatingFileHandler,
- TimedRotatingFileHandler: [FileHandler]
-ERROR: 'does not matter' is not in ('FileHandler', 'RotatingFileHandler',
- 'TimedRotatingFileHandler').
-Please choose one handler out of the list.
- Log-Handler, choose between FileHandler, RotatingFileHandler,
-  TimedRotatingFileHandler: [does not matter]
- Type of rotation interval, choose between S, M, H, D, W, midnight:
- [midnight]
- Rotation interval size: [1]
- Number of log file backups: [5]
- When you need additional packages (e. g. import readers)
- enter the package names here separated by a newline.
- When you are done enter an empty line.
- Known packages:
-   ...
- Package 1: []
-creating admin.zcml ...
-creating buildout.cfg ...
-saving config ...
-
->>> cat(sample_buildout, 'install.user.ini')
-[admin]
-login = me
-password = apass
-<BLANKLINE>
-[packages]
-package_1 =
-<BLANKLINE>
-[log]
-interval = 7
-when = D
-handler = TimedRotatingFileHandler
-backups = 5
-max_size = 1000
-<BLANKLINE>
-[install]
-eggs_dir = /Users/icemac/eggs
-<BLANKLINE>
-[server]
-host = localhost
-port = 13090
-
->>> cat(sample_buildout, 'buildout.cfg')
-[buildout]
-newest = true
-allow-picked-versions = true
-extends = profiles/prod.cfg
-eggs-directory = /Users/icemac/eggs
-<BLANKLINE>
-[deploy.ini]
-log-handler-args = 'D', 7, 5
-host = localhost
-log-handler = handlers.TimedRotatingFileHandler
-port = 13090
-
->>> cat(sample_buildout, 'admin.zcml')
-<configure xmlns="http://namespaces.zope.org/zope">
-  <principal
-    id="icemac.addressbook.global.Administrator"
-    title="global administrator"
-    login="me"
-    password_manager="Plain Text"
-    password="apass" />
-  <grant
-    role="zope.Manager"
-    principal="icemac.addressbook.global.Administrator" />
-</configure>
-
-Previously entered data
------------------------
-
-The installation has an option to use previously entered values as
-default values for the installation. ``config`` expexts the path to
-the config file where the user values are stored.
-
-An error is raises when the file does not exist:
-
->>> call_with_user_input(
-...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n",
-...     Configurator('i-do-not-exist.ini'))
+>>> config.user_config = 'i-do-not-exist.ini'
+>>> config.load()
 Traceback (most recent call last):
 IOError: 'i-do-not-exist.ini' does not exist.
 
-Using a valid file, its values override the defaults, we use the
-previously created file here:
+The values in the user configuration take precedence over the ones in
+the default configuration:
 
->>> call_with_user_input(
-...     "/home/icemac/eggs\n\n\n\n\n\n\n\n\n", Configurator(
-...         join(sample_buildout, 'install.user.ini')))
+>>> config.get('install', 'eggs_dir')
+'py-eggs'
+>>> write(sample_buildout, 'install.user.ini',
+... """
+... [install]
+... eggs_dir = my-eggs
+... """)
+>>> config.user_config = 'install.user.ini'
+>>> config.load()
+>>> config.get('install', 'eggs_dir')
+'my-eggs'
+
+
+print_intro
+-----------
+
+Prints the installation introduction:
+
+>>> config.print_intro()
 Welcome to icemac.addressbook installation
 <BLANKLINE>
-Hint: to use the default value (the one in [brackets]), enter no value.
-<BLANKLINE>
- Directory to store python eggs: [/Users/icemac/eggs]
- Log-in name for the administrator: [me]
- Password for the administrator: [apass]
- Hostname: [localhost]
- Port number: [13090]
+Hint: to use the default value (the one in [brackets]),  enter no value.
+
+
+get_global_options
+------------------
+
+Ask the user about global options and stores them:
+
+>>> call_with_user_input('/Users/mac\n', config.get_global_options)
+Directory to store python eggs: [my-eggs]
+>>> config.eggs_dir
+'/Users/mac'
+>>> config.get('install', 'eggs_dir')
+'/Users/mac'
+
+get_server_options
+------------------
+
+Ask the user about the server and store the answers:
+
+>>> call_with_user_input(
+...     'admin\n'
+...     'geheim\n'
+...     'localhost\n'
+...     '8080\n', config.get_server_options)
+Log-in name for the administrator: [me]
+Password for the administrator: [secret]
+Hostname: [my.computer.local]
+Port number: [13090]
+>>> config.admin_login
+'admin'
+>>> config.get('admin', 'login')
+'admin'
+>>> config.admin_passwd
+'geheim'
+>>> config.get('admin', 'password')
+'geheim'
+>>> config.host
+'localhost'
+>>> config.get('server', 'host')
+'localhost'
+>>> config.port
+'8080'
+>>> config.get('server', 'port')
+'8080'
+
+get_log_options
+---------------
+
+Ask the user about logging and store his answers.  When the user
+enters a wrong handler name he is asked to enter it again. Choosing
+`TimedRotatingFileHandler` three additional questions are asked:
+
+>>> call_with_user_input(
+... """does not matter
+... TimedRotatingFileHandler
+... D
+... 7
+... 8
+... """, config.get_log_options)
  Please choose Log-Handler:
+    Details see http://docs.python.org/library/logging.html#handler-objects
+ Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [FileHandler]
+ERROR: 'does not matter' is not in ('FileHandler', 'RotatingFileHandler', 'TimedRotatingFileHandler').
+Please choose one handler out of the list.
+ Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [does not matter]
+ Type of rotation interval, choose between S, M, H, D, W, midnight: [midnight]
+ Rotation interval size: [1]
+ Number of log file backups: [5]
+>>> config.log_handler
+'TimedRotatingFileHandler'
+>>> config.get('log', 'handler')
+'TimedRotatingFileHandler'
+>>> config.log_when
+'D'
+>>> config.get('log', 'when')
+'D'
+>>> config.log_interval
+'7'
+>>> config.get('log', 'interval')
+'7'
+>>> config.log_backups
+'8'
+>>> config.get('log', 'backups')
+'8'
+
+Choosing `RotatingFileHandler` two more questions are asked:
+
+>>> call_with_user_input(
+... """RotatingFileHandler
+... 12345
+... 2
+... """, config.get_log_options)
+Please choose Log-Handler:
     Details see http://docs.python.org/library/logging.html#handler-objects
  Log-Handler, choose between FileHandler, RotatingFileHandler,
  TimedRotatingFileHandler: [TimedRotatingFileHandler]
- Type of rotation interval, choose between S, M, H, D, W, midnight: [D]
- Rotation interval size: [7]
- Number of log file backups: [5]
+ Maximum file size before rotating in bytes: [1000]
+ Number of log file backups: [8]
+>>> config.log_handler
+'RotatingFileHandler'
+>>> config.get('log', 'handler')
+'RotatingFileHandler'
+>>> config.log_max_bytes
+'12345'
+>>> config.get('log', 'max_size')
+'12345'
+>>> config.log_backups
+'2'
+>>> config.get('log', 'backups')
+'2'
+
+Choosing `FileHandler` no more questions are asked:
+>>> call_with_user_input(
+... """FileHandler\n""", config.get_log_options)
+ Please choose Log-Handler:
+    Details see http://docs.python.org/library/logging.html#handler-objects
+ Log-Handler, choose between FileHandler, RotatingFileHandler,
+ TimedRotatingFileHandler: [RotatingFileHandler]
+>>> config.log_handler
+'FileHandler'
+>>> config.get('log', 'handler')
+'FileHandler'
+
+print_additional_packages_intro
+-------------------------------
+
+Prints the introduction text for additional packages:
+
+>>> config.print_additional_packages_intro()
  When you need additional packages (e. g. import readers)
  enter the package names here separated by a newline.
  When you are done enter an empty line.
  Known packages:
-   ...
+   icemac.ab.importxls -- Import of XLS (Excel) files
+
+
+get_additional_packages
+-----------------------
+
+The user can enter the names of additional packages. Those packages
+are later added as runtime and test dependenies. They need a
+`configure.zcml` as they get integrated using that file:
+
+>>> call_with_user_input(
+...     'icemac.ab.importxls\n'
+...     'icemac.ab.importcsv\n', config.get_additional_packages)
  Package 1: []
+ Package 2: []
+ Package 3: []
+>>> config.packages
+['icemac.ab.importxls', 'icemac.ab.importcsv']
+>>> config.get('packages', 'package_1')
+'icemac.ab.importxls'
+>>> config.get('packages', 'package_2')
+'icemac.ab.importcsv'
+>>> config.get('packages', 'package_3')
+''
+
+create_admin_zcml
+-----------------
+
+Creates the `admin.zcml` file which contains the password of the
+global administrator:
+
+>>> config.admin_login = 'root'
+>>> config.admin_passwd = 'keins'
+>>> config.create_admin_zcml()
 creating admin.zcml ...
-creating buildout.cfg ...
-saving config ...
-
->>> cat(sample_buildout, 'install.user.ini')
-[admin]
-login = me
-password = apass
-<BLANKLINE>
-[packages]
-package_1 =
-<BLANKLINE>
-[log]
-interval = 7
-when = D
-handler = TimedRotatingFileHandler
-backups = 5
-max_size = 1000
-<BLANKLINE>
-[install]
-eggs_dir = /home/icemac/eggs
-<BLANKLINE>
-[server]
-host = localhost
-port = 13090
-
->>> cat(sample_buildout, 'buildout.cfg')
-[buildout]
-newest = true
-allow-picked-versions = true
-extends = profiles/prod.cfg
-eggs-directory = /home/icemac/eggs
-<BLANKLINE>
-[deploy.ini]
-log-handler-args = 'D', 7, 5
-host = localhost
-log-handler = handlers.TimedRotatingFileHandler
-port = 13090
-
->>> cat(sample_buildout, 'admin.zcml')
+>>> cat('admin.zcml')
 <configure xmlns="http://namespaces.zope.org/zope">
   <principal
     id="icemac.addressbook.global.Administrator"
     title="global administrator"
-    login="me"
+    login="root"
     password_manager="Plain Text"
-    password="apass" />
+    password="keins" />
   <grant
     role="zope.Manager"
     principal="icemac.addressbook.global.Administrator" />
 </configure>
 
-Additional packages
+create_buildout_cfg
 -------------------
 
-The user can enter the names of additional packages. Those packages are added as runtime and test dependenies. They need a `configure.zcml` as they get integrated using this file:
+Created the `buildout.cfg` file which contains the user configurations
+for the server. The contents of the file depend a bit on the choosen
+log handler:
 
->>> call_with_user_input(
-...     """\n\n\n\n\n\nicemac.ab.importxls\nicemac.ab.importcsv\n""",
-...     Configurator())
-Welcome to icemac.addressbook installation
-<BLANKLINE>
-Hint: to use the default value (the one in [brackets]), enter no value.
-<BLANKLINE>
- Directory to store python eggs: [py-eggs]
- Log-in name for the administrator: [me]
- Password for the administrator: [secret]
- Hostname: [my.computer.local]
- Port number: [13090]
- Please choose Log-Handler:
-    Details see http://docs.python.org/library/logging.html#handler-objects
- Log-Handler, choose between FileHandler, RotatingFileHandler,
- TimedRotatingFileHandler: [FileHandler]
- When you need additional packages (e. g. import readers)
- enter the package names here separated by a newline.
- When you are done enter an empty line.
- Known packages:
-   ...
- Package 1: []
- Package 2: []
- Package 3: []
-creating admin.zcml ...
+>>> config.eggs_dir = '/var/lib/eggs'
+>>> config.host = 'server.local'
+>>> config.port = '8081'
+>>> config.log_handler = 'FileHandler'
+>>> config.packages = ['icemac.ab.reporting', 'icemac.ab.relations']
+>>> config.create_buildout_cfg()
 creating buildout.cfg ...
-saving config ...
+>>> cat('buildout.cfg')
+[buildout]
+newest = true
+allow-picked-versions = true
+extends = profiles/prod.cfg
+eggs-directory = /var/lib/eggs
+<BLANKLINE>
+[site.zcml]
+permissions_zcml = <include package="icemac.ab.reporting" />
+	<include package="icemac.ab.relations" />
+<BLANKLINE>
+[deploy.ini]
+log-handler-args = 'a'
+host = server.local
+log-handler = FileHandler
+port = 8081
+<BLANKLINE>
+[app]
+eggs += icemac.ab.reporting
+      icemac.ab.relations
+<BLANKLINE>
+[test]
+eggs += icemac.ab.reporting
+      icemac.ab.relations
 
->>> cat(sample_buildout, 'install.user.ini')
+Using different log handler results in different ``log-handler-args``:
+
+>>> config.log_handler = 'RotatingFileHandler'
+>>> config.log_max_bytes = '200000'
+>>> config.log_backups = '10'
+>>> config.create_buildout_cfg()
+creating buildout.cfg ...
+>>> cat('buildout.cfg')
+[buildout]...
+log-handler-args = 'a', 200000, 10...
+
+
+>>> config.log_handler = 'TimedRotatingFileHandler'
+>>> config.log_when = 'W'
+>>> config.log_interval = '2'
+>>> config.log_backups = '1'
+>>> config.create_buildout_cfg()
+creating buildout.cfg ...
+>>> cat('buildout.cfg')
+[buildout]...
+log-handler-args = 'W', 2, 1...
+
+store
+-----
+
+Stores the current configuration values in a file named
+`install.user.ini`:
+
+>>> config.store()
+saving config ...
+>>> cat('install.user.ini')
 [admin]
-login = me
-password = secret
+login = admin
+password = geheim
 <BLANKLINE>
 [packages]
 package_1 = icemac.ab.importxls
@@ -558,53 +447,16 @@ package_2 = icemac.ab.importcsv
 package_3 =
 <BLANKLINE>
 [log]
-interval = 1
-when = midnight
+interval = 7
+when = D
 handler = FileHandler
-backups = 5
-max_size = 1000
+backups = 2
+max_size = 12345
 <BLANKLINE>
 [install]
-eggs_dir = py-eggs
+eggs_dir = /Users/mac
 <BLANKLINE>
 [server]
-host = my.computer.local
-port = 13090
+host = localhost
+port = 8080
 
->>> cat(sample_buildout, 'buildout.cfg')
-[buildout]
-newest = true
-allow-picked-versions = true
-extends = profiles/prod.cfg
-eggs-directory = py-eggs
-<BLANKLINE>
-[site.zcml]
-permissions_zcml = <include package="icemac.ab.importxls" />
-	<include package="icemac.ab.importcsv" />
-<BLANKLINE>
-[deploy.ini]
-log-handler-args = 'a'
-host = my.computer.local
-log-handler = FileHandler
-port = 13090
-<BLANKLINE>
-[app]
-eggs += icemac.ab.importxls
-      icemac.ab.importcsv
-<BLANKLINE>
-[test]
-eggs += icemac.ab.importxls
-      icemac.ab.importcsv
-
->>> cat(sample_buildout, 'admin.zcml')
-<configure xmlns="http://namespaces.zope.org/zope">
-  <principal
-    id="icemac.addressbook.global.Administrator"
-    title="global administrator"
-    login="me"
-    password_manager="Plain Text"
-    password="secret" />
-  <grant
-    role="zope.Manager"
-    principal="icemac.addressbook.global.Administrator" />
-</configure>
