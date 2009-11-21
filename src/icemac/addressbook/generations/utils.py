@@ -2,6 +2,11 @@
 # See also LICENSE.txt
 # $Id$
 
+import zope.app.generations.utility
+import icemac.addressbook.interfaces
+import icemac.addressbook.addressbook
+
+
 def update_address_book_infrastructure(context):
     "Update the address book infrastructure (e. g. install new utilities)."
     root = zope.app.generations.utility.getRootFolder(context)
