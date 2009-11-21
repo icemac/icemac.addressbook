@@ -6,7 +6,6 @@ from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-import persistent
 import urlparse
 import z3c.table.column
 import zope.app.publication.traversers

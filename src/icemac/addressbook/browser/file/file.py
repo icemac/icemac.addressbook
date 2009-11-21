@@ -4,13 +4,10 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
-import icemac.addressbook.browser.interfaces
 import icemac.addressbook.file.file
 import icemac.addressbook.file.interfaces
 import os.path
 import z3c.form.field
-import z3c.form.interfaces
-import z3c.form.validator
 import z3c.form.widget
 import zope.component
 import zope.mimetype.interfaces

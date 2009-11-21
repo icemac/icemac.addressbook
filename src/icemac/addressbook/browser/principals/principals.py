@@ -13,12 +13,10 @@ import transaction
 import z3c.form.button
 import z3c.form.field
 import z3c.form.widget
-import z3c.pagelet.browser
 import zope.interface
 import zope.schema
 import zope.schema.interfaces
 import zope.security
-import zope.traversing.browser.interfaces
 
 
 class Overview(icemac.addressbook.browser.table.PageletTable):

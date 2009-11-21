@@ -8,8 +8,6 @@ import gocept.reference.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
 import z3c.form.button
-import zope.component
-import zope.traversing.browser.interfaces
 import icemac.addressbook.browser.metadata
 
 

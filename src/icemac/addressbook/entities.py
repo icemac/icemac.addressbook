@@ -4,12 +4,10 @@
 
 import icemac.addressbook.interfaces
 import persistent
-import sys
 import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface
 import zope.schema
-import zope.security.proxy
 
 
 marker = object()

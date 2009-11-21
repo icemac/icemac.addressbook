@@ -5,11 +5,11 @@
 
 __docformat__ = "reStructuredText"
 
-import zope.app.generations.utility
-
 import icemac.addressbook.interfaces
-import icemac.addressbook.addressbook
-import icemac.addressbook.person
+import icemac.addressbook.interfaces
+import zope.app.generations.utility
+import zope.catalog.interfaces
+import zope.component
 
 
 generation = 6

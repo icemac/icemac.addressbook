@@ -7,7 +7,6 @@ from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-import icemac.addressbook.sources
 import zope.annotation.interfaces
 import zope.container.btree
 import zope.interface

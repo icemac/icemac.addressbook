@@ -6,7 +6,7 @@ import icemac.addressbook.interfaces
 import z3c.form.datamanager
 import zope.component
 import zope.schema.interfaces
-from zope.security.checker import canAccess, canWrite, Proxy
+from zope.security.checker import canWrite, Proxy
 
 
 class UserDefinedField(z3c.form.datamanager.AttributeField):

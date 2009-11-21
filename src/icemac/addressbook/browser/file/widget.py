@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
-from z3c.form.i18n import MessageFactory as _z3c
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.file.interfaces
 import z3c.form.browser.file
