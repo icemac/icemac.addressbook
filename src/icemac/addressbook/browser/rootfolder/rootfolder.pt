@@ -4,7 +4,8 @@
     <li tal:repeat="addressbook addressbooks">
       <a tal:attributes="href addressbook/@@absolute_url"
          tal:content="addressbook/title" />
-      (<tal:entries tal:replace="python:view.countEntries(addressbook)" />)
+      (<tal:entries i18n:translate=""
+                    tal:replace="python:view.countEntries(addressbook)" />)
     </li>
   </ul>
 

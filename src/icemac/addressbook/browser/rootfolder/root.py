@@ -3,10 +3,10 @@
 # See also LICENSE.txt
 # $Id$
 
-import z3c.pagelet.browser
-import icemac.addressbook.interfaces
-
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.interfaces
+import z3c.pagelet.browser
+import zope.size.interfaces
 
 
 class FrontPage(z3c.pagelet.browser.BrowserPagelet):
@@ -19,9 +19,4 @@ class FrontPage(z3c.pagelet.browser.BrowserPagelet):
                 ]
 
     def countEntries(self, address_book):
-        count = len(address_book)
-        if count == 1: # XXX use i18n instead!
-            entries = _(u'entry')
-        else:
-            entries = _(u'entries')
-        return "%s %s" % (count, entries)
+        return zope.size.interfaces.ISized(address_book).sizeForDisplay()
