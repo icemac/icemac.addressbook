@@ -2,10 +2,11 @@
 
   <ul tal:condition="addressbooks">
     <li tal:repeat="addressbook addressbooks">
-      <a tal:attributes="href addressbook/@@absolute_url"
+      <a tal:attributes="href addressbook/url"
          tal:content="addressbook/title" />
       (<tal:entries i18n:translate=""
-                    tal:replace="python:view.countEntries(addressbook)" />)
+                    tal:replace="addressbook/count" />)
+      <a tal:attributes="href addressbook/delete_url">Delete</a>
     </li>
   </ul>
 

@@ -4,11 +4,13 @@
 # $Id$
 
 from icemac.addressbook.i18n import MessageFactory as _
+import gocept.reference.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
 import z3c.form.button
 import zope.interface
 import zope.schema
+import zope.security.proxy
 import zope.size.interfaces
 
 
@@ -34,13 +36,6 @@ class EditForm(icemac.addressbook.browser.base.BaseEditForm):
     def handleDeleteContent(self, action):
         self.redirect_to_next_url('object', '@@delete_content.html')
 
-    @z3c.form.button.buttonAndHandler(
-        _(u'Delete whole address book'), name='delete_address_book',
-        condition=icemac.addressbook.browser.base.can_access(
-            '@@delete_address_book.html'))
-    def handleDeleteAddressBook(self, action):
-        self.redirect_to_next_url('object', '@@delete_address_book.html')
-
 
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete whole address book."
@@ -48,15 +43,21 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this whole address book?')
     interface = icemac.addressbook.interfaces.IAddressBook
     field_names = ('title', )
-    next_view = '@@edit.html'
-    next_view_after_delete = '@@index.html'
+    next_url = 'parent'
+
+    def _do_delete(self):
+        # delete users first
+        principals = self.context.principals
+        for name in list(principals.keys()):
+            del principals[name]
+        super(DeleteForm, self)._do_delete()
 
 
 class IPersonCount(zope.interface.Interface):
     "Number of persons in address book."
 
-    count = zope.schema.Int(title=_(u'number of persons'))
-
+    count = zope.schema.Int(title=_(u'number of persons'), required=False)
+    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
 
 class PersonCount(object):
     "Adapter to count persons in address book."
@@ -67,7 +68,8 @@ class PersonCount(object):
     def __init__(self, address_book):
         basic_unit, self.count = zope.size.interfaces.ISized(
             address_book).sizeForSorting()
-
+        self.notes = _(
+            u'The users inside this address book will not get deleted.')
 
 class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
     "Delete address book contents (aka persons)."
@@ -84,5 +86,11 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
     @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
     def handleDelete(self, action):
         for name in list(self.context.keys()):
+            ref_target = gocept.reference.interfaces.IReferenceTarget(
+                zope.security.proxy.getObject(self.context[name]))
+            if ref_target.is_referenced():
+                # Users are referenced users and can't be deleted
+                # using this function.
+                continue
             del self.context[name]
         self.redirect_to_next_url('object')
