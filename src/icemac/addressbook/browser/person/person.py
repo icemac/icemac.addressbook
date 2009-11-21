@@ -14,12 +14,9 @@ import icemac.addressbook.sources
 import icemac.addressbook.utils
 import z3c.form.button
 import z3c.form.datamanager
-import z3c.form.field
 import z3c.form.group
-import z3c.form.interfaces
 import zc.sourcefactory.contextual
-import zope.component
-import zope.traversing.browser.interfaces
+import zope.interface
 
 
 class AddGroup(icemac.addressbook.browser.base.PrefixGroup):

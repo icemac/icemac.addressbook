@@ -2,15 +2,9 @@
 # Copyright (c) 2008-2009 Michael Howitz
 # See also LICENSE.txt
 
-import gocept.reference.verify
-import icemac.addressbook.address
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
-import icemac.addressbook.keyword
-import icemac.addressbook.person
 import icemac.addressbook.testing
-import unittest
-import zope.interface.verify
 import zope.location.interfaces
 import zope.intid.interfaces
 import zope.catalog.interfaces

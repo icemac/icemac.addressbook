@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
-from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.interfaces
 import z3c.pagelet.browser
 import zope.size.interfaces

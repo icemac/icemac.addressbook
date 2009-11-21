@@ -11,7 +11,6 @@ import z3c.form.button
 import z3c.form.field
 import z3c.form.group
 import z3c.formui.form
-import zope.app.publication.browser
 import zope.component
 import zope.interface
 import zope.security

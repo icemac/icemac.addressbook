@@ -4,11 +4,9 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.entities
-import icemac.addressbook.interfaces
 import unittest
 import zope.component.testing
 import zope.interface
-import zope.schema
 
 
 class IDuck(zope.interface.Interface):

@@ -7,7 +7,6 @@ import icemac.addressbook.interfaces
 import unittest
 import zope.component.testing
 import zope.interface
-import zope.interface.exceptions
 import zope.schema
 
 
