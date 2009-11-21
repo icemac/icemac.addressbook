@@ -2,7 +2,7 @@
  Change log
 ============
 
-0.5.1 (unreleased)
+0.5.1 (2009-11-21)
 ==================
 
 - Fixed namespace package declaration so the package can be installed
