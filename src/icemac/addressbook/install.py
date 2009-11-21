@@ -152,6 +152,7 @@ class Configurator(object):
         print ' enter the package names here separated by a newline.'
         print ' When you are done enter an empty line.'
         print ' Known packages:'
+        print '   icemac.ab.importer -- Import of CSV files'
         print '   icemac.ab.importxls -- Import of XLS (Excel) files'
 
     def get_additional_packages(self):
