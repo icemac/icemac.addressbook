@@ -117,8 +117,10 @@ Delete all persons in addressbook
 =================================
 
 The Administrator is able to delete all persons in the address book on
-the edit form.  But Editors and visitors are not allowed to do so, even
-they know the URL.
+the edit form. Users are not deleted because the are referenced as a
+safty belt so the current user does not delete his credencials.
+
+Editors and visitors are not allowed to do so, even they know the URL.
 
 Editor
 ------
@@ -139,12 +141,14 @@ HTTPError: HTTP Error 403: Forbidden
 Administrator
 -------------
 
-Make sure there are some persons in the address book:
+Make sure there are some persons and some user in the address book:
 
->>> from icemac.addressbook.testing import create_person
+>>> from icemac.addressbook.testing import create_person, create_user
 >>> ab = getRootFolder()['AddressBook']
 >>> create_person(ab, ab, last_name=u'Tester', return_obj=False)
 >>> create_person(ab, ab, last_name=u'Tester 2', return_obj=False)
+>>> create_user(ab, ab, u'Hans', u'User', u'hans@user.de', u'asdf', ['Visitor'])
+>>> create_user(ab, ab, u'Kurt', u'Utzr', u'kurt@utzr.ch', u'asdf', ['Editor'])
 >>> create_person(ab, ab, last_name=u'Tester 3', return_obj=False)
 
 To delete all persons in the address bool, the Adminstrator has to
@@ -164,73 +168,28 @@ to the address book's edit form:
       <h1>Do you really want to delete all persons in this address book?</h1>...
                   <span>number of persons</span>...
     <span id="form-widgets-count"
-          class="text-widget required int-field">3</span>...
+          class="text-widget int-field">5</span>...
 
 >>> browser.getControl('No, cancel').click()
 >>> browser.url == edit_address_book_url
 True
 
-When he decides to delete all persons he is led back to then empty
-person list:
+When he decides to delete all persons he is led back to then person
+list where only the users are still shown:
 
 >>> browser.getControl('Delete all persons in address book').click()
+>>> browser.handleErrors = False
 >>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/AddressBook'
 >>> print browser.contents
-<...There are no persons entered yet, click on "Add person" to create one...
-
-
-Delete whole address book
-=========================
-
-The Administrator is able to delete the whole address book on the edit
-form.  But Editors and visitors are not allowed to do so, even they
-know the URL.
-
-Editor
-------
-
->>> delete_address_book_url = address_book_url + '/@@delete_address_book.html'
->>> editor_browser.open(delete_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
-Visitor
--------
-
->>> visitor_browser.open(delete_address_book_url)
-Traceback (most recent call last):
-HTTPError: HTTP Error 403: Forbidden
-
-
-Administrator
--------------
-
-The Adminstrator has to open the `edit address book` form and select
-the `Delete whole address book` button there. Then an `are you sure`
-form is displayed:
-
->>> browser.getLink('Edit address book').click()
->>> browser.getControl('Delete whole address book').click()
->>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html'
-
-When the adminstrator decides not to delete the address book he is led
-back to the address book's edit form:
-
->>> browser.getControl('No, cancel').click()
->>> browser.url == edit_address_book_url
-True
-
-When he decides to delete the address book he is led back to the
-administration form for all address books:
-
-
->>> browser.getControl('Delete whole address book').click()
->>> browser.getControl('Yes, delete').click()
->>> browser.url
-'http://localhost/++skin++AddressBook/@@index.html'
->>> print browser.contents
 <!DOCTYPE ...
-There are no address books created yet, click on "Add address book" to create one...
+  <h2>Persons</h2>
+  <ul>
+    <li>
+      <a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">User, Hans</a>
+    </li>
+    <li>
+      <a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Utzr, Kurt</a>
+    </li>
+  </ul>...

@@ -6,16 +6,23 @@
 import icemac.addressbook.interfaces
 import z3c.pagelet.browser
 import zope.size.interfaces
+import zope.traversing.browser.absoluteurl
 
 
 class FrontPage(z3c.pagelet.browser.BrowserPagelet):
     """Pagelet for the front page."""
 
     def getAddressBooks(self):
-        return [value
-                for value in self.context.values()
-                if icemac.addressbook.interfaces.IAddressBook.providedBy(value)
-                ]
-
-    def countEntries(self, address_book):
-        return zope.size.interfaces.ISized(address_book).sizeForDisplay()
+        result = []
+        for ab in self.context.values():
+            if not icemac.addressbook.interfaces.IAddressBook.providedBy(ab):
+                # only show address books
+                continue
+            url = zope.traversing.browser.absoluteurl.absoluteURL(
+                ab, self.request)
+            result.append(dict(
+                title=ab.title,
+                url=url,
+                delete_url=url + '/@@delete_address_book.html',
+                count=zope.size.interfaces.ISized(ab).sizeForDisplay()))
+        return result

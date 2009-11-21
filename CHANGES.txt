@@ -5,7 +5,13 @@
 0.5.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Deleting all persons does not delete the persons which are
+  users. Previously this function broke when there were users defined
+  in the address book.
+
+- Moved the function to delete a whole address book to the overview
+  page of all address books, as users defined inside an address book
+  are not allowed to delete their address book.
 
 
 0.5.1 (2009-11-21)

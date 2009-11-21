@@ -57,6 +57,7 @@ together with the number of entries inside:
   <li>
     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
     (0 items)
+    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
  </li>
 </ul>...
 
@@ -73,6 +74,7 @@ object, I add it directly to the root folder.):
   <li>
     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
     (0 items)
+    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
   </li>
 </ul>...
 
@@ -87,10 +89,12 @@ After creating a person one entry is displayed:
 <ul>
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>        (0 items)
+     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
    </li>
    <li>
      <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
      (1 item)
+     <a href="http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html">Delete</a>
    </li>
 </ul>...
 
@@ -102,9 +106,86 @@ After creating a person one entry is displayed:
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
      (0 items)
+     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
    </li>
    <li>
      <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
      (2 items)
+     <a href="http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html">Delete</a>
   </li>
 </ul>...
+
+
+Delete address book
+===================
+
+The Administrator is able to delete the whole address book.  But
+Editors and visitors are not allowed to do so, even they know the URL.
+
+Set up
+------
+
+Users are a bit harder to delete, so we add them here to show they can
+get deleted as well:
+
+>>> from icemac.addressbook.testing import create_user
+>>> create_user(ab, ab, u'Hans', u'User', u'hans@user.de', u'asdf', ['Visitor'])
+>>> create_user(ab, ab, u'Kurt', u'Utzr', u'kurt@utzr.ch', u'asdf', ['Editor'])
+
+
+Editor
+------
+
+>>> delete_address_book_url = (
+...     'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html')
+>>> editor_browser = Browser()
+>>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> editor_browser.open(delete_address_book_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Visitor
+-------
+
+>>> visitor_browser = Browser()
+>>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor_browser.open(delete_address_book_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Administrator
+-------------
+
+The Adminstrator has to select the `Delete` link. Then an `are you
+sure` form is displayed:
+
+>>> browser.getLink('Delete', index=1).click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
+
+When the adminstrator decides not to delete the address book he is led
+back to the overview of all address books:
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook'
+
+When he decides to delete the address book he is led back to the
+overview as well:
+
+>>> browser.getLink('Delete', index=1).click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
+>>> browser.getControl('Yes, delete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook'
+>>> print browser.contents
+<!DOCTYPE ...
+  <ul>
+    <li>
+      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+      (0 items)
+      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+    </li>
+  </ul>...
