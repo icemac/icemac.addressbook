@@ -277,7 +277,7 @@ the person edit form:
 True
 >>> browser.getControl(filename).click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 

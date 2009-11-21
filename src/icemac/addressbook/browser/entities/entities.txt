@@ -355,7 +355,7 @@ HTTPError: HTTP Error 403: Forbidden
 When the administrator is sure to delete the field, the field gets deleted:
 
 >>> browser.getLink('Delete').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
 

@@ -198,7 +198,7 @@ where the keyword is no longer listed:
 >>> get_submit_control_names(browser)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete']
 >>> browser.getControl('Delete').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> keywords_url = browser.url
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
@@ -219,7 +219,7 @@ to an integrity error:
 
 >>> browser.open(browser.url + '/@@delete.html')
 >>> browser.handleErrors = False # neded for nicer error display below
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 Traceback (most recent call last):
 IntegrityError: Can't delete or move <icemac.addressbook.keyword.Keyword object at 0x...>. The (sub-)object <icemac.addressbook.keyword.Keyword object at 0x...> is still being referenced.
 >>> browser.handleErrors = True

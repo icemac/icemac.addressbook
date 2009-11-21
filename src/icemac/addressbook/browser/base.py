@@ -188,7 +188,7 @@ class BaseDeleteForm(BaseEditForm):
     def handleCancel(self, action):
         self.status = self.noChangesMessage
 
-    @z3c.form.button.buttonAndHandler(_(u'Yes, delete it'), name='delete')
+    @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
     def handleDelete(self, action):
         self.redirect_to_next_url('parent', self.next_view_after_delete)
         self._do_delete()
