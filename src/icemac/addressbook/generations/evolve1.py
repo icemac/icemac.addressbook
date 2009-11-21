@@ -10,7 +10,7 @@ import zope.app.generations.utility
 import icemac.addressbook.interfaces
 import icemac.addressbook.addressbook
 import icemac.addressbook.person
-import icemac.addressbook.generations
+import icemac.addressbook.generations.utils
 
 generation = 1
 
@@ -33,5 +33,6 @@ def evolve(context):
     for person in persons:
         person_created_with_set_site(root, person, None)
 
-    icemac.addressbook.generations.update_address_book_infrastructure(context)
+    icemac.addressbook.generations.utils.update_address_book_infrastructure(
+        context)
 
