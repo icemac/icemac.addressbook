@@ -363,6 +363,7 @@ Prints the introduction text for additional packages:
  enter the package names here separated by a newline.
  When you are done enter an empty line.
  Known packages:
+   icemac.ab.importer -- Import of CSV files
    icemac.ab.importxls -- Import of XLS (Excel) files
 
 
@@ -575,6 +576,7 @@ Hint: to use the default value (the one in [brackets]),  enter no value.
  enter the package names here separated by a newline.
  When you are done enter an empty line.
  Known packages:
+   icemac.ab.importer -- Import of CSV files
    icemac.ab.importxls -- Import of XLS (Excel) files
  Package 1: []
   Migrate old address book content to new instance: [no]
