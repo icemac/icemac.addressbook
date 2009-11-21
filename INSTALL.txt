@@ -48,7 +48,7 @@ Update
    previously are used as defaults instead of the application
    defaults.  Example::
 
-     $ python2.5 install.py ../icemac.addressbook-0.5
+     $ python2.5 install.py ../icemac.addressbook-0.4
 
    3. Answer the questions about admin user name, password and so on.
 
@@ -119,7 +119,7 @@ enter a `.` as parameter like this::
 The configuration questions get presented to you with your previously
 entered values as default.
 
-To remove additional packages you have to edit to ``[package]``
+To remove additional packages you have to edit the ``[package]``
 section of `install.user.ini`. There is currently no other way for
 removal.
 
@@ -145,10 +145,10 @@ are three roles to authorize a user:
 Create new users
 ================
 
-Users are persons from the addressbook augmented by log-in
+Users are persons from the address book augmented by log-in
 information.
 
-To create the first new user inside an addressbook the adminstrator
+To create the first new user inside an address book the adminstrator
 (who was created in `First installation`_) has to log-in and then do
 the following:
 
@@ -157,4 +157,4 @@ the following:
   2. create a new user using `Master data --> Users --> Add user`.
 
 The newly created user has now a log-in (e-mail address) for the
-addressbook the person belonges to.
+address book the person belonges to.
