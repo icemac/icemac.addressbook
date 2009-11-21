@@ -55,8 +55,9 @@ together with the number of entries inside:
 <!DOCTYPE ...
 <ul>
   <li>
-    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
-  </li>
+    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+    (0 items)
+ </li>
 </ul>...
 
 This view only displays addressbooks, when another object is in the
@@ -70,7 +71,8 @@ object, I add it directly to the root folder.):
 <!DOCTYPE ...
 <ul>
   <li>
-    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+    (0 items)
   </li>
 </ul>...
 
@@ -84,10 +86,11 @@ After creating a person one entry is displayed:
 <!DOCTYPE ...
 <ul>
    <li>
-     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>        (0 items)
    </li>
    <li>
-     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a> (1 entry)
+     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
+     (1 item)
    </li>
 </ul>...
 
@@ -97,9 +100,11 @@ After creating a person one entry is displayed:
 <!DOCTYPE ...
 <ul>
    <li>
-     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a> (0 entries)
+     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+     (0 items)
    </li>
    <li>
-     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a> (2 entries)
-   </li>
+     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
+     (2 items)
+  </li>
 </ul>...
