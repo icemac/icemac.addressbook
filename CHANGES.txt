@@ -2,7 +2,7 @@
  Change log
 ============
 
-0.5.2 (unreleased)
+0.5.2 (2009-11-21)
 ==================
 
 - Deleting all persons does not delete the persons which are
