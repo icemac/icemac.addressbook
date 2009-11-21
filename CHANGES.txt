@@ -8,8 +8,9 @@
 Features
 --------
 
-- Users having the role `Administrator` can delete the whole address
-  book on the address book edit form.
+- Users having the role `Administrator` can delete all persons in the
+  address book or even the whole address book on the address book edit
+  form.
 
 - Last modification time of objects is now stored and displayed (in
   UTC!).

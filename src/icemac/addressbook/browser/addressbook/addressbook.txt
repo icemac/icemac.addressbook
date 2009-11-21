@@ -113,6 +113,74 @@ Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 
 
+Delete all persons in addressbook
+=================================
+
+The Administrator is able to delete all persons in the address book on
+the edit form.  But Editors and visitors are not allowed to do so, even
+they know the URL.
+
+Editor
+------
+
+>>> delete_address_book_url = address_book_url + '/@@delete_content.html'
+>>> editor_browser.open(delete_address_book_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Visitor
+-------
+
+>>> visitor_browser.open(delete_address_book_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Administrator
+-------------
+
+Make sure there are some persons in the address book:
+
+>>> from icemac.addressbook.testing import create_person
+>>> ab = getRootFolder()['AddressBook']
+>>> create_person(ab, ab, last_name=u'Tester', return_obj=False)
+>>> create_person(ab, ab, last_name=u'Tester 2', return_obj=False)
+>>> create_person(ab, ab, last_name=u'Tester 3', return_obj=False)
+
+To delete all persons in the address bool, the Adminstrator has to
+open the `edit address book` form and select the `Delete all persons
+in address book` button there. An `are you sure` form is displayed:
+
+>>> browser.getLink('Edit address book').click()
+>>> browser.getControl('Delete all persons in address book').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/AddressBook/@@delete_content.html'
+
+When the adminstrator decides not to delete the persons he is led back
+to the address book's edit form:
+
+>>> print browser.contents
+<!DOCTYPE ...
+      <h1>Do you really want to delete all persons in this address book?</h1>...
+                  <span>number of persons</span>...
+    <span id="form-widgets-count"
+          class="text-widget required int-field">3</span>...
+
+>>> browser.getControl('No, cancel').click()
+>>> browser.url == edit_address_book_url
+True
+
+When he decides to delete all persons he is led back to then empty
+person list:
+
+>>> browser.getControl('Delete all persons in address book').click()
+>>> browser.getControl('Yes, delete').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/AddressBook'
+>>> print browser.contents
+<...There are no persons entered yet, click on "Add person" to create one...
+
+
 Delete whole address book
 =========================
 
