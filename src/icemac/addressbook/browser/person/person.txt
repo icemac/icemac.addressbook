@@ -485,7 +485,7 @@ the person edit form:
 True
 >>> browser.getControl('RST-Software').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
@@ -498,7 +498,7 @@ Deleting the main address creates a new, empty address:
 >>> browser.getControl('Demoweg').click() # deselects default selection
 >>> browser.getControl('Demoweg').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
@@ -510,7 +510,7 @@ addresses:
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('+4901761234567').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main phone number').displayOptions
@@ -519,7 +519,7 @@ True
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('pt@rst-software.de').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main e-mail address').displayOptions
@@ -528,7 +528,7 @@ True
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('http://petra.example.com').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main home page address').displayOptions
@@ -559,7 +559,7 @@ If he decides to delete the entry he is led back to the address book
 where the person is no longer listed:
 
 >>> browser.getControl('Delete whole person').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> 'Tester, Petra' in browser.contents

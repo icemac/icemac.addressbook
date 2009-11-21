@@ -113,11 +113,11 @@ Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 
 
-Delete address book
-===================
+Delete whole address book
+=========================
 
 The Administrator is able to delete the whole address book on the edit
-form.  But Editors and visitors are not allowed to do so even they
+form.  But Editors and visitors are not allowed to do so, even they
 know the URL.
 
 Editor
@@ -149,7 +149,7 @@ form is displayed:
 'http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html'
 
 When the adminstrator decides not to delete the address book he is led
-back to the address books's edit form:
+back to the address book's edit form:
 
 >>> browser.getControl('No, cancel').click()
 >>> browser.url == edit_address_book_url
@@ -160,7 +160,7 @@ administration form for all address books:
 
 
 >>> browser.getControl('Delete whole address book').click()
->>> browser.getControl('Yes, delete it').click()
+>>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/@@index.html'
 >>> print browser.contents
