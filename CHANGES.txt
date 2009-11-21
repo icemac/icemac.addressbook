@@ -2,10 +2,11 @@
  Change log
 ============
 
-0.6 (unreleased)
-================
+0.5.1 (unreleased)
+==================
 
-- Nothing changed yet.
+- Fixed namespace package declaration so the package can be installed
+  on a plain vanilla python (even without setuptools installed).
 
 
 0.5 (2009-11-21)
