@@ -43,8 +43,14 @@ class Configurator(object):
         self.create_buildout_cfg()
         self.store()
 
-    def ask_user(self, question, section, option, global_default=None):
-        "Ask the user for a value of section/option and store it in config."
+    def ask_user(
+        self, question, section, option, global_default=None, values=()):
+        """Ask the user for a value of section/option and store it in config.
+
+        global_default ... use this value as default value when it is not
+                           defined in the global config file
+        values ... when set, only this value can be entered
+        """
         try:
             default = self.get(section, option)
         except ConfigParser.NoOptionError:
@@ -52,11 +58,18 @@ class Configurator(object):
                 raise
             else:
                 default = global_default
-        print ' %s: [%s] ' % (question, default),
-        got = sys.stdin.readline().strip()
-        print
-        if not got:
-            got = default
+        while True:
+            print ' %s: [%s] ' % (question, default),
+            got = sys.stdin.readline().strip()
+            print
+            if not got:
+                got = default
+            if not values or got in values:
+                break
+            else:
+                print 'ERROR: %r is not in %r.' % (got, values)
+                print 'Please choose a value out of the list.'
+
         self._conf.set(section, option, got)
         return got
 
@@ -108,13 +121,9 @@ class Configurator(object):
         handlers = (
             'FileHandler', 'RotatingFileHandler', 'TimedRotatingFileHandler')
         log_handler = None
-        while log_handler not in handlers:
-            log_handler = self.ask_user(
-                'Log-Handler, choose between ' + ', '.join(handlers),
-                'log', 'handler')
-            if log_handler not in handlers:
-                print 'ERROR: %r is not in %r.' % (log_handler, handlers)
-                print 'Please choose one handler out of the list.'
+        log_handler = self.ask_user(
+            'Log-Handler, choose between ' + ', '.join(handlers),
+            'log', 'handler', values=handlers)
         if log_handler == 'RotatingFileHandler':
             self.log_max_bytes = self.ask_user(
                 'Maximum file size before rotating in bytes',
@@ -122,7 +131,8 @@ class Configurator(object):
         elif log_handler == 'TimedRotatingFileHandler':
             self.log_when = self.ask_user(
                 'Type of rotation interval, choose between S, M, H, D, W, '
-                'midnight', 'log', 'when')
+                'midnight', 'log', 'when',
+                values=('S', 'M', 'H', 'D', 'W', 'midnight'))
             self.log_interval = self.ask_user(
                 'Rotation interval size', 'log', 'interval')
         if log_handler in ('RotatingFileHandler', 'TimedRotatingFileHandler'):

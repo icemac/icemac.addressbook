@@ -98,6 +98,11 @@ We need an `install.default.ini` in the working directory as
 ... backups = 5
 ...
 ... [packages]
+...
+... [migration]
+... do_migration = no
+... stop_server = no
+... start_server = no
 ... """)
 
 Create a configurator and read the file above:
@@ -142,6 +147,23 @@ Server port: [4711]
 '0815'
 >>> config.get('server', 'port')
 '0815'
+
+When a list of possible values is defined, `ask_user` retries to get
+an answer until the user entered a value contained in the list:
+
+>>> call_with_user_input(
+...   'maybe\n???\nyes', config.ask_user, 'Really', 'migration', 'do_migration',
+...   values=('yes', 'no'))
+ Really: [no]
+ERROR: 'maybe' is not in ('yes', 'no').
+Please choose a value out of the list.
+ Really: [no]
+ERROR: '???' is not in ('yes', 'no').
+Please choose a value out of the list.
+ Really: [no]
+'yes'
+>>> config.get('migration', 'do_migration')
+'yes'
 
 
 load
@@ -249,8 +271,8 @@ enters a wrong handler name he is asked to enter it again. Choosing
     Details see http://docs.python.org/library/logging.html#handler-objects
  Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [FileHandler]
 ERROR: 'does not matter' is not in ('FileHandler', 'RotatingFileHandler', 'TimedRotatingFileHandler').
-Please choose one handler out of the list.
- Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [does not matter]
+Please choose a value out of the list.
+ Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [FileHandler]
  Type of rotation interval, choose between S, M, H, D, W, midnight: [midnight]
  Rotation interval size: [1]
  Number of log file backups: [5]
@@ -437,15 +459,6 @@ Stores the current configuration values in a file named
 >>> config.store()
 saving config ...
 >>> cat('install.user.ini')
-[admin]
-login = admin
-password = geheim
-<BLANKLINE>
-[packages]
-package_1 = icemac.ab.importxls
-package_2 = icemac.ab.importcsv
-package_3 =
-<BLANKLINE>
 [log]
 interval = 7
 when = D
@@ -453,10 +466,23 @@ handler = FileHandler
 backups = 2
 max_size = 12345
 <BLANKLINE>
-[install]
-eggs_dir = /Users/mac
+[admin]
+login = admin
+password = geheim
 <BLANKLINE>
 [server]
 host = localhost
 port = 8080
-
+<BLANKLINE>
+[migration]
+do_migration = no
+stop_server = no
+start_server = no
+<BLANKLINE>
+[install]
+eggs_dir = /Users/mac
+<BLANKLINE>
+[packages]
+package_1 = icemac.ab.importxls
+package_2 = icemac.ab.importcsv
+package_3 =
