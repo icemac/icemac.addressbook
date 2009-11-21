@@ -39,6 +39,7 @@ class Configurator(object):
         self.get_log_options()
         self.print_additional_packages_intro()
         self.get_additional_packages()
+        self.get_migration_options()
         self.create_admin_zcml()
         self.create_buildout_cfg()
         self.store()
@@ -94,6 +95,12 @@ class Configurator(object):
         # create config
         self._conf = ConfigParser.SafeConfigParser()
         self._conf.read(to_read)
+        if self.user_config is not None:
+            self._conf.set('migration', 'old_instance',
+                           os.path.dirname(self.user_config))
+        else:
+            self._conf.set('migration', 'old_instance', '')
+
 
     def print_intro(self):
         print 'Welcome to icemac.addressbook installation'
@@ -159,6 +166,23 @@ class Configurator(object):
                 break
             packages.append(package)
         self.packages = packages
+
+    def get_migration_options(self):
+        yes_no = ('yes', 'no')
+        self.do_migration = self.ask_user(
+            ' Migrate old address book content to new instance', 'migration',
+            'do_migration', values=yes_no)
+        if self.do_migration == 'no':
+            return
+        print 'The old address book instance must not run during migration.'
+        print 'When it runs as demon process the migration script can stop it',
+        print 'otherwise you have to stop it manually.'
+        self.stop_server = self.ask_user(
+            'Old instance is running as a demon process', 'migration',
+            'stop_server', values=yes_no)
+        self.start_server = self.ask_user(
+            'New instance should be started as a demon process after migration',
+            'migration', 'start_server', values=yes_no)
 
     def create_admin_zcml(self):
         print 'creating admin.zcml ...'

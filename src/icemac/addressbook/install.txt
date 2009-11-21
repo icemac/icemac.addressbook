@@ -152,7 +152,9 @@ When a list of possible values is defined, `ask_user` retries to get
 an answer until the user entered a value contained in the list:
 
 >>> call_with_user_input(
-...   'maybe\n???\nyes', config.ask_user, 'Really', 'migration', 'do_migration',
+...   'maybe\n'
+...   '???\n'
+...   'yes\n', config.ask_user, 'Really', 'migration', 'do_migration',
 ...   values=('yes', 'no'))
  Really: [no]
 ERROR: 'maybe' is not in ('yes', 'no').
@@ -175,6 +177,11 @@ load
 >>> config.get('server', 'port')
 '13090'
 
+Stores the path to the old instance, when it is not set it resets it:
+
+>>> config.get('migration', 'old_instance')
+''
+
 When a user config is set on the configurator this file is read. When
 the file does not exist an error is raised:
 
@@ -188,15 +195,30 @@ the default configuration:
 
 >>> config.get('install', 'eggs_dir')
 'py-eggs'
->>> write(sample_buildout, 'install.user.ini',
+>>> mkdir('prev_version')
+>>> conf_path = join(sample_buildout, 'prev_version')
+>>> write(conf_path, 'install.user.ini',
 ... """
 ... [install]
 ... eggs_dir = my-eggs
 ... """)
->>> config.user_config = 'install.user.ini'
+>>> config.user_config = join(conf_path, 'install.user.ini')
 >>> config.load()
 >>> config.get('install', 'eggs_dir')
 'my-eggs'
+>>> config.get('migration', 'old_instance')
+'/.../sample-buildout/prev_version'
+
+Setting the user configuration file path again to None resets the
+configuration value:
+
+>>> config.user_config = None
+>>> config.load()
+>>> config.get('migration', 'old_instance')
+''
+
+>>> config.user_config = join(conf_path, 'install.user.ini')
+>>> config.load()
 
 
 print_intro
@@ -216,7 +238,7 @@ get_global_options
 Ask the user about global options and stores them:
 
 >>> call_with_user_input('/Users/mac\n', config.get_global_options)
-Directory to store python eggs: [my-eggs]
+ Directory to store python eggs: [my-eggs]
 >>> config.eggs_dir
 '/Users/mac'
 >>> config.get('install', 'eggs_dir')
@@ -366,6 +388,46 @@ are later added as runtime and test dependenies. They need a
 >>> config.get('packages', 'package_3')
 ''
 
+get_migration_options
+---------------------
+
+Ask the user about the migration of existing content and store the
+values. When the user decides no to do the migration no additional
+questions are asked:
+
+>>> call_with_user_input(
+...     'no\n', config.get_migration_options)
+ Migrate old address book content to new instance: [no]
+>>> config.do_migration
+'no'
+>>> config.get('migration', 'do_migration')
+'no'
+
+When the user chooses to migrate he is asked some additional
+questions:
+
+>>> call_with_user_input(
+...     'yes\n'
+...     'no\n'
+...     'yes\n', config.get_migration_options)
+ Migrate old address book content to new instance: [no]
+The old address book instance must not run during migration. When it runs as demon process the migration script can stop it otherwise you have to stop it manually.
+ Old instance is running as a demon process: [no]
+ New instance should be started as a demon process after migration: [no]
+>>> config.do_migration
+'yes'
+>>> config.get('migration', 'do_migration')
+'yes'
+>>> config.stop_server
+'no'
+>>> config.get('migration', 'stop_server')
+'no'
+>>> config.start_server
+'yes'
+>>> config.get('migration', 'start_server')
+'yes'
+
+
 create_admin_zcml
 -----------------
 
@@ -392,7 +454,7 @@ creating admin.zcml ...
 create_buildout_cfg
 -------------------
 
-Created the `buildout.cfg` file which contains the user configurations
+Creates the `buildout.cfg` file which contains the user configurations
 for the server. The contents of the file depend a bit on the choosen
 log handler:
 
@@ -450,6 +512,7 @@ creating buildout.cfg ...
 [buildout]...
 log-handler-args = 'W', 2, 1...
 
+
 store
 -----
 
@@ -475,9 +538,10 @@ host = localhost
 port = 8080
 <BLANKLINE>
 [migration]
-do_migration = no
+do_migration = yes
 stop_server = no
-start_server = no
+start_server = yes
+old_instance = /.../sample-buildout/prev_version
 <BLANKLINE>
 [install]
 eggs_dir = /Users/mac
@@ -486,3 +550,88 @@ eggs_dir = /Users/mac
 package_1 = icemac.ab.importxls
 package_2 = icemac.ab.importcsv
 package_3 =
+
+
+Complete run
+------------
+
+Do a complete run of the configurator with only default values:
+
+>>> config = Configurator()
+>>> call_with_user_input('', config)
+Welcome to icemac.addressbook installation
+<BLANKLINE>
+Hint: to use the default value (the one in [brackets]),  enter no value.
+<BLANKLINE>
+ Directory to store python eggs: [py-eggs]
+ Log-in name for the administrator: [me]
+ Password for the administrator: [secret]
+ Hostname: [my.computer.local]
+ Port number: [13090]
+ Please choose Log-Handler:
+    Details see http://docs.python.org/library/logging.html#handler-objects
+ Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [FileHandler]
+ When you need additional packages (e. g. import readers)
+ enter the package names here separated by a newline.
+ When you are done enter an empty line.
+ Known packages:
+   icemac.ab.importxls -- Import of XLS (Excel) files
+ Package 1: []
+  Migrate old address book content to new instance: [no]
+creating admin.zcml ...
+creating buildout.cfg ...
+saving config ...
+
+>>> cat('buildout.cfg')
+[buildout]
+newest = true
+allow-picked-versions = true
+extends = profiles/prod.cfg
+eggs-directory = py-eggs
+<BLANKLINE>
+[deploy.ini]
+log-handler-args = 'a'
+host = my.computer.local
+log-handler = FileHandler
+port = 13090
+
+>>> cat('install.user.ini')
+[log]
+interval = 1
+when = midnight
+handler = FileHandler
+backups = 5
+max_size = 1000
+<BLANKLINE>
+[admin]
+login = me
+password = secret
+<BLANKLINE>
+[server]
+host = my.computer.local
+port = 13090
+<BLANKLINE>
+[migration]
+do_migration = no
+stop_server = no
+start_server = no
+old_instance =
+<BLANKLINE>
+[install]
+eggs_dir = py-eggs
+<BLANKLINE>
+[packages]
+package_1 =
+
+>>> cat('admin.zcml')
+<configure xmlns="http://namespaces.zope.org/zope">
+  <principal
+    id="icemac.addressbook.global.Administrator"
+    title="global administrator"
+    login="me"
+    password_manager="Plain Text"
+    password="secret" />
+  <grant
+    role="zope.Manager"
+    principal="icemac.addressbook.global.Administrator" />
+</configure>
