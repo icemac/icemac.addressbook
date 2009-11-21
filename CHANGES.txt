@@ -19,7 +19,7 @@ Features
   data area.
 
 - Added ability to enter additional packages names at installation
-  (e. g. to install a specific import file reader).
+  (e. g. to install a specific import file readers).
 
 - Users having the role `Administrator` can add new fields to address
   book entities in the master data area. These fields as useable for
@@ -31,8 +31,8 @@ Removed features
 - Removed some fields which are not always necessary and which can be
   re-added when needed as user defined fields:
 
-  - state field on the postal address (It only displayed German
-    states.),
+  - state field on the postal address (only displayed German
+    states, though),
 
   - sex field on person,
 
@@ -54,6 +54,7 @@ Bug fixes
 
 - The person list is now ordered by the displayed titles instead of
   the internal ids.
+
 
 0.4 (2009-05-15)
 ================

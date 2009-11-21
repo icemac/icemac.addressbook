@@ -5,7 +5,7 @@
 Next major version
 ==================
 
-- import of CSV and XLS files
+- Add full text search.
 
 Longer term
 ===========
@@ -15,8 +15,6 @@ The following features should be implemented over the next months:
 - person data
 
   * store picture per person
-
-  * add customizable free text fields
 
 - company as entity
 
