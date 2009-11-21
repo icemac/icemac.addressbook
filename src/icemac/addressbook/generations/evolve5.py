@@ -1,18 +1,14 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2009 Michael Howitz
+# Copyright (c) 2009 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 
 __docformat__ = "reStructuredText"
 
 
-import icemac.addressbook.generations
-
-
 generation = 5
 
 
 def evolve(context):
-    """Installs the the importer."""
-    icemac.addressbook.generations.update_address_book_infrastructure(context)
-
+    """Failed approach to install the importer."""
+    pass
