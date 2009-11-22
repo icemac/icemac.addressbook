@@ -5,13 +5,14 @@
 0.5.3 (unreleased)
 ==================
 
-- Nothing changed yet.
+- After the last fix `delete all persons` did not delete any
+  persons. This is now fixed.
 
 
 0.5.2 (2009-11-21)
 ==================
 
-- Deleting all persons does not delete the persons which are
+- `Delete all persons` no longer tries to delete the persons which are
   users. Previously this function broke when there were users defined
   in the address book.
 
