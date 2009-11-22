@@ -88,9 +88,10 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
         for name in list(self.context.keys()):
             ref_target = gocept.reference.interfaces.IReferenceTarget(
                 zope.security.proxy.getObject(self.context[name]))
-            if ref_target.is_referenced():
-                # Users are referenced users and can't be deleted
-                # using this function.
+            if ref_target.is_referenced(recursive=False):
+                # Persons which are referenced by a user can't be
+                # deleted using this function. We check this here to
+                # avoid getting an error.
                 continue
             del self.context[name]
         self.redirect_to_next_url('object')

@@ -141,17 +141,20 @@ HTTPError: HTTP Error 403: Forbidden
 Administrator
 -------------
 
-Make sure there are some persons and some user in the address book:
+Make sure there are some persons (with adresses) and some users in the
+address book:
 
->>> from icemac.addressbook.testing import create_person, create_user
+>>> from icemac.addressbook.testing import (create_person, create_user,
+...     create_postal_address)
 >>> ab = getRootFolder()['AddressBook']
 >>> create_person(ab, ab, last_name=u'Tester', return_obj=False)
 >>> create_person(ab, ab, last_name=u'Tester 2', return_obj=False)
 >>> create_user(ab, ab, u'Hans', u'User', u'hans@user.de', u'asdf', ['Visitor'])
 >>> create_user(ab, ab, u'Kurt', u'Utzr', u'kurt@utzr.ch', u'asdf', ['Editor'])
->>> create_person(ab, ab, last_name=u'Tester 3', return_obj=False)
+>>> t3 = create_person(ab, ab, last_name=u'Tester 3')
+>>> create_postal_address(ab, t3, city=u'Hettstedt', return_obj=False)
 
-To delete all persons in the address bool, the Adminstrator has to
+To delete all persons in the address book, the Adminstrator has to
 open the `edit address book` form and select the `Delete all persons
 in address book` button there. An `are you sure` form is displayed:
 
