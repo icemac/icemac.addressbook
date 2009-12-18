@@ -16,9 +16,13 @@
          padding: 1em;
        }
 
+       #head h1 {
+         float: left;
+       }
+
        #main-menu {
          float: left;
-         }
+       }
 
        #main-menu li {
          float: left;
@@ -139,7 +143,7 @@
   </head>
   <body>
     <div id="head">
-      <h1 style="float:left;">icemac.addressbook</h1>
+      <h1>icemac.addressbook</h1>
       <span class="LoginLogoutBox">
         <tal:block replace="structure provider:login-logout" />
       </span>
