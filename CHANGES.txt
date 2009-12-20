@@ -2,7 +2,7 @@
  Change log
 ============
 
-0.5.4 (unreleased)
+0.5.4 (2009-12-20)
 ==================
 
 - Users which are defined inside an address book having the
