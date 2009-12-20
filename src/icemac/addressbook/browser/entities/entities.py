@@ -9,6 +9,7 @@ import z3c.table.column
 import zope.container.traversal
 import zope.location
 import zope.publisher.interfaces.http
+import zope.security.proxy
 import zope.traversing.browser.absoluteurl
 
 
@@ -27,7 +28,10 @@ class List(icemac.addressbook.browser.table.Table):
 
     @property
     def values(self):
-        return self.context.getAllEntities()
+        # Need to remove security otherwise local administrators get
+        # an unauthorized exception.
+        for x in self.context.getAllEntities():
+            yield zope.security.proxy.getObject(x)
 
 
 class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):

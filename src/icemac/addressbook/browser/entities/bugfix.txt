@@ -1,0 +1,44 @@
+================================
+Bugfix for address book entities
+================================
+
+There was a bug where a local administrator was not able to edit the
+entities.
+
+
+Set up
+======
+
+Create an address book, a local adminstrator and a browser to access it:
+
+>>> from icemac.addressbook.testing import create_addressbook, create_user
+>>> ab = create_addressbook()
+>>> create_user(
+...     ab, ab, u'Ad', u'Min', u'ad@min.de', u'12345678', ('Administrator',))
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+
+Edit entities
+=============
+
+Log in as the local administrator and navigate to the edit entities
+section of the master data:
+
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getControl('User Name').value = 'ad@min.de'
+>>> browser.getControl('Password').value = '12345678'
+>>> browser.getControl('Log in').click()
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Edit entities').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++attribute++entities'
+>>> print browser.contents
+<!DOCTYPE ...
+        <tr>
+          <td>address book</td>
+          <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
+        </tr>...
+
+
