@@ -5,7 +5,8 @@
 0.5.4 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Users which are defined inside an address book having the
+  `Administrator` role, were not able to edit address book entities.
 
 
 0.5.3 (2009-11-22)

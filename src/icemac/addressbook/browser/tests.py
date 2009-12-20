@@ -12,6 +12,7 @@ def test_suite():
         "browser/authentication/login.txt",
         "browser/entities/delete_choice_value.txt",
         "browser/entities/entities.txt",
+        "browser/entities/bugfix.txt",
         "browser/entities/file.txt",
         "browser/export/export.txt",
         "browser/export/userfields.txt",
