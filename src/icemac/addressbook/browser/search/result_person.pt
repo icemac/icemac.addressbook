@@ -1,4 +1,5 @@
-<ul tal:define="results view/__parent__/result"
+<ul i18n:domain="icemac.addressbook"
+    tal:define="results view/__parent__/result"
     tal:condition="results">
   <li tal:repeat="result results">
     <a tal:attributes="href result/@@absolute_url"

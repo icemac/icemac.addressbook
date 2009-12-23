@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Wed Dec 23 08:02:20 2009\n"
+"POT-Creation-Date: Wed Dec 23 08:28:07 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -154,6 +154,7 @@ msgstr ""
 #: icemac/addressbook/browser/entities/fields.py:66
 #: icemac/addressbook/browser/keyword/keyword.py:58
 #: icemac/addressbook/browser/table.py:33
+#: icemac/addressbook/browser/rootfolder/rootfolder.pt:9
 msgid "Delete"
 msgstr ""
 
@@ -183,6 +184,10 @@ msgstr ""
 
 #: icemac/addressbook/browser/keyword/keyword.py:64
 msgid "Do you really want to delete this keyword?"
+msgstr ""
+
+#: icemac/addressbook/browser/keyword/overview.pt:10
+msgid "No keywords defined yet."
 msgstr ""
 
 #: icemac/addressbook/browser/layout.pt:160
@@ -263,6 +268,10 @@ msgstr ""
 msgid "title"
 msgstr ""
 
+#: icemac/addressbook/browser/principals/principals.pt:2
+msgid "Users"
+msgstr ""
+
 #: icemac/addressbook/browser/principals/principals.py:146
 msgid "Delete user"
 msgstr ""
@@ -284,6 +293,10 @@ msgstr ""
 msgid "Add new user"
 msgstr ""
 
+#: icemac/addressbook/browser/rootfolder/rootfolder.pt:14
+msgid "There are no address books created yet, click on \"Add address book\" to create one."
+msgstr ""
+
 #: icemac/addressbook/browser/search/base.py:35
 msgid "There were some errors."
 msgstr ""
@@ -292,12 +305,20 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+#: icemac/addressbook/browser/search/result/export.pt:11
+msgid "No person found."
+msgstr ""
+
 #: icemac/addressbook/browser/search/result/simple.py:24
 msgid "Export using"
 msgstr ""
 
 #: icemac/addressbook/browser/search/result/simple.py:39
 msgid "Export"
+msgstr ""
+
+#: icemac/addressbook/browser/search/search.pt:2
+msgid "Please choose a search."
 msgstr ""
 
 #: icemac/addressbook/browser/search/simple_single_keyword.py:41

@@ -1,4 +1,5 @@
-<tal:def define="result view/__parent__/result">
+<tal:def define="result view/__parent__/result"
+         i18n:domain="icemac.addressbook">
   <tal:result condition="result">
     <div metal:use-macro="macro:form">
       <div metal:fill-slot="extra-info">
@@ -8,7 +9,8 @@
   </tal:result>
 
   <tal:no_result
-   condition="python: result is not None and len(result) == 0">
+     condition="python: result is not None and len(result) == 0"
+     i18n:translate="">
     No person found.
   </tal:no_result>
 </tal:def>

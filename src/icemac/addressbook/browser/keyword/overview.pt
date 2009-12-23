@@ -1,12 +1,15 @@
-<h2>Keywords</h2>
-<ul tal:define="keywords context/get_keywords">
-  <li tal:repeat="keyword keywords">
-    <a tal:attributes="href keyword/@@absolute_url"
-       tal:content="keyword/title">
-      Sommerlager 2008
-    </a>
-  </li>
-  <li tal:condition="not:keywords">No keywords defined yet.</li>
-</ul>
+<tal:domain i18n:domain="icemac.addressbook">
+  <h2>Keywords</h2>
+  <ul tal:define="keywords context/get_keywords">
+    <li tal:repeat="keyword keywords">
+      <a tal:attributes="href keyword/@@absolute_url"
+         tal:content="keyword/title">
+        Sommerlager 2008
+      </a>
+    </li>
+    <li tal:condition="not:keywords"
+        i18n:translate="">No keywords defined yet.</li>
+  </ul>
+</tal:domain>
 
 

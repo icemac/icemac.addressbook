@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="icemac.addressbook"
       tal:omit-tag="">
   <tal:download define="download view/download">
     <tal:download content="structure download" />

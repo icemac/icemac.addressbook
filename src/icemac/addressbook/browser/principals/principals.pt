@@ -1,3 +1,4 @@
-
-<h2>Users</h2>
-<div tal:replace="structure view/renderTable" />
+<tal:domain i18n:domain="icemac.addressbook">
+  <h2 i18n:translate="">Users</h2>
+  <div tal:replace="structure view/renderTable" />
+</tal:domain>
