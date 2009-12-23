@@ -2,7 +2,6 @@
 # Copyright (c) 2009 Michael Howitz
 # See also LICENSE.txt
 
-from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.entities
 import unittest
 import zope.component.testing
@@ -45,13 +44,13 @@ class EntitiesTests(object):
         zope.component.testing.setUp()
         self.entities = self.entities_class()
         self.cat = icemac.addressbook.entities.create_entity(
-            _('Cat'), ICat, Cat)
+            u'Cat', ICat, Cat)
         zope.component.provideUtility(self.cat, name=self.cat.class_name)
         self.duck = icemac.addressbook.entities.create_entity(
-            _('Duck'), IDuck, Duck)
+            u'Duck', IDuck, Duck)
         zope.component.provideUtility(self.duck, name=self.duck.class_name)
         self.kwack = icemac.addressbook.entities.create_entity(
-            _('Kwack'), IKwack, Kwack)
+            u'Kwack', IKwack, Kwack)
         zope.component.provideUtility(
             self.kwack, name=self.kwack.class_name)
 
@@ -86,7 +85,7 @@ class EntitiesTests(object):
 
     def test_getTitle(self):
         self.assertEqual(
-            _(u'Kwack'), self.entities.getTitle(
+            u'Kwack', self.entities.getTitle(
                 'IcemacAddressbookTestsTestEntitiesKwack'))
 
 

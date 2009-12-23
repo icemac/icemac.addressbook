@@ -63,11 +63,11 @@ Really adding the file shows the file on the person edit form:
 The new file is shown there including a widget displaying the
 normalized name and mime type:
 
->>> browser.getControl('name', index=2).value == filename
+>>> browser.getControl('file name').value == filename
 True
 >>> browser.getControl('Mime Type').value
 'text/plain'
->>> browser.getControl('file').value is None
+>>> browser.getControl('file', index=1).value is None
 True
 
 There is also a download link for the file:
@@ -111,13 +111,13 @@ and sends ``application/octet-stream``q, the mime type is guessed using
 the file extension and file contents:
 
 >>> fd, filename = write_temp_file('special data, blah', '.js')
->>> browser.getControl('file').add_file(fd, 'application/octet-stream',
+>>> browser.getControl('file', index=1).add_file(fd, 'application/octet-stream',
 ...     filename)
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()
->>> browser.getControl('name', index=2).value == filename
+>>> browser.getControl('file name').value == filename
 True
 >>> browser.getControl('Mime Type').value
 'application/x-javascript'
@@ -138,7 +138,7 @@ a content type and zope.mimetype can't determine the mime type from
 the filename or file content, it is set to ``application/octet-stream``.
 
 >>> fd, filename = write_temp_file('Ä, no content type, huh', '')
->>> browser.getControl('file').add_file(fd, '', filename)
+>>> browser.getControl('file', index=1).add_file(fd, '', filename)
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
@@ -203,12 +203,12 @@ Change
 ------
 
 >>> fd, filename3 = write_temp_file('3rd try', '.txt')
->>> browser.getControl('file', index=1).add_file(fd, 'text/enriched', filename3)
+>>> browser.getControl('file', index=3).add_file(fd, 'text/enriched', filename3)
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()
->>> browser.getControl('name', index=3).value == filename3
+>>> browser.getControl('file name', index=1).value == filename3
 True
 >>> browser.getControl('Mime Type', index=1).value
 'text/enriched'
@@ -231,6 +231,8 @@ Delete a file
 
 Files can be deleted using the ``Delete single entry`` button.
 
+>>> browser.getControl('file name', index=1)
+<Control name='file_2.widgets.file_2.name' type='text'>
 >>> person_edit_form_url = browser.url
 >>> browser.getControl('Delete single entry').click()
 >>> browser.url
@@ -283,7 +285,7 @@ True
 
 The deleted file is no longer displayed (there is now only one file):
 
->>> browser.getControl('file', index=1)
+>>> browser.getControl('file name', index=1)
 Traceback (most recent call last):
 IndexError: list index out of range
 

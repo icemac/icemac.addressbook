@@ -1,7 +1,8 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
-   xmlns:z3c="http://namespaces.zope.org/z3c">
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   i18n_domain="icemac.addressbook">
 
   <interface
      interface=".interfaces.IAddressBookBrowserSkin"

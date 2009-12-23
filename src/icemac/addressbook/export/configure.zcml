@@ -1,8 +1,8 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           i18n_domain="icemacaddressbook">
+           i18n_domain="icemac.addressbook">
 
   <adapter factory=".token.fromExporter" />
 
   <include package=".xls" />
-  
+
 </configure>

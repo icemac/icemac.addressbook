@@ -1,4 +1,4 @@
-<div>
+<div i18n:domain="icemac.addressbook">
   <h2 tal:content="context/title" />
   <table tal:replace="structure view/renderTable" />
 </div>

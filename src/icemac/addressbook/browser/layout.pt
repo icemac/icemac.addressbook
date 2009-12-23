@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      i18n:domain="icemac.addressbook">
   <head>
     <tal:block replace="structure provider:login-logout-head" />
     <title>icemac.addressbook</title>
@@ -156,7 +157,7 @@
         <ul id="add-menu-content"
             tal:content="structure provider:add-menu">Add menu</ul>
         <ul>
-          <li>Add</li>
+          <li i18n:translate="Add-menu-Add">Add</li>
         </ul>
       </div>
       <div id="content"

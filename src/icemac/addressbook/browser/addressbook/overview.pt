@@ -1,15 +1,19 @@
-<tal:persons condition="context">
-  <h2>Persons</h2>
-  <ul>
-    <li tal:repeat="person view/values">
-      <a tal:attributes="href person/@@absolute_url"
-         tal:content="person/@@display_title">
-        Hans Tester
-      </a>
-    </li>
-  </ul>
-</tal:persons>
+<tal:i18n i18n:domain="icemac.addressbook">
+  <tal:persons condition="context">
+    <h2 i18n:translate="">Persons</h2>
+    <ul>
+      <li tal:repeat="person view/values">
+        <a tal:attributes="href person/@@absolute_url"
+           tal:content="person/@@display_title">
+          Hans Tester
+        </a>
+      </li>
+    </ul>
+  </tal:persons>
 
-<tal:no_persons condition="not:context">
-  There are no persons entered yet, click on "Add person" to create one.
-</tal:no_persons>
+  <tal:no_persons
+     i18n:translate=""
+     condition="not:context">
+    There are no persons entered yet, click on "Add person" to create one.
+  </tal:no_persons>
+</tal:i18n>

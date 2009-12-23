@@ -103,8 +103,9 @@ class EditForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):
 class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
 
     label = _(
-        u'When you delete this field, you are no longer able to access the '
-        u'information on the entities which was stored in this field!')
+        u'Caution: When you delete this field, possibly data will get lost. '
+        u'Namely the data which was entered into this field when it was '
+        u'displayed in a form of an object.')
     interface = icemac.addressbook.interfaces.IField
     field_names = ('type', 'title', 'notes')
 
