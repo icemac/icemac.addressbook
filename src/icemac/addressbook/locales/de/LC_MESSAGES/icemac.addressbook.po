@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icemac.addressbook\n"
-"POT-Creation-Date: Wed Dec 23 08:02:20 2009\n"
+"POT-Creation-Date: Wed Dec 23 08:28:07 2009\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Michael Howitz <mh@gocept.com>\n"
 "Language-Team: Michael Howitz <icemac@gmx.net>\n"
@@ -144,6 +144,7 @@ msgstr "Feld"
 #: icemac/addressbook/browser/entities/fields.py:66
 #: icemac/addressbook/browser/keyword/keyword.py:58
 #: icemac/addressbook/browser/table.py:33
+#: icemac/addressbook/browser/rootfolder/rootfolder.pt:9
 msgid "Delete"
 msgstr "Löschen"
 
@@ -174,6 +175,10 @@ msgstr "Schlagwort bearbeiten"
 #: icemac/addressbook/browser/keyword/keyword.py:64
 msgid "Do you really want to delete this keyword?"
 msgstr "Wollen Sie dieses Schlagwort wirklich löschen?"
+
+#: icemac/addressbook/browser/keyword/overview.pt:10
+msgid "No keywords defined yet."
+msgstr "Es sind noch keine Schlagworte definiert."
 
 #. Default: "Add"
 #: icemac/addressbook/browser/layout.pt:160
@@ -253,6 +258,10 @@ msgstr "Neue Person hinzufügen"
 msgid "title"
 msgstr "Bezeichnung"
 
+#: icemac/addressbook/browser/principals/principals.pt:2
+msgid "Users"
+msgstr "Benutzer"
+
 #: icemac/addressbook/browser/principals/principals.py:146
 msgid "Delete user"
 msgstr "Benutzer löschen"
@@ -274,6 +283,10 @@ msgstr "Anmeldename"
 msgid "Add new user"
 msgstr "Neuen Benutzer hinzufügen"
 
+#: icemac/addressbook/browser/rootfolder/rootfolder.pt:14
+msgid "There are no address books created yet, click on \"Add address book\" to create one."
+msgstr "Es wurde noch kein Adressbuch angelegt. Wählen Sie „Hinzufügen: Adressbuch“ aus, um ein Adressbuch anzulegen."
+
 #: icemac/addressbook/browser/search/base.py:35
 msgid "There were some errors."
 msgstr "Es ist ein Fehler aufgetreten."
@@ -282,6 +295,10 @@ msgstr "Es ist ein Fehler aufgetreten."
 msgid "Search"
 msgstr "Suche"
 
+#: icemac/addressbook/browser/search/result/export.pt:11
+msgid "No person found."
+msgstr "Keine Personen gefunden."
+
 #: icemac/addressbook/browser/search/result/simple.py:24
 msgid "Export using"
 msgstr "Exportieren mit"
@@ -289,6 +306,10 @@ msgstr "Exportieren mit"
 #: icemac/addressbook/browser/search/result/simple.py:39
 msgid "Export"
 msgstr "Export"
+
+#: icemac/addressbook/browser/search/search.pt:2
+msgid "Please choose a search."
+msgstr "Bitte wählen Sie eine Suche aus."
 
 #: icemac/addressbook/browser/search/simple_single_keyword.py:41
 #: icemac/addressbook/interfaces.py:130
