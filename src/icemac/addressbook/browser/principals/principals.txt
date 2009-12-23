@@ -61,9 +61,9 @@ the tests to show that a user created inside the addressbook serves
 fine as administrator:
 
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayValue = ['Admin, Arne']
->>> browser.getControl('Password', index=0).value = '1qay2wsx'
->>> browser.getControl('Password repetition').value = '1qay2wsx'
+>>> browser.getControl('person').displayValue = ['Admin, Arne']
+>>> browser.getControl('password', index=0).value = '1qay2wsx'
+>>> browser.getControl('password repetition').value = '1qay2wsx'
 >>> browser.getControl('Administrator').click()
 >>> browser.getControl('Add').click()
 >>> browser.url
@@ -96,7 +96,7 @@ shown.):
 >>> browser.getLink('user').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@addPrincipal.html'
->>> browser.getControl('Person').displayOptions
+>>> browser.getControl('person').displayOptions
 ['Tester, Hans', 'Utzer, Ben']
 
 If the administrator redecides not to create a new user, he can use
@@ -114,10 +114,10 @@ When the administrator decides to really create a new user, he has to
 enter a password which matches its repetition:
 
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayValue = ['Tester, Hans']
->>> browser.getControl('Password', index=0).value = '1234567890'
->>> browser.getControl('Password repetition').value = '0123456789'
->>> browser.getControl('Notes').value = 'first new editor'
+>>> browser.getControl('person').displayValue = ['Tester, Hans']
+>>> browser.getControl('password', index=0).value = '1234567890'
+>>> browser.getControl('password repetition').value = '0123456789'
+>>> browser.getControl('notes').value = 'first new editor'
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE ...
@@ -126,25 +126,25 @@ enter a password which matches its repetition:
 
 When the entered password is too short, also an error message is shown:
 
->>> browser.getControl('Password', index=0).value = '123'
->>> browser.getControl('Password repetition').value = '123'
+>>> browser.getControl('password', index=0).value = '123'
+>>> browser.getControl('password repetition').value = '123'
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE ...
 <ul class="errors">
   <li>
-    Password: <div class="error">Value is too short</div>
+    password: <div class="error">Value is too short</div>
   </li>
   <li>
-   Password repetition: <div class="error">Value is too short</div>
+   password repetition: <div class="error">Value is too short</div>
   </li>
 </ul>...
 
 When all constraints are satisfied a new user is created and the list
 of all users is shown:
 
->>> browser.getControl('Password', index=0).value = '12345678'
->>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('password', index=0).value = '12345678'
+>>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Visitor').click()
 >>> browser.getControl('Add').click()
 >>> browser.url
@@ -190,13 +190,13 @@ it can be changed:
 <!DOCTYPE ...
 ...Person...*...Tester, Hans...
 ...last modification information...Modification Date (UTC)...<DATETIME>...
->>> browser.getControl('Login').value
+>>> browser.getControl('login').value
 'tester@example.com'
->>> browser.getControl('Password', index=0).value
+>>> browser.getControl('password', index=0).value
 ''
->>> browser.getControl('Password repetition').value
+>>> browser.getControl('password repetition').value
 ''
->>> browser.getControl('Notes').value
+>>> browser.getControl('notes').value
 'first new editor'
 >>> browser.getControl('Visitor').selected
 True
@@ -204,8 +204,8 @@ True
 Entered changes can be discarded using the the `cancel` button. The
 users list is displayed then:
 
->>> browser.getControl('Notes').value = '2nd new visitor'
->>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('notes').value = '2nd new visitor'
+>>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Cancel').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
@@ -221,10 +221,10 @@ The `Cancel` button did not save the changes, but using the `Apply`
 button saves the entred values:
 
 >>> browser.getLink('Tester, Hans').click()
->>> browser.getControl('Notes').value
+>>> browser.getControl('notes').value
 'first new editor'
->>> browser.getControl('Notes').value = 'Hans the tester'
->>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('notes').value = 'Hans the tester'
+>>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Visitor').click() # deselect
 >>> browser.getControl('Editor').click()
 >>> browser.getControl('Apply').click()
@@ -236,9 +236,9 @@ button saves the entred values:
 ...hans@example.com...
 ...Hans the tester...
 >>> browser.getLink('Tester, Hans').click()
->>> browser.getControl('Notes').value
+>>> browser.getControl('notes').value
 'Hans the tester'
->>> browser.getControl('Login').value
+>>> browser.getControl('login').value
 'hans@example.com'
 >>> browser.getControl('Editor').selected
 True
@@ -256,9 +256,9 @@ e-mail address shows an error message:
 >>> create_email_address(ab, tester2, email=u'hans@example.com',
 ...     return_obj=False)
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayValue = ['Tester2, Hans2']
->>> browser.getControl('Password', index=0).value = '12345678'
->>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('person').displayValue = ['Tester2, Hans2']
+>>> browser.getControl('password', index=0).value = '12345678'
+>>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE ...
@@ -267,14 +267,14 @@ e-mail address shows an error message:
 Editing a user, so he gets a login which already exists, also leads
 to an error message:
 
->>> browser.getControl('Person').displayValue = ['Utzer, Ben']
->>> browser.getControl('Password', index=0).value = '12345678'
->>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('person').displayValue = ['Utzer, Ben']
+>>> browser.getControl('password', index=0).value = '12345678'
+>>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Visitor').click()
->>> browser.getControl('Notes').value = 'Ben.Utzer the Visitor of AB'
+>>> browser.getControl('notes').value = 'Ben.Utzer the Visitor of AB'
 >>> browser.getControl('Add').click()
 >>> browser.getLink('Utzer, Ben').click()
->>> browser.getControl('Login').value = 'hans@example.com'
+>>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Apply').click()
 >>> print browser.contents
 <!DOCTYPE ...
@@ -290,7 +290,7 @@ If a person is already a user, he is no longer listed in the add form
 (so 'Tester, Hans' and 'Utzer, Ben' are not shown.):
 
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayOptions
+>>> browser.getControl('person').displayOptions
 ['Tester2, Hans2']
 
 
@@ -307,7 +307,7 @@ changed, the log-in name does *not* change:
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('Tester, Hans').click()
->>> browser.getControl('Login').value
+>>> browser.getControl('login').value
 'hans@example.com'
 
 It is not possible to delete the person a user belonges to
@@ -334,9 +334,9 @@ create a person and make her a user:
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayValue = ['Loscher']
->>> browser.getControl('Password', index=0).value = '12345678'
->>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('person').displayValue = ['Loscher']
+>>> browser.getControl('password', index=0).value = '12345678'
+>>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
@@ -374,9 +374,9 @@ him:
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayValue = ['Someone, Else']
->>> browser.getControl('Password', index=0).value = '12345678'
->>> browser.getControl('Password repetition').value = '12345678'
+>>> browser.getControl('person').displayValue = ['Someone, Else']
+>>> browser.getControl('password', index=0).value = '12345678'
+>>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE ...
@@ -393,7 +393,7 @@ If the notes of a user are longer than 50 charachters they get
 truncated in the list view:
 
 >>> browser.getLink('Someone, Else').click()
->>> browser.getControl('Notes').value = 'This is someone else created to show sort order and truncation of too long notes.'
+>>> browser.getControl('notes').value = 'This is someone else created to show sort order and truncation of too long notes.'
 >>> browser.getControl('Apply').click()
 >>> 'This is someone else created to show sort order and ...' in (
 ...     browser.contents) # no print because ... is used as ellipsis
@@ -443,7 +443,7 @@ can create new persons and change his username:
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('Unstable, Urs').click()
->>> browser.getControl('Roles').displayValue = ['Editor']
+>>> browser.getControl('roles').displayValue = ['Editor']
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
@@ -455,7 +455,7 @@ can create new persons and change his username:
 >>> 'Tester, Hans' in unstable.contents
 False
 >>> unstable.getLink('Unstable, Urs').click()
->>> unstable.getControl('Login').value
+>>> unstable.getControl('login').value
 'uu@example.com'
 >>> get_all_control_names(unstable)
 ['form.buttons.apply', 'form.buttons.cancel',
@@ -466,13 +466,13 @@ When the user even gets the administrator role he is also able to
 change his roles and see all other users in the users list:
 
 >>> browser.getLink('Unstable, Urs').click()
->>> browser.getControl('Roles').displayValue = ['Administrator']
+>>> browser.getControl('roles').displayValue = ['Administrator']
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
 >>> unstable.reload()
->>> unstable.getControl('Roles').displayValue
+>>> unstable.getControl('roles').displayValue
 ['Administrator']
 >>> get_all_control_names(unstable)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_user',
@@ -489,7 +489,7 @@ he get's an error message telling him that he hat not enough
 permissions to see anything:
 
 >>> browser.getLink('Unstable, Urs').click()
->>> browser.getControl('Roles').displayValue = []
+>>> browser.getControl('roles').displayValue = []
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
@@ -570,11 +570,11 @@ form is opened and he is able to edit his log-in name, password and
 notes:
 
 >>> editor.getLink('Tester, Hans').click()
->>> editor.getControl('Login').value
+>>> editor.getControl('login').value
 'hans@example.com'
->>> editor.getControl('Password', index=0).value
+>>> editor.getControl('password', index=0).value
 ''
->>> editor.getControl('Notes').value
+>>> editor.getControl('notes').value
 'Hans the tester'
 >>> get_all_control_names(editor)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.widgets.description',
@@ -582,16 +582,16 @@ notes:
  'form.widgets.password_repetition']
 >>> print editor.contents
 <!DOCTYPE...
-...Roles...Editor...
+...roles...Editor...
 
 The editor can change the data and save them. The login-name needn't
 even be an e-mail address. Changing the own log-in name immediately
 asks the user for its new credentials:
 
->>> editor.getControl('Login').value = 'hans.tester'
->>> editor.getControl('Password', index=0).value = 'testtest'
->>> editor.getControl('Password repetition').value = 'testtest'
->>> editor.getControl('Notes').value = 'The big HANS'
+>>> editor.getControl('login').value = 'hans.tester'
+>>> editor.getControl('password', index=0).value = 'testtest'
+>>> editor.getControl('password repetition').value = 'testtest'
+>>> editor.getControl('notes').value = 'The big HANS'
 >>> editor.getControl('Apply').click()
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
@@ -607,11 +607,11 @@ asks the user for its new credentials:
 The data was stored:
 
 >>> editor.getLink('Tester, Hans').click()
->>> editor.getControl('Login').value
+>>> editor.getControl('login').value
 'hans.tester'
->>> editor.getControl('Password', index=0).value
+>>> editor.getControl('password', index=0).value
 ''
->>> editor.getControl('Notes').value
+>>> editor.getControl('notes').value
 'The big HANS'
 
 The new log-in name an password can also be used to normally log-in:
@@ -649,21 +649,21 @@ To edit his data the visitor selects the link on his name. The edit
 form is opened and he is able to edit his password and nothing else:
 
 >>> visitor.getLink('Utzer, Ben').click()
->>> visitor.getControl('Password', index=0).value
+>>> visitor.getControl('password', index=0).value
 ''
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel',
  'form.widgets.password', 'form.widgets.password_repetition']
 >>> print visitor.contents
 <!DOCTYPE...
-...Roles...Visitor...
-...Notes...Ben.Utzer the Visitor of AB...
+...roles...Visitor...
+...notes...Ben.Utzer the Visitor of AB...
 
 The visitor can change the password and save it.  Changing the own
 password immediately asks the user for his new credentials:
 
->>> visitor.getControl('Password', index=0).value = 'utzer123'
->>> visitor.getControl('Password repetition').value = 'utzer123'
+>>> visitor.getControl('password', index=0).value = 'utzer123'
+>>> visitor.getControl('password repetition').value = 'utzer123'
 >>> visitor.getControl('Apply').click()
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
@@ -726,7 +726,7 @@ used for a new user:
 
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayOptions
+>>> browser.getControl('person').displayOptions
 ['Tester2, Hans2']
 >>> browser.getControl('Cancel').click()
 >>> browser.getLink('Someone, Else').click()
@@ -746,11 +746,11 @@ False
 The person can be used to create a new user:
 
 >>> browser.getLink('user').click()
->>> browser.getControl('Person').displayOptions
+>>> browser.getControl('person').displayOptions
 ['Tester2, Hans2', 'Someone, Else']
->>> browser.getControl('Person').displayValue = ['Someone, Else']
->>> browser.getControl('Password', index=0).value = '09876543'
->>> browser.getControl('Password', index=1).value = '09876543'
+>>> browser.getControl('person').displayValue = ['Someone, Else']
+>>> browser.getControl('password', index=0).value = '09876543'
+>>> browser.getControl('password', index=1).value = '09876543'
 >>> browser.getControl('Add').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'

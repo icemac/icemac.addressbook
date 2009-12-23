@@ -23,7 +23,7 @@ class List(icemac.addressbook.browser.table.Table):
                 header=_(u'Entity'), attrName='title'),
             z3c.table.column.addColumn(
                 self, z3c.table.column.LinkColumn, 'fields', weight=200,
-                header=_(u''), linkContent=_(u'Edit fields')),
+                header=u'', linkContent=_(u'Edit fields')),
             ]
 
     @property

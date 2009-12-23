@@ -15,11 +15,11 @@ class IPasswordFields(zope.interface.Interface):
     """Required password fields to enter and check password."""
 
     password = zope.schema.Password(
-        title=_(u'Password'), min_length=8,
+        title=_(u'password'), min_length=8,
         description=_(u'The password for the user.'))
 
     password_repetition = zope.schema.Password(
-        title=_(u'Password repetition'), min_length=8,
+        title=_(u'password repetition'), min_length=8,
         description=_(u'Please repeat the password.'))
 
     @zope.interface.invariant
@@ -34,16 +34,16 @@ class IPrincipal(zope.interface.Interface):
     "Derived from zope.app.authentication.principalfolder.IInternalPrincipal."
 
     person = zope.schema.Choice(
-        title=_(u'Person'), readonly=True,
+        title=_(u'person'), readonly=True,
         source=icemac.addressbook.principals.sources.persons)
 
     login = zope.schema.TextLine(
-        title=_(u'Login'),
+        title=_(u'login name'),
         description=_(u'The Login/Username of the user. '
                       u'This value can change.'))
 
     description = zope.schema.Text(
-        title=_('Notes'),
+        title=_('notes'),
         description=_('Provides notes for the user.'),
         required=False, missing_value='', default=u'')
 
@@ -52,7 +52,7 @@ class IRoles(zope.interface.Interface):
     "Roles"
 
     roles = zope.schema.Tuple(
-        title=_(u'Roles'), required=False,
+        title=_(u'roles'), required=False,
         value_type=zope.schema.Choice(
             source=icemac.addressbook.principals.sources.role_source))
 

@@ -2,7 +2,8 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:z3c="http://namespaces.zope.org/z3c"
-   xmlns:gocept="http://namespaces.gocept.com/zcml">
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
 
   <adapter factory=".edit.PersonCount" />
 

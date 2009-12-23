@@ -31,11 +31,11 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
                 'user', weight=1),
             z3c.table.column.addColumn(
                 self, z3c.table.column.GetAttrColumn, 'login', weight=2,
-                header=_(u'Login'), attrName='login'),
+                header=_(u'login name'), attrName='login'),
             z3c.table.column.addColumn(
                 self, icemac.addressbook.browser.table.TruncatedContentColumn,
                 'notes', weight=3,
-                header=_(u'Notes'), attrName='description', length=50),
+                header=_(u'notes'), attrName='description', length=50),
             ]
 
     @property

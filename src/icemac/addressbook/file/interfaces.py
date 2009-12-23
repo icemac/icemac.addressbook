@@ -11,7 +11,7 @@ class IFile(zope.interface.Interface):
     "A file uploaded from harddisk to addressbook."
 
     name = zope.schema.TextLine(
-        title=_(u'name'), description=_(u'Name of the file.'))
+        title=_(u'file name'), description=_(u'Name of the file.'))
 
     mimeType = zope.mimetype.interfaces.IContentTypeAware['mimeType']
 
