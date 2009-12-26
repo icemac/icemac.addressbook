@@ -8,7 +8,7 @@ import setuptools
 def read(*path_elements):
     return "\n\n" + file(os.path.join(*path_elements)).read()
 
-version = '0.5.5dev'
+version = '1.0.0dev'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -27,7 +27,7 @@ setuptools.setup(
     url='http://pypi.python.org/pypi/icemac.addressbook',
     license='ZPL 2.1',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Paste',
         'Framework :: Zope3',
@@ -95,24 +95,7 @@ setuptools.setup(
         'z3c.pt',
         'zope.app.debug',
         'zope.mimetype',
-        'zope.app.intid',  # XXX required by older installations,
-                           # deprecated and converted in 0.3
-                           # (evolve3.py), remove in version 0.6 (Add
-                           # notice to CHANGES.txt then, to show what
-                           # to do to upgrade when evolve to
-                           # generation 3 fails.)
-        'zope.app.catalog',# XXX required by older installations,
-                           # deprecated and converted in 0.3
-                           # (evolve3.py), remove in version 0.6 (Add
-                           # notice to CHANGES.txt then, to show what
-                           # to do to upgrade when evolve to
-                           # generation 3 fails.)
-        'zope.app.folder', # XXX required by older installations,
-                           # deprecated and converted in 0.3
-                           # (evolve4.py), remove in version 0.6 (Add
-                           # notice to CHANGES.txt then, to show what
-                           # to do to upgrade when evolve to
-                           # generation 4 fails.)
+        'zope.principalregistry',
         ],
     extras_require = dict(
         test=[

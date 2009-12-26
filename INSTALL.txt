@@ -34,11 +34,11 @@ its directory.
 Update
 ======
 
-- If you are updating from version 0.3.x or earlier follow the steps
+- When you are updating from version 0.3.x or earlier follow the steps
   described in `First installation`_ followed by the steps described
   in `Second part of steps for older versions`_.
 
-- If you are updating from version 0.4 or newer follow these steps:
+- When you are updating from version 0.4 or newer follow these steps:
 
    1. Download and extract the source distribution (see Download_) to a
    new a directory.
@@ -53,6 +53,16 @@ Update
    3. Answer the questions about admin user name, password and so on.
 
    4. Start the new instance of the application.
+
+- If you get an error when running the application after updating
+  which looks like::
+
+    zope.app.generations.interfaces.UnableToEvolve: (..., u'icemac.addressbook', ...)
+
+  Then you have to upgrade to version 0.5.x first and start the
+  application, so that legacy data can be converted. Version 1.x is no
+  longer compatible with these older versions.
+
 
 Second part of steps for older versions
 ---------------------------------------
