@@ -10,16 +10,18 @@
   <exclude package="zope.app.authentication.browser" />
   <exclude package="zc.catalog.browser" />
   <exclude package="zope.dublincore.browser" />
-  <exclude package="zope.app.publisher.xmlrpc" />
   <exclude package="z3c.form" file="file.zcml" />
 
 
   <include package="zope.security" file="meta.zcml" />
   <include package="zope.component" file="meta.zcml" />
-  <include package="zope.app.publisher.browser" file="meta.zcml" />
   <include package="zope.app.pagetemplate" file="meta.zcml" />
   <include package="zope.app.publication" file="meta.zcml" />
   <include package="zope.principalregistry" file="meta.zcml" />
+  <include package="zope.i18n" file="meta.zcml" />
+  <include package="zope.browserpage" file="meta.zcml" />
+  <include package="zope.browserresource" file="meta.zcml" />
+  <include package="zope.publisher" file="meta.zcml" />
 
   <include package="zope.app.generations" file="subscriber.zcml" />
 
@@ -43,7 +45,6 @@
   <include package="zope.location" />
   <include package="zope.component" />
   <include package="zope.app.authentication" />
-  <include package="zope.app.publisher" />
 
   <!-- own component registrations -->
 
@@ -55,8 +56,11 @@
   <include package="z3c.pagelet" file="meta.zcml" />
   <include package="gocept.pagelet" file="meta.zcml" />
   <include package="zope.mimetype" file="meta.zcml" />
+  <include package="z3c.menu.ready2go" file="meta.zcml"/>
 
   <include package="z3c.layer.pagelet" />
+  <include package="z3c.authviewlet" />
+  <include package="z3c.locales" />
   <include package="gocept.country"/>
   <include package="gocept.reference"/>
   <include package="z3c.form" />

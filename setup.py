@@ -80,6 +80,8 @@ setuptools.setup(
         'z3c.form >= 2.2.0dev',
         'z3c.formui',
         'z3c.layer.pagelet',
+        'z3c.authviewlet',
+        'z3c.locales',
         'z3c.pagelet',
         'z3c.ptcompat',
         'gocept.reference',
@@ -95,6 +97,7 @@ setuptools.setup(
         'z3c.pt',
         'zope.app.debug',
         'zope.mimetype',
+        'zope.browserpage',
         'zope.principalregistry',
         ],
     extras_require = dict(
