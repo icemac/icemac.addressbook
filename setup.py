@@ -94,11 +94,14 @@ setuptools.setup(
         'z3c.table',
         'classproperty',
         'icemac.truncatetext',
+        'icemac.ab.locales',
         'z3c.pt',
         'zope.app.debug',
         'zope.mimetype',
         'zope.browserpage',
         'zope.principalregistry',
+        'zope.app.locales',
+        'python-gettext',
         ],
     extras_require = dict(
         test=[
