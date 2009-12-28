@@ -169,6 +169,7 @@ class BaseDeleteForm(BaseEditForm):
     "Display a deletion confirmation dialog."
 
     label = _(u'Do you really want to delete this entry?')
+    requiredInfo = None # do never display requiredInfo
     interface = None
     field_names = () # tuple of field names for display; empty for all
     next_view_after_delete = None # when None, use same view as self.next_view
