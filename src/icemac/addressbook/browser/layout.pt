@@ -107,9 +107,31 @@
         background-color: #f0f0d0;
       }
 
+      fieldset fieldset {
+        background-color: #f0f0e0;
+      }
+
       legend {
         background-color: #f0f0d0;
         font-weight: bold;
+      }
+
+     fieldset fieldset {
+        float: right;
+     }
+
+     fieldset fieldset div.row {
+        background-color: #f0f0e0;
+        font-weight: normal;
+        font-size: small;
+     }
+
+      fieldset fieldset div.row div {
+        float: left;
+      }
+
+      fieldset fieldset legend {
+        display: none;
       }
 
       .LoginLogoutBox {
