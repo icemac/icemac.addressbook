@@ -3,14 +3,12 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.export.interfaces
 import stabledict
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
 import zope.component
-
-import icemac.addressbook.export.interfaces
-
-from icemac.addressbook.i18n import MessageFactory as _
 
 
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
@@ -86,6 +84,7 @@ class ExporterSource(zc.sourcefactory.basic.BasicSourceFactory):
             icemac.addressbook.export.interfaces.IExporter)
 
     def getTitle(self, value):
-        return u'%s (%s)' % (value.title, value.description)
+        return _(u'${title} (${desc})',
+                 mapping=dict(title=value.title, desc=value.description))
 
 exporter_source = ExporterSource()

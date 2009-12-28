@@ -5,7 +5,6 @@
   <!-- Main menu -->
   <browser:viewletManager
      name="main-menu"
-     provides=".interfaces.IMainMenu"
      class=".menu.MainMenu"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      permission="zope.Public"
@@ -23,7 +22,6 @@
   <!-- Add menu -->
   <browser:viewletManager
      name="add-menu"
-     provides=".interfaces.IAddMenu"
      class=".menu.AddMenu"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      permission="zope.Public"

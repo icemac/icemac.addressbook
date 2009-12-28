@@ -1,4 +1,4 @@
-<configure 
+<configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:z3c="http://namespaces.zope.org/z3c"
@@ -13,14 +13,14 @@
      class=".simple_single_keyword.SearchView"
      />
 
-  <browser:viewlet
+  <z3c:contextMenuItem
      manager="icemac.addressbook.browser.search.interfaces.ISearchMenu"
-     name="Simple single keyword search"
-     viewName="@@simple_single_keyword.html"
      for="icemac.addressbook.interfaces.IAddressBook"
-     class="z3c.menu.ready2go.item.ContextMenuItem"
-     permission="icemac.addressbook.ViewPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Simple single keyword search"
+     title="Simple single keyword search"
+     viewName="@@simple_single_keyword.html"
+     permission="icemac.addressbook.ViewPerson"
      weight="1"
      />
 

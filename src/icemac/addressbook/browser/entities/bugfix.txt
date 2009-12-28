@@ -31,7 +31,7 @@ section of the master data:
 >>> browser.getControl('Log in').click()
 
 >>> browser.getLink('Master data').click()
->>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Entities').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++entities'
 >>> print browser.contents

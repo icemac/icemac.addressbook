@@ -24,18 +24,20 @@ At first we log in as manager:
 >>> print manager.contents
 <!DOCTYPE ...
 <div id="content">
-  <ul>
-    <li>
-      <a href="++attribute++keywords">Keywords</a>
+      <h2>Edit master data</h2>
+      <ul>
+        <li>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
     </li>
     <li>
-      <a href="++attribute++principals">Users</a>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++principals"><span>Users</span></a>
     </li>
     <li>
-      <a href="++attribute++entities">Edit entities</a>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++entities"><span>Entities</span></a>
     </li>
-  </ul>
-</div>...
+      </ul>
+    </div>
+        </div>...
 
 Editor
 ======
@@ -49,14 +51,16 @@ A user with the editor role sees the following parts:
 >>> print editor.contents
 <!DOCTYPE ...
 <div id="content">
-  <ul>
-    <li>
-      <a href="++attribute++keywords">Keywords</a>
+      <h2>Edit master data</h2>
+      <ul>
+        <li>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
     </li>
     <li>
-      <a href="++attribute++principals">Users</a>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++principals"><span>Users</span></a>
     </li>
-  </ul>
+      </ul>
+    </div>
 </div>...
 
 
@@ -72,12 +76,14 @@ A user with the visitor role sees the fewest parts:
 >>> print visitor.contents
 <!DOCTYPE ...
 <div id="content">
-  <ul>
-    <li>
-      <a href="++attribute++keywords">Keywords</a>
+      <h2>Edit master data</h2>
+      <ul>
+        <li>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
     </li>
     <li>
-      <a href="++attribute++principals">Users</a>
+      <a href="http://localhost/++skin++AddressBook/ab/++attribute++principals"><span>Users</span></a>
     </li>
-  </ul>
-</div>...
+      </ul>
+    </div>
+   </div>...

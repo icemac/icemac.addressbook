@@ -5,14 +5,14 @@
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
   <!-- list of principals -->
-  <browser:viewlet
+  <z3c:siteMenuItem
      manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Users"
+     title="Users"
      permission="icemac.addressbook.ViewSomePrincipals"
-     class="..masterdata.viewlet.Viewlet"
+     viewName="++attribute++principals"
      weight="20"
-     path="++attribute++principals"
      />
 
   <gocept:pagelet
@@ -49,14 +49,14 @@
      class=".principals.AddForm"
      />
 
-  <browser:viewlet
-     name="user"
-     viewName="@@addPrincipal.html"
-     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddPrincipal"
+     for="zope.app.authentication.principalfolder.IInternalPrincipalContainer"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="user"
+     title="user"
+     viewName="@@addPrincipal.html"
+     permission="icemac.addressbook.AddPrincipal"
      weight="1"
      />
 

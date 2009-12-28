@@ -27,7 +27,7 @@ Create Field
 We create a field for keywords:
 
 >>> browser.getLink('Master data').click()
->>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=4).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
@@ -79,7 +79,7 @@ Delete value of choice
 When the selected value of the choice gets deleted:
 
 >>> browser.getLink('Master data').click()
->>> browser.getLink('Edit entities').click()
+>>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=4).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'

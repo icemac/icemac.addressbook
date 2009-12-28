@@ -1,7 +1,9 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
-   xmlns:gocept="http://namespaces.gocept.com/zcml">
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   >
 
   <gocept:pagelet
      name="index.html"
@@ -12,15 +14,14 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
     />
 
-  <!-- Add menu -->
-  <browser:viewlet
-     name="address book"
-     viewName="@@addAddressBook.html"
-     for="zope.site.interfaces.IFolder"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddAddressBook"
+     for="zope.site.interfaces.IFolder"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="address book"
+     title="address book"
+     viewName="@@addAddressBook.html"
+     permission="icemac.addressbook.AddAddressBook"
      weight="1"
      />
 

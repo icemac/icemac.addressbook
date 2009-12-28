@@ -4,14 +4,14 @@
    xmlns:z3c="http://namespaces.zope.org/z3c"
    xmlns:gocept="http://namespaces.gocept.com/zcml">
 
-  <browser:viewlet
+  <z3c:siteMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
-     name="Search"
-     viewName="search.html"
-     weight="20"
-     class="z3c.menu.ready2go.item.SiteMenuItem"
-     permission="icemac.addressbook.ViewPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Search"
+     title="Search"
+     viewName="search.html"
+     permission="icemac.addressbook.ViewPerson"
+     weight="20"
      />
 
   <gocept:pagelet
