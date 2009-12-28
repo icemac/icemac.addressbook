@@ -1,0 +1,53 @@
+===========
+Translation
+===========
+
+The whole UI was translated into German. There are some tricky edges,
+which are tested here.
+
+Set up
+======
+
+Create an address book:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> create_addressbook()
+<icemac.addressbook.addressbook.AddressBook object at 0x...>
+
+Create a browser and log in an editor which perferres German:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.addHeader('Accept-Language', 'de')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+Translation of country name
+===========================
+
+The country names are translated in the country dropdown:
+
+>>> browser.getLink('Person', index=1).click()
+>>> browser.getControl('Land').displayValue
+['Deutschland']
+>>> browser.getControl('Land').displayValue = ['Schweiz']
+>>> browser.getControl('Ort').value = 'Thun'
+>>> browser.getControl('Familienname').value = 'Deutsch'
+>>> browser.getControl('Hinzufügen').click()
+
+The the main postal address drop down is also translated:
+
+>>> browser.getLink('Deutsch').click()
+>>> browser.getControl('wichtigste Anschrift').displayValue
+['Thun, Schweiz']
+
+A user who prefers English (default) sees the English translation of the country
+name:
+
+>>> en_browser = Browser()
+>>> en_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> en_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> en_browser.getLink('Deutsch').click()
+>>> en_browser.getControl('main postal address').displayValue
+['Thun, Switzerland']

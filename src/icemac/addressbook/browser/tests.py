@@ -20,6 +20,7 @@ def test_suite():
         "browser/masterdata/masterdata.txt",
         "browser/person/file.txt",
         "browser/person/person.txt",
+        "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
         "browser/search/search.txt",
