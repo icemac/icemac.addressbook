@@ -31,6 +31,7 @@ class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 class AddPhoneNumberForm(icemac.addressbook.browser.base.BaseAddForm):
 
+    label = _(u'Add phone number')
     interface = icemac.addressbook.interfaces.IPhoneNumber
     class_ = icemac.addressbook.address.PhoneNumber
     next_url = 'parent'
@@ -44,6 +45,7 @@ class DeletePhoneNumberForm(DefaultsDeleteForm):
 
 class AddPostalAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
+    label = _(u'Add postal address')
     interface = icemac.addressbook.interfaces.IPostalAddress
     class_ = icemac.addressbook.address.PostalAddress
     next_url = 'parent'
@@ -57,6 +59,7 @@ class DeletePostalAddressForm(DefaultsDeleteForm):
 
 class AddEMailAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
+    label = _(u'Add e-mail address')
     interface = icemac.addressbook.interfaces.IEMailAddress
     class_ = icemac.addressbook.address.EMailAddress
     next_url = 'parent'
@@ -70,6 +73,7 @@ class DeleteEMailAddressForm(DefaultsDeleteForm):
 
 class AddHomePageAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
+    label = _(u'Add home page address')
     interface = icemac.addressbook.interfaces.IHomePageAddress
     class_ = icemac.addressbook.address.HomePageAddress
     next_url = 'parent'
