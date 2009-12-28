@@ -119,12 +119,13 @@ class PersonEditForm(
             for obj in icemac.addressbook.utils.iter_by_interface(
                     self.context, address['interface']):
                 if obj == default_obj:
-                    obj_title = u'main ' + address['title']
+                    obj_title = _(u'main ${address}')
                 else:
-                    obj_title = u'other ' + address['title']
+                    obj_title = _(u'other ${address}')
+                obj_title = _(obj_title, mapping={'address': address['title']})
                 group = EditGroup(
                     self.context, self.request, self, address['interface'],
-                    _(obj_title), address['prefix'], index, obj.__name__)
+                    obj_title, address['prefix'], index, obj.__name__)
                 groups.append(group)
                 index += 1
 
@@ -217,7 +218,8 @@ class PersonEntriesSource(
             title_prefix = _('file')
         title = icemac.addressbook.interfaces.ITitle(value)
         if title_prefix:
-            title = '%s -- %s' % (title_prefix, title)
+            title = _('${prefix} -- ${title}',
+                      mapping=dict(prefix=title_prefix, title=title))
         return title
 
 

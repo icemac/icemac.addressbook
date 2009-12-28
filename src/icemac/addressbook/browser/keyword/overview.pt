@@ -1,5 +1,5 @@
 <tal:domain i18n:domain="icemac.addressbook">
-  <h2>Keywords</h2>
+  <h2 i18n:translate="">Keywords</h2>
   <ul tal:define="keywords context/get_keywords">
     <li tal:repeat="keyword keywords">
       <a tal:attributes="href keyword/@@absolute_url"

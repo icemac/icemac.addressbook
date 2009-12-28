@@ -38,14 +38,14 @@
      for="icemac.addressbook.interfaces.IAddressBook"
      />
 
-  <browser:viewlet
-     name="Person list"
-     viewName="@@index.html"
+  <z3c:siteMenuItem
      for="*"
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
-     class="z3c.menu.ready2go.item.SiteMenuItem"
-     permission="icemac.addressbook.ViewAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Person list"
+     title="Person list"
+     viewName="@@index.html"
+     permission="icemac.addressbook.ViewAddressBook"
      weight="1"
      />
 
@@ -57,14 +57,14 @@
      class=".edit.EditForm"
      />
 
-  <browser:viewlet
+  <z3c:siteMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
-     name="Edit address book"
-     viewName="@@edit.html"
-     weight="999"
-     class="z3c.menu.ready2go.item.SiteMenuItem"
-     permission="icemac.addressbook.EditAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Edit address book"
+     title="Edit address book"
+     viewName="@@edit.html"
+     permission="icemac.addressbook.EditAddressBook"
+     weight="999"
      />
 
   <z3c:pagelet
@@ -84,14 +84,14 @@
      />
 
   <!-- Add menu -->
-  <browser:viewlet
-     name="person"
-     viewName="@@addPerson.html"
-     for="icemac.addressbook.interfaces.IAddressBook"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddPerson"
+     for="icemac.addressbook.interfaces.IAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="person"
+     title="person"
+     viewName="@@addPerson.html"
+     permission="icemac.addressbook.AddPerson"
      weight="1"
      />
 

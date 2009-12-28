@@ -4,13 +4,13 @@
 # $Id$
 
 import zope.viewlet.manager
-import z3c.menu.ready2go
+import icemac.addressbook.browser.menus.interfaces
 import z3c.menu.ready2go.manager
 
 MainMenu = zope.viewlet.manager.ViewletManager(
-    'main', z3c.menu.ready2go.ISiteMenu,
+    'main-menu', icemac.addressbook.browser.menus.interfaces.IMainMenu,
     bases=(z3c.menu.ready2go.manager.MenuManager,))
 
 AddMenu = zope.viewlet.manager.ViewletManager(
-    'add', z3c.menu.ready2go.IAddMenu,
+    'add-menu', icemac.addressbook.browser.menus.interfaces.IAddMenu,
     bases=(z3c.menu.ready2go.manager.MenuManager,))

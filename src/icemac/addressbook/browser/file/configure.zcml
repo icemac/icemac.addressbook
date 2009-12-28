@@ -11,14 +11,14 @@
      class=".file.Add"
      />
 
-  <browser:viewlet
-     name="file"
-     viewName="@@addFile.html"
-     for="icemac.addressbook.file.interfaces.IFileContainer"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddFile"
+     for="icemac.addressbook.file.interfaces.IFileContainer"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="file"
+     title="file"
+     viewName="@@addFile.html"
+     permission="icemac.addressbook.AddFile"
      weight="5"
      />
 

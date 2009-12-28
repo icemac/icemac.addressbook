@@ -51,7 +51,7 @@ def postal_address_title(address):
             if isinstance(val, zope.i18nmessageid.Message):
                 val = zope.i18n.translate(val, context=request)
             translated_values.append(val)
-        title = _(', '.join(translated_values))
+        title = ', '.join(translated_values)
     return title
 
 class EMailAddress(
@@ -131,19 +131,19 @@ def phone_number_title(tel):
 # title is no i18n message id as it get concatenated later on
 address_mapping = (
     dict(interface=icemac.addressbook.interfaces.IPostalAddress,
-         title=u'postal address',
+         title=_(u'postal address'),
          prefix='postal_address',
          class_=PostalAddress),
     dict(interface=icemac.addressbook.interfaces.IPhoneNumber,
-         title=u'phone number',
+         title=_(u'phone number'),
          prefix='phone_number',
          class_=PhoneNumber),
     dict(interface=icemac.addressbook.interfaces.IEMailAddress,
-         title=u'e-mail address',
+         title=_(u'e-mail address'),
          prefix='email_address',
          class_=EMailAddress),
     dict(interface=icemac.addressbook.interfaces.IHomePageAddress,
-         title=u'home page address',
+         title=_(u'home page address'),
          prefix='home_page_address',
          class_=HomePageAddress),
     )

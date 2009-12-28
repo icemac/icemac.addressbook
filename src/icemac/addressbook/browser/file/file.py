@@ -81,6 +81,7 @@ def get_file_entity():
 class Add(icemac.addressbook.browser.base.BaseAddForm):
     "Add a file."
 
+    label = _(u'Add file')
     class_ = icemac.addressbook.file.file.File
     next_url = 'parent'
 

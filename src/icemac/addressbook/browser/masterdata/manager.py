@@ -2,14 +2,15 @@
 # Copyright (c) 2009 Michael Howitz
 # See also LICENSE.txt
 
-import zope.viewlet.interfaces
+import z3c.menu.ready2go
+import z3c.menu.ready2go.manager
 import zope.viewlet.manager
 
 
-class IMasterData(zope.viewlet.interfaces.IViewletManager):
+class IMasterData(z3c.menu.ready2go.ISiteMenu):
     """Containing viewlets which provide links to edit master data."""
 
 
 MasterDataManager = zope.viewlet.manager.ViewletManager(
     'master-data', IMasterData, bases=(
-        zope.viewlet.manager.WeightOrderedViewletManager,))
+        z3c.menu.ready2go.manager.MenuManager,))

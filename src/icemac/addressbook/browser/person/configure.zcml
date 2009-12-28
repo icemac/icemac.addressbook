@@ -48,50 +48,47 @@
      factory=".person.KeywordDataManager"
      />
 
-
-  <!-- Add menu -->
-
-  <browser:viewlet
-     name="postal address"
-     viewName="@@addPostalAddress.html"
-     for="icemac.addressbook.interfaces.IPerson"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddPostalAddress"
+     for="icemac.addressbook.interfaces.IPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="postal address"
+     title="postal address"
+     viewName="@@addPostalAddress.html"
+     permission="icemac.addressbook.AddPostalAddress"
      weight="40"
      />
 
-  <browser:viewlet
-     name="phone number"
-     viewName="@@addPhoneNumber.html"
-     for="icemac.addressbook.interfaces.IPerson"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddPhoneNumber"
+     for="icemac.addressbook.interfaces.IPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="phone number"
+     title="phone number"
+     viewName="@@addPhoneNumber.html"
+     permission="icemac.addressbook.AddPhoneNumber"
      weight="30"
      />
 
-  <browser:viewlet
-     name="e-mail address"
-     viewName="@@addEMailAddress.html"
-     for="icemac.addressbook.interfaces.IPerson"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddEMailAddress"
+     for="icemac.addressbook.interfaces.IPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="e-mail address"
+     title="e-mail address"
+     viewName="@@addEMailAddress.html"
+     permission="icemac.addressbook.AddEMailAddress"
      weight="20"
      />
 
-  <browser:viewlet
-     name="home page"
-     viewName="@@addHomePageAddress.html"
-     for="icemac.addressbook.interfaces.IPerson"
+  <z3c:addMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-     class="z3c.menu.ready2go.item.AddMenuItem"
-     permission="icemac.addressbook.AddHomePageAddress"
+     for="icemac.addressbook.interfaces.IPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="home page"
+     title="home page"
+     viewName="@@addHomePageAddress.html"
+     permission="icemac.addressbook.AddHomePageAddress"
      weight="10"
      />
 
