@@ -45,6 +45,8 @@
   <include package="zope.location" />
   <include package="zope.component" />
   <include package="zope.app.authentication" />
+  <include package="zope.globalrequest" />
+
 
   <!-- own component registrations -->
 

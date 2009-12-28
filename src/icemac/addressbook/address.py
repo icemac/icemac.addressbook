@@ -3,14 +3,14 @@
 # See also LICENSE.txt
 # $Id$
 
-import persistent
-import zope.container.contained
-import zope.interface
-import zope.schema.fieldproperty
+from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-
-from icemac.addressbook.i18n import MessageFactory as _
+import persistent
+import zope.container.contained
+import zope.globalrequest
+import zope.interface
+import zope.schema.fieldproperty
 
 
 class PostalAddress(
@@ -45,7 +45,13 @@ def postal_address_title(address):
               for x in ('address_prefix', 'street', 'zip', 'city', 'country')
               if getattr(address, x)]
     if values:
-        title = ', '.join(values)
+        request = zope.globalrequest.getRequest()
+        translated_values = []
+        for val in values:
+            if isinstance(val, zope.i18nmessageid.Message):
+                val = zope.i18n.translate(val, context=request)
+            translated_values.append(val)
+        title = _(', '.join(translated_values))
     return title
 
 class EMailAddress(

@@ -102,6 +102,7 @@ setuptools.setup(
         'zope.principalregistry',
         'zope.app.locales',
         'python-gettext',
+        'zope.globalrequest',
         ],
     extras_require = dict(
         test=[
