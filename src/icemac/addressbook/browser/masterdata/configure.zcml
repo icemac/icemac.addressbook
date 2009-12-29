@@ -32,10 +32,4 @@
      permission="zope.Public"
      />
 
-  <z3c:template
-     for=".viewlet.Viewlet"
-     template="viewlet.pt"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
-
 </configure>
