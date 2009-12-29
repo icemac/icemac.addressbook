@@ -2,10 +2,16 @@
 Change log
 ==========
 
-0.5.5 (unreleased)
+1.0.0 (unreleased)
 ==================
 
 - Translated UI into German.
+
+- Displaying modification date of adresses now.
+
+- Dropped some package dependencies which existed for compatibility
+  reasons with older versions. To upgrade to this version you might
+  need to upgrade to 0.5.4 first. (See Update_.)
 
 
 0.5.4 (2009-12-20)
@@ -108,57 +114,6 @@ Features
 
 - ``install.py`` now asks for hostname and portnumber and logging
   configuration, so changing ``deploy.ini`` is no longer necessary.
-
-
-0.3.3 (2009-04-05)
-==================
-
-- Added two package dependencies which are necessary to convert an
-  existing ZODB of a previous address book version.
-
-
-0.3.2 (2009-04-03)
-==================
-
-- Fixed the sort order of the links in the master data section.
-
-
-0.3.1 (2009-03-31)
-==================
-
-- Fixed wrong recipe version.
-
-
-0.3 (2009-03-31)
-================
-
-Features
---------
-
-- Added user management. There is now only one administrative user
-  created during installation. This user can log-in using basic
-  auth. He can create new users from existing persons inside the
-  address books (See `Master data --> Users`.)
-
-
-Bug fixes
----------
-
-- Made the AddressBook skin the default skin.
-
-
-Other changes
--------------
-
-- Dropped support for Python 2.4.
-
-- Renamed role `icemac.addressbook.administrator` to
-  `icemac.addressbook.global.administrator` so all global roles have
-  the same naming scheme.
-
-- Removed ZMI (Zope Management Interface) from skins in production
-  environment. There is a buildout config in ``profiles/zmi.cfg``
-  which enables ZMI.
 
 
 Previous Versions
