@@ -45,6 +45,10 @@ class LinkColumn(z3c.table.column.LinkColumn):
             url += '/' + self.linkName
         return url
 
+    def getLinkContent(self, item):
+        return zope.i18n.translate(
+            super(LinkColumn, self).getLinkContent(item), context=self.request)
+
     def renderCell(self, item):
         if icemac.addressbook.interfaces.IField.providedBy(item):
             return super(LinkColumn, self).renderCell(item)
