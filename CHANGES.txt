@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.0.0 (unreleased)
+1.0.0 (2009-12-29)
 ==================
 
 - Translated UI into German.
