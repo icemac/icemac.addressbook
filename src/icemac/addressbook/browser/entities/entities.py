@@ -19,7 +19,7 @@ class List(icemac.addressbook.browser.table.Table):
     def setUpColumns(self):
         return [
             z3c.table.column.addColumn(
-                self, z3c.table.column.GetAttrColumn, 'title', weight=1,
+                self, z3c.table.column.I18nGetAttrColumn, 'title', weight=1,
                 header=_(u'Entity'), attrName='title'),
             z3c.table.column.addColumn(
                 self, z3c.table.column.LinkColumn, 'fields', weight=200,

@@ -63,7 +63,7 @@ class List(icemac.addressbook.browser.table.PageletTable):
     def setUpColumns(self):
         return [
             z3c.table.column.addColumn(
-                self, z3c.table.column.GetAttrColumn, 'title', weight=1,
+                self, z3c.table.column.I18nGetAttrColumn, 'title', weight=1,
                 header=_(u'Field'), attrName='title'),
             z3c.table.column.addColumn(
                 self, LinkColumn, 'delete', weight=190, header=_(u''),
