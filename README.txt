@@ -5,7 +5,7 @@ icemac.addressbook
 *Purpose:* Store, search and export addresses and phone numbers using
 a web application.
 
-*Status:* working version with some missing functionality
+*Status:* working version with some missing functionality (See `To do`_)
 
 .. contents::
 
@@ -31,3 +31,6 @@ Features
 - user and role management
 
 - really good test coverage (> 98 %)
+
+- Completely translated into German, and easily translateable into
+  other languages.

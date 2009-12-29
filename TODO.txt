@@ -30,8 +30,6 @@ The following features should be implemented over the next months:
 
   * LDAP export
 
-- translation of user interface into German
-
 - more search abilities
 
   * full text search
