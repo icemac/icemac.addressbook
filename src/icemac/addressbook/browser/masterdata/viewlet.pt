@@ -1,4 +1,0 @@
-<li i18n:domain="icemac.addressbook">
-  <a tal:attributes="href view/path"
-     tal:content="view/__name__" />
-</li>
