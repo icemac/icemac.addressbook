@@ -64,4 +64,7 @@ class PageletTable(z3c.pagelet.browser.BrowserPagelet, Table):
     When no template is required the `Table` class can be used.
     """
 
+    def __init__(self, *args, **kw):
+        super(PageletTable, self).__init__(*args, **kw)
+        Table.__init__(self, *args, **kw)
     update = Table.update
