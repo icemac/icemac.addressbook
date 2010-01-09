@@ -1,5 +1,5 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2009 Michael Howitz
+# Copyright (c) 2008-2010 Michael Howitz
 # See also LICENSE.txt
 
 import icemac.addressbook.keyword
