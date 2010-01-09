@@ -3,6 +3,10 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.base
+import icemac.addressbook.export.sources
+import icemac.addressbook.interfaces
 import z3c.form.button
 import z3c.ptcompat
 import z3c.table.column
@@ -12,17 +16,12 @@ import zope.interface
 import zope.schema
 import zope.session.interfaces
 
-import icemac.addressbook.browser.base
-import icemac.addressbook.interfaces
-
-from icemac.addressbook.i18n import MessageFactory as _
-
 
 class IExporterChoice(zope.interface.Interface):
 
     exporter = zope.schema.Choice(
         title=_(u'Export using'),
-        source=icemac.addressbook.sources.exporter_source)
+        source=icemac.addressbook.export.sources.exporter_source)
 
 
 class ExportForm(icemac.addressbook.browser.base.BaseEditForm):

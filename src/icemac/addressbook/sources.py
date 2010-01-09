@@ -75,16 +75,3 @@ class ContextByInterfaceSource(
     def getTitle(self, context, value):
         import icemac.addressbook.interfaces # avoid circular import
         return icemac.addressbook.interfaces.ITitle(value)
-
-
-class ExporterSource(zc.sourcefactory.basic.BasicSourceFactory):
-
-    def getValues(self):
-        return zope.component.getAllUtilitiesRegisteredFor(
-            icemac.addressbook.export.interfaces.IExporter)
-
-    def getTitle(self, value):
-        return _(u'${title} (${desc})',
-                 mapping=dict(title=value.title, desc=value.description))
-
-exporter_source = ExporterSource()

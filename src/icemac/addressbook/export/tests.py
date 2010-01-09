@@ -3,30 +3,63 @@
 # See also LICENSE.txt
 # $Id$
 
-import unittest
-import zope.interface.verify
-
+import icemac.addressbook.export.base
 import icemac.addressbook.export.interfaces
 import icemac.addressbook.export.xls.simple
 import icemac.addressbook.testing
+import unittest
+import zope.interface.verify
 
 
 class TestInterfaces(unittest.TestCase):
 
-    def test_xls(self):
+    def test_BaseExport(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.export.interfaces.IExporter,
-            icemac.addressbook.export.xls.simple.XLSExport())
+            icemac.addressbook.export.base.BaseExporter([], None))
+
+    def test_XLSExport(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.export.interfaces.IExporter,
-            icemac.addressbook.export.xls.simple.DefaultsExport())
+            icemac.addressbook.export.xls.simple.XLSExport([], None))
+
+    def test_XLSDefaultsExport(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.export.interfaces.IExporter,
-            icemac.addressbook.export.xls.simple.CompleteExport())
+            icemac.addressbook.export.xls.simple.DefaultsExport([], None))
+
+    def test_XLSCompleteExport(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.export.interfaces.IExporter,
+            icemac.addressbook.export.xls.simple.CompleteExport([], None))
+
+
+class Test__eq__(unittest.TestCase):
+
+    def setUp(self):
+        self.exporter = icemac.addressbook.export.base.BaseExporter(
+            [], None)
+
+    def test_not__eq__other_type_number(self):
+        self.assertEqual(False, self.exporter == 1)
+
+    def test_not__eq__other_type_object(self):
+        self.assertEqual(False, self.exporter == object())
+
+    def test_not__eq__other_class(self):
+        other_exporter = icemac.addressbook.export.xls.simple.XLSExport(
+            [], None)
+        self.assertEqual(False, self.exporter == other_exporter)
+
+    def test___eq__other_instance_same_class(self):
+        other_exporter = icemac.addressbook.export.base.BaseExporter(
+            [], None)
+        self.assertEqual(True, self.exporter == other_exporter)
 
 
 def test_suite():
-    suite = icemac.addressbook.testing.UnittestSuite(TestInterfaces)
+    suite = icemac.addressbook.testing.UnittestSuite(
+        TestInterfaces, Test__eq__)
     suite.addTest(icemac.addressbook.testing.FunctionalDocFileSuite(
         'export/export.txt',
         'export/userfields.txt'))

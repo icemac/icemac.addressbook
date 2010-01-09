@@ -14,14 +14,15 @@ class SimpleExport(object):
         session = zope.session.interfaces.ISession(self.request)[
             icemac.addressbook.interfaces.PACKAGE_ID]
         persons = [self.context[id] for id in session['person_ids']]
-        exporter = icemac.addressbook.sources.exporter_source.factory.getValue(
-            icemac.addressbook.sources.exporter_source, 
-            session['exporter_token'])
+        exporter = zope.component.getMultiAdapter(
+            (persons, self.request),
+            icemac.addressbook.export.interfaces.IExporter,
+            name=session['exporter_token'])
 
         self.request.response.setHeader('Content-Type', exporter.mime_type)
         self.request.response.setHeader(
-            'Content-Disposition', 
+            'Content-Disposition',
             'attachment; filename=addressbook_export.%s' % (
                 exporter.file_extension))
 
-        return exporter.export(*persons)
+        return exporter.export()

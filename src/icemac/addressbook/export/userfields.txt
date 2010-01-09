@@ -80,8 +80,7 @@ numbers as an XLS file:
 >>> from icemac.addressbook.export.xls.simple import DefaultsExport
 >>> import pprint
 >>> import xlrd
->>> exporter = DefaultsExport()
->>> export = exporter.export(liebig, howitz)
+>>> export = DefaultsExport([liebig, howitz]).export()
 >>> xls_workbook = xlrd.open_workbook(file_contents=export)
 >>> xls_workbook.sheet_names()
 [u'Address book - Export']
@@ -175,8 +174,7 @@ This exporter exports personal data, and *all* addresses and numbers
 as an XLS file:
 
 >>> from icemac.addressbook.export.xls.simple import CompleteExport
->>> exporter = CompleteExport()
->>> export = exporter.export(liebig, howitz)
+>>> export = CompleteExport([liebig, howitz]).export()
 >>> xls_workbook = xlrd.open_workbook(file_contents=export)
 >>> xls_workbook.sheet_names()
 [u'Address book - Export']
