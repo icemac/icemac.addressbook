@@ -8,11 +8,13 @@ import cStringIO
 import datetime
 import decimal
 import icemac.addressbook.address
+import icemac.addressbook.export.base
 import icemac.addressbook.export.interfaces
 import icemac.addressbook.interfaces
 import xlwt
 import zope.component
 import zope.interface
+import zope.publisher.interfaces.browser
 import zope.security.proxy
 
 
@@ -58,24 +60,19 @@ def convert_value(value):
     return icemac.addressbook.interfaces.ITitle(value)
 
 
-class XLSExport(object):
+class XLSExport(icemac.addressbook.export.base.BaseExporter):
     """Abstract base class for xls export."""
-
-    zope.interface.implements(icemac.addressbook.export.interfaces.IExporter)
 
     file_extension = 'xls'
     mime_type = 'application/vnd.ms-excel'
-    title = None # to be set in subclass
-    description = None # to be set in subclass
 
     def getEntity(self, interface):
         return zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities).getEntity(interface)
 
-    def export(self, *persons):
+    def export(self):
         self.workbook = xlwt.Workbook()
         self.sheet = self.workbook.add_sheet(_(u'Address book - Export'))
-        self.persons = persons
         self.col = 0
 
         self._export()

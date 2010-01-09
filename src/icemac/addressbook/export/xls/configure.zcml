@@ -1,9 +1,11 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            i18n_domain="icemac.addressbook">
 
-  <utility factory=".simple.DefaultsExport"
-           name="xls_defaults_export" />
-  <utility factory=".simple.CompleteExport"
-           name="xls_complete_export" />
+  <adapter
+      factory=".simple.DefaultsExport"
+      name="xls_defaults_export" />
+  <adapter
+      factory=".simple.CompleteExport"
+      name="xls_complete_export" />
 
 </configure>
