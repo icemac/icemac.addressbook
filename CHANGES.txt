@@ -8,6 +8,8 @@ Change log
 - When two users are exporting at the same time this could end in
   broken export files.
 
+- Added translation to XLS export files.
+
 
 1.0.0 (2009-12-29)
 ==================
