@@ -13,6 +13,8 @@ import icemac.addressbook.export.interfaces
 import icemac.addressbook.interfaces
 import xlwt
 import zope.component
+import zope.i18n
+import zope.i18nmessageid
 import zope.interface
 import zope.publisher.interfaces.browser
 import zope.security.proxy
@@ -48,18 +50,6 @@ value_style_mapping = {
     }
 
 
-def convert_value(value):
-    """Convert the value for xls export."""
-    if value is None:
-        return value
-    if value.__class__ in (str, unicode, float, int, bool, datetime.date,
-                           datetime.datetime, decimal.Decimal):
-        return value
-    if hasattr(value, '__iter__'):
-        return ', '.join(convert_value(v) for v in value)
-    return icemac.addressbook.interfaces.ITitle(value)
-
-
 class XLSExport(icemac.addressbook.export.base.BaseExporter):
     """Abstract base class for xls export."""
 
@@ -70,9 +60,26 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
         return zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities).getEntity(interface)
 
+    def convert_value(self, value):
+        """Convert the value for xls export."""
+        if value is None:
+            return value
+        if value.__class__ in (str, unicode, float, int, bool, datetime.date,
+                               datetime.datetime, decimal.Decimal):
+            return self.translate(value)
+        if hasattr(value, '__iter__'):
+            return ', '.join(self.convert_value(v) for v in value)
+        return self.translate(icemac.addressbook.interfaces.ITitle(value))
+
+    def translate(self, value):
+        if not isinstance(value, zope.i18nmessageid.Message):
+            return value
+        return zope.i18n.translate(value, context=self.request)
+
     def export(self):
         self.workbook = xlwt.Workbook()
-        self.sheet = self.workbook.add_sheet(_(u'Address book - Export'))
+        self.sheet = self.workbook.add_sheet(
+            self.translate(_(u'Address book - Export')))
         self.col = 0
 
         self._export()
@@ -84,13 +91,13 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
         for field in self.getEntity(interface).getFieldValuesInOrder():
-            self.sheet.write(1, col, field.title, head_style)
+            self.sheet.write(1, col, self.translate(field.title), head_style)
             col += 1
         return col
 
     def write_cell(self, row, col, value):
         style = value_style_mapping.get(value.__class__, default_style)
-        self.sheet.write(row, col, convert_value(value), style)
+        self.sheet.write(row, col, self.convert_value(value), style)
 
     def write_col(self, interface, obj_getter, headline):
         max_col = self.write_headlines(self.col, interface, headline)
@@ -115,7 +122,9 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
 
     def write_person_data(self):
         self.write_col(
-            icemac.addressbook.interfaces.IPerson, lambda x:x, _('person'))
+            icemac.addressbook.interfaces.IPerson,
+            lambda x:x,
+            self.translate(_('person')))
 
 
 class DefaultsExport(XLSExport):
@@ -129,7 +138,7 @@ class DefaultsExport(XLSExport):
         for address in icemac.addressbook.address.address_mapping:
             self.write_col(address['interface'],
                            lambda x:getattr(x, 'default_'+address['prefix']),
-                           address['title'])
+                           self.translate(address['title']))
 
 
 class CompleteExport(XLSExport):
@@ -157,7 +166,10 @@ class CompleteExport(XLSExport):
                 continue
             if num_blocks == 0:
                 max_col = self.write_headlines(
-                    start_col, iface, _('main '+title))
+                    start_col, iface,
+                    self.translate(
+                        _(u'${prefix} ${title}',
+                          mapping=dict(prefix=_(u'main'), title=title))))
                 num_blocks = 1
                 blocks_with_header = 1
             col = self.write_obj(row, start_col, iface, default_obj)
@@ -174,7 +186,11 @@ class CompleteExport(XLSExport):
             num_blocks = max(num_blocks, len(objs) + 1)
             while blocks_with_header < num_blocks:
                 max_col = self.write_headlines(
-                    max_col, iface, _('other '+title))
+                    max_col, iface,
+                    self.translate(
+                        _(u'${prefix} ${title}',
+                          mapping=dict(prefix=_(u'other'), title=title)))
+                    )
                 blocks_with_header += 1
             for obj in objs:
                 col = self.write_obj(row, col, iface, obj)

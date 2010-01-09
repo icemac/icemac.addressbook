@@ -1,0 +1,183 @@
+=======================
+ Translation in export
+=======================
+
+The fields in the export file get translated to the language the user
+has set in his browser.
+
+
+Setup
+=====
+
+Create an addressbook:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+
+User defined fields are not translated, but might behave special, so
+let's create a field:
+
+>>> from icemac.addressbook.testing import create_field
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Bool', u'Fotoerlaubnis?')
+
+Create a keyword and a person using this keyword, so the search works:
+
+>>> from icemac.addressbook.testing import create, create_keyword
+>>> church = create_keyword(ab, u'Kirche')
+>>> liebig = create(
+...     ab, ab, 'icemac.addressbook.person.Person', return_obj=True,
+...     **{'last_name': u'Liebig', 'Field-1': True, 'keywords': set([church])})
+>>> create(ab, liebig, 'icemac.addressbook.address.PostalAddress',
+...        set_as_default=True, **{'city': u'Testhausen'})
+
+Let's create an additional postal address which does not show up in
+the defaults export but in complete export:
+>>> create(ab, liebig, 'icemac.addressbook.address.PostalAddress',
+...        **{'zip': u'00001'})
+
+As visitors are allowed to search and export, so we log in as a
+visitor, to enable translation, we also send an accept-language
+header:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.addHeader('Accept-Language', 'de')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+XLS main adresses and numbers export
+====================================
+
+There is a link in the global navigation which leads to the searches,
+we choose the simple keyword search as it has export abilities:
+
+>>> browser.getLink('Suche').click()
+>>> browser.getLink('Einfache Suche nach einzelnem Schlagwort').click()
+>>> browser.getControl('Schlagwort').displayValue = ['Kirche']
+>>> browser.getControl('Suche').click()
+
+The export produces an XLS file:
+
+>>> import pprint
+>>> import xlrd
+>>> browser.getControl('Exportieren mit').displayValue = [
+...    'XLS (wichtigste) (Exportiert die Personendaten und die wichtigsten Eintr\xc3\xa4ge.)']
+>>> browser.getControl(name='form.buttons.export').click()
+>>> browser.headers['Content-Type']
+'application/vnd.ms-excel'
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(3, 14)
+>>> for rx in range(work_sheet_0.nrows):
+...     pprint.pprint(work_sheet_0.row(rx))
+[text:u'Person',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'Anschrift',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'Telefonnummer',
+ text:u'E-Mail-Adresse',
+ text:u'Homepage-Adresse']
+[text:u'Vorname',
+ text:u'Familienname',
+ text:u'Geburtsdatum',
+ text:u'Schlagworte',
+ text:u'Anmerkungen',
+ text:u'Fotoerlaubnis?',
+ text:u'Adresszusatz',
+ text:u'Stra\xdfe',
+ text:u'Ort',
+ text:u'PLZ',
+ text:u'Land',
+ text:u'Nummer',
+ text:u'E-Mail-Adresse',
+ text:u'URL']
+[empty:'',
+ text:u'Liebig',
+ empty:'',
+ text:u'Kirche',
+ empty:'',
+ bool:1,
+ empty:'',
+ empty:'',
+ text:u'Testhausen',
+ empty:'',
+ text:u'Deutschland',
+ empty:'',
+ empty:'',
+ empty:'']
+
+XLS complete adresses and numbers export
+========================================
+
+The complete export is not really different from the main one:
+
+>>> browser.goBack()
+>>> browser.getControl('Exportieren mit').displayValue = [
+...    'XLS (vollst\xc3\xa4ndig) (Exportiert alle Personendaten und alle Eintr\xc3\xa4ge.)']
+>>> browser.getControl(name='form.buttons.export').click()
+>>> browser.headers['Content-Type']
+'application/vnd.ms-excel'
+>>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> (work_sheet_0.nrows, work_sheet_0.ncols)
+(3, 16)
+>>> for rx in range(work_sheet_0.nrows):
+...     pprint.pprint(work_sheet_0.row(rx))
+[text:u'Person',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'wichtigste Anschrift',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'weitere Anschrift',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'']
+[text:u'Vorname',
+ text:u'Familienname',
+ text:u'Geburtsdatum',
+ text:u'Schlagworte',
+ text:u'Anmerkungen',
+ text:u'Fotoerlaubnis?',
+ text:u'Adresszusatz',
+ text:u'Stra\xdfe',
+ text:u'Ort',
+ text:u'PLZ',
+ text:u'Land',
+ text:u'Adresszusatz',
+ text:u'Stra\xdfe',
+ text:u'Ort',
+ text:u'PLZ',
+ text:u'Land']
+[empty:'',
+ text:u'Liebig',
+ empty:'',
+ text:u'Kirche',
+ empty:'',
+ bool:1,
+ empty:'',
+ empty:'',
+ text:u'Testhausen',
+ empty:'',
+ text:u'Deutschland',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'00001',
+ text:u'Deutschland']
