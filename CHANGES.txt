@@ -2,6 +2,14 @@
 Change log
 ==========
 
+1.0.1 (unreleased)
+==================
+
+- Bugfix: The value fields of a user defined field of type `choice`
+  could not contain non ascii characters. This broke the usage of the
+  field on any object.
+
+
 1.0.0 (2009-12-29)
 ==================
 
