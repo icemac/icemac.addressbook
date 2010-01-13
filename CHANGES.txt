@@ -2,13 +2,21 @@
 Change log
 ==========
 
-1.0.1 (unreleased)
+1.0.2 (unreleased)
 ==================
 
 - When two users are exporting at the same time this could end in
   broken export files.
 
 - Added translation to XLS export files.
+
+
+1.0.1 (2010-01-13)
+==================
+
+- Bugfix: The value fields of a user defined field of type `choice`
+  could not contain non ascii characters. This broke the usage of the
+  field on any object.
 
 
 1.0.0 (2009-12-29)
