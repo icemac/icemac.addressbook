@@ -2,8 +2,7 @@
 Bugfix for address book entities
 ================================
 
-There was a bug where a local administrator was not able to edit the
-entities.
+There were some bugs when using entities.
 
 
 Set up
@@ -19,8 +18,10 @@ Create an address book, a local adminstrator and a browser to access it:
 >>> from zope.testbrowser.testing import Browser
 >>> browser = Browser()
 
-Edit entities
-=============
+Edit entities as local administrator
+====================================
+
+A local administrator was not able to edit the entities.
 
 Log in as the local administrator and navigate to the edit entities
 section of the master data:
@@ -41,4 +42,30 @@ section of the master data:
           <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
         </tr>...
 
+Choice field values containing non ascii characters
+===================================================
 
+Choice field values could not contain non ascii characters.
+
+Create a user defined choice field and a values containing a non ascii
+character:
+
+>>> browser.getLink('Edit fields', index=5).click()
+>>> browser.url
+'http://localh.../ab/++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('field').click()
+>>> browser.getControl('type').displayValue = ['choice']
+>>> browser.getControl('title').value = 'Ümläuttößt'
+>>> browser.getControl('Add', index=0).click()
+>>> browser.getControl('value').value = 'Küche'
+>>> browser.getControl('Add', index=1).click()
+>>> browser.url
+'http://localh.../ab/++attribute++entities/icemac.addressbook.person.Person'
+
+The error occured when adding a new object for the entity with the user defined field (a person in our case):
+
+>>> browser.getLink('Person list').click()
+>>> browser.handleErrors = False
+>>> browser.getLink('person').click()
+>>> browser.getControl('Ümläuttößt').displayOptions
+['no value', 'K\xc3\xbcche']

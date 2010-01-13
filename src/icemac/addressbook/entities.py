@@ -4,6 +4,7 @@
 
 import icemac.addressbook.interfaces
 import persistent
+import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface
@@ -56,11 +57,26 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     "Predefined and user defined entities in the address book."
 
 
+class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):
+    "Source containing the values of a choice field."
+
+    def __init__(self, values):
+        super(ChoiceFieldValuesSource, self).__init__()
+        self.values = values
+
+    def getValues(self):
+        return self.values
+
+    def getTitle(self, value):
+        return value
+
+
 def user_field_to_schema_field(field):
     """Convert a user defined field (IField) into a zope.schema field."""
     if field.type == 'Choice':
         schema_field = zope.schema.Choice(
-            title=field.title, values=field.values, required=False)
+            title=field.title, required=False,
+            source=ChoiceFieldValuesSource(field.values))
     else:
         schema_field = getattr(zope.schema, field.type)(
             title=field.title, required=False)
