@@ -100,7 +100,7 @@ setuptools.setup(
         'zope.mimetype',
         'zope.browserpage',
         'zope.principalregistry',
-        'zope.app.locales',
+        'zope.app.locales >= 3.6.0',
         'python-gettext',
         'zope.globalrequest',
         ],
