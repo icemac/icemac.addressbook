@@ -1,6 +1,8 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:meta="http://namespaces.zope.org/meta"
-           i18n_domain="icemac.addressbook">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="icemac.addressbook">
 
   <!-- Turn on the devmode -->
   <meta:provides feature="devmode" />
@@ -46,14 +48,15 @@
   <grant role="icemac.addressbook.global.Visitor"
          principal="icemac.addressbook.global.Visitor" />
 
-  <!-- As we use the ordered select widget for sets in the application
+  <!-- As we use the sorted select widget for sets in the application
        but zope.testbrowser does not interpret JavaScript, we have
-       set the widget back to the original one here. -->
-  <adapter
-     for="zope.schema.interfaces.ISet
-          icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     provides="z3c.form.interfaces.IFieldWidget"
-     factory="z3c.form.browser.select.CollectionSelectFieldWidget" />
+       set the widget template to a JS-less variant here. -->
+  <z3c:widgetTemplate
+      mode="input"
+      widget="icemac.addressbook.browser.widget.SortedSelectWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      template="browser/sorted_select_input_test.pt"
+      />
 
   <!-- The ordered select widget for tuples uses JavaScript but
        zope.testbrowser does not interpret JavaScript, so we have use a
