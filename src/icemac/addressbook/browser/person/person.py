@@ -172,15 +172,11 @@ class PersonEditForm(
 
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
-    """Datamanager which converts the list of keywords in the view into a
-    set of keywords on the model."""
+    """Datamanager which converts the internal InstrumentedSet into a
+    set to be compareable with selected values."""
 
     def get(self):
-        return sorted(super(KeywordDataManager, self).get(),
-                      key=lambda x: x.title)
-
-    def set(self, value):
-        return super(KeywordDataManager, self).set(set(value))
+        return set(x for x in super(KeywordDataManager, self).get())
 
 
 class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):

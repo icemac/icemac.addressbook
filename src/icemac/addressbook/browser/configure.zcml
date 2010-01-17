@@ -24,13 +24,13 @@
       factory=".metadata.ModifiedLabel"
       name="label" />
 
-  <!-- CAUTION: This adapter ensures that the ordered select widget is
+  <!-- CAUTION: This adapter ensures that the sorted select widget is
                 used for all ISet schema elements. -->
   <adapter
      for="zope.schema.interfaces.ISet
           icemac.addressbook.browser.interfaces.IAddressBookLayer"
      provides="z3c.form.interfaces.IFieldWidget"
-     factory="z3c.form.browser.orderedselect.OrderedSelectFieldWidget" />
+     factory=".widget.SortedSelectFieldWidget" />
 
   <include package=".addressbook" />
   <include package=".authentication" />
