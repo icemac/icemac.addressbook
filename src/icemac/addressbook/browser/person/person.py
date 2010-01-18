@@ -14,6 +14,7 @@ import icemac.addressbook.sources
 import icemac.addressbook.utils
 import z3c.form.button
 import z3c.form.datamanager
+import z3c.form.form
 import z3c.form.group
 import zc.sourcefactory.contextual
 import zope.interface
@@ -169,6 +170,25 @@ class PersonEditForm(
             '@@delete_entry.html'))
     def handleDeleteAddress(self, action):
         self.redirect_to_next_url('object', '@@delete_entry.html')
+
+    def applyChanges(self, data):
+        """Special variant which sends ModifiedEvent for each modified
+        object. (not to be used universally!)"""
+        content = self.getContent()
+        changed = {}
+        mainChanged = z3c.form.form.applyChanges(self, content, data)
+        if mainChanged:
+            changed[content] = mainChanged
+        for group in self.groups:
+            groupChanged = group.applyChanges(data)
+            if groupChanged:
+                changed[group.getContent()] = groupChanged
+        for content, changes in changed.items():
+            descriptions = [
+                zope.lifecycleevent.Attributes(interface, *names)
+                for interface, names in changes.items()]
+            zope.event.notify(
+                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
 
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
