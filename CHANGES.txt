@@ -17,11 +17,14 @@ Bugfixes
 - When two users are exporting at the same time this could end in
   broken export files.
 
-- On the person edit form the keywords field was not correctly
-  implemented: it was always marked as changed so the a new last
-  modification date on the person was set, even when nothing has been
-  changed.
+- On the person edit form:
 
+  - the keywords field was not correctly implemented: it was always
+    marked as changed so the a new last modification date on the
+    person was set, even when nothing has been changed.
+
+  - the the last modification dates of the entries (postal address,
+    phone number etc.) where the one of the person.
 
 
 1.0.1 (2010-01-13)

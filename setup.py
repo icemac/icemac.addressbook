@@ -107,6 +107,7 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'xlrd',
+            'z3c.etestbrowser',
             'zc.buildout',
             'zope.app.testing',
             'zope.testbrowser',
