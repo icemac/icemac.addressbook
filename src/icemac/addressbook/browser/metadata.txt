@@ -40,6 +40,9 @@ True
 Modification Date
 =================
 
+Correct date shown
+------------------
+
 In the user interface the modification date for each entry is
 displayed separately. To show this let's change the moification date
 of the person:
@@ -61,3 +64,53 @@ date of its entries:
 >>> [x.text == browser.etree.xpath(person_xpath)[0].text
 ...  for x in browser.etree.xpath(entries_xpath)]
 [False, False, False, False]
+
+Editing changes
+---------------
+
+Editing one of the entries only changes the modification date for this
+one entry. To ease the comparisions in the test we set all
+modification dates to ``None``:
+
+>>> default_moddate = datetime.datetime(2000, 1, 1, 1, 0, 0, tzinfo=pytz.utc)
+>>> IZopeDublinCore(address_book['Person']).modified = default_moddate
+>>> for entry in address_book['Person'].values():
+...     IZopeDublinCore(entry).modified = default_moddate
+>>> browser.reload()
+
+>>> browser.getControl('city').value = 'Heretown'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> person = address_book['Person']
+>>> print IZopeDublinCore(person).modified == default_moddate
+True
+>>> IZopeDublinCore(person['PhoneNumber']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['HomePageAddress']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['EMailAddress']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['PostalAddress']).modified == default_moddate
+False
+
+When a field of the person is changed the modification dates of the
+entries do not change:
+
+>>> IZopeDublinCore(person['PostalAddress']).modified = default_moddate
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('first name').value = 'Hans'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> person = address_book['Person']
+>>> print IZopeDublinCore(person).modified == default_moddate
+False
+>>> IZopeDublinCore(person['PhoneNumber']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['HomePageAddress']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['EMailAddress']).modified == default_moddate
+True
+>>> IZopeDublinCore(person['PostalAddress']).modified == default_moddate
+True
