@@ -19,6 +19,7 @@ def test_suite():
         "browser/export/userfields.txt",
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
+        "browser/metadata.txt",
         "browser/person/file.txt",
         "browser/person/person.txt",
         "browser/person/translation.txt",

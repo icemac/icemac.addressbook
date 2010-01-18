@@ -1,0 +1,63 @@
+===============
+Person metadata
+===============
+
+Person data (name, address, ...) has some metadata which gets
+automatically set resp. changed.
+
+Set up
+======
+
+Create an address book and log an as an editor:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from z3c.etestbrowser.testing import ExtendedTestBrowser
+>>> address_book = create_addressbook()
+>>> browser = ExtendedTestBrowser()
+>>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+Creation date
+=============
+
+The creation date is set on creation:
+
+>>> from zope.dublincore.interfaces import IZopeDublinCore
+>>> import datetime
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Tester'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Tester').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person'
+>>> isinstance(IZopeDublinCore(address_book['Person']).created,
+...            datetime.datetime)
+True
+
+Modification Date
+=================
+
+In the user interface the modification date for each entry is
+displayed separately. To show this let's change the moification date
+of the person:
+
+>>> import pytz
+>>> IZopeDublinCore(address_book['Person']).modified = (
+...     datetime.datetime(2003, 5, 3, 11, 00, 00, tzinfo=pytz.utc))
+>>> browser.reload()
+
+The modification date of the person is not equal to any modification
+date of its entries:
+
+>>> person_xpath = "//form/div/div/fieldset/div/div/span"
+>>> entries_xpath = "//form/div/div/fieldset/fieldset/div/div/span"
+>>> [x.text for x in browser.etree.xpath(person_xpath)]
+['<DATETIME>']
+>>> [x.text for x in browser.etree.xpath(entries_xpath)]
+['<DATETIME>', '<DATETIME>', '<DATETIME>', '<DATETIME>']
+>>> [x.text == browser.etree.xpath(person_xpath)[0].text
+...  for x in browser.etree.xpath(entries_xpath)]
+[False, False, False, False]
