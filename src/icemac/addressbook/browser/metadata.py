@@ -16,7 +16,7 @@ class ModifiedGroup(z3c.form.group.Group):
     label = _('last modification information')
     mode = z3c.form.interfaces.DISPLAY_MODE
     fields = z3c.form.field.Fields(
-        zope.dublincore.interfaces.IDCTimes).select('modified')
+        zope.dublincore.interfaces.IDCTimes).select('created', 'modified')
 
     def updateWidgets(self):
         '''See interfaces.IForm'''
@@ -35,3 +35,7 @@ class ModifiedGroup(z3c.form.group.Group):
 ModifiedLabel = z3c.form.widget.StaticWidgetAttribute(
     _(u'Modification Date (UTC)'),
       field=zope.dublincore.interfaces.IDCTimes['modified'])
+
+CreatedLabel = z3c.form.widget.StaticWidgetAttribute(
+    _(u'Creation Date (UTC)'),
+      field=zope.dublincore.interfaces.IDCTimes['created'])

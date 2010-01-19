@@ -33,14 +33,18 @@ class AddGroup(icemac.addressbook.browser.base.PrefixGroup):
 class EditGroup(AddGroup):
     "PrefixGroup for EditForm."
 
-    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
-
     def __init__(
         self, context, request, parent, interface, label, prefix, index, key):
         super(EditGroup, self).__init__(
             context, request, parent, interface, label, prefix)
         self.prefix = "%s_%s" % (prefix, index)
         self.key = key
+
+    def update(self):
+        self.groups = [
+            icemac.addressbook.browser.metadata.ModifiedGroup(
+                self.getContent(), self.request, self)]
+        super(EditGroup, self).update()
 
     def getContent(self):
         return self.context[self.key]

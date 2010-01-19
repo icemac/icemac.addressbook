@@ -24,6 +24,10 @@
       factory=".metadata.ModifiedLabel"
       name="label" />
 
+  <adapter
+      factory=".metadata.CreatedLabel"
+      name="label" />
+
   <!-- CAUTION: This adapter ensures that the sorted select widget is
                 used for all ISet schema elements. -->
   <adapter

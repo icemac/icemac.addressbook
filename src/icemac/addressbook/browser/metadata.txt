@@ -24,7 +24,7 @@ Creation date
 The creation date is set on creation:
 
 >>> from zope.dublincore.interfaces import IZopeDublinCore
->>> import datetime
+>>> from datetime import datetime
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('Add').click()
@@ -33,8 +33,7 @@ The creation date is set on creation:
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
->>> isinstance(IZopeDublinCore(address_book['Person']).created,
-...            datetime.datetime)
+>>> isinstance(IZopeDublinCore(address_book['Person']).created, datetime)
 True
 
 Modification Date
@@ -44,26 +43,37 @@ Correct date shown
 ------------------
 
 In the user interface the modification date for each entry is
-displayed separately. To show this let's change the moification date
-of the person:
+displayed separately. To show this let's change the modification dates
+to known values:
 
 >>> import pytz
->>> IZopeDublinCore(address_book['Person']).modified = (
-...     datetime.datetime(2003, 5, 3, 11, 00, 00, tzinfo=pytz.utc))
->>> browser.reload()
+>>> person = address_book['Person']
+>>> IZopeDublinCore(person).modified = datetime(2001, 1, 1, tzinfo=pytz.utc)
+>>> IZopeDublinCore(person['PostalAddress']).modified = (
+...     datetime(2002, 2, 2, tzinfo=pytz.utc))
+>>> IZopeDublinCore(person['PhoneNumber']).modified = (
+...     datetime(2003, 3, 3, tzinfo=pytz.utc))
+>>> IZopeDublinCore(person['EMailAddress']).modified = (
+...     datetime(2004, 4, 4, tzinfo=pytz.utc))
+>>> IZopeDublinCore(person['HomePageAddress']).modified = (
+...     datetime(2005, 5, 5, tzinfo=pytz.utc))
+>>> browser.reload() # does transaction.commit()
 
-The modification date of the person is not equal to any modification
-date of its entries:
+The modification date of each entry is displayed:
 
->>> person_xpath = "//form/div/div/fieldset/div/div/span"
->>> entries_xpath = "//form/div/div/fieldset/fieldset/div/div/span"
+>>> person_xpath = "//form/div/div/fieldset/div[2]/div/span"
+>>> entry_xpath = "//form/div/div/fieldset[%s]/fieldset/div[2]/div/span"
 >>> [x.text for x in browser.etree.xpath(person_xpath)]
-['<DATETIME>']
->>> [x.text for x in browser.etree.xpath(entries_xpath)]
-['<DATETIME>', '<DATETIME>', '<DATETIME>', '<DATETIME>']
->>> [x.text == browser.etree.xpath(person_xpath)[0].text
-...  for x in browser.etree.xpath(entries_xpath)]
-[False, False, False, False]
+['01/01/01 00:00']
+>>> [x.text for x in browser.etree.xpath(entry_xpath % 3)]
+['02/02/02 00:00']
+>>> [x.text for x in browser.etree.xpath(entry_xpath % 4)]
+['03/03/03 00:00']
+>>> [x.text for x in browser.etree.xpath(entry_xpath % 5)]
+['04/04/04 00:00']
+>>> [x.text for x in browser.etree.xpath(entry_xpath % 6)]
+['05/05/05 00:00']
+
 
 Editing changes
 ---------------
@@ -72,7 +82,7 @@ Editing one of the entries only changes the modification date for this
 one entry. To ease the comparisions in the test we set all
 modification dates to ``None``:
 
->>> default_moddate = datetime.datetime(2000, 1, 1, 1, 0, 0, tzinfo=pytz.utc)
+>>> default_moddate = datetime(2000, 1, 1, tzinfo=pytz.utc)
 >>> IZopeDublinCore(address_book['Person']).modified = default_moddate
 >>> for entry in address_book['Person'].values():
 ...     IZopeDublinCore(entry).modified = default_moddate
