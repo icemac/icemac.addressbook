@@ -29,6 +29,8 @@ Bugfixes
   - editing a field of an entry did not change the modification date
     of this entry but of the person.
 
+  - the creation date is now displayed, too.
+
 
 1.0.1 (2010-01-13)
 ==================
