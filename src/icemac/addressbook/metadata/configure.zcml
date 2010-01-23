@@ -4,10 +4,12 @@
   <adapter factory=".storage.editor_metadata_storage" />
   <subscriber handler=".subscriber.CreatorAnnotator" />
   <subscriber
-      for="* zope.lifecycleevent.IObjectCreatedEvent"
+      for="zope.annotation.interfaces.IAttributeAnnotatable
+           zope.lifecycleevent.IObjectCreatedEvent"
       handler=".subscriber.LastModifierAnnotator" />
   <subscriber
-      for="* zope.lifecycleevent.IObjectModifiedEvent"
+      for="zope.annotation.interfaces.IAttributeAnnotatable
+           zope.lifecycleevent.IObjectModifiedEvent"
       handler=".subscriber.LastModifierAnnotator" />
 
 </configure>
