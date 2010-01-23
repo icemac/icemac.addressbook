@@ -84,8 +84,9 @@
   <include package=".export" />
   <include package=".file" />
   <include package=".generations" />
-  <include package=".principals" />
+  <include package=".metadata" />
   <include package=".namechooser" />
+  <include package=".principals" />
 
   <include file="permissions.zcml" />
   <include file="classes.zcml" />
