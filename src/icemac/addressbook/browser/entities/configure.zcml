@@ -4,10 +4,6 @@
    xmlns:gocept="http://namespaces.gocept.com/zcml"
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
-  <!-- z3c.form -->
-
-  <adapter factory=".datamanager.UserDefinedField" />
-
   <!-- entities -->
 
   <adapter factory=".entities.EntitiesTraverser" />

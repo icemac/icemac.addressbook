@@ -212,6 +212,9 @@
 
   <!-- Field -->
   <class class=".entities.Field">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
     <require
        permission="icemac.addressbook.ViewAddressBook"
        interface=".interfaces.IField"
@@ -219,6 +222,7 @@
     <require
        permission="icemac.addressbook.EditEntities"
        set_schema=".interfaces.IField"
+       set_attributes="__annotations__"
        />
   </class>
 

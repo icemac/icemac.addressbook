@@ -58,6 +58,7 @@
     <require
        permission="icemac.addressbook.EditPrincipalPassword"
        set_schema=".interfaces.IPasswordFields"
+       set_attributes="__annotations__"
        />
   </class>
 
