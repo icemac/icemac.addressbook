@@ -3,29 +3,32 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.interfaces
+import icemac.addressbook.metadata.interfaces
 import z3c.form.datamanager
+import zope.annotation.interfaces
 import zope.component
 import zope.schema.interfaces
-from zope.security.checker import canWrite, Proxy
+import zope.security.checker
 
 
-class UserDefinedField(z3c.form.datamanager.AttributeField):
-    """Datamanager for user defined fields.
+class AnnotationField(z3c.form.datamanager.AttributeField):
+    """Datamanager for data stored in annotations.
 
-    Necessary to avoid forbidden attribute errors on annotations.
-    The code is a copy of z3c.form.datamanager.AttributeField but when the
-    interface on the field is ``IUserFieldStorage`` the security proxy gets
-    removed.
+    Necessary to avoid forbidden attribute errors on annotations.  The
+    code is a copy of z3c.form.datamanager.AttributeField but when the
+    interface on the field is in ``self.no_security_proxy`` the
+    security proxy gets removed.
 
     """
 
     zope.component.adapts(
-        icemac.addressbook.interfaces.IMayHaveUserFields,
+        zope.annotation.interfaces.IAttributeAnnotatable,
         zope.schema.interfaces.IField)
 
     no_security_proxy = (
         # interfaces those values are stored in annotations
-        icemac.addressbook.interfaces.IUserFieldStorage,)
+        icemac.addressbook.interfaces.IUserFieldStorage,
+        icemac.addressbook.metadata.interfaces.IEditor)
 
     @property
     def adapted_context(self):
@@ -50,6 +53,6 @@ class UserDefinedField(z3c.form.datamanager.AttributeField):
             context = self.adapted_context
             field_name = self.field.__name__
 
-        if isinstance(context, Proxy):
-            return canWrite(context, field_name)
+        if isinstance(context, zope.security.checker.Proxy):
+            return zope.security.checker.canWrite(context, field_name)
         return True
