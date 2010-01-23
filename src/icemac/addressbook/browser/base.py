@@ -165,6 +165,10 @@ class BaseEditFormWithCancel(BaseEditForm):
         self.status = self.noChangesMessage
 
 
+class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
+    "BaseEditForm as group form."
+
+
 class BaseDeleteForm(BaseEditForm):
     "Display a deletion confirmation dialog."
 

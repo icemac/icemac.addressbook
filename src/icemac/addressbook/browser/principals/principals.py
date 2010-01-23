@@ -108,10 +108,9 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
     request=None, view=None, field=zope.schema.Password, widget=None)
 
 
-class EditForm(z3c.form.group.GroupForm,
-               icemac.addressbook.browser.base.BaseEditFormWithCancel):
+class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
-    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
+    groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     next_url = 'parent'
 
     @property
@@ -140,7 +139,7 @@ class EditForm(z3c.form.group.GroupForm,
 
     @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
-        super(EditForm, self).handleCancel(self, action)
+        self.status = self.noChangesMessage
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete user'), name='delete_user',

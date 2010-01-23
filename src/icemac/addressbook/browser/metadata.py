@@ -3,20 +3,23 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.metadata.interfaces
+import z3c.form.field
 import z3c.form.group
 import z3c.form.interfaces
-import z3c.form.field
-import zope.dublincore.interfaces
 import zope.component
+import zope.dublincore.interfaces
 
 
-class ModifiedGroup(z3c.form.group.Group):
-    "Group to display modification information."
+class MetadataGroup(z3c.form.group.Group):
+    "Group to display metadata information."
 
-    label = _('last modification information')
+    label = _('metadata')
     mode = z3c.form.interfaces.DISPLAY_MODE
-    fields = z3c.form.field.Fields(
-        zope.dublincore.interfaces.IDCTimes).select('created', 'modified')
+
+    fields = z3c.form.field.Fields(zope.dublincore.interfaces.IDCTimes)
+    fields += z3c.form.field.Fields(
+        icemac.addressbook.metadata.interfaces.IEditor)
 
     def updateWidgets(self):
         '''See interfaces.IForm'''
