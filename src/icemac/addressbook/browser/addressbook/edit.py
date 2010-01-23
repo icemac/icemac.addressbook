@@ -6,6 +6,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import z3c.form.button
 import zope.interface
@@ -14,12 +15,14 @@ import zope.security.proxy
 import zope.size.interfaces
 
 
-class EditForm(icemac.addressbook.browser.base.BaseEditForm):
+class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     label = _(u'Edit address book data')
     interface = icemac.addressbook.interfaces.IAddressBook
+    groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     next_url = 'object'
     next_view = '@@edit.html'
+
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
