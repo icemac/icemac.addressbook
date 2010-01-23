@@ -28,10 +28,9 @@ def can_delete_keyword(form):
             form.context).is_referenced()
         )
 
-class EditForm(z3c.form.group.GroupForm,
-               icemac.addressbook.browser.base.BaseEditForm):
+class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
-    groups = (icemac.addressbook.browser.metadata.ModifiedGroup,)
+    groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     label = _(u'Edit keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     next_url = 'parent'

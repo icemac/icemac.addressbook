@@ -42,7 +42,7 @@ class EditGroup(AddGroup):
 
     def update(self):
         self.groups = [
-            icemac.addressbook.browser.metadata.ModifiedGroup(
+            icemac.addressbook.browser.metadata.MetadataGroup(
                 self.getContent(), self.request, self)]
         super(EditGroup, self).update()
 
@@ -106,8 +106,7 @@ def person_deletable(form):
     return not ref_target.is_referenced(recursive=False)
 
 
-class PersonEditForm(
-    z3c.form.group.GroupForm, icemac.addressbook.browser.base.BaseEditForm):
+class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     label = _(u'Edit person data')
     interface = icemac.addressbook.interfaces.IPerson
@@ -115,7 +114,7 @@ class PersonEditForm(
 
     def __init__(self, *args, **kw):
         super(PersonEditForm, self).__init__(*args, **kw)
-        groups = [icemac.addressbook.browser.metadata.ModifiedGroup,
+        groups = [icemac.addressbook.browser.metadata.MetadataGroup,
                   DefaultSelectGroup]
         for address in icemac.addressbook.address.address_mapping:
             index = 0
