@@ -10,6 +10,8 @@ Features
 
 - Added translation to XLS export files.
 
+- Added creator, last modifier and modification date metadata to
+  objects.
 
 Bugfixes
 --------
