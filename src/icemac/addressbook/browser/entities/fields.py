@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
@@ -10,7 +11,6 @@ import urlparse
 import z3c.table.column
 import zope.app.publication.traversers
 import zope.publisher.interfaces
-import zope.publisher.interfaces.http
 import zope.publisher.interfaces.http
 import zope.security.proxy
 import zope.traversing.browser.interfaces
@@ -99,9 +99,10 @@ class BaseForm(object):
         self.request.response.redirect(self.request.getURL(2))
 
 
-class EditForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):
+class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
 
     interface = icemac.addressbook.interfaces.IField
+    groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
 
 class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):

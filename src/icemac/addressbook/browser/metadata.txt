@@ -36,6 +36,60 @@ The creation date is set on creation:
 >>> isinstance(IZopeDublinCore(address_book['Person']).created, datetime)
 True
 
+
+Creator and modifier
+====================
+
+Set at creation
+---------------
+
+The title of the principal who created the object is stored:
+
+>>> from icemac.addressbook.metadata.interfaces import IEditor
+>>> IEditor(address_book['Person']).creator
+u'global editor'
+
+This principal is also stored as last modifier:
+
+>>> IEditor(address_book['Person']).modifier
+u'global editor'
+
+Set at modification
+-------------------
+
+When another principal changes the object his title is recorded as
+modifier but the creator keeps unchanged.
+
+Set up
+~~~~~~
+
+At first we have to create a new principal and log in:
+
+>>> from icemac.addressbook.testing import create_user
+>>> create_user(address_book, address_book, u'Hans', u'Tester', u'hans@test.de',
+...             u'12345678', ('Editor',))
+>>> editor = ExtendedTestBrowser()
+>>> editor.open('http://localhost/++skin++AddressBook/ab/Person')
+>>> editor.getControl('User Name').value = 'hans@test.de'
+>>> editor.getControl('Password').value = '12345678'
+>>> editor.getControl('Log in').click()
+>>> editor.url
+'http://localhost/++skin++AddressBook/ab/Person'
+
+Modifier
+~~~~~~~~
+
+Modifing the object records the principal's title as modifier does not
+change the creator value:
+
+>>> editor.getControl('notes').value = 'I was here.'
+>>> editor.getControl('Apply').click()
+>>> IEditor(address_book['Person']).creator
+u'global editor'
+>>> IEditor(address_book['Person']).modifier
+u'Tester, Hans'
+
+
 Modification Date
 =================
 
