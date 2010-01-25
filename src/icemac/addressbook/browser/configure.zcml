@@ -40,6 +40,12 @@
 
   <adapter factory=".datamanager.AnnotationField" />
 
+  <z3c:template
+      layer="icemac.addressbook.browser.interfaces.IAddressBookBrowserSkin"
+      for="z3c.form.interfaces.IInputForm"
+      template="form.pt"
+      />
+
   <include package=".addressbook" />
   <include package=".authentication" />
   <include package=".entities" />
