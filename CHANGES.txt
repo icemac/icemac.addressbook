@@ -5,7 +5,7 @@ Change log
 1.1.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fixed version of `icemac.ab.locales`.
 
 
 1.1.0 (2010-01-25)
