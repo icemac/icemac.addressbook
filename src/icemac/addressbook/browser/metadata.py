@@ -17,9 +17,14 @@ class MetadataGroup(z3c.form.group.Group):
     label = _('metadata')
     mode = z3c.form.interfaces.DISPLAY_MODE
 
-    fields = z3c.form.field.Fields(zope.dublincore.interfaces.IDCTimes)
+    fields = z3c.form.field.Fields(
+        icemac.addressbook.metadata.interfaces.IEditor).select('creator')
     fields += z3c.form.field.Fields(
-        icemac.addressbook.metadata.interfaces.IEditor)
+        zope.dublincore.interfaces.IDCTimes).select('created')
+    fields += z3c.form.field.Fields(
+        icemac.addressbook.metadata.interfaces.IEditor).select('modifier')
+    fields += z3c.form.field.Fields(
+        zope.dublincore.interfaces.IDCTimes).select('modified')
 
     def updateWidgets(self):
         '''See interfaces.IForm'''
