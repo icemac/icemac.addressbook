@@ -85,6 +85,7 @@
          border: 1px solid #999;
          padding: 1em;
          background: #eee;
+         min-height: 250px;
        }
 
       #foot {
@@ -126,13 +127,9 @@
         font-size: small;
      }
 
-      fieldset fieldset div.row div {
-        float: left;
-      }
-
-      fieldset fieldset legend {
-        display: none;
-      }
+     fieldset fieldset legend {
+       font-size: small;
+     }
 
       .LoginLogoutBox {
         float: right;
@@ -160,6 +157,31 @@
       .table-odd-row ul.errors li {
         color: #ff0000;
       }
+
+      textarea {
+        height: 15ex;
+        width: 40em;
+        font-size: 11px;
+      }
+
+      /* fuer formulare: (metadaten oben rechts) */
+
+      form div.group {
+        float: left;
+      }
+
+      form div.group + fieldset {
+        float: right;
+      }
+
+      form div.group + fieldset + fieldset{
+        clear: left;
+      }
+
+      form div.buttons {
+        clear: left;
+      }
+
 
       -->
     </style>
