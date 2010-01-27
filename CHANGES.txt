@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.1.2 (unreleased)
+1.1.2 (2010-01-27)
 ==================
 
 - Search result table displayed only 50 entries. Now it displays all
