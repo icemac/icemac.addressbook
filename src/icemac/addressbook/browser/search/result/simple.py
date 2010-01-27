@@ -49,8 +49,10 @@ class ExportForm(icemac.addressbook.browser.base.BaseEditForm):
         self.request.response.redirect('@@export.html')
 
 
-class PersonTable(z3c.table.table.Table):
+class PersonTable(icemac.addressbook.browser.table.Table):
     "Person table viewlet."
+
+    sortOn = u'table-name-1'
 
     def update(self):
         self.result = self.context.result

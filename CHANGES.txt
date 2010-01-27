@@ -5,7 +5,8 @@ Change log
 1.1.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Search result table displayed only 50 entries. Now it displays all
+  search results ordered by name.
 
 
 1.1.1 (2010-01-25)
