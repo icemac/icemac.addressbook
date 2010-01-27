@@ -115,7 +115,7 @@ to known values:
 
 The modification date of each entry is displayed:
 
->>> person_xpath = "//form/div/div/fieldset/div[4]/div/span"
+>>> person_xpath = "//form/div/div/fieldset/div/div[4]/div/span"
 >>> entry_xpath = "//form/div/div/fieldset[%s]/fieldset/div[4]/div/span"
 >>> [x.text for x in browser.etree.xpath(person_xpath)]
 ['01/01/01 00:00']
