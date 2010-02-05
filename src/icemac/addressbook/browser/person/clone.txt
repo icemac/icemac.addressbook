@@ -1,0 +1,145 @@
+================
+Cloning a person
+================
+
+To ease entering similar person data (e. g. data of relatives) a
+function to clone person data exists.
+
+Setup
+=====
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.testbrowser.testing import Browser
+>>> address_book = create_addressbook()
+>>> browser = Browser()
+
+As user defined fields and keywords may behave unusual, let's create
+some:
+
+>>> from icemac.addressbook.testing import create_field, create_keyword
+>>> create_field(address_book, 'icemac.addressbook.person.Person',
+...              u'Date', u'last time met')
+>>> create_keyword(address_book, u'church', return_obj=False)
+>>> create_keyword(address_book, u'friends', return_obj=False)
+
+To clone a person, an already existing one is needed, so we create one
+as an editor:
+
+>>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Tester'
+>>> browser.getControl('first name').value = 'Hans'
+>>> browser.getControl('keywords').displayValue = ['church']
+>>> browser.getControl('last time met').value = '10/02/01'
+>>> browser.getControl('e-mail').value = 'hans@tester.de'
+>>> browser.getControl('number').value = '116'
+>>> browser.getControl('URL').value = 'http://tester.de'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Tester').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person'
+
+
+Clone person
+============
+
+There is a button on the edit form to clone a person:
+
+>>> browser.getControl('Clone person').click()
+
+The URL has changed as the cloned Person gets now edited, but the
+entered data is still the same:
+
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/Person-2'
+>>> browser.getControl('last name').value
+'Tester'
+>>> browser.getControl('first name').value
+'Hans'
+>>> browser.getControl('keywords').displayValue
+['church']
+>>> browser.getControl('last time met').value
+'10/02/01'
+>>> browser.getControl('e-mail', index=1).value
+'hans@tester.de'
+>>> browser.getControl('number', index=1).value
+'116'
+>>> browser.getControl('URL').value
+'http://tester.de'
+
+Changing data in the clone does not change the original:
+
+>>> browser.getControl('last name').value = 'Testerella'
+>>> browser.getControl('first name').value = 'Marta'
+>>> browser.getControl('keywords').displayValue = ['friends']
+>>> browser.getControl('last time met').value = '10/02/02'
+>>> browser.getControl('e-mail', index=1).value = 'm@test333.de'
+>>> browser.getControl('number', index=1).value = '333'
+>>> browser.getControl('URL').value = 'http://test333.de'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('last name').value
+'Tester'
+>>> browser.getControl('first name').value
+'Hans'
+>>> browser.getControl('keywords').displayValue
+['church']
+>>> browser.getControl('last time met').value
+'10/02/01'
+>>> browser.getControl('e-mail', index=1).value
+'hans@tester.de'
+>>> browser.getControl('number', index=1).value
+'116'
+>>> browser.getControl('URL').value
+'http://tester.de'
+
+Changing data in the original does not change the clone:
+
+>>> browser.getControl('last name').value = 'Testr'
+>>> browser.getControl('keywords').displayValue = ['church', 'friends']
+>>> browser.getControl('last time met').value = '10/02/03'
+>>> browser.getControl('number', index=1).value = '012354-234234-23'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+>>> browser.getLink('Testerella').click()
+>>> browser.getControl('last name').value
+'Testerella'
+>>> browser.getControl('first name').value
+'Marta'
+>>> browser.getControl('keywords').displayValue
+['friends']
+>>> browser.getControl('last time met').value
+'10/02/02'
+>>> browser.getControl('e-mail', index=1).value
+'m@test333.de'
+>>> browser.getControl('number', index=1).value
+'333'
+>>> browser.getControl('URL').value
+'http://test333.de'
+
+Visitor
+=======
+
+There is no `clone` button presented to the visitor:
+
+>>> from icemac.addressbook.testing import get_all_control_names
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Testerella').click()
+>>> get_all_control_names(visitor)
+['form.buttons.apply', 'form.buttons.cancel']
+
+Even when the visitor knows the URL he is not able to access the clone view:
+
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/Person/@@clone.html')
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden

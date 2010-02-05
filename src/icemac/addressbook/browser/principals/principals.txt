@@ -327,8 +327,7 @@ create a person and make her a user:
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Loscher').click()
 >>> get_submit_control_names(browser)
-['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_entry',
- 'form.buttons.delete_person']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.clone_person', 'form.buttons.delete_entry', 'form.buttons.delete_person']
 >>> browser.getControl('Delete whole person').click()
 >>> delete_confirmation_url = browser.url
 >>> browser.getLink('Master data').click()
@@ -346,7 +345,7 @@ There is no delete buttons for persons in the form of the person:
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Loscher').click()
 >>> get_submit_control_names(browser)
-['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete_entry']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.clone_person', 'form.buttons.delete_entry']
 
 Even when the url of the delete confirmation dialog is directly
 accessed deletion is not possible: XXX there is no message yet

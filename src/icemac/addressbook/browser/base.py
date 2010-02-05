@@ -50,8 +50,18 @@ def get_entities_util():
     return zope.component.getUtility(icemac.addressbook.interfaces.IEntities)
 
 
-class BaseForm(object):
-    """Basis for all forms."""
+class BaseView(object):
+    "Base for view classes."
+
+    def url(self, obj):
+        adapter = zope.component.getMultiAdapter(
+            (obj, self.request),
+            zope.traversing.browser.interfaces.IAbsoluteURL)
+        return adapter()
+
+
+class BaseForm(BaseView):
+    """Base for all forms."""
 
     interface = None # interface for form
 
@@ -59,12 +69,6 @@ class BaseForm(object):
     def fields(self):
         fields = get_entities_util().getEntity(self.interface)
         return z3c.form.field.Fields(*fields.getFieldValuesInOrder())
-
-    def url(self, obj):
-        adapter = zope.component.getMultiAdapter(
-            (obj, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)
-        return adapter()
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
@@ -214,6 +218,21 @@ class PrefixGroup(z3c.form.group.Group):
         fields = get_entities_util().getEntity(self.interface)
         return z3c.form.field.Fields(
             *fields.getFieldValuesInOrder(), **dict(prefix=self.prefix))
+
+
+class CloneObject(BaseView):
+    """View class to clone an object and store the clone into the parent.
+
+    Redirects to the default view of the clone."""
+
+    def __call__(self):
+        # clone object
+        unsecure_context = zope.security.proxy.getObject(self.context)
+        copier = zope.copypastemove.interfaces.IObjectCopier(unsecure_context)
+        parent = self.context.__parent__
+        new_name = copier.copyTo(parent)
+        # redirect to clone
+        self.request.response.redirect(self.url(parent[new_name]))
 
 
 def can_access(uri_part):

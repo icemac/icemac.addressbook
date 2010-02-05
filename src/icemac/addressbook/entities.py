@@ -197,7 +197,9 @@ class FieldStorage(persistent.Persistent):
 
     def __getattr__(self, attrib):
         # We have no default values on the class nor we might know them.
-        return self.__dict__.get(attrib, None)
+        if not attrib.startswith('__'):
+            return self.__dict__.get(attrib, None)
+        raise AttributeError(attrib)
 
 
 field_storage = zope.annotation.factory(

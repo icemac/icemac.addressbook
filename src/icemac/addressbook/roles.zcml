@@ -38,6 +38,11 @@
 
   <grant
      role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ClonePerson"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
      permission="icemac.addressbook.EditPerson"
      />
 
