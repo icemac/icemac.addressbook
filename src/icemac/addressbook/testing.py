@@ -203,7 +203,11 @@ def create_phone_number(person, set_as_default=True, return_obj=True, **kw):
 @icemac.addressbook.utils.set_site
 def create(
     parent, entity_name, return_obj=False, set_as_default=False, *args, **kw):
-    "Create an object using an entity."
+    """Create an object using an entity.
+
+    entity_name ... module name and class name of entity
+
+    """
     entity = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntity, name=entity_name)
     name = icemac.addressbook.utils.create_and_add(
@@ -241,7 +245,12 @@ def create_user(ab, first_name, last_name, email, password, roles):
 
 @icemac.addressbook.utils.set_site
 def create_field(entity_name, type, title, **kw):
-    "Create a user defined field for an entity."
+    """Create a user defined field for an entity.
+
+    entity_name ... module name and class name of entity
+    type ... see values of sources.FieldTypeSource
+
+    """
     field = icemac.addressbook.utils.create_obj(
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
     entity = zope.component.getUtility(
