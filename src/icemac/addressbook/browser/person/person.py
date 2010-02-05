@@ -160,6 +160,13 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.status = self.noChangesMessage
 
     @z3c.form.button.buttonAndHandler(
+        _(u'Clone person'), name='clone_person',
+        condition=icemac.addressbook.browser.base.can_access(
+            '@@clone.html'))
+    def handleClonePerson(self, action):
+        self.redirect_to_next_url('object', '@@clone.html')
+
+    @z3c.form.button.buttonAndHandler(
         _(u'Delete whole person'), name='delete_person',
         condition=icemac.addressbook.browser.base.all_(
             icemac.addressbook.browser.base.can_access('@@delete_person.html'),
@@ -192,7 +199,6 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 for interface, names in changes.items()]
             zope.event.notify(
                 zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
-
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
     """Datamanager which converts the internal InstrumentedSet into a

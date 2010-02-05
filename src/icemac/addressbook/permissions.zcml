@@ -30,6 +30,11 @@
     />
 
   <permission
+    id="icemac.addressbook.ClonePerson"
+    title="XXX"
+    />
+
+  <permission
     id="icemac.addressbook.EditPersonContents"
     title="Edit person contents"
     />
