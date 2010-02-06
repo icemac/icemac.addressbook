@@ -6,7 +6,6 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.export.interfaces
 import zc.sourcefactory.basic
-import zc.sourcefactory.contextual
 import zc.sourcefactory.interfaces
 import zope.component
 import zope.interface

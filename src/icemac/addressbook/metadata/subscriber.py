@@ -4,7 +4,6 @@
 
 import icemac.addressbook.metadata.interfaces
 import zope.component
-import zope.interface
 import zope.lifecycleevent
 import zope.security.management
 import zope.security.proxy
@@ -34,7 +33,6 @@ def set_current_princial_id(object, attribute):
     zope.lifecycleevent.IObjectCreatedEvent)
 def CreatorAnnotator(object, event):
     "Set creator on object."
-    import pdb; pdb.set_trace() #############################
     set_current_princial_id(object, 'creator')
 
 
