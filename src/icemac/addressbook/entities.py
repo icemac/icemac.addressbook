@@ -199,6 +199,10 @@ class FieldStorage(persistent.Persistent):
         # We have no default values on the class nor we might know them.
         if not attrib.startswith('__'):
             return self.__dict__.get(attrib, None)
+        # Cloning a person tries to access __reduce_ex__ and
+        # __reduce__ which are not in __dict__. It is expeced that
+        # they are either methods or not existing, so None is no valid
+        # return value.
         raise AttributeError(attrib)
 
 
