@@ -10,7 +10,6 @@ import icemac.addressbook.interfaces
 import z3c.form.button
 import z3c.ptcompat
 import z3c.table.column
-import z3c.table.table
 import zc.sourcefactory.interfaces
 import zope.interface
 import zope.schema
