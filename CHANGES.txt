@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.1.3 (unreleased)
+1.2.0 (2010-02-06)
 ==================
 
 - Feature: Added ability to clone a person.
