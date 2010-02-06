@@ -34,6 +34,7 @@ def set_current_princial_id(object, attribute):
     zope.lifecycleevent.IObjectCreatedEvent)
 def CreatorAnnotator(object, event):
     "Set creator on object."
+    import pdb; pdb.set_trace() #############################
     set_current_princial_id(object, 'creator')
 
 
