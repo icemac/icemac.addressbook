@@ -3,6 +3,108 @@
 =============
 
 
+0.5.4 (2009-12-20)
+==================
+
+- Users which are defined inside an address book having the
+  `Administrator` role, were not able to edit address book entities.
+
+
+0.5.3 (2009-11-22)
+==================
+
+- After the last fix `delete all persons` did not delete any
+  persons. This is now fixed.
+
+
+0.5.2 (2009-11-21)
+==================
+
+- `Delete all persons` no longer tries to delete the persons which are
+  users. Previously this function broke when there were users defined
+  in the address book.
+
+- Moved the function to delete a whole address book to the overview
+  page of all address books, as users defined inside an address book
+  are not allowed to delete their address book.
+
+
+0.5.1 (2009-11-21)
+==================
+
+- Fixed namespace package declaration so the package can be installed
+  on a plain vanilla python (even without setuptools installed).
+
+
+0.5 (2009-11-21)
+================
+
+Features
+--------
+
+- Users having the role `Administrator` can delete all persons in the
+  address book or even the whole address book on the address book edit
+  form.
+
+- Last modification time of objects is now stored and displayed (in
+  UTC!).
+
+- Users having the role `Administrator` can import data in the master
+  data area.
+
+- Added ability to enter additional packages names at installation
+  (e. g. to install a specific import file readers).
+
+- Users having the role `Administrator` can add new fields to address
+  book entities in the master data area. These fields as useable for
+  editors and visitors, too.
+
+Removed features
+----------------
+
+- Removed some fields which are not always necessary and which can be
+  re-added when needed as user defined fields:
+
+  - state field on the postal address (only displayed German
+    states, though),
+
+  - sex field on person,
+
+  - notes fields on address book, postal address, phone number, e-mail
+    address, home page address, file and keyword,
+
+  - kind fields on postal address, phone number, e-mail address and
+    home page address.
+
+
+Bug fixes
+---------
+
+- Uploading a new file changes the stored name of the file.
+
+- When uploading a file with an unknown mime type (aka
+  `application/octet-stream`) the actual mime type is guessed using
+  the file extension and file content.
+
+- The person list is now ordered by the displayed titles instead of
+  the internal ids.
+
+
+0.4 (2009-05-15)
+================
+
+Features
+--------
+
+- Files can be uploaded and added to persons. (Files are stored as
+  ZODB-Blob-Objects.)
+
+- Added logging of page accesses to `access.log`.
+
+- ``install.py`` now asks for hostname and portnumber and logging
+  configuration, so changing ``deploy.ini`` is no longer necessary.
+
+
 0.3.3 (2009-04-05)
 ==================
 
