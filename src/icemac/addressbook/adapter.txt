@@ -6,10 +6,9 @@ There is an ITitle adapter which is used when no specific adapter is
 registered:
 
 >>> import icemac.addressbook.interfaces
-
- >>> icemac.addressbook.interfaces.ITitle('asdf')
- 'asdf'
- >>> icemac.addressbook.interfaces.ITitle(u'qwe')
- u'qwe'
- >>> icemac.addressbook.interfaces.ITitle(object())
- '<object object at 0x...>'
+>>> icemac.addressbook.interfaces.ITitle('asdf')
+'asdf'
+>>> icemac.addressbook.interfaces.ITitle(u'qwe')
+u'qwe'
+>>> icemac.addressbook.interfaces.ITitle(object())
+'<object object at 0x...>'
