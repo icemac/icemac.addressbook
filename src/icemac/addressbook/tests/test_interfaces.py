@@ -8,6 +8,7 @@ import icemac.addressbook.addressbook
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
+import icemac.addressbook.orderstorage
 import icemac.addressbook.person
 import icemac.addressbook.testing
 import unittest
@@ -89,6 +90,23 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IField,
             icemac.addressbook.entities.Field())
+
+    def test_orderstorage_read(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IOrderStorageRead,
+            icemac.addressbook.orderstorage.OrderStorage())
+
+    def test_orderstorage_write(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IOrderStorageWrite,
+            icemac.addressbook.orderstorage.OrderStorage())
+
+    def test_orderstorage_rw(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IOrderStorage,
+            icemac.addressbook.orderstorage.OrderStorage())
+
+
 
 def test_suite():
     return icemac.addressbook.testing.UnittestSuite(TestInterfaces)
