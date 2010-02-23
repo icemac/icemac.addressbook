@@ -7,6 +7,7 @@ from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
+import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
 import icemac.addressbook.principals.principals
 import transaction
@@ -60,8 +61,7 @@ class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
 
 
 def get_principal_entity():
-    entities_util = icemac.addressbook.browser.base.get_entities_util()
-    return entities_util.getEntity(
+    return icemac.addressbook.interfaces.IEntity(
         icemac.addressbook.principals.interfaces.IPrincipal)
 
 

@@ -42,7 +42,13 @@ class EntitiesTests(object):
 
     def setUp(self):
         zope.component.testing.setUp()
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.entity_by_name)
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.entity_by_interface)
         self.entities = self.entities_class()
+        zope.component.provideUtility(
+            self.entities, icemac.addressbook.interfaces.IEntities)
         self.cat = icemac.addressbook.entities.create_entity(
             u'Cat', ICat, Cat)
         zope.component.provideUtility(self.cat, name=self.cat.class_name)
@@ -63,30 +69,32 @@ class EntitiesTests(object):
             sorted(self.entities.getAllEntities()))
 
     def test_getEntity_unknown_type(self):
-        self.assertRaises(TypeError, self.entities.getEntity, None)
+        self.assertRaises(
+            TypeError, icemac.addressbook.interfaces.IEntity, None)
 
     def test_getEntity_unknown_class_name(self):
-        self.assertRaises(ValueError, self.entities.getEntity, 'asdf')
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity, 'asdf')
 
     def test_getEntity_known_class_name(self):
         self.assertEqual(
-            self.duck, self.entities.getEntity(
+            self.duck, icemac.addressbook.interfaces.IEntity(
                 'IcemacAddressbookTestsTestEntitiesDuck'))
 
     def test_getEntity_unknown_interface(self):
-        entity = self.entities.getEntity(IDog)
+        entity = icemac.addressbook.interfaces.IEntity(IDog)
         self.assert_(None is entity.title)
         self.assert_(IDog is entity.interface)
         self.assert_(None is entity.class_name)
 
     def test_getEntity_known_interface(self):
         self.assertEqual(
-            self.kwack, self.entities.getEntity(IKwack))
+            self.kwack, icemac.addressbook.interfaces.IEntity(IKwack))
 
     def test_getTitle(self):
         self.assertEqual(
-            u'Kwack', self.entities.getTitle(
-                'IcemacAddressbookTestsTestEntitiesKwack'))
+            u'Kwack', icemac.addressbook.interfaces.IEntity(
+                'IcemacAddressbookTestsTestEntitiesKwack').title)
 
 
 class TestEntities(EntitiesTests, unittest.TestCase):

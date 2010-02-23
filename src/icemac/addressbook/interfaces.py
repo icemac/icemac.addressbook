@@ -133,22 +133,6 @@ class IKeyword(zope.interface.Interface):
 class IEntities(zope.interface.Interface):
     """Entities in the address book."""
 
-    def getEntity(something):
-        """Get the entity for `something` (name, interface).
-
-        Entities are named utilities (class name as utility name).
-        When `something` is an interface and no entity utility exists which
-        has this interface on its interface attribute an entity gets created
-        on the fly. All attributes besides `interface` are ``None`` in this
-        case.
-
-        name is the internal name of the entity (see IEntity interface.)
-
-        """
-
-    def getTitle(something):
-        """Get the title of `something` (name, interface)."""
-
     def getAllEntities():
         """Get an iterable of all known entities."""
 

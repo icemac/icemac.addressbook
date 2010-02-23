@@ -53,10 +53,6 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
     file_extension = 'xls'
     mime_type = 'application/vnd.ms-excel'
 
-    def getEntity(self, interface):
-        return zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities).getEntity(interface)
-
     def convert_value(self, value):
         """Convert the value for xls export."""
         if value is None:
@@ -87,7 +83,9 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
 
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
-        for field in self.getEntity(interface).getFieldValuesInOrder():
+        fields = icemac.addressbook.interfaces.IEntity(
+            interface).getFieldValuesInOrder()
+        for field in fields:
             self.sheet.write(1, col, self.translate(field.title), head_style)
             col += 1
         return col
@@ -109,7 +107,9 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
         if obj is None:
             return col
         idx = 0
-        for name, field in self.getEntity(interface).getFieldsInOrder():
+        names_fields = icemac.addressbook.interfaces.IEntity(
+            interface).getFieldsInOrder()
+        for name, field in names_fields:
             # Need to remove the security proxy to access the user
             # defined fields.
             context = field.interface(zope.security.proxy.getObject(obj))

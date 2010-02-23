@@ -9,9 +9,7 @@ import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface
 import zope.schema
-
-
-marker = object()
+import zope.interface.interfaces
 
 
 class Entities(object):
@@ -19,42 +17,43 @@ class Entities(object):
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
-    def getEntity(self, something):
-        if isinstance(something, str):
-            return self._get_entity_by_name(something)
-        if issubclass(something, zope.interface.Interface):
-            return self._get_entity_by_interface(something)
-        raise TypeError("Don't know how to handle %r." % something)
-
-    def getTitle(self, something):
-        return self.getEntity(something).title
-
     def getAllEntities(self):
         return zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
 
-    def _get_entity_by_name(self, name, default=marker):
-        entity = default
-        for candidate in self.getAllEntities():
-            if candidate.name == name:
-                entity = candidate
-                break
-        if entity is marker:
-            raise ValueError("Unknown name: %r" % name)
-        return entity
-
-    def _get_entity_by_interface(self, interface):
-        for entity in self.getAllEntities():
-            if entity.interface == interface:
-                return entity
-        # no utility found, create entity on the fly, so all even
-        # not preconfigured entities can be used the same way as the
-        # preconfigured ones.
-        return Entity(None, interface, None)
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     "Predefined and user defined entities in the address book."
+
+
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
+@zope.component.adapter(str)
+def entity_by_name(name):
+    result = None
+    entities = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntities).getAllEntities()
+    for candidate in entities:
+        if candidate.name == name:
+            result = candidate
+            break
+    if result is None:
+        raise ValueError("Unknown name: %r" % name)
+    return result
+
+
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
+@zope.component.adapter(zope.interface.interfaces.IInterface)
+def entity_by_interface(interface):
+    entities = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntities).getAllEntities()
+    for entity in entities:
+        if entity.interface == interface:
+            return entity
+    # no utility found, create entity on the fly, so all even
+    # not preconfigured entities can be used the same way as the
+    # preconfigured ones.
+    return Entity(None, interface, None)
 
 
 class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):

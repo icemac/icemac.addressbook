@@ -122,6 +122,8 @@
 
   <utility factory=".entities.Entities" />
   <adapter factory=".entities.field_storage" />
+  <adapter factory=".entities.entity_by_name" />
+  <adapter factory=".entities.entity_by_interface" />
 
   <includeOverrides file="overrides.zcml" />
 
