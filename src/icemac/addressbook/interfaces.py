@@ -204,3 +204,54 @@ class IMayHaveUserFields(zope.interface.Interface):
 
 class IUserFieldStorage(zope.interface.Interface):
     """Storage for user defined field values."""
+
+
+class IOrderStorageRead(zope.interface.Interface):
+    """Storage of orders of objects. (read only methods)"""
+
+    def namespaces():
+        """Get an iterable of the known namespaces."""
+
+    def get(obj, namespace):
+        """Get the position of the object in the list.
+
+        Raises a KeyError when the obj ist not in the list.
+        """
+
+    def __iter__(namespace):
+        """Iterate over the list of a namespace."""
+
+
+class IOrderStorageWrite(zope.interface.Interface):
+    """Storage of orders of objects. (write methods)"""
+
+    def add(obj, namespace):
+        """Add an object to the order for a namespace.
+
+        When the namespace does not exist, it gets created.
+        New objects are added at the end of the list.
+        When the object is already in the list it is not added again and
+        does not change its position.
+        """
+
+    def remove(obj, namespace):
+        """Remove the object from the order of a namespace.
+
+        Raises a ValueError when the object is not in the list.
+        Raises a KeyError when the namespace does not exist.
+        """
+
+    def up(obj, namespace):
+        """Move the object one position up in the list.
+
+        When it is already the first one a ValueError is raised.
+        """
+
+    def down(obj, namespace):
+        """Move the object one position down in the list.
+
+        When it is already the last one a ValueError is raised.
+        """
+
+class IOrderStorage(IOrderStorageRead, IOrderStorageWrite):
+    """Storage of orders of objects."""
