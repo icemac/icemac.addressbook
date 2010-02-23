@@ -36,7 +36,8 @@ class LinkColumn(z3c.table.column.LinkColumn):
     """Special link column which keeps the entity name in the url."""
 
     def getLinkURL(self, item):
-        entities = icemac.addressbook.browser.base.get_entities_util()
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
         url = zope.component.getMultiAdapter(
             (entities, self.request),
             zope.traversing.browser.interfaces.IAbsoluteURL)()

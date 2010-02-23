@@ -45,11 +45,6 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
-def get_entities_util():
-    """Return the user entities utility."""
-    return zope.component.getUtility(icemac.addressbook.interfaces.IEntities)
-
-
 class BaseView(object):
     "Base for view classes."
 
@@ -67,7 +62,7 @@ class BaseForm(BaseView):
 
     @property
     def fields(self):
-        fields = get_entities_util().getEntity(self.interface)
+        fields = icemac.addressbook.interfaces.IEntity(self.interface)
         return z3c.form.field.Fields(*fields.getFieldValuesInOrder())
 
 
@@ -215,7 +210,7 @@ class PrefixGroup(z3c.form.group.Group):
 
     @property
     def fields(self):
-        fields = get_entities_util().getEntity(self.interface)
+        fields = icemac.addressbook.interfaces.IEntity(self.interface)
         return z3c.form.field.Fields(
             *fields.getFieldValuesInOrder(), **dict(prefix=self.prefix))
 
