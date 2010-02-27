@@ -31,11 +31,27 @@ class TestOrderStorage(unittest.TestCase):
             ['foo', 'foo2'], list(self.storage.__iter__('bar')))
         self.assertEqual(['foo2'], list(self.storage.__iter__('bar2')))
 
-    def test_add_duplicate(self):
+    def test_add_duplicate_no_error(self):
         self.storage.add('foo', 'bar')
         self.storage.add('foo', 'bar')
         self.assertEqual(['bar'], list(self.storage.namespaces()))
         self.assertEqual(['foo'], list(self.storage.__iter__('bar')))
+
+    def test_add_duplicate_does_not_change_sortorder(self):
+        self.storage.add('foo1', 'bar')
+        self.storage.add('foo3', 'bar')
+        self.storage.add('foo2', 'bar')
+        self.storage.add('foo3', 'bar')
+        self.assertEqual(
+            ['foo1', 'foo3', 'foo2'], list(self.storage.__iter__('bar')))
+
+    def test_add_duplicate_other_namespace(self):
+        self.storage.add('foo', 'bar')
+        self.storage.add('foo', 'bar2')
+        self.assertEqual(
+            ['bar', 'bar2'], sorted(self.storage.namespaces()))
+        self.assertEqual(['foo'], list(self.storage.__iter__('bar')))
+        self.assertEqual(['foo'], list(self.storage.__iter__('bar2')))
 
     def test_remove(self):
         self.storage.add('foo', 'bar')
