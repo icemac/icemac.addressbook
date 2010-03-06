@@ -5,8 +5,10 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.entities
+import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
+import icemac.addressbook.orderstorage
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
@@ -38,6 +40,7 @@ class AddressBook(zope.container.btree.BTreeContainer,
     importer = None
     keywords = None
     principals = None
+    orders = None
 
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IAddressBook['title'])
@@ -86,6 +89,26 @@ def create_address_book_infrastructure(addressbook, event=None):
         addressbook, 'entities',
         icemac.addressbook.entities.PersistentEntities,
         icemac.addressbook.interfaces.IEntities)
+
+    # add order storage utility
+    create_and_register(
+        addressbook, 'orders',
+        icemac.addressbook.orderstorage.OrderStorage,
+        icemac.addressbook.interfaces.IOrderStorage)
+
+    def add_entity_to_order(iface):
+        addressbook.orders.add(
+            icemac.addressbook.interfaces.IEntity(iface).name,
+            icemac.addressbook.interfaces.ENTITIES)
+
+    add_entity_to_order(icemac.addressbook.interfaces.IAddressBook)
+    add_entity_to_order(icemac.addressbook.interfaces.IPostalAddress)
+    add_entity_to_order(icemac.addressbook.interfaces.IPhoneNumber)
+    add_entity_to_order(icemac.addressbook.interfaces.IEMailAddress)
+    add_entity_to_order(icemac.addressbook.interfaces.IHomePageAddress)
+    add_entity_to_order(icemac.addressbook.file.interfaces.IFile)
+    add_entity_to_order(icemac.addressbook.interfaces.IPerson)
+    add_entity_to_order(icemac.addressbook.interfaces.IKeyword)
 
     add_more_addressbook_infrastructure(addressbook, addressbook)
 
