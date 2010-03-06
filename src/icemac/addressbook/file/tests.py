@@ -10,9 +10,10 @@ import os.path
 import tempfile
 import unittest
 import zope.interface.verify
+import icemac.addressbook.file.image
 
 
-class Base(object):
+class FileBase(object):
 
     fd = None
     filename = None
@@ -29,10 +30,16 @@ class Base(object):
             self.fd = None
 
 
-class TestFile(Base, unittest.TestCase):
+class ImageBase(FileBase):
+    
+    def setUp(self):
+        self.file = icemac.addressbook.file.image.Image()
+
+
+class TestFile(FileBase, unittest.TestCase):
     """Unittests for file."""
 
-    def test_ifile_interface(self):
+    def test_interface(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.file.interfaces.IFile,
             self.file)
@@ -56,8 +63,16 @@ class TestFile(Base, unittest.TestCase):
         # the getter of file.data always returns '' to trick z3c.form
         self.assertEqual('', self.file.data)
 
+class TestImage(ImageBase, TestFile):
+    """Unittests for image."""
 
-class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
+    def test_interface(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.file.interfaces.IImage,
+            self.file)
+
+
+class FTestFile(FileBase, icemac.addressbook.testing.FunctionalTestCase):
     """Tests for methods which need functional setup."""
 
     def test_openDetached(self):
@@ -81,7 +96,10 @@ class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
         self.fd = self.file.openDetached()
         self.assertEqual('6789\n0123', self.fd.read())
 
+class FTestImage(ImageBase, FTestFile):
+    """Tests for methods which need functional setup."""
+
 
 def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(TestFile, FTestFile)
+    return icemac.addressbook.testing.UnittestSuite(TestFile, TestImage, FTestFile, FTestImage)
 

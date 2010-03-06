@@ -3,6 +3,7 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
+  <!-- File -->
   <z3c:pagelet
      name="addFile.html"
      for="icemac.addressbook.file.interfaces.IFileContainer"
@@ -38,6 +39,10 @@
      permission="icemac.addressbook.ViewFile"
      />
 
+  <class class=".download.DownloadResult">
+    <allow interface="zope.publisher.http.IResult"/>
+  </class>
+
   <z3c:pagelet
      name="delete.html"
      for="icemac.addressbook.file.interfaces.IFile"
@@ -60,9 +65,37 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 
-  <class class=".download.DownloadResult">
-    <allow interface="zope.publisher.http.IResult"/>
-  </class>
+  <!-- Image -->
+  <z3c:pagelet
+     name="addImage.html"
+     for="icemac.addressbook.interfaces.IPerson"
+     permission="icemac.addressbook.AddPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".image.Add"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="image"
+     title="image"
+     viewName="@@addImage.html"
+     permission="icemac.addressbook.AddImage"
+     weight="6"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.file.interfaces.IImage"
+     permission="icemac.addressbook.EditImage"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".image.DeleteImageForm"
+     />
+
+  <adapter
+      factory=".image.ImageLabel"
+      name="label" />
 
   <include file="widget.zcml" />
 

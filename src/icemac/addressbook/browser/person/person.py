@@ -137,6 +137,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         for obj in icemac.addressbook.utils.iter_by_interface(
                 self.context, iface):
             group = FileEditGroup(
+                # XXX refactor me, to run with images
                 self.context, self.request, self, iface, _(u'file'), 'file',
                 index, obj.__name__)
             groups.append(group)
