@@ -229,6 +229,41 @@ Add more data
 The default add from allows only to add one postal address, one phone
 number etc. But it is possible to add more of these entities.
 
+Sort order in add menu
+----------------------
+
+The entries in the add menu have a specific sort order:
+
+>>> print browser.contents
+<!DOCTYPE...
+       <ul id="add-menu-content"><li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addFile.html"><span>file</span></a>
+<BLANKLINE>
+</li>
+<BLANKLINE>
+<li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addHomePageAddress.html"><span>home page</span></a>
+<BLANKLINE>
+</li>
+<BLANKLINE>
+<li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addEMailAddress.html"><span>e-mail address</span></a>
+<BLANKLINE>
+</li>
+<BLANKLINE>
+<li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
+<BLANKLINE>
+</li>
+<BLANKLINE>
+<li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
+<BLANKLINE>
+</li>
+</ul>...
+
+
+
 Add another phone number
 ------------------------
 
