@@ -93,9 +93,11 @@ class TestOrderStorage(unittest.TestCase):
         self.assertEqual(['foo', 'foo3', 'foo2', 'foo4'],
                          list(self.storage.__iter__('bar')))
         self.assertEqual(['baz'], list(self.storage.__iter__('fuz')))
+        self.assertEqual(1, self.storage.get('foo3', 'bar'))
         self.storage.up('foo3', 'bar')
         self.assertEqual(['foo3', 'foo', 'foo2', 'foo4'],
                          list(self.storage.__iter__('bar')))
+        self.assertEqual(0, self.storage.get('foo3', 'bar'))
 
     def test_up_first_element(self):
         self.storage.add('foo', 'bar')
@@ -111,10 +113,28 @@ class TestOrderStorage(unittest.TestCase):
         self.assertEqual(['foo', 'foo2', 'foo4', 'foo3'],
                          list(self.storage.__iter__('bar')))
         self.assertEqual(['baz'], list(self.storage.__iter__('fuz')))
+        self.assertEqual(0, self.storage.get('foo', 'bar'))
         self.storage.down('foo', 'bar')
         self.assertEqual(['foo2', 'foo', 'foo4', 'foo3'],
                          list(self.storage.__iter__('bar')))
+        self.assertEqual(1, self.storage.get('foo', 'bar'))
 
     def test_down_last_element(self):
         self.storage.add('foo', 'bar')
         self.assertRaises(ValueError, self.storage.down, 'foo', 'bar')
+
+    def test_get__not_existing(self):
+        self.assertRaises(KeyError, self.storage.get, 'foo', 'bar')
+
+    def test_get__existing_in_other_namespace(self):
+        self.storage.add('foo', 'baz')
+        self.assertRaises(KeyError, self.storage.get, 'foo', 'bar')
+
+    def test_get(self):
+        self.storage.add('foo3', 'bar')
+        self.storage.add('foo2', 'bar')
+        self.storage.add('foo1', 'bar')
+        self.storage.add('foo2', 'baz')
+        self.assertEqual(1, self.storage.get('foo2', 'bar'))
+        self.assertEqual(0, self.storage.get('foo2', 'baz'))
+

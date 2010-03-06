@@ -25,8 +25,8 @@ class OrderStorage(
         return self._storage.keys()
 
     def get(self, obj, namespace):
-        """Get the position of the object in the list."""
-        raise NotImplementedError
+        """Get the index of the object in the list."""
+        return self._storage[namespace].index(obj)
 
     def __iter__(self, namespace):
         """Iterate over the list of a namespace."""
