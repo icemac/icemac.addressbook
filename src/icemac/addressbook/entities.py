@@ -30,6 +30,7 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 @zope.component.adapter(str)
 def entity_by_name(name):
+    "Adapt Entity.name (not Entity.class_name!) to entity."
     result = None
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities).getAllEntities()
@@ -147,6 +148,15 @@ class Entity(object):
         raise ValueError("class_name is not set.")
 
 
+def create_entity(title, interface, class_):
+    "Factory to create an entity and to the ZCA set up."
+    class_name = '%s.%s' % (class_.__module__, class_.__name__)
+    entity = Entity(title, interface, class_name)
+    zope.interface.classImplements(
+        class_, icemac.addressbook.interfaces.IMayHaveUserFields)
+    return entity
+
+
 class Field(persistent.Persistent, zope.container.contained.Contained):
     """User defined field."""
 
@@ -207,12 +217,3 @@ class FieldStorage(persistent.Persistent):
 
 field_storage = zope.annotation.factory(
     FieldStorage, key='icemac.userfield.storage')
-
-
-def create_entity(title, interface, class_):
-    "Factory to create an entity and to the ZCA set up."
-    class_name = '%s.%s' % (class_.__module__, class_.__name__)
-    entity = Entity(title, interface, class_name)
-    zope.interface.classImplements(
-        class_, icemac.addressbook.interfaces.IMayHaveUserFields)
-    return entity
