@@ -73,10 +73,6 @@ def update_blob(widget, file):
         mime_type = 'application/octet-stream'
     file.mimeType = mime_type
 
-def get_file_entity():
-    return zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntity,
-        name='icemac.addressbook.file.file.File')
 
 class Add(icemac.addressbook.browser.base.BaseAddForm):
     "Add a file."
@@ -88,7 +84,9 @@ class Add(icemac.addressbook.browser.base.BaseAddForm):
     @property
     def fields(self):
         return z3c.form.field.Fields(
-            *get_file_entity().getFieldValuesInOrder()).omit(
+            *icemac.addressbook.interfaces.IEntity(
+                icemac.addressbook.file.interfaces.IFile
+                ).getFieldValuesInOrder()).omit(
             'name', 'mimeType', 'size')
 
     def create(self, data):

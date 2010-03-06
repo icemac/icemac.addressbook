@@ -44,10 +44,14 @@ class IFile(zope.interface.Interface):
         """
 
     def replace(filename):
-        """Replace with anoher file.
+        """Replace with another file.
 
         CAUTION: The file given as argument gets consumed!
         """
+
+
+class IImage(IFile):
+    "An image uploaded from harddisk to addressbook."
 
 
 class IFileContainer(zope.interface.Interface):

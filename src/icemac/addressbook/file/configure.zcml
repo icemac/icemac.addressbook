@@ -1,6 +1,7 @@
 <configure
    xmlns="http://namespaces.zope.org/zope">
 
+  <!-- File -->
   <permission
      id="icemac.addressbook.AddFile"
      title="AddFile"
@@ -16,7 +17,6 @@
      title="ViewFile"
      />
 
-  <!-- File -->
   <class class=".file.File">
     <implements
        interface="zope.annotation.interfaces.IAttributeAnnotatable"
@@ -38,5 +38,41 @@
       name="icemac.addressbook.file.file.File" />
 
   <adapter factory=".file.title" />
+
+  <!-- Image -->
+  <permission
+     id="icemac.addressbook.AddImage"
+     title="AddImage"
+     />
+
+  <permission
+     id="icemac.addressbook.EditImage"
+     title="EditImage"
+     />
+
+  <permission
+     id="icemac.addressbook.ViewImage"
+     title="ViewImage"
+     />
+
+  <class class=".image.Image">
+    <implements
+       interface="zope.annotation.interfaces.IAttributeAnnotatable"
+       />
+    <require
+       permission="icemac.addressbook.ViewImage"
+       interface=".interfaces.IImage"
+       attributes="__annotations__"
+       />
+    <require
+       permission="icemac.addressbook.EditImage"
+       set_schema=".interfaces.IImage"
+       set_attributes="__annotations__"
+       />
+  </class>
+
+  <utility
+      component=".image.image_entity"
+      name="icemac.addressbook.file.image.Image" />
 
 </configure>

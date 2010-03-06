@@ -156,6 +156,22 @@
      permission="icemac.addressbook.ViewFile"
      />
 
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.AddImage"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditImage"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewImage"
+     />
+
+
   <!-- Visitor -->
   <role id="icemac.addressbook.global.Visitor"
         title="Visitor"
@@ -220,6 +236,11 @@
   <grant
      role="icemac.addressbook.global.Visitor"
      permission="icemac.addressbook.ViewFile"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewImage"
      />
 
   <!-- Administrator -->
