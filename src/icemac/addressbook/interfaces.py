@@ -216,9 +216,9 @@ class IOrderStorageRead(zope.interface.Interface):
         """Get an iterable of the known namespaces."""
 
     def get(obj, namespace):
-        """Get the position of the object in the list.
+        """Get the index of the object in the list.
 
-        Raises a KeyError when the obj ist not in the list.
+        Raises a KeyError when the object is not in the list.
         """
 
     def __iter__(namespace):
