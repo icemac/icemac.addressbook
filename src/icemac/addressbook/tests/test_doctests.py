@@ -9,6 +9,7 @@ def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
         'adapter.txt', # Caution: none of these tests can run as unittest!
         'address.txt',
+        'addressbook.txt',
         'catalog.txt',
         'person.txt',
         )

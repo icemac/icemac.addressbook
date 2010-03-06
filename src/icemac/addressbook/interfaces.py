@@ -14,7 +14,7 @@ import zope.schema
 
 
 PACKAGE_ID = 'icemac.addressbook'
-
+ENTITIES = 'entites_namespace'
 
 class ITitle(zope.interface.Interface):
     """Title of an entity."""
@@ -26,13 +26,16 @@ class ITitle(zope.interface.Interface):
 class IAddressBook(zope.interface.Interface):
     """An address book."""
 
-    keywords = zope.interface.Attribute(u'keywords collection (IKeywords).')
+    keywords = zope.interface.Attribute(
+        u'icemac.addressbook.interfaces.IKeywords')
     principals = zope.interface.Attribute(
         u'zope.app.authentication.interfaces.IInternalPrincipalContainer')
     importer =  zope.interface.Attribute(
         u'icemac.addressbook.importer.interfaces.IImportContainer')
     entities =  zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IEntities')
+    orders = zope.interface.Attribute(
+        u'icemac.addressbook.interfaces.IOrderStorage')
 
     title = zope.schema.TextLine(title=_(u'title'))
 

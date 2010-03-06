@@ -31,6 +31,12 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
         self.assertAttribute(
             ab, 'principals',
             zope.app.authentication.interfaces.IAuthenticatorPlugin)
+        self.assertAttribute(
+            ab, 'entities',
+            icemac.addressbook.interfaces.IEntities)
+        self.assertAttribute(
+            ab, 'orders',
+            icemac.addressbook.interfaces.IOrderStorage)
         self.assertLocalUtility(ab, zope.intid.interfaces.IIntIds)
         self.assertLocalUtility(ab, zope.catalog.interfaces.ICatalog)
         self.assertLocalUtility(

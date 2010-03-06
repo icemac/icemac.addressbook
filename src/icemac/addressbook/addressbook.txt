@@ -1,0 +1,33 @@
+=============
+ Addressbook
+=============
+
+There is some initial data stored on an address book when it is created.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+
+Orders
+======
+
+There is an initial order for entities:
+
+>>> from pprint import pprint
+>>> import icemac.addressbook.interfaces
+>>> pprint(list(ab.orders.__iter__(icemac.addressbook.interfaces.ENTITIES)))
+['IcemacAddressbookAddressbookAddressbook',
+ 'IcemacAddressbookAddressPostaladdress',
+ 'IcemacAddressbookAddressPhonenumber',
+ 'IcemacAddressbookAddressEmailaddress',
+ 'IcemacAddressbookAddressHomepageaddress',
+ 'IcemacAddressbookFileFileFile',
+ 'IcemacAddressbookPersonPerson',
+ 'IcemacAddressbookKeywordKeyword']
+
+There are currently no other orders:
+
+>>> list(ab.orders.namespaces())
+['entites_namespace']

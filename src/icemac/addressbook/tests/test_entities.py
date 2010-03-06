@@ -72,11 +72,16 @@ class EntitiesTests(object):
         self.assertRaises(
             TypeError, icemac.addressbook.interfaces.IEntity, None)
 
-    def test_getEntity_unknown_class_name(self):
+    def test_getEntity_unknown_name(self):
         self.assertRaises(
             ValueError, icemac.addressbook.interfaces.IEntity, 'asdf')
 
-    def test_getEntity_known_class_name(self):
+    def test_getEntity_class_name(self):
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity,
+            'icemac.addressbook.tests.test.entities.Duck')
+
+    def test_getEntity_known_name(self):
         self.assertEqual(
             self.duck, icemac.addressbook.interfaces.IEntity(
                 'IcemacAddressbookTestsTestEntitiesDuck'))
