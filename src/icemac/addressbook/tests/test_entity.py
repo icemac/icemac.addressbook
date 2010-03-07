@@ -45,6 +45,11 @@ class TestEntity(unittest.TestCase):
         self.assertEqual('IcemacAddressbookTestsTestEntityDummy',
                          self.entity.name)
 
+    def test_name_no_class_name_set(self):
+        self.assertRaises(
+            ValueError, getattr,
+            icemac.addressbook.entities.Entity(None, IDummy, None), "name")
+
     def test_getRawFields(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),

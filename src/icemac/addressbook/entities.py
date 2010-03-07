@@ -116,6 +116,9 @@ class Entity(object):
 
     @property
     def name(self):
+        if not self.class_name:
+            raise ValueError(
+                "Entity has no `class_name` set, so `name` cannot be computed.")
         parts = self.class_name.replace('_', '.').split('.')
         return ''.join(x.capitalize() for x in parts)
 
