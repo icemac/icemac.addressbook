@@ -56,7 +56,14 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
             self.ab)
         self.check_addressbook(self.ab)
 
+    def test___repr___no___name__(self):
+        self.assertEqual("<AddressBook None (None)>",
+                         repr(icemac.addressbook.addressbook.AddressBook()))
 
-def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(TestAddressbook)
+    def test___repr___no_title(self):
+        self.assertEqual("<AddressBook u'ab' (None)>", repr(self.ab))
 
+    def test___repr__(self):
+        self.ab.title = u'My address book'
+        self.assertEqual("<AddressBook u'ab' (u'My address book')>",
+                         repr(self.ab))

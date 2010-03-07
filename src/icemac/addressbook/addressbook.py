@@ -45,6 +45,8 @@ class AddressBook(zope.container.btree.BTreeContainer,
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IAddressBook['title'])
 
+    def __repr__(self):
+        return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
 address_book_entity = icemac.addressbook.entities.create_entity(
     _(u'address book'), icemac.addressbook.interfaces.IAddressBook, AddressBook)
