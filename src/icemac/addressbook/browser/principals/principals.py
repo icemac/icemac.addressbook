@@ -60,15 +60,11 @@ class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
         self.context.person = value
 
 
-def get_principal_entity():
-    return icemac.addressbook.interfaces.IEntity(
-        icemac.addressbook.principals.interfaces.IPrincipal)
-
-
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     label = _(u'Add new user')
     class_ = icemac.addressbook.principals.principals.Principal
+    interface = icemac.addressbook.principals.interfaces.IPrincipal
     next_url = 'parent'
 
     @property
@@ -85,7 +81,8 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
                 icemac.addressbook.principals.interfaces.IRoles)
             +
             z3c.form.field.Fields(
-                *get_principal_entity().getFieldValuesInOrder()).omit(
+                *icemac.addressbook.interfaces.IEntity(
+                    self.interface).getFieldValuesInOrder()).omit(
                 'login', 'person')
             )
 
@@ -111,6 +108,7 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
+    interface = icemac.addressbook.principals.interfaces.IPrincipal
     next_url = 'parent'
 
     @property
@@ -127,7 +125,8 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
                 icemac.addressbook.principals.interfaces.IRoles)
             +
             z3c.form.field.Fields(
-                *get_principal_entity().getFieldValuesInOrder()).omit(
+                *icemac.addressbook.interfaces.IEntity(
+                    self.interface).getFieldValuesInOrder()).omit(
                 'person', 'login')
             )
 
