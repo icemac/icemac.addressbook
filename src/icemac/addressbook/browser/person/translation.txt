@@ -12,7 +12,7 @@ Create an address book:
 
 >>> from icemac.addressbook.testing import create_addressbook
 >>> create_addressbook()
-<icemac.addressbook.addressbook.AddressBook object at 0x...>
+<AddressBook u'ab' (u'test address book')>
 
 Create a browser and log in an editor which perferres German:
 
