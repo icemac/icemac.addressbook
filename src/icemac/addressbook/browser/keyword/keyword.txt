@@ -8,7 +8,7 @@ master data section.
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from zope.testbrowser.testing import Browser
 >>> create_addressbook()
-<icemac.addressbook.addressbook.AddressBook object at 0x...>
+<AddressBook u'ab' (u'test address book')>
 >>> browser = Browser()
 
 Editors are allowed to manage keywords, so we log in as an editor:

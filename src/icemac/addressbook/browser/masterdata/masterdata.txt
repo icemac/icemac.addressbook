@@ -7,7 +7,7 @@ There are some masterdata which can be edited by persons who are allowed to.
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from zope.testbrowser.testing import Browser
 >>> create_addressbook()
-<icemac.addressbook.addressbook.AddressBook object at 0x...>
+<AddressBook u'ab' (u'test address book')>
 
 There is a master data overview which shows all parts the user can
 see, this differs between the roles.
