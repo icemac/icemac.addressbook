@@ -60,16 +60,21 @@
          color: White;
          }
 
-       #add-menu {
+       #add-menu div {
          float: right;
        }
 
+       #add-menu ul {
+         float: left;
+       }
+
        #add-menu li {
-         list-style-type: none;
+        list-style-type: none;
          padding: 0.1em 0.5em 0.1em 0.5em;
        }
 
        #add-menu-content li {
+         float: left;
          padding-left: 0.5em;
          border-left: 1px dashed white;
        }
@@ -201,11 +206,13 @@
       <ul id="main-menu"
           tal:content="structure provider:main-menu">Main menu</ul>
       <div id="add-menu">
-        <ul id="add-menu-content"
+        <div>
+          <ul>
+            <li i18n:translate="Add-menu-Add">Add</li>
+          </ul>
+          <ul id="add-menu-content"
             tal:content="structure provider:add-menu">Add menu</ul>
-        <ul>
-          <li i18n:translate="Add-menu-Add">Add</li>
-        </ul>
+        </div>
       </div>
       <div id="content"
            tal:content="structure provider:pagelet">Page Content</div>
