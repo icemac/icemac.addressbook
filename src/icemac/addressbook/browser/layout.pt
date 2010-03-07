@@ -60,8 +60,11 @@
          color: White;
          }
 
-       #add-menu li {
+       #add-menu {
          float: right;
+       }
+
+       #add-menu li {
          list-style-type: none;
          padding: 0.1em 0.5em 0.1em 0.5em;
        }
