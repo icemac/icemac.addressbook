@@ -17,33 +17,42 @@ The search view
 ===============
 
 - There is a base view `.base.BaseView` which should be used as base
-  class for the new search view.
+  class for the new search view. The view class does not need any
+  additional features, but it is needed later on to register the
+  viewlets for it.
 
 - The view has to be registered as a pagelet using the template
   `search.pt`.  Example::
 
-  <gocept:pagelet
-     name="my_search.html"
-     for="icemac.addressbook.interfaces.IAddressBook"
-     permission="icemac.addressbook.ViewPerson"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     template="search.pt"
-     class=".mySearch.SearchView"
-     />
+  <configure
+     xmlns="http://namespaces.zope.org/zope"
+     xmlns:browser="http://namespaces.zope.org/browser"
+     xmlns:z3c="http://namespaces.zope.org/z3c"
+     xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+    <gocept:pagelet
+       for="icemac.addressbook.interfaces.IAddressBook"
+       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+       name="my_search.html"
+       class=".mySearch.SearchView"
+       template="search.pt"
+       permission="icemac.addressbook.ViewPerson"
+       />
 
 - To make the search accessible in the search menu, it must be
   registered with this menu. Example::
 
-  <browser:viewlet
+  <z3c:contextMenuItem
      manager="icemac.addressbook.browser.search.interfaces.ISearchMenu"
-     name="My search"
-     viewName="@@my_search.html"
      for="icemac.addressbook.interfaces.IAddressBook"
-     class="z3c.menu.ready2go.item.ContextMenuItem"
-     permission="icemac.addressbook.ViewPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="My-search"
+     title="My search"
+     viewName="@@my_search.html"
+     permission="icemac.addressbook.ViewPerson"
      weight="10"
      />
+
 
 The form viewlet
 ================
@@ -56,12 +65,12 @@ The form viewlet
 
   <browser:viewlet
      manager="icemac.addressbook.browser.search.interfaces.ISearchForm"
-     name="form"
      view=".my_search.SearchView"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="form"
      class=".my_search.SearchForm"
      permission="icemac.addressbook.ViewPerson"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     />
+    />
 
 The search adapter
 ==================
@@ -78,10 +87,10 @@ The search adapter
 The result display viewlet
 ==========================
 
-The result display viewlet calls the `result` property of the view.
-When it is `None`, no search has been done yet, otherwise it returns
-an iterable of the results. (The result viewlet must be able to handle
-this.)
+The result display viewlet calls the `result` property of the (base)
+view.  When it is `None`, no search has been done yet, otherwise it
+returns an iterable of the results. (The result viewlet must be able
+to handle this.)
 
 There are some pre-defined result viewlets:
 
@@ -91,13 +100,13 @@ There are some pre-defined result viewlets:
 
     <browser:viewlet
        manager="icemac.addressbook.browser.search.interfaces.ISearchResult"
-       name="result_table"
        view=".my_search.SearchView"
+       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+       name="result_table"
        class=".result.simple.ExportForm"
        template="result/export.pt"
        permission="icemac.addressbook.ViewPerson"
-       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-       />
+      />
 
 - result_person.pt: (template)
     simple list of found persons, no further actions possible
