@@ -3,13 +3,12 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.search.interfaces
+import z3c.form.button
 import z3c.form.field
 import z3c.formui.form
-import z3c.form.button
-
-import icemac.addressbook.browser.search.interfaces
-
-from icemac.addressbook.i18n import MessageFactory as _
+import zope.interface
 
 
 class BaseView(object):
@@ -28,7 +27,7 @@ class BaseView(object):
 
 
 class BaseSearchForm(z3c.formui.form.Form):
-    
+
     interface = None # to be set in child class
 
     ignoreContext = True
@@ -45,3 +44,16 @@ class BaseSearchForm(z3c.formui.form.Form):
             self.status = self.formErrorsMessage
             return
         self.__parent__.search_params = data
+
+
+class BaseSearch(object):
+    """Base class for search adapter."""
+
+    zope.interface.implements(
+        icemac.addressbook.browser.search.interfaces.ISearch)
+
+    def __init__(self, *args):
+        pass
+
+    def search(self, **kw):
+        raise NotImplementedError
