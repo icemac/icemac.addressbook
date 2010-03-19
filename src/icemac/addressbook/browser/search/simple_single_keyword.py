@@ -19,14 +19,10 @@ class SearchView(icemac.addressbook.browser.search.base.BaseView):
     pass
 
 
-class Search(object):
+class Search(icemac.addressbook.browser.search.base.BaseSearch):
     """Search for a single keyword."""
-    zope.component.adapts(SearchView)
-    zope.interface.implements(
-        icemac.addressbook.browser.search.interfaces.ISearch)
 
-    def __init__(self, *args):
-        pass
+    zope.component.adapts(SearchView)
 
     def search(self, keyword):
         keyword = keyword.title
