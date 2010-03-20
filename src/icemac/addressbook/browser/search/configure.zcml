@@ -45,7 +45,6 @@
      permission="zope.Public"
      />
 
-  <!-- <include file="simple_single_keyword.zcml" /> -->
   <include file="multi_keyword.zcml" />
   <include package=".result" />
 
