@@ -54,9 +54,9 @@ There is a link in the global navigation which leads to the searches,
 we choose the keyword search as it has export abilities:
 
 >>> browser.getLink('Suche').click()
->>> browser.getLink('Keyword search').click()
+>>> browser.getLink('Schlagwortsuche').click()
 >>> browser.getControl('Schlagworte').displayValue = ['Kirche']
->>> browser.getControl('Suche').click()
+>>> browser.getControl('Suchen').click()
 
 The export produces an XLS file:
 
