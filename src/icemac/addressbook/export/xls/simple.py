@@ -11,7 +11,6 @@ import icemac.addressbook.address
 import icemac.addressbook.export.base
 import icemac.addressbook.interfaces
 import xlwt
-import zope.component
 import zope.i18n
 import zope.i18nmessageid
 import zope.security.proxy
