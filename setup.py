@@ -94,7 +94,7 @@ setuptools.setup(
         'z3c.table',
         'classproperty',
         'icemac.truncatetext',
-        'icemac.ab.locales >= 0.3',
+        'icemac.ab.locales >= 0.4',
         'z3c.pt',
         'zope.app.debug',
         'zope.mimetype',

@@ -20,7 +20,7 @@ Features
 
 - assign keywords to persons
 
-- search for persons by keyword
+- search for persons by keywords
 
 - import data from XLS (Excel) or CSV files
 
