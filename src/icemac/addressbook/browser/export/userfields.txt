@@ -46,11 +46,11 @@ XLS main adresses and numbers export
 ====================================
 
 There is a link in the global navigation which leads to the searches,
-we choose the simple keyword search as it has export abilities:
+we choose the keyword search as it has export abilities:
 
 >>> browser.getLink('Search').click()
->>> browser.getLink('Simple single keyword search').click()
->>> browser.getControl('keyword').displayValue = ['church']
+>>> browser.getLink('Keyword search').click()
+>>> browser.getControl('keywords').displayValue = ['church']
 >>> browser.getControl('Search').click()
 
 The export produces an XLS file:

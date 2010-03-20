@@ -22,6 +22,8 @@ We need an address book, some keywords and some persons:
 ...                         keywords=set([friends]))
 >>> koch = create_person(addressbook, addressbook, u'Koch',
 ...                      keywords=set([family, church]))
+>>> velleuer = create_person(addressbook, addressbook, u'Velleuer',
+...                          keywords=set([family, church]))
 >>> liebig = create_person(addressbook, addressbook, u'Liebig',
 ...                        keywords=set([church]))
 
@@ -40,51 +42,39 @@ overview providing links to the offered search types:
 >>> print browser.contents
 <!DOCTYPE ...
 <ul><li>
-    <a href="http://localhost/++skin++AddressBook/ab/@@simple_single_keyword.html"><span>Simple single keyword search</span></a>      
+    <a href="http://localhost/++skin++AddressBook/ab/@@multi_keyword.html"><span>Keyword search</span></a>
   </li>
 </ul>...
 
-Simple single keyword search
-============================
+Keyword search
+==============
 
-This search type allows to search for persons who have a specified
-keyword assigned to:
+This search type allows to search for persons who have specified
+keywords assigned to:
 
->>> browser.getLink('Simple single keyword search').click()
+>>> browser.getLink('Keyword search').click()
 
 
-When no entry in the keywords drop-down is selected an error message
-is displayed:
+When no entry in the keywords field is selected no persons are found:
 
->>> browser.getControl('anyone else').click() # deselect default selection
 >>> browser.getControl('Search').click()
 >>> print browser.contents
-<!DOCTYPE ...
-<div class="status">
-  <div class="summary">There were some errors.</div>
-  <ul class="errors">
-    <li>
-      keyword: <div class="error">Required input is missing.</div>
-    </li>
-  </ul>
-</div>...
+<...No person found...
 
-
-When no result is found a message is displayed:
+When no person is found the same message is displayed:
 
 >>> browser.getControl('work').click()
 >>> browser.getControl('Search').click()
 >>> print browser.contents
-<!DOCTYPE ...
-...No person found...
+<...No person found...
+
+When selecting a keyword which leads to results they are displayed as
+a table with links to the edit forms of the found persons:
 
 
+>>> browser.getControl('work').click() # deselect keyword
 >>> browser.getControl('church').click()
 >>> browser.getControl('Search').click()
-
-The results are displayed as a table with links to the edit forms of
-the found persons:
-
 >>> print browser.contents
 <!DOCTYPE ...
 <table>
@@ -100,10 +90,14 @@ the found persons:
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
     </tr>
     <tr>
-      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Liebig</a></td>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
     </tr>
-  </tbody>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+    </tr>
+ </tbody>
 </table>...
 
 
@@ -112,3 +106,46 @@ keyword is still selected:
 
 >>> browser.getControl('church').selected
 True
+
+The default serch term concatenator is `and`. When selecting multiple
+keywords only persons having all keywords are found:
+
+>>> browser.getControl('search term concatenation').displayValue
+['and']
+>>> browser.getControl('family').click()
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+    </tr>
+  </tbody>...
+
+By selecting `or` as search term concatenation all keyword having one
+of the selected keywords are found:
+
+>>> browser.getControl('or').click()
+>>> browser.getControl('keywords').displayValue = ['friends', 'family']
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+   <tbody>
+     <tr>
+       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person" checked="checked" /></td>
+       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hohmuth</a></td>
+     </tr>
+     <tr>
+       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
+       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+     </tr>
+     <tr>
+       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+     </tr>
+   </tbody>...

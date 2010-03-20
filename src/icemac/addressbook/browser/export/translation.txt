@@ -51,11 +51,11 @@ XLS main adresses and numbers export
 ====================================
 
 There is a link in the global navigation which leads to the searches,
-we choose the simple keyword search as it has export abilities:
+we choose the keyword search as it has export abilities:
 
 >>> browser.getLink('Suche').click()
->>> browser.getLink('Einfache Suche nach einzelnem Schlagwort').click()
->>> browser.getControl('Schlagwort').displayValue = ['Kirche']
+>>> browser.getLink('Keyword search').click()
+>>> browser.getControl('Schlagworte').displayValue = ['Kirche']
 >>> browser.getControl('Suche').click()
 
 The export produces an XLS file:
