@@ -4,8 +4,6 @@
 
 import icemac.addressbook.orderstorage
 import unittest
-import zope.component.testing
-import zope.interface
 
 
 class TestOrderStorage(unittest.TestCase):
