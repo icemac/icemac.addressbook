@@ -38,10 +38,10 @@ Export
 ======
 
 There is a link in the global navigation which leads to the searches,
-we choose the simple keyword search as it has export abilities:
+we choose the keyword search as it has export abilities:
 
 >>> browser.getLink('Search').click()
->>> browser.getLink('Simple single keyword search').click()
+>>> browser.getLink('Keyword search').click()
 
 Before searching no export button is displayed, only the search button
 is shown:
@@ -52,7 +52,7 @@ is shown:
 
 If there where no search results, there is no export button, too:
 
->>> browser.getControl('work').click()
+>>> browser.getControl('keywords').displayValue = ['work']
 >>> browser.getControl('Search').click()
 >>> get_submit_control_names(browser)
 ['form.buttons.search']
@@ -60,7 +60,7 @@ If there where no search results, there is no export button, too:
 After performing the search a table containing the results is
 displayed, the checkboxes of the rows are pre-selected:
 
->>> browser.getControl('church').click()
+>>> browser.getControl('keywords').displayValue = ['church']
 >>> browser.getControl('Search').click()
 >>> (get_submit_control_names(form=browser.getForm(index=0)),
 ...  get_submit_control_names(form=browser.getForm(index=1)))
