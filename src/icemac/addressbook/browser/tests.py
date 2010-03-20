@@ -29,7 +29,7 @@ def test_suite():
         )
     suite.addTest(
         icemac.addressbook.testing.FunctionalDocFileSuite(
-            # Tests which do not need the default <DATETIME> normalizer:
+            # Tests which must not run with the default <DATETIME> normalizer:
             "browser/metadata.txt",
             checker=zope.testing.renormalizing.RENormalizing([])
             ))
