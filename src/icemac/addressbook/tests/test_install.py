@@ -7,7 +7,6 @@ import doctest
 import logging
 import sys
 import zc.buildout.testing
-import zope.testing.doctest
 
 
 def DocFileSuite(*args, **kw):
@@ -44,7 +43,7 @@ def DocFileSuite(*args, **kw):
     kw['tearDown'] = tearDown
     kw['optionflags'] = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
     kw['globs'] = dict(call_with_user_input=call_with_user_input)
-    return zope.testing.doctest.DocFileSuite(*args, **kw)
+    return doctest.DocFileSuite(*args, **kw)
 
 def test_suite():
     return DocFileSuite('../install.txt')
