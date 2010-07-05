@@ -209,7 +209,7 @@ True
 '8'
 >>> browser.contents
 '2nd file'
->>> browser.open(browser_url)
+>>> browser.open(url)
 
 Change
 ------
