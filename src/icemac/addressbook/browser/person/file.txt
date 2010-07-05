@@ -70,6 +70,12 @@ True
 >>> browser.getControl('file', index=1).value is None
 True
 
+We need to keep the current URL because after downloading we want to
+come back here, but browser.goBack() does a page reload causing the
+file beeing added again:
+
+>>> url = browser.url
+
 There is also a download link for the file:
 
 >>> browser.getLink('Download file').click()
@@ -83,7 +89,7 @@ True
 '13'
 >>> browser.contents
 'File contents'
->>> browser.goBack()
+>>> browser.open(url)
 
 Edit a file
 ===========
@@ -185,6 +191,12 @@ True
 >>> browser.getControl('file', index=1).value is None
 True
 
+We need to keep the current URL because after downloading we want to
+come back here, but browser.goBack() does a page reload causing the
+file beeing added again:
+
+>>> url = browser.url
+
 Download
 --------
 
@@ -197,7 +209,7 @@ True
 '8'
 >>> browser.contents
 '2nd file'
->>> browser.goBack()
+>>> browser.open(browser_url)
 
 Change
 ------
