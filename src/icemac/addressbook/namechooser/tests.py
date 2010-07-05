@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009 gocept gmbh & co. kg
+# Copyright (c) 2009-2010 Michael Howitz
 # See also LICENSE.txt
 
+
+import doctest
 import icemac.addressbook.namechooser.namechooser
 import zope.annotation.attribute
 import zope.testing.cleanup
@@ -24,7 +26,7 @@ class NameChooserLayer(zope.testing.testrunner.layer.UnitTests):
 
 
 def test_suite():
-    suite = zope.testing.doctest.DocFileSuite('namechooser.txt')
+    suite = doctest.DocFileSuite('namechooser.txt')
     suite.layer = NameChooserLayer
     return suite
 
