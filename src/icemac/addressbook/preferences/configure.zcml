@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="icemac.addressbook">
+
+  <preferenceGroup
+      id="personList"
+      title="Person List Preferences"
+      schema=".interfaces.IPersonList"
+      />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     for="*"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Preferences"
+     title="Preferences"
+     viewName="++preferences++/personList"
+     permission="icemac.addressbook.ViewAddressBook"
+     weight="190"
+     />
+
+
+</configure>
