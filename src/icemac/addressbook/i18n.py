@@ -7,4 +7,4 @@
 
 import zope.i18nmessageid
 
-MessageFactory = zope.i18nmessageid.MessageFactory('icemac.addressbook')
+_ = MessageFactory = zope.i18nmessageid.MessageFactory('icemac.addressbook')

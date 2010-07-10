@@ -1,0 +1,40 @@
+==================
+ User preferences
+==================
+
+There are user specific preferences in the address book:
+
+Set up
+======
+
+We need an address book:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> create_addressbook()
+<AddressBook u'ab' (u'test address book')>
+
+And a browser to access it:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Location
+========
+
+There is a link in the main navigation which currently leads to the
+person list preferences:
+
+>>> browser.getLink('Preferences').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++preferences++/personList'
+
+>>> print "Go on here"
+>>> file('response.html', 'w').write(browser.contents)
+
+.. to test
+.. only accessable when logged in
+.. accessable by editor, admin and visitor
+.. differend users have different prefs
+.. in separate file test that changing prefs changes person list behavior
