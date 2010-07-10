@@ -126,13 +126,13 @@ the file extension and file contents:
 >>> browser.getControl('file name').value == filename
 True
 >>> browser.getControl('Mime Type').value
-'application/x-javascript'
+'application/javascript'
 
 The downloaded file behaves accordingly:
 
 >>> browser.getLink('Download file').click()
 >>> browser.headers['content-type']
-'application/x-javascript'
+'application/javascript'
 >>> browser.headers['content-disposition'] == 'attachment; filename=' + filename
 True
 >>> browser.contents

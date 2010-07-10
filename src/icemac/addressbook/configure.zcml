@@ -29,6 +29,7 @@
   <include package="zope.security" />
   <include package="zope.site" />
   <include package="zope.error" />
+  <include package="zope.login" />
   <include package="zope.dublincore" />
   <include package="zope.publisher" />
   <include package="zope.traversing" />
