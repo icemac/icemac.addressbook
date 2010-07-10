@@ -96,6 +96,7 @@ setuptools.setup(
         'zope.globalrequest',
         'zope.i18n',
         'zope.interface',
+        'zope.login',
         'zope.mimetype',
         'zope.principalregistry',
         'zope.publisher',
