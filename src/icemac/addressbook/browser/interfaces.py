@@ -18,6 +18,5 @@ class IAddressBookLayer(
 
 class IAddressBookBrowserSkin(
     z3c.formui.interfaces.IDivFormLayer,
-    z3c.preference.interfaces.IPreferenceSkin,
     IAddressBookLayer):
     """The address book browser skin using the div-based layout."""
