@@ -29,12 +29,42 @@ person list preferences:
 >>> browser.getLink('Preferences').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++preferences++/personList'
+>>> preferences_url = browser.url
+>>> browser.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
 
->>> print "Go on here"
->>> file('response.html', 'w').write(browser.contents)
+Only accessible when logged in
+==============================
+
+The preferences are only accessible for logged-in users. Anonymous
+users get redirected to the login screen:
+
+>>> anon = Browser()
+>>> anon.open(preferences_url)
+>>> print anon.url
+http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Bpreferences%2B%2B%2FpersonList%2F%40%40index.html
+
+Visitors are able to access the preferences, the form is displayed:
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open(preferences_url)
+>>> visitor.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
+
+Editors are also able to access the preferences:
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open(preferences_url)
+>>> editor.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
+
+
+>>> print "go on here"
+>>> file('response.html', 'w').write(visitor.contents)
 
 .. to test
-.. only accessable when logged in
-.. accessable by editor, admin and visitor
 .. differend users have different prefs
 .. in separate file test that changing prefs changes person list behavior
+.. Testen, was im Skin/Layer wirklich drin sein muss (Vererbung) + aufschreiben in z3c.preference + check-in + release
