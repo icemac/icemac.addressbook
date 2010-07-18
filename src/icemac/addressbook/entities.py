@@ -123,6 +123,11 @@ class Entity(object):
         return ''.join(x.capitalize() for x in parts)
 
     def getRawFields(self):
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Returnes static (zope.schema) and user defined (IField) fields.
+
+        """
         for name, field in zope.schema.getFieldsInOrder(self.interface):
             yield name, field
         # self._fake_object is needed here as the interfaces provided by the
@@ -133,6 +138,11 @@ class Entity(object):
             yield str(field.__name__), field
 
     def getFieldsInOrder(self):
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
         for name, field in self.getRawFields():
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 yield name, user_field_to_schema_field(field)
@@ -140,12 +150,19 @@ class Entity(object):
                 yield name, field
 
     def getFieldValuesInOrder(self):
+        """Get ordered list of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
         return [field for name, field in self.getFieldsInOrder()]
 
     def getField(self, field_name):
+        """Get a zope.schema field by its name."""
         return dict(self.getFieldsInOrder())[field_name]
 
     def getClass(self):
+        """Get the class object for `self.class_name`."""
         if self.class_name:
             return zope.dottedname.resolve.resolve(self.class_name)
         raise ValueError("class_name is not set.")
