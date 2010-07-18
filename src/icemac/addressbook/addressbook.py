@@ -9,6 +9,7 @@ import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.orderstorage
+import icemac.addressbook.preferences.default
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
@@ -26,6 +27,7 @@ import zope.intid
 import zope.intid.interfaces
 import zope.location
 import zope.location.interfaces
+import zope.preference.interfaces
 import zope.schema.fieldproperty
 import zope.site.site
 
@@ -169,3 +171,8 @@ def add_more_addressbook_infrastructure(addressbook):
         pau.credentialsPlugins = (u'No Challenge if Authenticated',
                                   u'Session Credentials',)
         pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
+
+    # default preferences
+    if not utility_locally_registered(
+        addressbook, zope.preference.interfaces.IDefaultPreferenceProvider):
+        icemac.addressbook.preferences.default.add(addressbook)
