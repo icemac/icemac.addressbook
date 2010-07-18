@@ -11,7 +11,7 @@ import zope.schema
 class IPersonList(zope.interface.Interface):
     "Person list preferences."
 
-    columns = zope.schema.Set(
+    columns = zope.schema.List(
         title=_('columns'), required=True,
         value_type=zope.schema.Choice(
             title=_('columns'),
