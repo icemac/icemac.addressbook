@@ -76,10 +76,3 @@ The preferences are personal ones, they are not shared between users:
 >>> editor.reload()
 >>> editor.getControl('sort direction').displayValue
 ['ascending (A-->Z)']
-
-
->>> print "go on here"
->>> file('response.html', 'w').write(visitor.contents)
-
-.. to test
-.. in separate file test that changing prefs changes person list behavior
