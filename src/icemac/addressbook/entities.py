@@ -160,6 +160,19 @@ def create_entity(title, interface, class_):
     return entity
 
 
+def get_main_entities():
+    "Get the most important entities."
+    name_suffixes = ['person.Person',
+                     'address.PostalAddress',
+                     'address.PhoneNumber',
+                     'address.EMailAddress',
+                     'address.HomePageAddress']
+    return [zope.component.getUtility(
+                icemac.addressbook.interfaces.IEntity,
+                name='icemac.addressbook.'+suffix)
+            for suffix in name_suffixes]
+
+
 class Field(persistent.Persistent, zope.container.contained.Contained):
     """User defined field."""
 
