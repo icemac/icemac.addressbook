@@ -301,12 +301,12 @@ When the e-mail address of a person -- who is also a user -- is
 changed, the log-in name does *not* change:
 
 >>> browser.getLink('Person list').click()
->>> browser.getLink('Tester, Hans').click()
+>>> browser.getLink('Tester').click()
 >>> browser.getControl('e-mail address', index=1).value = 'htester@example.com'
 >>> browser.getControl('Apply').click()
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
->>> browser.getLink('Tester, Hans').click()
+>>> browser.getLink('Tester').click()
 >>> browser.getControl('login').value
 'hans@example.com'
 
@@ -379,10 +379,10 @@ him:
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE ...
-...Admin, Arne...
-...Someone, Else...
-...Tester, Hans...
-...Utzer, Ben...
+...Admin...Arne...
+...Someone...Else...
+...Tester...Hans...
+...Utzer...Ben...
 
 
 Too long notes get truncated
@@ -425,7 +425,7 @@ able to create new persons:
 >>> print unstable.contents
 <!DOCTYPE ...
 ...Unstable, Urs...
->>> 'Tester, Hans' in unstable.contents
+>>> 'Hans' in unstable.contents
 False
 >>> unstable.getLink('Unstable, Urs').click()
 >>> get_all_control_names(unstable)
@@ -451,7 +451,7 @@ can create new persons and change his username:
 >>> unstable.getLink('person').click()
 >>> unstable.getLink('Master data').click()
 >>> unstable.getLink('Users').click()
->>> 'Tester, Hans' in unstable.contents
+>>> 'Hans' in unstable.contents
 False
 >>> unstable.getLink('Unstable, Urs').click()
 >>> unstable.getControl('login').value
@@ -479,7 +479,7 @@ change his roles and see all other users in the users list:
  'form.widgets.password_repetition', 'form.widgets.roles-empty-marker',
  'form.widgets.roles:list']
 >>> unstable.getControl('Cancel').click()
->>> 'Tester, Hans' in unstable.contents
+>>> 'Hans' in unstable.contents
 True
 
 When the Adminstrator removes all roles from the user he can't gets an
@@ -560,7 +560,7 @@ data but not the roles. We log-in as an editor:
 >>> editor.getLink('Users').click()
 >>> print editor.contents
 <!DOCTYPE ...
-...Tester, Hans...
+...Tester...Hans...
 >>> 'Admin, Arne' not in editor.contents
 True
 
@@ -568,7 +568,7 @@ To edit his data the editor selects the link on his name. The edit
 form is opened and he is able to edit his log-in name, password and
 notes:
 
->>> editor.getLink('Tester, Hans').click()
+>>> editor.getLink('Hans').click()
 >>> editor.getControl('login').value
 'hans@example.com'
 >>> editor.getControl('password', index=0).value
@@ -605,7 +605,7 @@ asks the user for its new credentials:
 
 The data was stored:
 
->>> editor.getLink('Tester, Hans').click()
+>>> editor.getLink('Hans').click()
 >>> editor.getControl('login').value
 'hans.tester'
 >>> editor.getControl('password', index=0).value
@@ -641,7 +641,7 @@ hin log-in:
 >>> print visitor.contents
 <!DOCTYPE ...
 ...Utzer, Ben...
->>> 'Tester, Hans' in visitor.contents
+>>> 'Hans' in visitor.contents
 False
 
 To edit his data the visitor selects the link on his name. The edit
@@ -761,7 +761,7 @@ An editor can't delete anybody, there is not even a delete button:
 
 >>> editor.getLink('Master data').click()
 >>> editor.getLink('Users').click()
->>> editor.getLink('Tester, Hans').click()
+>>> editor.getLink('Hans').click()
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals/2'
 >>> editor_url = editor.url
