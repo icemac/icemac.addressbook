@@ -44,6 +44,15 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
         return icemac.truncatetext.truncate(value, self.length)
 
 
+class KeywordsColumn(z3c.table.column.GetAttrColumn):
+    """GetAttrColumn where attr is an iterable of keywords."""
+
+    def getValue(self, obj):
+        values = super(KeywordsColumn, self).getValue(obj)
+        return u', '.join(
+            icemac.addressbook.interfaces.ITitle(x) for x in values)
+
+
 # Tables
 
 class Table(z3c.table.table.Table):
