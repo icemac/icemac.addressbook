@@ -10,8 +10,7 @@ Set up
 We need an address book:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
+>>> ab = create_addressbook()
 
 And a browser to access it:
 
@@ -38,11 +37,131 @@ JavaScript-In-Out-Widget, we have to access the second list here:
 >>> browser.getControl(name='form.widgets.columns.to').displayOptions
 ['person -- last name', 'person -- first name']
 
+Changing columns
+================
+
+Changing the columns in the preferences changes the columns in the
+person list, too. At first we need some persons:
+
+>>> from icemac.addressbook.testing import create_full_person
+>>> import datetime
+>>> create_full_person(ab, ab, u'Tester', first_name=u'Hans',
+...     birth_date=datetime.date(1975, 4, 2), return_obj=False)
+>>> create_full_person(ab, ab, u'Streber', first_name=u'Gunter',
+...     return_obj=False)
+>>> create_full_person(ab, ab, u'Utzer', return_obj=False)
+
+Date column
+-----------
+
+Adding the birth date to the columns list, also displayes the birth
+date in the person list:
+
+>>> from icemac.addressbook.testing import in_out_widget_select
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- birth date', index=0),
+...      browser.getControl('person -- first name', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getControl(name='form.widgets.columns.to').displayOptions
+['person -- birth date', 'person -- first name', 'person -- last name']
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <table>
+  <thead>
+    <tr>
+      <th><a href="?table-sortOrder=descending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23birth_date-0" title="Sort">birth date</a></th>
+      <th><a href="?table-sortOrder=ascending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23first_name-1" title="Sort">first name</a></th>
+      <th><a href="?table-sortOrder=ascending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23last_name-2" title="Sort">last name</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1975 4 2 </td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+  </tbody>
+</table>
+  ...
+
+Keywords column
+---------------
+
+When a keywords column is added all keywords of the person are
+displayed separated by commas. At first we need some keywords:
+
+>>> from icemac.addressbook.testing import create_keyword
+>>> create_keyword(ab, u'church', return_obj=False)
+>>> create_keyword(ab, u'family', return_obj=False)
+>>> create_keyword(ab, u'friends', return_obj=False)
+
+Then we have to assign the keywords to persons:
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('keywords').displayValue = [
+...     'church', 'family', 'friends']
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> browser.getLink('Streber').click()
+>>> browser.getControl('keywords').displayValue = ['friends']
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+After selecting the keyword column in the preferences it gets displayed:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- keywords', index=0),
+...      browser.getControl('person -- first name', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+    <tr>
+      <td>church, family, friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr>
+      <td>friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+  </tbody>
+ ...
+
 .. to test:
+.. TextArea-Felder mit TruncatedContentColumn
+.. other columns than "person -- *"
 .. sortierung nach Feld, das nicht in Columns ist
 .. user defined fields in column list
 .. user defined fields can be displayed in person list
 .. person list does not break when a displayed user defined field gets deleted
 
+.. to do:
+.. einfachere Spaltennamem in Tabelle
+
 .. to add:
 .. generation which adds default preferences provider
+.. batching

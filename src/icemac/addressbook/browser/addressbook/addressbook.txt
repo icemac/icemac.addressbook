@@ -191,8 +191,8 @@ list where only the users are still shown:
   <table>
   <thead>
     <tr>
-      <th>last name</th>
-      <th>first name</th>
+      <th><a href="?table-sortOrder=descending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23last_name-0" title="Sort">last name</a></th>
+      <th><a href="?table-sortOrder=ascending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23first_name-1" title="Sort">first name</a></th>
     </tr>
   </thead>
   <tbody>
