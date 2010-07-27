@@ -10,8 +10,7 @@ Set up
 
 Create an address book, a user defined field for a file inside:
 
->>> from icemac.addressbook.testing import (
-...     create_field, create_person, create_addressbook)
+>>> from icemac.addressbook.testing import create_field, create_addressbook
 >>> ab = create_addressbook()
 >>> create_field(ab, 'icemac.addressbook.file.file.File', 'Text', u'mynotes')
 
