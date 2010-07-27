@@ -9,8 +9,7 @@ Set up
 ======
 
 >>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_email_address, create_postal_address, create_phone_number,
-...     create_home_page_address)
+...     create_email_address, create_full_person)
 >>> from zope.testbrowser.testing import Browser
 >>> ab = create_addressbook()
 
@@ -23,12 +22,9 @@ information. So we have to create persons first:
 >>> tester = create_person(ab, ab, u'Tester', first_name=u'Hans')
 >>> create_email_address(ab, tester, email=u'tester@example.com',
 ...     return_obj=False)
->>> utzer = create_person(ab, ab, u'Utzer', first_name=u'Ben')
+>>> utzer = create_full_person(ab, ab, u'Utzer', first_name=u'Ben')
 >>> create_email_address(ab, utzer, email=u'ben.utzer@example.com',
 ...     return_obj=False)
->>> create_postal_address(ab, utzer, return_obj=False)
->>> create_phone_number(ab, utzer, return_obj=False)
->>> create_home_page_address(ab, utzer, return_obj=False)
 >>> liebig = create_person(ab, ab, u'Liebig', first_name=u'B.')
 >>> create_email_address(ab, liebig, email=u'b@example.com',
 ...     set_as_default=False, return_obj=False)
