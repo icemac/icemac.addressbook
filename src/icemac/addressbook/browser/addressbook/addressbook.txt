@@ -196,11 +196,11 @@ list where only the users are still shown:
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr class="table-even-row">
       <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">User</a></td>
       <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">Hans</a></td>
     </tr>
-    <tr>
+    <tr class="table-odd-row">
       <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Utzr</a></td>
       <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Kurt</a></td>
     </tr>

@@ -77,17 +77,17 @@ date in the person list:
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr class="table-even-row">
       <td>1975 4 2 </td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
     </tr>
-    <tr>
+    <tr class="table-odd-row">
       <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
     </tr>
-    <tr>
+    <tr class="table-even-row">
       <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
@@ -104,24 +104,25 @@ displayed separated by commas. At first we need some keywords:
 
 >>> from icemac.addressbook.testing import create_keyword
 >>> create_keyword(ab, u'church', return_obj=False)
+>>> create_keyword(ab, u'Friends', return_obj=False)
 >>> create_keyword(ab, u'family', return_obj=False)
->>> create_keyword(ab, u'friends', return_obj=False)
 
 Then we have to assign the keywords to persons:
 
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('keywords').displayValue = [
-...     'church', 'family', 'friends']
+...     'Friends', 'church', 'family']
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Streber').click()
->>> browser.getControl('keywords').displayValue = ['friends']
+>>> browser.getControl('keywords').displayValue = ['Friends']
 >>> browser.getControl('Apply').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
-After selecting the keyword column in the preferences it gets displayed:
+The keywords are sorted by their lower case variant (inside cell and
+in row):
 
 >>> browser.getLink('Preferences').click()
 >>> in_out_widget_select(browser, 'form.widgets.columns',
@@ -133,29 +134,122 @@ After selecting the keyword column in the preferences it gets displayed:
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
-    <tr>
+    <tr class="table-even-row">
       <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
-    <tr>
-      <td>church, family, friends</td>
+    <tr class="table-odd-row">
+      <td>church, family, Friends</td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
     </tr>
-    <tr>
-      <td>friends</td>
+    <tr class="table-even-row">
+      <td>Friends</td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
     </tr>
   </tbody>
  ...
 
+Notes column
+------------
+
+The notes column gets displayed truncated, so it does not fill up the
+whole browser window. At first we need some notes text:
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('notes').value = 'Gave him 20 Dollars in Jan 2010.'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+Only the first 20 characters of the note are displayed:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- notes', index=0),
+...      browser.getControl('person -- first name', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>Gave him 20 Dollars in …</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+  </tbody>
+  ...
+
+Address columns
+---------------
+
+It is also possible to select address columns. They display values of
+the address which is the default address of its kind. At first we need
+some data of the default address:
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('address prefix').value = 'c/o Mama'
+>>> browser.getControl('country').displayValue = ['Gabon']
+>>> browser.getControl('Apply').click()
+
+And a new address those data is not displayed in the list:
+
+>>> browser.getLink('Tester').click()
+>>> browser.getLink('postal address').click()
+>>> browser.getControl('address prefix').value = 'c/o Papa'
+>>> browser.getControl('country').displayValue = ['Fiji']
+>>> browser.getControl('Add').click()
+
+On the person list the values of the default address are displayed:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('postal address -- address prefix', index=0),
+...      browser.getControl('postal address -- country', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.handleErrors = False
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td>Germany</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>Germany</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>c/o Mama</td>
+      <td>Gabon</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+ </tbody>
+  ...
+
 .. to test:
-.. TextArea-Felder mit TruncatedContentColumn
-.. other columns than "person -- *"
-.. sortierung nach Feld, das nicht in Columns ist
-.. user defined fields in column list
+.. other columns than "person -- *": change default address
+.. Sortierung
+.. Sortierung nach Feld, das nicht in Columns ist
+.. Show user defined fields in columns list
 .. user defined fields can be displayed in person list
 .. person list does not break when a displayed user defined field gets deleted
 
