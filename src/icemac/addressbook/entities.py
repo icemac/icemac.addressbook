@@ -103,7 +103,7 @@ class Entity(object):
     class_name = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IEntity['class_name'])
 
-    def __init__(self, title, interface, class_name):
+    def __init__(self, title, interface, class_name, **kw):
         # To create an entity, use `create_entity` factory (see below) which
         # also does the ZCA set up.
         self.title = title
@@ -113,14 +113,22 @@ class Entity(object):
         # look up the user defined fields which are named adapters
         self._fake_object = FakeObject()
         zope.interface.directlyProvides(self._fake_object, self.interface)
+        # Additional keyword arguments are stored as tagged values
+        self._tagged_values = kw
 
     @property
     def name(self):
+        "Uniqe name of the entity which only contains letters."
         if not self.class_name:
             raise ValueError(
                 "Entity has no `class_name` set, so `name` cannot be computed.")
         parts = self.class_name.replace('_', '.').split('.')
         return ''.join(x.capitalize() for x in parts)
+
+    @property
+    def tagged_values(self):
+        "Dict of tagged values of the entity."
+        return self._tagged_values.copy()
 
     def getRawFields(self):
         """Get ordered name, field tuples of the schema fields on the entity.

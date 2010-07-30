@@ -151,6 +151,8 @@ class IEntity(zope.interface.Interface):
 
     name = zope.interface.Attribute(
         "Uniqe name of the entity which only contains letters.")
+    tagged_values = zope.interface.Attribute(
+        "Dict of tagged values of the entity.")
 
     def getField(field_name):
         """Get a zope.schema field by its name."""
