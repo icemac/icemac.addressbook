@@ -14,8 +14,11 @@
        }
 
        body {
-         padding: 1em;
-       }
+         padding: 1%;
+         width: intrinsic;
+         width: -moz-max-content;
+         min-width: 98%;
+      }
 
        #head h1 {
          float: left;
