@@ -76,11 +76,11 @@ displayed, the checkboxes of the rows are pre-selected:
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
     </tr>
-    <tr>
+    <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Liebig</a></td>
     </tr>

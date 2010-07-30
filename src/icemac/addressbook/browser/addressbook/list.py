@@ -8,6 +8,7 @@ import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import z3c.table.column
 import zope.component
+import zope.i18n
 import zope.preference.interfaces
 import zope.schema.interfaces
 
@@ -52,20 +53,73 @@ class DateColumn(z3c.table.column.FormatterColumn,
         return key
 
 
+class DoubleGetAttrColumn(z3c.table.column.GetAttrColumn):
+    """Column which does two getattr calls in a row."""
+
+    firstAttrName = None # name of the first attribute of the row
+    attrName = None # name of the second attribute of the row
+
+    def getValue(self, obj):
+        "Compute the value in a row."
+        return super(DoubleGetAttrColumn, self).getValue(
+            getattr(obj, self.firstAttrName))
+
+    def renderCell(self, obj):
+        value = self.getValue(obj)
+        if value is None:
+            # Do not display `None` in the front end.
+            return self.defaultValue
+        return value
+
+
+class TranslatedTiteledDoubleGetAttrColumn(DoubleGetAttrColumn):
+    """DoubleGetAttrColumn which returns the translated ITitle of the value."""
+
+    def getValue(self, obj):
+        "Get the title of the value."
+        value = super(TranslatedTiteledDoubleGetAttrColumn, self).getValue(obj)
+        title = icemac.addressbook.interfaces.ITitle(value)
+        translated = zope.i18n.translate(title, context=self.request)
+        return translated
+
+
 def getColumnClass(entity, field):
     """Get a column class to display the requested field of an entity."""
-    if field.__name__ in ('first_name', 'last_name'):
-        # First name and last name should be links ...
-        return LinkColumn
-    if field.__name__ == 'keywords':
-        # Keywords need a special column as they are an iterable:
-        return icemac.addressbook.browser.table.KeywordsColumn
-    if zope.schema.interfaces.IDate.providedBy(field):
-        # Date fields need a special column, as None values are not
-        # compareable to date values:
-        return DateColumn
-    # All other fields are not special, so the default column is enough:
-    return z3c.table.column.GetAttrColumn
+    if entity.interface == icemac.addressbook.interfaces.IPerson:
+        if field.__name__ in ('first_name', 'last_name'):
+            # First name and last name should be links ...
+            return LinkColumn
+        if field.__name__ == 'keywords':
+            # Keywords need a special column as they are an iterable:
+            return icemac.addressbook.browser.table.KeywordsColumn
+        if (zope.schema.interfaces.IText.providedBy(field) and
+            not zope.schema.interfaces.ITextLine.providedBy(field)):
+            # The content of text areas (not text lines, which extend from
+            # text area) should get truncated.
+            return icemac.addressbook.browser.table.TruncatedContentColumn
+        if zope.schema.interfaces.IDate.providedBy(field):
+            # Date fields need a special column, as None values are not
+            # compareable to date values:
+            return DateColumn
+    else:
+        # address entities
+        if field.__name__ == 'country':
+            # country is an object, so the title of it should be displayed
+            return TranslatedTiteledDoubleGetAttrColumn
+        # all other address fields need the default column
+        return DoubleGetAttrColumn
+
+
+def getAdditionalColumnArgs(entity, field):
+    """Get additional arguments to a specific column.
+
+    Return a dict to be used as keyword args."""
+    if entity.interface == icemac.addressbook.interfaces.IPerson:
+        # Persons need no special arguments
+        return {}
+    else:
+        # Addresses need the name of the default address attribute
+        return dict(firstAttrName=entity.tagged_values.get('default_attrib'))
 
 
 class PersonList(icemac.addressbook.browser.table.PageletTable):
@@ -86,7 +140,8 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
             result.append(
                 z3c.table.column.addColumn(
                     self, column_class, column_name, attrName=field.__name__,
-                header=field.title, weight=len(result)))
+                    header=field.title, weight=len(result),
+                    **getAdditionalColumnArgs(entity, field)))
         return result
 
     @property

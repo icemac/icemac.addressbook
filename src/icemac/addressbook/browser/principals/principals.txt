@@ -390,8 +390,8 @@ truncated in the list view:
 >>> browser.getLink('Someone, Else').click()
 >>> browser.getControl('notes').value = 'This is someone else created to show sort order and truncation of too long notes.'
 >>> browser.getControl('Apply').click()
->>> 'This is someone else created to show sort order and ...' in (
-...     browser.contents) # no print because ... is used as ellipsis
+>>> 'This is someone else created to show sort order and …' in (
+...     browser.contents)
 True
 
 Changing roles changes permissions

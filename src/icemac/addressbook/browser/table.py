@@ -38,19 +38,29 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
 
     length = 20
     attrName = None
+    ellipsis = u'…'
+    defaultValue = u''
 
     def getValue(self, obj):
         value = super(TruncatedContentColumn, self).getValue(obj)
-        return icemac.truncatetext.truncate(value, self.length)
+        if value is None:
+            return self.defaultValue
+        result = icemac.truncatetext.truncate(value, self.length, self.ellipsis)
+        return result
 
 
 class KeywordsColumn(z3c.table.column.GetAttrColumn):
     """GetAttrColumn where attr is an iterable of keywords."""
 
+    def getSortKey(self, item):
+        return super(KeywordsColumn, self).getSortKey(item).lower()
+
     def getValue(self, obj):
         values = super(KeywordsColumn, self).getValue(obj)
-        return u', '.join(
-            icemac.addressbook.interfaces.ITitle(x) for x in values)
+        return u', '.join(sorted(
+            (icemac.addressbook.interfaces.ITitle(x) for x in values),
+            key=lambda x: x.lower()))
+
 
 
 # Tables
@@ -58,6 +68,8 @@ class KeywordsColumn(z3c.table.column.GetAttrColumn):
 class Table(z3c.table.table.Table):
     "Table which supports a no-rows-found message."
 
+    cssClassEven = u'table-even-row'
+    cssClassOdd = u'table-odd-row'
     startBatchingAt = 1000000
     no_rows_message = u'' # Set at subclass.
 
