@@ -83,3 +83,15 @@ class TestEntity(unittest.TestCase):
     def test_getClass_no_class_set(self):
         e = icemac.addressbook.entities.Entity(None, IDummy, None)
         self.assertRaises(ValueError, e.getClass)
+
+    def test_tagged_values(self):
+        e = icemac.addressbook.entities.Entity(
+            u'Dummy', IDummy, 'Dummy', a=1, b='asdf')
+        self.assertEqual(dict(a=1, b='asdf'), e.tagged_values)
+
+    def test_tagged_values_returns_copy(self):
+        # Tagged values not modifyable by modifying the returned dict.
+        e = icemac.addressbook.entities.Entity(
+            u'Dummy', IDummy, 'Dummy', a=1, b='asdf')
+        e.tagged_values['a'] = 2
+        self.assertEqual(dict(a=1, b='asdf'), e.tagged_values)
