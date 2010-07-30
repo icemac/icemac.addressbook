@@ -176,10 +176,10 @@ class Entity(object):
         raise ValueError("class_name is not set.")
 
 
-def create_entity(title, interface, class_):
+def create_entity(title, interface, class_, **kw):
     "Factory to create an entity and to the ZCA set up."
     class_name = '%s.%s' % (class_.__module__, class_.__name__)
-    entity = Entity(title, interface, class_name)
+    entity = Entity(title, interface, class_name, **kw)
     zope.interface.classImplements(
         class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity

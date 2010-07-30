@@ -31,9 +31,11 @@ class PostalAddress(
         icemac.addressbook.interfaces.IPostalAddress['country'])
 
 
+# postal address entity, default_attrib is the name of the attribute
+# on IPerson which contains the default postal address.
 postal_address_entity = icemac.addressbook.entities.create_entity(
     _(u'postal address'), icemac.addressbook.interfaces.IPostalAddress,
-    PostalAddress)
+    PostalAddress, default_attrib='default_postal_address')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPostalAddress)
@@ -64,9 +66,11 @@ class EMailAddress(
         icemac.addressbook.interfaces.IEMailAddress['email'])
 
 
+# e-mail address entity, default_attrib is the name of the attribute
+# on IPerson which contains the default e-mail address.
 e_mail_address_entity = icemac.addressbook.entities.create_entity(
     _(u'e-mail address'), icemac.addressbook.interfaces.IEMailAddress,
-    EMailAddress)
+    EMailAddress, default_attrib='default_email_address')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IEMailAddress)
@@ -89,9 +93,11 @@ class HomePageAddress(
         icemac.addressbook.interfaces.IHomePageAddress['url'])
 
 
+# home page address entity, default_attrib is the name of the attribute
+# on IPerson which contains the default home page address.
 home_page_address_entity = icemac.addressbook.entities.create_entity(
     _(u'home page address'), icemac.addressbook.interfaces.IHomePageAddress,
-    HomePageAddress)
+    HomePageAddress, default_attrib='default_home_page_address')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IHomePageAddress)
@@ -114,8 +120,11 @@ class PhoneNumber(
         icemac.addressbook.interfaces.IPhoneNumber['number'])
 
 
+# phone number entity, default_attrib is the name of the attribute
+# on IPerson which contains the default phone number.
 phone_number_entity = icemac.addressbook.entities.create_entity(
-    _(u'phone number'), icemac.addressbook.interfaces.IPhoneNumber, PhoneNumber)
+    _(u'phone number'), icemac.addressbook.interfaces.IPhoneNumber,
+    PhoneNumber, default_attrib='default_phone_number')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPhoneNumber)
@@ -128,7 +137,6 @@ def phone_number_title(tel):
     return title
 
 
-# title is no i18n message id as it get concatenated later on
 address_mapping = (
     dict(interface=icemac.addressbook.interfaces.IPostalAddress,
          title=_(u'postal address'),
