@@ -150,7 +150,7 @@
         clear: both;
       }
 
-      /* fuer import-table: */
+      /* for tables: */
 
       .table-even-row {
         background-color: #e0e0e0;
