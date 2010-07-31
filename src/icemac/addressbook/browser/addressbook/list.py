@@ -82,6 +82,25 @@ class TranslatedTiteledDoubleGetAttrColumn(DoubleGetAttrColumn):
         translated = zope.i18n.translate(title, context=self.request)
         return translated
 
+class LinkedDoubleGetAttrColumn(z3c.table.column.LinkColumn,
+                                DoubleGetAttrColumn):
+    """DoubleGetAttrColumn which renders the value as a link."""
+
+    linkTarget = '_blank'
+
+    def getLinkURL(self, item):
+        # The link url is the value stored in the field.
+        return self.getValue(item)
+
+    # As link content, the url should be displayed, too.
+    getLinkContent = getLinkURL
+
+    def renderCell(self, item):
+        if self.getValue(item):
+            # Only fields with a value should be displayed as link.
+            return super(LinkedDoubleGetAttrColumn, self).renderCell(item)
+        return u''
+
 
 def getColumnClass(entity, field):
     """Get a column class to display the requested field of an entity."""
@@ -106,6 +125,9 @@ def getColumnClass(entity, field):
         if field.__name__ == 'country':
             # country is an object, so the title of it should be displayed
             return TranslatedTiteledDoubleGetAttrColumn
+        if field.__name__ == 'url':
+            # The home page url needs to be a link:
+            return LinkedDoubleGetAttrColumn
         # all other address fields need the default column
         return DoubleGetAttrColumn
 
