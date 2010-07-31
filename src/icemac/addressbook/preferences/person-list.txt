@@ -245,8 +245,21 @@ On the person list the values of the default address are displayed:
  </tbody>
   ...
 
+Changing the default address changes to person list, too:
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('main postal address').displayValue = ['c/o Papa, Fiji']
+>>> browser.getControl('Apply').click()
+>>> print browser.contents
+<!DOCTYPE ...
+    <tr class="table-even-row">
+      <td>c/o Papa</td>
+      <td>Fiji</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+  ...
+
 .. to test:
-.. other columns than "person -- *": change default address
 .. Sortierung
 .. Sortierung nach Feld, das nicht in Columns ist
 .. Show user defined fields in columns list
