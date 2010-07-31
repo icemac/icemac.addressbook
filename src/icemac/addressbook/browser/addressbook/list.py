@@ -139,10 +139,13 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
         super(PersonList, self).__init__(*args, **kw)
         prefs = self.prefs
         order_by = prefs.order_by
+        entity, field = icemac.addressbook.preferences.sources.untokenize(
+            order_by)
+        field_name = field.__name__
         try:
             # Set the sort column to the value seleted in preferences.
             self.sortOn = '%s-%s-%s' % (
-                self.prefix, order_by, prefs.columns.index(order_by))
+                self.prefix, field_name, prefs.columns.index(order_by))
         except ValueError:
             # When the order-by column is not displayed, use default
             # sort order.
@@ -157,7 +160,7 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
             column_class = getColumnClass(entity, field)
             result.append(
                 z3c.table.column.addColumn(
-                    self, column_class, column_name, attrName=field.__name__,
+                    self, column_class, field.__name__, attrName=field.__name__,
                     header=field.title, weight=len(result),
                     **getAdditionalColumnArgs(entity, field)))
         return result
