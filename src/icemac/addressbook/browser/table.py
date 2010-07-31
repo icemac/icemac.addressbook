@@ -35,11 +35,12 @@ class DeleteLinkColumn(z3c.table.column.LinkColumn):
 
 
 class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
+    "Column which truncates its content to `length` characters."
 
-    length = 20
-    attrName = None
-    ellipsis = u'…'
-    defaultValue = u''
+    length = 20 # number of characters to display
+    attrName = None # attribute to access
+    ellipsis = u'…' # ellipsis sign
+    defaultValue = u'' # default value when there is no value
 
     def getValue(self, obj):
         value = super(TruncatedContentColumn, self).getValue(obj)
