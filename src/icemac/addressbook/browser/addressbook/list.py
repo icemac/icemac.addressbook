@@ -129,11 +129,28 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
         u'There are no persons entered yet, click on "Add person" to create '
         u'one.')
 
-    def setUpColumns(self):
-        prefs = zope.component.getUtility(
+    @property
+    def prefs(self):
+        "User defined preferences for person list."
+        return zope.component.getUtility(
             zope.preference.interfaces.IPreferenceGroup, name="personList")
+
+    def __init__(self, *args, **kw):
+        super(PersonList, self).__init__(*args, **kw)
+        prefs = self.prefs
+        order_by = prefs.order_by
+        try:
+            # Set the sort column to the value seleted in preferences.
+            self.sortOn = '%s-%s-%s' % (
+                self.prefix, order_by, prefs.columns.index(order_by))
+        except ValueError:
+            # When the order-by column is not displayed, use default
+            # sort order.
+            pass
+
+    def setUpColumns(self):
         result = []
-        for column_name in prefs.columns:
+        for column_name in self.prefs.columns:
             entity, field = icemac.addressbook.preferences.sources.untokenize(
                 column_name)
             column_class = getColumnClass(entity, field)
