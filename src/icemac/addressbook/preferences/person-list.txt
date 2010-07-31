@@ -455,16 +455,3 @@ header:
     </tr>
   </tbody>
  ...
-
-
-
-.. to test:
-.. Show user defined fields in columns list
-.. user defined fields can be displayed in person list
-.. person list does not break when a displayed user defined field gets deleted
-
-.. to do:
-.. einfachere Spaltennamem in Tabelle
-
-.. to add:
-.. batching
