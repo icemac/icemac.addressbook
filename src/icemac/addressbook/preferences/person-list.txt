@@ -257,6 +257,52 @@ Changing the default address changes to person list, too:
     </tr>
   ...
 
+Home page column
+----------------
+
+The URL of the home page is displayed as a link. At first we have to
+enter a home page address.
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('URL').value = 'http://www.example.com'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+After selecting the home page column in the preferences, it gets
+displayed in the person list:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('home page address -- URL', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="http://www.example.com" target="_blank">http://www.example.com</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+  </tbody>
+  ...
+
+E-mail field
+------------
+
+>>> 'not yet implemented'
+
+
+
 Sorting
 =======
 

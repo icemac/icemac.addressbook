@@ -13,12 +13,35 @@ We need an address book:
 >>> from icemac.addressbook.testing import create_addressbook
 >>> ab = create_addressbook()
 
-And a browser to access it:
+A browser to access it:
 
 >>> from zope.testbrowser.testing import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+And some user definded fields:
+
+>>> from icemac.addressbook.testing import create_field
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Bool', u'photo permission?')
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Datetime', u'last seen')
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Choice', u'state',
+...     values=[u'Sachsen', u'Sachsen-Anhalt', u'Brandenburg'])
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Int', u'number of letters')
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Date', u'last time verified')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Decimal', u'cost per minute')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Text', u'mail box text')
+>>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...     u'URI', u'Company home page')
+>>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...     u'TextLine', u'Home page provider')
 
 
 >>> 'not yet implemented'
