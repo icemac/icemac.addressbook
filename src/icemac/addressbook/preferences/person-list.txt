@@ -467,5 +467,4 @@ header:
 .. einfachere Spaltennamem in Tabelle
 
 .. to add:
-.. generation which adds default preferences provider
 .. batching
