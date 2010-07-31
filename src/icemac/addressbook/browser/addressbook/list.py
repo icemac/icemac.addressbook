@@ -147,6 +147,7 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
             # When the order-by column is not displayed, use default
             # sort order.
             pass
+        self.sortOrder = prefs.sort_direction
 
     def setUpColumns(self):
         result = []

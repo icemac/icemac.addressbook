@@ -394,11 +394,71 @@ title:
   </tbody>
  ...
 
+Sort direction
+==============
+
+By default the sort direction is ascending, but the user can change it
+to descending:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- keywords', index=0),
+...      browser.getControl('person -- first name', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('sort direction').displayValue = ['descending']
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td>Friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>church, family, Friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+  </tbody>
+ ...
+
+The user is able to change the sort direction by selecing the colum
+header:
+
+>>> browser.getLink('keywords').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/@@index.html?table-sortOrder=ascending&table-sortOn=table-IcemacAddressbookPersonPerson%23%23%23keywords-0'
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>church, family, Friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>Friends</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+  </tbody>
+ ...
 
 
 
 .. to test:
-.. sort dir
 .. Show user defined fields in columns list
 .. user defined fields can be displayed in person list
 .. person list does not break when a displayed user defined field gets deleted

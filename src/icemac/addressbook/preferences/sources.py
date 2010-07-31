@@ -51,7 +51,7 @@ column_source = ColumnSource()
 
 class AscDescSource(icemac.addressbook.sources.TitleMappingSource):
     _mapping = stabledict.StableDict(
-        (('asc', _(u'ascending (A-->Z)')),
-         ('desc', _(u'descending (Z-->A)'))))
+        (('ascending', _(u'ascending (A-->Z)')),
+         ('descending', _(u'descending (Z-->A)'))))
 
 asc_des_csource = AscDescSource()
