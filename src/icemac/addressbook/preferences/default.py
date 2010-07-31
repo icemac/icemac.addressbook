@@ -34,5 +34,5 @@ def add(address_book):
     personList.order_by = icemac.addressbook.preferences.sources.tokenize(
         person_entity, 'last_name')
     # The default sort direction is ascending
-    personList.sort_direction = 'asc'
+    personList.sort_direction = 'ascending'
 
