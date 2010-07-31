@@ -7,6 +7,7 @@ import icemac.addressbook.preferences
 
 def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
-        'preferences.txt',
+        'person-list-userfields.txt',
         'person-list.txt',
+        'preferences.txt',
         package="icemac.addressbook.preferences")

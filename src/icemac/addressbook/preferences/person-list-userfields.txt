@@ -1,0 +1,468 @@
+================================================================
+ Preferences for the person list when using user defined fields
+================================================================
+
+The person list can be customized using preferences, even user defined
+fields are displayed:
+
+Set up
+======
+
+We need an address book:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+
+And a browser to access it:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+>>> 'not yet implemented'
+
+.. Default preferences
+.. ===================
+
+.. By default the list is ordered by the `person last name` column in
+.. ascending direction:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> browser.getControl('sort direction').displayValue
+.. ['ascending (A-->Z)']
+.. >>> browser.getControl('order by').displayValue
+.. ['person -- last name']
+
+.. Two columns are displayed by default. As the widget is a
+.. JavaScript-In-Out-Widget, we have to access the second list here:
+
+.. >>> browser.getControl(name='form.widgets.columns.to').displayOptions
+.. ['person -- last name', 'person -- first name']
+
+.. Changing columns
+.. ================
+
+.. Changing the columns in the preferences changes the columns in the
+.. person list, too. At first we need some persons:
+
+.. >>> from icemac.addressbook.testing import create_full_person
+.. >>> import datetime
+.. >>> create_full_person(ab, ab, u'Tester', first_name=u'Hans',
+.. ...     birth_date=datetime.date(1975, 4, 2), return_obj=False)
+.. >>> create_full_person(ab, ab, u'Streber', first_name=u'Gunter',
+.. ...     return_obj=False)
+.. >>> create_full_person(ab, ab, u'Utzer', return_obj=False)
+
+.. Date column
+.. -----------
+
+.. Adding the birth date to the columns list, also displayes the birth
+.. date in the person list:
+
+.. >>> from icemac.addressbook.testing import in_out_widget_select
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- birth date', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getControl(name='form.widgets.columns.to').displayOptions
+.. ['person -- birth date', 'person -- first name', 'person -- last name']
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <table>
+..   <thead>
+..     <tr>
+..       <th><a href="?table-sortOrder=ascending&table-sortOn=table-birth_date-0" title="Sort">birth date</a></th>
+..       <th><a href="?table-sortOrder=ascending&table-sortOn=table-first_name-1" title="Sort">first name</a></th>
+..       <th><a href="?table-sortOrder=descending&table-sortOn=table-last_name-2" title="Sort">last name</a></th>
+..     </tr>
+..   </thead>
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>1975 4 2 </td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..   </tbody>
+.. </table>
+..   ...
+
+.. Keywords column
+.. ---------------
+
+.. When a keywords column is added all keywords of the person are
+.. displayed separated by commas. At first we need some keywords:
+
+.. >>> from icemac.addressbook.testing import create_keyword
+.. >>> create_keyword(ab, u'church', return_obj=False)
+.. >>> create_keyword(ab, u'Friends', return_obj=False)
+.. >>> create_keyword(ab, u'family', return_obj=False)
+
+.. Then we have to assign the keywords to persons:
+
+.. >>> browser.getLink('Tester').click()
+.. >>> browser.getControl('keywords').displayValue = [
+.. ...     'Friends', 'church', 'family']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.url
+.. 'http://localhost/++skin++AddressBook/ab'
+.. >>> browser.getLink('Streber').click()
+.. >>> browser.getControl('keywords').displayValue = ['Friends']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.url
+.. 'http://localhost/++skin++AddressBook/ab'
+
+.. The keywords are sorted by their lower case variant inside the cell:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- keywords', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td>Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>church, family, Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..    <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..    </tr>
+..   </tbody>
+..  ...
+
+.. Notes column
+.. ------------
+
+.. The notes column gets displayed truncated, so it does not fill up the
+.. whole browser window. At first we need some notes text:
+
+.. >>> browser.getLink('Tester').click()
+.. >>> browser.getControl('notes').value = 'Gave him 20 Dollars in Jan 2010.'
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.url
+.. 'http://localhost/++skin++AddressBook/ab'
+
+.. Only the first 20 characters of the note are displayed:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- notes', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>Gave him 20 Dollars in …</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..   </tbody>
+..   ...
+
+.. Address columns
+.. ---------------
+
+.. It is also possible to select address columns. They display values of
+.. the address which is the default address of its kind. At first we need
+.. some data of the default address:
+
+.. >>> browser.getLink('Tester').click()
+.. >>> browser.getControl('address prefix').value = 'c/o Mama'
+.. >>> browser.getControl('country').displayValue = ['Gabon']
+.. >>> browser.getControl('Apply').click()
+
+.. And a new address those data is not displayed in the list:
+
+.. >>> browser.getLink('Tester').click()
+.. >>> browser.getLink('postal address').click()
+.. >>> browser.getControl('address prefix').value = 'c/o Papa'
+.. >>> browser.getControl('country').displayValue = ['Fiji']
+.. >>> browser.getControl('Add').click()
+
+.. On the person list the values of the default address are displayed:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('postal address -- address prefix', index=0),
+.. ...      browser.getControl('postal address -- country', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td>Germany</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>c/o Mama</td>
+..       <td>Gabon</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td>Germany</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..  </tbody>
+..   ...
+
+.. Changing the default address changes to person list, too:
+
+.. >>> browser.getLink('Tester').click()
+.. >>> browser.getControl('main postal address').displayValue = ['c/o Papa, Fiji']
+.. >>> browser.getControl('Apply').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..     <tr class="table-odd-row">
+..       <td>c/o Papa</td>
+..       <td>Fiji</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..   ...
+
+.. Sorting
+.. =======
+
+.. The user is able to select a column which is used to sort the person list.
+.. (By default the person list is sorted by person -- last name.)
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- birth date', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('order by').displayValue = ['person -- first name']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td>1975 4 2 </td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..   </tbody>
+..   ...
+
+.. By not displayed column
+.. -----------------------
+
+.. Selecting a field for sorting which is not displayed results in
+.. sorting on the fist column. In the following case this is the birth
+.. date column. This example also shows that in this column empty values
+.. are sorted to the end:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- birth date', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('order by').displayValue = ['address -- city']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td>1975 4 2 </td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..   </tbody>
+..   ...
+
+.. By keyword column
+.. -----------------
+
+.. When the user sorts by the keyword column, the column contents are
+.. sorted by lower case variant of the cell contents:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- keywords', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('order by').displayValue = ['person -- keywords']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>church, family, Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td>Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..   </tbody>
+..  ...
+
+.. Change sort column in UI
+.. ------------------------
+
+.. The user is also able to change the sort order by clicking on a column
+.. title:
+
+.. >>> browser.getLink('first name').click()
+.. >>> browser.url
+.. 'http://localhost/++skin++AddressBook/ab/@@index.html?table-sortOrder=ascending&table-sortOn=table-first_name-1'
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td>church, family, Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..   </tbody>
+..  ...
+
+.. Sort direction
+.. ==============
+
+.. By default the sort direction is ascending, but the user can change it
+.. to descending:
+
+.. >>> browser.getLink('Preferences').click()
+.. >>> in_out_widget_select(browser, 'form.widgets.columns',
+.. ...     [browser.getControl('person -- keywords', index=0),
+.. ...      browser.getControl('person -- first name', index=0),
+.. ...      browser.getControl('person -- last name', index=0)])
+.. >>> browser.getControl('sort direction').displayValue = ['descending']
+.. >>> browser.getControl('Apply').click()
+.. >>> browser.getLink('Person list').click()
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td>Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>church, family, Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..   </tbody>
+..  ...
+
+.. The user is able to change the sort direction by selecing the colum
+.. header:
+
+.. >>> browser.getLink('keywords').click()
+.. >>> browser.url
+.. 'http://localhost/++skin++AddressBook/ab/@@index.html?table-sortOrder=ascending&table-sortOn=table-keywords-0'
+.. >>> print browser.contents
+.. <!DOCTYPE ...
+..   <tbody>
+..     <tr class="table-even-row">
+..       <td></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+..     </tr>
+..     <tr class="table-odd-row">
+..       <td>church, family, Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+..     </tr>
+..     <tr class="table-even-row">
+..       <td>Friends</td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
+..       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+..     </tr>
+..   </tbody>
+..  ...
+
+
+
+.. to test:
+.. Show user defined fields in columns list
+.. user defined fields can be displayed in person list
+.. person list does not break when a displayed user defined field gets deleted
