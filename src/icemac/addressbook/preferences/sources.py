@@ -18,7 +18,7 @@ def untokenize(token):
     "Convert a token containing of entity and field name back to the objects."
     entity_name, field_name = token.split('###')
     entity = icemac.addressbook.interfaces.IEntity(entity_name)
-    field = entity.getField(field_name)
+    field = entity.getRawField(field_name)
     return entity, field
 
 
