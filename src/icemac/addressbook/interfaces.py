@@ -154,8 +154,16 @@ class IEntity(zope.interface.Interface):
     tagged_values = zope.interface.Attribute(
         "Dict of tagged values of the entity.")
 
+    def getRawField(field_name):
+        """Get a field by its name. (Without any conversion.)"""
+
     def getField(field_name):
-        """Get a zope.schema field by its name."""
+        """Get a zope.schema field by its name.
+
+        When the field is a user defined one it gets converted to a zope.schema
+        field.
+        """
+
 
     def getRawFields():
         """Get ordered name, field tuples of the schema fields on the entity.

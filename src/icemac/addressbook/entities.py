@@ -165,9 +165,14 @@ class Entity(object):
         """
         return [field for name, field in self.getFieldsInOrder()]
 
+    def getRawField(self, field_name):
+        """Get a field by its name."""
+        return dict(self.getRawFields())[field_name]
+
     def getField(self, field_name):
         """Get a zope.schema field by its name."""
         return dict(self.getFieldsInOrder())[field_name]
+
 
     def getClass(self):
         """Get the class object for `self.class_name`."""
