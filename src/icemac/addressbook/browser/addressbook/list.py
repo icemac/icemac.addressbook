@@ -11,6 +11,7 @@ import zope.component
 import zope.i18n
 import zope.preference.interfaces
 import zope.schema.interfaces
+import z3c.form.term
 
 
 END_OF_TIME = datetime.date(datetime.MAXYEAR,12,31)
@@ -51,6 +52,38 @@ class DateColumn(z3c.table.column.FormatterColumn,
             # empty date fields should be sorted to the end of the list
             key = END_OF_TIME
         return key
+
+
+class AdaptedGetAttrColumn(z3c.table.column.GetAttrColumn):
+    "Class which adapts the item to a specified interface."
+
+    attrInterface = icemac.addressbook.interfaces.IUserFieldStorage
+
+    def getValue(self, item):
+        # Need to remove the security proxy here as otherwise the user
+        # defined field data cannot be accessed (it is stored in an
+        # annotation). This is no security hole, as the value is only
+        # used for display.
+        item = zope.security.proxy.getObject(item)
+        value = super(AdaptedGetAttrColumn, self).getValue(
+            self.attrInterface(item))
+        if value is None:
+            return self.defaultValue
+        return value
+
+
+class AdaptedBoolGetAttrColumn(AdaptedGetAttrColumn):
+    "AdaptedGetAttrColumn for displaying bool values."
+
+    def getValue(self, item):
+        value = super(AdaptedBoolGetAttrColumn, self).getValue(item)
+        # We use the labels og z3c.form here so the displayed values
+        # are the same like in the edit form.
+        if value is True:
+            return z3c.form.term.BoolTerms.trueLabel
+        if value is False:
+            return z3c.form.term.BoolTerms.falseLabel
+        return self.defaultValue
 
 
 class DoubleGetAttrColumn(z3c.table.column.GetAttrColumn):
@@ -129,6 +162,11 @@ def getColumnClass(entity, field):
             # Date fields need a special column, as None values are not
             # compareable to date values:
             return DateColumn
+        if icemac.addressbook.interfaces.IField.providedBy(field):
+            # user defined fields
+            if field.type == u'Bool':
+                return AdaptedBoolGetAttrColumn
+            return AdaptedGetAttrColumn
     else:
         # address entities
         if field.__name__ == 'country':
