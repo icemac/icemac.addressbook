@@ -177,11 +177,11 @@
 
       /* fuer formulare: (metadaten oben rechts) */
 
-      form div.group {
+      form#edit-form div.group {
         float: left;
       }
 
-      form div.group + fieldset {
+      form#edit-form div.group + fieldset {
         float: right;
       }
 
