@@ -82,11 +82,13 @@ class TranslatedTiteledDoubleGetAttrColumn(DoubleGetAttrColumn):
         translated = zope.i18n.translate(title, context=self.request)
         return translated
 
+
 class EMailDoubleGetAttrColumn(DoubleGetAttrColumn,
                                z3c.table.column.EMailColumn):
     "DoubleGetAttrColumn which renders the cell contents as mailto-link."
 
     renderCell = z3c.table.column.EMailColumn.renderCell
+
 
 class LinkedDoubleGetAttrColumn(z3c.table.column.LinkColumn,
                                 DoubleGetAttrColumn):
