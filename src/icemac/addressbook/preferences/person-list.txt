@@ -299,7 +299,41 @@ displayed in the person list:
 E-mail field
 ------------
 
->>> 'not yet implemented'
+E-mail adresses are displayed as mailto-links. At first we have to
+enter an a-mail address.
+
+>>> browser.getLink('Tester').click()
+>>> browser.getControl('e-mail', index=1).value = 'tester@example.com'
+>>> browser.getControl('Apply').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+After selecting the e-mail address column in the preferences, it gets
+displayed in the person list:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('e-mail address -- e-mail address', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="mailto:tester@example.com">tester@example.com</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+    </tr>
+  </tbody>
+  ...
 
 
 
