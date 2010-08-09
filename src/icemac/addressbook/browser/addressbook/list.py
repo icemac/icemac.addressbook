@@ -82,9 +82,16 @@ class TranslatedTiteledDoubleGetAttrColumn(DoubleGetAttrColumn):
         translated = zope.i18n.translate(title, context=self.request)
         return translated
 
+class EMailDoubleGetAttrColumn(DoubleGetAttrColumn,
+                               z3c.table.column.EMailColumn):
+    "DoubleGetAttrColumn which renders the cell contents as mailto-link."
+
+    renderCell = z3c.table.column.EMailColumn.renderCell
+
 class LinkedDoubleGetAttrColumn(z3c.table.column.LinkColumn,
                                 DoubleGetAttrColumn):
     """DoubleGetAttrColumn which renders the value as a link."""
+
 
     linkTarget = '_blank'
 
@@ -128,6 +135,9 @@ def getColumnClass(entity, field):
         if field.__name__ == 'url':
             # The home page url needs to be a link:
             return LinkedDoubleGetAttrColumn
+        if field.__name__ == 'email':
+            # The e-mail address should be a mailto-link:
+            return EMailDoubleGetAttrColumn
         # all other address fields need the default column
         return DoubleGetAttrColumn
 
