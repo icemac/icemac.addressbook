@@ -6,22 +6,57 @@ from icemac.addressbook.i18n import _
 import datetime
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
+import icemac.truncatetext
+import z3c.form.term
 import z3c.table.column
 import zope.component
 import zope.i18n
 import zope.preference.interfaces
 import zope.schema.interfaces
-import z3c.form.term
 
 
 END_OF_TIME = datetime.date(datetime.MAXYEAR,12,31)
 
 
-class LinkColumn(z3c.table.column.LinkColumn):
-    """LinkColumn which fetches link content from item."""
+class BaseColumn(z3c.table.column.Column):
+    """Column which is able to get an object on an attribute of the item and
+    adapt it to specified interface."""
 
-    attrName = None # Attribute wich contains the link content.
-    defaultValue = u'' # value when attrName leads to a false value
+    firstAttrName = None # Name of the attribute to be selected first
+    attrInterface = None # Adapt to this interface
+    attrName = None # Get the attribute with this name as value
+    defaultValue = u'' # Value for display when there is no value.
+
+    def getObject(self, item):
+        "Get the object for which has the attribute display."
+        if self.firstAttrName:
+            item = getattr(item, self.firstAttrName)
+        if self.attrInterface:
+            # Need to remove the security proxy here as otherwise the
+            # user defined field data cannot be accessed (it is stored
+            # in an annotation). This is no security hole, as the
+            # value is only used for display.
+            item = zope.security.proxy.getObject(item)
+            item = self.attrInterface(item)
+        return item
+
+    def getRawValue(self, item):
+        "Compute the value, which can be None."
+        return getattr(self.getObject(item), self.attrName)
+
+    def getValue(self, item):
+        "Compute the value, mostly ready for display."
+        obj = self.getRawValue(item)
+        if obj is None:
+            return self.defaultValue
+        return obj
+
+    renderCell = getValue
+
+
+class LinkColumn(z3c.table.column.LinkColumn,
+                 BaseColumn):
+    """LinkColumn which fetches link content from item."""
 
     def getSortKey(self, item):
         # Sort by the value displayed to the user, but lowercase it,
@@ -31,54 +66,57 @@ class LinkColumn(z3c.table.column.LinkColumn):
 
     def getLinkContent(self, item):
         # Get the content from item or return the default value when empty.
-        return getattr(item, self.attrName) or self.defaultValue
+        return self.getValue(item)
+
+    def renderCell(self, item):
+        if self.getLinkContent(item):
+            return super(LinkColumn, self).renderCell(item)
+        return self.defaultValue
+
+class URLColumn(LinkColumn):
+    """LinkColumn where the link URL is the same as the link content."""
+
+    getLinkURL = LinkColumn.getLinkContent
 
 
 class DateColumn(z3c.table.column.FormatterColumn,
-                 z3c.table.column.GetAttrColumn):
+                 BaseColumn):
     """Column which is sortable even with `None` values in it."""
 
     formatterCategory = 'date'
 
     def renderCell(self, item):
-        value = self.getValue(item)
-        if value is None:
-            return self.defaultValue
-        return self.getFormatter().format(value)
+        value = self.getRawValue(item)
+        if value:
+            return self.getFormatter().format(value)
+        return self.defaultValue
 
     def getSortKey(self, item):
-        key = self.getValue(item)
+        key = self.getRawValue(item)
         if key is None:
             # empty date fields should be sorted to the end of the list
             key = END_OF_TIME
         return key
 
 
-class AdaptedGetAttrColumn(z3c.table.column.GetAttrColumn):
-    "Class which adapts the item to a specified interface."
+class TruncatedContentColumn(BaseColumn):
+    """Column which truncates its content."""
 
-    attrInterface = icemac.addressbook.interfaces.IUserFieldStorage
+    length = 20 # number of characters to display
+    ellipsis = u'…' # ellipsis sign
 
-    def getValue(self, item):
-        # Need to remove the security proxy here as otherwise the user
-        # defined field data cannot be accessed (it is stored in an
-        # annotation). This is no security hole, as the value is only
-        # used for display.
-        item = zope.security.proxy.getObject(item)
-        value = super(AdaptedGetAttrColumn, self).getValue(
-            self.attrInterface(item))
-        if value is None:
-            return self.defaultValue
-        return value
+    def renderCell(self, item):
+        return icemac.truncatetext.truncate(
+            self.getRawValue(item), self.length, self.ellipsis)
 
 
-class AdaptedBoolGetAttrColumn(AdaptedGetAttrColumn):
+class BoolColumn(BaseColumn):
     "AdaptedGetAttrColumn for displaying bool values."
 
-    def getValue(self, item):
-        value = super(AdaptedBoolGetAttrColumn, self).getValue(item)
-        # We use the labels og z3c.form here so the displayed values
-        # are the same like in the edit form.
+    def renderCell(self, item):
+        value = self.getRawValue(item)
+        # We use the labels of z3c.form here so the displayed values
+        # are the same as in the edit form.
         if value is True:
             return z3c.form.term.BoolTerms.trueLabel
         if value is False:
@@ -86,112 +124,79 @@ class AdaptedBoolGetAttrColumn(AdaptedGetAttrColumn):
         return self.defaultValue
 
 
-class DoubleGetAttrColumn(z3c.table.column.GetAttrColumn):
-    """Column which does two getattr calls in a row."""
-
-    firstAttrName = None # name of the first attribute of the row
-    attrName = None # name of the second attribute of the row
-
-    def getValue(self, obj):
-        "Compute the value in a row."
-        return super(DoubleGetAttrColumn, self).getValue(
-            getattr(obj, self.firstAttrName))
+class TranslatedTiteledColumn(BaseColumn):
+    """Column which returns the translated ITitle of the value."""
 
     def renderCell(self, obj):
-        value = self.getValue(obj)
-        if value is None:
-            # Do not display `None` in the front end.
-            return self.defaultValue
-        return value
-
-
-class TranslatedTiteledDoubleGetAttrColumn(DoubleGetAttrColumn):
-    """DoubleGetAttrColumn which returns the translated ITitle of the value."""
-
-    def getValue(self, obj):
         "Get the title of the value."
-        value = super(TranslatedTiteledDoubleGetAttrColumn, self).getValue(obj)
-        title = icemac.addressbook.interfaces.ITitle(value)
-        translated = zope.i18n.translate(title, context=self.request)
+        value = self.getRawValue(obj)
+        if value:
+            title = icemac.addressbook.interfaces.ITitle(value)
+            translated = zope.i18n.translate(title, context=self.request)
+        else:
+            translated = self.defaultValue
         return translated
 
 
-class EMailDoubleGetAttrColumn(DoubleGetAttrColumn,
-                               z3c.table.column.EMailColumn):
-    "DoubleGetAttrColumn which renders the cell contents as mailto-link."
+class EMailColumn(BaseColumn,
+                  z3c.table.column.EMailColumn):
+    "Column which renders the cell contents as mailto-link."
 
     renderCell = z3c.table.column.EMailColumn.renderCell
 
 
-class LinkedDoubleGetAttrColumn(z3c.table.column.LinkColumn,
-                                DoubleGetAttrColumn):
-    """DoubleGetAttrColumn which renders the value as a link."""
-
-
-    linkTarget = '_blank'
-
-    def getLinkURL(self, item):
-        # The link url is the value stored in the field.
-        return self.getValue(item)
-
-    # As link content, the url should be displayed, too.
-    getLinkContent = getLinkURL
-
-    def renderCell(self, item):
-        if self.getValue(item):
-            # Only fields with a value should be displayed as link.
-            return super(LinkedDoubleGetAttrColumn, self).renderCell(item)
-        return u''
-
-
 def getColumnClass(entity, field):
     """Get a column class to display the requested field of an entity."""
-    if entity.interface == icemac.addressbook.interfaces.IPerson:
-        if field.__name__ in ('first_name', 'last_name'):
-            # First name and last name should be links ...
-            return LinkColumn
-        if field.__name__ == 'keywords':
-            # Keywords need a special column as they are an iterable:
-            return icemac.addressbook.browser.table.KeywordsColumn
-        if (zope.schema.interfaces.IText.providedBy(field) and
-            not zope.schema.interfaces.ITextLine.providedBy(field)):
-            # The content of text areas (not text lines, which extend from
-            # text area) should get truncated.
-            return icemac.addressbook.browser.table.TruncatedContentColumn
-        if zope.schema.interfaces.IDate.providedBy(field):
-            # Date fields need a special column, as None values are not
-            # compareable to date values:
-            return DateColumn
-        if icemac.addressbook.interfaces.IField.providedBy(field):
-            # user defined fields
-            if field.type == u'Bool':
-                return AdaptedBoolGetAttrColumn
-            return AdaptedGetAttrColumn
-    else:
-        # address entities
-        if field.__name__ == 'country':
-            # country is an object, so the title of it should be displayed
-            return TranslatedTiteledDoubleGetAttrColumn
-        if field.__name__ == 'url':
-            # The home page url needs to be a link:
-            return LinkedDoubleGetAttrColumn
-        if field.__name__ == 'email':
-            # The e-mail address should be a mailto-link:
-            return EMailDoubleGetAttrColumn
-        # all other address fields need the default column
-        return DoubleGetAttrColumn
+    if field.__name__ in ('first_name', 'last_name'):
+        # Person's first name and last name should be links:
+        return LinkColumn
+    if field.__name__ == 'keywords':
+        # Keywords need a special column as they are an iterable:
+        return icemac.addressbook.browser.table.KeywordsColumn
+    if (zope.schema.interfaces.IText.providedBy(field) and
+        not zope.schema.interfaces.ITextLine.providedBy(field)):
+        # The content of text areas (but not text lines, which extend from
+        # text area) should get truncated.
+        return TruncatedContentColumn
+    if zope.schema.interfaces.IDate.providedBy(field):
+        # Date fields need a special column, as None values are not
+        # compareable to date values:
+        return DateColumn
+    if field.__name__ == 'country':
+        # Country is an object, so the translated title should be displayed:
+        return TranslatedTiteledColumn
+    if field.__name__ == 'email':
+        # The e-mail address should be a mailto-link:
+        return EMailColumn
+    if field.__name__ == 'url':
+        return URLColumn
+    if icemac.addressbook.interfaces.IField.providedBy(field):
+        # User defined fields:
+        if field.type == u'Bool':
+            return BoolColumn
+        if field.type == u'URI':
+            return URLColumn
+        if field.type == u'Text':
+            return TruncatedContentColumn
+    return BaseColumn
 
 
 def getAdditionalColumnArgs(entity, field):
     """Get additional arguments to a specific column.
 
     Return a dict to be used as keyword args."""
-    if entity.interface == icemac.addressbook.interfaces.IPerson:
-        # Persons need no special arguments
-        return {}
-    else:
+    kw = dict()
+    if icemac.addressbook.interfaces.IField.providedBy(field):
+        # User defined fields need to be adapted
+        kw['attrInterface'] = icemac.addressbook.interfaces.IUserFieldStorage
+    if entity.interface != icemac.addressbook.interfaces.IPerson:
         # Addresses need the name of the default address attribute
-        return dict(firstAttrName=entity.tagged_values.get('default_attrib'))
+        kw['firstAttrName'] = entity.tagged_values.get('default_attrib')
+    if (field.__name__ == 'url' or
+        (icemac.addressbook.interfaces.IField.providedBy(field) and
+         field.type == 'URI')):
+        kw['linkTarget'] = '_blank'
+    return kw
 
 
 class PersonList(icemac.addressbook.browser.table.PageletTable):

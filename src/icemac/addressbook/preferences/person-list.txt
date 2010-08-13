@@ -89,7 +89,7 @@ date in the person list:
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
@@ -143,9 +143,9 @@ The keywords are sorted by their lower case variant inside the cell:
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
     </tr>
-   <tr class="table-even-row">
+    <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
    </tr>
   </tbody>
@@ -187,7 +187,7 @@ Only the first 20 characters of the note are displayed:
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
@@ -356,7 +356,7 @@ The user is able to select a column which is used to sort the person list.
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
@@ -403,7 +403,7 @@ are sorted to the end:
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
@@ -428,7 +428,7 @@ sorted by lower case variant of the cell contents:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
@@ -458,7 +458,7 @@ title:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
@@ -503,7 +503,7 @@ to descending:
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
@@ -520,7 +520,7 @@ header:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3"></a></td>
+      <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
