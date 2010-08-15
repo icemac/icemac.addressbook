@@ -139,13 +139,6 @@ def add_more_addressbook_infrastructure(addressbook):
         intids = zope.app.appsetup.bootstrap.ensureUtility(
             addressbook, zope.intid.interfaces.IIntIds, '', zope.intid.IntIds)
 
-        # register existing persons with intid utility
-        for person in addressbook.values():
-            intids.register(person)
-            # register adresses of persons
-            for value in person.values():
-                intids.register(value)
-
     # catalog
     if utility_locally_registered(addressbook,
                                   zope.catalog.interfaces.ICatalog):
