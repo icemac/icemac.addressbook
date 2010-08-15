@@ -156,6 +156,11 @@
      permission="icemac.addressbook.ViewFile"
      />
 
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="z3c.preference.EditPreference"
+     />
+
   <!-- Visitor -->
   <role id="icemac.addressbook.global.Visitor"
         title="Visitor"
@@ -221,6 +226,12 @@
      role="icemac.addressbook.global.Visitor"
      permission="icemac.addressbook.ViewFile"
      />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="z3c.preference.EditPreference"
+     />
+
 
   <!-- Administrator -->
   <role

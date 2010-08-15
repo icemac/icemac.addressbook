@@ -1,0 +1,339 @@
+================================================================
+ Preferences for the person list when using user defined fields
+================================================================
+
+The person list can be customized using preferences, even user defined
+fields are displayed:
+
+Set up
+======
+
+We need an address book:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+
+A browser to access it:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+And some user definded fields:
+
+>>> from icemac.addressbook.testing import create_field
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Bool', u'photo permission?')
+>>> create_field(ab, 'icemac.addressbook.person.Person',
+...     u'Datetime', u'last seen')
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Choice', u'state',
+...     values=[u'Sachsen', u'Sachsen-Anhalt', u'Brandenburg'])
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Int', u'number of letters')
+>>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...     u'Date', u'last time verified')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Decimal', u'cost per minute')
+>>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...     u'Text', u'mail box text')
+>>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...     u'URI', u'company home page')
+>>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...     u'TextLine', u'home page provider')
+
+And some data in the fields:
+
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Tester'
+>>> browser.getControl('yes').click()
+>>> browser.getControl('number of letters').value = '42'
+>>> browser.getControl('state').displayValue = ['Brandenburg']
+>>> browser.getControl('cost per minute').value = '1.45'
+>>> browser.getControl('mail box text').value = (
+...     'Hi, I do not like the boring texts of the answering machines ...')
+>>> browser.getControl('company home page').value = 'http://www.mycompany.de'
+>>> browser.getControl('home page provider').value = 'mycomp'
+>>> browser.getControl('Add').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+
+>>> browser.getLink('person').click()
+>>> browser.getControl('last name').value = 'Utzer'
+>>> browser.getControl('last time verified').value = '01/01/08'
+>>> browser.getControl('last seen').value = '10/08/09 20:15'
+>>> browser.getControl('Add').click()
+
+
+Selecting columns
+=================
+
+The user defined fields show up in the columns list in the preferences:
+
+>>> from pprint import pprint
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl('order by').displayOptions)
+['person -- first name',
+ 'person -- last name',
+ 'person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'person -- photo permission?',
+ 'person -- last seen',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'postal address -- number of letters',
+ 'postal address -- last time verified',
+ 'postal address -- state',
+ 'phone number -- number',
+ 'phone number -- cost per minute',
+ 'phone number -- mail box text',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL',
+ 'home page address -- company home page',
+ 'home page address -- home page provider']
+
+Selecting columns shows them in the person list:
+
+>>> from icemac.addressbook.testing import in_out_widget_select
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- photo permission?', index=0),
+...      browser.getControl('person -- last seen', index=0),
+...      browser.getControl('postal address -- number of letters', index=0),
+...      browser.getControl('postal address -- last time verified', index=0),
+...      browser.getControl('postal address -- state', index=0),
+...      browser.getControl('phone number -- cost per minute', index=0),
+...      browser.getControl('phone number -- mail box text', index=0),
+...      browser.getControl('home page address -- company home page', index=0),
+...      browser.getControl('home page address -- home page provider', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td>yes</td>
+      <td></td>
+      <td>Brandenburg</td>
+      <td>Hi, I do not like the …</td>
+      <td><a href="http://www.mycompany.de" target="_blank">http://www.mycompany.de</a></td>
+      <td></td>
+      <td>1.45</td>
+      <td>mycomp</td>
+      <td>42</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td>2001 1 8 </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2010 8 9  20:15:00 </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+    </tr>
+  </tbody>
+  ...
+
+Deleted column which was selected for display
+=============================================
+
+When the user has deleted a user defined column which was selected for
+display, neither the person list nor the perferences form are breaking.
+
+Deleting column
+---------------
+
+Let's delete the "photo permission?" column:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+>>> browser.getLink('Edit fields', index=5).click()
+>>> browser.url
+'http://localhost/.../++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('Delete').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...photo permission?...
+>>> browser.getControl('Yes, delete').click()
+
+
+Person list
+-----------
+
+Deleted columns are omitted from the person list. The sort order is kept as
+set in preferences:
+
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td></td>
+      <td>Brandenburg</td>
+      <td>Hi, I do not like the …</td>
+      <td><a href="http://www.mycompany.de" target="_blank">http://www.mycompany.de</a></td>
+      <td></td>
+      <td>1.45</td>
+      <td>mycomp</td>
+      <td>42</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>2001 1 8 </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2010 8 9  20:15:00 </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+    </tr>
+  </tbody>
+  ...
+
+
+Preferences form
+----------------
+
+Deleted columns are omitted in the preferences form:
+
+>>> browser.getLink('').click()
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl('order by').displayOptions)
+['person -- first name',
+ 'person -- last name',
+ 'person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'person -- last seen',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'postal address -- number of letters',
+ 'postal address -- last time verified',
+ 'postal address -- state',
+ 'phone number -- number',
+ 'phone number -- cost per minute',
+ 'phone number -- mail box text',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL',
+ 'home page address -- company home page',
+ 'home page address -- home page provider']
+
+
+Deleted order-by column
+=======================
+
+When the user has deleted a user defined column which was selected as
+order-by column, neither the person list nor the perferences form are
+breaking.
+
+Selecting column
+----------------
+
+Let's select the "person -- last seen" column for order by:
+
+>>> browser.getLink('Preferences').click()
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- last seen', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('order by').displayValue = ['person -- last seen']
+>>> browser.getControl('Apply').click()
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td>2010 8 9  20:15:00 </td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+  </tbody>
+  ...
+
+
+Deleting column
+---------------
+
+Let's delete the currently selected order-by column "last seen" on "person":
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+>>> browser.getLink('Edit fields', index=5).click()
+>>> browser.url
+'http://localhost/.../++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('Delete').click()
+>>> print browser.contents
+<!DOCTYPE ...
+...last seen...
+>>> browser.getControl('Yes, delete').click()
+
+
+Person list
+-----------
+
+When the order-by column gets deleted, the results are sorted by the first
+column:
+
+>>> browser.getLink('Person list').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+    </tr>
+  </tbody>
+  ...
+
+
+Preferences form
+----------------
+
+Deleted columns are omitted in the preferences form:
+
+>>> browser.getLink('').click()
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl('order by').displayOptions)
+['person -- first name',
+ 'person -- last name',
+ 'person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'postal address -- number of letters',
+ 'postal address -- last time verified',
+ 'postal address -- state',
+ 'phone number -- number',
+ 'phone number -- cost per minute',
+ 'phone number -- mail box text',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL',
+ 'home page address -- company home page',
+ 'home page address -- home page provider']
+
+The first entry of the list is selected which means that no value is selected:
+
+>>> browser.getControl('order by').displayValue
+['person -- first name']

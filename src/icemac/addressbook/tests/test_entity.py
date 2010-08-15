@@ -77,9 +77,31 @@ class TestEntity(unittest.TestCase):
         self.assertEqual(
             self.schemaized_field, self.entity.getField('Field#1'))
 
+    def test_getRawField_unknown_field(self):
+        self.assertRaises(KeyError, self.entity.getRawField, 'asdf')
+
+    def test_getRawField_schema_field(self):
+        self.assertEqual(IDummy['dummy2'], self.entity.getRawField('dummy2'))
+
+    def test_getRawField_user_field(self):
+        self.assertEqual(
+            self.user_field, self.entity.getRawField('Field#1'))
+
     def test_getClass(self):
         self.assertEqual(Dummy, self.entity.getClass())
 
     def test_getClass_no_class_set(self):
         e = icemac.addressbook.entities.Entity(None, IDummy, None)
         self.assertRaises(ValueError, e.getClass)
+
+    def test_tagged_values(self):
+        e = icemac.addressbook.entities.Entity(
+            u'Dummy', IDummy, 'Dummy', a=1, b='asdf')
+        self.assertEqual(dict(a=1, b='asdf'), e.tagged_values)
+
+    def test_tagged_values_returns_copy(self):
+        # Tagged values not modifyable by modifying the returned dict.
+        e = icemac.addressbook.entities.Entity(
+            u'Dummy', IDummy, 'Dummy', a=1, b='asdf')
+        e.tagged_values['a'] = 2
+        self.assertEqual(dict(a=1, b='asdf'), e.tagged_values)

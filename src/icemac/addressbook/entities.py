@@ -103,7 +103,7 @@ class Entity(object):
     class_name = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IEntity['class_name'])
 
-    def __init__(self, title, interface, class_name):
+    def __init__(self, title, interface, class_name, **kw):
         # To create an entity, use `create_entity` factory (see below) which
         # also does the ZCA set up.
         self.title = title
@@ -113,16 +113,29 @@ class Entity(object):
         # look up the user defined fields which are named adapters
         self._fake_object = FakeObject()
         zope.interface.directlyProvides(self._fake_object, self.interface)
+        # Additional keyword arguments are stored as tagged values
+        self._tagged_values = kw
 
     @property
     def name(self):
+        "Uniqe name of the entity which only contains letters."
         if not self.class_name:
             raise ValueError(
                 "Entity has no `class_name` set, so `name` cannot be computed.")
         parts = self.class_name.replace('_', '.').split('.')
         return ''.join(x.capitalize() for x in parts)
 
+    @property
+    def tagged_values(self):
+        "Dict of tagged values of the entity."
+        return self._tagged_values.copy()
+
     def getRawFields(self):
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Returnes static (zope.schema) and user defined (IField) fields.
+
+        """
         for name, field in zope.schema.getFieldsInOrder(self.interface):
             yield name, field
         # self._fake_object is needed here as the interfaces provided by the
@@ -133,6 +146,11 @@ class Entity(object):
             yield str(field.__name__), field
 
     def getFieldsInOrder(self):
+        """Get ordered name, field tuples of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
         for name, field in self.getRawFields():
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 yield name, user_field_to_schema_field(field)
@@ -140,24 +158,49 @@ class Entity(object):
                 yield name, field
 
     def getFieldValuesInOrder(self):
+        """Get ordered list of the schema fields on the entity.
+
+        Converts user defined fields (see IField) into zope.schema fields.
+
+        """
         return [field for name, field in self.getFieldsInOrder()]
 
+    def getRawField(self, field_name):
+        """Get a field by its name."""
+        return dict(self.getRawFields())[field_name]
+
     def getField(self, field_name):
+        """Get a zope.schema field by its name."""
         return dict(self.getFieldsInOrder())[field_name]
 
+
     def getClass(self):
+        """Get the class object for `self.class_name`."""
         if self.class_name:
             return zope.dottedname.resolve.resolve(self.class_name)
         raise ValueError("class_name is not set.")
 
 
-def create_entity(title, interface, class_):
+def create_entity(title, interface, class_, **kw):
     "Factory to create an entity and to the ZCA set up."
     class_name = '%s.%s' % (class_.__module__, class_.__name__)
-    entity = Entity(title, interface, class_name)
+    entity = Entity(title, interface, class_name, **kw)
     zope.interface.classImplements(
         class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity
+
+
+def get_main_entities():
+    "Get the most important entities."
+    name_suffixes = ['person.Person',
+                     'address.PostalAddress',
+                     'address.PhoneNumber',
+                     'address.EMailAddress',
+                     'address.HomePageAddress']
+    return [zope.component.getUtility(
+                icemac.addressbook.interfaces.IEntity,
+                name='icemac.addressbook.'+suffix)
+            for suffix in name_suffixes]
 
 
 class Field(persistent.Persistent, zope.container.contained.Contained):

@@ -116,6 +116,7 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
 
     next_url = None # target object after edit, one of ('object', 'parent')
     next_view = None # target view after edit (None for default view)
+    id = 'edit-form'
 
     def render(self):
         if self.request.response.getStatus() in (302, 303, 304):

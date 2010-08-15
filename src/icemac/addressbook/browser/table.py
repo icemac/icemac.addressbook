@@ -35,13 +35,33 @@ class DeleteLinkColumn(z3c.table.column.LinkColumn):
 
 
 class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
+    "Column which truncates its content to `length` characters."
 
-    length = 20
-    attrName = None
+    length = 20 # number of characters to display
+    attrName = None # attribute to access
+    ellipsis = u'…' # ellipsis sign
+    defaultValue = u'' # default value when there is no value
 
     def getValue(self, obj):
         value = super(TruncatedContentColumn, self).getValue(obj)
-        return icemac.truncatetext.truncate(value, self.length)
+        if value is None:
+            return self.defaultValue
+        result = icemac.truncatetext.truncate(value, self.length, self.ellipsis)
+        return result
+
+
+class KeywordsColumn(z3c.table.column.GetAttrColumn):
+    """GetAttrColumn where attr is an iterable of keywords."""
+
+    def getSortKey(self, item):
+        return super(KeywordsColumn, self).getSortKey(item).lower()
+
+    def getValue(self, obj):
+        values = super(KeywordsColumn, self).getValue(obj)
+        return u', '.join(sorted(
+            (icemac.addressbook.interfaces.ITitle(x) for x in values),
+            key=lambda x: x.lower()))
+
 
 
 # Tables
@@ -49,6 +69,8 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
 class Table(z3c.table.table.Table):
     "Table which supports a no-rows-found message."
 
+    cssClassEven = u'table-even-row'
+    cssClassOdd = u'table-odd-row'
     startBatchingAt = 1000000
     no_rows_message = u'' # Set at subclass.
 

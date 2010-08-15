@@ -99,7 +99,7 @@ displayed:
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents
 <!DOCTYPE...
-...Tester, Hans...
+...Tester...Hans...
 
 Edit a person's data
 ====================
@@ -107,7 +107,7 @@ Edit a person's data
 The entry is a link which leads to the edit page of the person. The
 displayed values are the ones entered before:
 
->>> browser.getLink('Tester, Hans').click()
+>>> browser.getLink('Tester').click()
 >>> browser.getControl('first name').value
 'Hans'
 >>> browser.getControl('last name').value
@@ -153,8 +153,8 @@ changes were not saved:
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents
 <!DOCTYPE...
-...Tester, Hans...
->>> browser.getLink('Tester, Hans').click()
+...Tester...Hans...
+>>> browser.getLink('Tester').click()
 >>> browser.getControl('first name').value
 'Hans'
 >>> browser.getControl('last name').value
@@ -202,12 +202,12 @@ back to the overview page of the address book:
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents
 <!DOCTYPE...
-...Tester, Petra...
+...Tester...Petra...
 
 To make sure the changes have been saved, he can visit the person's
 page again:
 
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('first name').value
 'Petra'
 >>> browser.getControl('last name').value
@@ -285,7 +285,7 @@ form:
 
 >>> browser.getControl('number', index=1).value ='+4901767654321'
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('number', index=1).value
 '+4901767654321'
 
@@ -317,7 +317,7 @@ form:
 
 >>> browser.getControl('address prefix', index=1).value = 'RST-Software'
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('address prefix', index=1).value
 'RST-Software'
 
@@ -342,7 +342,7 @@ form:
 
 >>> browser.getControl('e-mail address', index=2).value = 'pt@rst-software.de'
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('e-mail address', index=2).value
 'pt@rst-software.de'
 
@@ -367,7 +367,7 @@ form:
 
 >>> browser.getControl('URL', index=1).value = 'http://www.rst-software.de'
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('URL', index=1).value
 'http://www.rst-software.de'
 
@@ -418,7 +418,7 @@ Visitors can not chance any data, they can only view it:
 >>> visitor_browser = Browser()
 >>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
 >>> visitor_browser.open('http://localhost/++skin++AddressBook/ab')
->>> visitor_browser.getLink('Tester, Petra').click()
+>>> visitor_browser.getLink('Petra').click()
 >>> print visitor_browser.contents
 <!DOCTYPE...
 ...first name...Petra...
@@ -471,7 +471,7 @@ apporiate delete button there. He is presented with a list of the
 existing adresses and numbers:
 
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> person_edit_form_url = browser.url
 >>> browser.getControl('Delete single entry').click()
 >>> browser.url
@@ -578,7 +578,7 @@ go to the edit page of the person and has to choose the delete button
 there. He is presented with an `are you sure` formular:
 
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
->>> browser.getLink('Tester, Petra').click()
+>>> browser.getLink('Petra').click()
 >>> browser.getControl('Delete whole person').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person/@@delete_person.html'
@@ -597,5 +597,5 @@ where the person is no longer listed:
 >>> browser.getControl('Yes, delete').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
->>> 'Tester, Petra' in browser.contents
+>>> 'Petra' in browser.contents
 False

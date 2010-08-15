@@ -188,11 +188,22 @@ list where only the users are still shown:
 >>> print browser.contents
 <!DOCTYPE ...
   <h2>Persons</h2>
-  <ul>
-    <li>
-      <a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">User, Hans</a>
-    </li>
-    <li>
-      <a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Utzr, Kurt</a>
-    </li>
-  </ul>...
+  <table>
+  <thead>
+    <tr>
+      <th><a href="?table-sortOrder=descending&table-sortOn=table-last_name-0" title="Sort">last name</a></th>
+      <th><a href="?table-sortOrder=ascending&table-sortOn=table-first_name-1" title="Sort">first name</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">User</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">Hans</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Utzr</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Kurt</a></td>
+    </tr>
+  </tbody>
+</table>
+  ...
