@@ -77,26 +77,6 @@ Bugfixes
     of this entry but of the person.
 
 
-1.0.1 (2010-01-13)
-==================
-
-- Bugfix: The value fields of a user defined field of type `choice`
-  could not contain non ascii characters. This broke the usage of the
-  field on any object.
-
-
-1.0.0 (2009-12-29)
-==================
-
-- Translated UI into German.
-
-- Displaying modification date of adresses now.
-
-- Dropped some package dependencies which existed for compatibility
-  reasons with older versions. To upgrade to this version you might
-  need to upgrade to 0.5.4 first. (See Update_.)
-
-
 Previous Versions
 =================
 
