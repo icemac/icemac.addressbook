@@ -57,9 +57,17 @@ class Test__eq__(unittest.TestCase):
         self.assertEqual(True, self.exporter == other_exporter)
 
 
+class Test_export(unittest.TestCase):
+    """Test export mehtod of BaseExporter to get better test coverage."""
+
+    def test_export(self):
+        exporter = icemac.addressbook.export.base.BaseExporter(None)
+        self.assertRaises(NotImplementedError, exporter.export)
+
+
 def test_suite():
     suite = icemac.addressbook.testing.UnittestSuite(
-        TestInterfaces, Test__eq__)
+        TestInterfaces, Test__eq__, Test_export)
     suite.addTest(icemac.addressbook.testing.FunctionalDocFileSuite(
         'export/export.txt',
         'export/userfields.txt'))

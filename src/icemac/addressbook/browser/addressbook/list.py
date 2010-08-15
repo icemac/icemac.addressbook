@@ -140,11 +140,10 @@ class TranslatedTiteledColumn(BaseColumn):
     def renderCell(self, obj):
         "Get the title of the value."
         value = self.getRawValue(obj)
+        translated = self.defaultValue
         if value:
             title = icemac.addressbook.interfaces.ITitle(value)
             translated = zope.i18n.translate(title, context=self.request)
-        else:
-            translated = self.defaultValue
         return translated
 
 
