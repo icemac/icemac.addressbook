@@ -5,12 +5,12 @@
 Next major version
 ==================
 
-- Add full text search.
+- Probably: add full text search.
 
 Longer term
 ===========
 
-The following features should be implemented over the next months:
+The following features might be implemented over the next months:
 
 - person data
 
