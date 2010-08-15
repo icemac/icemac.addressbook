@@ -15,7 +15,8 @@ import zope.preference.interfaces
 import zope.schema.interfaces
 
 
-END_OF_TIME = datetime.date(datetime.MAXYEAR,12,31)
+END_OF_DATE = datetime.date(datetime.MAXYEAR,12,31)
+END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR,12,31,23,59,59)
 
 
 class BaseColumn(z3c.table.column.Column):
@@ -79,11 +80,11 @@ class URLColumn(LinkColumn):
     getLinkURL = LinkColumn.getLinkContent
 
 
-class DateColumn(z3c.table.column.FormatterColumn,
+class DateTimeColumn(z3c.table.column.FormatterColumn,
                  BaseColumn):
     """Column which is sortable even with `None` values in it."""
 
-    formatterCategory = 'date'
+    maxValue = END_OF_DATETIME
 
     def renderCell(self, item):
         value = self.getRawValue(item)
@@ -95,8 +96,15 @@ class DateColumn(z3c.table.column.FormatterColumn,
         key = self.getRawValue(item)
         if key is None:
             # empty date fields should be sorted to the end of the list
-            key = END_OF_TIME
+            key = self.maxValue
         return key
+
+
+class DateColumn(DateTimeColumn):
+    "DateColumn which is able to sort even `None` values."
+
+    formatterCategory = 'date'
+    maxValue = END_OF_DATE
 
 
 class TruncatedContentColumn(BaseColumn):
@@ -118,10 +126,12 @@ class BoolColumn(BaseColumn):
         # We use the labels of z3c.form here so the displayed values
         # are the same as in the edit form.
         if value is True:
-            return z3c.form.term.BoolTerms.trueLabel
-        if value is False:
-            return z3c.form.term.BoolTerms.falseLabel
-        return self.defaultValue
+            label = z3c.form.term.BoolTerms.trueLabel
+        elif value is False:
+            label = z3c.form.term.BoolTerms.falseLabel
+        else:
+            return self.defaultValue
+        return zope.i18n.translate(label, context=self.request)
 
 
 class TranslatedTiteledColumn(BaseColumn):
@@ -178,6 +188,10 @@ def getColumnClass(entity, field):
             return URLColumn
         if field.type == u'Text':
             return TruncatedContentColumn
+        if field.type == u'Date':
+            return DateColumn
+        if field.type == u'Datetime':
+            return DateTimeColumn
     return BaseColumn
 
 
@@ -214,34 +228,52 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
 
     def __init__(self, *args, **kw):
         super(PersonList, self).__init__(*args, **kw)
+        self.sortOrder = self.prefs.sort_direction
+        self._columns = self._set_up_columns_and_sort_on()
+
+    def _set_up_columns_and_sort_on(self):
+        "Creates the columns and compute the order-by column."
         prefs = self.prefs
         order_by = prefs.order_by
-        entity, field = icemac.addressbook.preferences.sources.untokenize(
-            order_by)
-        field_name = field.__name__
+        columns = []
+        index = 0 # current column index
+        # Entity and field of the column which sould be used for order-by:
         try:
-            # Set the sort column to the value seleted in preferences.
-            self.sortOn = '%s-%s-%s' % (
-                self.prefix, field_name, prefs.columns.index(order_by))
-        except ValueError:
-            # When the order-by column is not displayed, use default
-            # sort order.
-            pass
-        self.sortOrder = prefs.sort_direction
+            order_by_entity, order_by_field = (
+                icemac.addressbook.preferences.sources.untokenize(
+                    order_by))
+        except KeyError:
+            # Field has been deleted, so we can't use it for sorting:
+            order_by_entity, order_by_field = None, None
+
+        # Create all columns and compute the order-by column:
+        for column_name in self.prefs.columns:
+            try:
+                entity, field = (
+                    icemac.addressbook.preferences.sources.untokenize(
+                        column_name))
+            except KeyError:
+                # Column no longer exists
+                continue
+            columns.append(
+                z3c.table.column.addColumn(
+                    self, getColumnClass(entity, field), field.__name__,
+                    attrName=field.__name__, header=field.title,
+                    weight=index, **getAdditionalColumnArgs(entity, field)
+                    ))
+            if entity == order_by_entity and field == order_by_field:
+                # Found the entity and field for order by, so set the
+                # expected name on the sortOn variable:
+                self.sortOn = '%s-%s-%s' % (self.prefix, field.__name__, index)
+            # current column exists, so the index can be adjusted
+            index += 1
+        return columns
 
     def setUpColumns(self):
-        result = []
-        for column_name in self.prefs.columns:
-            entity, field = icemac.addressbook.preferences.sources.untokenize(
-                column_name)
-            column_class = getColumnClass(entity, field)
-            result.append(
-                z3c.table.column.addColumn(
-                    self, column_class, field.__name__, attrName=field.__name__,
-                    header=field.title, weight=len(result),
-                    **getAdditionalColumnArgs(entity, field)))
-        return result
+        "Return the previously computed columns."
+        return self._columns
 
     @property
     def values(self):
+        "The values are stored on the context."
         return self.context.values()
