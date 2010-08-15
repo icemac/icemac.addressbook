@@ -1,0 +1,78 @@
+==================
+ User preferences
+==================
+
+There are user specific preferences in the address book:
+
+Set up
+======
+
+We need an address book:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> create_addressbook()
+<AddressBook u'ab' (u'test address book')>
+
+And a browser to access it:
+
+>>> from zope.testbrowser.testing import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+Location
+========
+
+There is a link in the main navigation which currently leads to the
+person list preferences:
+
+>>> browser.getLink('Preferences').click()
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab/++preferences++/personList'
+>>> preferences_url = browser.url
+>>> browser.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
+
+Only accessible when logged in
+==============================
+
+The preferences are only accessible for logged-in users. Anonymous
+users get redirected to the login screen:
+
+>>> anon = Browser()
+>>> anon.open(preferences_url)
+>>> print anon.url
+http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Bpreferences%2B%2B%2FpersonList%2F%40%40index.html
+
+Visitors are able to access the preferences, the form is displayed:
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open(preferences_url)
+>>> visitor.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
+
+Editors are also able to access the preferences:
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open(preferences_url)
+>>> editor.getControl('sort direction').displayOptions
+['ascending (A-->Z)', 'descending (Z-->A)']
+
+
+Each user has his own preferences
+=================================
+
+The preferences are personal ones, they are not shared between users:
+
+>>> visitor.getControl('sort direction').displayValue
+['ascending (A-->Z)']
+>>> visitor.getControl('sort direction').displayValue = ['descending (Z-->A)']
+>>> visitor.getControl('Apply').click()
+>>> visitor.getControl('sort direction').displayValue
+['descending (Z-->A)']
+
+>>> editor.reload()
+>>> editor.getControl('sort direction').displayValue
+['ascending (A-->Z)']

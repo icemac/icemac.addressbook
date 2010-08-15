@@ -20,6 +20,7 @@ import zope.annotation.attribute
 import zope.app.testing.functional
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
+import zope.testbrowser.testing
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testing.testrunner.layer
@@ -120,6 +121,22 @@ def get_all_control_names(browser=None, form=None):
     return _get_control_names(
         zope.testbrowser.interfaces.IControl, browser, form)
 
+def in_out_widget_select(browser, control_name, select_controls):
+    """Function to add a selection to an in-out-widget.
+
+    browser ... testbrowser instance
+    control_name ... name of the in-out-control, something like
+                     form.widgets.columns
+    select_controls ... list of control instances (item controls of in or out
+                        list) which should be selected
+    """
+    form = browser.getForm()
+    for control in select_controls:
+        form.mech_form.new_control(
+            type='hidden',
+            name='%s:list' % control_name,
+            attrs=dict(value=control.optionValue))
+
 
 def write_temp_file(content, suffix):
     "Write `content` to a temporary file and return file handle and file name."
@@ -127,6 +144,9 @@ def write_temp_file(content, suffix):
     os.write(fd, content)
     os.close(fd)
     return file(filename, 'r'), os.path.basename(filename)
+
+
+### Helper functions to create objects in the database ###
 
 
 def create_addressbook(parent=None, name='ab', title=u'test address book'):
@@ -148,11 +168,31 @@ def create_keyword(addressbook, title, return_obj=True):
 
 @icemac.addressbook.utils.set_site
 def create_person(parent, last_name, return_obj=True, **kw):
+    """Create a new person in the address book.
+
+    Caution: The created person is not editable trough the UI, as it
+    is missing the default entries. See also `create_full_person`.
+    """
     kw['last_name'] = last_name
     name = icemac.addressbook.utils.create_and_add(
         parent, icemac.addressbook.person.Person, **kw)
     if return_obj:
         return parent[name]
+
+
+@icemac.addressbook.utils.set_site
+def create_full_person(parent, last_name, return_obj=True, **kw):
+    """Create a new person in the address book with all default entries.
+
+    The created person is editable through the UI.
+    """
+    person = create_person(parent, parent, last_name, return_obj=True, **kw)
+    create_postal_address(parent, person)
+    create_email_address(parent, person)
+    create_home_page_address(parent, person)
+    create_phone_number(parent, person)
+    if return_obj:
+        return person
 
 
 @icemac.addressbook.utils.set_site

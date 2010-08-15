@@ -14,8 +14,11 @@
        }
 
        body {
-         padding: 1em;
-       }
+         padding: 1%;
+         width: intrinsic;
+         width: -moz-max-content;
+         min-width: 98%;
+      }
 
        #head h1 {
          float: left;
@@ -147,7 +150,7 @@
         clear: both;
       }
 
-      /* fuer import-table: */
+      /* for tables: */
 
       .table-even-row {
         background-color: #e0e0e0;
@@ -174,11 +177,11 @@
 
       /* fuer formulare: (metadaten oben rechts) */
 
-      form div.group {
+      form#edit-form div.group {
         float: left;
       }
 
-      form div.group + fieldset {
+      form#edit-form div.group + fieldset {
         float: right;
       }
 
@@ -219,7 +222,7 @@
     </div>
 
     <div id="foot">
-      <i>(c) 2008-2009 Michael Howitz</i>
+      <i>(c) 2008-2010 Michael Howitz</i>
     </div>
   </body>
 </html>

@@ -8,7 +8,7 @@ import setuptools
 def read(*path_elements):
     return "\n\n" + file(os.path.join(*path_elements)).read()
 
-version = '1.3.1dev'
+version = '1.4.0dev'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -76,9 +76,10 @@ setuptools.setup(
         'z3c.form >= 2.2.0dev',
         'z3c.formui',
         'z3c.layer.pagelet',
-        'z3c.locales',
+        'z3c.locales [compile] >= 0.3.0',
         'z3c.menu.ready2go',
         'z3c.pagelet',
+        'z3c.preference',
         'z3c.pt',
         'z3c.ptcompat',
         'z3c.table',
@@ -94,10 +95,11 @@ setuptools.setup(
         'zope.app.wsgi',
         'zope.browserpage',
         'zope.globalrequest',
-        'zope.i18n',
+        'zope.i18n [zcml,compile]',
         'zope.interface',
         'zope.login',
         'zope.mimetype',
+        'zope.preference',
         'zope.principalregistry',
         'zope.publisher',
         'zope.securitypolicy',

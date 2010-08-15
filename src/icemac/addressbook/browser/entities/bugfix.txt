@@ -37,7 +37,7 @@ section of the master data:
 'http://localhost/++skin++AddressBook/ab/++attribute++entities'
 >>> print browser.contents
 <!DOCTYPE ...
-        <tr>
+        <tr class="table-even-row">
           <td>address book</td>
           <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
         </tr>...
