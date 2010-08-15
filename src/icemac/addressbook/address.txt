@@ -186,6 +186,6 @@ classes and titles around addresses:
 
     >>> icemac.addressbook.address.prefix_to_class('postal_address')
     <class 'icemac.addressbook.address.PostalAddress'>
-    >>> icemac.addressbook.address.object_to_class('asdf')
+    >>> icemac.addressbook.address.prefix_to_class('asdf')
     Traceback (most recent call last):
     KeyError: 'asdf'
