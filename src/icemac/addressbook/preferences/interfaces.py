@@ -24,3 +24,6 @@ class IPersonList(zope.interface.Interface):
     sort_direction = zope.schema.Choice(
         title=_('sort direction'),
         source=icemac.addressbook.preferences.sources.asc_des_csource)
+
+    batch_size = zope.schema.Int(title=_('batch size'), min=1)
+

@@ -9,5 +9,6 @@ def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
         'person-list-userfields.txt',
         'person-list.txt',
+        'person-list-batching.txt',
         'preferences.txt',
         package="icemac.addressbook.preferences")

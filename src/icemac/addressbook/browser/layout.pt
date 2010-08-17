@@ -169,6 +169,14 @@
         color: #ff0000;
       }
 
+      /* batching */
+
+      div.batch a.current {
+        font-weight: bold;
+        font-style: italic;
+      }
+
+
       textarea {
         height: 15ex;
         width: 40em;

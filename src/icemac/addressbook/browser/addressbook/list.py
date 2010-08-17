@@ -228,6 +228,8 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
     def __init__(self, *args, **kw):
         super(PersonList, self).__init__(*args, **kw)
         self.sortOrder = self.prefs.sort_direction
+        self.startBatchingAt = self.prefs.batch_size
+        self.batchSize = self.prefs.batch_size
         self._columns = self._set_up_columns_and_sort_on()
 
     def _set_up_columns_and_sort_on(self):

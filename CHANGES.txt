@@ -10,6 +10,8 @@ Features
 
 - Added user preferences to customize the columns displayed in person list.
 
+- Added batching to person list (customizable in the user preferences).
+
 - Each table shows its rows in alternating colors.
 
 
