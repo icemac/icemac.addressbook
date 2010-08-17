@@ -16,9 +16,8 @@ import icemac.addressbook.utils
 class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
 
     def assertLocalUtility(self, ab, iface):
-        self.assertTrue(
-            icemac.addressbook.addressbook.utility_locally_registered(ab, iface)
-            )
+        self.assertTrue(icemac.addressbook.utils.utility_locally_registered(
+            ab, iface))
 
     def assertAttribute(self, ab, attribute, iface):
         self.assertTrue(iface.providedBy(getattr(ab, attribute)))

@@ -46,6 +46,14 @@
       template="form.pt"
       />
 
+  <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           icemac.addressbook.browser.table.Table"
+      name="batch"
+      factory="icemac.addressbook.browser.table.NiceBatchProvider"
+      />
+
   <include package=".addressbook" />
   <include package=".authentication" />
   <include package=".entities" />

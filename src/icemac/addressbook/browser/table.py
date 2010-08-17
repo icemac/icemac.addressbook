@@ -6,6 +6,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.interfaces
 import icemac.truncatetext
+import z3c.table.batch
 import z3c.table.column
 import z3c.table.table
 
@@ -90,3 +91,11 @@ class PageletTable(z3c.pagelet.browser.BrowserPagelet, Table):
         super(PageletTable, self).__init__(*args, **kw)
         Table.__init__(self, *args, **kw)
     update = Table.update
+
+
+# Batching
+
+class NiceBatchProvider(z3c.table.batch.BatchProvider):
+    """A batch provider with a nicer spacer."""
+
+    batchSpacer = u'…'
