@@ -13,7 +13,7 @@ class TestKeywords(unittest.TestCase):
         self.keywords = icemac.addressbook.keyword.KeywordContainer()
 
     def test_get_keywords_empty(self):
-        self.assertEqual([], self.keywords.get_keywords())
+        self.assertEqual([], list(self.keywords.get_keywords()))
 
     def test_get_keywords_not_empty(self):
         self.keywords['1'] = icemac.addressbook.keyword.Keyword(u'qwe')
@@ -21,7 +21,7 @@ class TestKeywords(unittest.TestCase):
         self.keywords['3'] = icemac.addressbook.keyword.Keyword(u'dfg')
         self.keywords['4'] = icemac.addressbook.keyword.Keyword(u'bgr')
         self.assertEqual(['asd', 'bgr', 'dfg', 'qwe'],
-                         [x.title for x in self.keywords.get_keywords()])
+                         sorted([x.title for x in self.keywords.get_keywords()]))
 
     def test_get_keyword_by_title_found(self):
         self.keywords['1'] = icemac.addressbook.keyword.Keyword(u'foo')
@@ -43,8 +43,3 @@ class TestKeywords(unittest.TestCase):
         self.keywords['1'] = icemac.addressbook.keyword.Keyword(u'asdf')
         self.assertEqual('baz',
                          self.keywords.get_keyword_by_title(u'foo', 'baz'))
-
-
-def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(TestKeywords)
-
