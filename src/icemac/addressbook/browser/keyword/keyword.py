@@ -6,9 +6,11 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.metadata
+import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import z3c.form.button
-import icemac.addressbook.browser.metadata
+import z3c.table.column
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
@@ -63,3 +65,21 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this keyword?')
     interface = icemac.addressbook.interfaces.IKeyword
     field_names = ('title', )
+
+
+class Table(icemac.addressbook.browser.table.Table):
+    """List keywords in address book."""
+
+    no_rows_message = _(u'No keywords defined yet.')
+
+    def setUpColumns(self):
+        "Return the previously computed columns."
+        return [z3c.table.column.addColumn(
+            self, icemac.addressbook.browser.table.TitleLinkColumn, 'keyword',
+            header=_(u'keyword')),
+                ]
+
+    @property
+    def values(self):
+        "The values are stored on the context."
+        return self.context.get_keywords()

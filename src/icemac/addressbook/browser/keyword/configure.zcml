@@ -30,7 +30,7 @@
      for="icemac.addressbook.interfaces.IKeywords"
      permission="icemac.addressbook.ViewKeywordContainer"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     template="overview.pt"
+     class=".keyword.Table"
      />
 
   <browser:defaultView
