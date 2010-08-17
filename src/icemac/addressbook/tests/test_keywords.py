@@ -21,7 +21,7 @@ class TestKeywords(unittest.TestCase):
         self.keywords['3'] = icemac.addressbook.keyword.Keyword(u'dfg')
         self.keywords['4'] = icemac.addressbook.keyword.Keyword(u'bgr')
         self.assertEqual(['asd', 'bgr', 'dfg', 'qwe'],
-                         sorted([x.title for x in self.keywords.get_keywords()]))
+                         sorted(x.title for x in self.keywords.get_keywords()))
 
     def test_get_keyword_by_title_found(self):
         self.keywords['1'] = icemac.addressbook.keyword.Keyword(u'foo')
