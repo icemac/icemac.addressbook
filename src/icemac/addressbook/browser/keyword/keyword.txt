@@ -23,9 +23,8 @@ initially no keywords defined:
 >>> browser.getLink('Keywords').click()
 >>> print browser.contents
 <!DOCTYPE ...
-<ul>
-  <li>No keywords defined yet.</li>
-</ul>...
+<div id="content">No keywords defined yet.</div>
+  ...
 
 Create keyword
 ==============
@@ -63,14 +62,14 @@ The last modification date is also displayed:
 
 We correct the typo to show the edit form works:
 
->>> browser.getControl('keyword').value = 'company co-worker'
+>>> browser.getControl('keyword').value = 'Company co-worker'
 >>> browser.getControl('Apply').click()
 
 To show that the changes where saved we go again to the form:
 
->>> browser.getLink('company co-worker').click()
+>>> browser.getLink('Company co-worker').click()
 >>> browser.getControl('keyword').value
-'company co-worker'
+'Company co-worker'
 
 Cancel edit
 ===========
@@ -79,9 +78,9 @@ Selecting the cancel button does not save anything:
 
 >>> browser.getControl('keyword').value = 'typo'
 >>> browser.getControl('Cancel').click()
->>> browser.getLink('company co-worker').click()
+>>> browser.getLink('Company co-worker').click()
 >>> browser.getControl('keyword').value
-'company co-worker'
+'Company co-worker'
 >>> browser.getControl('Cancel').click()
 
 Sort order of keywords
@@ -104,7 +103,7 @@ Keywords are displayed sorted by title (keyword):
 >>> print browser.contents
 <!DOCTYPE...
 ...church...
-...company co-worker...
+...Company co-worker...
 ...family...
 ...friend...
 
@@ -115,6 +114,7 @@ Assigning a keyword to a person is possible on adding or editing a
 person:
 
 >>> browser.getLink('Person list').click()
+>>> browser.handleErrors = False
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'keyword test'
 
@@ -126,7 +126,7 @@ displays all existing keywords:
 <ListControl name='form.widgets.keywords:list' type='select'>
 >>> [x.mech_item.get_labels()[0]._text
 ...  for x in browser.getControl('keywords').controls]
-['church', 'company co-worker', 'family', 'friend']
+['church', 'Company co-worker', 'family', 'friend']
 
 Keyword assignments are stored when saving:
 
@@ -269,7 +269,7 @@ it afterwards.):
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
 >>> browser.getLink('Arbeit').click()
->>> browser.getControl('keyword').value = 'company co-worker'
+>>> browser.getControl('keyword').value = 'Company co-worker'
 >>> browser.getControl('Apply').click()
 >>> print browser.contents
 <!DOCTYPE...
@@ -297,26 +297,31 @@ Visitors are allowed to see the keywords but not to change them:
 >>> visitor.getLink('Keywords').click()
 >>> print visitor.contents
 <!DOCTYPE...
-...<h2>Keywords</h2>
-<ul>
-  <li>
-    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3">Arbeit</a>
-  </li>
-  <li>
-    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-2">Familie</a>
-  </li>
-  <li>
-    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-4">Kirche</a>
-  </li>
-  <li>
-    <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword">company co-worker</a>
-  </li>
-</ul>...
+  <thead>
+    <tr>
+      <th>keyword</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3">Arbeit</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword">Company co-worker</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-2">Familie</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-4">Kirche</a></td>
+    </tr>
+  </tbody>
+  ...
 
 Klicking on a link leads to the display form where nothing can be
 changed and no delete button exists:
 
->>> visitor.getLink('company co-worker').click()
+>>> visitor.getLink('Company co-worker').click()
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']

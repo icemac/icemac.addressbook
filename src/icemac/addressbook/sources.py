@@ -45,12 +45,13 @@ class FieldTypeSource(TitleMappingSource):
 
 
 class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
+    "Source of keywords in the address book."
 
     def getValues(self):
         import icemac.addressbook.interfaces # avoid circular import
         keywords = zope.component.getUtility(
             icemac.addressbook.interfaces.IKeywords)
-        return keywords.get_keywords()
+        return sorted(keywords.get_keywords(), key=lambda x: x.title.lower())
 
     def getTitle(self, value):
         return value.title

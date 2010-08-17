@@ -22,8 +22,8 @@ class KeywordContainer(zope.container.btree.BTreeContainer):
     zope.interface.implements(icemac.addressbook.interfaces.IKeywords)
 
     def get_keywords(self):
-        # XXX sorting should be done in presentation layer!
-        return sorted(self.values(), key=lambda x: x.title)
+        # sorting will be done in presentation layer
+        return self.values()
 
     def get_keyword_by_title(self, title, default=None):
         for keyword in self.values():
