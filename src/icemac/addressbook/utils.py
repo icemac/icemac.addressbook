@@ -54,3 +54,15 @@ def iter_by_interface(container, interface):
         if interface.providedBy(obj):
             yield obj
 
+
+def utility_locally_registered(site, interface):
+    """Test, whether a utility is registered on the site manager of the `site`.
+
+    interface ... interface the utility is registered for
+
+    """
+
+    for registration in site.getSiteManager().registeredUtilities():
+        if registration.provided == interface:
+            return True
+    return False

@@ -117,31 +117,18 @@ def create_address_book_infrastructure(addressbook, event=None):
     add_more_addressbook_infrastructure(addressbook, addressbook)
 
 
-def utility_locally_registered(site, interface):
-    """Test, whether a utility is registered on the site manager of the site.
-
-    interface ... interface the utility is registered for
-
-    """
-
-    for registration in site.getSiteManager().registeredUtilities():
-        if registration.provided == interface:
-            return True
-    return False
-
-
 @icemac.addressbook.utils.set_site
 def add_more_addressbook_infrastructure(addressbook):
     "Add more infrastructure which depends on addressbook set as site."
     # intid utility
-    if not utility_locally_registered(addressbook,
-                                      zope.intid.interfaces.IIntIds):
+    if not icemac.addressbook.utils.utility_locally_registered(
+            addressbook, zope.intid.interfaces.IIntIds):
         intids = zope.app.appsetup.bootstrap.ensureUtility(
             addressbook, zope.intid.interfaces.IIntIds, '', zope.intid.IntIds)
 
     # catalog
-    if utility_locally_registered(addressbook,
-                                  zope.catalog.interfaces.ICatalog):
+    if icemac.addressbook.utils.utility_locally_registered(
+            addressbook, zope.catalog.interfaces.ICatalog):
         catalog = zope.component.queryUtility(zope.catalog.interfaces.ICatalog)
     else:
         # add catalog
@@ -156,8 +143,8 @@ def add_more_addressbook_infrastructure(addressbook):
             field_callable=True)
 
     # authenticator (PAU)
-    if not utility_locally_registered(
-        addressbook, zope.authentication.interfaces.IAuthentication):
+    if not icemac.addressbook.utils.utility_locally_registered(
+            addressbook, zope.authentication.interfaces.IAuthentication):
         pau = zope.app.appsetup.bootstrap.ensureUtility(
             addressbook, zope.authentication.interfaces.IAuthentication, '',
             zope.app.authentication.authentication.PluggableAuthentication)
@@ -166,6 +153,4 @@ def add_more_addressbook_infrastructure(addressbook):
         pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
 
     # default preferences
-    if not utility_locally_registered(
-        addressbook, zope.preference.interfaces.IDefaultPreferenceProvider):
-        icemac.addressbook.preferences.default.add(addressbook)
+    icemac.addressbook.preferences.default.add(addressbook)
