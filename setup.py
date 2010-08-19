@@ -67,9 +67,8 @@ setuptools.setup(
         'gocept.country',
         'gocept.pagelet',
         'gocept.reference',
-        'icemac.ab.locales >= 0.4',
+        'icemac.ab.locales [compile] >= 0.5',
         'icemac.truncatetext',
-        'python-gettext',
         'setuptools',
         'xlwt',
         'z3c.authviewlet',
@@ -80,7 +79,6 @@ setuptools.setup(
         'z3c.menu.ready2go',
         'z3c.pagelet',
         'z3c.preference',
-        'z3c.pt',
         'z3c.ptcompat',
         'z3c.table',
         'zc.catalog',
@@ -114,7 +112,11 @@ setuptools.setup(
             'zope.app.testing',
             'zope.testbrowser',
             'zope.testing',
-            ]),
+            ],
+        z3cpt=[
+            'z3c.pt',
+            ],
+        ),
     entry_points = """
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt
