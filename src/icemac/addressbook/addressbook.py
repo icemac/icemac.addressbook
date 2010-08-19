@@ -27,7 +27,6 @@ import zope.intid
 import zope.intid.interfaces
 import zope.location
 import zope.location.interfaces
-import zope.preference.interfaces
 import zope.schema.fieldproperty
 import zope.site.site
 

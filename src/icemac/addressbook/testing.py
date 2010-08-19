@@ -20,7 +20,6 @@ import zope.annotation.attribute
 import zope.app.testing.functional
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
-import zope.testbrowser.testing
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testing.testrunner.layer
