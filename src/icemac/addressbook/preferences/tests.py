@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.testing
-import icemac.addressbook.preferences
+
 
 def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(

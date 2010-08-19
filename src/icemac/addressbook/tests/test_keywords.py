@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.keyword
-import icemac.addressbook.testing
 import unittest
 
 
