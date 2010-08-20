@@ -68,7 +68,6 @@
   <include package="z3c.authviewlet" />
   <include package="zope.copypastemove" />
   <include package="z3c.locales" />
-  <include package="zope.app.locales" />
   <include package="gocept.country"/>
   <include package="gocept.reference"/>
   <include package="z3c.form" />
