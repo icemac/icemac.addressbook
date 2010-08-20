@@ -88,7 +88,6 @@ setuptools.setup(
         'zope.app.authentication',
         'zope.app.debug',
         'zope.app.generations',
-        'zope.app.locales >= 3.6.0',
         'zope.app.principalannotation',
         'zope.app.wsgi',
         'zope.browserpage',
