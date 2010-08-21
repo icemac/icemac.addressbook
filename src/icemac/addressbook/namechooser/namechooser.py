@@ -6,10 +6,11 @@ import BTrees.Length
 import icemac.addressbook.namechooser.interfaces
 import persistent
 import zope.component
+import zope.container.contained
 import zope.interface
 
 
-class NameSuffix(persistent.Persistent):
+class NameSuffix(persistent.Persistent, zope.container.contained.Contained):
     "Storage for name suffix."
 
     zope.interface.implements(
