@@ -6,7 +6,6 @@
 __docformat__ = "reStructuredText"
 
 import icemac.addressbook.interfaces
-import icemac.addressbook.interfaces
 import zope.app.generations.utility
 import zope.catalog.interfaces
 import zope.component
