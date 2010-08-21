@@ -5,8 +5,8 @@
 Prerequisites
 =============
 
-You only need Python 2.5. (Other python versions are currently not
-supported.)
+You only need Python 2.5.x or 2.6.x. (Other python versions are currently
+not supported.)
 
 First installation
 ==================
