@@ -36,7 +36,7 @@ the defaults export but in complete export:
 
 As visitors are allowed to search and export, so we log in as a visitor:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic visitor:visitor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')

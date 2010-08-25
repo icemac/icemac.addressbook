@@ -58,7 +58,7 @@ class Test__eq__(unittest.TestCase):
 
 
 class Test_export(unittest.TestCase):
-    """Test export mehtod of BaseExporter to get better test coverage."""
+    """Test export method of BaseExporter to get better test coverage."""
 
     def test_export(self):
         exporter = icemac.addressbook.export.base.BaseExporter(None)

@@ -50,6 +50,7 @@ object has changed:
 >>> import zope.site.hooks
 >>> import zope.event
 >>> import zope.lifecycleevent
+>>> old_site = zope.site.hooks.getSite()
 >>> zope.site.hooks.setSite(addressbook)
 >>> kohn.keywords = set([church, friends])
 >>> zope.event.notify(zope.lifecycleevent.ObjectModifiedEvent(kohn))
@@ -82,3 +83,8 @@ modified event:
 1
 >>> list(catalog.searchResults(keywords={'any_of': ('Freunde', )}))[0] is kohn
 True
+
+Tear down
+=========
+
+>>> zope.site.hooks.setSite(old_site)

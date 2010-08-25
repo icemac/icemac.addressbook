@@ -16,7 +16,7 @@ Create an address book:
 
 Create a browser and log in an editor which perferres German:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic editor:editor')
 >>> browser.addHeader('Accept-Language', 'de')

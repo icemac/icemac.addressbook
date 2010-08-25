@@ -17,7 +17,7 @@ Create an address book, a user defined field for a file inside:
 Create a browser to access the address book. Log in as
 `Administrator`:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')

@@ -43,7 +43,7 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
 
     def setUp(self):
         super(TestAddressbook, self).setUp()
-        root = self.getRootFolder()
+        root = self.layer.getRootFolder()
         root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
             icemac.addressbook.addressbook.AddressBook)
 

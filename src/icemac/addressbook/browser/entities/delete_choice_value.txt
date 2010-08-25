@@ -15,7 +15,7 @@ Create an address book and a browser to access it. Log in as
 `Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> ab = create_addressbook()
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')

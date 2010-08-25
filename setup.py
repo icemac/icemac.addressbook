@@ -108,7 +108,6 @@ setuptools.setup(
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.app.testing',
             'zope.testbrowser',
             'zope.testing',
             ],
