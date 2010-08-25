@@ -15,7 +15,7 @@ Create an address book, a local adminstrator and a browser to access it:
 >>> create_user(
 ...     ab, ab, u'Ad', u'Min', u'ad@min.de', u'12345678', ('Administrator',))
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 
 Edit entities as local administrator

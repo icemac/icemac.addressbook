@@ -6,7 +6,7 @@ Person data (name, address, ...) is stored in an address book.  The
 user can add and change the data of persons there.
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> create_addressbook()
 <AddressBook u'ab' (u'test address book')>
 >>> browser = Browser()

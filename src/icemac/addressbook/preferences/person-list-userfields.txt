@@ -15,7 +15,7 @@ We need an address book:
 
 A browser to access it:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')

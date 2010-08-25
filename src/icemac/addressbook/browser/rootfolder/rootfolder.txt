@@ -5,7 +5,7 @@
 The overview contains a list of all addressbooks and allows to create
 new addressbooks.
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 
 Overview

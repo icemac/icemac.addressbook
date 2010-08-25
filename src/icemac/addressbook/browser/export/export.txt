@@ -26,7 +26,7 @@ We need an address book, some keywords and some persons:
 >>> liebig = create_person(addressbook, addressbook, u'Liebig',
 ...                        keywords=set([church]))
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 
 Visitors are allowed to search and export, so we log in as a visitor:

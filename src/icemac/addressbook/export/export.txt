@@ -26,6 +26,7 @@ persons with data:
 >>> liebig = create_person(
 ...     addressbook, addressbook, u'Liebig', first_name=u'B.',
 ...     birth_date=datetime.date(1980, 4, 21))
+>>> old_site = zope.site.hooks.getSite()
 >>> zope.site.hooks.setSite(addressbook)
 >>> liebig.keywords = set([church, family])
 >>> create_postal_address(
@@ -285,3 +286,8 @@ Also works with nothing for export:
  text:u'birth date',
  text:u'keywords',
  text:u'notes']
+
+Tear down
+=========
+
+>>> zope.site.hooks.setSite(old_site)

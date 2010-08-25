@@ -40,7 +40,7 @@ As visitors are allowed to search and export, so we log in as a
 visitor, to enable translation, we also send an accept-language
 header:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic visitor:visitor')
 >>> browser.addHeader('Accept-Language', 'de')

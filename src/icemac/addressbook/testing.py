@@ -11,13 +11,14 @@ import icemac.addressbook.person
 import icemac.addressbook.principals.principals
 import icemac.addressbook.principals.sources
 import icemac.addressbook.utils
+import inspect
 import os
 import os.path
 import re
 import tempfile
 import unittest
 import zope.annotation.attribute
-import zope.app.testing.functional
+import zope.app.wsgi.testlayer
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testing.cleanup
@@ -55,13 +56,10 @@ def AddressBookUnittestSuite(*classes):
     return suite
 
 
-# XXX zope.app.testing.functional.defineLayer benutzen
-ftesting_zcml = os.path.join(os.path.dirname(__file__), 'ftesting.zcml')
-FunctionalLayer = zope.app.testing.functional.ZCMLLayer(
-    ftesting_zcml, __name__, 'FunctionalLayer')
+FunctionalLayer = zope.app.wsgi.testlayer.BrowserLayer(icemac.addressbook)
 
 
-class FunctionalTestCase(zope.app.testing.functional.FunctionalTestCase):
+class FunctionalTestCase(unittest.TestCase):
     """Base class for functional tests."""
 
     layer = FunctionalLayer
@@ -75,13 +73,15 @@ def FunctionalDocFileSuite(*paths, **kw):
         layer = kw.pop('layer')
     else:
         layer = FunctionalLayer
+    globs = kw.setdefault('globs', {})
+    globs['getRootFolder'] = layer.getRootFolder
     if not kw.has_key('checker'):
         kw['checker'] = zope.testing.renormalizing.RENormalizing([
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
              '<DATETIME>')
             ])
 
-    suite = zope.app.testing.functional.FunctionalDocFileSuite(*paths, **kw)
+    suite = doctest.DocFileSuite(*paths, **kw)
     suite.layer = layer
     return suite
 
@@ -149,10 +149,19 @@ def write_temp_file(content, suffix):
 
 
 def create_addressbook(parent=None, name='ab', title=u'test address book'):
+    """Create an address book.
+
+    When parent is `None`, it gets created in the root folder of the data base.
+
+    """
     ab = icemac.addressbook.utils.create_obj(
         icemac.addressbook.addressbook.AddressBook, title=title)
     if parent is None:
-        parent = zope.app.testing.functional.getRootFolder()
+        frame = inspect.currentframe()
+        try:
+            parent = frame.f_back.f_globals['getRootFolder']()
+        finally:
+            del frame
     parent[name] = ab
     return ab
 

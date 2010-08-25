@@ -28,7 +28,7 @@ Log in screen
 As cookie authorization is used an unauthorized user is redirected to
 the log-in page:
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.url

@@ -11,7 +11,7 @@ Set up
 Create an address book and log an as an editor:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.testing import ExtendedTestBrowser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser
 >>> address_book = create_addressbook()
 >>> browser = ExtendedTestBrowser()
 >>> browser.addHeader('Authorization', 'Basic editor:editor')

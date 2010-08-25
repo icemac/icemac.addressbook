@@ -8,6 +8,7 @@ import icemac.addressbook.testing
 import os
 import os.path
 import tempfile
+import transaction
 import unittest
 import zope.interface.verify
 
@@ -62,22 +63,22 @@ class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
 
     def test_openDetached(self):
         # need to assign to tree, so commit works
-        self.getRootFolder()['f'] = self.file
+        self.layer.getRootFolder()['f'] = self.file
         self.file.data = 'data\n\nfoobar'
         # commit as openDetached expects a committed blob
-        self.commit()
+        transaction.commit()
         self.fd = self.file.openDetached()
         self.assertEqual('data\n\nfoobar', self.fd.read())
 
     def test_replace(self):
         # need to assign to tree, so commit works
-        self.getRootFolder()['f2'] = self.file
+        self.layer.getRootFolder()['f2'] = self.file
         self.file.data = '1234'
         fd, self.filename = tempfile.mkstemp()
         os.write(fd, '6789\n0123')
         os.close(fd)
         self.file.replace(self.filename)
-        self.commit()
+        transaction.commit()
         self.fd = self.file.openDetached()
         self.assertEqual('6789\n0123', self.fd.read())
 

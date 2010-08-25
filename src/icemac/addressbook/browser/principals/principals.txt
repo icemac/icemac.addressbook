@@ -10,7 +10,7 @@ Set up
 
 >>> from icemac.addressbook.testing import (create_addressbook, create_person,
 ...     create_email_address, create_full_person)
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> ab = create_addressbook()
 
 Users are persons stored in the addressbook augmented by login

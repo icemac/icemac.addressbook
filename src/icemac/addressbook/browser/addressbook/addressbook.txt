@@ -4,7 +4,7 @@
 
 Person data (name, address, ...) is stored inside an address book.
 
->>> from zope.testbrowser.testing import Browser
+>>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 
 Create an address book
