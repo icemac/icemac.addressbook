@@ -8,7 +8,7 @@
 
   <grant
      role="icemac.addressbook.global.Editor"
-     permission="zope.app.dublincore.view"
+     permission="zope.dublincore.view"
      />
 
   <grant
@@ -169,7 +169,7 @@
 
   <grant
      role="icemac.addressbook.global.Visitor"
-     permission="zope.app.dublincore.view"
+     permission="zope.dublincore.view"
      />
 
   <grant
