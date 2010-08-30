@@ -139,6 +139,9 @@ class IEntities(zope.interface.Interface):
     def getEntities():
         """Get an iterable of all known entities."""
 
+    def getEntitiesInOrder():
+        "Get an iterable of the entities sorted as defined in IOrderStorage."
+
 
 class IEntity(zope.interface.Interface):
     """Entity in the address book."""

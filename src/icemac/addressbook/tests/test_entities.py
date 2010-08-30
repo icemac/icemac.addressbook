@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.entities
+import icemac.addressbook.orderstorage
 import unittest
 import zope.component.testing
 import zope.interface
@@ -49,6 +50,7 @@ class EntitiesTests(object):
         self.entities = self.entities_class()
         zope.component.provideUtility(
             self.entities, icemac.addressbook.interfaces.IEntities)
+        # entities
         self.cat = icemac.addressbook.entities.create_entity(
             u'Cat', ICat, Cat)
         zope.component.provideUtility(self.cat, name=self.cat.class_name)
@@ -59,6 +61,14 @@ class EntitiesTests(object):
             u'Kwack', IKwack, Kwack)
         zope.component.provideUtility(
             self.kwack, name=self.kwack.class_name)
+        # sort order
+        order_store = icemac.addressbook.orderstorage.OrderStorage()
+        order_store.add(self.cat.name, icemac.addressbook.interfaces.ENTITIES)
+        order_store.add(self.kwack.name, icemac.addressbook.interfaces.ENTITIES)
+        order_store.add(self.duck.name, icemac.addressbook.interfaces.ENTITIES)
+        zope.component.provideUtility(
+            order_store, icemac.addressbook.interfaces.IOrderStorage)
+        self.order_store = order_store
 
     def tearDown(self):
         zope.component.testing.tearDown()
@@ -67,6 +77,18 @@ class EntitiesTests(object):
         self.assertEqual(
             sorted([self.kwack, self.duck, self.cat]),
             sorted(self.entities.getEntities()))
+
+    def test_getEntitiesInOrder(self):
+        self.assertEqual(
+            [self.cat, self.kwack, self.duck],
+            self.entities.getEntitiesInOrder())
+
+    def test_getEntitiesInOrder_changed_order(self):
+        self.order_store.up(
+            self.duck.name, icemac.addressbook.interfaces.ENTITIES)
+        self.assertEqual(
+            [self.cat, self.duck, self.kwack],
+            self.entities.getEntitiesInOrder())
 
     def test_getEntity_unknown_type(self):
         self.assertRaises(
