@@ -63,10 +63,10 @@ class EntitiesTests(object):
     def tearDown(self):
         zope.component.testing.tearDown()
 
-    def test_getAllEntities(self):
+    def test_getEntities(self):
         self.assertEqual(
             sorted([self.kwack, self.duck, self.cat]),
-            sorted(self.entities.getAllEntities()))
+            sorted(self.entities.getEntities()))
 
     def test_getEntity_unknown_type(self):
         self.assertRaises(
