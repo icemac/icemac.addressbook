@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2010 Michael Howitz
 # See also LICENSE.txt
-
 import icemac.addressbook.interfaces
 import persistent
 import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
-import zope.interface
-import zope.schema
 import zope.interface.interfaces
+import zope.schema
 
 
 class Entities(object):
@@ -17,23 +15,22 @@ class Entities(object):
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
-    def getAllEntities(self):
+    def getEntities(self):
         return zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
-
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     "Predefined and user defined entities in the address book."
 
 
-@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 @zope.component.adapter(str)
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_name(name):
     "Adapt Entity.name (not Entity.class_name!) to entity."
     result = None
     entities = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntities).getAllEntities()
+        icemac.addressbook.interfaces.IEntities).getEntities()
     for candidate in entities:
         if candidate.name == name:
             result = candidate
@@ -43,11 +40,12 @@ def entity_by_name(name):
     return result
 
 
-@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 @zope.component.adapter(zope.interface.interfaces.IInterface)
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_interface(interface):
+    "Adapt interface to entity."
     entities = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntities).getAllEntities()
+        icemac.addressbook.interfaces.IEntities).getEntities()
     for entity in entities:
         if entity.interface == interface:
             return entity

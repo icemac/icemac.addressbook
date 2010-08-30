@@ -136,7 +136,7 @@ class IKeyword(zope.interface.Interface):
 class IEntities(zope.interface.Interface):
     """Entities in the address book."""
 
-    def getAllEntities():
+    def getEntities():
         """Get an iterable of all known entities."""
 
 
@@ -232,7 +232,7 @@ class IOrderStorageRead(zope.interface.Interface):
         """
 
     def __iter__(namespace):
-        """Iterate over the list of a namespace."""
+        """Iterate over the objects registered for the namespace."""
 
 
 class IOrderStorageWrite(zope.interface.Interface):
