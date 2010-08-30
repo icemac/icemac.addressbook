@@ -30,7 +30,7 @@ class List(icemac.addressbook.browser.table.Table):
     def values(self):
         # Need to remove security otherwise local administrators get
         # an unauthorized exception.
-        for x in self.context.getEntities():
+        for x in self.context.getEntitiesInOrder():
             yield zope.security.proxy.getObject(x)
 
 
