@@ -19,6 +19,12 @@ class Entities(object):
         return zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
 
+    def getEntitiesInOrder(self):
+        order_storage = zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+        order = order_storage.__iter__(icemac.addressbook.interfaces.ENTITIES)
+        return sorted(self.getEntities(), key=lambda x: order.index(x.name))
+
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     "Predefined and user defined entities in the address book."
