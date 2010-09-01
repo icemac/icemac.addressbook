@@ -45,18 +45,20 @@ class OrderStorage(
         """Remove the object from the order of a namespace."""
         self._storage[namespace].remove(obj)
 
-    def up(self, obj, namespace):
+    def up(self, obj, namespace, delta=1):
         """Move the object one position up in the list."""
         storage = self._storage[namespace]
-        index = storage.index(obj)
-        if index == 0:
-            raise ValueError('%r is already the first place' % obj)
-        storage[index-1:index+1] = reversed(storage[index-1:index+1])
+        for i in xrange(delta):
+            index = storage.index(obj)
+            if index == 0:
+                raise ValueError('%r is already the first place' % obj)
+            storage[index-1:index+1] = reversed(storage[index-1:index+1])
 
-    def down(self, obj, namespace):
+    def down(self, obj, namespace, delta=1):
         """Move the object one position down in the list."""
         storage = self._storage[namespace]
-        index = storage.index(obj)
-        if index == len(storage) - 1:
-            raise ValueError('%r is already the last place' % obj)
-        storage[index:index+2] = reversed(storage[index:index+2])
+        for i in xrange(delta):
+            index = storage.index(obj)
+            if index == len(storage) - 1:
+                raise ValueError('%r is already the last place' % obj)
+            storage[index:index+2] = reversed(storage[index:index+2])

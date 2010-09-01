@@ -257,17 +257,24 @@ class IOrderStorageWrite(zope.interface.Interface):
         Raises a KeyError when the namespace does not exist.
         """
 
-    def up(obj, namespace):
+    def up(obj, namespace, delta=1):
         """Move the object one position up in the list.
 
-        When it is already the first one a ValueError is raised.
+        `delta` describes the number of positions to move.
+
+        When it would be moved beyound the beginning of the list a
+        ValueError is raised.
         """
 
-    def down(obj, namespace):
+    def down(obj, namespace, delta=1):
         """Move the object one position down in the list.
 
-        When it is already the last one a ValueError is raised.
+        `delta` describes the number of positions to move.
+
+        When it would be moved beyound the end of the list a ValueError is
+        raised.
         """
+
 
 class IOrderStorage(IOrderStorageRead, IOrderStorageWrite):
     """Storage of orders of objects."""
