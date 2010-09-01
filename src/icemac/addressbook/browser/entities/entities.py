@@ -13,6 +13,19 @@ import zope.security.proxy
 import zope.traversing.browser.absoluteurl
 
 
+class UpLinkColumn(z3c.table.column.LinkColumn):
+    """Column displaying an `up` link."""
+
+    header = _('move-up-table-header', default='move')
+    linkName = '@@up.html'
+    linkContent = _('move-up-table-cell', default='up')
+
+    def renderCell(self, item):
+        order_store = zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+#        if
+
+
 class List(icemac.addressbook.browser.table.Table):
     """List existing entities."""
 
