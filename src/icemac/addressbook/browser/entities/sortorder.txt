@@ -32,8 +32,6 @@ Changing sort order
 To change the sort order of the entities the user has to select the ``up``
 resp. ``down`` links.
 
-The initial sort order is:
-
 >>> import zope.site.hooks
 >>> import zope.component
 >>> import icemac.addressbook.interfaces
@@ -43,8 +41,22 @@ The initial sort order is:
 ...     entities = zope.component.getUtility(
 ...        icemac.addressbook.interfaces.IEntities)
 ...     return [x.title for x in entities.getEntitiesInOrder()]
+
+The initial sort order is:
+
 >>> get_entity_titles()
 [u'address book', u'person', u'postal address', u'phone number', u'e-mail address', u'home page address', u'file', u'keyword']
+
+Seleting the `up` link moves an entity one position up in the list. Let's move the postal address one up:
+
+>>> browser.getLink('up', index=1).click()
+>>> get_entity_titles()
+[u'address book', u'postal address', u'person', u'phone number', u'e-mail address', u'home page address', u'file', u'keyword']
+
+There is no `up` link for the first entity in the table:
+
+.. impl.
+
 
 .. Sort order visible at:
 .. - master data --> entities
