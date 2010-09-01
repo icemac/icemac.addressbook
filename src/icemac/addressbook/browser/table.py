@@ -64,7 +64,6 @@ class KeywordsColumn(z3c.table.column.GetAttrColumn):
             key=lambda x: x.lower()))
 
 
-
 # Tables
 
 class Table(z3c.table.table.Table):
