@@ -81,8 +81,12 @@ class TestOrderStorage(BaseTestOrderStorage):
         self.storage.add('fuz', 'bar')
         self.assertRaises(ValueError, self.storage.remove, 'foo', 'bar')
 
-    def test_get__not_existing(self):
+    def test_get__not_existing_namespace(self):
         self.assertRaises(KeyError, self.storage.get, 'foo1', 'bar')
+
+    def test_get__not_existing_obj(self):
+        self.storage.add('foo1', 'bar')
+        self.assertRaises(KeyError, self.storage.get, 'foo2', 'bar')
 
     def test_get__existing_in_other_namespace(self):
         self.storage.add('foo1', 'baz')
@@ -160,3 +164,26 @@ class TestOrderStorageMovement(BaseTestOrderStorage):
         self.assertEqual(1, self.storage.get('foo2', 'bar'))
         self.assertEqual(0, self.storage.get('foo2', 'baz'))
 
+    def test_isFirst_not_in_List(self):
+        self.assertRaises(KeyError, self.storage.isFirst, 'foo', 'fuz')
+
+    def test_isFirst_not_first(self):
+        self.assert_(self.storage.isFirst('foo2', 'bar') is False)
+        self.assert_(self.storage.isFirst('foo3', 'bar') is False)
+        self.assert_(self.storage.isFirst('foo4', 'bar') is False)
+
+    def test_isFirst_first(self):
+        self.assertTrue(self.storage.isFirst('foo1', 'bar'))
+        self.assertTrue(self.storage.isFirst('baz', 'fuz'))
+
+    def test_isLast_not_in_List(self):
+        self.assertRaises(KeyError, self.storage.isLast, 'foo', 'fuz')
+
+    def test_isLast_not_last(self):
+        self.assert_(self.storage.isLast('foo1', 'bar') is False)
+        self.assert_(self.storage.isLast('foo2', 'bar') is False)
+        self.assert_(self.storage.isLast('foo3', 'bar') is False)
+
+    def test_isLast_last(self):
+        self.assertTrue(self.storage.isLast('foo4', 'bar'))
+        self.assertTrue(self.storage.isLast('baz', 'fuz'))

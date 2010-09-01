@@ -234,6 +234,18 @@ class IOrderStorageRead(zope.interface.Interface):
         Raises a KeyError when the object is not in the list.
         """
 
+    def isFirst(obj, namespace):
+        """Tell whether `obj` is the first object in the list.
+
+        Raises a KeyError when the object is not in the list.
+        """
+
+    def isLast(obj, namespace):
+        """Tell whether `obj` is the last object in the list.
+
+        Raises a KeyError when the object is not in the list.
+        """
+
     def __iter__(namespace):
         """Iterate over the objects registered for the namespace."""
 

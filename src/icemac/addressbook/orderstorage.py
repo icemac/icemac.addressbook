@@ -26,7 +26,19 @@ class OrderStorage(
 
     def get(self, obj, namespace):
         """Get the index of the object in the list."""
-        return self._storage[namespace].index(obj)
+        by_namespace = self.__iter__(namespace)
+        try:
+            return by_namespace.index(obj)
+        except ValueError:
+            raise KeyError(obj)
+
+    def isFirst(self, obj, namespace):
+        """Tell whether `obj` is the first object in the list."""
+        return self.get(obj, namespace) == 0
+
+    def isLast(self, obj, namespace):
+        """Tell whether `obj` is the last object in the list."""
+        return (self.get(obj, namespace) + 1) == len(self.__iter__(namespace))
 
     def __iter__(self, namespace):
         """Iterate over the list of a namespace."""
