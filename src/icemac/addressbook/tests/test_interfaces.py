@@ -105,9 +105,3 @@ class TestInterfaces(unittest.TestCase):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IOrderStorage,
             icemac.addressbook.orderstorage.OrderStorage())
-
-
-
-def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(TestInterfaces)
-
