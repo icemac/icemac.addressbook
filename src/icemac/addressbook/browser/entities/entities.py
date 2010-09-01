@@ -16,6 +16,8 @@ import zope.traversing.browser.absoluteurl
 class List(icemac.addressbook.browser.table.Table):
     """List existing entities."""
 
+    sortOn = None # do not sort rows
+
     def setUpColumns(self):
         return [
             z3c.table.column.addColumn(
