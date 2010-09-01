@@ -39,19 +39,12 @@ The initial sort order is:
 >>> import icemac.addressbook.interfaces
 >>> old_site = zope.site.hooks.getSite()
 >>> zope.site.hooks.setSite(ab)
->>> order = zope.component.getUtility(icemac.addressbook.interfaces.IOrderStorage)
-
->>> fix tests here
-
-.. There should be an easier way defined on IEntities:
-.. What is faster: iter over order storage + get utility for each item
-..             or: get all utilites and sort using index in
-..                 order_storage.__iter__?
-
->>> [icemac.addressbook.interfaces.IEntity(x).title for x in order.__iter__(icemac.addressbook.interfaces.ENTITIES)]
-[u'address book', u'postal address', u'phone number', u'e-mail address', u'home page address', u'file', u'person', u'keyword']
-
-.. Default sort order is wrong, person comes to late!
+>>> def get_entity_titles():
+...     entities = zope.component.getUtility(
+...        icemac.addressbook.interfaces.IEntities)
+...     return [x.title for x in entities.getEntitiesInOrder()]
+>>> get_entity_titles()
+[u'address book', u'person', u'postal address', u'phone number', u'e-mail address', u'home page address', u'file', u'keyword']
 
 .. Sort order visible at:
 .. - master data --> entities

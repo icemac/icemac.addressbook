@@ -105,12 +105,12 @@ def create_address_book_infrastructure(addressbook, event=None):
             icemac.addressbook.interfaces.ENTITIES)
 
     add_entity_to_order(icemac.addressbook.interfaces.IAddressBook)
+    add_entity_to_order(icemac.addressbook.interfaces.IPerson)
     add_entity_to_order(icemac.addressbook.interfaces.IPostalAddress)
     add_entity_to_order(icemac.addressbook.interfaces.IPhoneNumber)
     add_entity_to_order(icemac.addressbook.interfaces.IEMailAddress)
     add_entity_to_order(icemac.addressbook.interfaces.IHomePageAddress)
     add_entity_to_order(icemac.addressbook.file.interfaces.IFile)
-    add_entity_to_order(icemac.addressbook.interfaces.IPerson)
     add_entity_to_order(icemac.addressbook.interfaces.IKeyword)
 
     add_more_addressbook_infrastructure(addressbook, addressbook)
