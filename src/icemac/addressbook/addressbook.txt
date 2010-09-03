@@ -19,12 +19,12 @@ There is an initial order for entities:
 >>> import icemac.addressbook.interfaces
 >>> pprint(list(ab.orders.__iter__(icemac.addressbook.interfaces.ENTITIES)))
 ['IcemacAddressbookAddressbookAddressbook',
+ 'IcemacAddressbookPersonPerson',
  'IcemacAddressbookAddressPostaladdress',
  'IcemacAddressbookAddressPhonenumber',
  'IcemacAddressbookAddressEmailaddress',
  'IcemacAddressbookAddressHomepageaddress',
  'IcemacAddressbookFileFileFile',
- 'IcemacAddressbookPersonPerson',
  'IcemacAddressbookKeywordKeyword']
 
 There are currently no other orders:

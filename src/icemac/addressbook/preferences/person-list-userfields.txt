@@ -156,7 +156,7 @@ Let's delete the "photo permission?" column:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
->>> browser.getLink('Edit fields', index=5).click()
+>>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
 'http://localhost/.../++attribute++entities/icemac.addressbook.person.Person'
 >>> browser.getLink('Delete').click()
@@ -274,7 +274,7 @@ Let's delete the currently selected order-by column "last seen" on "person":
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
->>> browser.getLink('Edit fields', index=5).click()
+>>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
 'http://localhost/.../++attribute++entities/icemac.addressbook.person.Person'
 >>> browser.getLink('Delete').click()
