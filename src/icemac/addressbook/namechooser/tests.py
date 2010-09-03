@@ -2,15 +2,14 @@
 # Copyright (c) 2009-2010 Michael Howitz
 # See also LICENSE.txt
 
-
 import doctest
 import icemac.addressbook.namechooser.namechooser
 import zope.annotation.attribute
 import zope.testing.cleanup
-import zope.testing.testrunner.layer
+import zope.testrunner.layer
 
 
-class NameChooserLayer(zope.testing.testrunner.layer.UnitTests):
+class NameChooserLayer(zope.testrunner.layer.UnitTests):
     """Layer for name chooser tests."""
 
     @classmethod

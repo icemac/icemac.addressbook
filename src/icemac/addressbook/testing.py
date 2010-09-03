@@ -23,10 +23,10 @@ import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testing.cleanup
 import zope.testing.renormalizing
-import zope.testing.testrunner.layer
+import zope.testrunner.layer
 
 
-class AddressBookUnitTests(zope.testing.testrunner.layer.UnitTests):
+class AddressBookUnitTests(zope.testrunner.layer.UnitTests):
     """Layer for gathering addressbook unit tests."""
 
     @classmethod
