@@ -274,7 +274,7 @@ class IOrderStorageWrite(zope.interface.Interface):
 
         `delta` describes the number of positions to move.
 
-        When it would be moved beyound the beginning of the list a
+        When it would be moved beyond the beginning of the list a
         ValueError is raised.
         """
 
@@ -283,10 +283,53 @@ class IOrderStorageWrite(zope.interface.Interface):
 
         `delta` describes the number of positions to move.
 
-        When it would be moved beyound the end of the list a ValueError is
+        When it would be moved beyond the end of the list a ValueError is
         raised.
         """
 
 
 class IOrderStorage(IOrderStorageRead, IOrderStorageWrite):
     """Storage of orders of objects."""
+
+
+class IEntityOrder(zope.interface.Interface):
+    """Order of entities."""
+
+    def get(entity):
+        """Get the index of the entity in the entity order.
+
+        Raises a KeyError when the entity is not known.
+        """
+
+    def isFirst(entity):
+        """Tell whether `entity` comes first in the entity order.
+
+        Raises a KeyError when the entity is not known.
+        """
+
+    def isLast(entity):
+        """Tell whether `entity` comes last in the entity order.
+
+        Raises a KeyError when the entity is not known.
+        """
+
+    def __iter__():
+        """Iterate over the entities sorted by order."""
+
+    def up(entity, delta=1):
+        """Move the entity one position up in the entity order.
+
+        `delta` describes the number of positions to move.
+
+        When the entity would be moved beyond the beginning of the entity
+        order a ValueError is raised.
+        """
+
+    def down(entity, delta=1):
+        """Move the entity one position down in the entity order.
+
+        `delta` describes the number of positions to move.
+
+        When it would be moved beyond the end of the entity order a
+        ValueError is raised.
+        """

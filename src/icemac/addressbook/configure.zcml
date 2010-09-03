@@ -129,6 +129,7 @@
   <adapter factory=".address.phone_number_title" />
 
   <utility factory=".entities.Entities" />
+  <utility factory=".entities.EntityOrder" />
   <adapter factory=".entities.field_storage" />
   <adapter factory=".entities.entity_by_name" />
   <adapter factory=".entities.entity_by_interface" />
