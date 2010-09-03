@@ -78,6 +78,11 @@ class TestInterfaces(unittest.TestCase):
             icemac.addressbook.interfaces.IEntities,
             icemac.addressbook.entities.PersistentEntities())
 
+    def test_entityorder(self):
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IEntityOrder,
+            icemac.addressbook.entities.EntityOrder())
+
     def test_entity(self):
         class IE(zope.interface.Interface):
             pass

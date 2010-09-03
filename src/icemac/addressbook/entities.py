@@ -61,6 +61,48 @@ def entity_by_interface(interface):
     return Entity(None, interface, None)
 
 
+class EntityOrder(object):
+    """Global entity order utility."""
+
+    zope.interface.implements(icemac.addressbook.interfaces.IEntityOrder)
+
+    @property
+    def order_storage(self):
+        return zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+
+    def get(self, entity):
+        """Get the index of the entity in the entity order."""
+        return self.order_storage.get(
+            entity.name, icemac.addressbook.interfaces.ENTITIES)
+
+    def isFirst(self, entity):
+        """Tell whether `entity` comes first in the entity order."""
+        return self.order_storage.isFirst(
+            entity.name, icemac.addressbook.interfaces.ENTITIES)
+
+    def isLast(self, entity):
+        """Tell whether `entity` comes last in the entity order."""
+        return self.order_storage.isLast(
+            entity.name, icemac.addressbook.interfaces.ENTITIES)
+
+    def __iter__(self):
+        """Iterate over the entities sorted by order."""
+        for entity in self.order_storage.__iter__(
+            icemac.addressbook.interfaces.ENTITIES):
+            yield entity
+
+    def up(self, entity, delta=1):
+        """Move the entity one position up in the entity order."""
+        return self.order_storage.up(
+            entity.name, icemac.addressbook.interfaces.ENTITIES, delta)
+
+    def down(self, entity, delta=1):
+        """Move the entity one position down in the entity order."""
+        return self.order_storage.down(
+            entity.name, icemac.addressbook.interfaces.ENTITIES, delta)
+
+
 class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):
     "Source containing the values of a choice field."
 

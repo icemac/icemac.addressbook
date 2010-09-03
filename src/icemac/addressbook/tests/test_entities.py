@@ -4,6 +4,7 @@
 
 import icemac.addressbook.entities
 import icemac.addressbook.orderstorage
+import icemac.addressbook.testing
 import unittest
 import zope.component.testing
 import zope.interface
@@ -133,3 +134,131 @@ class TestPersistentEntities(EntitiesTests, unittest.TestCase):
 
     entities_class = icemac.addressbook.entities.PersistentEntities
 
+
+class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
+
+    def setUp(self):
+        import icemac.addressbook.interfaces
+        import zope.component
+        import zope.site.hooks
+
+        self.old_site = zope.site.hooks.getSite()
+        zope.site.hooks.setSite(
+            icemac.addressbook.testing.create_addressbook(
+                self.layer.getRootFolder()))
+
+    def tearDown(self):
+        zope.site.hooks.setSite(self.old_site)
+
+    def getEntity(self, iface_name):
+        import icemac.addressbook.interfaces
+        return icemac.addressbook.interfaces.IEntity(
+            getattr(icemac.addressbook.interfaces, iface_name))
+
+    @property
+    def entity_order(self):
+        return zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+
+    @property
+    def unknown_entity(self):
+        import icemac.addressbook.entities
+        import icemac.addressbook.interfaces
+        return icemac.addressbook.entities.Entity(
+            u'', icemac.addressbook.interfaces.IEntities,
+            'icemac.addressbook.entities.Entities')
+
+    def test_get_IPerson(self):
+        self.assertEqual(1, self.entity_order.get(self.getEntity('IPerson')))
+
+    def test_get_IKeyword(self):
+        self.assertEqual(7, self.entity_order.get(self.getEntity('IKeyword')))
+
+    def test_get_unknown_entity(self):
+        self.assertRaises(KeyError, self.entity_order.get, self.unknown_entity)
+
+    def test_isFirst_first(self):
+        self.assertTrue(
+            self.entity_order.isFirst(self.getEntity('IAddressBook')))
+
+    def test_isFirst_not_first(self):
+        self.assertFalse(
+            self.entity_order.isFirst(self.getEntity('IPhoneNumber')))
+
+    def test_isFirst_unknown_entity(self):
+        self.assertRaises(
+            KeyError, self.entity_order.isFirst, self.unknown_entity)
+
+    def test_isLast_last(self):
+        self.assertTrue(
+            self.entity_order.isLast(self.getEntity('IKeyword')))
+
+    def test_isLast_not_last(self):
+        self.assertFalse(
+            self.entity_order.isLast(self.getEntity('IPhoneNumber')))
+
+    def test_isLast_unknown_entity(self):
+        self.assertRaises(
+            KeyError, self.entity_order.isLast, self.unknown_entity)
+
+    def test___iter__(self):
+        self.assertEqual(['IcemacAddressbookAddressbookAddressbook',
+                          'IcemacAddressbookPersonPerson',
+                          'IcemacAddressbookAddressPostaladdress',
+                          'IcemacAddressbookAddressPhonenumber',
+                          'IcemacAddressbookAddressEmailaddress',
+                          'IcemacAddressbookAddressHomepageaddress',
+                          'IcemacAddressbookFileFileFile',
+                          'IcemacAddressbookKeywordKeyword'],
+                         [x for x in self.entity_order])
+
+    def test_up_w_o_delta(self):
+        person = self.getEntity('IPerson')
+        self.assertEqual(1, self.entity_order.get(person))
+        self.entity_order.up(person)
+        self.assertEqual(0, self.entity_order.get(person))
+
+    def test_up_w_delta(self):
+        hp = self.getEntity('IHomePageAddress')
+        self.assertEqual(5, self.entity_order.get(hp))
+        self.entity_order.up(hp, 3)
+        self.assertEqual(2, self.entity_order.get(hp))
+
+    def test_up_too_much(self):
+        person = self.getEntity('IPerson')
+        self.assertEqual(1, self.entity_order.get(person))
+        self.assertRaises(ValueError, self.entity_order.up, person, 2)
+
+    def test_down_w_o_delta(self):
+        person = self.getEntity('IPerson')
+        self.assertEqual(1, self.entity_order.get(person))
+        self.entity_order.down(person)
+        self.assertEqual(2, self.entity_order.get(person))
+
+    def test_down_w_delta(self):
+        ab = self.getEntity('IAddressBook')
+        self.assertEqual(0, self.entity_order.get(ab))
+        self.entity_order.down(ab, 3)
+        self.assertEqual(3, self.entity_order.get(ab))
+
+    def test_down_too_much(self):
+        person = self.getEntity('IPerson')
+        self.assertEqual(1, self.entity_order.get(person))
+        self.assertRaises(ValueError, self.entity_order.down, person, 7)
+
+    def test_other_address_book(self):
+        # IEntityStorage always accesses the current address book as defined
+        # by the setSite hook.
+        import icemac.addressbook.testing
+        import zope.site.hooks
+
+        ab2 = icemac.addressbook.testing.create_addressbook(
+            self.layer.getRootFolder(), name='ab2')
+
+        person = self.getEntity('IPerson')
+        self.assertEqual(1, self.entity_order.get(person))
+        self.entity_order.down(person)
+        self.assertEqual(2, self.entity_order.get(person))
+
+        zope.site.hooks.setSite(ab2)
+        self.assertEqual(1, self.entity_order.get(person))
