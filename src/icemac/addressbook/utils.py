@@ -61,7 +61,6 @@ def utility_locally_registered(site, interface):
     interface ... interface the utility is registered for
 
     """
-
     for registration in site.getSiteManager().registeredUtilities():
         if registration.provided == interface:
             return True
