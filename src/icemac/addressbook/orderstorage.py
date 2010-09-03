@@ -63,7 +63,9 @@ class OrderStorage(
         for i in xrange(delta):
             index = storage.index(obj)
             if index == 0:
-                raise ValueError('%r is already the first place' % obj)
+                raise ValueError(
+                    "Moving %r by %s positions up would move it beyond the "
+                    "beginning of the list." % (obj, delta))
             storage[index-1:index+1] = reversed(storage[index-1:index+1])
 
     def down(self, obj, namespace, delta=1):
@@ -72,5 +74,7 @@ class OrderStorage(
         for i in xrange(delta):
             index = storage.index(obj)
             if index == len(storage) - 1:
-                raise ValueError('%r is already the last place' % obj)
+                raise ValueError(
+                    "Moving %r by %s positions down would move it beyond the "
+                    "end of the list." % (obj, delta))
             storage[index:index+2] = reversed(storage[index:index+2])
