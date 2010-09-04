@@ -100,6 +100,7 @@ There is no `down` link for the last entity in the table:
 .. - add menu
 .. - person add form
 .. - person edit form
+.. - person: main entry fields
 .. - export
 .. - importer (?)
 
