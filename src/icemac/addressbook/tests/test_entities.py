@@ -69,7 +69,8 @@ class EntitiesTests(object):
         order_store.add(self.duck.name, icemac.addressbook.interfaces.ENTITIES)
         zope.component.provideUtility(
             order_store, icemac.addressbook.interfaces.IOrderStorage)
-        self.order_store = order_store
+        self.entity_order = icemac.addressbook.entities.EntityOrder()
+        zope.component.provideUtility(self.entity_order)
 
     def tearDown(self):
         zope.component.testing.tearDown()
@@ -85,8 +86,7 @@ class EntitiesTests(object):
             self.entities.getEntitiesInOrder())
 
     def test_getEntitiesInOrder_changed_order(self):
-        self.order_store.up(
-            self.duck.name, icemac.addressbook.interfaces.ENTITIES)
+        self.entity_order.up(self.duck)
         self.assertEqual(
             [self.cat, self.duck, self.kwack],
             self.entities.getEntitiesInOrder())
@@ -168,6 +168,12 @@ class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
             u'', icemac.addressbook.interfaces.IEntities,
             'icemac.addressbook.entities.Entities')
 
+    @property
+    def minimal_entity(self):
+        import icemac.addressbook.interfaces
+        return icemac.addressbook.interfaces.IEntity(
+            icemac.addressbook.interfaces.IEntities)
+
     def test_get_IPerson(self):
         self.assertEqual(1, self.entity_order.get(self.getEntity('IPerson')))
 
@@ -176,6 +182,10 @@ class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
 
     def test_get_unknown_entity(self):
         self.assertRaises(KeyError, self.entity_order.get, self.unknown_entity)
+
+    def test_get_minimal_entity(self):
+        # When the entity has no name, a KeyError is raised, too.
+        self.assertRaises(KeyError, self.entity_order.get, self.minimal_entity)
 
     def test_isFirst_first(self):
         self.assertTrue(
@@ -189,6 +199,10 @@ class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
         self.assertRaises(
             KeyError, self.entity_order.isFirst, self.unknown_entity)
 
+    def test_isFirst_minimal_entity(self):
+        self.assertRaises(
+            KeyError, self.entity_order.isFirst, self.minimal_entity)
+
     def test_isLast_last(self):
         self.assertTrue(
             self.entity_order.isLast(self.getEntity('IKeyword')))
@@ -200,6 +214,10 @@ class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
     def test_isLast_unknown_entity(self):
         self.assertRaises(
             KeyError, self.entity_order.isLast, self.unknown_entity)
+
+    def test_isLast_minimal_entity(self):
+        self.assertRaises(
+            KeyError, self.entity_order.isLast, self.minimal_entity)
 
     def test___iter__(self):
         self.assertEqual(['IcemacAddressbookAddressbookAddressbook',
@@ -262,3 +280,13 @@ class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
 
         zope.site.hooks.setSite(ab2)
         self.assertEqual(1, self.entity_order.get(person))
+
+    def test_outside_address_book(self):
+        # Outside an address book a ComponentLookupError is raised:
+        import zope.component
+        import zope.site.hooks
+
+        zope.site.hooks.setSite(self.old_site)
+        self.assertRaises(
+            zope.component.ComponentLookupError,
+            self.entity_order.get, self.getEntity('IPerson'))
