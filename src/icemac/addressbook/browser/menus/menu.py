@@ -20,15 +20,13 @@ def getWeight((name, viewlet)):
     view = zope.component.getMultiAdapter(
         (viewlet.context, viewlet.request), name=view_name)
     entity = icemac.addressbook.interfaces.IEntity(view.interface)
-    orders = zope.component.queryUtility(
-        icemac.addressbook.interfaces.IOrderStorage)
-    if orders is None:
-        # outside address book
-        return 0
+    order = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntityOrder)
     try:
-        return orders.get(entity.name, icemac.addressbook.interfaces.ENTITIES)
-    except ValueError:
-        # there is no entity for the interface
+        return order.get(entity)
+    except (zope.component.ComponentLookupError, KeyError):
+        # The entity is not known in the order or we are outside an address
+        # book.
         return 0
 
 
