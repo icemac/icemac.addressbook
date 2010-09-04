@@ -65,9 +65,9 @@ There is no `up` link for the first entity in the table:
   <tbody>
     <tr class="table-even-row">
       <td>address book</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
       <td></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
     </tr>
  ...
 
@@ -88,10 +88,10 @@ There is no `down` link for the last entity in the table:
 <!DOCTYPE...
     <tr class="table-odd-row">
       <td>keyword</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword">Edit fields</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword/@@up.html">up</a></td>
       <td></td>
-    </tr>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword">Edit fields</a></td>
+   </tr>
   </tbody>
   ...
 

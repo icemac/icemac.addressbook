@@ -55,12 +55,12 @@ class List(icemac.addressbook.browser.table.Table):
                 self, z3c.table.column.I18nGetAttrColumn, 'title', weight=10,
                 header=_(u'Entity'), attrName='title'),
             z3c.table.column.addColumn(
-                self, z3c.table.column.LinkColumn, 'fields', weight=20,
+                self, UpLinkColumn, 'up', weight=20),
+            z3c.table.column.addColumn(
+                self, DownLinkColumn, 'down', weight=30),
+            z3c.table.column.addColumn(
+                self, z3c.table.column.LinkColumn, 'fields', weight=100,
                 header=u'', linkContent=_(u'Edit fields')),
-            z3c.table.column.addColumn(
-                self, UpLinkColumn, 'up', weight=30),
-            z3c.table.column.addColumn(
-                self, DownLinkColumn, 'down', weight=40),
             ]
 
     @property
