@@ -45,18 +45,18 @@ resp. ``down`` links.
 The initial sort order is:
 
 >>> get_entity_titles()
-[u'address book', u'person', u'postal address', ...
+[u'address book', u'person', u'postal address', u'phone number', ...
 
 Move entity up
 --------------
 
 Seleting the `up` link moves the entity one position up in the list. Let's
-move the postal address one up:
+move the phone number one up:
 
->>> up_link_url = browser.getLink('up', index=1).url
+>>> up_link_url = browser.getLink('up', index=2).url
 >>> browser.open(up_link_url)
 >>> get_entity_titles()
-[u'address book', u'postal address', u'person', ...
+[u'address book', u'person', u'phone number', u'postal address', ...
 
 There is no `up` link for the first entity in the table:
 
@@ -80,7 +80,7 @@ list. Let's move the address book one down:
 >>> down_link_url = browser.getLink('down', index=0).url
 >>> browser.open(down_link_url)
 >>> get_entity_titles()
-[u'postal address', u'address book', u'person', ...
+[u'person', u'address book', u'phone number', u'postal address', ...
 
 There is no `down` link for the last entity in the table:
 
@@ -95,14 +95,61 @@ There is no `down` link for the last entity in the table:
   </tbody>
   ...
 
+Visibility of entity sort order
+===============================
+
+The entity sort order is reflected in the entity table:
+
+>>> print browser.contents
+<!DOCTYPE...
+  <tbody>
+    <tr class="table-even-row">
+      <td>person</td>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person">Edit fields</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>address book</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@up.html">up</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>phone number</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber/@@up.html">up</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber">Edit fields</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>postal address</td>
+  ...
+
+The sort order of the entries in the add menu also depends on the entity
+order: the phone number is shown before the postal address:
+
+>>> from icemac.addressbook.testing import create_full_person
+>>> create_full_person(ab, ab, u'Tester', return_obj=False)
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Tester').click()
+>>> print browser.contents
+<!DOCTYPE...
+          <ul id="add-menu-content"><li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
+</li>
+<li>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
+  ...
+
 .. Sort order visible at:
-.. - master data --> entities
-.. - add menu
-.. - person add form
+
+.. - person add form --> person
 .. - person edit form
 .. - person: main entry fields
-.. - export
-.. - importer (?)
+
+.. - export --> export
+
+.. - importer (?) --> importer
 
 
 Security
@@ -125,7 +172,7 @@ HTTPError: HTTP Error 403: Forbidden
 
 
 Visitor
-------
+-------
 
 >>> visitor = Browser()
 >>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
