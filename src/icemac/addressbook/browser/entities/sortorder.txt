@@ -36,8 +36,8 @@ resp. ``down`` links.
 >>> import zope.component
 >>> import icemac.addressbook.interfaces
 >>> old_site = zope.site.hooks.getSite()
->>> zope.site.hooks.setSite(ab)
 >>> def get_entity_titles():
+...     zope.site.hooks.setSite(ab)
 ...     entities = zope.component.getUtility(
 ...        icemac.addressbook.interfaces.IEntities)
 ...     return [x.title for x in entities.getEntitiesInOrder()]
@@ -45,18 +45,55 @@ resp. ``down`` links.
 The initial sort order is:
 
 >>> get_entity_titles()
-[u'address book', u'person', u'postal address', u'phone number', u'e-mail address', u'home page address', u'file', u'keyword']
+[u'address book', u'person', u'postal address', ...
 
-Seleting the `up` link moves an entity one position up in the list. Let's move the postal address one up:
+Move entity up
+--------------
 
->>> browser.getLink('up', index=1).click()
+Seleting the `up` link moves the entity one position up in the list. Let's
+move the postal address one up:
+
+>>> up_link_url = browser.getLink('up', index=1).url
+>>> browser.open(up_link_url)
 >>> get_entity_titles()
-[u'address book', u'postal address', u'person', u'phone number', u'e-mail address', u'home page address', u'file', u'keyword']
+[u'address book', u'postal address', u'person', ...
 
 There is no `up` link for the first entity in the table:
 
-.. impl.
+>>> print browser.contents
+<!DOCTYPE...
+  <tbody>
+    <tr class="table-even-row">
+      <td>address book</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
+      <td></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
+    </tr>
+ ...
 
+Move entity down
+----------------
+
+Seleting the `down` link moves the entity one position down in the
+list. Let's move the address book one down:
+
+>>> down_link_url = browser.getLink('down', index=0).url
+>>> browser.open(down_link_url)
+>>> get_entity_titles()
+[u'postal address', u'address book', u'person', ...
+
+There is no `down` link for the last entity in the table:
+
+>>> print browser.contents
+<!DOCTYPE...
+    <tr class="table-odd-row">
+      <td>keyword</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword">Edit fields</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword/@@up.html">up</a></td>
+      <td></td>
+    </tr>
+  </tbody>
+  ...
 
 .. Sort order visible at:
 .. - master data --> entities
@@ -65,6 +102,38 @@ There is no `up` link for the first entity in the table:
 .. - person edit form
 .. - export
 .. - importer (?)
+
+
+Security
+========
+
+Editors and visitors are not able to change the entity sort order even
+though, they know the url.
+
+Editor
+------
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open(up_link_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> editor.open(down_link_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+
+Visitor
+------
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open(up_link_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+>>> visitor.open(down_link_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
 
 
 Tear down
