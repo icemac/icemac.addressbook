@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import z3c.table.column
@@ -21,9 +22,26 @@ class UpLinkColumn(z3c.table.column.LinkColumn):
     linkContent = _('move-up-table-cell', default='up')
 
     def renderCell(self, item):
-        order_store = zope.component.getUtility(
-            icemac.addressbook.interfaces.IOrderStorage)
-#        if
+        order = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+        if order.isFirst(item):
+            return u''
+        return super(UpLinkColumn, self).renderCell(item)
+
+
+class DownLinkColumn(z3c.table.column.LinkColumn):
+    """Column displaying an `down` link."""
+
+    header = _('move-down-table-header', default='move')
+    linkName = '@@down.html'
+    linkContent = _('move-down-table-cell', default='down')
+
+    def renderCell(self, item):
+        order = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+        if order.isLast(item):
+            return u''
+        return super(DownLinkColumn, self).renderCell(item)
 
 
 class List(icemac.addressbook.browser.table.Table):
@@ -34,11 +52,15 @@ class List(icemac.addressbook.browser.table.Table):
     def setUpColumns(self):
         return [
             z3c.table.column.addColumn(
-                self, z3c.table.column.I18nGetAttrColumn, 'title', weight=1,
+                self, z3c.table.column.I18nGetAttrColumn, 'title', weight=10,
                 header=_(u'Entity'), attrName='title'),
             z3c.table.column.addColumn(
-                self, z3c.table.column.LinkColumn, 'fields', weight=200,
+                self, z3c.table.column.LinkColumn, 'fields', weight=20,
                 header=u'', linkContent=_(u'Edit fields')),
+            z3c.table.column.addColumn(
+                self, UpLinkColumn, 'up', weight=30),
+            z3c.table.column.addColumn(
+                self, DownLinkColumn, 'down', weight=40),
             ]
 
     @property
@@ -78,3 +100,27 @@ class EntitiesTraverser(zope.container.traversal.ItemTraverser):
         if entity is not None:
             return zope.location.LocationProxy(entity, self.context, name)
         return super(EntitiesTraverser, self).publishTraverse(request, name)
+
+
+class MoveBase(icemac.addressbook.browser.base.BaseView):
+    """Base class for movement views."""
+
+    direction = None # set on sub-class
+
+    def __call__(self):
+        order = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+        getattr(order, self.direction)(self.context)
+        self.request.response.redirect(self.url(self.context.__parent__))
+
+
+class MoveUp(MoveBase):
+    "Move entity up in entity order."
+
+    direction = 'up'
+
+
+class MoveDown(MoveBase):
+    "Move entity down in entity order."
+
+    direction = 'down'

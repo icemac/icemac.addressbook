@@ -90,11 +90,27 @@
       />
 
   <z3c:pagelet
-      name="delete.html"
       for="icemac.addressbook.interfaces.IField"
-      permission="icemac.addressbook.EditEntities"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="delete.html"
       class=".fields.DeleteForm"
+      permission="icemac.addressbook.EditEntities"
+      />
+
+  <browser:page
+      for="icemac.addressbook.interfaces.IEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="up.html"
+      class=".entities.MoveUp"
+      permission="icemac.addressbook.EditEntities"
+      />
+
+  <browser:page
+      for="icemac.addressbook.interfaces.IEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="down.html"
+      class=".entities.MoveDown"
+      permission="icemac.addressbook.EditEntities"
       />
 
 
