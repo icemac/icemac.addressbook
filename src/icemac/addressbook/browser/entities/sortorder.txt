@@ -141,16 +141,6 @@ order: the phone number is shown before the postal address:
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
   ...
 
-.. Sort order visible at:
-
-.. - person add form --> person
-.. - person edit form
-.. - person: main entry fields
-
-.. - export --> export
-
-.. - importer (?) --> importer
-
 
 Security
 ========
