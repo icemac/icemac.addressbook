@@ -142,6 +142,9 @@ class IEntities(zope.interface.Interface):
     def getEntitiesInOrder():
         "Get an iterable of the entities sorted as defined in IOrderStorage."
 
+    def getMainEntitiesInOrder():
+        "Get an iterable of the most important entities in order."
+
 
 class IEntity(zope.interface.Interface):
     """Entity in the address book."""
@@ -166,7 +169,6 @@ class IEntity(zope.interface.Interface):
         When the field is a user defined one it gets converted to a zope.schema
         field.
         """
-
 
     def getRawFields():
         """Get ordered name, field tuples of the schema fields on the entity.

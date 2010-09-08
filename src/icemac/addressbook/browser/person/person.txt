@@ -34,8 +34,10 @@ Clicking on it, deselects it, so no country is selected afterwards.):
 >>> browser.getControl('Add').click()
 >>> print browser.contents
 <!DOCTYPE...
-<div class="status">
-  <div class="summary">There were some errors.</div>
+      <div class="status">
+        <div class="summary">There were some errors.</div>
+     </div>
+     ...
   <ul class="errors">
     <li>
         last name:
