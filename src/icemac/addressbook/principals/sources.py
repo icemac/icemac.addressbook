@@ -40,7 +40,7 @@ class Persons(zc.sourcefactory.contextual.BasicContextualSourceFactory):
         # When editing a user we need this users person in list, as
         # the person on user is not changeable we need only to return
         # this person.
-        if isinstance(insecured_context,
+        if isinstance(insecured_context, # XXX what about IPrincipal.providedBy?
                       icemac.addressbook.principals.principals.Principal):
             yield context.person
             return
