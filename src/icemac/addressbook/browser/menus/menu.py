@@ -19,12 +19,19 @@ def getWeight((name, viewlet)):
         view_name = view_name[2:]
     view = zope.component.getMultiAdapter(
         (viewlet.context, viewlet.request), name=view_name)
-    entity = icemac.addressbook.interfaces.IEntity(view.interface)
+    interface = getattr(view, 'interface', None)
+    if interface is None:
+        interface = getattr(view, 'interface_for_menu', None)
+    assert interface is not None, (
+        'View %r does neither have a non-null value on `interface` nor '
+        'on `interface_for_menu` attribute. But this is needed to compute '
+        'the AddMenu contents.' % view)
+    entity = icemac.addressbook.interfaces.IEntity(interface)
     order = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntityOrder)
     try:
         return order.get(entity)
-    except (zope.component.ComponentLookupError, KeyError):
+    except (KeyError, zope.component.ComponentLookupError):
         # The entity is not known in the order or we are outside an address
         # book.
         return 0
