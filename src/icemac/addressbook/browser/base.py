@@ -62,8 +62,12 @@ class BaseForm(BaseView):
 
     @property
     def fields(self):
-        fields = icemac.addressbook.interfaces.IEntity(self.interface)
-        return z3c.form.field.Fields(*fields.getFieldValuesInOrder())
+        if self.interface is None:
+            field_values = ()
+        else:
+            fields = icemac.addressbook.interfaces.IEntity(self.interface)
+            field_values = fields.getFieldValuesInOrder()
+        return z3c.form.field.Fields(*field_values)
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
