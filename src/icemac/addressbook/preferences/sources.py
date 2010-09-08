@@ -4,9 +4,11 @@
 
 from icemac.addressbook.i18n import _
 import icemac.addressbook.entities
+import icemac.addressbook.interfaces
 import icemac.addressbook.sources
 import stabledict
 import zc.sourcefactory.basic
+import zope.component
 
 
 def tokenize(entity, field_name):
@@ -28,7 +30,9 @@ class ColumnSource(zc.sourcefactory.basic.BasicSourceFactory):
     def getValues(self):
         # The main entities (the ones with default values on the
         # person) can be displayed in the person list.
-        for entity in icemac.addressbook.entities.get_main_entities():
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        for entity in entities.getMainEntitiesInOrder():
             # All fields, even the user defined ones, can be selected
             # as display columns.
             for field_name, field in entity.getRawFields():

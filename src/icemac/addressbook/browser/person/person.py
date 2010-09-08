@@ -70,30 +70,43 @@ class PersonAddForm(z3c.form.group.GroupForm,
                     icemac.addressbook.browser.base.BaseAddForm):
 
     label = _(u'Add new person')
-    interface = icemac.addressbook.interfaces.IPerson
     next_url = 'parent'
+    interface_for_menu = icemac.addressbook.interfaces.IPerson
 
     def __init__(self, *args, **kw):
         super(PersonAddForm, self).__init__(*args, **kw)
         context = self.context
         request = self.request
-        groups = [AddGroup(context, request, self, address['interface'],
-                           _(address['title']), address['prefix'])
-                  for address in icemac.addressbook.address.address_mapping]
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        groups = [AddGroup(context, request, self, entity.interface,
+                           entity.title, entity.name)
+                  for entity in entities.getMainEntitiesInOrder()]
         self.groups = tuple(groups)
 
     def createAndAdd(self, data):
-        person = icemac.addressbook.browser.base.create(
-            self, icemac.addressbook.person.Person, data)
+        # Create person first
+        person_entity = icemac.addressbook.interfaces.IEntity(
+            icemac.addressbook.interfaces.IPerson)
+        person_entity_name = person_entity.name
+        for group in self.groups:
+            if group.prefix == person_entity_name:
+                # found person group, now can create person object
+                person = icemac.addressbook.browser.base.create(
+                    group, person_entity.getClass(), data)
+                break
         self._name = icemac.addressbook.utils.add(self.context, person)
         for group in self.groups:
+            if group.prefix == person_entity_name:
+                # already created above
+                continue
+            entity = icemac.addressbook.interfaces.IEntity(group.prefix)
             obj = icemac.addressbook.browser.base.create(
-                group, icemac.addressbook.address.prefix_to_class(group.prefix),
-                data)
+                group, entity.getClass(), data)
             icemac.addressbook.utils.add(person, obj)
             # handling of default addresses: the first address is
             # saved as default
-            default_attrib = 'default_%s' % group.prefix
+            default_attrib = entity.tagged_values['default_attrib']
             if getattr(person, default_attrib, None) is None:
                 setattr(person, default_attrib, obj)
         return person

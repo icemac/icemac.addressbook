@@ -21,6 +21,7 @@ def test_suite():
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
         "browser/person/clone.txt",
+        "browser/person/sortorder.txt",
         "browser/person/file.txt",
         "browser/person/person.txt",
         "browser/person/translation.txt",

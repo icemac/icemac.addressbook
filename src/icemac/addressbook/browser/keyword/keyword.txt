@@ -114,18 +114,16 @@ Assigning a keyword to a person is possible on adding or editing a
 person:
 
 >>> browser.getLink('Person list').click()
->>> browser.handleErrors = False
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'keyword test'
 
-In browser tests keywords are selected using a simple multiselect
-widget because the testbrowser does not support JavaScript. The widget
+In browser tests keywords are selected using a simple multiselect widget
+because the testbrowser does not support JavaScript. The widget currently
 displays all existing keywords:
 
 >>> browser.getControl('keywords')
-<ListControl name='form.widgets.keywords:list' type='select'>
->>> [x.mech_item.get_labels()[0]._text
-...  for x in browser.getControl('keywords').controls]
+<ListControl name='IcemacAddressbookPersonPerson.widgets.IcemacAddressbookPersonPerson.keywords:list' type='select'>
+>>> browser.getControl('keywords').displayOptions
 ['church', 'Company co-worker', 'family', 'friend']
 
 Keyword assignments are stored when saving:

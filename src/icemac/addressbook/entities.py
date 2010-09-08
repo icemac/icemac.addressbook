@@ -9,6 +9,22 @@ import zope.dottedname.resolve
 import zope.interface.interfaces
 import zope.schema
 
+MAIN_ENTITIES_NAME_SUFFIXES = [
+    'person.Person',
+    'address.PostalAddress',
+    'address.PhoneNumber',
+    'address.EMailAddress',
+    'address.HomePageAddress',
+    ]
+
+
+def sorted_entities(entities):
+    """Returns the entities sorted as defined in IEntityOrder."""
+    order = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntityOrder)
+    order = [x for x in order]
+    return sorted(entities, key=lambda x: order.index(x.name))
+
 
 class Entities(object):
     "Predefined entities in the address book universe."
@@ -16,14 +32,21 @@ class Entities(object):
     zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
     def getEntities(self):
+        """Get an iterable of all known entities."""
         return zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
 
     def getEntitiesInOrder(self):
-        order = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntityOrder)
-        order = [x for x in order]
-        return sorted(self.getEntities(), key=lambda x: order.index(x.name))
+        "Get an iterable of the entities sorted as defined in IOrderStorage."
+        return sorted_entities(self.getEntities())
+
+    def getMainEntitiesInOrder(self):
+        "Get an iterable of the most important entities in order."
+        entities = [zope.component.getUtility(
+                        icemac.addressbook.interfaces.IEntity,
+                        name='icemac.addressbook.'+suffix)
+                    for suffix in MAIN_ENTITIES_NAME_SUFFIXES]
+        return sorted_entities(entities)
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
@@ -34,30 +57,25 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_name(name):
     "Adapt Entity.name (not Entity.class_name!) to entity."
-    result = None
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities).getEntities()
     for candidate in entities:
         if candidate.name == name:
-            result = candidate
-            break
-    if result is None:
-        raise ValueError("Unknown name: %r" % name)
-    return result
+            return candidate
+    raise ValueError("Unknown name: %r" % name)
 
 
 @zope.component.adapter(zope.interface.interfaces.IInterface)
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_interface(interface):
-    "Adapt interface to entity."
+    "Adapt an interface to its entity."
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities).getEntities()
     for entity in entities:
         if entity.interface == interface:
             return entity
-    # no utility found, create entity on the fly, so all even
-    # not preconfigured entities can be used the same way as the
-    # preconfigured ones.
+    # no entity found, create one on the fly, so all entities (even not
+    # preconfigured ones) can be used the same way.
     return Entity(None, interface, None)
 
 
@@ -245,19 +263,6 @@ def create_entity(title, interface, class_, **kw):
     zope.interface.classImplements(
         class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity
-
-
-def get_main_entities():
-    "Get the most important entities."
-    name_suffixes = ['person.Person',
-                     'address.PostalAddress',
-                     'address.PhoneNumber',
-                     'address.EMailAddress',
-                     'address.HomePageAddress']
-    return [zope.component.getUtility(
-                icemac.addressbook.interfaces.IEntity,
-                name='icemac.addressbook.'+suffix)
-            for suffix in name_suffixes]
 
 
 class Field(persistent.Persistent, zope.container.contained.Contained):

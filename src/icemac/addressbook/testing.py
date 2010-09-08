@@ -6,6 +6,7 @@
 import doctest
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
+import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.person
 import icemac.addressbook.principals.principals
@@ -19,6 +20,8 @@ import tempfile
 import unittest
 import zope.annotation.attribute
 import zope.app.wsgi.testlayer
+import zope.component
+import zope.site.hooks
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testing.cleanup
@@ -63,6 +66,21 @@ class FunctionalTestCase(unittest.TestCase):
     """Base class for functional tests."""
 
     layer = FunctionalLayer
+
+
+class AddressBookFunctionalTestCase(FunctionalTestCase):
+    "Functional test case where the address book gets created in the set up."
+
+    def setUp(self):
+        super(AddressBookFunctionalTestCase, self).setUp()
+        self.old_site = zope.site.hooks.getSite()
+        zope.site.hooks.setSite(
+            icemac.addressbook.testing.create_addressbook(
+                self.layer.getRootFolder()))
+
+    def tearDown(self):
+        super(AddressBookFunctionalTestCase, self).tearDown()
+        zope.site.hooks.setSite(self.old_site)
 
 
 def FunctionalDocFileSuite(*paths, **kw):

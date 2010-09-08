@@ -1,0 +1,61 @@
+=============================================
+ Entity and field sort order in person forms
+=============================================
+
+The person add and edit form reflect the sort order defined for entities and
+fields.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from zope.app.wsgi.testlayer import Browser
+>>> ab = create_addressbook()
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+Add form
+========
+
+Using the default sort order, the fieldsets are ordered the following way:
+
+>>> browser.getLink('person').click()
+>>> print browser.contents
+<!DOCTYPE ...
+    <fieldset>
+      <legend>person</legend>
+      ...
+      <legend>postal address</legend>
+      ...
+      <legend>phone number</legend>
+      ...
+      <legend>e-mail address</legend>
+      ...
+      <legend>home page address</legend>
+      ...
+
+When the sort order gets changed:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+>>> browser.getLink('up', index=1).click()
+
+The sort order in the person add form changes accordingly:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('person').click()
+>>> print browser.contents
+<!DOCTYPE ...
+    <fieldset>
+      <legend>postal address</legend>
+      ...
+      <legend>person</legend>
+      ...
+      <legend>phone number</legend>
+      ...
+      <legend>e-mail address</legend>
+      ...
+      <legend>home page address</legend>
+      ...

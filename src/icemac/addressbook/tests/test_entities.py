@@ -135,20 +135,39 @@ class TestPersistentEntities(EntitiesTests, unittest.TestCase):
     entities_class = icemac.addressbook.entities.PersistentEntities
 
 
-class TestEntityOrder(icemac.addressbook.testing.FunctionalTestCase):
+class TestEntities_getMainEntitiesInOrder(
+    icemac.addressbook.testing.AddressBookFunctionalTestCase):
 
-    def setUp(self):
-        import icemac.addressbook.interfaces
+    def callFUT(self):
         import zope.component
-        import zope.site.hooks
+        import icemac.addressbook.interfaces
 
-        self.old_site = zope.site.hooks.getSite()
-        zope.site.hooks.setSite(
-            icemac.addressbook.testing.create_addressbook(
-                self.layer.getRootFolder()))
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        return [x.title for x in entities.getMainEntitiesInOrder()]
 
-    def tearDown(self):
-        zope.site.hooks.setSite(self.old_site)
+    def test_default_order(self):
+        self.assertEqual(
+            [u'person', u'postal address', u'phone number', u'e-mail address',
+             u'home page address'],
+            self.callFUT())
+
+    def test_changed_order(self):
+        import zope.component
+        import icemac.addressbook.interfaces
+
+        order = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+        phone_number = icemac.addressbook.interfaces.IEntity(
+            icemac.addressbook.interfaces.IPhoneNumber)
+        order.up(phone_number)
+        self.assertEqual(
+            [u'person', u'phone number', u'postal address', u'e-mail address',
+             u'home page address'],
+            self.callFUT())
+
+
+class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
 
     def getEntity(self, iface_name):
         import icemac.addressbook.interfaces
