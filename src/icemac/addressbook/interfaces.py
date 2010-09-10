@@ -142,8 +142,12 @@ class IEntities(zope.interface.Interface):
     def getEntitiesInOrder():
         "Get an iterable of the entities sorted as defined in IOrderStorage."
 
-    def getMainEntitiesInOrder():
-        "Get an iterable of the most important entities in order."
+    def getMainEntities(sorted=True):
+        """Get an iterable of the most important entities.
+
+        When `sorted` is True, order them as defined in IEntityOrder.
+
+        """
 
 
 class IEntity(zope.interface.Interface):

@@ -40,13 +40,15 @@ class Entities(object):
         "Get an iterable of the entities sorted as defined in IOrderStorage."
         return sorted_entities(self.getEntities())
 
-    def getMainEntitiesInOrder(self):
-        "Get an iterable of the most important entities in order."
+    def getMainEntities(self, sorted=True):
+        "Get an iterable of the most important entities."
         entities = [zope.component.getUtility(
                         icemac.addressbook.interfaces.IEntity,
                         name='icemac.addressbook.'+suffix)
                     for suffix in MAIN_ENTITIES_NAME_SUFFIXES]
-        return sorted_entities(entities)
+        if sorted:
+            entities = sorted_entities(entities)
+        return entities
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):

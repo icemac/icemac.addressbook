@@ -81,7 +81,7 @@ class PersonAddForm(z3c.form.group.GroupForm,
             icemac.addressbook.interfaces.IEntities)
         groups = [AddGroup(context, request, self, entity.interface,
                            entity.title, entity.name)
-                  for entity in entities.getMainEntitiesInOrder()]
+                  for entity in entities.getMainEntities()]
         self.groups = tuple(groups)
 
     def createAndAdd(self, data):

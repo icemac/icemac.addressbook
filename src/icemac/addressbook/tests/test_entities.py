@@ -135,22 +135,25 @@ class TestPersistentEntities(EntitiesTests, unittest.TestCase):
     entities_class = icemac.addressbook.entities.PersistentEntities
 
 
-class TestEntities_getMainEntitiesInOrder(
+class TestEntities_getMainEntities(
     icemac.addressbook.testing.AddressBookFunctionalTestCase):
 
-    def callFUT(self):
+    def callFUT(self, sorted):
         import zope.component
         import icemac.addressbook.interfaces
 
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
-        return [x.title for x in entities.getMainEntitiesInOrder()]
+        return [x.title for x in entities.getMainEntities(sorted=sorted)]
+
+    DEFAULT_ORDER = [u'person', u'postal address', u'phone number',
+                     u'e-mail address', u'home page address']
+
 
     def test_default_order(self):
-        self.assertEqual(
-            [u'person', u'postal address', u'phone number', u'e-mail address',
-             u'home page address'],
-            self.callFUT())
+        # With unchanged sort order both variants return the same order:
+        self.assertEqual(self.DEFAULT_ORDER, self.callFUT(True))
+        self.assertEqual(self.DEFAULT_ORDER, self.callFUT(False))
 
     def test_changed_order(self):
         import zope.component
@@ -164,7 +167,9 @@ class TestEntities_getMainEntitiesInOrder(
         self.assertEqual(
             [u'person', u'phone number', u'postal address', u'e-mail address',
              u'home page address'],
-            self.callFUT())
+            self.callFUT(True))
+        # Unordered variant still returns the default order:
+        self.assertEqual(self.DEFAULT_ORDER, self.callFUT(False))
 
 
 class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
