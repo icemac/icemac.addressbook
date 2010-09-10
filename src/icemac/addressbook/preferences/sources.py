@@ -32,7 +32,7 @@ class ColumnSource(zc.sourcefactory.basic.BasicSourceFactory):
         # person) can be displayed in the person list.
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
-        for entity in entities.getMainEntitiesInOrder():
+        for entity in entities.getMainEntities():
             # All fields, even the user defined ones, can be selected
             # as display columns.
             for field_name, field in entity.getRawFields():
