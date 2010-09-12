@@ -4,6 +4,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.addressbook.utils
 import transaction
@@ -45,8 +46,19 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
+def get_needed_resources(self):
+    """Get the needed resources for self."""
+    getattr(icemac.addressbook.browser.resource, self.need).need()
+
+
 class BaseView(object):
     "Base for view classes."
+
+    need = None # name of a resource from icemac.addressbook.browser.resource
+
+    def update(self):
+        get_needed_resources(self)
+        super(BaseView, self).update()
 
     def url(self, obj):
         adapter = zope.component.getMultiAdapter(
@@ -59,6 +71,7 @@ class BaseForm(BaseView):
     """Base for all forms."""
 
     interface = None # interface for form
+    need = 'form_css'
 
     @property
     def fields(self):
@@ -122,6 +135,13 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
     next_view = None # target view after edit (None for default view)
     id = 'edit-form'
 
+    def update(self):
+        # This call is needed here as the one in BaseView is not performed
+        # for this class. (Seems to be a missing super call in one of the
+        # base classes.)
+        get_needed_resources(self)
+        super(BaseEditForm, self).update()
+
     def render(self):
         if self.request.response.getStatus() in (302, 303, 304):
             # redirecting
@@ -172,6 +192,11 @@ class BaseEditFormWithCancel(BaseEditForm):
 class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
     "BaseEditForm as group form."
 
+    def update(self):
+        # This call is needed here as GroupForm does not do a super-call.
+        get_needed_resources(self)
+        super(GroupEditForm, self).update()
+
 
 class BaseDeleteForm(BaseEditForm):
     "Display a deletion confirmation dialog."
@@ -182,6 +207,7 @@ class BaseDeleteForm(BaseEditForm):
     field_names = () # tuple of field names for display; empty for all
     next_view_after_delete = None # when None, use same view as self.next_view
 
+    need = 'no_max_content_css'
     mode = z3c.form.interfaces.DISPLAY_MODE
     next_url = 'object'
 

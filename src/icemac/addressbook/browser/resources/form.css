@@ -1,0 +1,62 @@
+label span.required {
+    color: red;
+}
+
+.required-info .required {
+    color: red;
+}
+
+div.widget {
+    margin-left: 1em;
+}
+
+fieldset {
+    background-color: #f0f0d0;
+}
+
+fieldset fieldset {
+    background-color: #f0f0e0;
+}
+
+legend {
+    background-color: #f0f0d0;
+    font-weight: bold;
+}
+
+fieldset fieldset {
+    float: right;
+}
+
+fieldset fieldset div.row {
+    background-color: #f0f0e0;
+    font-weight: normal;
+    font-size: small;
+}
+
+fieldset fieldset legend {
+    font-size: small;
+}
+
+textarea {
+    height: 15ex;
+    width: 40em;
+    font-size: 11px;
+}
+
+/* for forms: (metadat top right) */
+
+form#edit-form div.group {
+    float: left;
+}
+
+form#edit-form div.group + fieldset {
+    float: right;
+}
+
+form div.group + fieldset + fieldset{
+    clear: left;
+}
+
+form div.buttons {
+    clear: left;
+}

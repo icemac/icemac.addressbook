@@ -67,6 +67,8 @@ setuptools.setup(
         'gocept.country',
         'gocept.pagelet',
         'gocept.reference',
+        'hurry.resource',
+        'hurry.zoperesource',
         'icemac.ab.locales [compile] >= 0.5',
         'icemac.truncatetext',
         'setuptools',

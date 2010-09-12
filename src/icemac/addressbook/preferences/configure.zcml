@@ -20,5 +20,13 @@
      weight="190"
      />
 
+  <z3c:pagelet
+      for="zope.preference.interfaces.IPreferenceGroup"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="index.html"
+      permission="z3c.preference.EditPreference"
+      class=".browser.EditForm"
+      />
+
 
 </configure>

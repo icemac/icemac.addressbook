@@ -4,6 +4,7 @@
 # $Id$
 
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.truncatetext
 import z3c.table.batch
@@ -73,6 +74,10 @@ class Table(z3c.table.table.Table):
     cssClassOdd = u'table-odd-row'
     startBatchingAt = 1000000
     no_rows_message = u'' # Set at subclass.
+
+    def update(self):
+        icemac.addressbook.browser.resource.table_css.need()
+        super(Table, self).update()
 
     def renderTable(self):
         if self.rows:
