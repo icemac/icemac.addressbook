@@ -1,8 +1,10 @@
 <form metal:use-macro="macro:form">
   <div metal:fill-slot="main">
    <metal:block define-macro="widget-rows">
-     <div class="group">
-       <tal:block repeat="widget view/widgets/values">
+     <div class="group"
+          tal:define="widgets view/widgets/values"
+          tal:condition="widgets">
+       <tal:block repeat="widget widgets">
          <div id="" class="row"
               tal:attributes="id string:${widget/id}-row"
               tal:condition="python:widget.mode != 'hidden'">
