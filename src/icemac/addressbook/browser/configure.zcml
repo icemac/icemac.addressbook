@@ -16,6 +16,13 @@
      template="layout.pt"
      />
 
+  <browser:resourceDirectory
+      name="css"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      directory="resources"
+      permission="zope.Public"
+      />
+
   <adapter
      factory=".base.display_title"
      name="display_title" />

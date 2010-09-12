@@ -1,0 +1,103 @@
+      * {
+         margin: 0;
+         padding: 0;
+         font-family: 'trebuchet ms',arial,sans-serif;
+       }
+
+       body {
+         padding: 1%;
+         width: intrinsic;
+         width: -moz-max-content;
+         min-width: 98%;
+      }
+
+       #head h1 {
+         float: left;
+       }
+
+       #main-menu {
+         float: left;
+       }
+
+       #main-menu li {
+         float: left;
+         list-style-type: none;
+         margin-right: 0.5em;
+       }
+
+       #main-menu li a:hover {
+         background-color:#996633;
+         color:White;
+         }
+
+       #main-menu a {
+         border:1px solid #996633;
+         text-decoration: none;
+         padding:0.1em 0.5em;
+         color: Black;
+         }
+
+       #main-menu li.selected a {
+           background:#996633 none repeat scroll 0 0;
+           color:White;
+           }
+
+       #add-menu {
+         clear: left;
+         background-color: #996633;
+         width: 100%;
+         height: 20px;
+         color: White;
+         }
+
+       #add-menu a {
+         color: White;
+         }
+
+       #add-menu div {
+         float: right;
+       }
+
+       #add-menu ul {
+         float: left;
+       }
+
+       #add-menu li {
+        list-style-type: none;
+         padding: 0.1em 0.5em 0.1em 0.5em;
+       }
+
+       #add-menu-content li {
+         float: left;
+         padding-left: 0.5em;
+         border-left: 1px dashed white;
+       }
+
+       #add-menu-content li a:hover {
+         background-color: White;
+         color: #996633;
+         }
+
+
+       #add-menu-content a {
+         text-decoration: none;
+         }
+
+       #content{
+         border: 1px solid #999;
+         padding: 1em;
+         background: #eee;
+         min-height: 250px;
+       }
+
+      #foot {
+          text-align:right;
+          }
+
+     .LoginLogoutBox {
+        float: right;
+      }
+
+      div#body {
+        clear: both;
+      }

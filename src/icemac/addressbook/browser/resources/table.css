@@ -1,0 +1,24 @@
+.table-even-row {
+    background-color: #e0e0e0;
+}
+
+td ul {
+    padding-left: 1em
+}
+
+.table-odd-row {
+    background-color: #d0d0d0;
+}
+
+.table-even-row ul.errors li,
+.table-odd-row ul.errors li {
+    color: #ff0000;
+}
+
+/* batching */
+
+div.batch a.current {
+    font-weight: bold;
+    font-style: italic;
+}
+

@@ -83,6 +83,7 @@
   <include package="zope.mimetype" />
   <include package="icemac.ab.locales" />
   <include package="z3c.preference" />
+  <include package="hurry.zoperesource" />
 
   <include
       zcml:condition="installed z3c.pt"
