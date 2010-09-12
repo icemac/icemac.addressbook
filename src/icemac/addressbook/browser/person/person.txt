@@ -185,12 +185,13 @@ displayed:
 >>> browser.getControl('Apply').click()
 >>> print browser.contents
 <!DOCTYPE...
-<div class="status">
-  <div class="summary">There were some errors.</div>
-  <ul class="errors">
-    <li>
-        birth date:
-      <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
+      <div class="status">
+        <div class="summary">There were some errors.</div>
+  ...
+             <ul class="errors">
+          <li>
+              birth date:
+     <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
     </li>
   </ul>
 </div>...

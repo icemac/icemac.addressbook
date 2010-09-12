@@ -136,11 +136,12 @@ class IKeyword(zope.interface.Interface):
 class IEntities(zope.interface.Interface):
     """Entities in the address book."""
 
-    def getEntities():
-        """Get an iterable of all known entities."""
+    def getEntities(sorted=True):
+        """Get an iterable of all known entities.
 
-    def getEntitiesInOrder():
-        "Get an iterable of the entities sorted as defined in IOrderStorage."
+        When `sorted` is True, order them as defined in IEntityOrder.
+
+        """
 
     def getMainEntities(sorted=True):
         """Get an iterable of the most important entities.

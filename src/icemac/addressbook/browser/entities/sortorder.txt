@@ -40,7 +40,7 @@ resp. ``down`` links.
 ...     zope.site.hooks.setSite(ab)
 ...     entities = zope.component.getUtility(
 ...        icemac.addressbook.interfaces.IEntities)
-...     return [x.title for x in entities.getEntitiesInOrder()]
+...     return [x.title for x in entities.getEntities()]
 
 The initial sort order is:
 

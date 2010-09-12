@@ -244,7 +244,7 @@ Delete a file
 Files can be deleted using the ``Delete single entry`` button.
 
 >>> browser.getControl('file name', index=1)
-<Control name='file_2.widgets.file_2.name' type='text'>
+<Control name='IcemacAddressbookFileFileFile_1.widgets.IcemacAddressbookFileFileFile_1.name' type='text'>
 >>> person_edit_form_url = browser.url
 >>> browser.getControl('Delete single entry').click()
 >>> browser.url
