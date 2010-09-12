@@ -71,8 +71,9 @@ class PersonCount(object):
     def __init__(self, address_book):
         basic_unit, self.count = zope.size.interfaces.ISized(
             address_book).sizeForSorting()
-        self.notes = _(
-            u'The users inside this address book will not get deleted.')
+        self.notes = zope.i18n.translate(
+            _(u'The users inside this address book will not get deleted.'),
+            context=zope.globalrequest.getRequest())
 
 class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
     "Delete address book contents (aka persons)."
