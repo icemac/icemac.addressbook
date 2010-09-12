@@ -31,14 +31,13 @@ class Entities(object):
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
-    def getEntities(self):
+    def getEntities(self, sorted=True):
         """Get an iterable of all known entities."""
-        return zope.component.getAllUtilitiesRegisteredFor(
+        entities = zope.component.getAllUtilitiesRegisteredFor(
             icemac.addressbook.interfaces.IEntity)
-
-    def getEntitiesInOrder(self):
-        "Get an iterable of the entities sorted as defined in IOrderStorage."
-        return sorted_entities(self.getEntities())
+        if sorted:
+            entities = sorted_entities(entities)
+        return entities
 
     def getMainEntities(self, sorted=True):
         "Get an iterable of the most important entities."
@@ -60,7 +59,7 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
 def entity_by_name(name):
     "Adapt Entity.name (not Entity.class_name!) to entity."
     entities = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntities).getEntities()
+        icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
     for candidate in entities:
         if candidate.name == name:
             return candidate
@@ -72,7 +71,7 @@ def entity_by_name(name):
 def entity_by_interface(interface):
     "Adapt an interface to its entity."
     entities = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntities).getEntities()
+        icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
     for entity in entities:
         if entity.interface == interface:
             return entity

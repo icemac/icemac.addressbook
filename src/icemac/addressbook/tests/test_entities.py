@@ -78,18 +78,18 @@ class EntitiesTests(object):
     def test_getEntities(self):
         self.assertEqual(
             sorted([self.kwack, self.duck, self.cat]),
-            sorted(self.entities.getEntities()))
+            sorted(self.entities.getEntities(sorted=False)))
 
-    def test_getEntitiesInOrder(self):
+    def test_getEntities_sorted(self):
         self.assertEqual(
             [self.cat, self.kwack, self.duck],
-            self.entities.getEntitiesInOrder())
+            self.entities.getEntities())
 
     def test_getEntitiesInOrder_changed_order(self):
         self.entity_order.up(self.duck)
         self.assertEqual(
             [self.cat, self.duck, self.kwack],
-            self.entities.getEntitiesInOrder())
+            self.entities.getEntities())
 
     def test_getEntity_unknown_type(self):
         self.assertRaises(

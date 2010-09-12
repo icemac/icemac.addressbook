@@ -30,12 +30,12 @@ class AddGroup(icemac.addressbook.browser.base.PrefixGroup):
         self.prefix = prefix
 
 
-class EditGroup(AddGroup):
-    "PrefixGroup for EditForm."
+class PersonEditGroup(AddGroup):
+    """PrefixGroup for addresses IPerson in EditForm."""
 
-    def __init__(
-        self, context, request, parent, interface, label, prefix, index, key):
-        super(EditGroup, self).__init__(
+    def __init__(self, context, request, parent, interface, label, prefix,
+                 index, key):
+        super(PersonEditGroup, self).__init__(
             context, request, parent, interface, label, prefix)
         self.prefix = "%s_%s" % (prefix, index)
         self.key = key
@@ -44,18 +44,18 @@ class EditGroup(AddGroup):
         self.groups = [
             icemac.addressbook.browser.metadata.MetadataGroup(
                 self.getContent(), self.request, self)]
-        super(EditGroup, self).update()
+        super(PersonEditGroup, self).update()
+
+
+class AddressEditGroup(PersonEditGroup):
+    "PrefixGroup for addresses in EditForm."
 
     def getContent(self):
         return self.context[self.key]
 
 
-class FileEditGroup(EditGroup):
-    """EditGroup for icemac.addressbook.file.interfaces.IFile objects."""
-
-    @property
-    def fields(self):
-        return super(FileEditGroup, self).fields
+class FileEditGroup(AddressEditGroup):
+    "AddressEditGroup for icemac.addressbook.file.interfaces.IFile objects."
 
 
 class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
@@ -122,38 +122,59 @@ def person_deletable(form):
 class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     label = _(u'Edit person data')
-    interface = icemac.addressbook.interfaces.IPerson
     next_url = 'parent'
+    interface_for_menu = icemac.addressbook.interfaces.IPerson
 
     def __init__(self, *args, **kw):
         super(PersonEditForm, self).__init__(*args, **kw)
-        groups = [icemac.addressbook.browser.metadata.MetadataGroup,
-                  DefaultSelectGroup]
-        for address in icemac.addressbook.address.address_mapping:
+        entity_util = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        entities = entity_util.getMainEntities(sorted=False)
+        file_entity = icemac.addressbook.interfaces.IEntity(
+            icemac.addressbook.file.interfaces.IFile)
+        entities.append(file_entity)
+
+        groups = []
+        for entity in icemac.addressbook.entities.sorted_entities(entities):
             index = 0
-            default_obj = getattr(self.context,
-                                  'default_%s' % address['prefix'])
+
+            # Special handling for IPerson
+            if entity.interface == icemac.addressbook.interfaces.IPerson:
+                group = PersonEditGroup(
+                    self.context, self.request, self, entity.interface,
+                    entity.title, entity.name, index,
+                    self.context.__name__)
+                groups.append(group)
+                groups.append(
+                    DefaultSelectGroup(self.context, self.request, self))
+                continue
+
+            is_ifile = (
+                entity.interface == icemac.addressbook.file.interfaces.IFile)
+            if is_ifile:
+                # IFile needs a special group and has a fix title
+                group_class = FileEditGroup
+                obj_title = entity.title
+            else:
+                # for the other entities the title depends on whether being
+                # main address or not
+                default_attrib = entity.tagged_values.get('default_attrib')
+                default_obj = getattr(self.context, default_attrib)
+                group_class = AddressEditGroup
+
             for obj in icemac.addressbook.utils.iter_by_interface(
-                    self.context, address['interface']):
-                if obj == default_obj:
-                    obj_title = _(u'main ${address}')
-                else:
-                    obj_title = _(u'other ${address}')
-                obj_title = _(obj_title, mapping={'address': address['title']})
-                group = EditGroup(
-                    self.context, self.request, self, address['interface'],
-                    obj_title, address['prefix'], index, obj.__name__)
+                    self.context, entity.interface):
+                if not is_ifile:
+                    if obj == default_obj:
+                        obj_title = _(u'main ${address}')
+                    else:
+                        obj_title = _(u'other ${address}')
+                    obj_title = _(obj_title, mapping={'address': entity.title})
+                group = group_class(
+                    self.context, self.request, self, entity.interface,
+                    obj_title, entity.name, index, obj.__name__)
                 groups.append(group)
                 index += 1
-
-        iface = icemac.addressbook.file.interfaces.IFile
-        for obj in icemac.addressbook.utils.iter_by_interface(
-                self.context, iface):
-            group = FileEditGroup(
-                self.context, self.request, self, iface, _(u'file'), 'file',
-                index, obj.__name__)
-            groups.append(group)
-            index += 1
 
         self.groups = tuple(groups)
 
