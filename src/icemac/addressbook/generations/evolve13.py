@@ -14,4 +14,7 @@ def evolve(addressbook):
         icemac.addressbook.interfaces.IPerson)
     order_storage = zope.component.getUtility(
         icemac.addressbook.interfaces.IOrderStorage)
-    order_storage.up(person.name, icemac.addressbook.interfaces.ENTITIES, 5)
+    person_pos = order_storage.get(
+        person.name, icemac.addressbook.interfaces.ENTITIES)
+    if person_pos != 1:
+        order_storage.up(person.name, icemac.addressbook.interfaces.ENTITIES, 5)
