@@ -5,7 +5,7 @@
 
 __docformat__ = "reStructuredText"
 
-import zope.app.generations.utility
+import zope.generations.utility
 
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
@@ -23,11 +23,11 @@ def evolve(context):
     Defines references on persons.
     """
 
-    root = zope.app.generations.utility.getRootFolder(context)
+    root = zope.generations.utility.getRootFolder(context)
     # persons need gocept.reference which needs a local utility stored in root
 
     # persons
-    persons = zope.app.generations.utility.findObjectsProviding(
+    persons = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IPerson)
     for person in persons:
         person_created_with_set_site(root, person, None)

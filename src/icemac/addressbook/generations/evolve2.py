@@ -5,7 +5,7 @@
 
 __docformat__ = "reStructuredText"
 
-import zope.app.generations.utility
+import zope.generations.utility
 import zope.catalog.interfaces
 
 import icemac.addressbook.interfaces
@@ -28,10 +28,10 @@ def evolve(context):
 
     """
 
-    root = zope.app.generations.utility.getRootFolder(context)
+    root = zope.generations.utility.getRootFolder(context)
 
     # fix steet attribute
-    addresses = zope.app.generations.utility.findObjectsProviding(
+    addresses = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IPostalAddress)
     for address in addresses:
         if address.street is None:
@@ -42,7 +42,7 @@ def evolve(context):
             address.street = old_street[1].strip()
 
     # fix title index
-    addressbooks = zope.app.generations.utility.findObjectsProviding(
+    addressbooks = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IAddressBook)
     for ab in addressbooks:
         fix_kexword_index(ab)
