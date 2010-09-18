@@ -5,7 +5,20 @@ Change log
 1.4.1 (unreleased)
 ==================
 
+Features
+--------
+
 - Added support for Python 2.6.
+
+Bug fixes
+---------
+
+- When copying a person, the creation dates and modification dates of the
+  addresses in the copied person are changed along the person.
+
+
+Other changes
+-------------
 
 - Updated to `Zope Toolkit 1.0c1`_ for dependent packages.
 
