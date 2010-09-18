@@ -5,7 +5,7 @@
 
 import icemac.addressbook.interfaces
 import icemac.addressbook.namechooser.interfaces
-import zope.app.generations.utility
+import zope.generations.utility
 import zope.catalog.interfaces
 import zope.component
 import zope.location.interfaces
@@ -20,8 +20,8 @@ def evolve(context):
 
     """
 
-    root = zope.app.generations.utility.getRootFolder(context)
-    addressbooks = zope.app.generations.utility.findObjectsProviding(
+    root = zope.generations.utility.getRootFolder(context)
+    addressbooks = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IAddressBook)
     for addressbook in addressbooks:
         name_suffix = icemac.addressbook.namechooser.interfaces.INameSuffix(

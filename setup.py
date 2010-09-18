@@ -89,7 +89,7 @@ setuptools.setup(
         'zope.app.appsetup',
         'zope.app.authentication',
         'zope.app.debug',
-        'zope.app.generations',
+        'zope.generations',
         'zope.app.principalannotation',
         'zope.app.wsgi',
         'zope.browserpage',

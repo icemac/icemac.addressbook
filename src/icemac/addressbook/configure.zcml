@@ -23,7 +23,7 @@
   <include package="zope.publisher" file="meta.zcml" />
   <include package="zope.security" file="meta.zcml" />
 
-  <include package="zope.app.generations" file="subscriber.zcml" />
+  <include package="zope.generations" file="subscriber.zcml" />
 
   <include package="zope.app.appsetup" />
   <include package="zope.app.authentication" />
