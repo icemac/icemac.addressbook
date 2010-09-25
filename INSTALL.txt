@@ -57,7 +57,7 @@ Update
 - If you get an error when running the application after updating
   which looks like::
 
-    zope.app.generations.interfaces.UnableToEvolve: (..., u'icemac.addressbook', ...)
+    zope.generations.interfaces.UnableToEvolve: (..., u'icemac.addressbook', ...)
 
   Then you have to upgrade to version 0.5.x first and start the
   application, so that legacy data can be converted. Version 1.x is no
