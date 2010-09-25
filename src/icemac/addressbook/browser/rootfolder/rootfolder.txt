@@ -81,7 +81,7 @@ object, I add it directly to the root folder.):
 After creating a person one entry is displayed:
 
 >>> from icemac.addressbook.testing import create_addressbook, create_person
->>> ab = create_addressbook(name='ab2', title=u'ab w/ content')
+>>> ab = create_addressbook('ab2', title=u'ab w/ content')
 >>> create_person(ab, ab, u'Tester', return_obj=False)
 >>> browser.reload()
 >>> print browser.contents
