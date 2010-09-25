@@ -6,6 +6,7 @@
 import doctest
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
+import icemac.addressbook.file.file
 import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.person
@@ -27,7 +28,6 @@ import zope.testbrowser.interfaces
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
-
 
 class AddressBookUnitTests(zope.testrunner.layer.UnitTests):
     """Layer for gathering addressbook unit tests."""
@@ -76,7 +76,7 @@ class AddressBookFunctionalTestCase(FunctionalTestCase):
         self.old_site = zope.site.hooks.getSite()
         zope.site.hooks.setSite(
             icemac.addressbook.testing.create_addressbook(
-                self.layer.getRootFolder()))
+                parent=self.layer.getRootFolder()))
 
     def tearDown(self):
         super(AddressBookFunctionalTestCase, self).tearDown()
@@ -166,7 +166,7 @@ def write_temp_file(content, suffix):
 ### Helper functions to create objects in the database ###
 
 
-def create_addressbook(parent=None, name='ab', title=u'test address book'):
+def create_addressbook(name='ab', title=u'test address book', parent=None):
     """Create an address book.
 
     When parent is `None`, it gets created in the root folder of the data base.
@@ -174,8 +174,8 @@ def create_addressbook(parent=None, name='ab', title=u'test address book'):
     """
     ab = icemac.addressbook.utils.create_obj(
         icemac.addressbook.addressbook.AddressBook, title=title)
+    frame = inspect.currentframe()
     if parent is None:
-        frame = inspect.currentframe()
         try:
             parent = frame.f_back.f_globals['getRootFolder']()
         finally:
@@ -264,6 +264,15 @@ def create_phone_number(person, set_as_default=True, return_obj=True, **kw):
         person.default_phone_number = number
     if return_obj:
         return number
+
+
+@icemac.addressbook.utils.set_site
+def create_file(person, return_obj=True, **kw):
+    "Create a file object inside the `person`."
+    name = icemac.addressbook.utils.create_and_add(
+        person, icemac.addressbook.file.file.File, **kw)
+    if return_obj:
+        return person[name]
 
 
 @icemac.addressbook.utils.set_site

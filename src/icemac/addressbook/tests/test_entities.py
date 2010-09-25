@@ -7,35 +7,6 @@ import icemac.addressbook.orderstorage
 import icemac.addressbook.testing
 import unittest
 import zope.component.testing
-import zope.interface
-
-
-class IDuck(zope.interface.Interface):
-    pass
-
-
-class Duck(object):
-    zope.interface.implements(IDuck)
-
-
-class ICat(zope.interface.Interface):
-    pass
-
-
-class Cat(object):
-    zope.interface.implements(ICat)
-
-
-class IKwack(zope.interface.Interface):
-    pass
-
-
-class Kwack(object):
-    zope.interface.implements(IKwack)
-
-
-class IDog(zope.interface.Interface):
-    pass
 
 
 class EntitiesTests(object):
@@ -43,25 +14,13 @@ class EntitiesTests(object):
     entities_class = None
 
     def setUp(self):
+        from icemac.addressbook.tests.stubs import setUpStubEntities
         zope.component.testing.setUp()
+        setUpStubEntities(self, self.entities_class)
         zope.component.provideAdapter(
             icemac.addressbook.entities.entity_by_name)
         zope.component.provideAdapter(
             icemac.addressbook.entities.entity_by_interface)
-        self.entities = self.entities_class()
-        zope.component.provideUtility(
-            self.entities, icemac.addressbook.interfaces.IEntities)
-        # entities
-        self.cat = icemac.addressbook.entities.create_entity(
-            u'Cat', ICat, Cat)
-        zope.component.provideUtility(self.cat, name=self.cat.class_name)
-        self.duck = icemac.addressbook.entities.create_entity(
-            u'Duck', IDuck, Duck)
-        zope.component.provideUtility(self.duck, name=self.duck.class_name)
-        self.kwack = icemac.addressbook.entities.create_entity(
-            u'Kwack', IKwack, Kwack)
-        zope.component.provideUtility(
-            self.kwack, name=self.kwack.class_name)
         # sort order
         order_store = icemac.addressbook.orderstorage.OrderStorage()
         order_store.add(self.cat.name, icemac.addressbook.interfaces.ENTITIES)
@@ -102,27 +61,29 @@ class EntitiesTests(object):
     def test_getEntity_class_name(self):
         self.assertRaises(
             ValueError, icemac.addressbook.interfaces.IEntity,
-            'icemac.addressbook.tests.test.entities.Duck')
+            'icemac.addressbook.tests.stubs.Duck')
 
     def test_getEntity_known_name(self):
         self.assertEqual(
             self.duck, icemac.addressbook.interfaces.IEntity(
-                'IcemacAddressbookTestsTestEntitiesDuck'))
+                'IcemacAddressbookTestsStubsDuck'))
 
     def test_getEntity_unknown_interface(self):
+        from icemac.addressbook.tests.stubs import IDog
         entity = icemac.addressbook.interfaces.IEntity(IDog)
         self.assert_(None is entity.title)
         self.assert_(IDog is entity.interface)
         self.assert_(None is entity.class_name)
 
     def test_getEntity_known_interface(self):
+        from icemac.addressbook.tests.stubs import IKwack
         self.assertEqual(
             self.kwack, icemac.addressbook.interfaces.IEntity(IKwack))
 
     def test_getTitle(self):
         self.assertEqual(
             u'Kwack', icemac.addressbook.interfaces.IEntity(
-                'IcemacAddressbookTestsTestEntitiesKwack').title)
+                'IcemacAddressbookTestsStubsKwack').title)
 
 
 class TestEntities(EntitiesTests, unittest.TestCase):
@@ -295,7 +256,7 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
         import zope.site.hooks
 
         ab2 = icemac.addressbook.testing.create_addressbook(
-            self.layer.getRootFolder(), name='ab2')
+            'ab2', parent=self.layer.getRootFolder())
 
         person = self.getEntity('IPerson')
         self.assertEqual(1, self.entity_order.get(person))
