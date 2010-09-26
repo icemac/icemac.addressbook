@@ -16,13 +16,6 @@
      template="layout.pt"
      />
 
-  <browser:resourceDirectory
-      name="css"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      directory="resources"
-      permission="zope.Public"
-      />
-
   <adapter
      factory=".base.display_title"
      name="display_title" />
@@ -71,6 +64,7 @@
   <include package=".menus" />
   <include package=".person" />
   <include package=".principals" />
+  <include package=".resources" />
   <include package=".rootfolder" />
   <include package=".search" />
 
