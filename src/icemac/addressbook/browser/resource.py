@@ -3,8 +3,11 @@
 # See also LICENSE.txt
 
 import hurry.resource
+import os.path
 
-css = hurry.resource.Library('css', 'resource')
+
+css = hurry.resource.Library('css', os.path.join('resource', 'css'))
+
 
 base_css = hurry.resource.ResourceInclusion(css, 'base.css')
 table_css = hurry.resource.ResourceInclusion(css, 'table.css')
