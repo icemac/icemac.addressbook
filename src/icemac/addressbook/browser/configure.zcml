@@ -54,6 +54,7 @@
       factory="icemac.addressbook.browser.table.NiceBatchProvider"
       />
 
+  <include package=".about" />
   <include package=".addressbook" />
   <include package=".authentication" />
   <include package=".entities" />

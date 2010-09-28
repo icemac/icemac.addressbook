@@ -15,6 +15,12 @@
          float: left;
        }
 
+       #head h1 a img {
+           vertical-align: top;
+           margin-top: 3px;
+           border: none;
+       }
+
        #main-menu {
          float: left;
        }
@@ -100,4 +106,9 @@
 
       div#body {
         clear: both;
+      }
+
+      /* about page */
+      dl#about dd {
+          text-indent: 3em;
       }

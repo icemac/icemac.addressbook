@@ -10,6 +10,9 @@ Features
 
 - Added support for Python 2.6.
 
+- Added an "about addressbook" view which shows the version number. The blue
+  "i" right of "icemac.addressbook" in each view is a link to it.
+
 Bug fixes
 ---------
 
