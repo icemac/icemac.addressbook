@@ -207,7 +207,6 @@ Preferences form
 
 Deleted columns are omitted in the preferences form:
 
->>> browser.getLink('').click()
 >>> browser.getLink('Preferences').click()
 >>> pprint(browser.getControl('order by').displayOptions)
 ['person -- first name',
@@ -309,7 +308,6 @@ Preferences form
 
 Deleted columns are omitted in the preferences form:
 
->>> browser.getLink('').click()
 >>> browser.getLink('Preferences').click()
 >>> pprint(browser.getControl('order by').displayOptions)
 ['person -- first name',
