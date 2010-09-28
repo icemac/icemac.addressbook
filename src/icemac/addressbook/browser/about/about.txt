@@ -1,0 +1,67 @@
+==============
+ About screen
+==============
+
+The about screen displays some information about the application, its
+version and licenses. It is accessable everywhere in the application.
+
+Set up
+======
+
+We need a browser, and a user logged-in:
+
+>>> from zope.app.wsgi.testlayer import Browser
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+
+
+Root view
+=========
+
+The root view is basic auth protected, so we have to log-in to see the root
+view.  There is a link on the root view pointing to the about screen:
+
+>>> browser.open('http://localhost/++skin++AddressBook')
+>>> browser.getLink(id="about-view").url
+'http://localhost/++skin++AddressBook/@@about.html'
+>>> browser.getLink(id="about-view").click()
+
+It displays the version number of the address book:
+
+>>> import pkg_resources
+>>> pkg_resources.get_distribution('icemac.addressbook').version in browser.contents
+True
+
+And the copyright string (it is contained twice, as the footer contains it, too):
+
+>>> import icemac.addressbook
+>>> browser.contents.count(icemac.addressbook.copyright)
+2
+
+There is a link to VistaICO.com as the license for using the icons requires this:
+
+>>> browser.getLink('VistaICO.com').url
+'http://www.vistaico.com'
+
+
+Login screen
+============
+
+The login screen can be accessed by anonymous users:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> ab = create_addressbook()
+>>> anon = Browser()
+>>> anon.open('http://localhost/++skin++AddressBook/ab')
+>>> anon.url
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+
+It's about screen displayes the same information as it has the same URL:
+
+>>> anon.getLink(id="about-view").url
+'http://localhost/++skin++AddressBook/@@about.html'
+>>> anon.getLink(id="about-view").click()
+>>> browser.contents.count(icemac.addressbook.copyright)
+2
+>>> browser.getLink('VistaICO.com').url
+'http://www.vistaico.com'

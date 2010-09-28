@@ -1,15 +1,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
       i18n:domain="icemac.addressbook">
   <head>
     <tal:block replace="structure provider:login-logout-head" />
     <title>icemac.addressbook</title>
-    <link rel="stylesheet" type="text/css" href="++resource++css/base.css" />
+    <link rel="stylesheet" type="text/css" href="/++resource++css/base.css" />
   </head>
   <body class="main">
     <div id="head">
-      <h1>icemac.addressbook</h1>
+      <h1>
+        icemac.addressbook<a tal:attributes="href string:${request/URL/0}/@@about.html"
+                             id="about-view">
+          <img src="/++resource++img/Symbol-Information.png"
+               alt="info-i"
+               img:attributes="title; alt"
+               title="Information about icemac.addressbook"
+               />
+        </a>
+      </h1>
       <span class="LoginLogoutBox">
         <tal:block replace="structure provider:login-logout" />
       </span>
@@ -32,7 +43,7 @@
     </div>
 
     <div id="foot">
-      <i>(c) 2008-2010 Michael Howitz</i>
+      <i tal:content="provider:copyright">(c) 2008 Michael Howitz</i>
     </div>
   </body>
 </html>

@@ -1,0 +1,19 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
+
+  <gocept:pagelet
+      name="about.html"
+      for="zope.site.interfaces.IRootFolder"
+      permission="zope.Public"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".about.About"
+      template="about.pt"
+      />
+
+  <adapter
+      factory=".about.CopyrightContentProvider"
+      name="copyright" />
+
+</configure>

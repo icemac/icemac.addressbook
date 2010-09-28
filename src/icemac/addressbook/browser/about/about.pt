@@ -1,0 +1,18 @@
+<dl i18n:domain="icemac.addressbook"
+    id="about">
+  <dt i18n:translate="">Application:</dt>
+  <dd>icemac.addressbook</dd>
+  <dt i18n:translate="">Version:</dt>
+  <dd tal:content="view/version" />
+  <dt i18n:translate="">Built on:</dt>
+  <dd><a href="www.bluebream.org" target="_blank">BlueBream</a></dd>
+  <dt i18n:translate="">Copyright:</dt>
+  <dd tal:content="provider:copyright">2010 Michael Howitz</dd>
+  <dt i18n:translate="">License:</dt>
+  <dd><a href="http://www.zope.org/Resources/ZPL" target="_blank">ZPL 2.1</a></dd>
+  <dt i18n:translate="">Icons from:</dt>
+  <dd><a href="http://www.vistaico.com" target="_blank">VistaICO.com</a></dd>
+</dl>
+<p>&#xA0;</p>
+<a href="javascript:history.go(-1)"
+   i18n:translate="">go back</a>

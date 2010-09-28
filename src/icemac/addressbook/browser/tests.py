@@ -8,6 +8,7 @@ import zope.testing.renormalizing
 
 def test_suite():
     suite = icemac.addressbook.testing.FunctionalDocFileSuite(
+        "browser/about/about.txt",
         "browser/addressbook/addressbook.txt",
         "browser/authentication/login.txt",
         "browser/entities/bugfix.txt",
@@ -21,9 +22,9 @@ def test_suite():
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
         "browser/person/clone.txt",
-        "browser/person/sortorder.txt",
         "browser/person/file.txt",
         "browser/person/person.txt",
+        "browser/person/sortorder.txt",
         "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
