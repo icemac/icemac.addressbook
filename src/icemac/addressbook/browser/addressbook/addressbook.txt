@@ -141,7 +141,7 @@ HTTPError: HTTP Error 403: Forbidden
 Administrator
 -------------
 
-Make sure there are some persons (with adresses) and some users in the
+Make sure there are some persons (with addresses) and some users in the
 address book:
 
 >>> from icemac.addressbook.testing import (create_person, create_user,
