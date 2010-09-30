@@ -16,6 +16,8 @@
      template="layout.pt"
      />
 
+  <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
+
   <adapter
      factory=".base.display_title"
      name="display_title" />
@@ -63,6 +65,7 @@
   <include package=".keyword" />
   <include package=".masterdata" />
   <include package=".menus" />
+  <include package=".messages" />
   <include package=".person" />
   <include package=".principals" />
   <include package=".resources" />
