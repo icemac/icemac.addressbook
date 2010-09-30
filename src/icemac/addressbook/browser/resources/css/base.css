@@ -108,16 +108,25 @@ div#body {
     clear: both;
 }
 
-/* Error messages and info messages */
+/* Info messages */
 
-div#error-messages {
-    background-color: orange;
-    border: 5px ridge red;
+div#info-messages {
+    background-color: #FFCC66;
+    border: 5px ridge #996633;
     padding: 2px;
+    right: 100px;
+    position: absolute;
+    top: 10px;
+    z-index: 1000;
 }
 
-div#error-messages ul li {
+div#info-messages ul li {
+    background-image: url(/++resource++img/Symbol-Check.png);
+    background-repeat: no-repeat;
     list-style-type: none;
+    padding-left: 36px;
+    padding-top: 6px;
+    height: 25px;
 }
 
 /* about page */

@@ -38,6 +38,7 @@
             tal:content="structure provider:add-menu">Add menu</ul>
         </div>
       </div>
+      <div tal:replace="structure provider:messages" />
       <div id="content"
            tal:content="structure provider:pagelet">Page Content</div>
     </div>

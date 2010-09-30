@@ -3,11 +3,15 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import MessageFactory as _
+import classproperty
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.addressbook.utils
 import transaction
+import z3c.flashmessage.interfaces
+import z3c.flashmessage.message
+import z3c.flashmessage.receiver
 import z3c.form.button
 import z3c.form.field
 import z3c.form.group
@@ -22,6 +26,7 @@ import zope.traversing.publicationtraverse
 
 
 class display_title(object):
+    "ITitle adapter which can be used in PageTemplate using obj/@@display_title."
 
     zope.component.adapts(
         zope.interface.Interface,
@@ -48,7 +53,8 @@ def all_(*constraints):
 
 def get_needed_resources(self):
     """Get the needed resources for self."""
-    getattr(icemac.addressbook.browser.resource, self.need).need()
+    if self.need:
+        getattr(icemac.addressbook.browser.resource, self.need).need()
 
 
 class BaseView(object):
@@ -73,6 +79,9 @@ class BaseForm(BaseView):
     interface = None # interface for form
     need = 'form_css'
 
+    # privat
+    _status = ''
+
     @property
     def fields(self):
         if self.interface is None:
@@ -81,6 +90,19 @@ class BaseForm(BaseView):
             fields = icemac.addressbook.interfaces.IEntity(self.interface)
             field_values = fields.getFieldValuesInOrder()
         return z3c.form.field.Fields(*field_values)
+
+    class status(classproperty.classproperty):
+        def __get__(self):
+            return self._status
+        def __set__(self, message):
+            if message != z3c.form.form.Form.formErrorsMessage:
+                # Non-error messages must be handled by z3c.flashmessage,
+                # too, as they must be displayed on the next page after the
+                # redirect. But we need them to determine whether a redirect
+                # is necessary, too.
+                zope.component.getUtility(
+                    z3c.flashmessage.interfaces.IMessageSource).send(message)
+            self._status = message
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
@@ -128,6 +150,17 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
         return self.url(context)
 
 
+def update_with_redirect(class_, self):
+    "Call update of super class and redirect when necessary."
+    get_needed_resources(self)
+    super(class_, self).update()
+    if self.request.response.getStatus() in (302, 303, 304):
+        # already redirecting
+        return
+    if self.status in (self.successMessage, self.noChangesMessage):
+        self.redirect_to_next_url()
+
+
 class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
     """Base Edit form."""
 
@@ -136,20 +169,7 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
     id = 'edit-form'
 
     def update(self):
-        # This call is needed here as the one in BaseView is not performed
-        # for this class. (Seems to be a missing super call in one of the
-        # base classes.)
-        get_needed_resources(self)
-        super(BaseEditForm, self).update()
-
-    def render(self):
-        if self.request.response.getStatus() in (302, 303, 304):
-            # redirecting
-            return ''
-        if self.status in (self.successMessage, self.noChangesMessage):
-            self.redirect_to_next_url()
-        else:
-            return super(BaseEditForm, self).render()
+        update_with_redirect(BaseEditForm, self)
 
     def redirect_to_next_url(self, next_url=None, next_view=None):
         if next_url is None:
@@ -169,7 +189,7 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
 
     def applyChanges(self, data):
         try:
-            super(BaseEditForm, self).applyChanges(data)
+            return super(BaseEditForm, self).applyChanges(data)
         except zope.interface.Invalid, e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(e)
@@ -192,10 +212,9 @@ class BaseEditFormWithCancel(BaseEditForm):
 class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
     "BaseEditForm as group form."
 
+    # This is needed here as GroupForm does not do a super-call.
     def update(self):
-        # This call is needed here as GroupForm does not do a super-call.
-        get_needed_resources(self)
-        super(GroupEditForm, self).update()
+        update_with_redirect(GroupEditForm, self)
 
 
 class BaseDeleteForm(BaseEditForm):
