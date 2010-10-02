@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.4.1 (unreleased)
+1.5.0 (unreleased)
 ==================
 
 Features
@@ -14,6 +14,11 @@ Features
   "i" right of "icemac.addressbook" in each view is a link to it.
 
 - Added messages telling about successful saving of a form.
+
+- Made it possible to sort the entities.
+
+- Made 'main adresses and numbers' an entity, so it could be sorted along
+  with the other entities.
 
 Bug fixes
 ---------

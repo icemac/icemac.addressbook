@@ -20,6 +20,7 @@ There is an initial order for entities:
 >>> pprint(list(ab.orders.__iter__(icemac.addressbook.interfaces.ENTITIES)))
 ['IcemacAddressbookAddressbookAddressbook',
  'IcemacAddressbookPersonPerson',
+ 'IcemacAddressbookPersonPersondefaults',
  'IcemacAddressbookAddressPostaladdress',
  'IcemacAddressbookAddressPhonenumber',
  'IcemacAddressbookAddressEmailaddress',

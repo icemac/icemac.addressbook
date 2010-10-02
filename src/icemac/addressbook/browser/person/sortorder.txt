@@ -19,6 +19,9 @@ Set up
 Add form
 ========
 
+Default sort order
+------------------
+
 Using the default sort order, the fieldsets are ordered the following way:
 
 >>> browser.getLink('person').click()
@@ -36,22 +39,29 @@ Using the default sort order, the fieldsets are ordered the following way:
       <legend>home page address</legend>
       ...
 
-When the sort order gets changed:
+User definded sort order
+------------------------
+
+The sort order can be changed in the entities master data:
 
 >>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
+
+When moving the postal address two positions up, the sort order in the person
+add form changes accordingly:
+
+>>> browser.getLink('up', index=2).click()
+>>> get_messages(browser)
+['Moved postal address up.']
 >>> browser.getLink('up', index=1).click()
 >>> get_messages(browser)
 ['Moved postal address up.']
-
-The sort order in the person add form changes accordingly:
-
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('person').click()
 >>> print browser.contents
 <!DOCTYPE ...
-    <fieldset>
+     <fieldset>
       <legend>postal address</legend>
       ...
       <legend>person</legend>
@@ -62,3 +72,145 @@ The sort order in the person add form changes accordingly:
       ...
       <legend>home page address</legend>
       ...
+
+Edit form
+=========
+
+Set up
+------
+
+We need a separate address book to test the default sort order and a person
+(and some data in it) to use the edit form:
+
+>>> from icemac.addressbook.testing import create_full_person, create_file
+>>> ab2 = create_addressbook('ab2')
+>>> person = create_full_person(ab2, ab2, u'Tester')
+>>> create_file(ab2, person, return_obj=False)
+>>> browser.open('http://localhost/++skin++AddressBook/ab2')
+
+
+Default sort order
+------------------
+
+Using the default sort order, the fieldsets are ordered the following way:
+
+
+>>> browser.getLink('Tester').click()
+>>> print browser.contents
+<!DOCTYPE ...
+     <fieldset>
+       <legend>person</legend>
+       ...
+       <legend>main adresses and numbers</legend>
+       ...
+       <legend>main postal address</legend>
+       ...
+       <legend>main phone number</legend>
+       ...
+       <legend>main e-mail address</legend>
+       ...
+       <legend>main home page address</legend>
+       ...
+       <legend>file</legend>
+       ...
+
+User defined sort order
+-----------------------
+
+The sort order can be changed in the entities master data:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+
+When moving the file object one position up and the person one position
+down, the sort order in the person edit form changes accordingly:
+
+>>> from icemac.addressbook.testing import get_messages
+>>> browser.getLink('up', index=6).click()
+>>> get_messages(browser)
+['Moved file up.']
+>>> browser.getLink('down', index=1).click()
+>>> get_messages(browser)
+['Moved person down.']
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Tester').click()
+>>> print browser.contents
+<!DOCTYPE ...
+     <fieldset>
+       <legend>main adresses and numbers</legend>
+       ...
+       <legend>person</legend>
+       ...
+       <legend>main postal address</legend>
+       ...
+       <legend>main phone number</legend>
+       ...
+       <legend>main e-mail address</legend>
+       ...
+       <legend>file</legend>
+       ...
+       <legend>main home page address</legend>
+       ...
+
+
+Edit form - main addresses and numbers
+======================================
+
+The `main addresses and numbers` sub form of the edit form also reflects
+changes in the sort order.
+
+
+Set up
+------
+
+We need a new address book to test the default sort order and a person to
+use the edit form:
+
+>>> ab3 = create_addressbook('ab3')
+>>> person = create_full_person(ab3, ab3, u'Utzer')
+>>> browser.open('http://localhost/++skin++AddressBook/ab3')
+
+
+Default sort order
+------------------
+
+Using the default sort order, the fieldsets are ordered the following way:
+
+>>> browser.getLink('Utzer').click()
+>>> print browser.contents
+<!DOCTYPE ...
+                  <span>main postal address</span>
+                  ...
+                  <span>main phone number</span>
+                  ...
+                  <span>main e-mail address</span>
+                  ...
+                  <span>main home page address</span>
+                  ...
+
+User defined sort order
+-----------------------
+
+The sort order can be changed in the entities master data:
+
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+
+When moving the e-mail address one position up, the sort order in the `main
+addresses and numbers` sub form changes accordingly:
+
+>>> browser.getLink('up', index=4).click()
+>>> get_messages(browser)
+['Moved e-mail address up.']
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Utzer').click()
+>>> print browser.contents
+<!DOCTYPE ...
+                  <span>main postal address</span>
+                  ...
+                  <span>main e-mail address</span>
+                  ...
+                  <span>main phone number</span>
+                  ...
+                  <span>main home page address</span>
+                  ...

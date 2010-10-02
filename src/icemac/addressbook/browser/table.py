@@ -65,6 +65,17 @@ class KeywordsColumn(z3c.table.column.GetAttrColumn):
             key=lambda x: x.lower()))
 
 
+class LinkColumn(z3c.table.column.LinkColumn):
+    "Special LinkColumn which does not display a link when the URL is `None`."
+
+    defaultValue = u'' # value which is rendered when there is no URL
+
+    def renderCell(self, item):
+        if not self.getLinkURL(item):
+            return self.defaultValue
+        return super(LinkColumn, self).renderCell(item)
+
+
 # Tables
 
 class Table(z3c.table.table.Table):

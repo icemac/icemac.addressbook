@@ -60,8 +60,9 @@ class List(icemac.addressbook.browser.table.Table):
             z3c.table.column.addColumn(
                 self, DownLinkColumn, 'down', weight=30),
             z3c.table.column.addColumn(
-                self, z3c.table.column.LinkColumn, 'fields', weight=100,
-                header=u'', linkContent=_(u'Edit fields')),
+                self, icemac.addressbook.browser.table.LinkColumn,
+                'fields', weight=100, header=u'',
+                linkContent=_(u'Edit fields')),
             ]
 
     @property

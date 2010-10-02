@@ -5,6 +5,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference
+import icemac.addressbook.address
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import zope.annotation.interfaces
@@ -59,11 +60,34 @@ def title(person):
 
 def get_default_field(interface):
     "Find the field of a default value attribute on person."
+    # XXX use IEntity(interface).taggedValues['default_attrib'] here:
     names_descrs = (
         icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
     for name, descr in names_descrs:
         if descr.source.factory.interface == interface:
             return icemac.addressbook.interfaces.IPersonDefaults[name]
+
+
+class PersonDefaultsEntity(icemac.addressbook.entities.Entity):
+    "Entity which sorts the fields in IPersonDefaults alike entity order."
+
+    def getRawFields(self):
+        name_fields = super(PersonDefaultsEntity, self).getRawFields()
+        entity_order = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntityOrder)
+
+        def sortkey((name, field)):
+            entity = (
+                icemac.addressbook.address.default_attrib_name_to_entity(name))
+            return entity_order.get(entity)
+
+        return sorted(name_fields, key=sortkey)
+
+
+person_defaults_entity = PersonDefaultsEntity(
+    _(u'main adresses and numbers'),
+    icemac.addressbook.interfaces.IPersonDefaults,
+    'icemac.addressbook.person.PersonDefaults')
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IPerson,

@@ -28,7 +28,7 @@ We create a field for keywords:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
->>> browser.getLink('Edit fields', index=7).click()
+>>> browser.getLink('Edit fields', index=8).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
 >>> browser.getLink('field').click()
@@ -76,11 +76,11 @@ Editing is possible, the entered values were stored:
 Delete value of choice
 ======================
 
-When the selected value of the choice gets deleted:
+When the selected value of the choice gets deleted, ...
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
->>> browser.getLink('Edit fields', index=7).click()
+>>> browser.getLink('Edit fields', index=8).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
 >>> browser.getLink('Edit', index=1).click()
@@ -91,7 +91,7 @@ When the selected value of the choice gets deleted:
 >>> browser.getControl(name='form.widgets.values.buttons.remove').click()
 >>> browser.getControl('Apply').click()
 
-The value is no longer displayed for the keyword:
+the value is no longer displayed for the keyword:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Keywords').click()

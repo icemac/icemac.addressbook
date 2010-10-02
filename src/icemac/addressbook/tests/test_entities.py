@@ -163,7 +163,7 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
         self.assertEqual(1, self.entity_order.get(self.getEntity('IPerson')))
 
     def test_get_IKeyword(self):
-        self.assertEqual(7, self.entity_order.get(self.getEntity('IKeyword')))
+        self.assertEqual(8, self.entity_order.get(self.getEntity('IKeyword')))
 
     def test_get_unknown_entity(self):
         self.assertRaises(KeyError, self.entity_order.get, self.unknown_entity)
@@ -207,6 +207,7 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
     def test___iter__(self):
         self.assertEqual(['IcemacAddressbookAddressbookAddressbook',
                           'IcemacAddressbookPersonPerson',
+                          'IcemacAddressbookPersonPersondefaults',
                           'IcemacAddressbookAddressPostaladdress',
                           'IcemacAddressbookAddressPhonenumber',
                           'IcemacAddressbookAddressEmailaddress',
@@ -223,9 +224,9 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
 
     def test_up_w_delta(self):
         hp = self.getEntity('IHomePageAddress')
-        self.assertEqual(5, self.entity_order.get(hp))
+        self.assertEqual(6, self.entity_order.get(hp))
         self.entity_order.up(hp, 3)
-        self.assertEqual(2, self.entity_order.get(hp))
+        self.assertEqual(3, self.entity_order.get(hp))
 
     def test_up_too_much(self):
         person = self.getEntity('IPerson')
@@ -247,7 +248,7 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
     def test_down_too_much(self):
         person = self.getEntity('IPerson')
         self.assertEqual(1, self.entity_order.get(person))
-        self.assertRaises(ValueError, self.entity_order.down, person, 7)
+        self.assertRaises(ValueError, self.entity_order.down, person, 8)
 
     def test_other_address_book(self):
         # IEntityStorage always accesses the current address book as defined
