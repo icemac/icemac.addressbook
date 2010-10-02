@@ -45,21 +45,21 @@ resp. ``down`` links.
 The initial sort order is:
 
 >>> get_entity_titles()
-[u'address book', u'person', u'postal address', u'phone number', ...
+[u'address book', u'person', u'main adresses and numbers', u'postal address', ...
 
 Move entity up
 --------------
 
 Seleting the `up` link moves the entity one position up in the list and
-shows an info message. Let's move the phone number one up:
+shows an info message. Let's move the postal address one up:
 
 >>> from icemac.addressbook.testing import get_messages
 >>> up_link_url = browser.getLink('up', index=2).url
 >>> browser.open(up_link_url)
 >>> get_messages(browser)
-['Moved phone number up.']
+['Moved postal address up.']
 >>> get_entity_titles()
-[u'address book', u'person', u'phone number', u'postal address', ...
+[u'address book', u'person', u'postal address', u'main adresses and numbers', ...
 
 There is no `up` link for the first entity in the table:
 
@@ -85,13 +85,13 @@ list. Let's move the address book one down:
 >>> get_messages(browser)
 ['Moved address book down.']
 >>> get_entity_titles()
-[u'person', u'address book', u'phone number', u'postal address', ...
+[u'person', u'address book', u'postal address', u'main adresses and numbers', ...
 
 There is no `down` link for the last entity in the table:
 
 >>> print browser.contents
 <!DOCTYPE...
-    <tr class="table-odd-row">
+    <tr class="table-...-row">
       <td>keyword</td>
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword/@@up.html">up</a></td>
       <td></td>
@@ -121,13 +121,19 @@ The entity sort order is reflected in the entity table:
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
     </tr>
     <tr class="table-even-row">
-      <td>phone number</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber/@@up.html">up</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PhoneNumber">Edit fields</a></td>
+      <td>postal address</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@up.html">up</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress">Edit fields</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td>postal address</td>
+      <td>main adresses and numbers</td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@up.html">up</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@down.html">down</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults">Edit fields</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>phone number</td>
   ...
 
 The sort order of the entries in the add menu also depends on the entity
@@ -140,10 +146,10 @@ order: the phone number is shown before the postal address:
 >>> print browser.contents
 <!DOCTYPE...
           <ul id="add-menu-content"><li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
+  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
   ...
 
 
@@ -183,5 +189,3 @@ Tear down
 =========
 
 >>> zope.site.hooks.setSite(old_site)
-
-

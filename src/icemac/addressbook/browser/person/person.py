@@ -62,7 +62,7 @@ class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
     """Group to select the default addresses."""
 
     interface = icemac.addressbook.interfaces.IPersonDefaults
-    label = _(u'main adresses and numbers')
+    label = icemac.addressbook.person.person_defaults_entity.title
     prefix = 'defaults'
 
 
@@ -132,7 +132,9 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         entities = entity_util.getMainEntities(sorted=False)
         file_entity = icemac.addressbook.interfaces.IEntity(
             icemac.addressbook.file.interfaces.IFile)
-        entities.append(file_entity)
+        defaults_entity = icemac.addressbook.interfaces.IEntity(
+            icemac.addressbook.interfaces.IPersonDefaults)
+        entities.extend([file_entity, defaults_entity])
 
         groups = []
         for entity in icemac.addressbook.entities.sorted_entities(entities):
@@ -145,8 +147,11 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                     entity.title, entity.name, index,
                     self.context.__name__)
                 groups.append(group)
-                groups.append(
-                    DefaultSelectGroup(self.context, self.request, self))
+                continue
+
+            # Special handling for IPersonDefaults
+            if entity.interface == icemac.addressbook.interfaces.IPersonDefaults:
+                groups.append(DefaultSelectGroup(self.context, self.request, self))
                 continue
 
             is_ifile = (

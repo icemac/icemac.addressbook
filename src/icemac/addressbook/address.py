@@ -137,6 +137,16 @@ def phone_number_title(tel):
     return title
 
 
+def default_attrib_name_to_entity(default_attrib_name):
+    "Convert the name of a default attrib to the entity where it is defined on."
+    entities = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
+    for candidate in entities:
+        if candidate.tagged_values.get('default_attrib') == default_attrib_name:
+            return candidate
+    raise ValueError("Unknown default_attrib_name: %r" % default_attrib_name)
+
+
 address_mapping = (
     dict(interface=icemac.addressbook.interfaces.IPostalAddress,
          title=_(u'postal address'),

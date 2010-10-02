@@ -210,6 +210,22 @@
        />
   </class>
 
+  <!-- PersonDefaultsEntity -->
+  <class class=".person.PersonDefaultsEntity">
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntity"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IEntity"
+       />
+  </class>
+
+  <utility
+      component=".person.person_defaults_entity"
+      name="icemac.addressbook.person.PersonDefaults" />
+
   <!-- Field -->
   <class class=".entities.Field">
     <implements
