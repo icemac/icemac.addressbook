@@ -12,4 +12,5 @@ def test_suite():
         'addressbook.txt',
         'catalog.txt',
         'person.txt',
+        'testing.txt',
         )

@@ -1,0 +1,63 @@
+==============
+ Test testing
+==============
+
+There are some functions in `testing.py` which need tests, too.
+
+
+get_messages()
+==============
+
+This function returns the currently displayed info messages in the user
+interface.
+
+It requires an `z3c.etestbrowser`:
+
+>>> from zope.app.wsgi.testlayer import Browser
+>>> from icemac.addressbook.testing import get_messages
+>>> browser = Browser()
+>>> get_messages(browser)
+Traceback (most recent call last):
+ValueError: browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser
+
+When there is no message an empty list is displayed:
+
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser
+>>> browser = ExtendedTestBrowser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook')
+>>> get_messages(browser)
+[]
+
+To get some messages, we need a view which sends messages:
+
+>>> import zope.configuration.xmlconfig
+>>> config = zope.configuration.xmlconfig.string('''
+... <configure xmlns="http://namespaces.zope.org/zope"
+...            xmlns:browser="http://namespaces.zope.org/browser">
+...   <include package="zope.browserpage" file="meta.zcml" />
+...   <browser:page
+...        name="test-get-messages.tst"
+...        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+...        for="*"
+...        class="icemac.addressbook.tests.example.PageTestGetMessages"
+...        permission="zope.Public" />
+... </configure>''')
+
+
+When there is a message, it gets returned:
+
+>>> browser.open('http://localhost/++skin++AddressBook/test-get-messages.tst?msg=blah')
+>>> print browser.contents
+Message u'blah' sent.
+>>> browser.open('http://localhost/++skin++AddressBook')
+>>> get_messages(browser)
+['blah']
+
+Multiple messages may can be fetched, too:
+
+>>> browser.open('http://localhost/++skin++AddressBook/test-get-messages.tst?msg=foo')
+>>> browser.open('http://localhost/++skin++AddressBook/test-get-messages.tst?msg=bar')
+>>> browser.open('http://localhost/++skin++AddressBook')
+>>> get_messages(browser)
+['foo', 'bar']

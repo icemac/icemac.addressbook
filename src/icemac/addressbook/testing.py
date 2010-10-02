@@ -19,6 +19,7 @@ import os.path
 import re
 import tempfile
 import unittest
+import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
 import zope.app.wsgi.testlayer
 import zope.component
@@ -28,6 +29,7 @@ import zope.testbrowser.interfaces
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
+
 
 class AddressBookUnitTests(zope.testrunner.layer.UnitTests):
     """Layer for gathering addressbook unit tests."""
@@ -137,6 +139,16 @@ def get_all_control_names(browser=None, form=None):
     """
     return _get_control_names(
         zope.testbrowser.interfaces.IControl, browser, form)
+
+
+def get_messages(browser):
+    """Return the info messages displayed in browser.
+
+    Returns string when there is exactly one message, list otherwise."""
+    if not isinstance(browser, z3c.etestbrowser.wsgi.ExtendedTestBrowser):
+        raise ValueError('browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser')
+    return [x.text for x in browser.etree.xpath('//div[@id="info-messages"]/ul/li')]
+
 
 def in_out_widget_select(browser, control_name, select_controls):
     """Function to add a selection to an in-out-widget.
