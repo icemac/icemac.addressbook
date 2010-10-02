@@ -278,6 +278,11 @@ class CloneObject(BaseView):
         new_name = copier.copyTo(parent)
         # redirect to clone
         self.request.response.redirect(self.url(parent[new_name]))
+        zope.component.getUtility(
+            z3c.flashmessage.interfaces.IMessageSource).send(
+            _('"${object}" cloned.', mapping=dict(
+                object=icemac.addressbook.interfaces.ITitle(self.context))))
+
 
 
 def can_access(uri_part):
