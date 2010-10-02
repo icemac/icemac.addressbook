@@ -9,7 +9,7 @@ Setup
 =====
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> address_book = create_addressbook()
 >>> browser = Browser()
 
@@ -48,7 +48,10 @@ Clone person
 
 There is a button on the edit form to clone a person:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Clone person').click()
+>>> get_messages(browser)
+['"Tester, Hans" cloned.']
 
 The URL has changed as the cloned Person gets now edited, but the
 entered data is still the same:
