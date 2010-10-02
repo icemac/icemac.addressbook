@@ -1,0 +1,16 @@
+[run]
+branch = True
+source = icemac.addressbook
+         icemac.ab.importer
+         icemac.ab.importxls
+
+[report]
+precision = 2
+omit = */interfaces.py
+       */interfaces
+       */generations/*
+       */startup.py
+       */tests/*
+
+[html]
+directory = htmlcov
