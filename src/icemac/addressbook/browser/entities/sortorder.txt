@@ -12,7 +12,7 @@ Create an address book and a browser to access it. Log in as
 `Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
@@ -50,11 +50,14 @@ The initial sort order is:
 Move entity up
 --------------
 
-Seleting the `up` link moves the entity one position up in the list. Let's
-move the phone number one up:
+Seleting the `up` link moves the entity one position up in the list and
+shows an info message. Let's move the phone number one up:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> up_link_url = browser.getLink('up', index=2).url
 >>> browser.open(up_link_url)
+>>> get_messages(browser)
+['Moved phone number up.']
 >>> get_entity_titles()
 [u'address book', u'person', u'phone number', u'postal address', ...
 
@@ -79,6 +82,8 @@ list. Let's move the address book one down:
 
 >>> down_link_url = browser.getLink('down', index=0).url
 >>> browser.open(down_link_url)
+>>> get_messages(browser)
+['Moved address book down.']
 >>> get_entity_titles()
 [u'person', u'address book', u'phone number', u'postal address', ...
 

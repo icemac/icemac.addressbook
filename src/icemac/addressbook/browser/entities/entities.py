@@ -6,6 +6,7 @@ from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
+import z3c.flashmessage.interfaces
 import z3c.table.column
 import zope.container.traversal
 import zope.location
@@ -112,15 +113,20 @@ class MoveBase(icemac.addressbook.browser.base.BaseView):
             icemac.addressbook.interfaces.IEntityOrder)
         getattr(order, self.direction)(self.context)
         self.request.response.redirect(self.url(self.context.__parent__))
+        message = _(unicode(self.message), mapping=dict(entity=self.context.title))
+        zope.component.getUtility(
+            z3c.flashmessage.interfaces.IMessageSource).send(message)
 
 
 class MoveUp(MoveBase):
     "Move entity up in entity order."
 
     direction = 'up'
+    message = _('Moved ${entity} up.')
 
 
 class MoveDown(MoveBase):
     "Move entity down in entity order."
 
     direction = 'down'
+    message = _('Moved ${entity} down.')

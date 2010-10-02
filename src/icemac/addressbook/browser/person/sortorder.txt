@@ -9,7 +9,7 @@ Set up
 ======
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
@@ -38,9 +38,12 @@ Using the default sort order, the fieldsets are ordered the following way:
 
 When the sort order gets changed:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
 >>> browser.getLink('up', index=1).click()
+>>> get_messages(browser)
+['Moved postal address up.']
 
 The sort order in the person add form changes accordingly:
 
