@@ -107,7 +107,9 @@
   <subscriber handler=".keyword.changed" />
   <adapter factory=".person.Keywords" />
   <adapter factory=".person.title" />
-  <adapter factory=".keyword.title" />
+  <adapter
+      for=".interfaces.IKeyword"
+      factory=".adapter.obj_dot_title" />
   <subscriber
       for="icemac.addressbook.interfaces.IKeyword
            zope.lifecycleevent.IObjectModifiedEvent"
@@ -135,6 +137,9 @@
   <adapter factory=".entities.field_storage" />
   <adapter factory=".entities.entity_by_name" />
   <adapter factory=".entities.entity_by_interface" />
+  <adapter
+      for=".interfaces.IField"
+      factory=".adapter.obj_dot_title" />
 
   <includeOverrides file="overrides.zcml" />
 

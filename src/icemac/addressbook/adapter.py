@@ -26,6 +26,12 @@ def title_for_choice_value(field, value):
     return factory.getTitle(value)
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
+def obj_dot_title(obj):
+    "ITitle adapter for objects those title is stored on the title attribute."
+    return obj.title
+
+
 @zope.component.adapter(zope.interface.Interface)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def default_title(obj):

@@ -60,12 +60,6 @@ def changed(obj, event):
             break
 
 
-@zope.component.adapter(icemac.addressbook.interfaces.IKeyword)
-@zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
-def title(keyword):
-    return keyword.title
-
-
 def uniqueTitles(obj, event):
     if getattr(obj, '__parent__', None) is None:
         return
