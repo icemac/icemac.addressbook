@@ -6,7 +6,7 @@ A person can have one or more keywords. They can be managed in the
 master data section.
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> create_addressbook()
 <AddressBook u'ab' (u'test address book')>
 >>> browser = Browser()
@@ -183,9 +183,12 @@ There is a confirmation dialog where the user has to decide if he
 really wants to delete the keyword. If he decides not to delete the
 entry he is led back to the keyword's edit form:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3/@@delete.html'
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
 >>> browser.url == keyword_edit_form_url
 True
 
@@ -197,9 +200,12 @@ where the keyword is no longer listed:
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.delete']
 >>> browser.getControl('Delete').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"friend" deleted.']
 >>> keywords_url = browser.url
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+>>> browser.open(browser.url)
 >>> 'friend' in browser.contents
 False
 

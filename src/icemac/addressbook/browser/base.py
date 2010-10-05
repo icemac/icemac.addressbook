@@ -139,6 +139,7 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     def handleCancel(self, action):
         self.next_url = 'parent'
         self._finishedAdd = True
+        self.status = _('Addition canceled.')
 
     def nextURL(self):
         if self.next_url == 'object':
@@ -239,11 +240,16 @@ class BaseDeleteForm(BaseEditForm):
 
     @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
     def handleCancel(self, action):
-        self.status = self.noChangesMessage
+        self.redirect_to_next_url(self.next_url)
+        self.status = _('Deletion canceled.')
 
     @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
     def handleDelete(self, action):
         self.redirect_to_next_url('parent', self.next_view_after_delete)
+        self.status = _(
+            '"${title}" deleted.',
+            mapping=dict(
+                title=icemac.addressbook.interfaces.ITitle(self.context)))
         self._do_delete()
 
     def _do_delete(self):

@@ -15,7 +15,7 @@ We need an address book:
 
 A browser to access it:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
@@ -154,6 +154,7 @@ Deleting column
 
 Let's delete the "photo permission?" column:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=1).click()
@@ -164,6 +165,8 @@ Let's delete the "photo permission?" column:
 <!DOCTYPE ...
 ...photo permission?...
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"photo permission?" deleted.']
 
 
 Person list
