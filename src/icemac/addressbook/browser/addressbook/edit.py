@@ -75,17 +75,17 @@ class PersonCount(object):
             _(u'The users inside this address book will not get deleted.'),
             context=zope.globalrequest.getRequest())
 
-class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
+class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete address book contents (aka persons)."
 
     label = _(u'Do you really want to delete all persons in this address book?')
     interface = IPersonCount
     mode = z3c.form.interfaces.DISPLAY_MODE
+    next_view = '@@edit.html'
 
     @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
     def handleCancel(self, action):
-        self.status = self.noChangesMessage
-        self.redirect_to_next_url('object', '@@edit.html')
+        super(DeleteContentForm, self).handleCancel(self, action)
 
     @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
     def handleDelete(self, action):
@@ -98,4 +98,5 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseEditForm):
                 # avoid getting an error.
                 continue
             del self.context[name]
-        self.redirect_to_next_url('object')
+        self.status = _('Address book contents deleted.')
+        self.redirect_to_next_url('object', '')

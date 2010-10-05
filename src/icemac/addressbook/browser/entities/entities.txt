@@ -12,7 +12,7 @@ Create an address book and a browser to access it. Log in as
 `Administrator`:
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
@@ -340,7 +340,10 @@ True
 After choosing to delete a field the user is asked whether he is sure
 about the deletion. When choosing cancel the field does not get deleted:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
 
@@ -359,9 +362,11 @@ When the administrator is sure to delete the field, the field gets deleted:
 
 >>> browser.getLink('Delete').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"foobar" deleted.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
-
+>>> browser.open(browser.url)
 >>> 'foobar' in browser.contents
 False
 

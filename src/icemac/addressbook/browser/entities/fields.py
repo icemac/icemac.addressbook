@@ -52,6 +52,7 @@ class LinkColumn(z3c.table.column.LinkColumn):
 
     def renderCell(self, item):
         if icemac.addressbook.interfaces.IField.providedBy(item):
+            # Only user defined fields are editable:
             return super(LinkColumn, self).renderCell(item)
         return ''
 

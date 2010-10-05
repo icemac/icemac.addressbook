@@ -12,6 +12,7 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.person
 import icemac.addressbook.sources
 import icemac.addressbook.utils
+import transaction
 import z3c.form.button
 import z3c.form.datamanager
 import z3c.form.form
@@ -256,8 +257,11 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
         try:
             super(DeletePersonForm, self)._do_delete()
         except gocept.reference.interfaces.IntegrityError:
-            pass # XXX abort transaction (IntegrityError dooms it) and
-                 # set notice using z3c.flashmessage
+            transaction.abort()
+            message = _('Failed to delete person: This person is connected to '
+                        'a user. To delete this person, delete the user first.')
+            zope.component.getUtility(
+                z3c.flashmessage.interfaces.IMessageSource).send(message)
 
 
 class PersonEntriesSource(

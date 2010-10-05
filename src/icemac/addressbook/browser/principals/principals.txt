@@ -10,7 +10,7 @@ Set up
 
 >>> from icemac.addressbook.testing import (create_addressbook, create_person,
 ...     create_email_address, create_full_person)
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> ab = create_addressbook()
 
 Users are persons stored in the addressbook augmented by login
@@ -336,19 +336,21 @@ create a person and make her a user:
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
-There is no delete buttons for persons in the form of the person:
+There is no delete button for persons in the form of the person:
 
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Loscher').click()
 >>> get_submit_control_names(browser)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.clone_person', 'form.buttons.delete_entry']
 
-Even when the url of the delete confirmation dialog is directly
-accessed deletion is not possible: XXX there is no message yet
-                                   XXX displayed to the user
+Even when the url of the delete confirmation dialog is directly accessed
+deletion is not possible:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.open(delete_confirmation_url)
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['Failed to delete person: This person is connected to a user. To delete this person, delete the user first.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> 'Loscher' in browser.contents
@@ -713,6 +715,8 @@ If the administrator decides not to delete the user he is led back to
 the user's edit form:
 
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
 >>> browser.url == user_edit_form_url
 True
 
@@ -720,10 +724,14 @@ Before deleting a user the person the user is registered for can't be
 used for a new user:
 
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.getLink('user').click()
 >>> browser.getControl('person').displayOptions
 ['Tester2, Hans2']
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['Addition canceled.']
 >>> browser.getLink('Someone, Else').click()
 
 When the administrator decides to delete the user he is led back to
@@ -733,8 +741,11 @@ the user list where the user is no longer listed:
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals/5/@@delete_user.html'
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"Someone, Else" deleted.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+>>> browser.open(browser.url)
 >>> 'Someone, Else' in browser.contents
 False
 
@@ -786,7 +797,7 @@ A visitor can't delete anybody, there is not even a delete button:
 >>> get_submit_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']
 
-Calling the delete form url directly does not help either:
+Calling `delete` directly from the url does not help either:
 
 >>> visitor.open(visitor_url + '/@@delete_user.html')
 Traceback (most recent call last):

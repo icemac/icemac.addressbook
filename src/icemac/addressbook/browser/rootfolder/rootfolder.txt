@@ -5,7 +5,7 @@
 The overview contains a list of all addressbooks and allows to create
 new addressbooks.
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 
 Overview
@@ -167,7 +167,10 @@ sure` form is displayed:
 When the adminstrator decides not to delete the address book he is led
 back to the overview of all address books:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
 >>> browser.url
 'http://localhost/++skin++AddressBook'
 
@@ -178,6 +181,8 @@ overview as well:
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"ab w/ content" deleted.']
 >>> browser.url
 'http://localhost/++skin++AddressBook'
 >>> print browser.contents

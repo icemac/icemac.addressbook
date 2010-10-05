@@ -137,8 +137,12 @@
   <adapter factory=".entities.field_storage" />
   <adapter factory=".entities.entity_by_name" />
   <adapter factory=".entities.entity_by_interface" />
+
   <adapter
       for=".interfaces.IField"
+      factory=".adapter.obj_dot_title" />
+  <adapter
+      for=".interfaces.IAddressBook"
       factory=".adapter.obj_dot_title" />
 
   <includeOverrides file="overrides.zcml" />

@@ -6,7 +6,7 @@ Person data (name, address, ...) is stored in an address book.  The
 user can add and change the data of persons there.
 
 >>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> create_addressbook()
 <AddressBook u'ab' (u'test address book')>
 >>> browser = Browser()
@@ -493,7 +493,10 @@ existing adresses and numbers:
 If the user changed his mind, he can use the `cancel` button and gets
 redirected to the person edit page:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.url == person_edit_form_url
 True
 
@@ -511,6 +514,8 @@ where the user can choose to cancel. In this case he is sent back to
 the person edit form:
 
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
 >>> browser.url == person_edit_form_url
 True
 
@@ -524,6 +529,8 @@ True
 >>> browser.getControl('RST-Software').click()
 >>> browser.getControl('Delete entry').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+[u'"RST-Software, Forsterstra\xdfe 302a, 98344, Erfurt, Germany" deleted.']
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
@@ -537,6 +544,8 @@ Deleting the main address creates a new, empty address:
 >>> browser.getControl('Demoweg').click()
 >>> browser.getControl('Delete entry').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"c/o Mama, Demoweg 23, 88888, Testhausen, Austria" deleted.']
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main postal address').displayOptions
@@ -549,6 +558,8 @@ addresses:
 >>> browser.getControl('+4901761234567').click()
 >>> browser.getControl('Delete entry').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"+4901761234567" deleted.']
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main phone number').displayOptions
@@ -558,6 +569,8 @@ True
 >>> browser.getControl('pt@rst-software.de').click()
 >>> browser.getControl('Delete entry').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"pt@rst-software.de" deleted.']
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main e-mail address').displayOptions
@@ -567,6 +580,8 @@ True
 >>> browser.getControl('http://petra.example.com').click()
 >>> browser.getControl('Delete entry').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"http://petra.example.com" deleted.']
 >>> browser.url == person_edit_form_url
 True
 >>> browser.getControl('main home page address').displayOptions
@@ -590,6 +605,9 @@ If he decides not to delete the entry he is led back to the person's
 edit form:
 
 >>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
+
 >>> browser.url == person_edit_form_url
 True
 
@@ -598,7 +616,10 @@ where the person is no longer listed:
 
 >>> browser.getControl('Delete whole person').click()
 >>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['"Tester, Petra" deleted.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
+>>> browser.open(browser.url)
 >>> 'Petra' in browser.contents
 False
