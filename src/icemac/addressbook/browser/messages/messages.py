@@ -16,9 +16,10 @@ class MessagesContentProvider(
     z3c.flashmessage.receiver.GlobalMessageReceiver):
     """Content provider displaying flash messages."""
 
-    zope.component.adapts(zope.interface.Interface,
-                          icemac.addressbook.browser.interfaces.IAddressBookLayer,
-                          zope.interface.Interface)
+    zope.component.adapts(
+        zope.interface.Interface,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer,
+        zope.interface.Interface)
 
     template = zope.browserpage.viewpagetemplatefile.ViewPageTemplateFile(
         'messages.pt')
@@ -28,4 +29,6 @@ class MessagesContentProvider(
         self.messages = list(self.receive())
 
     def render(self):
-        return self.template(self)
+        if self.messages:
+            return self.template(self)
+        return ''
