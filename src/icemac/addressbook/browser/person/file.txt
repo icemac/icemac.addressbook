@@ -35,7 +35,10 @@ Adding a file is possible on the person edit form:
 
 Deciding to cancel adding redirects to the person edit form:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['Addition canceled.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
 >>> browser.getControl('file')
@@ -261,7 +264,6 @@ True
 If the user changed his mind, he can use the `cancel` button and gets
 redirected to the person edit page:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
 ['No changes were applied.']

@@ -1,4 +1,4 @@
-===============================
+==============================
  Editing address book entities
 ===============================
 
@@ -124,6 +124,7 @@ Edit form
 The field also shows up on the edit form and contains the value
 assigned in the add form:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
@@ -137,6 +138,8 @@ assigned in the add form:
 >>> browser.getControl('foobar').value
 'my value'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 
 Editor
@@ -218,6 +221,8 @@ The entered values get persisted:
 >>> editor.getControl('foobar').value
 'editor was here'
 >>> editor.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -255,6 +260,8 @@ The editor is also able to edit the values he entered himself:
 >>> editor.getControl('foobar').value
 'still better'
 >>> editor.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 
 Visitor
@@ -340,7 +347,6 @@ True
 After choosing to delete a field the user is asked whether he is sure
 about the deletion. When choosing cancel the field does not get deleted:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('No, cancel').click()
 >>> get_messages(browser)
 ['Deletion canceled.']
@@ -382,6 +388,9 @@ The field is no longer displayed in the add form and in the edit form:
 Traceback (most recent call last):
 LookupError: label 'foobar'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
+
 
 >>> browser.getLink('person').click()
 >>> browser.getControl('foobar')
@@ -397,6 +406,8 @@ The field is not displayed for editors, too:
 Traceback (most recent call last):
 LookupError: label 'foobar'
 >>> editor.getControl('Cancel').click()
+>>> get_messages(editor)
+['No changes were applied.']
 
 >>> editor.getLink('person').click()
 >>> editor.getControl('foobar')
