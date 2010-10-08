@@ -76,12 +76,17 @@ Cancel edit
 
 Selecting the cancel button does not save anything:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('keyword').value = 'typo'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.getLink('Company co-worker').click()
 >>> browser.getControl('keyword').value
 'Company co-worker'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 Sort order of keywords
 ======================
@@ -183,7 +188,6 @@ There is a confirmation dialog where the user has to decide if he
 really wants to delete the keyword. If he decides not to delete the
 entry he is led back to the keyword's edit form:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3/@@delete.html'
 >>> browser.getControl('No, cancel').click()

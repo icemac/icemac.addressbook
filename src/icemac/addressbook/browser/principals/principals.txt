@@ -99,7 +99,10 @@ If the administrator redecides not to create a new user, he can use
 the cancel button in the displayed form. He is then redirected to the
 users list:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['Addition canceled.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> print browser.contents
@@ -203,6 +206,8 @@ users list is displayed then:
 >>> browser.getControl('notes').value = '2nd new visitor'
 >>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> print browser.contents
@@ -239,6 +244,8 @@ button saves the entred values:
 >>> browser.getControl('Editor').selected
 True
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 
 
 User with existing login
@@ -276,6 +283,8 @@ to an error message:
 <!DOCTYPE ...
 <div class="error">Principal Login already taken!</div>...
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
@@ -346,7 +355,6 @@ There is no delete button for persons in the form of the person:
 Even when the url of the delete confirmation dialog is directly accessed
 deletion is not possible:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.open(delete_confirmation_url)
 >>> browser.getControl('Yes, delete').click()
 >>> get_messages(browser)
@@ -477,6 +485,8 @@ change his roles and see all other users in the users list:
  'form.widgets.password_repetition', 'form.widgets.roles-empty-marker',
  'form.widgets.roles:list']
 >>> unstable.getControl('Cancel').click()
+>>> get_messages(unstable)
+['No changes were applied.']
 >>> 'Hans' in unstable.contents
 True
 
