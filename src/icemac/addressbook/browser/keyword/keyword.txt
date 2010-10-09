@@ -32,9 +32,12 @@ Create keyword
 To create a keyword there is a link in the add menu which leads to the
 add form:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'company coworkr'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"company coworkr" added.']
 
 The added keyword is shown at the overview page:
 
@@ -76,7 +79,6 @@ Cancel edit
 
 Selecting the cancel button does not save anything:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('keyword').value = 'typo'
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
@@ -96,14 +98,20 @@ Keywords are displayed sorted by title (keyword):
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'family'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"family" added.']
 
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'friend'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"friend" added.']
 
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'church'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"church" added.']
 
 >>> print browser.contents
 <!DOCTYPE...
@@ -136,6 +144,8 @@ Keyword assignments are stored when saving:
 >>> browser.getControl('church').click()
 >>> browser.getControl('family').click()
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"keyword test" added.']
 >>> browser.getLink('keyword test').click()
 >>> browser.getControl('church').selected
 True
@@ -250,6 +260,8 @@ message:
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'Kirche'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[]
 >>> print browser.url
 http://localhost/++skin++AddressBook/ab/++attribute++keywords/@@addKeyword.html
 >>> print browser.contents
@@ -274,6 +286,8 @@ it afterwards.):
 
 >>> browser.getControl('keyword').value = 'Arbeit'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Arbeit" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
 >>> browser.getLink('Arbeit').click()

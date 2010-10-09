@@ -17,17 +17,20 @@ Create an address book, a user defined field for a file inside:
 Create a browser to access the address book. Log in as
 `Administrator`:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Create a person using the web ui as it is easier than doing it in code:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -49,6 +52,8 @@ In the add form the field should be displayed:
 ...     StringIO('Dear Tester, CU.'), 'text/plain', 'letter.txt')
 >>> browser.getControl('mynotes').value = 'first\nletter'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"letter.txt" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
 

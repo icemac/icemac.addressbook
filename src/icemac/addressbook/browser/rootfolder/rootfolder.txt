@@ -37,9 +37,12 @@ Create an address book
 
 On the overview page is a link to add a new address book:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('address book').click()
 >>> browser.getControl('title').value = 'test book'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"test book" added.']
 >>> address_book_url = browser.url
 >>> address_book_url
 'http://localhost/++skin++AddressBook/AddressBook'
@@ -167,7 +170,6 @@ sure` form is displayed:
 When the adminstrator decides not to delete the address book he is led
 back to the overview of all address books:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('No, cancel').click()
 >>> get_messages(browser)
 ['Deletion canceled.']

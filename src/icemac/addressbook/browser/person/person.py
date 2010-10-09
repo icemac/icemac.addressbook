@@ -110,6 +110,7 @@ class PersonAddForm(z3c.form.group.GroupForm,
             default_attrib = entity.tagged_values['default_attrib']
             if getattr(person, default_attrib, None) is None:
                 setattr(person, default_attrib, obj)
+        self.obj = person
         return person
 
 

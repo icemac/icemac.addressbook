@@ -17,9 +17,12 @@ As only managers are allowed to create address books we have to login:
 
 On the start page there is a link to add an address book:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('address book').click()
 >>> browser.getControl('title').value = 'test book'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"test book" added.']
 >>> address_book_url = browser.url
 >>> address_book_url
 'http://localhost/++skin++AddressBook/AddressBook'
@@ -166,7 +169,6 @@ in address book` button there. An `are you sure` form is displayed:
 When the adminstrator decides not to delete the persons he is led back
 to the address book's edit form:
 
->>> from icemac.addressbook.testing import get_messages
 >>> print browser.contents
 <!DOCTYPE ...
       <h1>Do you really want to delete all persons in this address book?</h1>...

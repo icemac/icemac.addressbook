@@ -23,11 +23,14 @@ Creation date
 
 The creation date is set on creation:
 
->>> from zope.dublincore.interfaces import IZopeDublinCore
 >>> from datetime import datetime
+>>> from icemac.addressbook.testing import get_messages
+>>> from zope.dublincore.interfaces import IZopeDublinCore
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()

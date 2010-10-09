@@ -15,7 +15,7 @@ Create an address book, a local adminstrator and a browser to access it:
 >>> create_user(
 ...     ab, ab, u'Ad', u'Min', u'ad@min.de', u'12345678', ('Administrator',))
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 
 Edit entities as local administrator
@@ -50,6 +50,7 @@ Choice field values could not contain non ascii characters.
 Create a user defined choice field and a values containing a non ascii
 character:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.person.Person'
@@ -57,15 +58,18 @@ character:
 >>> browser.getControl('type').displayValue = ['choice']
 >>> browser.getControl('title').value = 'Ümläuttößt'
 >>> browser.getControl('Add', index=0).click()
+>>> get_messages(browser)
+[]
 >>> browser.getControl('value').value = 'Küche'
 >>> browser.getControl('Add', index=1).click()
+>>> get_messages(browser)
+[u'"\xdcml\xe4utt\xf6\xdft" added.']
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.person.Person'
 
 The error occured when adding a new object for the entity with the user defined field (a person in our case):
 
 >>> browser.getLink('Person list').click()
->>> browser.handleErrors = False
 >>> browser.getLink('person').click()
 >>> browser.getControl('Ümläuttößt').displayOptions
 ['no value', 'K\xc3\xbcche']

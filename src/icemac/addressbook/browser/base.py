@@ -115,9 +115,9 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     def createAndAdd(self, data):
         # overwriting method as otherwise object created event would
         # get send twice
-        obj = self.create(data)
-        self.add(obj)
-        return obj
+        self.obj = self.create(data)
+        self.add(self.obj)
+        return self.obj
 
     def create(self, data):
         return create(self, self.class_, data)
@@ -134,6 +134,11 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
         # because we define a new action we have to duplicate the
         # existing action because otherwise we'll lose it.
         super(BaseAddForm, self).handleAdd(self, action)
+        if self._finishedAdd:
+            self.status = _(
+                '"${title}" added.',
+                mapping=dict(title=icemac.addressbook.interfaces.ITitle(
+                    self.obj)))
 
     @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):

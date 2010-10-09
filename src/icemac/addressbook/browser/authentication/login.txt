@@ -28,7 +28,7 @@ Log in screen
 As cookie authorization is used an unauthorized user is redirected to
 the log-in page:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.url
@@ -89,9 +89,12 @@ Login as editor
 
 Editors are allowed to create new persons:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Prause'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Prause" added.']
 >>> print browser.contents
 <!DOCTYPE ...
 ...Admin...Anne...

@@ -54,6 +54,7 @@ Use field
 
 To use the field create a keyword:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Keywords').click()
 >>> browser.getLink('keyword').click()
@@ -62,6 +63,8 @@ To use the field create a keyword:
 ['no value', 'one', 'two', 'three']
 >>> browser.getControl('kind').displayValue = ['two']
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"foo" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
 
