@@ -1,6 +1,6 @@
-==============================
- Editing address book entities
-===============================
+=============================
+Editing address book entities
+=============================
 
 User with the `Administrator` role are able to edit the entities in
 the address book.
@@ -101,11 +101,12 @@ Use a field
 The previously defined field now shows up when editing the entity it
 is assigned to:
 
-Add Form
+Add form
 --------
 
 The field shows up on the add form as a text line:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Person list').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
@@ -115,6 +116,8 @@ The field shows up on the add form as a text line:
 ''
 >>> browser.getControl('foobar').value = 'monster'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -124,7 +127,6 @@ Edit form
 The field also shows up on the edit form and contains the value
 assigned in the add form:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
@@ -221,7 +223,7 @@ The entered values get persisted:
 >>> editor.getControl('foobar').value
 'editor was here'
 >>> editor.getControl('Cancel').click()
->>> get_messages(browser)
+>>> get_messages(editor)
 ['No changes were applied.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab'
@@ -229,7 +231,7 @@ The entered values get persisted:
 Add form
 ~~~~~~~~
 
-The editor can entrer values in user defined fields in the add form:
+The editor can enter values in user defined fields in the add form:
 
 >>> editor.getLink('person').click()
 >>> editor.url
@@ -239,6 +241,8 @@ The editor can entrer values in user defined fields in the add form:
 ''
 >>> editor.getControl('foobar').value = 'better'
 >>> editor.getControl('Add').click()
+>>> get_messages(editor)
+['"Bester" added.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -260,7 +264,7 @@ The editor is also able to edit the values he entered himself:
 >>> editor.getControl('foobar').value
 'still better'
 >>> editor.getControl('Cancel').click()
->>> get_messages(browser)
+>>> get_messages(editor)
 ['No changes were applied.']
 
 

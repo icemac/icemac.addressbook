@@ -45,6 +45,7 @@ And some user definded fields:
 
 And some data in the fields:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('yes').click()
@@ -56,6 +57,8 @@ And some data in the fields:
 >>> browser.getControl('company home page').value = 'http://www.mycompany.de'
 >>> browser.getControl('home page provider').value = 'mycomp'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -64,6 +67,8 @@ And some data in the fields:
 >>> browser.getControl('last time verified').value = '01/01/08'
 >>> browser.getControl('last seen').value = '10/08/09 20:15'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Utzer" added.']
 
 
 Selecting columns
@@ -154,7 +159,6 @@ Deleting column
 
 Let's delete the "photo permission?" column:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=1).click()

@@ -14,7 +14,7 @@ We need an address book:
 
 And a browser to access it:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
@@ -207,11 +207,14 @@ some data of the default address:
 
 And a new address those data is not displayed in the list:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Tester').click()
 >>> browser.getLink('postal address').click()
 >>> browser.getControl('address prefix').value = 'c/o Papa'
 >>> browser.getControl('country').displayValue = ['Fiji']
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"c/o Papa, Fiji" added.']
 
 On the person list the values of the default address are displayed:
 

@@ -25,6 +25,7 @@ some:
 To clone a person, an already existing one is needed, so we create one
 as an editor:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.addHeader('Authorization', 'Basic editor:editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('person').click()
@@ -36,6 +37,8 @@ as an editor:
 >>> browser.getControl('number').value = '116'
 >>> browser.getControl('URL').value = 'http://tester.de'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester, Hans" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()
@@ -48,7 +51,6 @@ Clone person
 
 There is a button on the edit form to clone a person:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Clone person').click()
 >>> get_messages(browser)
 ['"Tester, Hans" cloned.']

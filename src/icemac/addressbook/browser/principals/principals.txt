@@ -56,12 +56,15 @@ At first let's create a user with administrator role and log-in to run
 the tests to show that a user created inside the addressbook serves
 fine as administrator:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('user').click()
 >>> browser.getControl('person').displayValue = ['Admin, Arne']
 >>> browser.getControl('password', index=0).value = '1qay2wsx'
 >>> browser.getControl('password repetition').value = '1qay2wsx'
 >>> browser.getControl('Administrator').click()
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Admin, Arne" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> browser = Browser()
@@ -99,7 +102,6 @@ If the administrator redecides not to create a new user, he can use
 the cancel button in the displayed form. He is then redirected to the
 users list:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
 ['Addition canceled.']
@@ -118,6 +120,8 @@ enter a password which matches its repetition:
 >>> browser.getControl('password repetition').value = '0123456789'
 >>> browser.getControl('notes').value = 'first new editor'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE ...
 <div class="error">Entry in password field was not equal to entry in password
@@ -128,6 +132,8 @@ When the entered password is too short, also an error message is shown:
 >>> browser.getControl('password', index=0).value = '123'
 >>> browser.getControl('password repetition').value = '123'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE ...
 <ul class="errors">
@@ -146,6 +152,8 @@ of all users is shown:
 >>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Visitor').click()
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester, Hans" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> print browser.contents
@@ -263,6 +271,8 @@ e-mail address shows an error message:
 >>> browser.getControl('password', index=0).value = '12345678'
 >>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE ...
 <div class="error">Principal Login already taken!</div>...
@@ -276,6 +286,8 @@ to an error message:
 >>> browser.getControl('Visitor').click()
 >>> browser.getControl('notes').value = 'Ben.Utzer the Visitor of AB'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Utzer, Ben" added.']
 >>> browser.getLink('Utzer, Ben').click()
 >>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Apply').click()
@@ -327,7 +339,10 @@ create a person and make her a user:
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Loscher'
 >>> browser.getControl('e-mail address').value = 'l@scher.de'
+>>> browser.handleErrors = False
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Loscher" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Loscher').click()
@@ -383,6 +398,8 @@ him:
 >>> browser.getControl('password', index=0).value = '12345678'
 >>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Someone, Else" added.']
 >>> print browser.contents
 <!DOCTYPE ...
 ...Admin...Arne...
@@ -768,6 +785,8 @@ The person can be used to create a new user:
 >>> browser.getControl('password', index=0).value = '09876543'
 >>> browser.getControl('password', index=1).value = '09876543'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Someone, Else" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 

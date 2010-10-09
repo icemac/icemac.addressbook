@@ -27,6 +27,7 @@ filled. Some fields get parsed, so entering rubbish leads also to an
 error message. (Note: Germany is by default selected as country.
 Clicking on it, deselects it, so no country is selected afterwards.):
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('birth date').value = u'qqqqq'
 >>> browser.getControl('e-mail address').value = u'qqqqq'
 >>> browser.getControl('URL').value = 'qqqqq'
@@ -97,6 +98,8 @@ database and get back to the address book where the entry is
 displayed:
 
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Tester, Hans" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents
@@ -276,6 +279,8 @@ is already displayed:
 >>> browser.getLink('phone number').click()
 >>> browser.getControl('number').value = '+4901761234567'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"+4901761234567" added.']
 
 After adding a new phone number, the person edit form is displayed
 where the new phone number is shown:
@@ -304,6 +309,8 @@ form, which is already displayed:
 >>> browser.getControl('city').value = 'Erfurt'
 >>> browser.getControl('zip').value = '98344'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[u'"ABC-Computer, Forsterstra\xdfe 302a, 98344, Erfurt, Germany" added.']
 
 After adding a new postal address, the person edit form is displayed
 where the new postal address is shown:
@@ -333,6 +340,8 @@ form, which is already displayed:
 >>> browser.getLink('e-mail address').click()
 >>> browser.getControl('e-mail address').value = 'pt@abc-computer.de'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"pt@abc-computer.de" added.']
 
 After adding a new e-mail address, the person edit form is displayed
 where the new e-mail address is shown:
@@ -358,6 +367,8 @@ form, which is already displayed:
 >>> browser.getLink('home page').click()
 >>> browser.getControl('URL').value = 'http://www.abc-computer.de'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"http://www.abc-computer.de" added.']
 
 After adding a new home page address, the person edit form is
 displayed where the new home page address is shown:
@@ -493,7 +504,6 @@ existing adresses and numbers:
 If the user changed his mind, he can use the `cancel` button and gets
 redirected to the person edit page:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
 ['No changes were applied.']
