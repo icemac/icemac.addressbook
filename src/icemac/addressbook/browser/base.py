@@ -92,6 +92,10 @@ class BaseForm(BaseView):
             field_values = fields.getFieldValuesInOrder()
         return z3c.form.field.Fields(*field_values)
 
+    def add_status(self, message):
+        zope.component.getUtility(
+            z3c.flashmessage.interfaces.IMessageSource).send(message)
+
     class status(classproperty.classproperty):
         def __get__(self):
             return self._status
@@ -101,8 +105,7 @@ class BaseForm(BaseView):
                 # too, as they must be displayed on the next page after the
                 # redirect. But we need them to determine whether a redirect
                 # is necessary, too.
-                zope.component.getUtility(
-                    z3c.flashmessage.interfaces.IMessageSource).send(message)
+                self.add_status(message)
             self._status = message
 
 
