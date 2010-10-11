@@ -19,7 +19,7 @@ information. So we have to create persons first:
 >>> admin = create_person(ab, ab, u'Admin', first_name=u'Arne')
 >>> create_email_address(ab, admin, email=u'arne@example.com',
 ...     return_obj=False)
->>> tester = create_person(ab, ab, u'Tester', first_name=u'Hans')
+>>> tester = create_full_person(ab, ab, u'Tester', first_name=u'Hans')
 >>> create_email_address(ab, tester, email=u'tester@example.com',
 ...     return_obj=False)
 >>> utzer = create_full_person(ab, ab, u'Utzer', first_name=u'Ben')
@@ -237,6 +237,8 @@ button saves the entred values:
 >>> browser.getControl('Visitor').click() # deselect
 >>> browser.getControl('Editor').click()
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
 ...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
@@ -291,6 +293,8 @@ to an error message:
 >>> browser.getLink('Utzer, Ben').click()
 >>> browser.getControl('login').value = 'hans@example.com'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE ...
 <div class="error">Principal Login already taken!</div>...
@@ -321,6 +325,8 @@ changed, the log-in name does *not* change:
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('e-mail address', index=1).value = 'htester@example.com'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('Tester').click()
@@ -417,6 +423,8 @@ truncated in the list view:
 >>> browser.getLink('Someone, Else').click()
 >>> browser.getControl('notes').value = 'This is someone else created to show sort order and truncation of too long notes.'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> 'This is someone else created to show sort order and …' in (
 ...     browser.contents)
 True
@@ -467,6 +475,8 @@ can create new persons and change his username:
 >>> browser.getLink('Unstable, Urs').click()
 >>> browser.getControl('roles').displayValue = ['Editor']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
@@ -490,6 +500,8 @@ change his roles and see all other users in the users list:
 >>> browser.getLink('Unstable, Urs').click()
 >>> browser.getControl('roles').displayValue = ['Administrator']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
@@ -515,6 +527,8 @@ permissions to see anything:
 >>> browser.getLink('Unstable, Urs').click()
 >>> browser.getControl('roles').displayValue = []
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
@@ -617,6 +631,8 @@ asks the user for its new credentials:
 >>> editor.getControl('password repetition').value = 'testtest'
 >>> editor.getControl('notes').value = 'The big HANS'
 >>> editor.getControl('Apply').click()
+>>> get_messages(editor) # XXX There should be a message!
+[]
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> editor.getControl('User Name').value = 'hans.tester'
@@ -689,6 +705,8 @@ password immediately asks the user for his new credentials:
 >>> visitor.getControl('password', index=0).value = 'utzer123'
 >>> visitor.getControl('password repetition').value = 'utzer123'
 >>> visitor.getControl('Apply').click()
+>>> get_messages(visitor) # XXX There should be a message!
+[]
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'

@@ -6,8 +6,13 @@ import icemac.addressbook.browser.resource
 import z3c.preference.browser
 
 
-class EditForm(z3c.preference.browser.EditForm):
+class EditForm(icemac.addressbook.browser.base.BaseEditForm,
+               z3c.preference.browser.EditForm):
     """Preference EditForm which uses addressbook's form CSS."""
+
+    next_url = 'site'
+    __init__ = z3c.preference.browser.EditForm.__init__
+    fields = z3c.preference.browser.EditForm.fields
 
     def update(self):
         icemac.addressbook.browser.resource.form_css.need()

@@ -85,6 +85,8 @@ Changing data in the clone does not change the original:
 >>> browser.getControl('number', index=1).value = '333'
 >>> browser.getControl('URL').value = 'http://test333.de'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -111,6 +113,8 @@ Changing data in the original does not change the clone:
 >>> browser.getControl('last time met').value = '10/02/03'
 >>> browser.getControl('number', index=1).value = '012354-234234-23'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 

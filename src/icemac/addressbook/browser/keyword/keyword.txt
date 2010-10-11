@@ -67,6 +67,8 @@ We correct the typo to show the edit form works:
 
 >>> browser.getControl('keyword').value = 'Company co-worker'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 
 To show that the changes where saved we go again to the form:
 
@@ -153,6 +155,8 @@ True
 True
 >>> browser.getControl('church').click()
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('keyword test').click()
 >>> browser.getControl('church').selected
 False
@@ -170,9 +174,13 @@ changes at the person:
 >>> browser.getLink('family').click()
 >>> browser.getControl('keyword').value = 'Familie'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('church').click()
 >>> browser.getControl('keyword').value = 'Kirche'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('keyword test').click()
 >>> browser.getControl('Kirche').selected
@@ -293,6 +301,8 @@ it afterwards.):
 >>> browser.getLink('Arbeit').click()
 >>> browser.getControl('keyword').value = 'Company co-worker'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE...
 <div class="status">

@@ -93,6 +93,8 @@ When the selected value of the choice gets deleted, ...
 >>> remove.getControl(value='1').click()
 >>> browser.getControl(name='form.widgets.values.buttons.remove').click()
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 
 the value is no longer displayed for the keyword:
 

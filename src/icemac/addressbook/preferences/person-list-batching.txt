@@ -15,7 +15,7 @@ We need an address book:
 
 A browser to access it:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
@@ -58,11 +58,13 @@ Batch size bigger than item number
 When there are less items than the batch size, no batching links are
 displayed:
 
->>> from icemac.addressbook.testing import in_out_widget_select
+>>> from icemac.addressbook.testing import in_out_widget_select, get_messages
 >>> in_out_widget_select(browser, 'form.widgets.columns',
 ...     [browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('batch size').value = '21'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Person list').click()
 >>> print browser.contents
 <!DOCTYPE ...
@@ -83,6 +85,8 @@ The minimum batch size is 1, otherwise an error message is displayed:
 >>> browser.getLink('Preferences').click()
 >>> browser.getControl('batch size').value = '0'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+[]
 >>> browser.url
 'http://localhost/.../ab/++preferences++/personList/@@index.html'
 >>> print browser.contents
@@ -97,6 +101,8 @@ With a little batch size batch spachers are displayed:
 
 >>> browser.getControl('batch size').value = '1'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Person list').click()
 >>> print browser.contents
 <!DOCTYPE ...

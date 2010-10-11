@@ -57,12 +57,15 @@ Date column
 Adding the birth date to the columns list, also displayes the birth
 date in the person list:
 
->>> from icemac.addressbook.testing import in_out_widget_select
+>>> from icemac.addressbook.testing import in_out_widget_select, get_messages
 >>> in_out_widget_select(browser, 'form.widgets.columns',
 ...     [browser.getControl('person -- birth date', index=0),
 ...      browser.getControl('person -- first name', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
+>>> browser.getLink('Preferences').click()
 >>> browser.getControl(name='form.widgets.columns.to').displayOptions
 ['person -- birth date', 'person -- first name', 'person -- last name']
 >>> browser.getLink('Person list').click()
@@ -113,11 +116,15 @@ Then we have to assign the keywords to persons:
 >>> browser.getControl('keywords').displayValue = [
 ...     'Friends', 'church', 'family']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Streber').click()
 >>> browser.getControl('keywords').displayValue = ['Friends']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -129,7 +136,8 @@ The keywords are sorted by their lower case variant inside the cell:
 ...      browser.getControl('person -- first name', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -160,6 +168,8 @@ whole browser window. At first we need some notes text:
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('notes').value = 'Gave him 20 Dollars in Jan 2010.'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -171,7 +181,8 @@ Only the first 20 characters of the note are displayed:
 ...      browser.getControl('person -- first name', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -204,10 +215,11 @@ some data of the default address:
 >>> browser.getControl('address prefix').value = 'c/o Mama'
 >>> browser.getControl('country').displayValue = ['Gabon']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 
 And a new address those data is not displayed in the list:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Tester').click()
 >>> browser.getLink('postal address').click()
 >>> browser.getControl('address prefix').value = 'c/o Papa'
@@ -224,7 +236,8 @@ On the person list the values of the default address are displayed:
 ...      browser.getControl('postal address -- country', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -251,6 +264,8 @@ Changing the default address changes to person list, too:
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('main postal address').displayValue = ['c/o Papa, Fiji']
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
     <tr class="table-odd-row">
@@ -269,6 +284,8 @@ enter a home page address.
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('URL').value = 'http://www.example.com'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -280,7 +297,8 @@ displayed in the person list:
 ...     [browser.getControl('home page address -- URL', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -308,6 +326,8 @@ enter an a-mail address.
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('e-mail', index=1).value = 'tester@example.com'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -319,7 +339,8 @@ displayed in the person list:
 ...     [browser.getControl('e-mail address -- e-mail address', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -353,7 +374,8 @@ The user is able to select a column which is used to sort the person list.
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('order by').displayValue = ['person -- first name']
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -390,7 +412,8 @@ are sorted to the end:
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('order by').displayValue = ['address -- city']
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -425,7 +448,8 @@ sorted by lower case variant of the cell contents:
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('order by').displayValue = ['person -- keywords']
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -490,7 +514,8 @@ to descending:
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('sort direction').displayValue = ['descending']
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>

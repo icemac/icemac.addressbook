@@ -77,6 +77,7 @@ Edit a field
 
 When editing the added field the previously entered values are displayed:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Edit', index=1).click()
 >>> edit_field_url = browser.url
 >>> edit_field_url
@@ -91,6 +92,8 @@ baz
 field
 >>> browser.getControl('title').value = 'foobar'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
 
@@ -106,7 +109,6 @@ Add form
 
 The field shows up on the add form as a text line:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Person list').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
@@ -134,6 +136,8 @@ assigned in the add form:
 'monster'
 >>> browser.getControl('foobar').value = 'my value'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()
@@ -212,6 +216,8 @@ was created by an administrator:
 'my value'
 >>> editor.getControl('foobar').value = 'editor was here'
 >>> editor.getControl('Apply').click()
+>>> get_messages(editor)
+['Data successfully updated.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab'
 
@@ -258,6 +264,8 @@ The editor is also able to edit the values he entered himself:
 'better'
 >>> editor.getControl('foobar').value = 'still better'
 >>> editor.getControl('Apply').click()
+>>> get_messages(editor)
+['Data successfully updated.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab'
 >>> editor.getLink('Bester').click()

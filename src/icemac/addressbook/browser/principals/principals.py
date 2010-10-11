@@ -149,7 +149,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     def applyChanges(self, data):
         try:
-            super(EditForm, self).applyChanges(data)
+            return super(EditForm, self).applyChanges(data)
         except ValueError, e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(

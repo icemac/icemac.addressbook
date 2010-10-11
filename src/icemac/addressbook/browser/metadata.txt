@@ -87,6 +87,8 @@ change the creator value:
 
 >>> editor.getControl('notes').value = 'I was here.'
 >>> editor.getControl('Apply').click()
+>>> get_messages(editor)
+['Data successfully updated.']
 >>> IEditor(address_book['Person']).creator
 u'global editor'
 >>> IEditor(address_book['Person']).modifier
@@ -146,6 +148,8 @@ modification dates to ``None``:
 
 >>> browser.getControl('city').value = 'Heretown'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> person = address_book['Person']
@@ -167,6 +171,8 @@ entries do not change:
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('first name').value = 'Hans'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> person = address_book['Person']

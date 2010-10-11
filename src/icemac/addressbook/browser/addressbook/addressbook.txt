@@ -28,8 +28,8 @@ On the start page there is a link to add an address book:
 'http://localhost/++skin++AddressBook/AddressBook'
 
 
-Edit address book's data
-========================
+Editing address book's data
+===========================
 
 The manager can also edit the address book's data. The edit form shows
 the formerly entred data:
@@ -42,6 +42,8 @@ the formerly entred data:
 'test book'
 >>> browser.getControl('title').value = 'ftest book'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 
 The edit form submits to itself and shows the stored data:
 
