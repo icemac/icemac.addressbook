@@ -15,7 +15,7 @@ We need an address book:
 
 And a browser to access it:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
@@ -66,10 +66,14 @@ Each user has his own preferences
 
 The preferences are personal ones, they are not shared between users:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> visitor.getControl('sort direction').displayValue
 ['ascending (A-->Z)']
 >>> visitor.getControl('sort direction').displayValue = ['descending (Z-->A)']
 >>> visitor.getControl('Apply').click()
+>>> get_messages(visitor)
+['Data successfully updated.']
+>>> visitor.getLink('Preferences').click()
 >>> visitor.getControl('sort direction').displayValue
 ['descending (Z-->A)']
 

@@ -186,6 +186,8 @@ displayed:
 >>> browser.getControl('URL').value = 'http://petra.example.com'
 >>> browser.getControl('number', index=1).value = u'110'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE...
       <div class="status">
@@ -204,6 +206,8 @@ back to the overview page of the address book:
 
 >>> browser.getControl('birth date').value = u'01/01/01'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents
@@ -293,6 +297,8 @@ form:
 
 >>> browser.getControl('number', index=1).value ='+4901767654321'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('number', index=1).value
 '+4901767654321'
@@ -327,6 +333,8 @@ form:
 
 >>> browser.getControl('address prefix', index=1).value = 'RST-Software'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('address prefix', index=1).value
 'RST-Software'
@@ -354,6 +362,8 @@ form:
 
 >>> browser.getControl('e-mail address', index=2).value = 'pt@rst-software.de'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('e-mail address', index=2).value
 'pt@rst-software.de'
@@ -381,6 +391,8 @@ form:
 
 >>> browser.getControl('URL', index=1).value = 'http://www.rst-software.de'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('URL', index=1).value
 'http://www.rst-software.de'
@@ -421,13 +433,14 @@ Now we set the work addresses as default:
 >>> browser.getControl('main home page address').displayValue = [
 ...     'http://www.rst-software.de']
 >>> browser.getControl('Apply').click()
-
+>>> get_messages(browser)
+['Data successfully updated.']
 
 
 Visitor
 =======
 
-Visitors can not chance any data, they can only view it:
+Visitors can not change any data, they can only view it:
 
 >>> visitor_browser = Browser()
 >>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')

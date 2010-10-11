@@ -240,6 +240,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 for interface, names in changes.items()]
             zope.event.notify(
                 zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+        return changed
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
     """Datamanager which converts the internal InstrumentedSet into a

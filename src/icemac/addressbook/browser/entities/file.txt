@@ -74,6 +74,8 @@ The data in the user defined field can be edited as well:
 
 >>> browser.getControl('mynotes').value = 'second letter'
 >>> browser.getControl('Apply').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> browser.getLink('Tester').click()

@@ -117,7 +117,8 @@ Selecting columns shows them in the person list:
 ...      browser.getControl('home page address -- home page provider', index=0),
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -257,7 +258,8 @@ Let's select the "person -- last seen" column for order by:
 ...      browser.getControl('person -- last name', index=0)])
 >>> browser.getControl('order by').displayValue = ['person -- last seen']
 >>> browser.getControl('Apply').click()
->>> browser.getLink('Person list').click()
+>>> get_messages(browser)
+['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
