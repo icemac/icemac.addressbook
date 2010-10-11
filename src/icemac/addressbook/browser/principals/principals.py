@@ -148,12 +148,44 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.redirect_to_next_url('object', '@@delete_user.html')
 
     def applyChanges(self, data):
+        current_principal_id = (
+            self.request.interaction.participations[0].principal.id)
+        current_login_name = None
+        auth = zope.component.getUtility(
+            zope.authentication.interfaces.IAuthentication)
+        for key, plugin in auth.getAuthenticatorPlugins():
+            principal_info = plugin.principalInfo(current_principal_id)
+            if principal_info is not None:
+                current_login_name = principal_info.login
+                break
+
+        old_login_name = self.context.login
+        editing_own_data = (old_login_name == current_login_name)
         try:
-            return super(EditForm, self).applyChanges(data)
+            changes = super(EditForm, self).applyChanges(data)
         except ValueError, e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(
                 zope.interface.Invalid(_(e.args[0])))
+
+        if not editing_own_data:
+            # User is not editing his own data principal's data:
+            return changes
+
+        changed_field_names = []
+        changed_field_names.extend(
+            changes.get(
+                icemac.addressbook.principals.interfaces.IPrincipal, []))
+        changed_field_names.extend(
+            changes.get(
+                icemac.addressbook.principals.interfaces.IPasswordFields, []))
+        if 'login' in changed_field_names:
+            self.add_status( _('You changed the login name, please re-login.'))
+        if ('password' in changed_field_names and
+            'password_repetition' in changed_field_names and
+            data['password']):
+            self.add_status(_('You changed the password, please re-login.'))
+        return changes
 
 
 class EditForm_password_Validator(z3c.form.validator.SimpleFieldValidator):

@@ -631,8 +631,8 @@ asks the user for its new credentials:
 >>> editor.getControl('password repetition').value = 'testtest'
 >>> editor.getControl('notes').value = 'The big HANS'
 >>> editor.getControl('Apply').click()
->>> get_messages(editor) # XXX There should be a message!
-[]
+>>> get_messages(editor)
+['You changed the login name, please re-login.', 'You changed the password, please re-login.', 'Data successfully updated.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> editor.getControl('User Name').value = 'hans.tester'
@@ -705,8 +705,8 @@ password immediately asks the user for his new credentials:
 >>> visitor.getControl('password', index=0).value = 'utzer123'
 >>> visitor.getControl('password repetition').value = 'utzer123'
 >>> visitor.getControl('Apply').click()
->>> get_messages(visitor) # XXX There should be a message!
-[]
+>>> get_messages(visitor)
+['You changed the password, please re-login.', 'Data successfully updated.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
