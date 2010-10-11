@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
-import doctest
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
 import icemac.addressbook.file.file
@@ -29,6 +28,11 @@ import zope.testbrowser.interfaces
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
+
+if os.environ.get('ZOPETESTINGDOCTEST'):
+    from zope.testing import doctest
+else:
+    import doctest
 
 
 class AddressBookUnitTests(zope.testrunner.layer.UnitTests):
@@ -100,7 +104,6 @@ def FunctionalDocFileSuite(*paths, **kw):
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
              '<DATETIME>')
             ])
-
     suite = doctest.DocFileSuite(*paths, **kw)
     suite.layer = layer
     return suite
