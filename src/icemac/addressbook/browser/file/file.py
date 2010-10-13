@@ -118,8 +118,9 @@ class Edit(icemac.addressbook.browser.base.BaseEditFormWithCancel):
     next_url = 'parent'
 
     def applyChanges(self, data):
-        super(Edit, self).applyChanges(data)
+        changes = super(Edit, self).applyChanges(data)
         update_blob(self.widgets['data'], self.context)
+        return changes
 
 
 class DeleteFileForm(icemac.addressbook.browser.base.BaseDeleteForm):
