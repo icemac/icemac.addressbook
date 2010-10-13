@@ -37,6 +37,7 @@ We create a field for keywords:
 
 We choose the type `choice` and add values:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('type').displayValue = ['choice']
 >>> browser.getControl('title').value = 'kind'
 >>> browser.getControl(name='form.widgets.values.buttons.add').click()
@@ -46,6 +47,8 @@ We choose the type `choice` and add values:
 >>> browser.getControl(name='form.widgets.values.buttons.add').click()
 >>> browser.getControl(name='form.widgets.values.2').value = 'three'
 >>> browser.getControl(name='form.buttons.add').click()
+>>> get_messages(browser)
+['"kind" added.']
 >>> browser.url
 'http://local.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
 
@@ -54,7 +57,6 @@ Use field
 
 To use the field create a keyword:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Keywords').click()
 >>> browser.getLink('keyword').click()

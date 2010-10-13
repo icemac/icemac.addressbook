@@ -72,6 +72,8 @@ fine as administrator:
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> browser.getLink('Master data').click()
@@ -173,6 +175,8 @@ This newly created user is able to log in:
 >>> visitor.getControl('User Name').value = 'tester@example.com'
 >>> visitor.getControl('Password').value = '12345678'
 >>> visitor.getControl('Log in').click()
+>>> get_messages(visitor)
+['You have been logged-in successfully.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 
@@ -363,6 +367,8 @@ create a person and make her a user:
 >>> browser.getControl('password', index=0).value = '12345678'
 >>> browser.getControl('password repetition').value = '12345678'
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+['"Loscher" added.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 
@@ -449,6 +455,8 @@ able to create new persons:
 >>> unstable.getControl('User Name').value = 'uu@example.com'
 >>> unstable.getControl('Password').value = 'u1u2u3u4'
 >>> unstable.getControl('Log in').click()
+>>> get_messages(unstable)
+['You have been logged-in successfully.']
 >>> unstable.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> unstable.getLink('Master data').click()
@@ -521,7 +529,7 @@ True
 
 When the Adminstrator removes all roles from the user he can't gets an
 exception that he is forbidden to see the page, when he logs in again
-he get's an error message telling him that he hat not enough
+he get's an error message telling him that he has not enough
 permissions to see anything:
 
 >>> browser.getLink('Unstable, Urs').click()
@@ -542,6 +550,8 @@ httperror_seek_wrapper: HTTP Error 403: Forbidden
 >>> unstable.getControl('Log in').click()
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
+>>> get_messages(unstable)
+['You have been logged-in successfully.']
 >>> unstable.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> print unstable.contents
@@ -626,18 +636,24 @@ The editor can change the data and save them. The login-name needn't
 even be an e-mail address. Changing the own log-in name immediately
 asks the user for its new credentials:
 
+>>> from pprint import pprint
 >>> editor.getControl('login').value = 'hans.tester'
 >>> editor.getControl('password', index=0).value = 'testtest'
 >>> editor.getControl('password repetition').value = 'testtest'
 >>> editor.getControl('notes').value = 'The big HANS'
 >>> editor.getControl('Apply').click()
->>> get_messages(editor)
-['You changed the login name, please re-login.', 'You changed the password, please re-login.', 'Data successfully updated.']
+>>> pprint(get_messages(editor))
+['You changed the login name, please re-login.',
+ 'You changed the password, please re-login.',
+ 'Data successfully updated.',
+ 'To log-in enter your username and password and submit the form.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> editor.getControl('User Name').value = 'hans.tester'
 >>> editor.getControl('Password').value = 'testtest'
 >>> editor.getControl('Log in').click()
+>>> get_messages(editor)
+['You have been logged-in successfully.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> print editor.contents
@@ -657,9 +673,14 @@ The data was stored:
 The new log-in name an password can also be used to normally log-in:
 
 >>> editor.getLink('Logout').click()
+>>> pprint(get_messages(editor))
+['You have been logged out successfully.',
+ 'To log-in enter your username and password and submit the form.']
 >>> editor.getControl('User Name').value = 'hans.tester'
 >>> editor.getControl('Password').value = 'testtest'
 >>> editor.getControl('Log in').click()
+>>> get_messages(editor)
+['You have been logged-in successfully.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals/2/index.html'
 
@@ -675,6 +696,8 @@ hin log-in:
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = '12345678'
 >>> visitor.getControl('Log in').click()
+>>> get_messages(visitor)
+['You have been logged-in successfully.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> visitor.getLink('Master data').click()
@@ -705,13 +728,17 @@ password immediately asks the user for his new credentials:
 >>> visitor.getControl('password', index=0).value = 'utzer123'
 >>> visitor.getControl('password repetition').value = 'utzer123'
 >>> visitor.getControl('Apply').click()
->>> get_messages(visitor)
-['You changed the password, please re-login.', 'Data successfully updated.']
+>>> pprint(get_messages(visitor))
+['You changed the password, please re-login.',
+ 'Data successfully updated.',
+ 'To log-in enter your username and password and submit the form.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = 'utzer123'
 >>> visitor.getControl('Log in').click()
+>>> get_messages(visitor)
+['You have been logged-in successfully.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals'
 >>> print visitor.contents
@@ -721,9 +748,14 @@ password immediately asks the user for his new credentials:
 The new password can also be used at normal log-in:
 
 >>> visitor.getLink('Logout').click()
+>>> pprint(get_messages(visitor))
+['You have been logged out successfully.',
+ 'To log-in enter your username and password and submit the form.']
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = 'utzer123'
 >>> visitor.getControl('Log in').click()
+>>> pprint(get_messages(visitor))
+['You have been logged-in successfully.']
 >>> visitor.url
 'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@index.html'
 
@@ -745,6 +777,8 @@ user:
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 >>> browser.getLink('Someone, Else').click()
