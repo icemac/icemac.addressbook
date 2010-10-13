@@ -149,7 +149,7 @@ def add_more_addressbook_infrastructure(addressbook):
             addressbook, zope.authentication.interfaces.IAuthentication, '',
             zope.app.authentication.authentication.PluggableAuthentication)
         pau.credentialsPlugins = (u'No Challenge if Authenticated',
-                                  u'Session Credentials',)
+                                  u'Flashed Session Credentials',)
         pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
 
     # default preferences

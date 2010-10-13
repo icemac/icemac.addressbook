@@ -68,7 +68,7 @@ Set up
 
 At first we have to create a new principal and log in:
 
->>> from icemac.addressbook.testing import create_user
+>>> from icemac.addressbook.testing import create_user, get_messages
 >>> create_user(address_book, address_book, u'Hans', u'Tester', u'hans@test.de',
 ...             u'12345678', ('Editor',))
 >>> editor = ExtendedTestBrowser()
@@ -76,6 +76,8 @@ At first we have to create a new principal and log in:
 >>> editor.getControl('User Name').value = 'hans@test.de'
 >>> editor.getControl('Password').value = '12345678'
 >>> editor.getControl('Log in').click()
+>>> get_messages(editor)
+['You have been logged-in successfully.']
 >>> editor.url
 'http://localhost/++skin++AddressBook/ab/Person'
 

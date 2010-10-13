@@ -1,6 +1,6 @@
 <div id="info-messages">
   <script language="JavaScript">
-    $(document).ready(function() { setTimeout(function() {$("#info-messages").fadeOut("normal")}, 2000); })
+    $(document).ready(function() { setTimeout(function() {$("#info-messages").fadeOut("normal")}, 3000); })
   </script>
   <ul>
     <li tal:repeat="message view/messages"

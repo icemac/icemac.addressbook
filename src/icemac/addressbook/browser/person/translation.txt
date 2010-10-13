@@ -16,7 +16,7 @@ Create an address book:
 
 Create a browser and log in an editor which perferres German:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic editor:editor')
 >>> browser.addHeader('Accept-Language', 'de')
@@ -28,6 +28,7 @@ Translation of country name
 
 The country names are translated in the country dropdown:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Person', index=1).click()
 >>> browser.getControl('Land').displayValue
 ['Deutschland']
@@ -35,6 +36,8 @@ The country names are translated in the country dropdown:
 >>> browser.getControl('Ort').value = 'Thun'
 >>> browser.getControl('Familienname').value = 'Deutsch'
 >>> browser.getControl('Hinzufügen').click()
+>>> get_messages(browser)
+[u'\u201eDeutsch\u201c hinzugef\xfcgt.']
 
 The the main postal address drop down is also translated:
 

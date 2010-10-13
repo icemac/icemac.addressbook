@@ -28,12 +28,14 @@ Log in screen
 As cookie authorization is used an unauthorized user is redirected to
 the log-in page:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> get_messages(browser)
+['To log-in enter your username and password and submit the form.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
-
 
 Login failure
 =============
@@ -47,6 +49,8 @@ Wrong user name
 >>> browser.getControl('User Name').value = 'wrong_username@example.com'
 >>> browser.getControl('Password').value = '23456789'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['Login failed. Username and/or password might be wrong.']
 >>> print browser.contents
 <!DOCTYPE...
 <p>
@@ -61,6 +65,8 @@ Wrong password
 >>> browser.getControl('User Name').value = 'editor@example.com'
 >>> browser.getControl('Password').value = '13456789'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['Login failed. Username and/or password might be wrong.']
 >>> print browser.contents
 <!DOCTYPE...
 <p>
@@ -83,13 +89,14 @@ Login as editor
 >>> browser.getControl('User Name').value = 'editor@example.com'
 >>> browser.getControl('Password').value = '23456789'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> browser.getLink('Person list').click()
 
 Editors are allowed to create new persons:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Prause'
 >>> browser.getControl('Add').click()
@@ -104,7 +111,11 @@ Editors are allowed to create new persons:
 
 Selecting the ``Logout``-Link leads to the log-in form:
 
+>>> from pprint import pprint
 >>> browser.getLink('Logout').click()
+>>> pprint(get_messages(browser))
+['You have been logged out successfully.',
+ 'To log-in enter your username and password and submit the form.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 
@@ -115,6 +126,8 @@ Login as visitor
 >>> browser.getControl('User Name').value = 'visitor@example.com'
 >>> browser.getControl('Password').value = '12345678'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@index.html'
 >>> browser.getLink('Person list').click()
@@ -130,6 +143,9 @@ text fields):
 Logout behaves the same like for editors:
 
 >>> browser.getLink('Logout').click()
+>>> pprint(get_messages(browser))
+['You have been logged out successfully.',
+ 'To log-in enter your username and password and submit the form.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2FPerson-4%2F%40%40index.html'
 
@@ -140,6 +156,8 @@ Login as administrator
 >>> browser.getControl('User Name').value = 'admin@example.com'
 >>> browser.getControl('Password').value = '34567890'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person-4/@@index.html'
 
@@ -154,6 +172,9 @@ Administrators are able to edit users
 ...Visitor, Viktor...
 
 >>> browser.getLink('Logout').click()
+>>> pprint(get_messages(browser))
+['You have been logged out successfully.',
+ 'To log-in enter your username and password and submit the form.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
 
@@ -170,5 +191,7 @@ the user was created in (password does not get accepted):
 >>> browser.getControl('User Name').value = 'admin@example.com'
 >>> browser.getControl('Password').value = '34567890'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['Login failed. Username and/or password might be wrong.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab2/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab2%2F%40%40index.html'

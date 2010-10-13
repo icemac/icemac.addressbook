@@ -44,9 +44,12 @@ select an entity first and then choose the `add field` link:
 
 Selecting the `choice` type requires values:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.getControl('type').displayValue = ['choice']
 >>> browser.getControl('title').value = 'foobar'
 >>> browser.getControl(name='form.buttons.add').click()
+>>> get_messages(browser)
+[]
 >>> browser.url
 'http://localhost/.../icemac.addressbook.person.Person/@@addField.html'
 >>> print browser.contents
@@ -77,7 +80,6 @@ Edit a field
 
 When editing the added field the previously entered values are displayed:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Edit', index=1).click()
 >>> edit_field_url = browser.url
 >>> edit_field_url
@@ -368,10 +370,10 @@ about the deletion. When choosing cancel the field does not get deleted:
 Neither editors nor visitors are able to delete a field even when they
 know the url:
 
->>> editor.open(delete_field_url).click()
+>>> editor.open(delete_field_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
->>> visitor.open(delete_field_url).click()
+>>> visitor.open(delete_field_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 
@@ -447,6 +449,8 @@ of the previously deleted field is not reused:
 >>> browser.getControl('type').displayValue = ['bool']
 >>> browser.getControl('title').value = 'really?'
 >>> browser.getControl(name='form.buttons.add').click()
+>>> get_messages(browser)
+['"really?" added.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
 >>> browser.getLink('Edit', index=1).url

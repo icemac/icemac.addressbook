@@ -33,6 +33,8 @@ Clicking on it, deselects it, so no country is selected afterwards.):
 >>> browser.getControl('URL').value = 'qqqqq'
 >>> browser.getControl('Germany').click() # deselects default selection
 >>> browser.getControl('Add').click()
+>>> get_messages(browser)
+[]
 >>> print browser.contents
 <!DOCTYPE...
       <div class="status">
@@ -154,6 +156,8 @@ changes were not saved:
 >>> browser.getControl('URL').value = 'http://petra.example.com'
 >>> browser.getControl('number', index=1).value = u'110'
 >>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab'
 >>> print browser.contents

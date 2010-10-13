@@ -26,10 +26,13 @@ A local administrator was not able to edit the entities.
 Log in as the local administrator and navigate to the edit entities
 section of the master data:
 
+>>> from icemac.addressbook.testing import get_messages
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getControl('User Name').value = 'ad@min.de'
 >>> browser.getControl('Password').value = '12345678'
 >>> browser.getControl('Log in').click()
+>>> get_messages(browser)
+['You have been logged-in successfully.']
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
@@ -50,7 +53,6 @@ Choice field values could not contain non ascii characters.
 Create a user defined choice field and a values containing a non ascii
 character:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.person.Person'
