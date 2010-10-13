@@ -58,7 +58,15 @@ def get_needed_resources(self):
         getattr(icemac.addressbook.browser.resource, self.need).need()
 
 
-class BaseView(object):
+class FlashView(object):
+    """Base class to send flash messages."""
+
+    def send_flash(self, message):
+        zope.component.getUtility(
+            z3c.flashmessage.interfaces.IMessageSource).send(message)
+
+
+class BaseView(FlashView):
     "Base for view classes."
 
     need = None # name of a resource from icemac.addressbook.browser.resource
@@ -92,10 +100,6 @@ class BaseForm(BaseView):
             field_values = fields.getFieldValuesInOrder()
         return z3c.form.field.Fields(*field_values)
 
-    def add_status(self, message):
-        zope.component.getUtility(
-            z3c.flashmessage.interfaces.IMessageSource).send(message)
-
     class status(classproperty.classproperty):
         def __get__(self):
             return self._status
@@ -105,7 +109,7 @@ class BaseForm(BaseView):
                 # too, as they must be displayed on the next page after the
                 # redirect. But we need them to determine whether a redirect
                 # is necessary, too.
-                self.add_status(message)
+                self.send_flash(message)
             self._status = message
 
 
