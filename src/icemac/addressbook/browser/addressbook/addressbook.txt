@@ -187,7 +187,6 @@ When he decides to delete all persons he is led back to then person
 list where only the users are still shown:
 
 >>> browser.getControl('Delete all persons in address book').click()
->>> browser.handleErrors = False
 >>> browser.getControl('Yes, delete').click()
 >>> get_messages(browser)
 ['Address book contents deleted.']
