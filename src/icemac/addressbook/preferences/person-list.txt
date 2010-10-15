@@ -51,6 +51,24 @@ person list, too. At first we need some persons:
 ...     return_obj=False)
 >>> create_full_person(ab, ab, u'Utzer', return_obj=False)
 
+Cancel editing
+--------------
+
+When the user decides to cancel his changes, they don not get saved:
+
+>>> from icemac.addressbook.testing import in_out_widget_select, get_messages
+>>> in_out_widget_select(browser, 'form.widgets.columns',
+...     [browser.getControl('person -- birth date', index=0),
+...      browser.getControl('person -- first name', index=0),
+...      browser.getControl('person -- last name', index=0)])
+>>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
+>>> browser.getLink('Preferences').click()
+>>> browser.getControl(name='form.widgets.columns.to').displayOptions
+['person -- last name', 'person -- first name']
+
+
 Date column
 -----------
 
