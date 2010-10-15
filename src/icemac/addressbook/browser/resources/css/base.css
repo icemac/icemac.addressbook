@@ -133,3 +133,36 @@ div#info-messages ul li {
 dl#about dd {
     text-indent: 3em;
 }
+
+/* error messages */
+div.status div.summary {
+    background-image: url(/++resource++img/Symbol-Error.png);
+    background-repeat: no-repeat;
+    background-position: 1px 1px;
+    padding-left: 36px;
+    padding-top: 7px;
+    height: 25px;
+    background-color: #FFCC66;
+    border: 5px ridge #996633;
+}
+
+div.status ul.errors li {
+    background-image: url(/++resource++img/Symbol-Error.png);
+    background-repeat: no-repeat;
+    background-position: 1px 1px;
+    padding-left: 36px;
+    list-style-type: none;
+}
+
+div.error div.error {
+    color: red;
+}
+
+/* background */
+
+#content {
+    background-image: url(/++resource++img/ring_binder_book_red.jpg);
+    background-repeat: no-repeat;
+    background-position: right 5px;
+    min-height: 480px;
+}
