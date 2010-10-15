@@ -6,7 +6,7 @@ import icemac.addressbook.browser.resource
 import z3c.preference.browser
 
 
-class EditForm(icemac.addressbook.browser.base.BaseEditForm,
+class EditForm(icemac.addressbook.browser.base.BaseEditFormWithCancel,
                z3c.preference.browser.EditForm):
     """Preference EditForm which uses addressbook's form CSS."""
 
