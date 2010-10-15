@@ -13,7 +13,8 @@ Features
 - Added an "about addressbook" view which shows the version number. The blue
   "i" right of "icemac.addressbook" in each view is a link to it.
 
-- Added messages telling about successful saving of a form.
+- Added messages telling about successful actions, e. g. applying or
+  canceling a form.
 
 - Made it possible to sort the entities.
 
