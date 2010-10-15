@@ -42,8 +42,12 @@ class MetadataGroup(z3c.form.group.Group):
 
 ModifiedLabel = z3c.form.widget.StaticWidgetAttribute(
     _(u'Modification Date (UTC)'),
-      field=zope.dublincore.interfaces.IDCTimes['modified'])
+    field=zope.dublincore.interfaces.IDCTimes['modified'])
 
 CreatedLabel = z3c.form.widget.StaticWidgetAttribute(
     _(u'Creation Date (UTC)'),
-      field=zope.dublincore.interfaces.IDCTimes['created'])
+    field=zope.dublincore.interfaces.IDCTimes['created'])
+
+MetadataGroupFieldsNotRequired = z3c.form.widget.StaticWidgetAttribute(
+    False,
+    view=MetadataGroup)
