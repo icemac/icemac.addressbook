@@ -31,9 +31,9 @@ Bug fixes
 Other changes
 -------------
 
-- Updated to `Zope Toolkit 1.0c1`_ for dependent packages.
+- Updated to `Zope Toolkit 1.0`_ for dependent packages.
 
-.. _`Zope Toolkit 1.0c1`: http://docs.zope.org/zopetoolkit/releases/overview-1.0c1.html
+.. _`Zope Toolkit 1.0`: http://docs.zope.org/zopetoolkit/releases/overview-1.0.html
 
 
 1.4.0 (2010-08-19)
