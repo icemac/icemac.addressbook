@@ -1,0 +1,130 @@
+=================================================
+ Entity and field sort order in preferences form
+=================================================
+
+The preferences form reflects the sort order defined for entities and
+fields.
+
+Set up
+======
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> ab = create_addressbook()
+>>> browser = Browser()
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+
+Columns field
+=============
+
+Default sort order
+------------------
+
+Using the default sort order, the contents columns field are ordered the
+following way:
+
+>>> from pprint import pprint
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl(name='form.widgets.columns.from').displayOptions)
+['person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'phone number -- number',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL']
+
+
+The sort order can be changed in the entities master data:
+
+>>> from icemac.addressbook.testing import get_messages
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+
+When moving the phone numer one position up, the sort order in the
+columns fields changes accordingly:
+
+>>> browser.getLink('up', index=3).click()
+>>> get_messages(browser)
+['Moved phone number up.']
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl(name='form.widgets.columns.from').displayOptions)
+['person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'phone number -- number',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL']
+
+
+Order by field
+==============
+
+Set up
+------
+
+>>> ab2 = create_addressbook('ab2')
+>>> browser.open('http://localhost/++skin++AddressBook/ab2')
+
+
+Default sort order
+------------------
+
+Using the default sort order, the contents of the order by field are ordered
+the following way:
+
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl('order by').displayOptions)
+['person -- first name',
+ 'person -- last name',
+ 'person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'phone number -- number',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL']
+
+
+The sort order can be changed in the entities master data:
+
+>>> from icemac.addressbook.testing import get_messages
+>>> browser.getLink('Master data').click()
+>>> browser.getLink('Entities').click()
+
+When moving the phone numer one position up, the sort order in the order by
+field changes accordingly:
+
+>>> browser.getLink('up', index=3).click()
+>>> get_messages(browser)
+['Moved phone number up.']
+>>> browser.getLink('Preferences').click()
+>>> pprint(browser.getControl('order by').displayOptions)
+['person -- first name',
+ 'person -- last name',
+ 'person -- birth date',
+ 'person -- keywords',
+ 'person -- notes',
+ 'phone number -- number',
+ 'postal address -- address prefix',
+ 'postal address -- street',
+ 'postal address -- city',
+ 'postal address -- zip',
+ 'postal address -- country',
+ 'e-mail address -- e-mail address',
+ 'home page address -- URL']

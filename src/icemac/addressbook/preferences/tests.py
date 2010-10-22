@@ -7,8 +7,9 @@ import icemac.addressbook.testing
 
 def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
+        'person-list-batching.txt',
         'person-list-userfields.txt',
         'person-list.txt',
-        'person-list-batching.txt',
         'preferences.txt',
+        'sortorder.txt',
         package="icemac.addressbook.preferences")
