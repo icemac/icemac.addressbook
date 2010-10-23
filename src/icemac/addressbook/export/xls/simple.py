@@ -122,6 +122,10 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
             lambda x:x,
             self.translate(_('person')))
 
+    def get_entities(self):
+        return zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities).getMainEntities()
+
 
 class DefaultsExport(XLSExport):
 
@@ -130,11 +134,14 @@ class DefaultsExport(XLSExport):
         u'Exports person data and main addresses resp. phone numbers.')
 
     def _export(self):
-        self.write_person_data()
-        for address in icemac.addressbook.address.address_mapping:
-            self.write_col(address['interface'],
-                           lambda x:getattr(x, 'default_'+address['prefix']),
-                           self.translate(address['title']))
+        for entity in self.get_entities():
+            if entity.interface == icemac.addressbook.interfaces.IPerson:
+                self.write_person_data()
+            else:
+                self.write_col(
+                    entity.interface,
+                    lambda x:getattr(x, entity.tagged_values['default_attrib']),
+                    self.translate(entity.title))
 
 
 class CompleteExport(XLSExport):
@@ -144,12 +151,15 @@ class CompleteExport(XLSExport):
         u'Exports person data and all addresses resp. phone numbers.')
 
     def _export(self):
-        self.write_person_data()
-        for address in icemac.addressbook.address.address_mapping:
-            self.write_block(
-                address['interface'], address['prefix'], address['title'])
+        for entity in self.get_entities():
+            if entity.interface == icemac.addressbook.interfaces.IPerson:
+                self.write_person_data()
+            else:
+                self.write_block(
+                    entity.interface, entity.tagged_values['default_attrib'],
+                    entity.title)
 
-    def write_block(self, iface, prefix, title):
+    def write_block(self, iface, default_attrib, title):
         num_blocks = 0
         blocks_with_header = 0
         start_col = max_col = self.col
@@ -157,15 +167,14 @@ class CompleteExport(XLSExport):
         for person in self.persons:
             row += 1
             # write default objs first
-            default_obj = getattr(person, 'default_' + prefix)
+            default_obj = getattr(person, default_attrib)
             if default_obj is None:
                 continue
             if num_blocks == 0:
                 max_col = self.write_headlines(
                     start_col, iface,
                     self.translate(
-                        _(u'${prefix} ${title}',
-                          mapping=dict(prefix=_(u'main'), title=title))))
+                        _(u'main ${address}', mapping=dict(address=title))))
                 num_blocks = 1
                 blocks_with_header = 1
             col = self.write_obj(row, start_col, iface, default_obj)
@@ -184,8 +193,7 @@ class CompleteExport(XLSExport):
                 max_col = self.write_headlines(
                     max_col, iface,
                     self.translate(
-                        _(u'${prefix} ${title}',
-                          mapping=dict(prefix=_(u'other'), title=title)))
+                        _(u'other ${address}', mapping=dict(address=title)))
                     )
                 blocks_with_header += 1
             for obj in objs:
