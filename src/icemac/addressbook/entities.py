@@ -51,7 +51,7 @@ class Entities(object):
 
 
 class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
-    "Predefined and user defined entities in the address book."
+    "Predefined entities and user defined fields in the address book."
 
 
 @zope.component.adapter(str)
