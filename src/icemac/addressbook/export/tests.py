@@ -70,6 +70,8 @@ def test_suite():
         TestInterfaces, Test__eq__, Test_export)
     suite.addTest(icemac.addressbook.testing.FunctionalDocFileSuite(
         'export/export.txt',
-        'export/userfields.txt'))
+        'export/sortorder.txt',
+        'export/userfields.txt',
+        ))
     return suite
 
