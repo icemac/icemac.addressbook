@@ -137,6 +137,7 @@
   <adapter factory=".entities.field_storage" />
   <adapter factory=".entities.entity_by_name" />
   <adapter factory=".entities.entity_by_interface" />
+  <adapter factory=".entities.entity_by_obj" />
 
   <adapter
       for=".interfaces.IField"

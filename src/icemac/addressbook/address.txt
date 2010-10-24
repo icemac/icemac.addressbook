@@ -163,26 +163,12 @@ Helper functions
 There are some helper funtions to convert interfaces, prefixes,
 classes and titles around addresses:
 
-    >>> icemac.addressbook.address.object_to_prefix(
-    ...     icemac.addressbook.address.PostalAddress())
-    'postal_address'
-    >>> icemac.addressbook.address.object_to_prefix(object())
-    Traceback (most recent call last):
-    KeyError: <object object at 0x...>
-
     >>> icemac.addressbook.address.object_to_title(
     ...     icemac.addressbook.address.PhoneNumber())
     u'phone number'
     >>> icemac.addressbook.address.object_to_title(object())
     Traceback (most recent call last):
     KeyError: <object object at 0x...>
-
-    >>> icemac.addressbook.address.object_to_class(
-    ...     icemac.addressbook.address.EMailAddress())
-    <class 'icemac.addressbook.address.EMailAddress'>
-    >>> icemac.addressbook.address.object_to_class(object())
-    Traceback (most recent call last):
-    KeyError: <object object at 0...>
 
     >>> icemac.addressbook.address.prefix_to_class('postal_address')
     <class 'icemac.addressbook.address.PostalAddress'>

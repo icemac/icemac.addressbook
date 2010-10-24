@@ -4,10 +4,11 @@
 
 """Some entity stubs."""
 
-import zope.interface
-import zope.component
-import icemac.addressbook.interfaces
 import icemac.addressbook.entities
+import icemac.addressbook.interfaces
+import persistent
+import zope.component
+import zope.interface
 
 
 class IDuck(zope.interface.Interface):
@@ -30,7 +31,7 @@ class IKwack(zope.interface.Interface):
     pass
 
 
-class Kwack(object):
+class Kwack(persistent.Persistent):
     zope.interface.implements(IKwack)
 
 
