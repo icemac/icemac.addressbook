@@ -3,11 +3,13 @@
 # See also LICENSE.txt
 import icemac.addressbook.interfaces
 import persistent
+import persistent.interfaces
 import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface.interfaces
 import zope.schema
+
 
 MAIN_ENTITIES_NAME_SUFFIXES = [
     'person.Person',
@@ -78,6 +80,18 @@ def entity_by_interface(interface):
     # no entity found, create one on the fly, so all entities (even not
     # preconfigured ones) can be used the same way.
     return Entity(None, interface, None)
+
+
+@zope.component.adapter(persistent.interfaces.IPersistent)
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
+def entity_by_obj(obj):
+    "Adapt instance to entity."
+    entities = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
+    for candidate in entities:
+        if candidate.interface.providedBy(obj):
+            return candidate
+    raise ValueError("Unknown obj: %r" % obj)
 
 
 class EntityOrder(object):

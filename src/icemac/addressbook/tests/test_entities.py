@@ -17,10 +17,6 @@ class EntitiesTests(object):
         from icemac.addressbook.tests.stubs import setUpStubEntities
         zope.component.testing.setUp()
         setUpStubEntities(self, self.entities_class)
-        zope.component.provideAdapter(
-            icemac.addressbook.entities.entity_by_name)
-        zope.component.provideAdapter(
-            icemac.addressbook.entities.entity_by_interface)
         # sort order
         order_store = icemac.addressbook.orderstorage.OrderStorage()
         order_store.add(self.cat.name, icemac.addressbook.interfaces.ENTITIES)
@@ -49,41 +45,6 @@ class EntitiesTests(object):
         self.assertEqual(
             [self.cat, self.duck, self.kwack],
             self.entities.getEntities())
-
-    def test_getEntity_unknown_type(self):
-        self.assertRaises(
-            TypeError, icemac.addressbook.interfaces.IEntity, None)
-
-    def test_getEntity_unknown_name(self):
-        self.assertRaises(
-            ValueError, icemac.addressbook.interfaces.IEntity, 'asdf')
-
-    def test_getEntity_class_name(self):
-        self.assertRaises(
-            ValueError, icemac.addressbook.interfaces.IEntity,
-            'icemac.addressbook.tests.stubs.Duck')
-
-    def test_getEntity_known_name(self):
-        self.assertEqual(
-            self.duck, icemac.addressbook.interfaces.IEntity(
-                'IcemacAddressbookTestsStubsDuck'))
-
-    def test_getEntity_unknown_interface(self):
-        from icemac.addressbook.tests.stubs import IDog
-        entity = icemac.addressbook.interfaces.IEntity(IDog)
-        self.assert_(None is entity.title)
-        self.assert_(IDog is entity.interface)
-        self.assert_(None is entity.class_name)
-
-    def test_getEntity_known_interface(self):
-        from icemac.addressbook.tests.stubs import IKwack
-        self.assertEqual(
-            self.kwack, icemac.addressbook.interfaces.IEntity(IKwack))
-
-    def test_getTitle(self):
-        self.assertEqual(
-            u'Kwack', icemac.addressbook.interfaces.IEntity(
-                'IcemacAddressbookTestsStubsKwack').title)
 
 
 class TestEntities(EntitiesTests, unittest.TestCase):
@@ -276,3 +237,72 @@ class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
         self.assertRaises(
             zope.component.ComponentLookupError,
             self.entity_order.get, self.getEntity('IPerson'))
+
+
+class TestEntityAdapters(unittest.TestCase):
+
+    def setUp(self):
+        from icemac.addressbook.tests.stubs import setUpStubEntities
+        zope.component.testing.setUp()
+        setUpStubEntities(self, icemac.addressbook.entities.Entities)
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.entity_by_name)
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.entity_by_interface)
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.entity_by_obj)
+
+    def tearDown(self):
+        zope.component.testing.tearDown()
+
+    # no adapter
+    def test_unknown_type(self):
+        self.assertRaises(
+            TypeError, icemac.addressbook.interfaces.IEntity, None)
+
+    # adaption from string
+    def test_unknown_name(self):
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity, 'asdf')
+
+    def test_class_name(self):
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity,
+            'icemac.addressbook.tests.stubs.Duck')
+
+    def test_known_name(self):
+        self.assertEqual(
+            self.duck, icemac.addressbook.interfaces.IEntity(
+                'IcemacAddressbookTestsStubsDuck'))
+
+    # adaption from interface
+    def test_unknown_interface(self):
+        from icemac.addressbook.tests.stubs import IDog
+        entity = icemac.addressbook.interfaces.IEntity(IDog)
+        self.assert_(None is entity.title)
+        self.assert_(IDog is entity.interface)
+        self.assert_(None is entity.class_name)
+
+    def test_known_interface(self):
+        from icemac.addressbook.tests.stubs import IKwack
+        self.assertEqual(
+            self.kwack, icemac.addressbook.interfaces.IEntity(IKwack))
+
+    # adaption from object
+    def test_unknown_object(self):
+        from persistent import Persistent
+        obj = Persistent()
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity, obj)
+
+    def test_known_object(self):
+        from icemac.addressbook.tests.stubs import Kwack
+        self.assertEqual(
+            self.kwack, icemac.addressbook.interfaces.IEntity(Kwack()))
+
+    # title
+    def test_getTitle(self):
+        self.assertEqual(
+            u'Kwack', icemac.addressbook.interfaces.IEntity(
+                'IcemacAddressbookTestsStubsKwack').title)
+

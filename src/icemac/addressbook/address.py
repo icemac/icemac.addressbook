@@ -167,27 +167,11 @@ address_mapping = (
     )
 
 
-def object_to_prefix(obj):
-    """Convert an object to its prefix."""
-    for data in address_mapping:
-        if data['interface'].providedBy(obj):
-            return data['prefix']
-    raise KeyError(obj)
-
-
 def object_to_title(obj):
     """Convert an object to its title."""
     for data in address_mapping:
         if data['interface'].providedBy(obj):
             return data['title']
-    raise KeyError(obj)
-
-
-def object_to_class(obj):
-    """Convert an object to its class."""
-    for data in address_mapping:
-        if data['interface'].providedBy(obj):
-            return data['class_']
     raise KeyError(obj)
 
 
