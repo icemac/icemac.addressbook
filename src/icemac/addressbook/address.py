@@ -145,39 +145,3 @@ def default_attrib_name_to_entity(default_attrib_name):
         if candidate.tagged_values.get('default_attrib') == default_attrib_name:
             return candidate
     raise ValueError("Unknown default_attrib_name: %r" % default_attrib_name)
-
-
-address_mapping = (
-    dict(interface=icemac.addressbook.interfaces.IPostalAddress,
-         title=_(u'postal address'),
-         prefix='postal_address',
-         class_=PostalAddress),
-    dict(interface=icemac.addressbook.interfaces.IPhoneNumber,
-         title=_(u'phone number'),
-         prefix='phone_number',
-         class_=PhoneNumber),
-    dict(interface=icemac.addressbook.interfaces.IEMailAddress,
-         title=_(u'e-mail address'),
-         prefix='email_address',
-         class_=EMailAddress),
-    dict(interface=icemac.addressbook.interfaces.IHomePageAddress,
-         title=_(u'home page address'),
-         prefix='home_page_address',
-         class_=HomePageAddress),
-    )
-
-
-def object_to_title(obj):
-    """Convert an object to its title."""
-    for data in address_mapping:
-        if data['interface'].providedBy(obj):
-            return data['title']
-    raise KeyError(obj)
-
-
-def prefix_to_class(prefix):
-    """Convert a prefix to its class."""
-    for address in icemac.addressbook.address.address_mapping:
-        if address['prefix'] == prefix:
-            return address['class_']
-    raise KeyError(prefix)

@@ -155,23 +155,3 @@ Setting attribute values leads to more telling titles:
     >>> n.number = u'+017912345678'
     >>> icemac.addressbook.interfaces.ITitle(n)
     u'+017912345678'
-
-
-Helper functions
-================
-
-There are some helper funtions to convert interfaces, prefixes,
-classes and titles around addresses:
-
-    >>> icemac.addressbook.address.object_to_title(
-    ...     icemac.addressbook.address.PhoneNumber())
-    u'phone number'
-    >>> icemac.addressbook.address.object_to_title(object())
-    Traceback (most recent call last):
-    KeyError: <object object at 0x...>
-
-    >>> icemac.addressbook.address.prefix_to_class('postal_address')
-    <class 'icemac.addressbook.address.PostalAddress'>
-    >>> icemac.addressbook.address.prefix_to_class('asdf')
-    Traceback (most recent call last):
-    KeyError: 'asdf'

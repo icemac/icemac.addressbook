@@ -268,33 +268,29 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 class PersonEntriesSource(
     zc.sourcefactory.contextual.BasicContextualSourceFactory):
-    "Source to select entries from person."
+    "Source to select entries (addresses, files, ...) from a person."
 
     def getValues(self, context):
-        for address in icemac.addressbook.address.address_mapping:
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities).getEntities()
+        for entity in entities:
+            if entity.interface is None:
+                continue
             for value in icemac.addressbook.sources.ContextByInterfaceSource(
-                    address['interface']).factory.getValues(context):
+                    entity.interface).factory.getValues(context):
                 yield value
-        for value in icemac.addressbook.sources.ContextByInterfaceSource(
-            icemac.addressbook.file.interfaces.IFile).factory.getValues(
-            context):
-            yield value
 
     def getTitle(self, context, value):
-        try:
-            title_prefix = icemac.addressbook.address.object_to_title(value)
-        except KeyError:
-            # up to now there are only files besides the address entries
-            title_prefix = _('file')
-        title = icemac.addressbook.interfaces.ITitle(value)
-        if title_prefix:
-            title = _('${prefix} -- ${title}',
-                      mapping=dict(prefix=title_prefix, title=title))
+        entity = icemac.addressbook.interfaces.IEntity(value)
+        title = _('${prefix} -- ${title}',
+                  mapping=dict(
+                      prefix=entity.title,
+                      title=icemac.addressbook.interfaces.ITitle(value)))
         return title
 
 
 class IPersonEntries(zope.interface.Interface):
-    """Content entries of an object."""
+    """Content entries of a person."""
 
     entry = zope.schema.Choice(
         title=_(u'Entries'), source=PersonEntriesSource())
