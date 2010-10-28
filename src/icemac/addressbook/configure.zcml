@@ -23,6 +23,7 @@
   <include package="zope.app.appsetup" />
   <include package="zope.pluggableauth" />
   <include package="zope.pluggableauth.plugins" file="generic.zcml"/>
+  <include package="zope.pluggableauth.plugins" file="principalfolder.zcml"/>
   <include package="zope.app.principalannotation" file="bootstrap.zcml"/>
   <include package="zope.app.publication" />
   <include package="zope.catalog" />
