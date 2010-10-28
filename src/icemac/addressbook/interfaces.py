@@ -29,7 +29,8 @@ class IAddressBook(zope.interface.Interface):
     keywords = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IKeywords')
     principals = zope.interface.Attribute(
-        u'zope.app.authentication.principalfolder.IInternalPrincipalContainer')
+        u'zope.pluggableauth.plugins.principalfolder.'
+        u'IInternalPrincipalContainer')
     importer =  zope.interface.Attribute(
         u'icemac.addressbook.importer.interfaces.IImportContainer')
     entities =  zope.interface.Attribute(

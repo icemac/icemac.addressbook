@@ -9,7 +9,7 @@ import zope.location.interfaces
 import zope.intid.interfaces
 import zope.catalog.interfaces
 import zope.authentication.interfaces
-import zope.app.authentication.interfaces
+import zope.pluggableauth.interfaces
 import icemac.addressbook.utils
 
 
@@ -29,7 +29,7 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
             ab, 'keywords', icemac.addressbook.interfaces.IKeywords)
         self.assertAttribute(
             ab, 'principals',
-            zope.app.authentication.interfaces.IAuthenticatorPlugin)
+            zope.pluggableauth.interfaces.IAuthenticatorPlugin)
         self.assertAttribute(
             ab, 'entities',
             icemac.addressbook.interfaces.IEntities)
