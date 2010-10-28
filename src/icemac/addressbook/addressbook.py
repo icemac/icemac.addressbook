@@ -13,9 +13,9 @@ import icemac.addressbook.preferences.default
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
-import zope.app.authentication.authentication
-import zope.app.authentication.interfaces
-import zope.app.authentication.principalfolder
+import zope.pluggableauth.authentication
+import zope.pluggableauth.interfaces
+import zope.pluggableauth.plugins.principalfolder
 import zope.authentication.interfaces
 import zope.catalog.catalog
 import zope.catalog.interfaces
@@ -83,8 +83,8 @@ def create_address_book_infrastructure(addressbook, event=None):
     # add principals folder
     create_and_register(
         addressbook, 'principals',
-        zope.app.authentication.principalfolder.PrincipalFolder,
-        zope.app.authentication.interfaces.IAuthenticatorPlugin,
+        zope.pluggableauth.plugins.principalfolder.PrincipalFolder,
+        zope.pluggableauth.interfaces.IAuthenticatorPlugin,
         name=u'icemac.addressbook.principals')
 
     # add entities utility
@@ -147,7 +147,7 @@ def add_more_addressbook_infrastructure(addressbook):
             addressbook, zope.authentication.interfaces.IAuthentication):
         pau = zope.app.appsetup.bootstrap.ensureUtility(
             addressbook, zope.authentication.interfaces.IAuthentication, '',
-            zope.app.authentication.authentication.PluggableAuthentication)
+            zope.pluggableauth.authentication.PluggableAuthentication)
         pau.credentialsPlugins = (u'No Challenge if Authenticated',
                                   u'Flashed Session Credentials',)
         pau.authenticatorPlugins = (u'icemac.addressbook.principals',)

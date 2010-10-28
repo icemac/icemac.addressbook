@@ -3,11 +3,6 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="icemac.addressbook">
 
-  <exclude package="zope.app.authentication.browser" file="session.zcml" />
-  <exclude package="zope.app.authentication.browser" file="httpplugins.zcml" />
-  <exclude package="zope.app.authentication.browser" file="principalfolder.zcml" />
-  <exclude package="zope.app.authentication.browser" file="groupfolder.zcml" />
-  <exclude package="zope.app.authentication.browser" />
   <exclude package="zc.catalog.browser" />
   <exclude package="zope.dublincore.browser" />
   <exclude package="z3c.form" file="file.zcml" />
@@ -26,7 +21,8 @@
   <include package="zope.generations" file="subscriber.zcml" />
 
   <include package="zope.app.appsetup" />
-  <include package="zope.app.authentication" />
+  <include package="zope.pluggableauth" />
+  <include package="zope.pluggableauth.plugins" file="generic.zcml"/>
   <include package="zope.app.principalannotation" file="bootstrap.zcml"/>
   <include package="zope.app.publication" />
   <include package="zope.catalog" />
@@ -50,6 +46,7 @@
   <include package="zope.publisher" />
   <include package="zope.traversing" />
   <include package="zope.traversing.browser" />
+  <include package="zope.password" />
 
   <!-- own component registrations -->
 

@@ -89,24 +89,32 @@ setuptools.setup(
         'zc.sourcefactory',
         'zdaemon',
         'zope.app.appsetup',
-        'zope.app.authentication',
         'zope.app.debug',
         'zope.app.locales >= 3.6.0',
         'zope.app.principalannotation',
         'zope.app.wsgi',
         'zope.browserpage',
+        'zope.copypastemove',
         'zope.generations',
         'zope.globalrequest',
         'zope.i18n [zcml,compile]',
         'zope.interface',
         'zope.login',
         'zope.mimetype',
+        'zope.pluggableauth',
         'zope.preference',
         'zope.principalregistry',
         'zope.publisher',
         'zope.securitypolicy',
         'zope.session',
         'zope.traversing',
+        'zope.app.authentication', # XXX required by older installations,
+                                   # deprecated and converted in 1.5
+                                   # (evolve3.py), remove in version 1.7 (Add
+                                   # notice to CHANGES.txt then, to show what
+                                   # to do to upgrade when evolve to
+                                   # generation 16 fails.)
+        'zope.app.form', # XXX needed by zope.mimetype 1.3.0
         ],
     extras_require = dict(
         test=[

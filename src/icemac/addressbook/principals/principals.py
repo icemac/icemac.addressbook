@@ -9,7 +9,7 @@ import gocept.reference
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
 import zope.annotation.interfaces
-import zope.app.authentication.principalfolder
+import zope.pluggableauth.plugins.principalfolder
 import zope.container.interfaces
 import zope.interface
 import zope.lifecycleevent
@@ -22,7 +22,7 @@ EDITOR_VISITOR_PERMS = ('icemac.addressbook.EditPrincipalPassword',
 ONLY_EDITOR_PERMS = ('icemac.addressbook.EditPrincipal', )
 
 
-class Principal(zope.app.authentication.principalfolder.InternalPrincipal):
+class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     """Principal where the password manager cannot be specified."""
 
     zope.interface.implements(
@@ -60,7 +60,7 @@ class Principal(zope.app.authentication.principalfolder.InternalPrincipal):
             return self._password
         def __set__(self, password):
             if password is not None:
-                zope.app.authentication.principalfolder.InternalPrincipal.\
+                zope.pluggableauth.plugins.principalfolder.InternalPrincipal.\
                     setPassword(self, password)
 
     class password_repetition(classproperty.classproperty):
