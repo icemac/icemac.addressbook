@@ -34,3 +34,6 @@ Features
 
 - Completely translated into German, and easily translateable into
   other languages.
+
+- Optimized for the following browsers: Firefox, Safari. IE works but might
+  look ugly.
