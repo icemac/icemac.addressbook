@@ -7,6 +7,7 @@
   <head>
     <tal:block replace="structure provider:login-logout-head" />
     <title>icemac.addressbook</title>
+    <link rel="stylesheet" type="text/css" href="/++resource++css/reset.css" />
     <link rel="stylesheet" type="text/css" href="/++resource++css/base.css" />
   </head>
   <body class="main">

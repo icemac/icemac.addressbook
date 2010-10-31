@@ -23,13 +23,17 @@
      class=".Search"
      />
 
-  <browser:viewletManager
-     name="search-menu"
-     provides=".interfaces.ISearchMenu"
-     class=".menu.SearchMenu"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     permission="zope.Public"
-     />
+  <configure package="icemac.addressbook.browser">
+    <browser:viewletManager
+        name="search-menu"
+        provides=".search.interfaces.ISearchMenu"
+        class=".search.menu.SearchMenu"
+        layer=".interfaces.IAddressBookLayer"
+        template="bullet-menu.pt"
+        permission="zope.Public"
+        />
+  </configure>
+
 
   <browser:viewletManager
      name="search-form"

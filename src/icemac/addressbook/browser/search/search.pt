@@ -1,6 +1,6 @@
 <tal:trans i18n:domain="icemac.addressbook">
-  <span i18n:translate="">Please choose a search.</span>
-  <ul tal:content="structure provider:search-menu">Search menu</ul>
+  <h2 i18n:translate="">Please choose a search.</h2>
+  <ul tal:replace="structure provider:search-menu">Search menu</ul>
   <div tal:content="structure provider:search-form">Form</div>
   <div tal:content="structure provider:search-result">Result</div>
 </tal:trans>

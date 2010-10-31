@@ -56,13 +56,14 @@ together with the number of entries inside:
 >>> browser.open('http://localhost/++skin++AddressBook/')
 >>> print browser.contents
 <!DOCTYPE ...
-<ul>
-  <li>
-    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
-    (0 items)
-    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
- </li>
-</ul>...
+  <ul class="bullet">
+    <li>
+      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+      (0 items)
+      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+   </li>
+  </ul>
+  ...
 
 This view only displays addressbooks, when another object is in the
 root folder it is not listed. (As there is no user interface to add an
@@ -73,7 +74,7 @@ object, I add it directly to the root folder.):
 >>> browser.open('http://localhost/++skin++AddressBook/')
 >>> print browser.contents
 <!DOCTYPE ...
-<ul>
+<ul class="bullet">
   <li>
     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
     (0 items)
@@ -89,7 +90,7 @@ After creating a person one entry is displayed:
 >>> browser.reload()
 >>> print browser.contents
 <!DOCTYPE ...
-<ul>
+<ul class="bullet">
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>        (0 items)
      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
@@ -105,7 +106,7 @@ After creating a person one entry is displayed:
 >>> browser.reload()
 >>> print browser.contents
 <!DOCTYPE ...
-<ul>
+<ul class="bullet">
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
      (0 items)
@@ -189,7 +190,7 @@ overview as well:
 'http://localhost/++skin++AddressBook'
 >>> print browser.contents
 <!DOCTYPE ...
-  <ul>
+  <ul class="bullet">
     <li>
       <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
       (0 items)

@@ -1,8 +1,18 @@
+div#content table {
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+div#content td,
+div#content th {
+    padding: 0 2px;
+}
+
 .table-even-row {
     background-color: #e0e0e0;
 }
 
-td ul {
+div#content td ul {
     padding-left: 1em
 }
 
@@ -17,8 +27,23 @@ td ul {
 
 /* batching */
 
+div.batch {
+    clear: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: lightGrey;
+    opacity: 0.85;
+    padding: 5px 0 3px 25px;
+    width: 100%;
+}
+
+div.batch a {
+    padding: 0 2px;
+}
+
+
 div.batch a.current {
-    font-weight: bold;
-    font-style: italic;
+    border: solid #666 2px;
 }
 
