@@ -25,7 +25,7 @@ At first we log in as manager:
 <!DOCTYPE ...
 <div id="content">
       <h2>Edit master data</h2>
-      <ul>
+      <ul class="bullet">
         <li>
       <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
     </li>
@@ -50,17 +50,17 @@ A user with the editor role sees the following parts:
 >>> editor.getLink('Master data').click()
 >>> print editor.contents
 <!DOCTYPE ...
-<div id="content">
-      <h2>Edit master data</h2>
-      <ul>
-        <li>
-      <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
-    </li>
-    <li>
-      <a href="http://localhost/++skin++AddressBook/ab/++attribute++principals"><span>Users</span></a>
-    </li>
-      </ul>
-    </div>
+      <div id="content">
+  <h2>Edit master data</h2>
+  <ul class="bullet">
+  <li>
+  <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
+</li>
+  <li>
+  <a href="http://localhost/++skin++AddressBook/ab/++attribute++principals"><span>Users</span></a>
+</li>
+</ul>
+</div>
 </div>...
 
 
@@ -75,9 +75,9 @@ A user with the visitor role sees the fewest parts:
 >>> visitor.getLink('Master data').click()
 >>> print visitor.contents
 <!DOCTYPE ...
-<div id="content">
+      <div id="content">
       <h2>Edit master data</h2>
-      <ul>
+      <ul class="bullet">
         <li>
       <a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords"><span>Keywords</span></a>
     </li>

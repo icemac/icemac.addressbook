@@ -25,11 +25,14 @@
      />
 
   <!-- viewlet manager for page contents -->
-  <browser:viewletManager
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     name="master-data"
-     class=".manager.MasterDataManager"
-     permission="zope.Public"
+  <configure package="icemac.addressbook.browser">
+    <browser:viewletManager
+        layer=".interfaces.IAddressBookLayer"
+        name="master-data"
+        class=".masterdata.manager.MasterDataManager"
+        permission="zope.Public"
+        template="bullet-menu.pt"
      />
+  </configure>
 
 </configure>

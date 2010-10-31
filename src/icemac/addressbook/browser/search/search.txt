@@ -41,10 +41,12 @@ overview providing links to the offered search types:
 >>> browser.getLink('Search').click()
 >>> print browser.contents
 <!DOCTYPE ...
-<ul><li>
-    <a href="http://localhost/++skin++AddressBook/ab/@@multi_keyword.html"><span>Keyword search</span></a>
+  <ul class="bullet">
+  <li>
+  <a href="http://localhost/++skin++AddressBook/ab/@@multi_keyword.html"><span>Keyword search</span></a>
   </li>
-</ul>...
+</ul>
+  ...
 
 Keyword search
 ==============
