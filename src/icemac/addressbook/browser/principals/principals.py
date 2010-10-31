@@ -107,6 +107,7 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
 
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
+    label = _(u'Edit user')
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     next_url = 'parent'
