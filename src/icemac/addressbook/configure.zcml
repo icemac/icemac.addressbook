@@ -3,8 +3,6 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="icemac.addressbook">
 
-  <exclude package="zc.catalog.browser" />
-  <exclude package="zope.dublincore.browser" />
   <exclude package="z3c.form" file="file.zcml" />
 
   <include package="zope.app.pagetemplate" file="meta.zcml" />

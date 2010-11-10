@@ -114,7 +114,6 @@ setuptools.setup(
                                    # notice to CHANGES.txt then, to show what
                                    # to do to upgrade when evolve to
                                    # generation 16 fails.)
-        'zope.app.form', # XXX needed by zope.mimetype 1.3.0
         ],
     extras_require = dict(
         test=[
