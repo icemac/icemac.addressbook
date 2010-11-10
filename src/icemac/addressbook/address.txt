@@ -48,6 +48,16 @@ Now some working examples:
     >>> e.email = u'ich@ex-ample.de'
     >>> e.email = u'ich@ex_ample.de'
 
+Some examples from RFC 3696 (Note: not all examples from this RFC are
+supported!):
+
+    >>> e.email = u'user+mailbox@example.com'
+    >>> e.email = u'customer/department=shipping@example.com'
+    >>> e.email = u'$A12345@example.com'
+    >>> e.email = u'!def!xyz%abc@example.com'
+    >>> e.email = u'_somename@example.com'
+
+
 Home page address
 -----------------
 
