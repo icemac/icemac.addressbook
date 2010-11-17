@@ -80,14 +80,7 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     next_view = '@@edit.html'
 
     def _handle_delete(self):
-        for name in list(self.context.keys()):
-            ref_target = gocept.reference.interfaces.IReferenceTarget(
-                zope.security.proxy.getObject(self.context[name]))
-            if ref_target.is_referenced(recursive=False):
-                # Persons which are referenced by a user can't be
-                # deleted using this function. We check this here to
-                # avoid getting an error.
-                continue
-            del self.context[name]
+        icemac.addressbook.browser.base.delete_persons(
+            self.context, self.context.keys())
         self.status = _('Address book contents deleted.')
         self.redirect_to_next_url('object', '')
