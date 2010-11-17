@@ -4,6 +4,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import classproperty
+import gocept.reference.interfaces
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
@@ -20,6 +21,7 @@ import zope.component
 import zope.interface
 import zope.security
 import zope.security.interfaces
+import zope.security.proxy
 import zope.site.hooks
 import zope.traversing.api
 import zope.traversing.browser.interfaces
@@ -273,6 +275,19 @@ class BaseDeleteForm(BaseEditForm):
         name = zope.traversing.api.getName(self.context)
         parent = zope.traversing.api.getParent(self.context)
         del parent[name]
+
+
+def delete_persons(address_book, ids):
+    """Delete persons specified by their ID, but not users."""
+    for name in ids:
+        ref_target = gocept.reference.interfaces.IReferenceTarget(
+            zope.security.proxy.getObject(address_book[name]))
+        if ref_target.is_referenced(recursive=False):
+            # Persons which are referenced by a user can't be
+            # deleted using this function. We check this here to
+            # avoid getting an error.
+            continue
+        del address_book[name]
 
 
 class PrefixGroup(z3c.form.group.Group):
