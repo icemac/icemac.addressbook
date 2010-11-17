@@ -6,6 +6,7 @@
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import z3c.form.button
@@ -56,16 +57,11 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
         super(DeleteForm, self)._do_delete()
 
 
-class IPersonCount(zope.interface.Interface):
-    "Number of persons in address book."
-
-    count = zope.schema.Int(title=_(u'number of persons'), required=False)
-    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
-
 class PersonCount(object):
     "Adapter to count persons in address book."
 
-    zope.interface.implements(IPersonCount)
+    zope.interface.implements(
+        icemac.addressbook.browser.interfaces.IPersonCount)
     zope.component.adapts(icemac.addressbook.interfaces.IAddressBook)
 
     def __init__(self, address_book):
@@ -79,16 +75,11 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete address book contents (aka persons)."
 
     label = _(u'Do you really want to delete all persons in this address book?')
-    interface = IPersonCount
+    interface = icemac.addressbook.browser.interfaces.IPersonCount
     mode = z3c.form.interfaces.DISPLAY_MODE
     next_view = '@@edit.html'
 
-    @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
-    def handleCancel(self, action):
-        super(DeleteContentForm, self).handleCancel(self, action)
-
-    @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
-    def handleDelete(self, action):
+    def _handle_delete(self):
         for name in list(self.context.keys()):
             ref_target = gocept.reference.interfaces.IReferenceTarget(
                 zope.security.proxy.getObject(self.context[name]))
