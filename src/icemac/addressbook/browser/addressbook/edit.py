@@ -76,7 +76,6 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
     label = _(u'Do you really want to delete all persons in this address book?')
     interface = icemac.addressbook.browser.interfaces.IPersonCount
-    mode = z3c.form.interfaces.DISPLAY_MODE
     next_view = '@@edit.html'
 
     def _handle_delete(self):
