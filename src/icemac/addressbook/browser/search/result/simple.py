@@ -28,6 +28,7 @@ class ExportForm(icemac.addressbook.browser.base.BaseEditForm):
     ignoreContext = True
     interface = IExporterChoice
     template = z3c.ptcompat.ViewPageTemplateFile('export.pt')
+    id = 'search-export-form'
 
     def renderTable(self):
         table = PersonTable(self.__parent__, self.request)

@@ -90,7 +90,7 @@ form div.buttons input {
 }
 
 
-/* for forms: (metadat top right) */
+/* for forms: (metadata top right) */
 
 form#edit-form div.group {
     float: left;
@@ -102,4 +102,9 @@ form#edit-form div.group + fieldset {
 
 form div.group + fieldset + fieldset{
     clear: left;
+}
+
+form#search-export-form div.buttons {
+    background-color: transparent;
+    left: 100px;
 }
