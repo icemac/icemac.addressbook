@@ -183,7 +183,7 @@ to the address book's edit form:
 >>> browser.url == edit_address_book_url
 True
 
-When he decides to delete all persons he is led back to then person
+When he decides to delete all persons he is led back to the person
 list where only the users are still shown:
 
 >>> browser.getControl('Delete all persons in address book').click()
