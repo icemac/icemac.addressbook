@@ -1,6 +1,7 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
-   xmlns:browser="http://namespaces.zope.org/browser">
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
 
   <adapter
      name="checkbox"
@@ -19,5 +20,15 @@
      provides="z3c.table.interfaces.IColumn"
      factory="icemac.addressbook.browser.table.TitleLinkColumn"
      />
+
+  <adapter factory=".delete.SelectionCount" />
+
+  <z3c:pagelet
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="delete_persons.html"
+      permission="icemac.addressbook.EditAddressBook"
+      class=".delete.DeleteForm"
+      />
 
 </configure>

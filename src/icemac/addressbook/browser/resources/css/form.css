@@ -108,3 +108,7 @@ form#search-export-form div.buttons {
     background-color: transparent;
     left: 100px;
 }
+
+form#search-export-form div.buttons input#form-buttons-delete {
+    margin-left: 25px;
+}

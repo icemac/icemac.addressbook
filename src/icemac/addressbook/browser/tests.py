@@ -28,6 +28,7 @@ def test_suite():
         "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
+        "browser/search/delete.txt",
         "browser/search/search.txt",
         )
     suite.addTest(
