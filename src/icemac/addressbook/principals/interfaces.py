@@ -59,7 +59,7 @@ class IRoles(zope.interface.Interface):
 
 
 class IRoot(zope.interface.Interface):
-    """Root object where on which global roles are stored.
+    """Root object on which global roles are stored.
 
     You have to provide an adapter from the root object to this interface.
     """
