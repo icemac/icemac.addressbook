@@ -21,6 +21,9 @@ Features
 - Made 'main adresses and numbers' an entity, so it could be sorted along
   with the other entities.
 
+- Added ability to delete the persons found in a search. User must have the
+  administrator role to use this feature as it might be dangerous.
+
 Bug fixes
 ---------
 
