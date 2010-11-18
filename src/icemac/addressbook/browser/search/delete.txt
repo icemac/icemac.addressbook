@@ -1,0 +1,211 @@
+======================
+Deleting found persons
+======================
+
+The administrator is able to delete the persons he found using a search.
+
+Set up
+======
+
+We need an address book, some keywords and some persons:
+
+>>> from icemac.addressbook.testing import (create_addressbook, create_person,
+...     create_keyword)
+>>> addressbook = create_addressbook()
+>>> friends = create_keyword(addressbook, u'friends')
+>>> family = create_keyword(addressbook, u'family')
+>>> church = create_keyword(addressbook, u'church')
+>>> work = create_keyword(addressbook, u'work')
+>>> anyone_else = create_keyword(addressbook, u'anyone else')
+>>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
+...                         keywords=set([friends]))
+>>> koch = create_person(addressbook, addressbook, u'Koch',
+...                      keywords=set([family, church]))
+>>> velleuer = create_person(addressbook, addressbook, u'Velleuer',
+...                          keywords=set([family, church]))
+>>> liebig = create_person(addressbook, addressbook, u'Liebig',
+...                        keywords=set([church]))
+
+>>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> browser = Browser()
+
+Only administrators are allowed to delete, so we log in as an administrator:
+
+>>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.open('http://localhost/++skin++AddressBook/ab')
+
+There is a link in the global navigation which leads to the searches
+overview providing links to the offered search types, which lead to the
+searches:
+
+>>> browser.getLink('Search').click()
+>>> browser.getLink('Keyword search').click()
+
+Deletion
+========
+
+When selecting a keyword which leads to results they are displayed as a
+table with check boxes to select the found persons. The check boxes are
+selected by default:
+
+>>> browser.getControl('church').click()
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-even-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
+    </tr>
+    <tr class="table-even-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+    </tr>
+ </tbody>
+</table>...
+
+A new submit control to delete the selected persons is shown:
+
+>>> from icemac.addressbook.testing import get_submit_control_names
+>>> (get_submit_control_names(form=browser.getForm(index=0)),
+...  get_submit_control_names(form=browser.getForm(index=1)))
+(['form.buttons.search'], ['form.buttons.delete', 'form.buttons.export'])
+
+Selecting this button leads to an are-you-sure question:
+
+>>> browser.getControl(name='form.buttons.delete').click()
+>>> delete_url = browser.url
+>>> delete_url
+'http://localhost/++skin++AddressBook/ab/@@delete_persons.html'
+
+The number of persons for deletion is shown on the question screen:
+
+>>> print browser.contents
+<!DOCTYPE ...
+         <div id="form-widgets-count-row" class="row">
+             <div class="label">
+               <label for="form-widgets-count">
+                 <span>number of persons</span>
+               </label>
+             </div>
+             <div class="widget">
+    <span id="form-widgets-count"
+          class="text-widget int-field">3</span>
+</div>
+         </div>
+  ...
+
+Seleting the `cancel` button leads to the person list without deleting
+anybody:
+
+>>> from icemac.addressbook.testing import get_messages
+>>> browser.getControl('No, cancel').click()
+>>> get_messages(browser)
+['Deletion canceled.']
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> 'Koch' in browser.contents
+True
+>>> 'Liebig' in browser.contents
+True
+>>> 'Velleuer' in browser.contents
+True
+
+Security
+========
+
+For editors and visiors the delete button is not drawn. Deletion is not
+possible even the user knows the URL:
+
+Editor
+------
+
+>>> editor = Browser()
+>>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.getLink('Search').click()
+>>> editor.getLink('Keyword search').click()
+>>> editor.getControl('church').click()
+>>> editor.getControl('Search').click()
+>>> (get_submit_control_names(form=editor.getForm(index=0)),
+...  get_submit_control_names(form=editor.getForm(index=1)))
+(['form.buttons.search'], ['form.buttons.export'])
+
+>>> editor.open(delete_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Visitor
+------
+
+>>> visitor = Browser()
+>>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.getLink('Search').click()
+>>> visitor.getLink('Keyword search').click()
+>>> visitor.getControl('church').click()
+>>> visitor.getControl('Search').click()
+>>> (get_submit_control_names(form=visitor.getForm(index=0)),
+...  get_submit_control_names(form=visitor.getForm(index=1)))
+(['form.buttons.search'], ['form.buttons.export'])
+
+>>> visitor.open(delete_url)
+Traceback (most recent call last):
+HTTPError: HTTP Error 403: Forbidden
+
+Real deletion
+=============
+
+We have to do the search again because after cancelation we are on the
+person list:
+
+>>> browser.getLink('Search').click()
+>>> browser.getLink('Keyword search').click()
+>>> browser.getControl('church').click()
+>>> browser.getControl('Search').click()
+
+Only the selected persons get deleted. When the administrator chooses
+"Person-2" the user "Koch" will not get deleted as all persons are selected
+by default:
+
+>>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
+>>> browser.getControl(name='form.buttons.delete').click()
+>>> print browser.contents
+<!DOCTYPE ...
+         <div id="form-widgets-count-row" class="row">
+             <div class="label">
+               <label for="form-widgets-count">
+                 <span>number of persons</span>
+               </label>
+             </div>
+             <div class="widget">
+    <span id="form-widgets-count"
+          class="text-widget int-field">2</span>
+</div>
+         </div>
+  ...
+
+Seleting the `delete` button leads to the person list after deleting the selected persons:
+
+>>> browser.getControl('Yes, delete').click()
+>>> get_messages(browser)
+['Selected persons deleted: 2']
+>>> browser.url
+'http://localhost/++skin++AddressBook/ab'
+>>> 'Koch' in browser.contents
+True
+>>> 'Liebig' in browser.contents
+False
+>>> 'Velleuer' in browser.contents
+False

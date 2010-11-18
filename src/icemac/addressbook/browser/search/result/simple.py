@@ -35,18 +35,31 @@ class ExportForm(icemac.addressbook.browser.base.BaseEditForm):
         table.update()
         return table.render()
 
-    @z3c.form.button.buttonAndHandler(_('Export'), name='export')
-    def handleExport(self, action):
+    def _store_data_in_session(self):
+        """Store data in session and return `True` on success."""
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
-            return
+            return False
         session = zope.session.interfaces.ISession(self.request)[
             icemac.addressbook.interfaces.PACKAGE_ID]
         session['person_ids'] = self.request.form.get('persons', ())
         session['exporter_token'] = zc.sourcefactory.interfaces.IToken(
             data['exporter'])
-        self.request.response.redirect('@@export.html')
+        return True
+
+    @z3c.form.button.buttonAndHandler(_('Export'), name='export')
+    def handleExport(self, action):
+        if self._store_data_in_session():
+            self.request.response.redirect('@@export.html')
+
+    @z3c.form.button.buttonAndHandler(
+        _('Delete selected persons'), name='delete',
+        condition=icemac.addressbook.browser.base.can_access(
+            '@@delete_persons.html'))
+    def handleDelete(self, action):
+        if self._store_data_in_session():
+            self.request.response.redirect('@@delete_persons.html')
 
 
 class PersonTable(icemac.addressbook.browser.table.Table):
