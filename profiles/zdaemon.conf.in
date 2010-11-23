@@ -1,0 +1,6 @@
+<runner>
+  program bin/paster serve %(ini-file)s
+  daemon on
+  socket-name var/zdaemonsock
+  %(user)s
+</runner>

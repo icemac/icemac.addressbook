@@ -120,6 +120,9 @@ class Configurator(object):
             'Password for the administrator', 'admin', 'password')
         self.host = self.ask_user('Hostname', 'server', 'host')
         self.port = self.ask_user('Port number', 'server', 'port')
+        self.username = self.ask_user(
+            'Username whether process should run as different user otherwise '
+            'emtpy', 'server', 'username')
 
     def get_log_options(self):
         print ' Please choose Log-Handler:'
@@ -214,6 +217,9 @@ class Configurator(object):
         buildout_cfg.add_section('deploy.ini')
         buildout_cfg.set('deploy.ini', 'host', self.host)
         buildout_cfg.set('deploy.ini', 'port', self.port)
+        if self.username:
+            buildout_cfg.add_section('zdaemon.conf')
+            buildout_cfg.set('zdaemon.conf', 'user', 'user %s' % self.username)
         log_handler = self.log_handler
         if log_handler == 'FileHandler':
             b_log_handler = log_handler

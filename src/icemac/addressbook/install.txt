@@ -89,6 +89,7 @@ We need an `install.default.ini` in the working directory as
 ... [server]
 ... host = my.computer.local
 ... port = 13090
+... username =
 ...
 ... [log]
 ... handler = FileHandler
@@ -253,11 +254,13 @@ Ask the user about the server and store the answers:
 ...     'admin\n'
 ...     'geheim\n'
 ...     'localhost\n'
-...     '8080\n', config.get_server_options)
+...     '8080\n'
+...     'mac\n', config.get_server_options)
 Log-in name for the administrator: [me]
 Password for the administrator: [secret]
 Hostname: [my.computer.local]
 Port number: [13090]
+Username whether process should run as different user otherwise emtpy: []
 >>> config.admin_login
 'admin'
 >>> config.get('admin', 'login')
@@ -274,6 +277,10 @@ Port number: [13090]
 '8080'
 >>> config.get('server', 'port')
 '8080'
+>>> config.username
+'mac'
+>>> config.get('server', 'username')
+'mac'
 
 get_log_options
 ---------------
@@ -462,6 +469,7 @@ log handler:
 >>> config.eggs_dir = '/var/lib/eggs'
 >>> config.host = 'server.local'
 >>> config.port = '8081'
+>>> config.username = ''
 >>> config.log_handler = 'FileHandler'
 >>> config.packages = ['icemac.ab.reporting', 'icemac.ab.relations']
 >>> config.create_buildout_cfg()
@@ -513,6 +521,15 @@ creating buildout.cfg ...
 [buildout]...
 log-handler-args = 'W', 2, 1...
 
+When the username is not empty a zdaemon.conf section is added:
+
+>>> config.username = 'mac'
+>>> config.create_buildout_cfg()
+creating buildout.cfg ...
+>>> cat('buildout.cfg')
+[zdaemon.conf]
+user = user mac
+[buildout]...
 
 store
 -----
@@ -535,6 +552,7 @@ login = admin
 password = geheim
 <BLANKLINE>
 [server]
+username = mac
 host = localhost
 port = 8080
 <BLANKLINE>
@@ -569,6 +587,7 @@ Hint: to use the default value (the one in [brackets]),  enter no value.
  Password for the administrator: [secret]
  Hostname: [my.computer.local]
  Port number: [13090]
+ Username whether process should run as different user otherwise emtpy: []
  Please choose Log-Handler:
     Details see http://docs.python.org/library/logging.html#handler-objects
  Log-Handler, choose between FileHandler, RotatingFileHandler, TimedRotatingFileHandler: [FileHandler]
@@ -610,6 +629,7 @@ login = me
 password = secret
 <BLANKLINE>
 [server]
+username =
 host = my.computer.local
 port = 13090
 <BLANKLINE>
