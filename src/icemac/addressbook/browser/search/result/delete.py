@@ -60,9 +60,8 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
     def _handle_delete(self):
         ids = get_selected_person_ids(self.request)
-        len_ids = len(ids)
-        icemac.addressbook.browser.base.delete_persons(
+        num_deleted = icemac.addressbook.browser.base.delete_persons(
             self.context, ids)
         self.status = _('Selected persons deleted: ${num}',
-                        mapping=dict(num=len_ids))
+                        mapping=dict(num=num_deleted))
         self.redirect_to_next_url('object', '')

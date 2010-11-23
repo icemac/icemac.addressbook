@@ -279,6 +279,7 @@ class BaseDeleteForm(BaseEditForm):
 
 def delete_persons(address_book, ids):
     """Delete persons specified by their ID, but not users."""
+    deleted = 0
     for name in list(ids): # this list() call is needed as we might delete
                            # from the source of the ids
         ref_target = gocept.reference.interfaces.IReferenceTarget(
@@ -289,6 +290,8 @@ def delete_persons(address_book, ids):
             # avoid getting an error.
             continue
         del address_book[name]
+        deleted += 1
+    return deleted
 
 
 class PrefixGroup(z3c.form.group.Group):
