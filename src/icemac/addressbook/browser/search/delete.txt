@@ -215,3 +215,5 @@ True
 False
 >>> 'Velleuer' in browser.contents
 False
+>>> 'Utzer' in browser.contents
+True
