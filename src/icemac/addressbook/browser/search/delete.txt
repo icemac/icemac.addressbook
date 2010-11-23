@@ -10,7 +10,7 @@ Set up
 We need an address book, some keywords and some persons:
 
 >>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_keyword)
+...     create_keyword, create_user)
 >>> addressbook = create_addressbook()
 >>> friends = create_keyword(addressbook, u'friends')
 >>> family = create_keyword(addressbook, u'family')
@@ -25,6 +25,8 @@ We need an address book, some keywords and some persons:
 ...                          keywords=set([family, church]))
 >>> liebig = create_person(addressbook, addressbook, u'Liebig',
 ...                        keywords=set([church]))
+>>> create_user(addressbook, addressbook, u'Ben', u'Utzer', u'ben@example.com',
+...     u'12345678', [], keywords=set([church]))
 
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
@@ -69,6 +71,10 @@ selected by default:
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
     </tr>
     <tr class="table-even-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-5" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Utzer, Ben</a></td>
+    </tr>
+    <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
     </tr>
@@ -101,7 +107,7 @@ The number of persons for deletion is shown on the question screen:
              </div>
              <div class="widget">
     <span id="form-widgets-count"
-          class="text-widget int-field">3</span>
+          class="text-widget int-field">4</span>
 </div>
          </div>
   ...
@@ -191,7 +197,7 @@ by default:
              </div>
              <div class="widget">
     <span id="form-widgets-count"
-          class="text-widget int-field">2</span>
+          class="text-widget int-field">3</span>
 </div>
          </div>
   ...
