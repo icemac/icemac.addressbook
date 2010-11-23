@@ -24,6 +24,9 @@ Features
 - Added ability to delete the persons found in a search. User must have the
   administrator role to use this feature as it might be dangerous.
 
+- Added installation option to configure that the address book process sould
+  run as another user than the one who started it.
+
 Bug fixes
 ---------
 
