@@ -5,7 +5,6 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import gocept.reference.interfaces
-import icemac.addressbook.address
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
@@ -157,8 +156,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 continue
 
             # Special handling for IPersonDefaults
-            if entity.interface == icemac.addressbook.interfaces.IPersonDefaults:
-                groups.append(DefaultSelectGroup(self.context, self.request, self))
+            IPersonDefaults = icemac.addressbook.interfaces.IPersonDefaults
+            if entity.interface == IPersonDefaults:
+                groups.append(
+                    DefaultSelectGroup(self.context, self.request, self))
                 continue
 
             is_ifile = (
@@ -199,7 +200,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 continue
             prefix = z3c.form.util.expandPrefix(group.prefix)
             icemac.addressbook.browser.file.file.update_blob(
-                group.widgets[prefix+'data'], group.getContent())
+                group.widgets[prefix + 'data'], group.getContent())
 
     @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
@@ -244,8 +245,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 zope.lifecycleevent.Attributes(interface, *names)
                 for interface, names in changes.items()]
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+                zope.lifecycleevent.ObjectModifiedEvent(
+                    content, *descriptions))
         return changed
+
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
     """Datamanager which converts the internal InstrumentedSet into a
@@ -265,8 +268,9 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
             super(DeletePersonForm, self)._do_delete()
         except gocept.reference.interfaces.IntegrityError:
             transaction.abort()
-            message = _('Failed to delete person: This person is connected to '
-                        'a user. To delete this person, delete the user first.')
+            message = _(
+                'Failed to delete person: This person is connected to '
+                'a user. To delete this person, delete the user first.')
             zope.component.getUtility(
                 z3c.flashmessage.interfaces.IMessageSource).send(message)
 

@@ -49,7 +49,7 @@ create_and_add_with_set_site = set_site(create_and_add)
 
 
 def iter_by_interface(container, interface):
-    "Iterate a container and return only objects providing the specified iface."
+    "Iterate a container and return only objects providing a specified iface."
     for obj in container.values():
         if interface.providedBy(obj):
             yield obj

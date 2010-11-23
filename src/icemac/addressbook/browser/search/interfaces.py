@@ -24,4 +24,4 @@ class ISearch(zope.interface.Interface):
     """A search."""
 
     def search(**kw):
-        """Search for given keyword arguments and return iterable of results."""
+        "Search for given keyword arguments and return iterable of results."

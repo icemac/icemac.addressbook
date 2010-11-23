@@ -5,6 +5,7 @@ import zope.component
 import zope.contentprovider.interfaces
 import zope.interface
 
+
 class About(object):
     """View class for the about screen."""
 
@@ -15,9 +16,10 @@ class About(object):
 class CopyrightContentProvider(object):
     """Content provider for the copyright string."""
     zope.interface.implements(zope.contentprovider.interfaces.IContentProvider)
-    zope.component.adapts(zope.interface.Interface,
-                          icemac.addressbook.browser.interfaces.IAddressBookLayer,
-                          zope.interface.Interface)
+    zope.component.adapts(
+        zope.interface.Interface,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer,
+        zope.interface.Interface)
 
     def __init__(self, *args):
         pass

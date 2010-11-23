@@ -20,7 +20,8 @@ class EntitiesTests(object):
         # sort order
         order_store = icemac.addressbook.orderstorage.OrderStorage()
         order_store.add(self.cat.name, icemac.addressbook.interfaces.ENTITIES)
-        order_store.add(self.kwack.name, icemac.addressbook.interfaces.ENTITIES)
+        order_store.add(
+            self.kwack.name, icemac.addressbook.interfaces.ENTITIES)
         order_store.add(self.duck.name, icemac.addressbook.interfaces.ENTITIES)
         zope.component.provideUtility(
             order_store, icemac.addressbook.interfaces.IOrderStorage)
@@ -71,7 +72,6 @@ class TestEntities_getMainEntities(
     DEFAULT_ORDER = [u'person', u'postal address', u'phone number',
                      u'e-mail address', u'home page address']
 
-
     def test_default_order(self):
         # With unchanged sort order both variants return the same order:
         self.assertEqual(self.DEFAULT_ORDER, self.callFUT(True))
@@ -94,7 +94,8 @@ class TestEntities_getMainEntities(
         self.assertEqual(self.DEFAULT_ORDER, self.callFUT(False))
 
 
-class TestEntityOrder(icemac.addressbook.testing.AddressBookFunctionalTestCase):
+class TestEntityOrder(
+    icemac.addressbook.testing.AddressBookFunctionalTestCase):
 
     def getEntity(self, iface_name):
         import icemac.addressbook.interfaces
@@ -305,4 +306,3 @@ class TestEntityAdapters(unittest.TestCase):
         self.assertEqual(
             u'Kwack', icemac.addressbook.interfaces.IEntity(
                 'IcemacAddressbookTestsStubsKwack').title)
-

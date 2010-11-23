@@ -28,4 +28,3 @@ def test_suite():
     suite = doctest.DocFileSuite('namechooser.txt')
     suite.layer = NameChooserLayer
     return suite
-

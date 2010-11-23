@@ -1,5 +1,4 @@
 import unittest
-import zope.interface
 
 
 class Test_default_attrib_name_to_entity(unittest.TestCase):
@@ -25,4 +24,3 @@ class Test_default_attrib_name_to_entity(unittest.TestCase):
 
     def test_known_name(self):
         self.assertEqual(self.duck, self.callFUT('default_duck'))
-

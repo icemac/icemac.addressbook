@@ -11,8 +11,6 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.utils
 import transaction
 import z3c.flashmessage.interfaces
-import z3c.flashmessage.message
-import z3c.flashmessage.receiver
 import z3c.form.button
 import z3c.form.field
 import z3c.form.group
@@ -29,8 +27,10 @@ import zope.traversing.publicationtraverse
 
 
 class display_title(object):
-    "ITitle adapter which can be used in PageTemplate using obj/@@display_title."
+    """ITitle adapter which can be used in PageTemplate using
+    ``obj/@@display_title``.
 
+    """
     zope.component.adapts(
         zope.interface.Interface,
         icemac.addressbook.browser.interfaces.IAddressBookLayer)
@@ -71,7 +71,7 @@ class FlashView(object):
 class BaseView(FlashView):
     "Base for view classes."
 
-    need = None # name of a resource from icemac.addressbook.browser.resource
+    need = None  # name of a resource from icemac.addressbook.browser.resource
 
     def update(self):
         get_needed_resources(self)
@@ -87,7 +87,7 @@ class BaseView(FlashView):
 class BaseForm(BaseView):
     """Base for all forms."""
 
-    interface = None # interface for form
+    interface = None  # interface for form
     need = 'form_css'
 
     # privat
@@ -105,6 +105,7 @@ class BaseForm(BaseView):
     class status(classproperty.classproperty):
         def __get__(self):
             return self._status
+
         def __set__(self, message):
             if message != z3c.form.form.Form.formErrorsMessage:
                 # Non-error messages must be handled by z3c.flashmessage,
@@ -118,8 +119,8 @@ class BaseForm(BaseView):
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     """Simple base add form."""
 
-    class_ = None # create object from this class
-    next_url = None # target after creation, one of ('object', 'parent')
+    class_ = None  # create object from this class
+    next_url = None  # target after creation, one of ('object', 'parent')
 
     def createAndAdd(self, data):
         # overwriting method as otherwise object created event would
@@ -179,8 +180,8 @@ def update_with_redirect(class_, self):
 class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
     """Base Edit form."""
 
-    next_url = None # target object after edit, one of ('object', 'parent')
-    next_view = None # target view after edit (None for default view)
+    next_url = None  # target object after edit, one of ('object', 'parent')
+    next_view = None  # target view after edit (None for default view)
     id = 'edit-form'
 
     def update(self):
@@ -238,10 +239,10 @@ class BaseDeleteForm(BaseEditForm):
     "Display a deletion confirmation dialog."
 
     label = _(u'Do you really want to delete this entry?')
-    requiredInfo = None # do never display requiredInfo
+    requiredInfo = None  # do never display requiredInfo
     interface = None
-    field_names = () # tuple of field names for display; empty for all
-    next_view_after_delete = None # when None, use same view as self.next_view
+    field_names = ()  # tuple of field names for display; empty for all
+    next_view_after_delete = None  # when None, use same view as self.next_view
 
     need = 'no_max_content_css'
     mode = z3c.form.interfaces.DISPLAY_MODE
@@ -280,8 +281,8 @@ class BaseDeleteForm(BaseEditForm):
 def delete_persons(address_book, ids):
     """Delete persons specified by their ID, but not users."""
     deleted = 0
-    for name in list(ids): # this list() call is needed as we might delete
-                           # from the source of the ids
+    for name in list(ids):  # this list() call is needed as we might delete
+                            # from the source of the ids
         ref_target = gocept.reference.interfaces.IReferenceTarget(
             zope.security.proxy.getObject(address_book[name]))
         if ref_target.is_referenced(recursive=False):
@@ -297,8 +298,8 @@ def delete_persons(address_book, ids):
 class PrefixGroup(z3c.form.group.Group):
     """Group which sets a prefix."""
 
-    prefix = None # to be set in subclass
-    interface = None # to be set in subclass
+    prefix = None  # to be set in subclass
+    interface = None  # to be set in subclass
 
     @property
     def fields(self):
@@ -326,7 +327,6 @@ class CloneObject(BaseView):
                 object=icemac.addressbook.interfaces.ITitle(self.context))))
 
 
-
 def can_access(uri_part):
     """Create a button condition function to test whether the user can
     access the URL context/@@absolute_url/<uri_part>."""
@@ -346,4 +346,3 @@ def can_access(uri_part):
                 return False
         return True
     return can_access_form
-

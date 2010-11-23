@@ -6,7 +6,6 @@ from hurry.jquery import jquery
 import icemac.addressbook.browser.interfaces
 import z3c.flashmessage.receiver
 import zope.component
-import zope.contentprovider.interfaces
 import zope.contentprovider.provider
 import zope.interface
 

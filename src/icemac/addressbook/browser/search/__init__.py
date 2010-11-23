@@ -3,5 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
+
 class Search(object):
     pass

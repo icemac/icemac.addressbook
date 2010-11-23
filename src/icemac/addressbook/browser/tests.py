@@ -6,6 +6,7 @@
 import icemac.addressbook.testing
 import zope.testing.renormalizing
 
+
 def test_suite():
     suite = icemac.addressbook.testing.FunctionalDocFileSuite(
         "browser/about/about.txt",
@@ -38,4 +39,3 @@ def test_suite():
             checker=zope.testing.renormalizing.RENormalizing([])
             ))
     return suite
-

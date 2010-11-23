@@ -7,6 +7,9 @@ import zope.publisher.interfaces.http
 import zope.security.proxy
 
 
+CHUNK_SIZE = 64 * 1024
+
+
 class Download(object):
 
     def __call__(self):
@@ -37,8 +40,6 @@ class DownloadResult(object):
     def __iter__(self):
         return self._iter
 
-
-CHUNK_SIZE = 64 * 1024
 
 def bodyIterator(f):
     while True:

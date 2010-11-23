@@ -43,7 +43,7 @@ class SearchForm(icemac.addressbook.browser.search.base.BaseSearchForm):
 
 
 concat_mapping = {'and': 'all_of',
-                  'or': 'any_of',}
+                  'or': 'any_of'}
 
 
 class Search(icemac.addressbook.browser.search.base.BaseSearch):

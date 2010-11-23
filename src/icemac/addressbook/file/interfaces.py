@@ -7,6 +7,7 @@ import zope.interface
 import zope.schema
 import zope.mimetype.interfaces
 
+
 class IFile(zope.interface.Interface):
     "A file uploaded from harddisk to addressbook."
 

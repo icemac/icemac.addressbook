@@ -2,9 +2,13 @@
 # Copyright (c) 2008-2010 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.generations.utils
-import zope.app.authentication # needed to make sure this package still
-                               # exists and the instances get converted to
-                               # the new class path
+
+# needed to make sure this package still exists and the instances get
+# converted to the new class path
+import zope.app.authentication
+
+a = zope.app.authentication
+
 
 def evolve(context):
     """Updates the authentication utility.

@@ -6,8 +6,6 @@
 import icemac.addressbook.interfaces
 import icemac.addressbook.namechooser.interfaces
 import zope.generations.utility
-import zope.catalog.interfaces
-import zope.component
 import zope.location.interfaces
 import zope.proxy
 

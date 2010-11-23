@@ -23,7 +23,8 @@ def set_current_princial_id(object, attribute):
             unsafe_object = zope.security.proxy.getObject(object)
             metadata = icemac.addressbook.metadata.interfaces.IEditor(
                 unsafe_object)
-            setattr(metadata, attribute, unicode(participation.principal.title))
+            setattr(
+                metadata, attribute, unicode(participation.principal.title))
             # Seting the first participating principal is enough for now.
             return
 

@@ -15,18 +15,18 @@ import zope.preference.interfaces
 import zope.schema.interfaces
 
 
-END_OF_DATE = datetime.date(datetime.MAXYEAR,12,31)
-END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR,12,31,23,59,59)
+END_OF_DATE = datetime.date(datetime.MAXYEAR, 12, 31)
+END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 31, 23, 59, 59)
 
 
 class BaseColumn(z3c.table.column.Column):
     """Column which is able to get an object on an attribute of the item and
     adapt it to specified interface."""
 
-    firstAttrName = None # Name of the attribute to be selected first
-    attrInterface = None # Adapt to this interface
-    attrName = None # Get the attribute with this name as value
-    defaultValue = u'' # Value for display when there is no value.
+    firstAttrName = None  # Name of the attribute to be selected first
+    attrInterface = None  # Adapt to this interface
+    attrName = None  # Get the attribute with this name as value
+    defaultValue = u''  # Value for display when there is no value.
 
     def getObject(self, item):
         "Get the object for which has the attribute display."
@@ -74,6 +74,7 @@ class LinkColumn(z3c.table.column.LinkColumn,
             return super(LinkColumn, self).renderCell(item)
         return self.defaultValue
 
+
 class URLColumn(LinkColumn):
     """LinkColumn where the link URL is the same as the link content."""
 
@@ -110,8 +111,8 @@ class DateColumn(DateTimeColumn):
 class TruncatedContentColumn(BaseColumn):
     """Column which truncates its content."""
 
-    length = 20 # number of characters to display
-    ellipsis = u'…' # ellipsis sign
+    length = 20  # number of characters to display
+    ellipsis = u'…'  # ellipsis sign
 
     def renderCell(self, item):
         return icemac.truncatetext.truncate(
@@ -237,7 +238,7 @@ class PersonList(icemac.addressbook.browser.table.PageletTable):
         prefs = self.prefs
         order_by = prefs.order_by
         columns = []
-        index = 0 # current column index
+        index = 0  # current column index
         # Entity and field of the column which sould be used for order-by:
         try:
             order_by_entity, order_by_field = (

@@ -5,13 +5,7 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.base
-import icemac.addressbook.browser.interfaces
-import icemac.addressbook.export.sources
 import icemac.addressbook.interfaces
-import z3c.form.button
-import z3c.ptcompat
-import z3c.table.column
-import zc.sourcefactory.interfaces
 import zope.globalrequest
 import zope.i18n
 import zope.interface
@@ -26,7 +20,6 @@ class ISelectionCount(zope.interface.Interface):
     # is stored on the fields.
     count = zope.schema.Int(title=_(u'number of persons'), required=False)
     notes = zope.schema.TextLine(title=_(u'notes'), required=False)
-
 
 
 def get_selected_person_ids(request):

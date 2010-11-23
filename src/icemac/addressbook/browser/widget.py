@@ -19,6 +19,7 @@ class SortedSelectWidget(z3c.form.browser.orderedselect.OrderedSelectWidget):
         self.selectedItems = sorted(self.selectedItems, key=sort_key)
         self.notselectedItems = sorted(self.notselectedItems, key=sort_key)
 
+
 def SortedSelectFieldWidget(field, request):
     """IFieldWidget factory for SortedSelectWidget."""
     return z3c.form.widget.FieldWidget(field, SortedSelectWidget(request))

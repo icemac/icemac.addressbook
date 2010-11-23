@@ -26,4 +26,3 @@ class IPersonList(zope.interface.Interface):
         source=icemac.addressbook.preferences.sources.asc_des_csource)
 
     batch_size = zope.schema.Int(title=_('batch size'), min=1)
-

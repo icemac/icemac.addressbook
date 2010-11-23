@@ -15,6 +15,7 @@ import zope.dublincore.interfaces
 
 
 generation = 8
+MAX_DEPTH = 10
 
 
 @icemac.addressbook.utils.set_site
@@ -39,8 +40,6 @@ def update_object(obj, context):
     editor_storage.creator = principal_id_to_title(context, creators[0], obj)
     editor_storage.modifier = principal_id_to_title(context, creators[-1], obj)
 
-
-MAX_DEPTH = 10
 
 def update_recursively(object, context, depth):
     "Do the metadata update for an object and its children."

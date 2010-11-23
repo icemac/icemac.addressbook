@@ -45,5 +45,6 @@ def DocFileSuite(*args, **kw):
     kw['globs'] = dict(call_with_user_input=call_with_user_input)
     return doctest.DocFileSuite(*args, **kw)
 
+
 def test_suite():
     return DocFileSuite('../install.txt')

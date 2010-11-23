@@ -53,13 +53,13 @@ class TestEntity(unittest.TestCase):
     def test_getRawFields(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
-                          ('Field#1', self.user_field),],
+                          ('Field#1', self.user_field)],
                          list(self.entity.getRawFields()))
 
     def test_getFieldsInOrder(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
-                          ('Field#1', self.schemaized_field),],
+                          ('Field#1', self.schemaized_field)],
                          list(self.entity.getFieldsInOrder()))
 
     def test_getFieldValuesInOrder(self):

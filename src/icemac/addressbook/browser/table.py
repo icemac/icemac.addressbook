@@ -39,16 +39,17 @@ class DeleteLinkColumn(z3c.table.column.LinkColumn):
 class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
     "Column which truncates its content to `length` characters."
 
-    length = 20 # number of characters to display
-    attrName = None # attribute to access
-    ellipsis = u'…' # ellipsis sign
-    defaultValue = u'' # default value when there is no value
+    length = 20  # number of characters to display
+    attrName = None  # attribute to access
+    ellipsis = u'…'  # ellipsis sign
+    defaultValue = u''  # default value when there is no value
 
     def getValue(self, obj):
         value = super(TruncatedContentColumn, self).getValue(obj)
         if value is None:
             return self.defaultValue
-        result = icemac.truncatetext.truncate(value, self.length, self.ellipsis)
+        result = icemac.truncatetext.truncate(
+            value, self.length, self.ellipsis)
         return result
 
 
@@ -68,7 +69,7 @@ class KeywordsColumn(z3c.table.column.GetAttrColumn):
 class LinkColumn(z3c.table.column.LinkColumn):
     "Special LinkColumn which does not display a link when the URL is `None`."
 
-    defaultValue = u'' # value which is rendered when there is no URL
+    defaultValue = u''  # value which is rendered when there is no URL
 
     def renderCell(self, item):
         if not self.getLinkURL(item):
@@ -84,7 +85,7 @@ class Table(z3c.table.table.Table):
     cssClassEven = u'table-even-row'
     cssClassOdd = u'table-odd-row'
     startBatchingAt = 1000000
-    no_rows_message = u'' # Set at subclass.
+    no_rows_message = u''  # Set at subclass.
 
     def update(self):
         icemac.addressbook.browser.resource.table_css.need()

@@ -48,7 +48,7 @@ class DownLinkColumn(z3c.table.column.LinkColumn):
 class List(icemac.addressbook.browser.table.Table):
     """List existing entities."""
 
-    sortOn = None # do not sort rows
+    sortOn = None  # do not sort rows
 
     def setUpColumns(self):
         return [
@@ -107,14 +107,15 @@ class EntitiesTraverser(zope.container.traversal.ItemTraverser):
 class MoveBase(icemac.addressbook.browser.base.BaseView):
     """Base class for movement views."""
 
-    direction = None # set on sub-class
+    direction = None  # set on sub-class
 
     def __call__(self):
         order = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntityOrder)
         getattr(order, self.direction)(self.context)
         self.request.response.redirect(self.url(self.context.__parent__))
-        message = _(unicode(self.message), mapping=dict(entity=self.context.title))
+        message = _(unicode(self.message),
+                    mapping=dict(entity=self.context.title))
         zope.component.getUtility(
             z3c.flashmessage.interfaces.IMessageSource).send(message)
 

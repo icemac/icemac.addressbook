@@ -17,4 +17,3 @@ def evolve(context):
     """
     icemac.addressbook.generations.utils.update_address_book_infrastructure(
         context)
-

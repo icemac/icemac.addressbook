@@ -10,7 +10,6 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.orderstorage
 import icemac.addressbook.person
-import icemac.addressbook.testing
 import unittest
 import zope.component.testing
 import zope.interface

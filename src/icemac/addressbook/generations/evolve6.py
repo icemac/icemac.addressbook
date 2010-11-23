@@ -28,4 +28,3 @@ def evolve(context):
 
         catalog['keywords'].interface = (
             icemac.addressbook.interfaces.IKeywordTitles)
-

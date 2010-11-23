@@ -34,7 +34,7 @@ class Person(zope.container.btree.BTreeContainer):
     keywords = gocept.reference.ReferenceCollection(
         'keywords', ensure_integrity=True)
     default_postal_address = gocept.reference.Reference(
-        'default_postal_address',ensure_integrity=True)
+        'default_postal_address', ensure_integrity=True)
     default_email_address = gocept.reference.Reference(
         'default_email_address', ensure_integrity=True)
     default_home_page_address = gocept.reference.Reference(

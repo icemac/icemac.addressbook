@@ -28,7 +28,7 @@ class BaseView(object):
 
 class BaseSearchForm(z3c.formui.form.Form):
 
-    interface = None # to be set in child class
+    interface = None  # to be set in child class
 
     ignoreContext = True
     formErrorsMessage = _('There were some errors.')
