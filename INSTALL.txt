@@ -133,6 +133,10 @@ To remove additional packages you have to edit the ``[package]``
 section of `install.user.ini`. There is currently no other way for
 removal.
 
+To remove the user name which should own the process you have to edit the
+``[server]`` section of `install.user.ini`. Remove the value from the
+``user`` line.
+
 =================
  User management
 =================

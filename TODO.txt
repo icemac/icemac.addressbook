@@ -5,7 +5,7 @@
 Next major version
 ==================
 
-- Probably: add full text search.
+- Probably: sortable fields.
 
 Longer term
 ===========
