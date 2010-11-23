@@ -315,9 +315,9 @@ def create(
 
 
 @icemac.addressbook.utils.set_site
-def create_user(ab, first_name, last_name, email, password, roles):
+def create_user(ab, first_name, last_name, email, password, roles, **kw):
     person = create_person(
-        ab, ab, last_name, first_name=first_name)
+        ab, ab, last_name, first_name=first_name, **kw)
     create_email_address(ab, person, email=email)
 
     role_factory = icemac.addressbook.principals.sources.role_source.factory
