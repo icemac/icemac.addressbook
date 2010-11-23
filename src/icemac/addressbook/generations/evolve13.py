@@ -17,4 +17,5 @@ def evolve(addressbook):
     person_pos = order_storage.get(
         person.name, icemac.addressbook.interfaces.ENTITIES)
     if person_pos != 1:
-        order_storage.up(person.name, icemac.addressbook.interfaces.ENTITIES, 5)
+        order_storage.up(
+            person.name, icemac.addressbook.interfaces.ENTITIES, 5)

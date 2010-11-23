@@ -10,7 +10,7 @@ from icemac.addressbook.i18n import MessageFactory as _
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
-    
+
     label = _(u'Add new address book')
     interface = icemac.addressbook.interfaces.IAddressBook
     class_ = icemac.addressbook.addressbook.AddressBook

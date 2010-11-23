@@ -93,13 +93,13 @@ def FunctionalDocFileSuite(*paths, **kw):
     kw['optionflags'] = (kw.get('optionflags', 0) |
                          doctest.ELLIPSIS |
                          doctest.NORMALIZE_WHITESPACE)
-    if kw.has_key('layer'):
+    if 'layer' in kw:
         layer = kw.pop('layer')
     else:
         layer = FunctionalLayer
     globs = kw.setdefault('globs', {})
     globs['getRootFolder'] = layer.getRootFolder
-    if not kw.has_key('checker'):
+    if 'checker' not in kw:
         kw['checker'] = zope.testing.renormalizing.RENormalizing([
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
              '<DATETIME>')
@@ -149,8 +149,10 @@ def get_messages(browser):
 
     Returns string when there is exactly one message, list otherwise."""
     if not isinstance(browser, z3c.etestbrowser.wsgi.ExtendedTestBrowser):
-        raise ValueError('browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser')
-    return [x.text for x in browser.etree.xpath('//div[@id="info-messages"]/ul/li')]
+        raise ValueError(
+            'browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser')
+    return [x.text
+            for x in browser.etree.xpath('//div[@id="info-messages"]/ul/li')]
 
 
 def in_out_widget_select(browser, control_name, select_controls):

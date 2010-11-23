@@ -32,7 +32,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
     @property
     def size(self):
         reader = self.open()
-        reader.seek(0,2)
+        reader.seek(0, 2)
         size = int(reader.tell())
         reader.close()
         return size
@@ -44,6 +44,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
             # stupidity of z3c.form which reads the whole file when
             # rendering a form.
             return ''
+
         def __set__(self, data):
             fp = self.open('w')
             fp.write(data)

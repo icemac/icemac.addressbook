@@ -5,6 +5,7 @@
 import icemac.addressbook.orderstorage
 import unittest
 
+
 class BaseTestOrderStorage(unittest.TestCase):
 
     def setUp(self):

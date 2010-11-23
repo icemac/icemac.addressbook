@@ -22,11 +22,11 @@ class TestInterfaces(unittest.TestCase):
         gocept.reference.verify.verifyObject(
             icemac.addressbook.principals.interfaces.IPrincipal, principal)
         zope.interface.verify.verifyObject(
-            icemac.addressbook.principals.interfaces.IPasswordFields, principal)
+            icemac.addressbook.principals.interfaces.IPasswordFields,
+            principal)
         zope.interface.verify.verifyObject(
             icemac.addressbook.principals.interfaces.IRoles, principal)
 
 
 def test_suite():
     return icemac.addressbook.testing.AddressBookUnittestSuite(TestInterfaces)
-

@@ -15,4 +15,3 @@ class IEditor(zope.interface.Interface):
 
     modifier = zope.schema.TextLine(
         title=_(u"last modfier"))
-

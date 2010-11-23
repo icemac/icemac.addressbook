@@ -9,5 +9,5 @@ import z3c.menu.ready2go.manager
 
 
 SearchMenu = zope.viewlet.manager.ViewletManager(
-    'left', z3c.menu.ready2go.IContextMenu, 
+    'left', z3c.menu.ready2go.IContextMenu,
     bases=(z3c.menu.ready2go.manager.MenuManager,))

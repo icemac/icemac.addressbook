@@ -30,6 +30,7 @@ def can_delete_keyword(form):
             form.context).is_referenced()
         )
 
+
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)

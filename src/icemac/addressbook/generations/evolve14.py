@@ -14,7 +14,8 @@ def evolve(addressbook):
         icemac.addressbook.interfaces.IPersonDefaults)
     order_storage = zope.component.getUtility(
         icemac.addressbook.interfaces.IOrderStorage)
-    order_storage.add(person_defaults.name, icemac.addressbook.interfaces.ENTITIES)
+    order_storage.add(
+        person_defaults.name, icemac.addressbook.interfaces.ENTITIES)
     person_defaults_pos = order_storage.get(
         person_defaults.name, icemac.addressbook.interfaces.ENTITIES)
     delta = person_defaults_pos - 3

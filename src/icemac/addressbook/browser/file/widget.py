@@ -36,8 +36,9 @@ class FileWidget(z3c.form.browser.file.FileWidget):
         return ''
 
 
-@zope.component.adapter(zope.schema.interfaces.IBytes,
-                        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+@zope.component.adapter(
+    zope.schema.interfaces.IBytes,
+    icemac.addressbook.browser.interfaces.IAddressBookLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def FileFieldWidget(field, request):
     """IFieldWidget factory for FileWidget."""
@@ -67,4 +68,3 @@ class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):
         value.seek(0)
         data = value.read(1)
         return data
-

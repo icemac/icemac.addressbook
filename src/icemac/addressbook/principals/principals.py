@@ -48,6 +48,7 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     class person(classproperty.classproperty):
         def __get__(self):
             return self._person
+
         def __set__(self, person):
             if self._person is not None:
                 # it's not possible to change the person
@@ -58,6 +59,7 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     class password(classproperty.classproperty):
         def __get__(self):
             return self._password
+
         def __set__(self, password):
             if password is not None:
                 zope.pluggableauth.plugins.principalfolder.InternalPrincipal.\
@@ -65,13 +67,15 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
 
     class password_repetition(classproperty.classproperty):
         def __get__(self):
-            pass # password_repetition is not stored
+            pass  # password_repetition is not stored
+
         def __set__(self, password):
-            pass # password_repetition is not stored
+            pass  # password_repetition is not stored
 
     class roles(classproperty.classproperty):
         def __get__(self):
             return self._roles
+
         def __set__(self, roles):
             old_roles = self._roles
             self._roles = roles

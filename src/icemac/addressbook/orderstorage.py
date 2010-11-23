@@ -66,7 +66,8 @@ class OrderStorage(
                 raise ValueError(
                     "Moving %r by %s positions up would move it beyond the "
                     "beginning of the list." % (obj, delta))
-            storage[index-1:index+1] = reversed(storage[index-1:index+1])
+            storage[index - 1:index + 1] = reversed(
+                storage[index - 1:index + 1])
 
     def down(self, obj, namespace, delta=1):
         """Move the object one position down in the list."""
@@ -77,4 +78,4 @@ class OrderStorage(
                 raise ValueError(
                     "Moving %r by %s positions down would move it beyond the "
                     "end of the list." % (obj, delta))
-            storage[index:index+2] = reversed(storage[index:index+2])
+            storage[index:index + 2] = reversed(storage[index:index + 2])

@@ -14,11 +14,12 @@ def check_prerequisites():
         print "       Please (re-)move the existing one and restart install."
         return False
     if sys.version_info[:2] not in [(2, 5), (2, 6)]:
-        print "ERROR: icemac.addressbook currently supports python 2.5 and 2.6,"
-        print "       but you try to install it using python %s.%s.%s." % (
+        print "ERROR: icemac.addressbook currently supports python 2.5 and 2.6"
+        print "       But you try to install it using python %s.%s.%s." % (
             sys.version_info[:3])
         return False
     return True
+
 
 class Configurator(object):
     """Configure installation.
@@ -101,7 +102,6 @@ class Configurator(object):
         else:
             self._conf.set('migration', 'old_instance', '')
 
-
     def print_intro(self):
         print 'Welcome to icemac.addressbook installation'
         print
@@ -164,7 +164,7 @@ class Configurator(object):
         while True:
             package = self.ask_user(
                 'Package %s' % index, 'packages', 'package_%s' % index,
-                global_default = '')
+                global_default='')
             index += 1
             if not package:
                 break
@@ -185,8 +185,8 @@ class Configurator(object):
             'Old instance is running as a demon process', 'migration',
             'stop_server', values=yes_no)
         self.start_server = self.ask_user(
-            'New instance should be started as a demon process after migration',
-            'migration', 'start_server', values=yes_no)
+            'New instance should be started as a demon process after '
+            'migration', 'migration', 'start_server', values=yes_no)
 
     def create_admin_zcml(self):
         print 'creating admin.zcml ...'

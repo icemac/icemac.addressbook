@@ -3,12 +3,10 @@
 # See also LICENSE.txt
 # $Id$
 
+from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.principals.sources
 import zope.interface
 import zope.schema
-
-import icemac.addressbook.principals.sources
-
-from icemac.addressbook.i18n import MessageFactory as _
 
 
 class IPasswordFields(zope.interface.Interface):
@@ -26,8 +24,8 @@ class IPasswordFields(zope.interface.Interface):
     def password_eq_repetition(obj):
         if obj.password != obj.password_repetition:
             raise zope.interface.Invalid(
-                _(u'Entry in password field was not equal to entry in password '
-                  u'repetition field.'))
+                _(u'Entry in password field was not equal to entry in '
+                  u'password repetition field.'))
 
 
 class IPrincipal(zope.interface.Interface):

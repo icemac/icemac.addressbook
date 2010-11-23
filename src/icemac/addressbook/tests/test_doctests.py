@@ -5,9 +5,11 @@
 
 import icemac.addressbook.testing
 
+
 def test_suite():
     return icemac.addressbook.testing.FunctionalDocFileSuite(
-        'adapter.txt', # Caution: none of these tests can run as unittest!
+        # Caution: none of these tests can run as unittest!
+        'adapter.txt',
         'address.txt',
         'addressbook.txt',
         'catalog.txt',

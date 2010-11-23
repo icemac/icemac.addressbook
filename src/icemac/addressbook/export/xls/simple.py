@@ -7,7 +7,6 @@ from icemac.addressbook.i18n import MessageFactory as _
 import cStringIO
 import datetime
 import decimal
-import icemac.addressbook.address
 import icemac.addressbook.export.base
 import icemac.addressbook.interfaces
 import xlwt
@@ -119,7 +118,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
     def write_person_data(self):
         self.write_col(
             icemac.addressbook.interfaces.IPerson,
-            lambda x:x,
+            lambda x: x,
             self.translate(_('person')))
 
     def get_entities(self):
@@ -140,7 +139,8 @@ class DefaultsExport(XLSExport):
             else:
                 self.write_col(
                     entity.interface,
-                    lambda x:getattr(x, entity.tagged_values['default_attrib']),
+                    lambda x: getattr(
+                        x, entity.tagged_values['default_attrib']),
                     self.translate(entity.title))
 
 

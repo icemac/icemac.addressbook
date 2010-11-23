@@ -56,6 +56,7 @@ def postal_address_title(address):
         title = ', '.join(translated_values)
     return title
 
+
 class EMailAddress(
     persistent.Persistent, zope.container.contained.Contained):
     """An e-mail address."""
@@ -138,10 +139,12 @@ def phone_number_title(tel):
 
 
 def default_attrib_name_to_entity(default_attrib_name):
-    "Convert the name of a default attrib to the entity where it is defined on."
+    "Convert the name of a default attrib to the entity where it is defined on"
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
     for candidate in entities:
-        if candidate.tagged_values.get('default_attrib') == default_attrib_name:
+        candidate_default_attrib = candidate.tagged_values.get(
+            'default_attrib')
+        if candidate_default_attrib == default_attrib_name:
             return candidate
     raise ValueError("Unknown default_attrib_name: %r" % default_attrib_name)

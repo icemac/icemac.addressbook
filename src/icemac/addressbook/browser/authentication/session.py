@@ -10,7 +10,8 @@ class FlashedSessionCredentialsPlugin(
     """SessionCredentialsPlugin with support for flash messages."""
 
     def challenge(self, request):
-        result = super(FlashedSessionCredentialsPlugin, self).challenge(request)
+        result = super(FlashedSessionCredentialsPlugin,
+                       self).challenge(request)
         if result:
             self.send_flash(
                 _('To log-in enter your username and password and submit the '

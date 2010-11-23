@@ -13,7 +13,7 @@ import zope.component
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
     "Abstract base class for sources using a mapping between value and title."
 
-    _mapping = None # to be set in child class
+    _mapping = None  # to be set in child class
 
     def getValues(self):
         return self._mapping.keys()
@@ -48,7 +48,7 @@ class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
     "Source of keywords in the address book."
 
     def getValues(self):
-        import icemac.addressbook.interfaces # avoid circular import
+        import icemac.addressbook.interfaces  # avoid circular import
         keywords = zope.component.getUtility(
             icemac.addressbook.interfaces.IKeywords)
         return sorted(keywords.get_keywords(), key=lambda x: x.title.lower())
@@ -73,5 +73,5 @@ class ContextByInterfaceSource(
                 yield value
 
     def getTitle(self, context, value):
-        import icemac.addressbook.interfaces # avoid circular import
+        import icemac.addressbook.interfaces  # avoid circular import
         return icemac.addressbook.interfaces.ITitle(value)

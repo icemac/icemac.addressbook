@@ -50,7 +50,8 @@ class AddressBook(zope.container.btree.BTreeContainer,
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
 address_book_entity = icemac.addressbook.entities.create_entity(
-    _(u'address book'), icemac.addressbook.interfaces.IAddressBook, AddressBook)
+    _(u'address book'),
+    icemac.addressbook.interfaces.IAddressBook, AddressBook)
 
 
 def create_and_register(addressbook, attrib_name, class_, interface, name=''):
@@ -60,7 +61,7 @@ def create_and_register(addressbook, attrib_name, class_, interface, name=''):
     site_mgr = addressbook.getSiteManager()
     obj = icemac.addressbook.utils.create_obj(class_)
     setattr(addressbook, attrib_name, obj)
-    zope.location.locate(obj, addressbook, '++attribute++'+attrib_name)
+    zope.location.locate(obj, addressbook, '++attribute++' + attrib_name)
     site_mgr.registerUtility(obj, interface, name=name)
 
 

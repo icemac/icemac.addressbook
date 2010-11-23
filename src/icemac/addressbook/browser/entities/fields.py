@@ -60,7 +60,7 @@ class LinkColumn(z3c.table.column.LinkColumn):
 class List(icemac.addressbook.browser.table.PageletTable):
     """List fields of an entity."""
 
-    sortOn = None # do not sort
+    sortOn = None  # do not sort
 
     def setUpColumns(self):
         return [

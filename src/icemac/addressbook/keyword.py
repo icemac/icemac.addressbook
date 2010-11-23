@@ -31,6 +31,7 @@ class KeywordContainer(zope.container.btree.BTreeContainer):
                 return keyword
         return default
 
+
 class Keyword(persistent.Persistent, zope.container.contained.Contained):
     "A keyword."
     zope.interface.implements(icemac.addressbook.interfaces.IKeyword)

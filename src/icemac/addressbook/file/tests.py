@@ -85,4 +85,3 @@ class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
 
 def test_suite():
     return icemac.addressbook.testing.UnittestSuite(TestFile, FTestFile)
-

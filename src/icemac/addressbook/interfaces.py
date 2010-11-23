@@ -16,6 +16,7 @@ import zope.schema
 PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
 
+
 class ITitle(zope.interface.Interface):
     """Title of an entity."""
 
@@ -31,9 +32,9 @@ class IAddressBook(zope.interface.Interface):
     principals = zope.interface.Attribute(
         u'zope.pluggableauth.plugins.principalfolder.'
         u'IInternalPrincipalContainer')
-    importer =  zope.interface.Attribute(
+    importer = zope.interface.Attribute(
         u'icemac.addressbook.importer.interfaces.IImportContainer')
-    entities =  zope.interface.Attribute(
+    entities = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IEntities')
     orders = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IOrderStorage')

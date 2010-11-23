@@ -4,15 +4,12 @@
 # $Id$
 
 from icemac.addressbook.i18n import MessageFactory as _
-import gocept.reference.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import z3c.form.button
 import zope.interface
-import zope.schema
-import zope.security.proxy
 import zope.size.interfaces
 
 
@@ -23,7 +20,6 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     next_url = 'object'
     next_view = '@@edit.html'
-
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
@@ -71,10 +67,12 @@ class PersonCount(object):
             _(u'The users inside this address book will not get deleted.'),
             context=zope.globalrequest.getRequest())
 
+
 class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete address book contents (aka persons)."
 
-    label = _(u'Do you really want to delete all persons in this address book?')
+    label = _(
+        u'Do you really want to delete all persons in this address book?')
     interface = icemac.addressbook.browser.interfaces.IPersonCount
     next_view = '@@edit.html'
 

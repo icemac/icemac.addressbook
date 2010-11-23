@@ -45,7 +45,7 @@ class Entities(object):
         "Get an iterable of the most important entities."
         entities = [zope.component.getUtility(
                         icemac.addressbook.interfaces.IEntity,
-                        name='icemac.addressbook.'+suffix)
+                        name='icemac.addressbook.' + suffix)
                     for suffix in MAIN_ENTITIES_NAME_SUFFIXES]
         if sorted:
             entities = sorted_entities(entities)
@@ -211,7 +211,8 @@ class Entity(object):
         "Uniqe name of the entity which only contains letters."
         if not self.class_name:
             raise ValueError(
-                "Entity has no `class_name` set, so `name` cannot be computed.")
+                "Entity has no `class_name` set, so `name` cannot be computed."
+                )
         parts = self.class_name.replace('_', '.').split('.')
         return ''.join(x.capitalize() for x in parts)
 
@@ -262,7 +263,6 @@ class Entity(object):
     def getField(self, field_name):
         """Get a zope.schema field by its name."""
         return dict(self.getFieldsInOrder())[field_name]
-
 
     def getClass(self):
         """Get the class object for `self.class_name`."""

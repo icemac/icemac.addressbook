@@ -66,4 +66,3 @@ class DontReuseNames(zope.container.contained.NameChooser):
         self.checkName(n, object)
 
         return n
-

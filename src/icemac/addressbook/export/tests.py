@@ -74,4 +74,3 @@ def test_suite():
         'export/userfields.txt',
         ))
     return suite
-
