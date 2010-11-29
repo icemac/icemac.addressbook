@@ -347,4 +347,4 @@ def create_field(entity_name, type, title, **kw):
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
     entity = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntity, name=entity_name)
-    icemac.addressbook.entities.store_and_register_field(field, entity)
+    entity.addField(field)

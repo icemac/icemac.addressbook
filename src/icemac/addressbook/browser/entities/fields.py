@@ -90,8 +90,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     next_url = 'parent'
 
     def add(self, obj):
-        self._name = icemac.addressbook.entities.store_and_register_field(
-            obj, zope.security.proxy.getObject(self.context))
+        self._name = zope.security.proxy.getObject(self.context).addField(obj)
 
 
 class BaseForm(object):
