@@ -6,6 +6,8 @@ import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import unittest
 import zope.component.testing
+import zope.container.contained
+import zope.container.sample
 import zope.interface
 import zope.schema
 
@@ -17,29 +19,51 @@ class IDummy(zope.interface.Interface):
 
 
 class Dummy(object):
-    pass
+    zope.interface.implements(IDummy)
 
 
 class TestEntity(unittest.TestCase):
 
     def setUp(self):
+        # Entities
+        entities = zope.container.sample.SampleContainer()
+        zope.interface.directlyProvides(
+            entities, icemac.addressbook.interfaces.IEntities)
+        zope.component.provideUtility(
+            entities, icemac.addressbook.interfaces.IEntities)
+        zope.component.provideAdapter(
+            zope.container.contained.NameChooser,
+            [icemac.addressbook.interfaces.IEntities])
+
+        # Entity under test
         self.entity = icemac.addressbook.entities.Entity(
             u'Dummy', IDummy, 'icemac.addressbook.tests.test_entity.Dummy')
 
+        # Field under test
         self.user_field = icemac.addressbook.entities.Field()
-        self.user_field.__name__ = 'Field#1'
         self.user_field.type = 'TextLine'
-        zope.component.provideAdapter(
-            icemac.addressbook.entities.FieldAdapterFactory(self.user_field),
-            adapts=(icemac.addressbook.interfaces.IEntity, IDummy),
-            provides=icemac.addressbook.interfaces.IField,
-            name=self.user_field.__name__)
+        self.entity.addField(self.user_field)
         self.schemaized_field = (
             icemac.addressbook.entities.user_field_to_schema_field(
                 self.user_field))
 
     def tearDown(self):
         zope.component.testing.tearDown()
+
+    # IEntityWrite
+
+    def test_add_field_storage(self):
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        self.assertTrue(self.user_field is entities[u'Field'])
+
+    def test_add_field_adapter_registration(self):
+        field = zope.component.getMultiAdapter(
+            (self.entity, Dummy()),
+            icemac.addressbook.interfaces.IField, name=u'Field')
+        self.assertTrue(self.user_field is field)
+
+    # IEntityRead
 
     def test_name(self):
         self.assertEqual('IcemacAddressbookTestsTestEntityDummy',
@@ -53,13 +77,13 @@ class TestEntity(unittest.TestCase):
     def test_getRawFields(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
-                          ('Field#1', self.user_field)],
+                          ('Field', self.user_field)],
                          list(self.entity.getRawFields()))
 
     def test_getFieldsInOrder(self):
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
-                          ('Field#1', self.schemaized_field)],
+                          ('Field', self.schemaized_field)],
                          list(self.entity.getFieldsInOrder()))
 
     def test_getFieldValuesInOrder(self):
@@ -75,7 +99,7 @@ class TestEntity(unittest.TestCase):
 
     def test_getField_user_field(self):
         self.assertEqual(
-            self.schemaized_field, self.entity.getField('Field#1'))
+            self.schemaized_field, self.entity.getField('Field'))
 
     def test_getRawField_unknown_field(self):
         self.assertRaises(KeyError, self.entity.getRawField, 'asdf')
@@ -85,7 +109,7 @@ class TestEntity(unittest.TestCase):
 
     def test_getRawField_user_field(self):
         self.assertEqual(
-            self.user_field, self.entity.getRawField('Field#1'))
+            self.user_field, self.entity.getRawField('Field'))
 
     def test_getClass(self):
         self.assertEqual(Dummy, self.entity.getClass())

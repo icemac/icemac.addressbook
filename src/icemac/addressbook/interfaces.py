@@ -153,8 +153,8 @@ class IEntities(zope.interface.Interface):
         """
 
 
-class IEntity(zope.interface.Interface):
-    """Entity in the address book."""
+class IEntityRead(zope.interface.Interface):
+    """Entity in the address book. (Read only part of the interface.)"""
 
     title = zope.schema.TextLine(
         title=u"title of the entity", required=False)
@@ -200,6 +200,17 @@ class IEntity(zope.interface.Interface):
 
     def getClass():
         """Get the class object for `self.class_name`."""
+
+
+class IEntityWrite(zope.interface.Interface):
+    """Entity in the address book. (Write part of the interface.)"""
+
+    def addField(field):
+        """Add a user defined field to the entity."""
+
+
+class IEntity(IEntityRead, IEntityWrite):
+    """Entity in the address book."""
 
 
 class IField(zope.interface.Interface):

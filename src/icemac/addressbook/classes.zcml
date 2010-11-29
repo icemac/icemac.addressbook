@@ -202,11 +202,15 @@
   <class class=".entities.Entity">
     <require
        permission="icemac.addressbook.ViewAddressBook"
-       interface=".interfaces.IEntity"
+       interface=".interfaces.IEntityRead"
        />
     <require
        permission="icemac.addressbook.EditEntities"
-       set_schema=".interfaces.IEntity"
+       set_schema=".interfaces.IEntityRead"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IEntityWrite"
        />
   </class>
 

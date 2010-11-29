@@ -85,10 +85,12 @@ class TestInterfaces(unittest.TestCase):
     def test_entity(self):
         class IE(zope.interface.Interface):
             pass
+        entity = icemac.addressbook.entities.Entity(
+                u'E', IE, 'icemac.addressbook.TestInterfaces')
         zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntity,
-            icemac.addressbook.entities.Entity(
-                u'E', IE, 'icemac.addressbook.TestInterfaces'))
+            icemac.addressbook.interfaces.IEntityRead, entity)
+        zope.interface.verify.verifyObject(
+            icemac.addressbook.interfaces.IEntityWrite, entity)
 
     def test_field(self):
         zope.interface.verify.verifyObject(

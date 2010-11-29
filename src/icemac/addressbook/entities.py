@@ -186,6 +186,8 @@ class Entity(object):
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntity)
 
+    # IEntityRead
+
     title = zope.schema.fieldproperty.FieldProperty(
         icemac.addressbook.interfaces.IEntity['title'])
     interface = zope.schema.fieldproperty.FieldProperty(
@@ -270,6 +272,23 @@ class Entity(object):
             return zope.dottedname.resolve.resolve(self.class_name)
         raise ValueError("class_name is not set.")
 
+    # IEntityWrite
+
+    def addField(self, field):
+        """Add a user defined field to the entity."""
+        # The field needs to be stored in the entities utility:
+        parent = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        name = icemac.addressbook.utils.add(parent, field)
+        # The field needs to be an adapter:
+        sm = zope.site.hooks.getSiteManager()
+        sm.registerAdapter(
+            FieldAdapterFactory(field),
+            provided=icemac.addressbook.interfaces.IField,
+            required=(icemac.addressbook.interfaces.IEntity, self.interface),
+            name=name)
+        return name
+
 
 def create_entity(title, interface, class_, **kw):
     "Factory to create an entity and to the ZCA set up."
@@ -303,21 +322,6 @@ class FieldAdapterFactory(persistent.Persistent):
 
     def __call__(self, *args):
         return self._field
-
-
-def store_and_register_field(field, entity):
-    "Store a `field` in the ZODB and register it for an `entity`."
-    # store in entities utility
-    parent = zope.component.getUtility(icemac.addressbook.interfaces.IEntities)
-    name = icemac.addressbook.utils.add(parent, field)
-    # register as adapter
-    sm = zope.site.hooks.getSiteManager()
-    sm.registerAdapter(
-        FieldAdapterFactory(field),
-        provided=icemac.addressbook.interfaces.IField,
-        required=(icemac.addressbook.interfaces.IEntity, entity.interface),
-        name=name)
-    return name
 
 
 class FieldStorage(persistent.Persistent):
