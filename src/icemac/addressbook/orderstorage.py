@@ -45,10 +45,11 @@ class OrderStorage(
         return self._storage[namespace]
 
     # IOrderStorageWrite
+
     def add(self, obj, namespace):
         """Add an object to the order for a namespace."""
         if namespace not in self._storage:
-            self._storage[namespace] = persistent.list.PersistentList()
+            self._create_namespace(namespace)
         storage = self._storage[namespace]
         if obj not in storage:
             storage.append(obj)
@@ -56,6 +57,12 @@ class OrderStorage(
     def remove(self, obj, namespace):
         """Remove the object from the order of a namespace."""
         self._storage[namespace].remove(obj)
+
+    def truncate(self, namespace):
+        """Remove all objects from the order of a namespace."""
+        if namespace in self._storage:
+            # Creates new empty namespace when it exists.
+            self._create_namespace(namespace)
 
     def up(self, obj, namespace, delta=1):
         """Move the object one position up in the list."""
@@ -79,3 +86,8 @@ class OrderStorage(
                     "Moving %r by %s positions down would move it beyond the "
                     "end of the list." % (obj, delta))
             storage[index:index + 2] = reversed(storage[index:index + 2])
+
+    # private
+
+    def _create_namespace(self, namespace):
+        self._storage[namespace] = persistent.list.PersistentList()

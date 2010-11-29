@@ -289,6 +289,12 @@ class IOrderStorageWrite(zope.interface.Interface):
         Raises a KeyError when the namespace does not exist.
         """
 
+    def truncate(namespace):
+        """Remove all objects from the order of a namespace.
+
+        Does nothing when the namespace is not known.
+        """
+
     def up(obj, namespace, delta=1):
         """Move the object one position up in the list.
 
