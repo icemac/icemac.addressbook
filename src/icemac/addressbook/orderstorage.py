@@ -24,6 +24,10 @@ class OrderStorage(
         """Get an iterable of the known namespaces."""
         return self._storage.keys()
 
+    def isNamespace(self, namespace):
+        """Tells whether the `namespace` alreday exists."""
+        return namespace in self._storage.keys()
+
     def get(self, obj, namespace):
         """Get the index of the object in the list."""
         by_namespace = self.__iter__(namespace)

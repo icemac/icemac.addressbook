@@ -32,6 +32,17 @@ class TestOrderStorage(BaseTestOrderStorage):
             ['foo', 'foo2'], list(self.storage.__iter__('bar')))
         self.assertEqual(['foo2'], list(self.storage.__iter__('bar2')))
 
+    def test_isNamespace_none_existing(self):
+        self.assertEqual(self.storage.isNamespace('foo'), False)
+
+    def test_isNamespace_not_existing(self):
+        self.storage.add('foo', 'bar')
+        self.assertEqual(self.storage.isNamespace('foobar'), False)
+
+    def test_isNamespace_existing(self):
+        self.storage.add('foo', 'bar')
+        self.assertEqual(self.storage.isNamespace('bar'), True)
+
     def test_add_duplicate_no_error(self):
         self.storage.add('foo', 'bar')
         self.storage.add('foo', 'bar')
