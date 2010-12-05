@@ -58,9 +58,9 @@ class OrderStorage(
         """Remove the object from the order of a namespace."""
         self._storage[namespace].remove(obj)
 
-    def truncate(self, namespace):
+    def truncate(self, namespace, create=False):
         """Remove all objects from the order of a namespace."""
-        if namespace in self._storage:
+        if create or namespace in self._storage:
             # Creates new empty namespace when it exists.
             self._create_namespace(namespace)
 
