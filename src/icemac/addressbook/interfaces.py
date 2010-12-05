@@ -248,9 +248,6 @@ class IOrderStorageRead(zope.interface.Interface):
     def namespaces():
         """Get an iterable of the known namespaces."""
 
-    def isNamespace(namespace):
-        """Tells whether the `namespace` alreday exists."""
-
     def get(obj, namespace):
         """Get the index of the object in the list.
 
