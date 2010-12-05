@@ -98,11 +98,25 @@ class TestOrderStorage(BaseTestOrderStorage):
         # Truncation does not create a new namespace when it does not exist:
         self.assertEqual([], sorted(self.storage.namespaces()))
 
+    def test_truncate_not_existing_namespace_create(self):
+        self.storage.truncate('baz', create=True)
+        # Truncation creates a new namespace when `create` is set:
+        self.assertEqual(['baz'], sorted(self.storage.namespaces()))
+
     def test_truncate_existing_namespace(self):
         self.storage.add('foo1', 'bar')
         self.storage.add('foo2', 'bar')
         self.storage.add('foo1', 'baz')
         self.storage.truncate('bar')
+        # The specified namespace is empty, others are untouched:
+        self.assertEqual([], list(self.storage.__iter__('bar')))
+        self.assertEqual(['foo1'], list(self.storage.__iter__('baz')))
+
+    def test_truncate_existing_namespace_create(self):
+        self.storage.add('foo1', 'bar')
+        self.storage.add('foo2', 'bar')
+        self.storage.add('foo1', 'baz')
+        self.storage.truncate('bar', create=True)
         # The specified namespace is empty, others are untouched:
         self.assertEqual([], list(self.storage.__iter__('bar')))
         self.assertEqual(['foo1'], list(self.storage.__iter__('baz')))
