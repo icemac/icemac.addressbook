@@ -35,6 +35,11 @@ class TestEntity(unittest.TestCase):
             zope.container.contained.NameChooser,
             [icemac.addressbook.interfaces.IEntities])
 
+        # Order storage
+        storage = icemac.addressbook.orderstorage.OrderStorage()
+        zope.component.provideUtility(
+            storage, icemac.addressbook.interfaces.IOrderStorage)
+
         # Entity under test
         self.entity = icemac.addressbook.entities.Entity(
             u'Dummy', IDummy, 'icemac.addressbook.tests.test_entity.Dummy')
@@ -62,6 +67,51 @@ class TestEntity(unittest.TestCase):
             (self.entity, Dummy()),
             icemac.addressbook.interfaces.IField, name=u'Field')
         self.assertTrue(self.user_field is field)
+
+    def test_setFieldOrder_changing_initial_order(self):
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
+        self.assertEqual(['dummy2', 'Field', 'dummy'],
+                         self.entity.getFieldOrder())
+
+    def test_setFieldOrder_unkown_field_names(self):
+        self.entity.setFieldOrder(
+            ['dummy2', 'I-do-not-exist', 'dummy', 'Field'])
+        self.assertEqual(['dummy2', 'dummy', 'Field'],
+                         self.entity.getFieldOrder())
+        # Unknown field names are not written into storage:
+        order_storage = zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+        self.assertEqual(
+            ['dummy2', 'dummy', 'Field'],
+            order_storage.__iter__(self.entity._order_storage_namespace))
+
+    def test_setFieldOrder_missing_field_names(self):
+        self.entity.setFieldOrder(['Field', 'dummy'])
+        # getFieldOrder only contains the values set by setFieldOrder
+        self.assertEqual(['Field', 'dummy'],
+                         self.entity.getFieldOrder())
+        # When a field name is not in the field order it gets sorted to the
+        # end:
+        self.assertEqual(['Field', 'dummy', 'dummy2'],
+                         [x[0] for x in self.entity.getRawFields()])
+
+    def test_getFieldOrder_initial(self):
+        # The field order is initially empty:
+        self.assertEqual([], self.entity.getFieldOrder())
+
+    def test_getFieldOrder_no_utility(self):
+        # When the order utility cannot be found, the field order is empty,
+        # too:
+        zope.component.testing.tearDown()
+        self.assertEqual([], self.entity.getFieldOrder())
+
+    def test_getFieldOrder_namespace_not_computeable(self):
+        # The namespace in the order utility depends on the name of the
+        # entity which itself depends on the class_name stored on the
+        # entity. But this class name is optional, so the name might not be
+        # computable:
+        entity = icemac.addressbook.entities.Entity(u'Dummy', IDummy, None)
+        self.assertEqual([], entity.getFieldOrder())
 
     # IEntityRead
 

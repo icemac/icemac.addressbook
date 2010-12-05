@@ -4,6 +4,7 @@
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
+import sys
 import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
@@ -176,6 +177,14 @@ def user_field_to_schema_field(field):
     return schema_field
 
 
+def index(key, list, default):
+    "Index of `key` in `list` but `default` when it is not in `list`."
+    try:
+        return list.index(key)
+    except ValueError:
+        return default
+
+
 class FakeObject(object):
     "We need an instance to provide an interface for the `getAdapters` call."
 
@@ -229,14 +238,14 @@ class Entity(object):
         Returnes static (zope.schema) and user defined (IField) fields.
 
         """
-        for name, field in zope.schema.getFieldsInOrder(self.interface):
-            yield name, field
-        # self._fake_object is needed here as the interfaces provided by the
-        # objects are used in the look up
-        adapters = zope.component.getAdapters(
-            (self, self._fake_object), icemac.addressbook.interfaces.IField)
-        for name, field in adapters:
-            yield str(field.__name__), field
+        fields = self._get_raw_fields_unordered()
+        field_order = self.getFieldOrder()
+        raw_fields = list(self._get_raw_fields_unordered())
+        raw_field_order = [x[0] for x in raw_fields]
+        return sorted(
+            raw_fields,
+            key=lambda (name, field): index(
+                name, field_order, 100000 + raw_field_order.index(name)))
 
     def getFieldsInOrder(self):
         """Get ordered name, field tuples of the schema fields on the entity.
@@ -272,6 +281,17 @@ class Entity(object):
             return zope.dottedname.resolve.resolve(self.class_name)
         raise ValueError("class_name is not set.")
 
+    def getFieldOrder(self):
+        """Get the ordered names of the fields."""
+        order_storage = zope.component.queryUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+        try:
+            return order_storage.__iter__(self._order_storage_namespace)
+        except (KeyError, ValueError, AttributeError):
+            # Either the order_storage is None or the namespace cannot be
+            # computed or it is unknown, so we can't order the fields.
+            return []
+
     # IEntityWrite
 
     def addField(self, field):
@@ -288,6 +308,40 @@ class Entity(object):
             required=(icemac.addressbook.interfaces.IEntity, self.interface),
             name=name)
         return name
+
+    def setFieldOrder(self, field_names):
+        """Update the order of the fields like in `field_names`."""
+        order_storage = zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+        existing_field_names = [x[0] for x in self._get_raw_fields_unordered()]
+        ns = self._order_storage_namespace
+        # Removing exising contents of namespace in order storage while
+        # creating the namespace when it does not yet exist
+        order_storage.truncate(ns)
+        for name in field_names:
+            if name not in existing_field_names:
+                # We do not allow to write arbitrary data here:
+                continue
+            order_storage.add(name, ns)
+
+    # private
+
+    @property
+    def _order_storage_namespace(self):
+        "Get the name space used in the order storage."
+        return '%s%s' % (
+            icemac.addressbook.interfaces.FIELD_NS_PREFIX, self.name)
+
+    def _get_raw_fields_unordered(self):
+        "Get the raw fields not ordered."
+        for name, field in zope.schema.getFieldsInOrder(self.interface):
+            yield name, field
+        # self._fake_object is needed here as the interfaces provided by the
+        # objects are used in the look-up
+        adapters = zope.component.getAdapters(
+            (self, self._fake_object), icemac.addressbook.interfaces.IField)
+        for name, field in adapters:
+            yield str(field.__name__), field
 
 
 def create_entity(title, interface, class_, **kw):

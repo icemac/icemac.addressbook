@@ -15,6 +15,7 @@ import zope.schema
 
 PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
+FIELD_NS_PREFIX = 'fields-'
 
 
 class ITitle(zope.interface.Interface):
@@ -177,6 +178,13 @@ class IEntityRead(zope.interface.Interface):
         field.
         """
 
+    def getFieldOrder():
+        """Get the ordered names of the fields.
+
+        Caution: This method only returns the names for the fields which are
+        known in the field order!
+        """
+
     def getRawFields():
         """Get ordered name, field tuples of the schema fields on the entity.
 
@@ -207,6 +215,15 @@ class IEntityWrite(zope.interface.Interface):
 
     def addField(field):
         """Add a user defined field to the entity."""
+
+    def setFieldOrder(field_names):
+        """Update the order of the fields like in `field_names`.
+
+        field_names ... list of the names of the fields as returned by
+                        `getFieldsInOrder`.
+
+        Field names which do not belong to the entity are omitted.
+        """
 
 
 class IEntity(IEntityRead, IEntityWrite):
