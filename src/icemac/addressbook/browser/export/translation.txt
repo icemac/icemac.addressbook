@@ -43,7 +43,7 @@ header:
 >>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic visitor:visitor')
->>> browser.addHeader('Accept-Language', 'de')
+>>> browser.addHeader('Accept-Language', 'de-DE')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 
