@@ -19,7 +19,7 @@ Create a browser and log in an editor which perferres German:
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic editor:editor')
->>> browser.addHeader('Accept-Language', 'de')
+>>> browser.addHeader('Accept-Language', 'de-DE')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 
