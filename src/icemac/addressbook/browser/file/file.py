@@ -86,7 +86,7 @@ class Add(icemac.addressbook.browser.base.BaseAddForm):
     def fields(self):
         return z3c.form.field.Fields(
             *icemac.addressbook.interfaces.IEntity(
-                self.interface).getFieldValuesInOrder()).omit(
+                self.interface).getFieldValues()).omit(
             'name', 'mimeType', 'size')
 
     def create(self, data):

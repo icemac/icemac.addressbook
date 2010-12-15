@@ -99,7 +99,7 @@ class BaseForm(BaseView):
             field_values = ()
         else:
             fields = icemac.addressbook.interfaces.IEntity(self.interface)
-            field_values = fields.getFieldValuesInOrder()
+            field_values = fields.getFieldValues()
         return z3c.form.field.Fields(*field_values)
 
     class status(classproperty.classproperty):
@@ -305,7 +305,7 @@ class PrefixGroup(z3c.form.group.Group):
     def fields(self):
         fields = icemac.addressbook.interfaces.IEntity(self.interface)
         return z3c.form.field.Fields(
-            *fields.getFieldValuesInOrder(), **dict(prefix=self.prefix))
+            *fields.getFieldValues(), **dict(prefix=self.prefix))
 
 
 class CloneObject(BaseView):

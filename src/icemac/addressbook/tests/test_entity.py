@@ -125,21 +125,50 @@ class TestEntity(unittest.TestCase):
             icemac.addressbook.entities.Entity(None, IDummy, None), "name")
 
     def test_getRawFields(self):
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
+        self.assertEqual([('dummy2', IDummy['dummy2']),
+                          ('Field', self.user_field),
+                          ('dummy', IDummy['dummy']),],
+                         list(self.entity.getRawFields()))
+
+    def test_getRawFields_not_sorted(self):
+        # When `sorted` is false the zope.schema fields are returned first
+        # (the order is defined by the order in the interface) and then the
+        # user defined fields (order is undefined here.)
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
                           ('Field', self.user_field)],
-                         list(self.entity.getRawFields()))
+                         list(self.entity.getRawFields(sorted=False)))
 
-    def test_getFieldsInOrder(self):
+    def test_getFields(self):
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
+        self.assertEqual([('dummy2', IDummy['dummy2']),
+                          ('Field', self.schemaized_field),
+                          ('dummy', IDummy['dummy'])],
+                         list(self.entity.getFields()))
+
+    def test_getFields_not_sorted(self):
+        # When `sorted` is false the zope.schema fields are returned first
+        # (the order is defined by the order in the interface) and then the
+        # user defined fields (order is undefined here.)
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
         self.assertEqual([('dummy', IDummy['dummy']),
                           ('dummy2', IDummy['dummy2']),
                           ('Field', self.schemaized_field)],
-                         list(self.entity.getFieldsInOrder()))
+                         list(self.entity.getFields(sorted=False)))
 
-    def test_getFieldValuesInOrder(self):
+    def test_getFieldValues(self):
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
+        self.assertEqual(
+            [IDummy['dummy2'], self.schemaized_field, IDummy['dummy']],
+            self.entity.getFieldValues())
+
+    def test_getFieldValues_not_sorted(self):
+        self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
         self.assertEqual(
             [IDummy['dummy'], IDummy['dummy2'], self.schemaized_field],
-            self.entity.getFieldValuesInOrder())
+            self.entity.getFieldValues(sorted=False))
 
     def test_getField_unknown_field(self):
         self.assertRaises(KeyError, self.entity.getField, 'asdf')

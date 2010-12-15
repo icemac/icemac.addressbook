@@ -82,7 +82,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
     def write_headlines(self, col, interface, headline):
         self.sheet.write(0, col, headline, group_style)
         fields = icemac.addressbook.interfaces.IEntity(
-            interface).getFieldValuesInOrder()
+            interface).getFieldValues()
         for field in fields:
             self.sheet.write(1, col, self.translate(field.title), head_style)
             col += 1
@@ -106,7 +106,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
             return col
         idx = 0
         names_fields = icemac.addressbook.interfaces.IEntity(
-            interface).getFieldsInOrder()
+            interface).getFields()
         for name, field in names_fields:
             # Need to remove the security proxy to access the user
             # defined fields.
