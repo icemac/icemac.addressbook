@@ -184,6 +184,18 @@ def index(key, list, default):
     except ValueError:
         return default
 
+def sorted_fields(fields, field_order):
+    """Returns the fields sorted by their index in the `field_order`.
+
+    Fields which are not in the `field_order` are sorted to the end accordingly to their position in the `fields` list.
+
+    """
+    raw_field_order = [x[0] for x in fields]
+    return sorted(
+        fields,
+        key=lambda (name, field): index(
+            name, field_order, 100000 + raw_field_order.index(name)))
+
 
 class FakeObject(object):
     "We need an instance to provide an interface for the `getAdapters` call."
@@ -210,8 +222,9 @@ class Entity(object):
         self.title = title
         self.interface = interface
         self.class_name = class_name
-        # getRawFields needs an instance which provides the interface to
-        # look up the user defined fields which are named adapters
+        # _get_raw_fields_unordered needs an instance which provides the
+        # interface to look up the user defined fields which are named
+        # adapters:
         self._fake_object = FakeObject()
         zope.interface.directlyProvides(self._fake_object, self.interface)
         # Additional keyword arguments are stored as tagged values
@@ -232,48 +245,50 @@ class Entity(object):
         "Dict of tagged values of the entity."
         return self._tagged_values.copy()
 
-    def getRawFields(self):
-        """Get ordered name, field tuples of the schema fields on the entity.
+    def getRawFields(self, sorted=True):
+        """Get (name, field) tuples of the schema fields on the entity.
 
-        Returnes static (zope.schema) and user defined (IField) fields.
+        When `sorted` is true the fields are sorted using the field order.
+
+        Returns static (zope.schema) and user defined (IField) fields.
 
         """
-        fields = self._get_raw_fields_unordered()
-        field_order = self.getFieldOrder()
-        raw_fields = list(self._get_raw_fields_unordered())
-        raw_field_order = [x[0] for x in raw_fields]
-        return sorted(
-            raw_fields,
-            key=lambda (name, field): index(
-                name, field_order, 100000 + raw_field_order.index(name)))
+        raw_fields = self._get_raw_fields_unordered()
+        if not sorted:
+            return raw_fields
+        return sorted_fields(list(raw_fields), self.getFieldOrder())
 
-    def getFieldsInOrder(self):
-        """Get ordered name, field tuples of the schema fields on the entity.
+    def getFields(self, sorted=True):
+        """Get (name, field) tuples of the schema fields on the entity.
+
+        When `sorted` is true the fields are sorted using the field order.
 
         Converts user defined fields (see IField) into zope.schema fields.
 
         """
-        for name, field in self.getRawFields():
+        for name, field in self.getRawFields(sorted=sorted):
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 yield name, user_field_to_schema_field(field)
             else:
                 yield name, field
 
-    def getFieldValuesInOrder(self):
-        """Get ordered list of the schema fields on the entity.
+    def getFieldValues(self, sorted=True):
+        """Get list of the schema fields on the entity.
+
+        When `sorted` is true the fields are sorted using the field order.
 
         Converts user defined fields (see IField) into zope.schema fields.
 
         """
-        return [field for name, field in self.getFieldsInOrder()]
+        return [field for name, field in self.getFields(sorted=sorted)]
 
     def getRawField(self, field_name):
         """Get a field by its name."""
-        return dict(self.getRawFields())[field_name]
+        return dict(self.getRawFields(sorted=False))[field_name]
 
     def getField(self, field_name):
         """Get a zope.schema field by its name."""
-        return dict(self.getFieldsInOrder())[field_name]
+        return dict(self.getFields(sorted=False))[field_name]
 
     def getClass(self):
         """Get the class object for `self.class_name`."""

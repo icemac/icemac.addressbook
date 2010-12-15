@@ -68,20 +68,25 @@ def get_default_field(interface):
             return icemac.addressbook.interfaces.IPersonDefaults[name]
 
 
+def sorted_person_defaults(name_field_tuples):
+    """Sorts the `name_field_tuples` as defined in entity order."""
+    entity_order = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntityOrder)
+    return sorted(
+        name_field_tuples,
+        key=lambda (name, field): entity_order.get(
+            icemac.addressbook.address.default_attrib_name_to_entity(name)))
+
+
 class PersonDefaultsEntity(icemac.addressbook.entities.Entity):
     "Entity which sorts the fields in IPersonDefaults alike entity order."
 
-    def getRawFields(self):
-        name_fields = super(PersonDefaultsEntity, self).getRawFields()
-        entity_order = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntityOrder)
-
-        def sortkey((name, field)):
-            entity = (
-                icemac.addressbook.address.default_attrib_name_to_entity(name))
-            return entity_order.get(entity)
-
-        return sorted(name_fields, key=sortkey)
+    def getRawFields(self, sorted=True):
+        name_fields = super(
+            PersonDefaultsEntity, self).getRawFields(sorted=False)
+        if sorted:
+            return sorted_person_defaults(name_fields)
+        return name_fields
 
 
 person_defaults_entity = PersonDefaultsEntity(

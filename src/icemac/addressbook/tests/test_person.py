@@ -37,19 +37,7 @@ class PersonDefaultsEntityTest(unittest.TestCase):
         import zope.component.testing
         zope.component.testing.tearDown()
 
-    def callFUT(self):
-        import icemac.addressbook.person
-        pde = icemac.addressbook.person.PersonDefaultsEntity(
-            None, icemac.addressbook.interfaces.IPersonDefaults, None)
-        return [x[0] for x in pde.getRawFields()]
-
-    def test_default_sortorder(self):
-        self.assertEqual(
-            ['default_postal_address', 'default_phone_number',
-             'default_email_address', 'default_home_page_address'],
-            self.callFUT())
-
-    def test_changed_sortorder(self):
+    def change_sortorder(self):
         import icemac.addressbook.address
         import icemac.addressbook.interfaces
         import zope.component
@@ -59,7 +47,29 @@ class PersonDefaultsEntityTest(unittest.TestCase):
             icemac.addressbook.interfaces.IEntityOrder)
         entity_order.order[
             icemac.addressbook.address.postal_address_entity] = 15
+
+    def callFUT(self, sorted=True):
+        import icemac.addressbook.person
+        pde = icemac.addressbook.person.PersonDefaultsEntity(
+            None, icemac.addressbook.interfaces.IPersonDefaults, None)
+        return [x[0] for x in pde.getRawFields(sorted=sorted)]
+
+    def test_default_sortorder(self):
+        self.assertEqual(
+            ['default_postal_address', 'default_phone_number',
+             'default_email_address', 'default_home_page_address'],
+            self.callFUT())
+
+    def test_changed_sortorder(self):
+        self.change_sortorder()
         self.assertEqual(
             ['default_phone_number', 'default_postal_address',
              'default_email_address', 'default_home_page_address'],
             self.callFUT())
+
+    def test_changed_sortorder_not_sorted(self):
+        self.change_sortorder()
+        self.assertEqual(
+            ['default_postal_address', 'default_phone_number',
+             'default_email_address', 'default_home_page_address'],
+            self.callFUT(sorted=False))

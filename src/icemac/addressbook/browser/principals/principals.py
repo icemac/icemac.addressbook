@@ -82,7 +82,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
             +
             z3c.form.field.Fields(
                 *icemac.addressbook.interfaces.IEntity(
-                    self.interface).getFieldValuesInOrder()).omit(
+                    self.interface).getFieldValues()).omit(
                 'login', 'person')
             )
 
@@ -127,7 +127,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
             +
             z3c.form.field.Fields(
                 *icemac.addressbook.interfaces.IEntity(
-                    self.interface).getFieldValuesInOrder()).omit(
+                    self.interface).getFieldValues()).omit(
                 'person', 'login')
             )
 

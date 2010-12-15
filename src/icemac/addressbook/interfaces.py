@@ -185,22 +185,28 @@ class IEntityRead(zope.interface.Interface):
         known in the field order!
         """
 
-    def getRawFields():
-        """Get ordered name, field tuples of the schema fields on the entity.
+    def getRawFields(sorted=True):
+        """Get (name, field) tuples of the schema fields on the entity.
 
-        Returnes static (zope.schema) and user defined (IField) fields.
+        When `sorted` is true the fields are sorted using the field order.
+
+        Returns static (zope.schema) and user defined (IField) fields.
 
         """
 
-    def getFieldsInOrder():
-        """Get ordered name, field tuples of the schema fields on the entity.
+    def getFields(sorted=True):
+        """Get (name, field) tuples of the schema fields on the entity.
+
+        When `sorted` is true the fields are sorted using the field order.
 
         Converts user defined fields (see IField) into zope.schema fields.
 
         """
 
-    def getFieldValuesInOrder():
-        """Get ordered list of the schema fields on the entity.
+    def getFieldValues(sorted=True):
+        """Get list of the schema fields on the entity.
+
+        When `sorted` is true the fields are sorted using the field order.
 
         Converts user defined fields (see IField) into zope.schema fields.
 
@@ -220,7 +226,7 @@ class IEntityWrite(zope.interface.Interface):
         """Update the order of the fields like in `field_names`.
 
         field_names ... list of the names of the fields as returned by
-                        `getFieldsInOrder`.
+                        `getFields`.
 
         Field names which do not belong to the entity are omitted.
         """
