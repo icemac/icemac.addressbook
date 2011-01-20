@@ -27,7 +27,6 @@ def evolve(context):
     keyword title changed.
 
     """
-
     root = zope.generations.utility.getRootFolder(context)
 
     # fix steet attribute
