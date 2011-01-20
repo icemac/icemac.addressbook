@@ -8,13 +8,26 @@ fields.
 Set up
 ======
 
+We need an address book:
+
 >>> from icemac.addressbook.testing import create_addressbook
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from pprint import pprint
+>>> import zope.site.hooks
 >>> ab = create_addressbook()
+>>> old_site = zope.site.hooks.getSite()
+
+And a browser to access it:
+
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
+And a helper function for the test:
+
+>>> def pprint_form_fields(browser):
+...     pprint([x.name.rsplit('.', 1)[1]
+...             for x in browser.getForm().mech_form.controls])
 
 Add form
 ========
@@ -25,24 +38,29 @@ Default sort order
 Using the default sort order, the fieldsets are ordered the following way:
 
 >>> browser.getLink('person').click()
->>> print browser.contents
-<!DOCTYPE ...
-    <fieldset>
-      <legend>person</legend>
-      ...
-      <legend>postal address</legend>
-      ...
-      <legend>phone number</legend>
-      ...
-      <legend>e-mail address</legend>
-      ...
-      <legend>home page address</legend>
-      ...
+>>> pprint_form_fields(browser)
+['first_name',
+ 'last_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'address_prefix',
+ 'street',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'number',
+ 'email',
+ 'url',
+ 'add',
+ 'cancel']
 
-User definded sort order
-------------------------
+User definded entity sort order
+-------------------------------
 
-The sort order can be changed in the entities master data:
+The sort order of the entities can be changed in the entities master data:
 
 >>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Master data').click()
@@ -59,19 +77,58 @@ add form changes accordingly:
 ['Moved postal address up.']
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('person').click()
->>> print browser.contents
-<!DOCTYPE ...
-     <fieldset>
-      <legend>postal address</legend>
-      ...
-      <legend>person</legend>
-      ...
-      <legend>phone number</legend>
-      ...
-      <legend>e-mail address</legend>
-      ...
-      <legend>home page address</legend>
-      ...
+>>> pprint_form_fields(browser)
+['address_prefix',
+ 'street',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'first_name',
+ 'last_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'number',
+ 'email',
+ 'url',
+ 'add',
+ 'cancel']
+
+User definded field sort order
+------------------------------
+
+The sort order of fields of an entity can be changed on the entity itself:
+When switching the first name and the last name of the person the person add
+form changes accordingly:
+
+>>> from icemac.addressbook.interfaces import IPerson, IEntity
+>>> person_entity = IEntity(IPerson)
+>>> zope.site.hooks.setSite(ab)
+>>> person_entity.setFieldOrder(('last_name', 'first_name'))
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('person').click()
+>>> pprint_form_fields(browser)
+['address_prefix',
+ 'street',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'last_name',
+ 'first_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'number',
+ 'email',
+ 'url',
+ 'add',
+ 'cancel']
+
 
 Edit form
 =========
@@ -96,28 +153,43 @@ Using the default sort order, the fieldsets are ordered the following way:
 
 
 >>> browser.getLink('Tester').click()
->>> print browser.contents
-<!DOCTYPE ...
-     <fieldset>
-       <legend>person</legend>
-       ...
-       <legend>main adresses and numbers</legend>
-       ...
-       <legend>main postal address</legend>
-       ...
-       <legend>main phone number</legend>
-       ...
-       <legend>main e-mail address</legend>
-       ...
-       <legend>main home page address</legend>
-       ...
-       <legend>file</legend>
-       ...
+>>> pprint_form_fields(browser)
+['first_name',
+ 'last_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'default_postal_address:list',
+ 'default_postal_address-empty-marker',
+ 'default_phone_number:list',
+ 'default_phone_number-empty-marker',
+ 'default_email_address:list',
+ 'default_email_address-empty-marker',
+ 'default_home_page_address:list',
+ 'default_home_page_address-empty-marker',
+ 'address_prefix',
+ 'street',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'number',
+ 'email',
+ 'url',
+ 'mimeType',
+ 'name',
+ 'data',
+ 'apply',
+ 'cancel',
+ 'clone_person',
+ 'delete_person',
+ 'delete_entry']
 
-User defined sort order
------------------------
+User defined entity sort order
+------------------------------
 
-The sort order can be changed in the entities master data:
+The sort order of the entities can be changed in the entities master data:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
@@ -134,23 +206,86 @@ down, the sort order in the person edit form changes accordingly:
 ['Moved person down.']
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Tester').click()
->>> print browser.contents
-<!DOCTYPE ...
-     <fieldset>
-       <legend>main adresses and numbers</legend>
-       ...
-       <legend>person</legend>
-       ...
-       <legend>main postal address</legend>
-       ...
-       <legend>main phone number</legend>
-       ...
-       <legend>main e-mail address</legend>
-       ...
-       <legend>file</legend>
-       ...
-       <legend>main home page address</legend>
-       ...
+>>> pprint_form_fields(browser)
+['default_postal_address:list',
+ 'default_postal_address-empty-marker',
+ 'default_phone_number:list',
+ 'default_phone_number-empty-marker',
+ 'default_email_address:list',
+ 'default_email_address-empty-marker',
+ 'default_home_page_address:list',
+ 'default_home_page_address-empty-marker',
+ 'first_name',
+ 'last_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'address_prefix',
+ 'street',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'number',
+ 'email',
+ 'mimeType',
+ 'name',
+ 'data',
+ 'url',
+ 'apply',
+ 'cancel',
+ 'clone_person',
+ 'delete_person',
+ 'delete_entry']
+
+User defined field sort order
+-----------------------------
+
+The sort order of fields of an entity can be changed on the entity itself:
+When switching the address prefix and the street name of the postal address
+the person edit form changes accordingly:
+
+>>> from icemac.addressbook.interfaces import IPostalAddress, IEntity
+>>> zope.site.hooks.setSite(ab2)
+>>> person_entity = IEntity(IPostalAddress)
+>>> person_entity.setFieldOrder(('street', 'address_prefix'))
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Tester').click()
+>>> pprint_form_fields(browser)
+['default_postal_address:list',
+ 'default_postal_address-empty-marker',
+ 'default_phone_number:list',
+ 'default_phone_number-empty-marker',
+ 'default_email_address:list',
+ 'default_email_address-empty-marker',
+ 'default_home_page_address:list',
+ 'default_home_page_address-empty-marker',
+ 'first_name',
+ 'last_name',
+ 'birth_date',
+ 'keywords:list',
+ 'keywords-empty-marker',
+ 'notes',
+ 'street',
+ 'address_prefix',
+ 'city',
+ 'zip',
+ 'country:list',
+ 'country-empty-marker',
+ 'number',
+ 'email',
+ 'mimeType',
+ 'name',
+ 'data',
+ 'url',
+ 'apply',
+ 'cancel',
+ 'clone_person',
+ 'delete_person',
+ 'delete_entry']
+
 
 
 Edit form - main addresses and numbers
@@ -177,16 +312,17 @@ Default sort order
 Using the default sort order, the fieldsets are ordered the following way:
 
 >>> browser.getLink('Utzer').click()
->>> print browser.contents
-<!DOCTYPE ...
-                  <span>main postal address</span>
-                  ...
-                  <span>main phone number</span>
-                  ...
-                  <span>main e-mail address</span>
-                  ...
-                  <span>main home page address</span>
-                  ...
+>>> pprint_form_fields(browser)
+[...
+ 'default_postal_address:list',
+ 'default_postal_address-empty-marker',
+ 'default_phone_number:list',
+ 'default_phone_number-empty-marker',
+ 'default_email_address:list',
+ 'default_email_address-empty-marker',
+ 'default_home_page_address:list',
+ 'default_home_page_address-empty-marker',
+ ...
 
 User defined sort order
 -----------------------
@@ -204,13 +340,20 @@ addresses and numbers` sub form changes accordingly:
 ['Moved e-mail address up.']
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Utzer').click()
->>> print browser.contents
-<!DOCTYPE ...
-                  <span>main postal address</span>
-                  ...
-                  <span>main e-mail address</span>
-                  ...
-                  <span>main phone number</span>
-                  ...
-                  <span>main home page address</span>
-                  ...
+>>> pprint_form_fields(browser)
+[...
+ 'default_postal_address:list',
+ 'default_postal_address-empty-marker',
+ 'default_email_address:list',
+ 'default_email_address-empty-marker',
+ 'default_phone_number:list',
+ 'default_phone_number-empty-marker',
+ 'default_home_page_address:list',
+ 'default_home_page_address-empty-marker',
+ ...
+
+Tear down
+=========
+
+>>> zope.site.hooks.setSite(old_site)
+

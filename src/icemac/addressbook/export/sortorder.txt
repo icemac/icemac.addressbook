@@ -63,9 +63,12 @@ columns are ordered the following way:
  text:u'URL']
 
 
-The sort order can be changed using the entity order utility. When moving
-the phone numer one position up, the sort order in the export changes
-accordingly:
+Changing entity sort order
+--------------------------
+
+The sort order of the entities can be changed using the entity order
+utility. When moving the phone number one position up, the sort order in the
+export changes accordingly:
 
 >>> import zope.component
 >>> from icemac.addressbook.interfaces import IEntityOrder, IEntity, IPhoneNumber
@@ -93,6 +96,49 @@ accordingly:
  text:u'home page address']
 [text:u'first name',
  text:u'last name',
+ text:u'birth date',
+ text:u'keywords',
+ text:u'notes',
+ text:u'number',
+ text:u'address prefix',
+ text:u'street',
+ text:u'city',
+ text:u'zip',
+ text:u'country',
+ text:u'e-mail address',
+ text:u'URL']
+
+Changing field sort order
+-------------------------
+
+The sort order of fields of an entity can be changed on the entity
+itself. When moving the last name of the person one position up, the sort
+order in the export changes accordingly:
+
+>>> from icemac.addressbook.interfaces import IPerson, IEntity
+>>> person_entity = IEntity(IPerson)
+>>> person_entity.setFieldOrder(('last_name', 'first_name'))
+
+>>> export = DefaultsExport([]).export()
+>>> xls_workbook = xlrd.open_workbook(file_contents=export)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> for rx in range(work_sheet_0.nrows):
+...     pprint.pprint(work_sheet_0.row(rx))
+[text:u'person',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'phone number',
+ text:u'postal address',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'e-mail address',
+ text:u'home page address']
+[text:u'last name',
+ text:u'first name',
  text:u'birth date',
  text:u'keywords',
  text:u'notes',
@@ -182,10 +228,12 @@ columns are ordered the following way:
  empty:'',
  empty:'']
 
+Changing entity sort order
+--------------------------
 
-The sort order can be changed using the entity order utility. When moving
-the phone numer one position up, the sort order in the export changes
-accordingly:
+The sort order of the entities can be changed using the entity order
+utility. When moving the phone numer one position up, the sort order in the
+export changes accordingly:
 
 >>> import zope.component
 >>> from icemac.addressbook.interfaces import IEntityOrder, IEntity, IPhoneNumber
@@ -221,6 +269,66 @@ accordingly:
  text:u'number',
  text:u'address prefix',
  text:u'street',
+ text:u'city',
+ text:u'zip',
+ text:u'country',
+ text:u'e-mail address',
+ text:u'URL']
+[empty:'',
+ text:u'Tester',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'Germany',
+ empty:'',
+ empty:'']
+
+
+Changing field sort order
+--------------------------
+
+The sort order of fields of an entity can be changed on the entity
+itself. When moving the address prefix of the postal address one position
+down, the sort order in the export changes accordingly:
+
+>>> from icemac.addressbook.interfaces import IPostalAddress, IEntity
+>>> person_entity = IEntity(IPostalAddress)
+>>> person_entity.setFieldOrder(('street', 'address_prefix'))
+
+>>> export = CompleteExport([person]).export()
+>>> xls_workbook = xlrd.open_workbook(file_contents=export)
+>>> work_sheet_0 = xls_workbook.sheet_by_index(0)
+>>> for rx in range(work_sheet_0.nrows):
+...     pprint.pprint(work_sheet_0.row(rx))
+[text:u'person',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'main phone number',
+ text:u'other phone number',
+ text:u'main postal address',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'main e-mail address',
+ text:u'main home page address']
+[text:u'first name',
+ text:u'last name',
+ text:u'birth date',
+ text:u'keywords',
+ text:u'notes',
+ text:u'number',
+ text:u'number',
+ text:u'street',
+ text:u'address prefix',
  text:u'city',
  text:u'zip',
  text:u'country',
