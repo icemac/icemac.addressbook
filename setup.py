@@ -69,6 +69,7 @@ setuptools.setup(
         'gocept.pagelet',
         'gocept.reference',
         'hurry.jquery',
+        'hurry.jqueryui',
         'hurry.resource',
         'hurry.zoperesource',
         'icemac.ab.locales [compile] >= 0.5',

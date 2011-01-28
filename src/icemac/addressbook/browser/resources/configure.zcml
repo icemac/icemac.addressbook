@@ -17,4 +17,12 @@
       permission="zope.Public"
       />
 
+  <browser:resourceDirectory
+      name="js"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      directory="js"
+      permission="zope.Public"
+      />
+
+
 </configure>
