@@ -210,7 +210,7 @@
        />
     <require
        permission="icemac.addressbook.EditEntities"
-       set_schema=".interfaces.IEntityWrite"
+       interface=".interfaces.IEntityWrite"
        />
   </class>
 

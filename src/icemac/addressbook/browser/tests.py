@@ -16,6 +16,7 @@ def test_suite():
         "browser/entities/delete_choice_value.txt",
         "browser/entities/entities.txt",
         "browser/entities/file.txt",
+        "browser/entities/sortorder-fields.txt",
         "browser/entities/sortorder.txt",
         "browser/export/export.txt",
         "browser/export/translation.txt",

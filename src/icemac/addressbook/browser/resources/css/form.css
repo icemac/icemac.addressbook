@@ -61,7 +61,8 @@ div#content textarea {
 }
 
 /* buttons */
-form div.buttons {
+form div.buttons,
+div.js-form div.buttons {
     clear: left;
     position: fixed;
     bottom: 0;
@@ -85,10 +86,16 @@ div#content form div {
     clear: both;
 }
 
-form div.buttons input {
+form div.buttons input,
+div.js-form div.buttons button {
     opacity: 1;
 }
 
+div.js-form div.buttons button {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+}
 
 /* for forms: (metadata top right) */
 

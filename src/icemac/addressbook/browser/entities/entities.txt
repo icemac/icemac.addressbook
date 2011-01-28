@@ -67,11 +67,11 @@ When all invariants are satisfied, the form gets saved:
 'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
 >>> print browser.contents
 <!DOCTYPE ...
-    <tr class="table-odd-row">
-      <td>baz</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
-    </tr>
+      <tr id="Field-1" class="table-odd-row">
+        <td>baz</td>
+        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
+        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
+      </tr>
   ...
 
 

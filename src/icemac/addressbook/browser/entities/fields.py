@@ -13,7 +13,8 @@ import zope.app.publication.traversers
 import zope.publisher.interfaces
 import zope.publisher.interfaces.http
 import zope.security.proxy
-import zope.traversing.browser.interfaces
+import zope.traversing.browser
+import icemac.addressbook.browser.resource
 
 
 class FieldsTraverser(
@@ -32,55 +33,51 @@ class FieldsTraverser(
             return super(FieldsTraverser, self).publishTraverse(request, name)
 
 
-class LinkColumn(z3c.table.column.LinkColumn):
-    """Special link column which keeps the entity name in the url."""
-
-    def getLinkURL(self, item):
-        entities = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntities)
-        url = zope.component.getMultiAdapter(
-            (entities, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)()
-        url += "/" + self.context.__name__ + "/" + item.__name__
-        if self.linkName:
-            url += '/' + self.linkName
-        return url
-
-    def getLinkContent(self, item):
-        return zope.i18n.translate(
-            super(LinkColumn, self).getLinkContent(item), context=self.request)
-
-    def renderCell(self, item):
-        if icemac.addressbook.interfaces.IField.providedBy(item):
-            # Only user defined fields are editable:
-            return super(LinkColumn, self).renderCell(item)
-        return ''
+def get_field_URL(entity, field, request):
+    """Compute the URL to access a field."""
+    entities = zope.component.getUtility(
+        icemac.addressbook.interfaces.IEntities)
+    url = zope.traversing.browser.absoluteURL(entities, request)
+    url += "/" + entity.__name__ + "/" + field.__name__
+    return url
 
 
-class List(icemac.addressbook.browser.table.PageletTable):
+class List(object):
     """List fields of an entity."""
 
-    sortOn = None  # do not sort
+    def update(self):
+        super(List, self).update()
+        icemac.addressbook.browser.resource.masterdata_fields.need()
+        icemac.addressbook.browser.resource.table_css.need()
+        icemac.addressbook.browser.resource.form_css.need()
 
-    def setUpColumns(self):
-        return [
-            z3c.table.column.addColumn(
-                self, z3c.table.column.I18nGetAttrColumn, 'title', weight=1,
-                header=_(u'Field'), attrName='title'),
-            z3c.table.column.addColumn(
-                self, LinkColumn, 'delete', weight=190, header=_(u''),
-                linkContent=_(u'Delete'), linkName='@@delete.html'),
-            z3c.table.column.addColumn(
-                self, LinkColumn, 'edit', weight=200, header=_(u''),
-                linkContent=_(u'Edit')),
-            ]
 
-    @property
-    def values(self):
+    def _values(self):
         # zope.schema fields are no content classes, so they have no
         # permissions defined
         return [zope.security.proxy.getObject(field)
                 for name, field in self.context.getRawFields()]
+
+    def fields(self):
+        for field in self._values():
+            if icemac.addressbook.interfaces.IField.providedBy(field):
+                url = get_field_URL(self.context, field, self.request)
+                delete_url = '%s/@@delete.html' % url
+            else:
+                url = delete_url = None
+            yield {'title': field.title,
+                   'delete-link': delete_url,
+                   'edit-link': url,
+                   'id': field.__name__}
+
+
+class SaveSortorder(icemac.addressbook.browser.base.BaseView):
+    """Save the field sort order as defined by user."""
+
+    def __call__(self, f):
+        self.context.setFieldOrder(f)
+        self.send_flash(_('Saved sortorder.'))
+        self.request.response.redirect(self.url(self.context))
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):

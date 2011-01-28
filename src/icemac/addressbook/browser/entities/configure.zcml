@@ -63,6 +63,14 @@
      class="icemac.addressbook.browser.entities.fields.AddForm"
      />
 
+  <browser:page
+      name="save-sortorder.html"
+      for="icemac.addressbook.interfaces.IEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      permission="icemac.addressbook.EditEntities"
+      class=".fields.SaveSortorder"
+      />
+
   <!-- field -->
   <z3c:addMenuItem
       manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
