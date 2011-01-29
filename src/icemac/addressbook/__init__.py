@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2010 Michael Howitz
+# Copyright (c) 2010-2011 Michael Howitz
 # See also LICENSE.txt
 
 # Copyright string which can be recognized by fix-copyright script:
 copyright = '''
-# Copyright (c) 2008-2010 Michael Howitz
+# Copyright (c) 2008-2011 Michael Howitz
 '''[13:-1]
