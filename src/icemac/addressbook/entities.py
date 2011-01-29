@@ -204,6 +204,8 @@ class FakeObject(object):
 class Entity(object):
     "An entity int the address book universe."
     # Use `create_entity` factory for easier usage.
+    # Caution: This class is only a base class, in most cases you will use
+    #          EditableEntity (see below).
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntity)
 
@@ -359,10 +361,20 @@ class Entity(object):
             yield str(field.__name__), field
 
 
+class EditableEntity(Entity):
+    """Special entity which is editable.
+
+    This means that new fields can be added and the fields can be sorted.
+
+    """
+
+    zope.interface.implementsOnly(icemac.addressbook.interfaces.IEditableEntity)
+
+
 def create_entity(title, interface, class_, **kw):
-    "Factory to create an entity and to the ZCA set up."
+    "Factory to create an editable entity and to the ZCA set up."
     class_name = '%s.%s' % (class_.__module__, class_.__name__)
-    entity = Entity(title, interface, class_name, **kw)
+    entity = EditableEntity(title, interface, class_name, **kw)
     zope.interface.classImplements(
         class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity
