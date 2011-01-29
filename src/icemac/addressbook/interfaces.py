@@ -236,6 +236,14 @@ class IEntity(IEntityRead, IEntityWrite):
     """Entity in the address book."""
 
 
+class IEditableEntity(IEntity):
+    """Special entity which is editable.
+
+    This means that new fields can be added and the fields can be sorted.
+
+    """
+
+
 class IField(zope.interface.Interface):
     """User defined field."""
 

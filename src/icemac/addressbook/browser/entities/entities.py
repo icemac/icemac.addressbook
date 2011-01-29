@@ -45,6 +45,18 @@ class DownLinkColumn(z3c.table.column.LinkColumn):
         return super(DownLinkColumn, self).renderCell(item)
 
 
+class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
+    "Special LinkColumn which only displayes a link for IMayHaveUserFields items."
+
+    linkContent=_(u'Edit fields')
+    header=u''
+
+    def renderCell(self, item):
+        if icemac.addressbook.interfaces.IEditableEntity.providedBy(item):
+            return super(EditFieldsLinkColumn, self).renderCell(item)
+        return ''
+
+
 class List(icemac.addressbook.browser.table.Table):
     """List existing entities."""
 
@@ -60,9 +72,7 @@ class List(icemac.addressbook.browser.table.Table):
             z3c.table.column.addColumn(
                 self, DownLinkColumn, 'down', weight=30),
             z3c.table.column.addColumn(
-                self, icemac.addressbook.browser.table.LinkColumn,
-                'fields', weight=100, header=u'',
-                linkContent=_(u'Edit fields')),
+                self, EditFieldsLinkColumn, 'fields', weight=100),
             ]
 
     @property

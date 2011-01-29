@@ -130,7 +130,7 @@ The entity sort order is reflected in the entity table:
       <td>main adresses and numbers</td>
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@up.html">up</a></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults">Edit fields</a></td>
+      <td></td>
     </tr>
     <tr class="table-even-row">
       <td>phone number</td>

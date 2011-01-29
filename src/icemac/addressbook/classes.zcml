@@ -199,7 +199,7 @@
  </class>
 
   <!-- Entity -->
-  <class class=".entities.Entity">
+  <class class=".entities.EditableEntity">
     <require
        permission="icemac.addressbook.ViewAddressBook"
        interface=".interfaces.IEntityRead"

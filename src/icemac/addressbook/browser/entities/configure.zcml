@@ -42,7 +42,7 @@
 
   <gocept:pagelet
       name="index.html"
-      for="icemac.addressbook.interfaces.IEntity"
+      for="icemac.addressbook.interfaces.IEditableEntity"
       permission="icemac.addressbook.EditEntities"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       class=".fields.List"
@@ -52,12 +52,12 @@
   <browser:defaultView
      name="index.html"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IEntity"
+     for="icemac.addressbook.interfaces.IEditableEntity"
      />
 
   <z3c:pagelet
      name="addField.html"
-     for="icemac.addressbook.interfaces.IEntity"
+     for="icemac.addressbook.interfaces.IEditableEntity"
      permission="icemac.addressbook.EditEntities"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class="icemac.addressbook.browser.entities.fields.AddForm"
@@ -65,7 +65,7 @@
 
   <browser:page
       name="save-sortorder.html"
-      for="icemac.addressbook.interfaces.IEntity"
+      for="icemac.addressbook.interfaces.IEditableEntity"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       permission="icemac.addressbook.EditEntities"
       class=".fields.SaveSortorder"
@@ -74,7 +74,7 @@
   <!-- field -->
   <z3c:addMenuItem
       manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
-      for="icemac.addressbook.interfaces.IEntity"
+      for="icemac.addressbook.interfaces.IEditableEntity"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="field"
       title="field"
@@ -105,6 +105,7 @@
       permission="icemac.addressbook.EditEntities"
       />
 
+  <!-- move entity in entity sort order -->
   <browser:page
       for="icemac.addressbook.interfaces.IEntity"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
