@@ -72,7 +72,7 @@ setuptools.setup(
         'hurry.jqueryui',
         'hurry.resource',
         'hurry.zoperesource',
-        'icemac.ab.locales [compile] >= 0.7dev',
+        'icemac.ab.locales [compile] >= 0.7',
         'icemac.truncatetext',
         'setuptools',
         'xlwt',
