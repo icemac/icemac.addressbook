@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
+import gocept.selenium.grok
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
 import icemac.addressbook.file.file
@@ -66,6 +67,8 @@ def AddressBookUnittestSuite(*classes):
 
 
 FunctionalLayer = zope.app.wsgi.testlayer.BrowserLayer(icemac.addressbook)
+SeleniumLayer = gocept.selenium.grok.Layer(
+    icemac.addressbook, name='SeleniumLayer')
 
 
 class FunctionalTestCase(unittest.TestCase):
