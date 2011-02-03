@@ -23,7 +23,7 @@ its directory.
 
 3. Run ``install.py`` using your desired python, e. g.::
 
-   $ python2.5 install.py
+   $ python2.6 install.py
 
 4. Answer the questions about admin user name, password and so on.
 
@@ -124,7 +124,7 @@ a file named `install.user.ini` in the address book directory.
 To change the configuration values call `install.py` using python and
 enter a `.` as parameter like this::
 
-  $ python2.5 install.py .
+  $ python2.6 install.py .
 
 The configuration questions get presented to you with your previously
 entered values as default.

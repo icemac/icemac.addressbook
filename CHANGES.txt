@@ -5,7 +5,17 @@ Change log
 1.5.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+Features
+--------
+
+- Added ability to sort the fields of the entities.
+
+Bug fixes
+---------
+
+- It is no longer possible to add new fields to the 'main adresses and
+  numbers' entity as it makes no sense and breaks the address book.
+
 
 
 1.5.0 (2010-11-23)
@@ -68,18 +78,6 @@ Other changes
   dependent packages.
 
 .. _`Zope Toolkit 1.0a2`: http://docs.zope.org/zopetoolkit/releases/overview-1.0a2.html
-
-1.3.0 (2010-03-20)
-==================
-
-- Feature: Replaced `Simple single keyword search` by `Keyword search` which
-  allows to search for multiple keywords concatenated by `and` or `or`.
-
-
-1.2.0 (2010-02-06)
-==================
-
-- Feature: Added ability to clone a person.
 
 
 

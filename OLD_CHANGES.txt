@@ -2,6 +2,17 @@
  Old changes
 =============
 
+1.3.0 (2010-03-20)
+==================
+
+- Feature: Replaced `Simple single keyword search` by `Keyword search` which
+  allows to search for multiple keywords concatenated by `and` or `or`.
+
+
+1.2.0 (2010-02-06)
+==================
+
+- Feature: Added ability to clone a person.
 
 1.1.2 (2010-01-27)
 ==================
