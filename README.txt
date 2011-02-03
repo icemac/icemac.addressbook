@@ -19,6 +19,8 @@ Features
 
 - add data fields to persons and addresses using the user interface
 
+- ability to change the oder of the fields of persons and adresses
+
 - assign keywords to persons
 
 - search for persons by keywords
