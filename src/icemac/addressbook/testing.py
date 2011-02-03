@@ -30,7 +30,7 @@ import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
 
-if os.environ.get('ZOPETESTINGDOCTEST'): # pragma: no cover
+if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
     from zope.testing import doctest
 else:
     import doctest

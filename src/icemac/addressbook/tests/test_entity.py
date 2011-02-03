@@ -128,7 +128,7 @@ class TestEntity(unittest.TestCase):
         self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])
         self.assertEqual([('dummy2', IDummy['dummy2']),
                           ('Field', self.user_field),
-                          ('dummy', IDummy['dummy']),],
+                          ('dummy', IDummy['dummy'])],
                          list(self.entity.getRawFields()))
 
     def test_getRawFields_not_sorted(self):

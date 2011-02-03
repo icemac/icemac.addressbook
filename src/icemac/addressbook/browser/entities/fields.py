@@ -4,11 +4,9 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.metadata
-import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import urlparse
-import z3c.table.column
 import zope.app.publication.traversers
 import zope.publisher.interfaces
 import zope.publisher.interfaces.http
@@ -50,7 +48,6 @@ class List(object):
         icemac.addressbook.browser.resource.masterdata_fields.need()
         icemac.addressbook.browser.resource.table_css.need()
         icemac.addressbook.browser.resource.form_css.need()
-
 
     def _values(self):
         # zope.schema fields are no content classes, so they have no

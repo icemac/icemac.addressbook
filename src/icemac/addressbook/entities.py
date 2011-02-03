@@ -4,7 +4,6 @@
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
-import sys
 import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
@@ -184,10 +183,12 @@ def index(key, list, default):
     except ValueError:
         return default
 
+
 def sorted_fields(fields, field_order):
     """Returns the fields sorted by their index in the `field_order`.
 
-    Fields which are not in the `field_order` are sorted to the end accordingly to their position in the `fields` list.
+    Fields which are not in the `field_order` are sorted to the end
+    accordingly to their position in the `fields` list.
 
     """
     raw_field_order = [x[0] for x in fields]
@@ -368,7 +369,8 @@ class EditableEntity(Entity):
 
     """
 
-    zope.interface.implementsOnly(icemac.addressbook.interfaces.IEditableEntity)
+    zope.interface.implementsOnly(
+        icemac.addressbook.interfaces.IEditableEntity)
 
 
 def create_entity(title, interface, class_, **kw):
