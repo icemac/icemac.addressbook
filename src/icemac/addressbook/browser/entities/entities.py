@@ -46,10 +46,12 @@ class DownLinkColumn(z3c.table.column.LinkColumn):
 
 
 class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
-    "Special LinkColumn which only displayes a link for IMayHaveUserFields items."
+    """Special LinkColumn which only displayes a link for IMayHaveUserFields
+    items.
 
-    linkContent=_(u'Edit fields')
-    header=u''
+    """
+    linkContent = _(u'Edit fields')
+    header = u''
 
     def renderCell(self, item):
         if icemac.addressbook.interfaces.IEditableEntity.providedBy(item):
