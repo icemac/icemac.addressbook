@@ -39,6 +39,8 @@ class TestFieldOrder(gocept.selenium.grok.TestCase):
         # the assertion of the movement later on
         fieldtitle = sel.getText("//tr[4]/td[1]")
 
+        # The Drag'n'drop commands of selenium don't work so we have to
+        # emulate them:
         sel.mouseDownAt("//tr[4]/td[1]", "5,5")
         sel.mouseMoveAt("//tr[2]/td[1]", "5,5")
         sel.mouseUpAt("//tr[1]/td[1]", "5,5")
