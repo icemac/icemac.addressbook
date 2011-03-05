@@ -1,4 +1,4 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
@@ -13,20 +13,22 @@ import icemac.addressbook.preferences.default
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
-import zope.pluggableauth.authentication
-import zope.pluggableauth.interfaces
-import zope.pluggableauth.plugins.principalfolder
 import zope.authentication.interfaces
 import zope.catalog.catalog
 import zope.catalog.interfaces
+import zope.catalog.text
 import zope.component
 import zope.container.btree
 import zope.container.interfaces
+import zope.index.text.lexicon
 import zope.interface
 import zope.intid
 import zope.intid.interfaces
 import zope.location
 import zope.location.interfaces
+import zope.pluggableauth.authentication
+import zope.pluggableauth.interfaces
+import zope.pluggableauth.plugins.principalfolder
 import zope.schema.fieldproperty
 import zope.site.site
 
@@ -142,6 +144,13 @@ def add_more_addressbook_infrastructure(addressbook):
         catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
             'get_titles', icemac.addressbook.interfaces.IKeywordTitles,
             field_callable=True)
+    if 'name' not in catalog:
+        catalog['name'] = zope.catalog.text.TextIndex(
+            'get_name', icemac.addressbook.interfaces.IPersonName,
+            field_callable=True,
+            lexicon=zope.index.text.lexicon.Lexicon(
+                zope.index.text.lexicon.Splitter(),
+                zope.index.text.lexicon.CaseNormalizer()))
 
     # authenticator (PAU)
     if not icemac.addressbook.utils.utility_locally_registered(

@@ -103,6 +103,7 @@
   <subscriber handler=".keyword.changed" />
   <adapter factory=".person.Keywords" />
   <adapter factory=".person.title" />
+  <adapter factory=".person.PersonName" />
   <adapter
       for=".interfaces.IKeyword"
       factory=".adapter.obj_dot_title" />

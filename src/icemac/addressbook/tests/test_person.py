@@ -1,4 +1,4 @@
-import unittest
+import unittest2
 
 
 class MockEntitiesAndOrder(object):
@@ -20,7 +20,7 @@ class MockEntitiesAndOrder(object):
         return self.order.keys()
 
 
-class PersonDefaultsEntityTest(unittest.TestCase):
+class PersonDefaultsEntityTest(unittest2.TestCase):
 
     def setUp(self):
         import icemac.addressbook.interfaces
@@ -73,3 +73,27 @@ class PersonDefaultsEntityTest(unittest.TestCase):
             ['default_postal_address', 'default_phone_number',
              'default_email_address', 'default_home_page_address'],
             self.callFUT(sorted=False))
+
+
+class TestPersonName(unittest2.TestCase):
+
+    def callFUT(self, first_name=None, last_name=None):
+        import icemac.addressbook.person
+        person = icemac.addressbook.person.Person()
+        if first_name:
+            person.first_name = first_name
+        if last_name:
+            person.last_name = last_name
+        return icemac.addressbook.person.PersonName(person).get_name()
+
+    def test_get_name_returns_last_name_and_first_name_when_existing(self):
+        self.assertEqual(u'Bernd Tester', self.callFUT(u'Bernd', u'Tester'))
+
+    def test_get_name_returns_last_name_when_first_name_not_existing(self):
+        self.assertEqual(u'Tester', self.callFUT(last_name=u'Tester'))
+
+    def test_get_name_returns_first_name_when_last_name_not_existing(self):
+        self.assertEqual(u'Berns', self.callFUT(first_name=u'Berns'))
+
+    def test_get_name_returns_empty_string_when_no_name_exists(self):
+        self.assertEqual(u'', self.callFUT())
