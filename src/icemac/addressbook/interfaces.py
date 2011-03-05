@@ -57,6 +57,13 @@ class IPerson(zope.interface.Interface):
     notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
+class IPersonName(zope.interface.Interface):
+    """Name of a person, used for indexing."""
+
+    def get_name():
+        """Return first name and last name of the person."""
+
+
 class IPostalAddress(zope.interface.Interface):
     """A postal address."""
 

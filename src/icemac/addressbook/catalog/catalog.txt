@@ -18,7 +18,7 @@ that there is an int id registered for the person):
 
 >>> import zope.component
 >>> import zope.intid.interfaces
->>> kohn = create_person(addressbook, addressbook, u'Kohn')
+>>> kohn = create_person(addressbook, addressbook, u'Kohn', first_name=u'Ernst')
 >>> intids = zope.component.getUtility(
 ...     zope.intid.interfaces.IIntIds, context=addressbook)
 >>> intids.queryId(kohn) is not None
@@ -83,6 +83,22 @@ modified event:
 1
 >>> list(catalog.searchResults(keywords={'any_of': ('Freunde', )}))[0] is kohn
 True
+
+Name index
+----------
+
+First name and last name of the persons are indexed to be used in quick
+search:
+
+>>> len(catalog.searchResults(name='K??n'))
+1
+>>> list(catalog.searchResults(name='K??n'))[0] is kohn
+True
+>>> len(catalog.searchResults(name='Erns*'))
+1
+>>> len(catalog.searchResults(name='Erns'))
+0
+
 
 Tear down
 =========

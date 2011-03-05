@@ -122,3 +122,17 @@ class Keywords(object):
     def get_titles(self):
         return [icemac.addressbook.interfaces.ITitle(x)
                 for x in self.context.keywords]
+
+
+class PersonName(object):
+
+    zope.interface.implements(icemac.addressbook.interfaces.IPersonName)
+    zope.component.adapts(icemac.addressbook.interfaces.IPerson)
+
+    def __init__(self, person):
+        self.person = person
+
+    def get_name(self):
+        values = [self.person.first_name, self.person.last_name]
+        result = [x for x in values if x]
+        return ' '.join(result)
