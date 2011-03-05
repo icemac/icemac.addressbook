@@ -120,6 +120,7 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'gocept.selenium [grok]',
+            'unittest2',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
