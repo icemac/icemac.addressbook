@@ -8,7 +8,7 @@ Change log
 Features
 --------
 
-- Added new search: Search for person names. You may use wildcards in this
+- Added a new search: Search for person names. You may use wildcards in this
   search (? for a single character or * for multiple characters).
 
 
