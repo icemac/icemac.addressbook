@@ -5,7 +5,11 @@ Change log
 1.6.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+Features
+--------
+
+- Added new search: Search for person names. You may use wildcards in this
+  search (? for a single character or * for multiple characters).
 
 
 1.6.0 (2011-02-03)

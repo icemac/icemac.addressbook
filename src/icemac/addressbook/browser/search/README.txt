@@ -57,9 +57,9 @@ The search view
 The form viewlet
 ================
 
-- There is a base form `.base.BaseSearchForm` which requires to
-  implement an interface those schema fields are displayed in the
-  form.
+- There is a base form `.base.BaseSearchForm`. You only have to set the
+  `interface` attribute on a sub class. It has to be an interface with
+  schema fields which are displayed in the form.
 
 - The viewlet must be registered for the search view. Example::
 
@@ -76,12 +76,15 @@ The search adapter
 ==================
 
 - The adapter has to adapt the search view and provide
-  `.interfaces.ISearch`.
+  `.interfaces.ISearch`. There is `.base.BaseSearch` which can be used as a
+  base class.
 
 - The `search` method of the adapter is called with the search form
   contents as keyword arguments.
 
 - The `search` method must return an iterable of search results.
+
+- Don't forget to register the adapter in ZCML.
 
 
 The result display viewlet
@@ -94,7 +97,7 @@ to handle this.)
 
 There are some pre-defined result viewlets:
 
-- .result.simple.ExportForm + result/export.pt: simple table
+- `.result.simple.ExportForm` + `result/export.pt`: simple table
   containing names of persons, export abilities. Example to register
   viewlet::
 
@@ -108,7 +111,11 @@ There are some pre-defined result viewlets:
        permission="icemac.addressbook.ViewPerson"
       />
 
-- result_person.pt: (template)
+- `result_person.pt`: (template)
     simple list of found persons, no further actions possible
 
+Integration in address book
+===========================
+
+You have to include the ZCML file of your search in the address book's ZCML.
 
