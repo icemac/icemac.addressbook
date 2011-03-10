@@ -26,6 +26,7 @@ We need an address book, some keywords and some persons:
 ...                          keywords=set([family, church]))
 >>> liebig = create_person(addressbook, addressbook, u'Liebig',
 ...                        keywords=set([church]))
+>>> liese = create_person(addressbook, addressbook, u'Tester', first_name=u'Liese')
 
 >>> from zope.app.wsgi.testlayer import Browser
 >>> browser = Browser()
@@ -44,7 +45,10 @@ overview providing links to the offered search types:
   <ul class="bullet">
   <li>
   <a href="http://localhost/++skin++AddressBook/ab/@@multi_keyword.html"><span>Keyword search</span></a>
-  </li>
+</li>
+  <li>
+  <a href="http://localhost/++skin++AddressBook/ab/@@name_search.html"><span>Name search</span></a>
+</li>
 </ul>
   ...
 
@@ -151,3 +155,54 @@ of the selected keywords are found:
        <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
      </tr>
    </tbody>...
+
+
+Name search
+===========
+
+This search type allows to search for the name of a person (or parts of it
+using wildcards):
+
+>>> browser.getLink('Name search').click()
+
+When nothig is entered in the search field an error message is displayed:
+
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!...
+      <div class="status">
+        <div class="summary">There were some errors.</div>
+        <ul class="errors">
+          <li>
+              Name of a person:
+  <div class="error">Required input is missing.</div>
+          </li>
+        </ul>
+      </div>
+ ...
+
+When no person is found the a message is displayed:
+
+>>> browser.getControl('Name').value = 'Unknown'
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<...No person found...
+
+When entering a search term which leads to results they are displayed as
+a table with links to the edit forms of the found persons:
+
+>>> browser.getControl('Name').value = 'Lie*'
+>>> browser.getControl('Search').click()
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-5" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Tester, Liese</a></td>
+    </tr>
+  </tbody>
+  ...
