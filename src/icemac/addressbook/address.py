@@ -138,6 +138,23 @@ def phone_number_title(tel):
     return title
 
 
+def normalize_phone_number(number, country_code):
+    """Normalize a phone number to E.123 notation (but without spaces).
+
+    See: http://de.wikipedia.org/wiki/E.123"""
+    digits = ''.join(x for x in number if x.isdigit())
+    if digits.startswith('00'):
+        # old writing of numbers abroad
+        return digits.replace('00', '+', 1)
+    if not country_code:
+        # without country_code no further normalization is possible
+        return digits
+    if digits.startswith('0'):
+        # normalize numbers without country code
+        return digits.replace('0', country_code, 1)
+    return '+' + digits
+
+
 def default_attrib_name_to_entity(default_attrib_name):
     "Convert the name of a default attrib to the entity where it is defined on"
     entities = zope.component.getUtility(
