@@ -12,6 +12,7 @@ import zope.interface.verify
 
 
 class TestInterfaces(unittest.TestCase):
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_UNITTESTS
 
     def test_principal(self):
         principal = icemac.addressbook.principals.principals.Principal()
@@ -26,7 +27,3 @@ class TestInterfaces(unittest.TestCase):
             principal)
         zope.interface.verify.verifyObject(
             icemac.addressbook.principals.interfaces.IRoles, principal)
-
-
-def test_suite():
-    return icemac.addressbook.testing.AddressBookUnittestSuite(TestInterfaces)

@@ -120,12 +120,13 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'gocept.selenium [grok]',
+            'plone.testing',
             'unittest2',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
             'zope.testbrowser',
-            'zope.testing',
+            'zope.testing >= 3.8',
             ],
         z3cpt=[
             'z3c.pt',

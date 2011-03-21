@@ -16,6 +16,7 @@ import icemac.addressbook.utils
 import inspect
 import os
 import os.path
+import plone.testing
 import re
 import tempfile
 import unittest
@@ -36,34 +37,21 @@ else:
     import doctest
 
 
-class AddressBookUnitTests(zope.testrunner.layer.UnitTests):
+class AddressBookUnitTests(plone.testing.Layer):
     """Layer for gathering addressbook unit tests."""
+    defaultBases = (zope.testrunner.layer.UnitTests,)
 
-    @classmethod
-    def setUp(cls):
+    def setUp(self):
         # Some classes use gocept.reference and store default values for
         # which annotations are needed.
         zope.component.provideAdapter(
             zope.annotation.attribute.AttributeAnnotations)
 
     @classmethod
-    def tearDown(cls):
+    def tearDown(self):
         zope.testing.cleanup.tearDown()
 
-
-def UnittestSuite(*classes):
-    """Create a unittest test suite from unittest test classes."""
-    suite = unittest.TestSuite()
-    for class_ in classes:
-        suite.addTest(unittest.makeSuite(class_))
-    return suite
-
-
-def AddressBookUnittestSuite(*classes):
-    """Create a unittest test suite on addressbook layer."""
-    suite = UnittestSuite(*classes)
-    suite.layer = AddressBookUnitTests
-    return suite
+ADDRESS_BOOK_UNITTESTS = AddressBookUnitTests()
 
 
 FunctionalLayer = zope.app.wsgi.testlayer.BrowserLayer(icemac.addressbook)
