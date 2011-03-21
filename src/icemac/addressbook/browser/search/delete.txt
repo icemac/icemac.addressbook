@@ -58,25 +58,30 @@ selected by default:
   <thead>
     <tr>
       <th></th>
-      <th>Name</th>
+      <th>last name</th>
+      <th>first name</th>
     </tr>
   </thead>
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+      <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
+      <td></td>
     </tr>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-5" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Utzer, Ben</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Utzer</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Ben</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+      <td></td>
     </tr>
  </tbody>
 </table>...

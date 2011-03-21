@@ -82,7 +82,7 @@ class CheckBoxColumn(z3c.table.column.CheckBoxColumn):
     """Table column to show checkboxes to select result rows for export."""
 
     header = u''
-    weight = 1
+    weight = -1
 
     def getItemKey(self, item):
         return 'persons:list'

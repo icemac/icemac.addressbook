@@ -40,7 +40,7 @@
       view=".name.SearchView"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="result_table"
-      class=".result.simple.ExportForm"
+      class=".result.personlist.ExportForm"
       template="result/export.pt"
       permission="icemac.addressbook.ViewPerson"
       />
