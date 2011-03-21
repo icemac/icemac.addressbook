@@ -81,7 +81,3 @@ class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
         transaction.commit()
         self.fd = self.file.openDetached()
         self.assertEqual('6789\n0123', self.fd.read())
-
-
-def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(TestFile, FTestFile)

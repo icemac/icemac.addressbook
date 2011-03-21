@@ -26,7 +26,3 @@ class Test_cleanup_filename(unittest.TestCase):
     def test_UNC_filename(self):
         self.assertEqual(
             'sample.txt', cleanup_filename(r'\\server\mine\sample.txt'))
-
-
-def test_suite():
-    return icemac.addressbook.testing.UnittestSuite(Test_cleanup_filename)

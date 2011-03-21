@@ -63,14 +63,3 @@ class Test_export(unittest.TestCase):
     def test_export(self):
         exporter = icemac.addressbook.export.base.BaseExporter(None)
         self.assertRaises(NotImplementedError, exporter.export)
-
-
-def test_suite():
-    suite = icemac.addressbook.testing.UnittestSuite(
-        TestInterfaces, Test__eq__, Test_export)
-    suite.addTest(icemac.addressbook.testing.FunctionalDocFileSuite(
-        'export/export.txt',
-        'export/sortorder.txt',
-        'export/userfields.txt',
-        ))
-    return suite
