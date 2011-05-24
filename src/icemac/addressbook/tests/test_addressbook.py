@@ -5,15 +5,18 @@
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
-import zope.location.interfaces
-import zope.intid.interfaces
-import zope.catalog.interfaces
-import zope.authentication.interfaces
-import zope.pluggableauth.interfaces
 import icemac.addressbook.utils
+import unittest
+import zope.authentication.interfaces
+import zope.catalog.interfaces
+import zope.intid.interfaces
+import zope.location.interfaces
+import zope.pluggableauth.interfaces
 
 
-class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
+class TestAddressbook(unittest.TestCase):
+
+    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
 
     def assertLocalUtility(self, ab, iface):
         self.assertTrue(icemac.addressbook.utils.utility_locally_registered(
@@ -43,7 +46,7 @@ class TestAddressbook(icemac.addressbook.testing.FunctionalTestCase):
 
     def setUp(self):
         super(TestAddressbook, self).setUp()
-        root = self.layer.getRootFolder()
+        root = self.layer['rootFolder']
         root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
             icemac.addressbook.addressbook.AddressBook)
 

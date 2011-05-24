@@ -12,24 +12,34 @@ import icemac.addressbook.keyword
 import icemac.addressbook.person
 import icemac.addressbook.principals.principals
 import icemac.addressbook.principals.sources
+import icemac.addressbook.startup
 import icemac.addressbook.utils
 import inspect
 import os
 import os.path
 import plone.testing
+import plone.testing.zca
+import plone.testing.zodb
 import re
 import tempfile
+import transaction
 import unittest
 import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
+import zope.app.publication.httpfactory
+import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
 import zope.component
+import zope.event
+import zope.processlifetime
 import zope.site.hooks
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
+import zope.testbrowser.wsgi
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
+
 
 if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
     from zope.testing import doctest
@@ -37,7 +47,7 @@ else:
     import doctest
 
 
-class AddressBookUnitTests(plone.testing.Layer):
+class _AddressBookUnitTests(plone.testing.Layer):
     """Layer for gathering addressbook unit tests."""
     defaultBases = (zope.testrunner.layer.UnitTests,)
 
@@ -47,49 +57,182 @@ class AddressBookUnitTests(plone.testing.Layer):
         zope.component.provideAdapter(
             zope.annotation.attribute.AttributeAnnotations)
 
-    @classmethod
     def tearDown(self):
         zope.testing.cleanup.tearDown()
 
-ADDRESS_BOOK_UNITTESTS = AddressBookUnitTests()
+ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 
 
-FunctionalLayer = zope.app.wsgi.testlayer.BrowserLayer(icemac.addressbook)
+class _ZCMLAndZODBLayer(plone.testing.zodb.EmptyZODB):
+    """Layer which sets up ZCML and ZODB to be useable for Zope 3."""
+    defaultBases = (plone.testing.zca.LAYER_CLEANUP,)
+
+    def setUp(self):
+        super(_ZCMLAndZODBLayer, self).setUp()
+        plone.testing.zca.setUpZcmlFiles(
+            [("ftesting.zcml", icemac.addressbook)])
+        zope.event.notify(zope.processlifetime.DatabaseOpened(self['zodbDB']))
+        transaction.commit()
+
+    def tearDown(self):
+        plone.testing.zca.tearDownZcmlFiles()
+        super(_ZCMLAndZODBLayer, self).tearDown()
+
+    def testSetUp(self):
+        pass
+
+    def testTearDown(self):
+        pass
+
+
+ZCML_AND_ZODB_LAYER = _ZCMLAndZODBLayer(name='ZCMLAndZODBLayer')
+
+
+def setUpStackedDemoStorage(self, name):
+    self['zodbDB'] = plone.testing.zodb.stackDemoStorage(
+        self['zodbDB'], name=name)
+
+def createZODBConnection(zodbDB):
+    connection = zodbDB.open()
+    zodbRoot = connection.root()
+    rootFolder= zodbRoot[
+        zope.app.publication.zopepublication.ZopePublication.root_name]
+    return connection, zodbRoot, rootFolder
+
+def setUpZODBConnection(self):
+    self['zodbConnection'], self['zodbRoot'], self['rootFolder'] = (
+        createZODBConnection(self['zodbDB']))
+    transaction.begin()
+
+def tearDownZODBConnection(self):
+    del self['rootFolder']
+    transaction.abort()
+    self['zodbConnection'].close()
+    del self['zodbConnection']
+    del self['zodbRoot']
+
+def tearDownStackedDemoStorage(self):
+    self['zodbDB'].close()
+    del self['zodbDB']
+
+
+class _ZODBTestLayer(plone.testing.Layer):
+    """Layer which opens the ZODB for each test."""
+    defaultBases = (ZCML_AND_ZODB_LAYER,)
+
+    def testSetUp(self):
+        setUpZODBConnection(self)
+
+    def testTearDown(self):
+        tearDownZODBConnection(self)
+
+FUNCTIONAL_LAYER = _ZODBTestLayer(name='ZODBTestLayer')
+
+
+class _ZODBIsolatedTestLayer(plone.testing.Layer):
+    """Layer which puts a DemoStorage on ZODB for each test."""
+    defaultBases = (ZCML_AND_ZODB_LAYER,)
+
+    def testSetUp(self):
+        setUpStackedDemoStorage(self, self.__name__)
+        setUpZODBConnection(self)
+
+    def testTearDown(self):
+        tearDownStackedDemoStorage(self)
+        tearDownZODBConnection(self)
+
+ZODB_ISOLATED_TEST_LAYER = _ZODBIsolatedTestLayer(name='ZODBIsolatedTestLayer')
+
+
+class WSGILayer(plone.testing.Layer):
+    """Layer which sets up a WSGI stack."""
+    defaultBases = (ZODB_ISOLATED_TEST_LAYER,)
+
+    def get_wsgi_pipeline(self):
+        return icemac.addressbook.startup.application_factory(
+            {}, db=self['zodbDB'])
+
+    def setUp(self):
+        self['wsgi_app'] = self.get_wsgi_pipeline()
+
+    def tearDown(self):
+        del self['wsgi_app']
+
+WSGI_LAYER = WSGILayer()
+
+
+class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
+                                  plone.testing.Layer):
+    """Layer for zope.testbrowser.wsgi tests."""
+    defaultBases = (WSGI_LAYER,)
+
+    def make_wsgi_app(self):
+        def getRootFolder():
+            return self['rootFolder']
+        # We could use zope.app.wsgi.testlayer.BrowserLayer but it extends
+        # ZODBLayer which we do not want as a base class, so we have to
+        # duplicate its middleware stack here:
+        return zope.testbrowser.wsgi.AuthorizationMiddleware(
+            zope.app.wsgi.testlayer.TransactionMiddleware(
+                getRootFolder, self['wsgi_app']))
+
+    def testSetUp(self):
+        # WSGI app stores the database at layer set up but we get a new
+        # database at test set up, so we have to set the right ZODB here:
+        self['wsgi_app'].requestFactory = (
+            zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
+                self['zodbDB']))
+
+
+WSGI_TEST_BROWSER_LAYER = _WSGITestBrowserLayer(name='WSGITestBrowserLayer')
+
+
 SeleniumLayer = gocept.selenium.grok.Layer(
     icemac.addressbook, name='SeleniumLayer')
 
 
-class FunctionalTestCase(unittest.TestCase):
-    """Base class for functional tests."""
+def setUpAddressBook(self):
+    self.old_site = zope.site.hooks.getSite()
+    conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
+    addressbook = create_addressbook(parent=rootFolder)
+    zope.site.hooks.setSite(addressbook)
+    transaction.commit()
+    conn.close()
+    return addressbook
 
-    layer = FunctionalLayer
 
-
-class AddressBookFunctionalTestCase(FunctionalTestCase):
-    "Functional test case where the address book gets created in the set up."
+class _AddressBookFunctionalLayer(plone.testing.Layer):
+    "Layer where the address book gets created in the layer set up."
+    defaultBases = (ZCML_AND_ZODB_LAYER,)
 
     def setUp(self):
-        super(AddressBookFunctionalTestCase, self).setUp()
-        self.old_site = zope.site.hooks.getSite()
-        zope.site.hooks.setSite(
-            icemac.addressbook.testing.create_addressbook(
-                parent=self.layer.getRootFolder()))
+        setUpStackedDemoStorage(self, 'AddressBookFunctionalTestCase')
+        self['addressbook'] = setUpAddressBook(self)
 
     def tearDown(self):
-        super(AddressBookFunctionalTestCase, self).tearDown()
         zope.site.hooks.setSite(self.old_site)
+        del self['addressbook']
+        tearDownStackedDemoStorage(self)
+
+    def testSetUp(self):
+        setUpZODBConnection(self)
+        zope.site.hooks.setSite(self['addressbook'])
+
+    def testTearDown(self):
+        tearDownZODBConnection(self)
+
+ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
+    name='AddressBookFunctionalLayer')
 
 
-def FunctionalDocFileSuite(*paths, **kw):
+def DocFileSuite(*paths, **kw):
+    """Project specific DocFileSuite."""
     kw['optionflags'] = (kw.get('optionflags', 0) |
                          doctest.ELLIPSIS |
                          doctest.NORMALIZE_WHITESPACE)
-    if 'layer' in kw:
-        layer = kw.pop('layer')
-    else:
-        layer = FunctionalLayer
+    layer = kw.pop('layer')
     globs = kw.setdefault('globs', {})
-    globs['getRootFolder'] = layer.getRootFolder
+    globs['layer'] = layer
     if 'checker' not in kw:
         kw['checker'] = zope.testing.renormalizing.RENormalizing([
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
@@ -98,6 +241,17 @@ def FunctionalDocFileSuite(*paths, **kw):
     suite = doctest.DocFileSuite(*paths, **kw)
     suite.layer = layer
     return suite
+
+def FunctionalDocFileSuite(*paths, **kw):
+    """DocFileSuite on FUNCTIONAL_LAYER."""
+    if 'layer' in kw:
+        raise RuntimeError
+    return DocFileSuite(layer=FUNCTIONAL_LAYER, *paths, **kw)
+
+
+def TestBrowserDocFileSuite(*paths, **kw):
+    """DocFileSuite on WSGI_TEST_BROWSER_LAYER."""
+    return DocFileSuite(layer=WSGI_TEST_BROWSER_LAYER, *paths, **kw)
 
 
 def _get_control_names(interface, browser=None, form=None):
@@ -182,10 +336,10 @@ def create_addressbook(name='ab', title=u'test address book', parent=None):
     """
     ab = icemac.addressbook.utils.create_obj(
         icemac.addressbook.addressbook.AddressBook, title=title)
-    frame = inspect.currentframe()
     if parent is None:
+        frame = inspect.currentframe()
         try:
-            parent = frame.f_back.f_globals['getRootFolder']()
+            parent = frame.f_back.f_globals['layer']['rootFolder']
         finally:
             del frame
     parent[name] = ab

@@ -7,26 +7,13 @@ The administrator is able to delete the persons he found using a search.
 Set up
 ======
 
-We need an address book, some keywords and some persons:
+The layer defined an address book, some keywords and some persons. We need a
+user, too:
 
->>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_keyword, create_user)
->>> addressbook = create_addressbook()
->>> friends = create_keyword(addressbook, u'friends')
->>> family = create_keyword(addressbook, u'family')
->>> church = create_keyword(addressbook, u'church')
->>> work = create_keyword(addressbook, u'work')
->>> anyone_else = create_keyword(addressbook, u'anyone else')
->>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
-...                         keywords=set([friends]))
->>> koch = create_person(addressbook, addressbook, u'Koch',
-...                      keywords=set([family, church]))
->>> velleuer = create_person(addressbook, addressbook, u'Velleuer',
-...                          keywords=set([family, church]))
->>> liebig = create_person(addressbook, addressbook, u'Liebig',
-...                        keywords=set([church]))
->>> create_user(addressbook, addressbook, u'Ben', u'Utzer', u'ben@example.com',
-...     u'12345678', [], keywords=set([church]))
+>>> from icemac.addressbook.testing import create_user
+>>> create_user(layer['addressbook'], layer['addressbook'], u'Ben',
+...     u'Utzer', u'ben@example.com', u'12345678', [],
+...     keywords=set([layer['kw_church']]))
 
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()

@@ -10,7 +10,7 @@ Set up
 
 We need a browser, and a user logged-in:
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from zope.testbrowser.wsgi import Browser
 >>> browser = Browser()
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 

@@ -1,14 +1,30 @@
+from zope.app.publication.httpfactory import HTTPPublicationRequestFactory
+import code
 import os
 import sys
-import code
 import zdaemon.zdctl
-import zope.app.wsgi
 import zope.app.debug
+import zope.app.wsgi
+import zope.app.wsgi.interfaces
+zope.event
 
 
-def application_factory(global_conf, conf='zope.conf'):
-    zope_conf = os.path.join(global_conf['here'], conf)
-    return zope.app.wsgi.getWSGIApplication(zope_conf)
+def application_factory(global_conf, conf='zope.conf', db=None,
+                        requestFactory=HTTPPublicationRequestFactory,
+                        handle_errors=True):
+    """Application Factory, mainly copyied from zope.app.wsgi.getWSGIApplication,
+       but added the ability to do the set up done in zope.conf from outside."""
+    if db is None:
+        zope_conf = os.path.join(global_conf['here'], conf)
+        db = zope.app.wsgi.config(zope_conf)
+    application = zope.app.wsgi.WSGIPublisherApplication(
+        db, requestFactory, handle_errors)
+
+    # Create the application, notify subscribers.
+    zope.event.notify(
+        zope.app.wsgi.interfaces.WSGIPublisherApplicationCreated(application))
+
+    return application
 
 
 def interactive_debug_prompt(zope_conf='zope.conf'):

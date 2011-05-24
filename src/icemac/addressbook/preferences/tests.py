@@ -6,7 +6,7 @@ import icemac.addressbook.testing
 
 
 def test_suite():
-    return icemac.addressbook.testing.FunctionalDocFileSuite(
+    return icemac.addressbook.testing.TestBrowserDocFileSuite(
         'person-list-batching.txt',
         'person-list-userfields.txt',
         'person-list.txt',

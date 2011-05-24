@@ -5,6 +5,7 @@
 import icemac.addressbook.entities
 import icemac.addressbook.orderstorage
 import icemac.addressbook.testing
+import plone.testing.zca
 import unittest
 import zope.component.testing
 
@@ -58,8 +59,9 @@ class TestPersistentEntities(EntitiesTests, unittest.TestCase):
     entities_class = icemac.addressbook.entities.PersistentEntities
 
 
-class TestEntities_getMainEntities(
-    icemac.addressbook.testing.AddressBookFunctionalTestCase):
+class TestEntities_getMainEntities(unittest.TestCase):
+
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
 
     def callFUT(self, sorted):
         import zope.component
@@ -94,8 +96,9 @@ class TestEntities_getMainEntities(
         self.assertEqual(self.DEFAULT_ORDER, self.callFUT(False))
 
 
-class TestEntityOrder(
-    icemac.addressbook.testing.AddressBookFunctionalTestCase):
+class TestEntityOrder(unittest.TestCase):
+
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
 
     def getEntity(self, iface_name):
         import icemac.addressbook.interfaces
@@ -219,7 +222,7 @@ class TestEntityOrder(
         import zope.site.hooks
 
         ab2 = icemac.addressbook.testing.create_addressbook(
-            'ab2', parent=self.layer.getRootFolder())
+            'ab2', parent=self.layer['rootFolder'])
 
         person = self.getEntity('IPerson')
         self.assertEqual(1, self.entity_order.get(person))
@@ -234,7 +237,7 @@ class TestEntityOrder(
         import zope.component
         import zope.site.hooks
 
-        zope.site.hooks.setSite(self.old_site)
+        zope.site.hooks.setSite(None)
         self.assertRaises(
             zope.component.ComponentLookupError,
             self.entity_order.get, self.getEntity('IPerson'))
@@ -242,9 +245,10 @@ class TestEntityOrder(
 
 class TestEntityAdapters(unittest.TestCase):
 
+    layer = plone.testing.zca.UNIT_TESTING
+
     def setUp(self):
         from icemac.addressbook.tests.stubs import setUpStubEntities
-        zope.component.testing.setUp()
         setUpStubEntities(self, icemac.addressbook.entities.Entities)
         zope.component.provideAdapter(
             icemac.addressbook.entities.entity_by_name)
@@ -252,9 +256,6 @@ class TestEntityAdapters(unittest.TestCase):
             icemac.addressbook.entities.entity_by_interface)
         zope.component.provideAdapter(
             icemac.addressbook.entities.entity_by_obj)
-
-    def tearDown(self):
-        zope.component.testing.tearDown()
 
     # no adapter
     def test_unknown_type(self):

@@ -151,7 +151,7 @@ address book:
 
 >>> from icemac.addressbook.testing import (create_person, create_user,
 ...     create_postal_address)
->>> ab = getRootFolder()['AddressBook']
+>>> ab = layer['rootFolder']['AddressBook']
 >>> create_person(ab, ab, last_name=u'Tester', return_obj=False)
 >>> create_person(ab, ab, last_name=u'Tester 2', return_obj=False)
 >>> create_user(ab, ab, u'Hans', u'User', u'hans@user.de', u'asdf', ['Visitor'])

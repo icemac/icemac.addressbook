@@ -70,7 +70,7 @@ root folder it is not listed. (As there is no user interface to add an
 object, I add it directly to the root folder.):
 
 >>> from zope.container.btree import BTreeContainer
->>> getRootFolder()['btree'] = BTreeContainer()
+>>> layer['rootFolder']['btree'] = BTreeContainer()
 >>> browser.open('http://localhost/++skin++AddressBook/')
 >>> print browser.contents
 <!DOCTYPE ...
