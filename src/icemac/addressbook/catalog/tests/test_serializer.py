@@ -47,7 +47,9 @@ class TestFieldSerializer(unittest.TestCase):
         self.callFUT('Bytes', 'bytes', 'FieldNoSerializer', u'')
 
 
-class TestObjectSerializer(icemac.addressbook.testing.FunctionalTestCase):
+class TestObjectSerializer(unittest.TestCase):
+
+    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
 
     def test_serializer_serializes_all_field_values(self):
         import gocept.country.db

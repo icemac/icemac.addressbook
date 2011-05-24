@@ -119,13 +119,13 @@ setuptools.setup(
         ],
     extras_require = dict(
         test=[
-            'gocept.selenium [grok]',
+            'gocept.selenium',
             'plone.testing',
             'unittest2',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.testbrowser',
+            'zope.testbrowser [wsgi]',
             'zope.testing >= 3.8',
             ],
         z3cpt=[

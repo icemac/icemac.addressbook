@@ -3,12 +3,13 @@
 # See also LICENSE.txt
 # $Id$
 
+import icemac.addressbook.browser.testing
 import icemac.addressbook.testing
 import zope.testing.renormalizing
 
 
 def test_suite():
-    suite = icemac.addressbook.testing.FunctionalDocFileSuite(
+    suite = icemac.addressbook.testing.TestBrowserDocFileSuite(
         "browser/about/about.txt",
         "browser/addressbook/addressbook.txt",
         "browser/authentication/login.txt",
@@ -30,13 +31,16 @@ def test_suite():
         "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
-        "browser/search/delete.txt",
         "browser/search/search.txt",
         )
     suite.addTest(
-        icemac.addressbook.testing.FunctionalDocFileSuite(
+        icemac.addressbook.testing.DocFileSuite(
+            "browser/search/delete.txt",
+            layer=icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
+            ))
+    suite.addTest(
+        icemac.addressbook.testing.TestBrowserDocFileSuite(
             # Tests which must not run with the default <DATETIME> normalizer:
             "browser/metadata.txt",
-            checker=zope.testing.renormalizing.RENormalizing([])
-            ))
+            checker=zope.testing.renormalizing.RENormalizing([])))
     return suite

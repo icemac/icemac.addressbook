@@ -13,7 +13,7 @@ import unittest
 import zope.interface.verify
 
 
-class Base(object):
+class Base(unittest.TestCase):
 
     fd = None
     filename = None
@@ -30,7 +30,7 @@ class Base(object):
             self.fd = None
 
 
-class TestFile(Base, unittest.TestCase):
+class TestFile(Base):
     """Unittests for file."""
 
     def test_ifile_interface(self):
@@ -58,12 +58,14 @@ class TestFile(Base, unittest.TestCase):
         self.assertEqual('', self.file.data)
 
 
-class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
+class FTestFile(Base):
     """Tests for methods which need functional setup."""
+
+    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
 
     def test_openDetached(self):
         # need to assign to tree, so commit works
-        self.layer.getRootFolder()['f'] = self.file
+        self.layer['rootFolder']['f'] = self.file
         self.file.data = 'data\n\nfoobar'
         # commit as openDetached expects a committed blob
         transaction.commit()
@@ -72,7 +74,7 @@ class FTestFile(Base, icemac.addressbook.testing.FunctionalTestCase):
 
     def test_replace(self):
         # need to assign to tree, so commit works
-        self.layer.getRootFolder()['f2'] = self.file
+        self.layer['rootFolder']['f2'] = self.file
         self.file.data = '1234'
         fd, self.filename = tempfile.mkstemp()
         os.write(fd, '6789\n0123')
