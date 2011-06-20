@@ -14,6 +14,12 @@ Features
 - Search results now display the columns the user selected in his personal
   preferences.
 
+Other
+-----
+
+- Integrated `decorator` package into distribution as needed version 3.2.0
+  is no longer on PyPI.
+
 1.6.0 (2011-02-03)
 ==================
 
