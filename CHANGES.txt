@@ -17,8 +17,8 @@ Features
 Other
 -----
 
-- Integrated `decorator` package into distribution as needed version 3.2.0
-  is no longer on PyPI.
+- Integrated `decorator` package into distribution as needed version is
+  prone to disappear from PyPI.
 
 1.6.0 (2011-02-03)
 ==================
