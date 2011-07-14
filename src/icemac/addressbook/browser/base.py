@@ -22,7 +22,7 @@ import zope.security.interfaces
 import zope.security.proxy
 import zope.site.hooks
 import zope.traversing.api
-import zope.traversing.browser.interfaces
+import zope.traversing.browser
 import zope.traversing.publicationtraverse
 
 
@@ -78,10 +78,7 @@ class BaseView(FlashView):
         super(BaseView, self).update()
 
     def url(self, obj):
-        adapter = zope.component.getMultiAdapter(
-            (obj, self.request),
-            zope.traversing.browser.interfaces.IAbsoluteURL)
-        return adapter()
+        return zope.traversing.browser.absoluteURL(obj, self.request)
 
 
 class BaseForm(BaseView):
