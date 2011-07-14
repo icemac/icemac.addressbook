@@ -127,10 +127,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
 
 
 class DefaultsExport(XLSExport):
-
-    title = _(u'XLS main')
-    description = _(
-        u'Exports person data and main addresses resp. phone numbers.')
+    """Exports person data and main addresses resp. phone numbers."""
 
     def _export(self):
         for entity in self.get_entities():
@@ -145,10 +142,7 @@ class DefaultsExport(XLSExport):
 
 
 class CompleteExport(XLSExport):
-
-    title = _(u'XLS complete')
-    description = _(
-        u'Exports person data and all addresses resp. phone numbers.')
+    """Exports person data and all addresses resp. phone numbers."""
 
     def _export(self):
         for entity in self.get_entities():

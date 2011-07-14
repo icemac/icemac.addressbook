@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <browser:viewletManager
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="search-result-handlers"
+      class=".manager.SearchResultHandlerManager"
+      permission="zope.Public"
+      />
+
+  <include package=".export" />
+
+</configure>

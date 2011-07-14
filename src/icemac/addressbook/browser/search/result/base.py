@@ -3,9 +3,9 @@
 # See also LICENSE.txt
 # $Id$
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
-import icemac.addressbook.export.sources
+import icemac.addressbook.browser.search.result.handler.manager
 import icemac.addressbook.interfaces
 import z3c.form.button
 import z3c.ptcompat
@@ -16,19 +16,20 @@ import zope.schema
 import zope.session.interfaces
 
 
-class IExporterChoice(zope.interface.Interface):
+class ISearchResultHanderChoice(zope.interface.Interface):
+    """Drop down to select search result handler."""
 
-    exporter = zope.schema.Choice(
-        title=_(u'Export using'),
-        source=icemac.addressbook.export.sources.exporter_source)
+    search_result_handler = zope.schema.Choice(
+        title=_(u'Handle selected persons with'),
+        source=icemac.addressbook.browser.search.result.handler.manager.source)
 
 
-class BaseExportForm(icemac.addressbook.browser.base.BaseEditForm):
-    """Base form for exports allowing multiple export formats."""
+class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
+    """Base form of search results allowing handling of results."""
 
     ignoreContext = True
-    interface = IExporterChoice
-    template = z3c.ptcompat.ViewPageTemplateFile('export.pt')
+    interface = ISearchResultHanderChoice
+    template = z3c.ptcompat.ViewPageTemplateFile('result.pt')
     id = 'search-export-form'
     table_class = NotImplemented
 
@@ -37,31 +38,34 @@ class BaseExportForm(icemac.addressbook.browser.base.BaseEditForm):
         table.update()
         return table.render()
 
-    def _store_data_in_session(self):
-        """Store data in session and return `True` on success."""
+    @z3c.form.button.buttonAndHandler(_('Handle'), name='handle')
+    def callHandler(self, action):
+        """Call the selected handler after storing data in session."""
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
-            return False
+            return
+
         session = zope.session.interfaces.ISession(self.request)[
             icemac.addressbook.interfaces.PACKAGE_ID]
         session['person_ids'] = self.request.form.get('persons', ())
-        session['exporter_token'] = zc.sourcefactory.interfaces.IToken(
-            data['exporter'])
-        return True
 
-    @z3c.form.button.buttonAndHandler(_('Export'), name='export')
-    def handleExport(self, action):
-        if self._store_data_in_session():
-            self.request.response.redirect('@@export.html')
+        self.request.response.redirect(data['search_result_handler'].viewName)
 
     @z3c.form.button.buttonAndHandler(
         _('Delete selected persons'), name='delete',
         condition=icemac.addressbook.browser.base.can_access(
             '@@delete_persons.html'))
+    # XXX rewrite as search result handler
     def handleDelete(self, action):
-        if self._store_data_in_session():
-            self.request.response.redirect('@@delete_persons.html')
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        session = zope.session.interfaces.ISession(self.request)[
+            icemac.addressbook.interfaces.PACKAGE_ID]
+        session['person_ids'] = self.request.form.get('persons', ())
+        self.request.response.redirect('@@delete_persons.html')
 
 
 class BasePersonTable(icemac.addressbook.browser.table.Table):

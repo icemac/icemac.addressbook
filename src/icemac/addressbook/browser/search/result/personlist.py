@@ -19,7 +19,8 @@ class PersonTable(
         icemac.addressbook.browser.search.result.base.BasePersonTable.values)
 
 
-class ExportForm(icemac.addressbook.browser.search.result.base.BaseExportForm):
+class ExportForm(
+    icemac.addressbook.browser.search.result.base.BaseSearchResultForm):
     "Export form showing a table of found results."
 
     table_class = PersonTable

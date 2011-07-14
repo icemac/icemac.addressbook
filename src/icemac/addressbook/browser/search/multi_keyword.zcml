@@ -39,7 +39,7 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="result_table"
       class=".result.personlist.ExportForm"
-      template="result/export.pt"
+      template="result/result.pt"
       permission="icemac.addressbook.ViewPerson"
       />
 
