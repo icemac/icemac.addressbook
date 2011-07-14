@@ -87,7 +87,6 @@
       package="z3c.pt" />
 
   <include package=".browser" />
-  <include package=".export" />
   <include package=".file" />
   <include package=".generations" />
   <include package=".metadata" />

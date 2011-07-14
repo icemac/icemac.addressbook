@@ -62,9 +62,9 @@ The export produces an XLS file:
 
 >>> import pprint
 >>> import xlrd
->>> browser.getControl('Exportieren mit').displayValue = [
-...    'XLS (wichtigste) (Exportiert die Personendaten und die wichtigsten Eintr\xc3\xa4ge.)']
->>> browser.getControl(name='form.buttons.export').click()
+>>> browser.getControl('Handle selected persons with').displayValue = [
+...    'XLS main (Exports person data and main addresses resp. phone numbers.)']
+>>> browser.getControl(name='form.buttons.handle').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
@@ -122,9 +122,9 @@ XLS complete adresses and numbers export
 The complete export is not really different from the main one:
 
 >>> browser.goBack()
->>> browser.getControl('Exportieren mit').displayValue = [
-...    'XLS (vollst\xc3\xa4ndig) (Exportiert alle Personendaten und alle Eintr\xc3\xa4ge.)']
->>> browser.getControl(name='form.buttons.export').click()
+>>> browser.getControl('Handle selected persons with').displayValue = [
+...    'XLS complete (Exports person data and all addresses resp. phone numbers.)']
+>>> browser.getControl(name='form.buttons.handle').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)

@@ -34,29 +34,6 @@ class TestInterfaces(unittest.TestCase):
             icemac.addressbook.export.xls.simple.CompleteExport([], None))
 
 
-class Test__eq__(unittest.TestCase):
-
-    def setUp(self):
-        self.exporter = icemac.addressbook.export.base.BaseExporter(
-            [], None)
-
-    def test_not__eq__other_type_number(self):
-        self.assertEqual(False, self.exporter == 1)
-
-    def test_not__eq__other_type_object(self):
-        self.assertEqual(False, self.exporter == object())
-
-    def test_not__eq__other_class(self):
-        other_exporter = icemac.addressbook.export.xls.simple.XLSExport(
-            [], None)
-        self.assertEqual(False, self.exporter == other_exporter)
-
-    def test___eq__other_instance_same_class(self):
-        other_exporter = icemac.addressbook.export.base.BaseExporter(
-            [], None)
-        self.assertEqual(True, self.exporter == other_exporter)
-
-
 class Test_export(unittest.TestCase):
     """Test export method of BaseExporter to get better test coverage."""
 

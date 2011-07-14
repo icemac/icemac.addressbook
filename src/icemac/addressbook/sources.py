@@ -8,6 +8,8 @@ import stabledict
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
 import zope.component
+import zope.component.hooks
+import zope.globalrequest
 
 
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
@@ -75,3 +77,29 @@ class ContextByInterfaceSource(
     def getTitle(self, context, value):
         import icemac.addressbook.interfaces  # avoid circular import
         return icemac.addressbook.interfaces.ITitle(value)
+
+
+class SiteMenuSource(zc.sourcefactory.basic.BasicSourceFactory):
+    """Source containing items of a z3c.menu.ready2go.ISiteMenu."""
+
+    def __init__(self, view_class, menu_manager_class):
+        self.menu_manager_class = menu_manager_class
+        self.view_class = view_class
+
+    @property
+    def menu_manager(self):
+        request = zope.globalrequest.getRequest()
+        context = zope.component.hooks.getSite()
+        view = self.view_class(context, request)
+        menu_manager = self.menu_manager_class(context, request, view)
+        menu_manager.update()
+        return menu_manager
+
+    def getValues(self):
+        return self.menu_manager.viewlets
+
+    def getTitle(self, value):
+        return value.title
+
+    def getToken(self, value):
+        return value.url

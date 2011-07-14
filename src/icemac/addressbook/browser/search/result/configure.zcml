@@ -23,5 +23,6 @@
       />
 
   <include file="simple.zcml" />
+  <include package=".handler" />
 
 </configure>

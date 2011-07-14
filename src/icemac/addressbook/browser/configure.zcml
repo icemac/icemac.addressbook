@@ -64,7 +64,6 @@
   <include package=".addressbook" />
   <include package=".authentication" />
   <include package=".entities" />
-  <include package=".export" />
   <include package=".file" />
   <include package=".keyword" />
   <include package=".masterdata" />

@@ -78,7 +78,7 @@ A new submit control to delete the selected persons is shown:
 >>> from icemac.addressbook.testing import get_submit_control_names
 >>> (get_submit_control_names(form=browser.getForm(index=0)),
 ...  get_submit_control_names(form=browser.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.delete', 'form.buttons.export'])
+(['form.buttons.search'], ['form.buttons.delete', 'form.buttons.handle'])
 
 Selecting this button leads to an are-you-sure question:
 
@@ -138,7 +138,7 @@ Editor
 >>> editor.getControl('Search').click()
 >>> (get_submit_control_names(form=editor.getForm(index=0)),
 ...  get_submit_control_names(form=editor.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.export'])
+(['form.buttons.search'], ['form.buttons.handle'])
 
 >>> editor.open(delete_url)
 Traceback (most recent call last):
@@ -156,7 +156,7 @@ Visitor
 >>> visitor.getControl('Search').click()
 >>> (get_submit_control_names(form=visitor.getForm(index=0)),
 ...  get_submit_control_names(form=visitor.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.export'])
+(['form.buttons.search'], ['form.buttons.handle'])
 
 >>> visitor.open(delete_url)
 Traceback (most recent call last):

@@ -11,8 +11,14 @@ import z3c.formui.form
 import zope.interface
 
 
-class BaseView(object):
+class BaseView(zope.publisher.browser.BrowserView):
+    """Base class for search views.
 
+    Needs to extend from `zope.publisher.browser.BrowserView` as otherwise
+    no search result handler can be found (the machinery expects this view
+    to provide IBrowserView).
+
+    """
     search_params = None
 
     @property
