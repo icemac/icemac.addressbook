@@ -64,7 +64,7 @@ displayed, the checkboxes of the rows are pre-selected:
 >>> browser.getControl('Search').click()
 >>> (get_submit_control_names(form=browser.getForm(index=0)),
 ...  get_submit_control_names(form=browser.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.handle'])
+(['form.buttons.search'], ['form.buttons.apply'])
 
 >>> print browser.contents
 <!DOCTYPE ...
@@ -95,7 +95,7 @@ persons are exported:
 
 >>> import pprint
 >>> import xlrd
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
 >>> browser.headers['Content-Disposition']
@@ -166,7 +166,7 @@ are exported:
 
 >>> browser.goBack()
 >>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
@@ -221,7 +221,7 @@ deselect them. We also test here another exporter:
 >>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
 >>> browser.getControl(name='persons:list').getControl(value="Person-3").click()
 >>> browser.getControl('XLS complete').click()
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)

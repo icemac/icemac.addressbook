@@ -76,16 +76,16 @@ selected by default:
 To delete the selected persons is shown the administrator has to choose the
 adequate entry in the `handele` menu:
 
->>> browser.getControl('Handle selected persons with').displayOptions
+>>> browser.getControl('Apply on selected persons').displayOptions
 ['XLS main (Exports person data and main addresses resp. phone numbers.)',
  'XLS complete (Exports person data and all addresses resp. phone numbers.)',
  'Delete (Deletes selected persons.)']
 
 Selecting this button leads to an are-you-sure question:
 
->>> browser.getControl('Handle selected persons with').displayValue = [
+>>> browser.getControl('Apply on selected persons').displayValue = [
 ...     'Delete']
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> delete_url = browser.url
 >>> delete_url
 'http://localhost/++skin++AddressBook/ab/@@delete_persons.html'
@@ -139,7 +139,7 @@ Editor
 >>> editor.getLink('Keyword search').click()
 >>> editor.getControl('church').click()
 >>> editor.getControl('Search').click()
->>> editor.getControl('Handle selected persons with').displayOptions
+>>> editor.getControl('Apply on selected persons').displayOptions
 ['XLS main (Exports person data and main addresses resp. phone numbers.)',
  'XLS complete (Exports person data and all addresses resp. phone numbers.)']
 
@@ -158,7 +158,7 @@ Visitor
 >>> visitor.getControl('church').click()
 >>> visitor.getControl('Search').click()
 >>> visitor.getControl('Search').click()
->>> visitor.getControl('Handle selected persons with').displayOptions
+>>> visitor.getControl('Apply on selected persons').displayOptions
 ['XLS main (Exports person data and main addresses resp. phone numbers.)',
  'XLS complete (Exports person data and all addresses resp. phone numbers.)']
 
@@ -182,9 +182,9 @@ Only the selected persons get deleted. When the administrator chooses
 by default:
 
 >>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
->>> browser.getControl('Handle selected persons with').displayValue = [
+>>> browser.getControl('Apply on selected persons').displayValue = [
 ...     'Delete']
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> print browser.contents
 <!DOCTYPE ...
          <div id="form-widgets-count-row" class="row">

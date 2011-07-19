@@ -13,10 +13,10 @@ named `person_ids`.
 2. Adding it to the search result handler source
 ================================================
 
-Objects returned by this source are listed in the drop-down "Handle selected
-persons with".
+Objects returned by this source are listed in the drop-down `Apply on
+selected persons`.
 
-The source lists the contents of the `ISearchResultHandlers` menu.  To
+The source lists the contents of the ``ISearchResultHandlers`` menu.  To
 register an item for this menu you have to register it using ZCML like
 this::
 

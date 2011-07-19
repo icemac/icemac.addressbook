@@ -57,9 +57,9 @@ The export produces an XLS file:
 
 >>> import pprint
 >>> import xlrd
->>> browser.getControl('Handle selected persons with').displayValue = [
+>>> browser.getControl('Apply on selected persons').displayValue = [
 ...    'XLS main (Exports person data and main addresses resp. phone numbers.)']
->>> browser.getControl(name='form.buttons.handle').click()
+>>> browser.getControl(name='form.buttons.apply').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)

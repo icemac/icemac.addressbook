@@ -20,7 +20,7 @@ class ISearchResultHanderChoice(zope.interface.Interface):
     """Drop down to select search result handler."""
 
     search_result_handler = zope.schema.Choice(
-        title=_(u'Handle selected persons with'),
+        title=_(u'Apply on selected persons'),
         source=icemac.addressbook.browser.search.result.handler.manager.source)
 
 
@@ -38,7 +38,7 @@ class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
         table.update()
         return table.render()
 
-    @z3c.form.button.buttonAndHandler(_('Handle'), name='handle')
+    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def callHandler(self, action):
         """Call the selected handler after storing data in session."""
         data, errors = self.extractData()
