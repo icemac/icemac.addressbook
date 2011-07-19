@@ -25,7 +25,7 @@
      manager=".manager.ISearchResultHandlers"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="delete"
-     title="Delete (Deletes selected persons.)"
+     title="Deletion (Deletes selected persons.)"
      viewName="@@delete_persons.html"
      class=".manager.SearchResultHandler"
      permission="icemac.addressbook.EditAddressBook"
