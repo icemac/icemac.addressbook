@@ -22,12 +22,12 @@ this::
 
 
   <z3c:siteMenuItem
-     manager="..manager.ISearchResultHandlers"
+     manager="icemac.addressbook.browser.search.result.handler.manager.ISearchResultHandlers"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="<INTERNAL NAME OF HANDLER>"
      title="<I18N MESSAGE ID TO SHOW UP IN DROP-DOWN>"
      viewName="<NAME OF THE VIEW THE HANDLER IS REGISTERED WITH>"
-     class="..manager.SearchResultHandler"
+     class="icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
      weight="<USED FOR SORTORDER>"
      />
