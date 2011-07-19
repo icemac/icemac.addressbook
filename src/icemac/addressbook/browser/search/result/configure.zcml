@@ -12,16 +12,6 @@
      factory=".base.CheckBoxColumn"
      />
 
-  <adapter factory=".delete.SelectionCount" />
-
-  <z3c:pagelet
-      for="icemac.addressbook.interfaces.IAddressBook"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      name="delete_persons.html"
-      permission="icemac.addressbook.EditAddressBook"
-      class=".delete.DeleteForm"
-      />
-
   <include file="simple.zcml" />
   <include package=".handler" />
 
