@@ -35,7 +35,7 @@ def test_suite():
         )
     suite.addTest(
         icemac.addressbook.testing.DocFileSuite(
-            "browser/search/delete.txt",
+            "browser/search/result/handler/delete.txt",
             layer=icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
             ))
     suite.addTest(

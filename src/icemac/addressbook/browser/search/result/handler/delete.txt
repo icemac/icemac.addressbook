@@ -73,16 +73,19 @@ selected by default:
  </tbody>
 </table>...
 
-A new submit control to delete the selected persons is shown:
+To delete the selected persons is shown the administrator has to choose the
+adequate entry in the `handele` menu:
 
->>> from icemac.addressbook.testing import get_submit_control_names
->>> (get_submit_control_names(form=browser.getForm(index=0)),
-...  get_submit_control_names(form=browser.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.delete', 'form.buttons.handle'])
+>>> browser.getControl('Handle selected persons with').displayOptions
+['XLS main (Exports person data and main addresses resp. phone numbers.)',
+ 'XLS complete (Exports person data and all addresses resp. phone numbers.)',
+ 'Delete (Deletes selected persons.)']
 
 Selecting this button leads to an are-you-sure question:
 
->>> browser.getControl(name='form.buttons.delete').click()
+>>> browser.getControl('Handle selected persons with').displayValue = [
+...     'Delete']
+>>> browser.getControl(name='form.buttons.handle').click()
 >>> delete_url = browser.url
 >>> delete_url
 'http://localhost/++skin++AddressBook/ab/@@delete_persons.html'
@@ -123,8 +126,8 @@ True
 Security
 ========
 
-For editors and visiors the delete button is not drawn. Deletion is not
-possible even the user knows the URL:
+For editors and visiors the delete menu item is not shown. Deletion is not
+possible even if the user knows the URL:
 
 Editor
 ------
@@ -136,9 +139,9 @@ Editor
 >>> editor.getLink('Keyword search').click()
 >>> editor.getControl('church').click()
 >>> editor.getControl('Search').click()
->>> (get_submit_control_names(form=editor.getForm(index=0)),
-...  get_submit_control_names(form=editor.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.handle'])
+>>> editor.getControl('Handle selected persons with').displayOptions
+['XLS main (Exports person data and main addresses resp. phone numbers.)',
+ 'XLS complete (Exports person data and all addresses resp. phone numbers.)']
 
 >>> editor.open(delete_url)
 Traceback (most recent call last):
@@ -154,9 +157,10 @@ Visitor
 >>> visitor.getLink('Keyword search').click()
 >>> visitor.getControl('church').click()
 >>> visitor.getControl('Search').click()
->>> (get_submit_control_names(form=visitor.getForm(index=0)),
-...  get_submit_control_names(form=visitor.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.handle'])
+>>> visitor.getControl('Search').click()
+>>> visitor.getControl('Handle selected persons with').displayOptions
+['XLS main (Exports person data and main addresses resp. phone numbers.)',
+ 'XLS complete (Exports person data and all addresses resp. phone numbers.)']
 
 >>> visitor.open(delete_url)
 Traceback (most recent call last):
@@ -178,7 +182,9 @@ Only the selected persons get deleted. When the administrator chooses
 by default:
 
 >>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
->>> browser.getControl(name='form.buttons.delete').click()
+>>> browser.getControl('Handle selected persons with').displayValue = [
+...     'Delete']
+>>> browser.getControl(name='form.buttons.handle').click()
 >>> print browser.contents
 <!DOCTYPE ...
          <div id="form-widgets-count-row" class="row">

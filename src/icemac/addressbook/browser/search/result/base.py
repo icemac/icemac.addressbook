@@ -52,21 +52,6 @@ class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
 
         self.request.response.redirect(data['search_result_handler'].viewName)
 
-    @z3c.form.button.buttonAndHandler(
-        _('Delete selected persons'), name='delete',
-        condition=icemac.addressbook.browser.base.can_access(
-            '@@delete_persons.html'))
-    # XXX rewrite as search result handler
-    def handleDelete(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        session = zope.session.interfaces.ISession(self.request)[
-            icemac.addressbook.interfaces.PACKAGE_ID]
-        session['person_ids'] = self.request.form.get('persons', ())
-        self.request.response.redirect('@@delete_persons.html')
-
 
 class BasePersonTable(icemac.addressbook.browser.table.Table):
     "Base result table displaying at least a checkbox column (using ZCML)."

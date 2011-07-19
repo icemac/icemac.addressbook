@@ -14,6 +14,15 @@ Features
 - Search results now display the columns the user selected in his personal
   preferences.
 
+UI changes
+----------
+
+- Previously search results could only be exported. The options have been
+  widened, so different handlings of search results are possible. So
+  deletion of the selected persons has been moved to these search result
+  handlers.
+
+
 Other
 -----
 
