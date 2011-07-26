@@ -11,6 +11,7 @@ port = %(port)s
 use = egg:Paste#translogger
 setup_console_handler = False
 
+# Configuration to be read by logging.config.fileConfig()
 [loggers]
 keys = root, wsgi
 
@@ -54,3 +55,4 @@ format = %%(message)s
 [formatter_generic]
 format = %%(asctime)s %%(levelname)-5.5s [%%(name)s] %%(message)s
 datefmt = %%Y-%%m-%%dT%%H:%%M:%%S
+class = zope.exceptions.log.Formatter
