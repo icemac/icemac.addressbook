@@ -7,6 +7,9 @@ port = %(port)s
 
 
 # Logging configuration, see http://pylonshq.com/docs/en/0.9.7/logging
+
+# Logs page access using logger `wsgi`, see below for configuration of this
+# logger:
 [filter:translogger]
 use = egg:Paste#translogger
 setup_console_handler = False
