@@ -62,8 +62,9 @@ The export produces an XLS file:
 
 >>> import pprint
 >>> import xlrd
->>> browser.getControl('Apply on selected persons').displayValue = [
-...    'XLS export main (Exports person data and main addresses resp. phone numbers.)']
+>>> file('response.html', 'w').write(browser.contents)
+>>> browser.getControl('Auf ausgewählte Personen anwenden').displayValue = [
+...    'wichtigste']
 >>> browser.getControl(name='form.buttons.apply').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
@@ -122,8 +123,8 @@ XLS complete adresses and numbers export
 The complete export is not really different from the main one:
 
 >>> browser.goBack()
->>> browser.getControl('Apply on selected persons').displayValue = [
-...    'XLS export complete (Exports person data and all addresses resp. phone numbers.)']
+>>> browser.getControl('Auf ausgewählte Personen anwenden').displayValue = [
+...    'vollständig']
 >>> browser.getControl(name='form.buttons.apply').click()
 >>> browser.headers['Content-Type']
 'application/vnd.ms-excel'
