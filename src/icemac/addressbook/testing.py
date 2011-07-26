@@ -67,10 +67,12 @@ class _ZCMLAndZODBLayer(plone.testing.zodb.EmptyZODB):
     """Layer which sets up ZCML and ZODB to be useable for Zope 3."""
     defaultBases = (plone.testing.zca.LAYER_CLEANUP,)
 
+    package = icemac.addressbook
+
     def setUp(self):
         super(_ZCMLAndZODBLayer, self).setUp()
         plone.testing.zca.setUpZcmlFiles(
-            [("ftesting.zcml", icemac.addressbook)])
+            [("ftesting.zcml", self.package)])
         zope.event.notify(zope.processlifetime.DatabaseOpened(self['zodbDB']))
         transaction.commit()
 
@@ -95,7 +97,7 @@ def setUpStackedDemoStorage(self, name):
 def createZODBConnection(zodbDB):
     connection = zodbDB.open()
     zodbRoot = connection.root()
-    rootFolder= zodbRoot[
+    rootFolder = zodbRoot[
         zope.app.publication.zopepublication.ZopePublication.root_name]
     return connection, zodbRoot, rootFolder
 
@@ -245,7 +247,9 @@ def DocFileSuite(*paths, **kw):
 def FunctionalDocFileSuite(*paths, **kw):
     """DocFileSuite on FUNCTIONAL_LAYER."""
     if 'layer' in kw:
-        raise RuntimeError
+        raise RuntimeError(
+            'To use the `layer` keyword, use DocFileSuite instead of '
+            'FunctionalDocFileSuite.')
     return DocFileSuite(layer=FUNCTIONAL_LAYER, *paths, **kw)
 
 
