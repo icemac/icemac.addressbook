@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:meta="http://namespaces.zope.org/meta"
     xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="icemac.addressbook">
 
   <!-- Turn on the devmode -->
@@ -74,5 +75,7 @@
      provides="z3c.form.interfaces.IFieldWidget"
      factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
      />
+
+    <browser:defaultSkin name="AddressBook" />
 
 </configure>
