@@ -15,12 +15,12 @@ user, too:
 ...     u'Utzer', u'ben@example.com', u'12345678', [],
 ...     keywords=set([layer['kw_church']]))
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 
 Only administrators are allowed to delete, so we log in as an administrator:
 
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 There is a link in the global navigation which leads to the searches
@@ -133,7 +133,7 @@ Editor
 ------
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 >>> editor.open('http://localhost/++skin++AddressBook/ab')
 >>> editor.getLink('Search').click()
 >>> editor.getLink('Keyword search').click()
@@ -151,7 +151,7 @@ Visitor
 ------
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Search').click()
 >>> visitor.getLink('Keyword search').click()
