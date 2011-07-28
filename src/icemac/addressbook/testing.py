@@ -244,12 +244,9 @@ def DocFileSuite(*paths, **kw):
     suite.layer = layer
     return suite
 
+
 def FunctionalDocFileSuite(*paths, **kw):
     """DocFileSuite on FUNCTIONAL_LAYER."""
-    if 'layer' in kw:
-        raise RuntimeError(
-            'To use the `layer` keyword, use DocFileSuite instead of '
-            'FunctionalDocFileSuite.')
     return DocFileSuite(layer=FUNCTIONAL_LAYER, *paths, **kw)
 
 
