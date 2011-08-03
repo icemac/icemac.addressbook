@@ -164,7 +164,7 @@ WSGI_LAYER = WSGILayer()
 
 
 class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
-                                  plone.testing.Layer):
+                            plone.testing.Layer):
     """Layer for zope.testbrowser.wsgi tests."""
     defaultBases = (WSGI_LAYER,)
 
