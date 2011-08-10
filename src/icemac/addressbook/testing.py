@@ -499,7 +499,7 @@ def create_field(entity_name, type, title, **kw):
     """Create a user defined field for an entity.
 
     entity_name ... module name and class name of entity
-    type ... see values of sources.FieldTypeSource
+    type ... see values of .sources.FieldTypeSource
 
     """
     field = icemac.addressbook.utils.create_obj(
