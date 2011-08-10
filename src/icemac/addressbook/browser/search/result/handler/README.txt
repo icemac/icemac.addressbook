@@ -9,6 +9,12 @@ Search result handlers are views on the address book.  They can expect to
 find the ids of the selected persons from the search result in a session key
 named `person_ids`.
 
+To get the session call::
+
+    zope.session.interfaces.ISession(request)[
+        icemac.addressbook.interfaces.PACKAGE_ID]
+
+
 
 2. Adding it to the search result handler source
 ================================================
