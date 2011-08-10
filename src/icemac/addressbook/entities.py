@@ -9,6 +9,7 @@ import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface.interfaces
 import zope.schema
+import zope.security.proxy
 
 
 MAIN_ENTITIES_NAME_SUFFIXES = [
@@ -368,7 +369,6 @@ class EditableEntity(Entity):
     This means that new fields can be added and the fields can be sorted.
 
     """
-
     zope.interface.implementsOnly(
         icemac.addressbook.interfaces.IEditableEntity)
 
@@ -427,3 +427,20 @@ class FieldStorage(persistent.Persistent):
 
 field_storage = zope.annotation.factory(
     FieldStorage, key='icemac.userfield.storage')
+
+
+def get_bound_schema_field(obj, entity, field):
+    "Returns a bound zope.schema field for `entity` and `field` on `obj`."
+    if not entity.interface.providedBy(obj):
+         # If the entity is for another object, we expect to find the entity
+         # on a default_attrib.
+         obj = getattr(obj, entity.tagged_values['default_attrib'])
+    if icemac.addressbook.interfaces.IField.providedBy(field):
+        # User defined fields need to be adapted. Additionally security
+        # proxy must be removed as otherwise access fails. This might be a
+        # security hole if access to this function is not properly
+        # protected, but there is no other way.
+        obj = zope.security.proxy.getObject(obj)
+        obj = icemac.addressbook.interfaces.IUserFieldStorage(obj)
+        field = user_field_to_schema_field(field)
+    return field.bind(obj)
