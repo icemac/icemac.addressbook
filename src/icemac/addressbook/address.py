@@ -141,7 +141,9 @@ def phone_number_title(tel):
 def normalize_phone_number(number, country_code):
     """Normalize a phone number to E.123 notation (but without spaces).
 
-    See: http://de.wikipedia.org/wiki/E.123"""
+    See: http://de.wikipedia.org/wiki/E.123
+
+    """
     digits = ''.join(x for x in number if x.isdigit())
     if digits.startswith('00'):
         # old writing of numbers abroad
