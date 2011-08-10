@@ -13,6 +13,7 @@ import icemac.addressbook.principals.principals
 import transaction
 import z3c.form.button
 import z3c.form.field
+import z3c.form.validator
 import z3c.form.widget
 import zope.interface
 import zope.schema
