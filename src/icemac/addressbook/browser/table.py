@@ -7,6 +7,7 @@ from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.truncatetext
+import z3c.pagelet.browser
 import z3c.table.batch
 import z3c.table.column
 import z3c.table.table
@@ -55,6 +56,8 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
 
 class KeywordsColumn(z3c.table.column.GetAttrColumn):
     """GetAttrColumn where attr is an iterable of keywords."""
+
+    attrName = 'keywords'
 
     def getSortKey(self, item):
         return super(KeywordsColumn, self).getSortKey(item).lower()

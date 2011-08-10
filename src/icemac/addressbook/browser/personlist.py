@@ -5,6 +5,7 @@
 from icemac.addressbook.i18n import _
 import datetime
 import icemac.addressbook.browser.table
+import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.truncatetext
 import z3c.form.term
@@ -23,27 +24,16 @@ class BaseColumn(z3c.table.column.Column):
     """Column which is able to get an object on an attribute of the item and
     adapt it to specified interface."""
 
-    firstAttrName = None  # Name of the attribute to be selected first
-    attrInterface = None  # Adapt to this interface
-    attrName = None  # Get the attribute with this name as value
+    entity = None  # referenced entity
+    field = None  # referenced field on entity
     defaultValue = u''  # Value for display when there is no value.
-
-    def getObject(self, item):
-        "Get the object for which has the attribute display."
-        if self.firstAttrName:
-            item = getattr(item, self.firstAttrName)
-        if self.attrInterface:
-            # Need to remove the security proxy here as otherwise the
-            # user defined field data cannot be accessed (it is stored
-            # in an annotation). This is no security hole, as the
-            # value is only used for display.
-            item = zope.security.proxy.getObject(item)
-            item = self.attrInterface(item)
-        return item
 
     def getRawValue(self, item):
         "Compute the value, which can be None."
-        return getattr(self.getObject(item), self.attrName)
+        schema_field = icemac.addressbook.entities.get_bound_schema_field(
+            item, self.entity, self.field)
+        # Returning the value of the bound object as it might differ from item:
+        return schema_field.get(schema_field.context)
 
     def getValue(self, item):
         "Compute the value, mostly ready for display."
@@ -195,22 +185,18 @@ def getColumnClass(entity, field):
     return BaseColumn
 
 
-def getAdditionalColumnArgs(entity, field):
-    """Get additional arguments to a specific column.
-
-    Return a dict to be used as keyword args."""
-    kw = dict()
-    if icemac.addressbook.interfaces.IField.providedBy(field):
-        # User defined fields need to be adapted
-        kw['attrInterface'] = icemac.addressbook.interfaces.IUserFieldStorage
-    if entity.interface != icemac.addressbook.interfaces.IPerson:
-        # Addresses need the name of the default address attribute
-        kw['firstAttrName'] = entity.tagged_values.get('default_attrib')
+def createFieldColumn(table, entity, field, weight):
+    """Create a column for the specified `entity` and `field`."""
+    additional_column_args = dict()
     if (field.__name__ == 'url' or
         (icemac.addressbook.interfaces.IField.providedBy(field) and
          field.type == 'URI')):
-        kw['linkTarget'] = '_blank'
-    return kw
+        additional_column_args['linkTarget'] = '_blank'
+
+    return z3c.table.column.addColumn(
+        table, getColumnClass(entity, field), field.__name__,
+        header=field.title, weight=weight,
+        entity=entity, field=field, **additional_column_args)
 
 
 class BasePersonList(object):
@@ -220,7 +206,6 @@ class BasePersonList(object):
     or `icemac.addressbook.browser.table.Table`.
 
     """
-
     @property
     def prefs(self):
         "User defined preferences for person list."
@@ -266,12 +251,7 @@ class BasePersonList(object):
             except KeyError:
                 # Column no longer exists
                 continue
-            columns.append(
-                z3c.table.column.addColumn(
-                    self, getColumnClass(entity, field), field.__name__,
-                    attrName=field.__name__, header=field.title,
-                    weight=index, **getAdditionalColumnArgs(entity, field)
-                    ))
+            columns.append(createFieldColumn(self, entity, field, index))
             if entity == order_by_entity and field == order_by_field:
                 # Found the entity and field for order by, so set the
                 # expected name on the sortOn variable. The last parameter

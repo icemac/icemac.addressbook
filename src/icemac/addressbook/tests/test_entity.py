@@ -4,6 +4,7 @@
 
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
+import icemac.addressbook.testing
 import unittest
 import zope.component.testing
 import zope.container.contained
@@ -13,16 +14,19 @@ import zope.schema
 
 
 class IDummy(zope.interface.Interface):
+    """Interface for test entity."""
 
     dummy = zope.schema.Text(title=u'dummy')
     dummy2 = zope.schema.Text(title=u'dummy2')
 
 
 class Dummy(object):
+    """Test entity."""
     zope.interface.implements(IDummy)
 
 
 class TestEntity(unittest.TestCase):
+    """Testing icemac.addressbook.entities.Entity."""
 
     def setUp(self):
         # Entities
@@ -208,3 +212,54 @@ class TestEntity(unittest.TestCase):
             u'Dummy', IDummy, 'Dummy', a=1, b='asdf')
         e.tagged_values['a'] = 2
         self.assertEqual(dict(a=1, b='asdf'), e.tagged_values)
+
+
+class Test_get_bound_schema_field(unittest.TestCase):
+    """Testing icemac.addressbook.entities.get_bound_schema_field()."""
+
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+
+    def callFUT(self, object, entity, field):
+        from icemac.addressbook.entities import get_bound_schema_field
+        return get_bound_schema_field(object, entity, field)
+
+    def test_returns_field_if_object_provides_entity_interface(self):
+        from icemac.addressbook.addressbook import address_book_entity
+        import zope.schema
+
+        ab = self.layer['addressbook']
+        field = self.callFUT(ab, address_book_entity,
+                             address_book_entity.getRawField('title'))
+        self.assertEqual(ab, field.context)
+        self.assertEqual('title', field.__name__)
+        self.assertTrue(isinstance(field, zope.schema.TextLine))
+
+    def test_looks_up_default_obj_on_obj_if_iface_not_provided_by_obj(self):
+        from icemac.addressbook.address import postal_address_entity
+        from icemac.addressbook.testing import create_full_person
+        import zope.schema
+
+        ab = self.layer['addressbook']
+        person = create_full_person(ab, ab, u'Koch')
+        field = self.callFUT(person, postal_address_entity,
+                             postal_address_entity.getRawField('country'))
+        self.assertEqual(person.default_postal_address, field.context)
+        self.assertEqual('country', field.__name__)
+        self.assertTrue(isinstance(field, zope.schema.Choice))
+
+    def test_user_defined_fields_get_converted_to_schema_fields(self):
+        from icemac.addressbook.address import phone_number_entity
+        from icemac.addressbook.testing import create_full_person, create_field
+        from icemac.addressbook.interfaces import IUserFieldStorage
+        import zope.schema
+
+        ab = self.layer['addressbook']
+        person = create_full_person(ab, ab, u'Koch')
+        create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+                     'Datetime', u'last call')
+        field = self.callFUT(person, phone_number_entity,
+                             phone_number_entity.getRawField('Field-1'))
+        self.assertEqual(IUserFieldStorage(person.default_phone_number),
+                         field.context)
+        self.assertEqual('Field-1', field.__name__)
+        self.assertTrue(isinstance(field, zope.schema.Datetime))
