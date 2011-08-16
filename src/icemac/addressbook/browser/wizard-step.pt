@@ -1,0 +1,32 @@
+<metal:maco define-macro="addressbook-wizard"
+            i18n:domain="icemac.addressbook">
+  <metal:wizard use-macro="macro:wizard">
+    <metal:header fill-slot="wizard-header">
+      <metal:default-header use-macro="macro:wizard-header" />
+    </metal:header>
+    <metal:menu fill-slot="menu">
+      <div class="wizardMenu">
+        <span i18n:translate="">Steps:</span>
+        <ol>
+          <li tal:repeat="item view/wizard/stepMenu"
+              tal:attributes="class item/class">
+            <span
+               tal:condition="item/selected"
+               tal:content="item/title" />
+            <a href=""
+               tal:condition="not:item/selected"
+               tal:attributes="href item/url"
+               tal:content="item/title" />
+          </li>
+        </ol>
+      </div>
+    </metal:menu>
+    <metal:header fill-slot="label">
+      <div  class="currStep">
+        <span i18n:translate="">Current step:</span>
+        <span tal:content="view/label" />
+      </div>
+      <metal:slot define-slot="below-label" />
+    </metal:header>
+  </metal:wizard>
+</metal:maco>

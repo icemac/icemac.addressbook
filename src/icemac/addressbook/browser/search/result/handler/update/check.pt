@@ -1,0 +1,5 @@
+<div metal:use-macro="macro:addressbook-wizard">
+  <metal:table fill-slot="below-label">
+    <tal:table content="structure view/renderResultTable" />
+  </metal:table>
+</div>

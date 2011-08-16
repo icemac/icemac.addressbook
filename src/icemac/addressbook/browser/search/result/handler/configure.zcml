@@ -33,5 +33,6 @@
      />
 
   <include package=".export" />
+  <include package=".update" />
 
 </configure>
