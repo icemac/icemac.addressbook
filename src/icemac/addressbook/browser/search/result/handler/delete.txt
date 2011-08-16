@@ -11,7 +11,8 @@ The layer defined an address book, some keywords and some persons. We need a
 user, too:
 
 >>> from icemac.addressbook.testing import create_user
->>> create_user(layer['addressbook'], layer['addressbook'], u'Ben',
+>>> ab = layer['rootFolder']['ab']
+>>> create_user(ab, ab, u'Ben',
 ...     u'Utzer', u'ben@example.com', u'12345678', [],
 ...     keywords=set([layer['kw_church']]))
 
