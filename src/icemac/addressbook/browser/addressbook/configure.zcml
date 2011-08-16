@@ -35,7 +35,7 @@
   <adapter
       for="icemac.addressbook.interfaces.IAddressBook
            icemac.addressbook.browser.interfaces.IAddressBookLayer
-           z3c.table.interfaces.ITable
+           .list.PersonList
            z3c.table.interfaces.IColumn"
      provides="z3c.table.interfaces.IColumnHeader"
      factory="z3c.table.header.SortingColumnHeader"
