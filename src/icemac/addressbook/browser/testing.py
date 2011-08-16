@@ -10,15 +10,15 @@ from icemac.addressbook.testing import (
 import icemac.addressbook.testing
 import transaction
 
+
 class _SearchLayer(plone.testing.Layer):
-    """Layer to test searches."""
+    """Layer wich creates base data for searches."""
     defaultBases = (icemac.addressbook.testing.WSGI_LAYER,)
 
     def setUp(self):
         icemac.addressbook.testing.setUpStackedDemoStorage(self, 'SearchLayer')
-        addressbook = self['addressbook'] = (
-            icemac.addressbook.testing.setUpAddressBook(self))
-        self['setupZODBConn'], rootObj, rootFolder = (
+        addressbook = icemac.addressbook.testing.setUpAddressBook(self)
+        setupZODBConn, rootObj, rootFolder = (
             icemac.addressbook.testing.createZODBConnection(self['zodbDB']))
 
         friends = self['kw_friends'] = create_keyword(addressbook, u'friends')
@@ -26,31 +26,28 @@ class _SearchLayer(plone.testing.Layer):
         church = self['kw_church'] = create_keyword(addressbook, u'church')
         self['kw_work'] = create_keyword(addressbook, u'work')
         self['kw_anyone_else'] = create_keyword(addressbook, u'anyone else')
-        self['p_hohmuth'] = create_person(addressbook, addressbook, u'Hohmuth',
-                                          keywords=set([friends]))
-        self['p_koch'] = create_person(
+        # person objects are not stored at layer as ZODBIsolatedTestLayer
+        # puts a DemoStorage on the storage the persons are created in, so
+        # changes on the persons are not visible on the persons stored at
+        # the layer.
+        create_person(
+            addressbook, addressbook, u'Hohmuth', keywords=set([friends]))
+        create_person(
             addressbook, addressbook, u'Koch', keywords=set([family, church]),
             birth_date=datetime.date(1952, 1, 24), notes=u'father-in-law')
-        self['p_velleuer'] = create_person(
-            addressbook, addressbook, u'Velleuer',
-            keywords=set([family, church]), notes=u'aunt')
-        self['p_liebig'] = create_person(addressbook, addressbook, u'Liebig',
-                                         keywords=set([church]), notes=u'family')
+        create_person(addressbook, addressbook, u'Velleuer',
+                      keywords=set([family, church]), notes=u'aunt')
+        create_person(addressbook, addressbook, u'Liebig',
+                      keywords=set([church]), notes=u'family')
+
         transaction.commit()
+        setupZODBConn.close()
 
     def tearDown(self):
-        del self['kw_friends']
         del self['kw_family']
         del self['kw_church']
         del self['kw_work']
         del self['kw_anyone_else']
-        del self['p_hohmuth']
-        del self['p_koch']
-        del self['p_velleuer']
-        del self['p_liebig']
-        del self['addressbook']
-        self['setupZODBConn'].close()
-        del self['setupZODBConn']
         icemac.addressbook.testing.tearDownStackedDemoStorage(self)
 
 SEARCH_LAYER = _SearchLayer(name='SearchLayer')
