@@ -30,12 +30,12 @@ class _SearchLayer(plone.testing.Layer):
                                           keywords=set([friends]))
         self['p_koch'] = create_person(
             addressbook, addressbook, u'Koch', keywords=set([family, church]),
-            birth_date=datetime.date(1952, 1, 24))
+            birth_date=datetime.date(1952, 1, 24), notes=u'father-in-law')
         self['p_velleuer'] = create_person(
             addressbook, addressbook, u'Velleuer',
-            keywords=set([family, church]))
+            keywords=set([family, church]), notes=u'aunt')
         self['p_liebig'] = create_person(addressbook, addressbook, u'Liebig',
-                                         keywords=set([church]))
+                                         keywords=set([church]), notes=u'family')
         transaction.commit()
 
     def tearDown(self):
@@ -56,7 +56,5 @@ class _SearchLayer(plone.testing.Layer):
 SEARCH_LAYER = _SearchLayer(name='SearchLayer')
 
 
-class _WSGISearchLayer(icemac.addressbook.testing._WSGITestBrowserLayer):
-    defaultBases = (SEARCH_LAYER,)
-
-WSGI_SEARCH_LAYER = _WSGISearchLayer(name='WSGISearchLayer')
+WSGI_SEARCH_LAYER = icemac.addressbook.testing._WSGITestBrowserLayer(
+    bases=(SEARCH_LAYER,), name='WSGISearchLayer')

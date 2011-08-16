@@ -1,0 +1,103 @@
+=========================
+Updating selected persons
+=========================
+
+The `update` search result handler allows to update a single field on each
+selected person.
+
+Setup
+=====
+
+The layer defines some persons. When user searches for them all persons are
+selected by default so he only has to select the `update` search handler to
+perform a multi-update:
+
+>>> from icemac.addressbook.testing import Browser
+>>> from pprint import pprint
+>>> browser = Browser()
+>>> browser.login('mgr')
+>>> browser.open('http://localhost/ab/@@multi_keyword.html')
+>>> browser.getControl('keywords').displayValue = ['church']
+>>> browser.getControl('Search').click()
+>>> pprint(browser.getControl('Apply on selected persons').displayOptions)
+['XLS export main (Exports person data and main addresses resp. phone numbers.)',
+ 'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
+ 'Update (Allows you to choose a field for update on each selected person.)',
+ 'Deletion (Deletes selected persons.)']
+>>> browser.getControl('Apply on selected persons').displayValue = ['Update']
+>>> browser.handleErrors = False
+>>> browser.getControl(name='form.buttons.apply').click()
+
+Update wizard
+=============
+
+The user is guided through the update using a wizard.
+
+Choose field
+------------
+
+The first step is to choose a field for update:
+
+>>> browser.getControl('field').displayOptions
+['person -- first name', 'person -- last name', 'person -- birth date', ...
+>>> browser.getControl('field').displayValue = ['person -- notes']
+>>> browser.getControl('Next').click()
+
+Enter new value
+---------------
+
+The next step is to enter a new value for the selected field and to choose
+an operation which defaults to 'append'.
+
+>>> browser.getControl('operation').displayValue
+['append']
+>>> browser.getControl('new value').value = '\nfoobar'
+>>> browser.getControl('Next').click()
+
+Check result
+------------
+
+In the last step the result is displayed.
+
+>>> print browser.contents
+<!DOCTYPE ...
+  <tbody>
+    <tr class="table-even-row">
+      <td>Koch</td>
+      <td>father-in-law
+foobar</td>
+      <td></td>
+    </tr>
+    <tr class="table-odd-row">
+      <td>Liebig</td>
+      <td>family
+foobar</td>
+      <td></td>
+    </tr>
+    <tr class="table-even-row">
+      <td>Velleuer</td>
+      <td>aunt
+foobar</td>
+      <td></td>
+    </tr>
+  </tbody>
+  ...
+
+Hitting `Complete` persists the change.
+
+>>> browser.getControl('Complete').click()
+>>> browser.url
+'http://localhost/ab/@@multi-update-completed'
+
+The fields got changed as promoted on check page:
+
+>>> browser.getLink('Person list').click()
+>>> browser.getLink('Koch').click()
+>>> print browser.getControl('notes').value
+father-in-law
+foobar
+
+.. more Testcases:
+.. not hitting complete does not store the changes
+.. error display in check result --> no complete button
+.. other fields

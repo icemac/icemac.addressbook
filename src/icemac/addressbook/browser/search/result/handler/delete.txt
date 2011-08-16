@@ -76,10 +76,9 @@ selected by default:
 To delete the selected persons is shown the administrator has to choose the
 adequate entry in the `handele` menu:
 
->>> browser.getControl('Apply on selected persons').displayOptions
-['XLS export main (Exports person data and main addresses resp. phone numbers.)',
- 'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
- 'Deletion (Deletes selected persons.)']
+>>> 'Deletion (Deletes selected persons.)' in browser.getControl(
+...     'Apply on selected persons').displayOptions
+True
 
 Selecting this button leads to an are-you-sure question:
 

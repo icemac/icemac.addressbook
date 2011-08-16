@@ -52,6 +52,8 @@
       template="form.pt"
       />
 
+  <!-- z3c.table -->
+
   <adapter
       for="*
            icemac.addressbook.browser.interfaces.IAddressBookLayer
@@ -59,6 +61,20 @@
       name="batch"
       factory="icemac.addressbook.browser.table.NiceBatchProvider"
       />
+
+  <!-- z3c.wizard -->
+
+  <z3c:template
+     template="wizard-step.pt"
+     for=".wizard.Step"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:macro
+     name="addressbook-wizard"
+     template="wizard-step.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
 
   <include package=".about" />
   <include package=".addressbook" />
