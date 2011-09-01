@@ -13,9 +13,8 @@
   <body class="main">
     <div id="head">
       <h1>
-        icemac.addressbook<a tal:attributes="href string:${request/URL/0}/@@about.html"
-                             id="about-view">
-          <img src="/++resource++img/Symbol-Information.png"
+        icemac.addressbook <a tal:attributes="href string:${request/URL/0}/@@about.html"
+                             id="about-view"><img src="/++resource++img/Symbol-Information.png"
                alt="info-i"
                img:attributes="title; alt"
                title="Information about icemac.addressbook"
