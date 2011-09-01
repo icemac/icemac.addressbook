@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
+import grokcore.component
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
@@ -9,6 +10,7 @@ import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface.interfaces
 import zope.schema
+import zope.schema.interfaces
 import zope.security.proxy
 
 
@@ -162,6 +164,8 @@ class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):
         return value
 
 
+@grokcore.component.adapter(icemac.addressbook.interfaces.IField)
+@grokcore.component.implementer(zope.schema.interfaces.IField)
 def user_field_to_schema_field(field):
     """Convert a user defined field (IField) into a zope.schema field."""
     if field.type == 'Choice':
