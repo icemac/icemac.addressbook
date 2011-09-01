@@ -71,4 +71,7 @@
       permission="icemac.addressbook.EditAddressBook"
       />
 
+  <adapter factory=".enter.TextOperatorsSource" />
+  <adapter factory=".enter.BoolOperatorsSource" />
+
 </configure>

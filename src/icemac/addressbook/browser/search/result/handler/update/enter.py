@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2011 Michael Howitz
+# See also LICENSE.txt
 from __future__ import absolute_import
+
 from .base import SessionStorageStep
 from icemac.addressbook.i18n import _
 import grokcore.component
@@ -7,11 +11,24 @@ import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
 import stabledict
 import z3c.form.field
+import zc.sourcefactory.interfaces
+import zc.sourcefactory.source
+import zope.component
 import zope.interface
 import zope.schema
+import zope.schema.interfaces
 
 
-class TextOperationSource(icemac.addressbook.sources.TitleMappingSource):
+class IOperatorsSource(zc.sourcefactory.interfaces.IFactoredSource):
+    "Marker interface for a source defining possible operators on a field."
+
+
+class TextOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
+
+    # grokcore.component does not work hier, don't know why
+    zope.interface.implementsOnly(IOperatorsSource)
+    zope.component.adapts(zope.schema.interfaces.IText)
+
     _default_value = 'append'
     _mapping = stabledict.StableDict(
         (('prepend', _('prepend new value to existing one')),
@@ -25,7 +42,15 @@ class TextOperationSource(icemac.addressbook.sources.TitleMappingSource):
             _('remove right-most occurrence of new value in existing one')),
          ))
 
-text_operation_source = TextOperationSource()
+
+class BoolOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
+
+    zope.interface.implementsOnly(IOperatorsSource)
+    zope.component.adapts(zope.schema.interfaces.IBool)
+
+    _default_value = 'replace'
+    _mapping = stabledict.StableDict(
+            (('replace', _('replace existing value with new one')),))
 
 
 class Value(SessionStorageStep):
@@ -39,17 +64,19 @@ class Value(SessionStorageStep):
         entity, selected_field = icemac.addressbook.fieldsource.untokenize(
             session['field'])
         fields = []
+        # We have to support user defined fields here:
+        selected_field = zope.schema.interfaces.IField(selected_field)
         new_value_field = selected_field.__class__(
             title=_('new value'), required=False,
             description=_('This value should be set on each selected person.'))
         new_value_field.__name__ = 'new_value'
         fields.append(new_value_field)
+        source = IOperatorsSource(selected_field)
         operation_field =  zope.schema.Choice(
-            # XXX customize source depending on field type.
-            title=_('operation'), source=text_operation_source,
+            title=_('operation'), source=source,
             description=_(
                 'What should be done with the current value and the new one?'),
-                default=text_operation_source.factory._default_value)
+            default=source.factory._default_value)
         operation_field.__name__ = 'operation'
         fields.append(operation_field)
         self.fields = z3c.form.field.Fields(*fields)
