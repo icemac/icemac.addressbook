@@ -39,10 +39,101 @@ class TextAppend(Operator):
 
 
 class NoneAppend(Operator):
-    """Append to None"""
+    """Append to None."""
 
     grokcore.component.context(zope.interface.Interface)
     grokcore.component.name('append')
 
     def __call__(self, operand2):
         return operand2
+
+
+class TextPrepend(Operator):
+    """Prepend to text."""
+
+    grokcore.component.context(unicode)
+    grokcore.component.name('prepend')
+
+    def __call__(self, operand2):
+        return operand2 + self.operand1
+
+
+class NonePrepend(Operator):
+    """Prepend to None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('prepend')
+
+    def __call__(self, operand2):
+        return operand2
+
+
+class Replace(Operator):
+    """Replace."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('replace')
+
+    def __call__(self, operand2):
+        return operand2
+
+
+class RemoveAll(Operator):
+    """Remove all occurrences of operand2 from operand1."""
+
+    grokcore.component.context(unicode)
+    grokcore.component.name('remove-all')
+
+    def __call__(self, operand2):
+        return self.operand1.replace(operand2, '')
+
+
+class NoneRemoveAll(Operator):
+    """Remove all for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('remove-all')
+
+    def __call__(self, operand2):
+        return self.operand1
+
+
+class RemoveFirst(Operator):
+    """Remove left-most occurrence of operand2 from operand1."""
+
+    grokcore.component.context(unicode)
+    grokcore.component.name('remove-first')
+
+    def __call__(self, operand2):
+        return self.operand1.replace(operand2, '', 1)
+
+
+class NoneRemoveFirst(Operator):
+    """Remove first for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('remove-first')
+
+    def __call__(self, operand2):
+        return self.operand1
+
+
+class RemoveLast(Operator):
+    """Remove right-most occurrence of operand2 from operand1."""
+
+    grokcore.component.context(unicode)
+    grokcore.component.name('remove-last')
+
+    def __call__(self, operand2):
+        # [::-1] reverses the string
+        return self.operand1[::-1].replace(operand2[::-1], '', 1)[::-1]
+
+
+class NoneRemoveLast(Operator):
+    """Remove last for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('remove-last')
+
+    def __call__(self, operand2):
+        return self.operand1

@@ -50,8 +50,8 @@ The next step is to enter a new value for the selected field and to choose
 an operation which defaults to 'append'.
 
 >>> browser.getControl('operation').displayValue
-['append']
->>> browser.getControl('new value').value = '\nfoobar'
+['append new value to existing one']
+>>> browser.getControl('new value', index=0).value = '\nfoobar'
 >>> browser.getControl('Next').click()
 
 Check result

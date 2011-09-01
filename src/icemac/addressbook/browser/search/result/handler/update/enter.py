@@ -14,10 +14,16 @@ import zope.schema
 class TextOperationSource(icemac.addressbook.sources.TitleMappingSource):
     _default_value = 'append'
     _mapping = stabledict.StableDict(
-        (('prepend', _(u'prepend')),
-         ('replace', _(u'replace')),
-         ('append', _(u'append')),
-         ('remove', _(u'remove'))))
+        (('prepend', _('prepend new value to existing one')),
+         ('replace', _('replace existing value with new one')),
+         ('append', _('append new value to existing one')),
+         ('remove-all',
+            _('remove all occurrences of new value in existing one')),
+         ('remove-first',
+            _('remove left-most occurrence of new value in existing one')),
+         ('remove-last',
+            _('remove right-most occurrence of new value in existing one')),
+         ))
 
 text_operation_source = TextOperationSource()
 
