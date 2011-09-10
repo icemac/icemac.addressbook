@@ -84,5 +84,7 @@
   <adapter
       for="zope.schema.interfaces.IDatetime"
       factory=".enter.ReplaceableOperatorsSource" />
+  <adapter factory=".enter.IntOperatorsSource" />
+  <adapter factory=".enter.DecimalOperatorsSource" />
 
 </configure>

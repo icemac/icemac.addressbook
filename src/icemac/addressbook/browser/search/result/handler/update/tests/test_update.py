@@ -84,7 +84,6 @@ class TestUserDefinedFields(unittest.TestCase):
 
         browser.getControl('field').displayValue = [
             'postal address -- distance']
-        browser.handleErrors = False
         browser.getControl('Next').click()
         self.assertEqual(['no value', '< 50 km', '>= 50 km'],
                          browser.getControl('new value').displayOptions)
@@ -96,3 +95,42 @@ class TestUserDefinedFields(unittest.TestCase):
         file('response.html', 'w').write(browser.contents)
         self.assertIn('<td>Koch</td><td><50km</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
+
+    def _assert_number_field_can_be_updated(self, field_type):
+        from icemac.addressbook.testing import create_field
+        from icemac.addressbook.interfaces import IEntity, IPostalAddress
+        from icemac.addressbook.testing import Browser
+        create_field(
+            self.layer['rootFolder']['ab'], IEntity(IPostalAddress).class_name,
+            field_type, u'distance')
+        browser = Browser()
+        browser.login('mgr')
+        browser.open('http://localhost/ab')
+        browser.getLink('Koch').click()
+        # We set the value for the person under test to 50:
+        browser.getControl('distance').value = '50'
+        browser.getControl('Apply').click()
+        self.assertEqual(
+            ['Data successfully updated.'], browser.get_messages())
+        from icemac.addressbook.browser.search.result.handler.update.testing \
+            import select_persons_with_keyword_family_for_update
+        browser = select_persons_with_keyword_family_for_update(browser)
+
+        browser.getControl('field').displayValue = [
+            'postal address -- distance']
+        browser.handleErrors = False
+        browser.getControl('Next').click()
+        self.assertEqual('', browser.getControl('new value', index=0).value)
+        browser.getControl('new value', index=0).value = '5'
+        browser.getControl('operation').displayValue = ['add']
+        browser.getControl('Next').click()
+        # Update sets the value to 55:
+        file('response.html', 'w').write(browser.contents)
+        self.assertIn('<td>Koch</td><td>55</td>',
+                      browser.contents.replace(' ', '').replace('\n', ''))
+
+    def test_int_field_can_be_updated(self):
+        self._assert_number_field_can_be_updated('Int')
+
+    def test_decimal_field_can_be_updated(self):
+        self._assert_number_field_can_be_updated('Decimal')

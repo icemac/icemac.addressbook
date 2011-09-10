@@ -124,3 +124,104 @@ class NoneRemoveLast(NoneRemoveAll):
     grokcore.component.name('remove-last')
 
 
+class IntAdd(Operator):
+    """Add operand2 to operand1 for ints."""
+
+    grokcore.component.context(int)
+    grokcore.component.name('add')
+
+    def __call__(self, operand2):
+        return self.operand1 + operand2
+
+
+class DecimalAdd(IntAdd):
+    """Add operand2 to operand1 for decimals."""
+
+    grokcore.component.context(decimal.Decimal)
+
+
+class NoneAdd(Operator):
+    """Add for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('add')
+
+    def __call__(self, operand2):
+        return operand2
+
+
+class IntSub(Operator):
+    """Substract operand2 from operand1 for ints."""
+
+    grokcore.component.context(int)
+    grokcore.component.name('sub')
+
+    def __call__(self, operand2):
+        return self.operand1 - operand2
+
+class DecimalSub(IntSub):
+    """Substract operand2 from operand1 for decimals."""
+
+    grokcore.component.context(decimal.Decimal)
+
+
+class NoneSub(Operator):
+    """Sub for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('sub')
+
+    def __call__(self, operand2):
+        return -operand2
+
+
+class IntMul(Operator):
+    """Multiply operand2 by operand1 for ints."""
+
+    grokcore.component.context(int)
+    grokcore.component.name('mul')
+
+    def __call__(self, operand2):
+        return self.operand1 * operand2
+
+
+class DecimalMul(IntMul):
+    """Multiply operand2 by operand1 for decimals."""
+
+    grokcore.component.context(decimal.Decimal)
+
+
+class NoneMul(Operator):
+    """Mul for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('mul')
+
+    def __call__(self, operand2):
+        return 0
+
+
+class IntDiv(Operator):
+    """Divide operand1 by operand2 for ints."""
+
+    grokcore.component.context(int)
+    grokcore.component.name('div')
+
+    def __call__(self, operand2):
+        return self.operand1 / operand2
+
+
+class DecimalDiv(IntDiv):
+    """Divide operand1 by operand2 for decimals."""
+
+    grokcore.component.context(decimal.Decimal)
+
+
+class NoneDiv(Operator):
+    """Div for None."""
+
+    grokcore.component.context(zope.interface.Interface)
+    grokcore.component.name('div')
+
+    def __call__(self, operand2):
+        return 0
