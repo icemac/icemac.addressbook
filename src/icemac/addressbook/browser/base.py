@@ -20,6 +20,7 @@ import zope.interface
 import zope.security
 import zope.security.interfaces
 import zope.security.proxy
+import zope.session.interfaces
 import zope.site.hooks
 import zope.traversing.api
 import zope.traversing.browser
@@ -343,3 +344,9 @@ def can_access(uri_part):
                 return False
         return True
     return can_access_form
+
+
+def get_session(request):
+    """Get the browser session of the current user."""
+    return zope.session.interfaces.ISession(request)[
+        icemac.addressbook.interfaces.PACKAGE_ID]

@@ -2,15 +2,14 @@
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
-
 from icemac.addressbook.i18n import MessageFactory as _
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
 import zope.globalrequest
 import zope.i18n
 import zope.interface
 import zope.schema
-import zope.session.interfaces
 
 
 class ISelectionCount(zope.interface.Interface):
@@ -24,8 +23,7 @@ class ISelectionCount(zope.interface.Interface):
 
 def get_selected_person_ids(request):
     """Get the list of selected person ids from the session."""
-    session = zope.session.interfaces.ISession(request)[
-        icemac.addressbook.interfaces.PACKAGE_ID]
+    session = icemac.addressbook.browser.base.get_session(request)
     return session.get('person_ids', [])
 
 

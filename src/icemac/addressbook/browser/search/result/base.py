@@ -2,8 +2,8 @@
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
-
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.manager
 import icemac.addressbook.interfaces
@@ -13,7 +13,6 @@ import z3c.table.column
 import zc.sourcefactory.interfaces
 import zope.interface
 import zope.schema
-import zope.session.interfaces
 
 
 class ISearchResultHanderChoice(zope.interface.Interface):
@@ -46,8 +45,7 @@ class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
             self.status = self.formErrorsMessage
             return
 
-        session = zope.session.interfaces.ISession(self.request)[
-            icemac.addressbook.interfaces.PACKAGE_ID]
+        session = icemac.addressbook.browser.base.get_session(self.request)
         session['person_ids'] = self.request.form.get('persons', ())
 
         self.request.response.redirect(data['search_result_handler'].viewName)

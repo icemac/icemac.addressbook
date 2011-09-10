@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-import zope.session.interfaces
-
-import icemac.addressbook.interfaces
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.base
+import icemac.addressbook.interfaces
 
 
 class BaseExport(object):
@@ -19,8 +16,7 @@ class BaseExport(object):
     exporter_class = NotImplemented
 
     def __call__(self):
-        session = zope.session.interfaces.ISession(self.request)[
-            icemac.addressbook.interfaces.PACKAGE_ID]
+        session = icemac.addressbook.browser.base.get_session(self.request)
         persons = [self.context[id] for id in session['person_ids']]
         exporter = self.exporter_class(persons, self.request)
 

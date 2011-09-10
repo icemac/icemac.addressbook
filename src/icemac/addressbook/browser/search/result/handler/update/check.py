@@ -3,10 +3,10 @@
 # See also LICENSE.txt
 from __future__ import absolute_import
 
-from .base import (
-    SessionStorageStep, get_session, get_update_data_session, update_persons)
+from .base import SessionStorageStep, get_update_data_session, update_persons
 from icemac.addressbook.i18n import _
 import grokcore.component
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.table
 import icemac.addressbook.browser.wizard
@@ -59,7 +59,7 @@ class ReviewTable(icemac.addressbook.browser.table.Table):
 
     @property
     def values(self):
-        session = get_session(self.request)
+        session = icemac.addressbook.browser.base.get_session(self.request)
         for person_id in session['person_ids']:
             yield self.context[person_id]
 
@@ -73,12 +73,17 @@ class Result(SessionStorageStep):
 
     def _update_persons(self):
         """Update the persons as the user seleted it."""
-        person_ids = get_session(self.request)['person_ids']
+        person_ids = icemac.addressbook.browser.base.get_session(
+            self.request)['person_ids']
         persons = [self.context[x] for x in person_ids]
         entity, field = get_chosen_entity_and_field(self.request)
         update_data = get_update_data_session(self.request)
         update_persons(persons, entity, field, update_data['operation'],
                        update_data['new_value'])
+
+    def _clean_session(self):
+        """Makes sure the next update run does not get confused."""
+
 
     def renderResultTable(self):
         self._update_persons()
@@ -95,4 +100,5 @@ class Result(SessionStorageStep):
         # request:
         transaction.abort()
         self._update_persons()
+        self._clean_session()
         return super(Result, self).doComplete(action)
