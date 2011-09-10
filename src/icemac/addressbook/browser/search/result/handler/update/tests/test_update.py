@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2011 Michael Howitz
+# See also LICENSE.txt
+import icemac.addressbook.browser.testing
+import unittest2 as unittest
+
+
+class TestEmptyNewValue(unittest.TestCase):
+    """Testing handler for edge case that user enters empty new value."""
+
+    layer = icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
+
+    def test_adding_an_empty_new_value_does_not_change_the_updated_value(self):
+        from icemac.addressbook.browser.search.result.handler.update.testing \
+            import select_persons_with_keyword_church_for_update
+        browser = select_persons_with_keyword_church_for_update()
+        browser.getControl('field').displayValue = ['person -- last name']
+        browser.getControl('Next').click()
+        browser.getControl('new value', index=0).value = ''
+        browser.getControl('operation').displayValue = [
+            'append new value to existing one']
+        browser.getControl('Next').click()
+        # The last name column is displayed as a link column it contains the
+        # unchanged last name:
+        self.assertIn(
+            '<td><a href="http://localhost/ab/Person-2">Koch</a></td>',
+            browser.contents)

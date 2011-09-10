@@ -30,6 +30,7 @@ class TextOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
     zope.component.adapts(zope.schema.interfaces.IText)
 
     _default_value = 'append'
+    _missing_value = u''
     _mapping = stabledict.StableDict(
         (('prepend', _('prepend new value to existing one')),
          ('replace', _('replace existing value with new one')),
@@ -49,6 +50,7 @@ class BoolOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
     zope.component.adapts(zope.schema.interfaces.IBool)
 
     _default_value = 'replace'
+    _missing_value = None
     _mapping = stabledict.StableDict(
             (('replace', _('replace existing value with new one')),))
 
@@ -66,17 +68,19 @@ class Value(SessionStorageStep):
         fields = []
         # We have to support user defined fields here:
         selected_field = zope.schema.interfaces.IField(selected_field)
+        source = IOperatorsSource(selected_field)
+        field_options = source.factory
         new_value_field = selected_field.__class__(
             title=_('new value'), required=False,
-            description=_('This value should be set on each selected person.'))
+            description=_('This value should be set on each selected person.'),
+            missing_value=field_options._missing_value)
         new_value_field.__name__ = 'new_value'
         fields.append(new_value_field)
-        source = IOperatorsSource(selected_field)
         operation_field =  zope.schema.Choice(
             title=_('operation'), source=source,
             description=_(
                 'What should be done with the current value and the new one?'),
-            default=source.factory._default_value)
+            default=field_options._default_value,)
         operation_field.__name__ = 'operation'
         fields.append(operation_field)
         self.fields = z3c.form.field.Fields(*fields)
