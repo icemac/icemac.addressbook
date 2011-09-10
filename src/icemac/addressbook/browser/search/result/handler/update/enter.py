@@ -50,8 +50,8 @@ class TextOperatorsSource(BaseOperatorsSource):
          ))
 
 
-class BoolOperatorsSource(BaseOperatorsSource):
-    """Operators for Bool fields."""
+class ReplaceableOperatorsSource(BaseOperatorsSource):
+    """Operators for Bool and Choice fields."""
 
     zope.component.adapts(zope.schema.interfaces.IBool)
 
@@ -75,18 +75,22 @@ class Value(SessionStorageStep):
         # We have to support user defined fields here:
         selected_field = zope.schema.interfaces.IField(selected_field)
         source = IOperatorsSource(selected_field)
-        field_options = source.factory
-        new_value_field = selected_field.__class__(
+        parameters = dict(
             title=_('new value'), required=False,
             description=_('This value should be set on each selected person.'),
-            missing_value=field_options._missing_value)
+            missing_value=source.factory._missing_value)
+        if isinstance(selected_field, zope.schema.Choice):
+            # Choices need the source of selectable values:
+            parameters['source'] = selected_field.source
+        new_value_field = selected_field.__class__(**parameters)
         new_value_field.__name__ = 'new_value'
         fields.append(new_value_field)
+
         operation_field =  zope.schema.Choice(
             title=_('operation'), source=source,
             description=_(
                 'What should be done with the current value and the new one?'),
-            default=field_options._default_value,)
+            default=source.factory._default_value,)
         operation_field.__name__ = 'operation'
         fields.append(operation_field)
         self.fields = z3c.form.field.Fields(*fields)

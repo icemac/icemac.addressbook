@@ -72,6 +72,11 @@
       />
 
   <adapter factory=".enter.TextOperatorsSource" />
-  <adapter factory=".enter.BoolOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IBool"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IChoice"
+      factory=".enter.ReplaceableOperatorsSource" />
 
 </configure>
