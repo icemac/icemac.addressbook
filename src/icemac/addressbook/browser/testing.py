@@ -6,7 +6,8 @@ import datetime
 import icemac.addressbook.testing
 import plone.testing
 from icemac.addressbook.testing import (
-    create_addressbook, create_person, create_keyword, create_user)
+    create_addressbook, create_person, create_full_person, create_keyword,
+    create_user)
 import icemac.addressbook.testing
 import transaction
 
@@ -32,7 +33,7 @@ class _SearchLayer(plone.testing.Layer):
         # the layer.
         create_person(
             addressbook, addressbook, u'Hohmuth', keywords=set([friends]))
-        create_person(
+        create_full_person(
             addressbook, addressbook, u'Koch', keywords=set([family, church]),
             birth_date=datetime.date(1952, 1, 24), notes=u'father-in-law')
         create_person(addressbook, addressbook, u'Velleuer',
@@ -57,14 +58,15 @@ WSGI_SEARCH_LAYER = icemac.addressbook.testing._WSGITestBrowserLayer(
     bases=(SEARCH_LAYER,), name='WSGISearchLayer')
 
 
-def search_for_persons_with_keyword_church_using_browser():
+def search_for_persons_with_keyword_church_using_browser(browser=None):
     """Searches for all persons with the keyword `church`.
 
     Returns the browser.
 
     """
-    browser = icemac.addressbook.testing.Browser()
-    browser.login('mgr')
+    if browser is None:
+        browser = icemac.addressbook.testing.Browser()
+        browser.login('mgr')
     browser.open('http://localhost/ab/@@multi_keyword.html')
     browser.getControl('keywords').displayValue = ['church']
     browser.getControl('Search').click()
