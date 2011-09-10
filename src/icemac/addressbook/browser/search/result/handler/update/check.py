@@ -3,7 +3,9 @@
 # See also LICENSE.txt
 from __future__ import absolute_import
 
-from .base import SessionStorageStep, get_update_data_session, update_persons
+from .base import (
+    SessionStorageStep, get_update_data_session, update_persons,
+    clean_update_data_session)
 from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.browser.base
@@ -81,10 +83,6 @@ class Result(SessionStorageStep):
         update_persons(persons, entity, field, update_data['operation'],
                        update_data['new_value'])
 
-    def _clean_session(self):
-        """Makes sure the next update run does not get confused."""
-
-
     def renderResultTable(self):
         self._update_persons()
         # Make sure that changes are not yet persisted:
@@ -100,5 +98,5 @@ class Result(SessionStorageStep):
         # request:
         transaction.abort()
         self._update_persons()
-        self._clean_session()
+        clean_update_data_session(self.request)
         return super(Result, self).doComplete(action)

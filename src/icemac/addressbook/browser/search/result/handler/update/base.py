@@ -27,17 +27,24 @@ class UpdateWizard(z3c.wizard.wizard.Wizard):
             ]
 
 
+UPDATE_SESSION_KEY = 'search_result_handler:update'
 
 
 def get_update_data_session(request):
     """Get the session data for the current update."""
     session = icemac.addressbook.browser.base.get_session(request)
-    key = 'search_result_handler:update'
-    data = session.get(key, None)
+    data = session.get(UPDATE_SESSION_KEY, None)
     if data is None:
         data = persistent.mapping.PersistentMapping()
-        session[key] = data
+        session[UPDATE_SESSION_KEY] = data
     return data
+
+
+def clean_update_data_session(request):
+    """Clean the session data from the current update."""
+    session = icemac.addressbook.browser.base.get_session(request)
+    if session.get(UPDATE_SESSION_KEY, None) is not None:
+        del session[UPDATE_SESSION_KEY]
 
 
 class SessionStorageStep(icemac.addressbook.browser.wizard.Step):
