@@ -58,16 +58,15 @@ WSGI_SEARCH_LAYER = icemac.addressbook.testing._WSGITestBrowserLayer(
     bases=(SEARCH_LAYER,), name='WSGISearchLayer')
 
 
-def search_for_persons_with_keyword_family_using_browser(browser=None):
-    """Searches for all persons with the keyword `family`.
+def search_for_persons_with_keyword_search_using_browser(keyword):
+    """Searches for all persons with the given keyword.
 
     Returns the browser.
 
     """
-    if browser is None:
-        browser = icemac.addressbook.testing.Browser()
-        browser.login('mgr')
+    browser = icemac.addressbook.testing.Browser()
+    browser.login('mgr')
     browser.open('http://localhost/ab/@@multi_keyword.html')
-    browser.getControl('keywords').displayValue = ['family']
+    browser.getControl('keywords').displayValue = [keyword]
     browser.getControl('Search').click()
     return browser

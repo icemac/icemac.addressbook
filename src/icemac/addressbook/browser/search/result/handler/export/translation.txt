@@ -18,8 +18,8 @@ User defined fields are not translated, but might behave special, so
 let's create a field:
 
 >>> from icemac.addressbook.testing import create_field
->>> create_field(ab, 'icemac.addressbook.person.Person',
-...     u'Bool', u'Fotoerlaubnis?')
+>>> _ = create_field(ab, 'icemac.addressbook.person.Person',
+...                  u'Bool', u'Fotoerlaubnis?')
 
 Create a keyword and a person using this keyword, so the search works:
 
@@ -62,7 +62,6 @@ The export produces an XLS file:
 
 >>> import pprint
 >>> import xlrd
->>> file('response.html', 'w').write(browser.contents)
 >>> browser.getControl('Auf ausgewählte Personen anwenden').displayValue = [
 ...    'wichtigste']
 >>> browser.getControl(name='form.buttons.apply').click()

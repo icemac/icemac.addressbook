@@ -3,14 +3,15 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.browser.testing import (
-    search_for_persons_with_keyword_family_using_browser)
+    search_for_persons_with_keyword_search_using_browser)
 
-def select_persons_with_keyword_family_for_update(browser=None):
-    """Returns a browser where the persons with the keyword `church` are
+def select_persons_with_keyword_for_update(keyword):
+    """Returns a browser where the persons with the given keyword are
     selected for the update handler.
 
     """
-    browser = search_for_persons_with_keyword_family_using_browser(browser)
+    browser = search_for_persons_with_keyword_search_using_browser(keyword)
+    file('response.html', 'w').write(browser.contents)
     browser.getControl('Apply on selected persons').displayValue = ['Update']
     browser.getControl(name='form.buttons.apply').click()
     return browser

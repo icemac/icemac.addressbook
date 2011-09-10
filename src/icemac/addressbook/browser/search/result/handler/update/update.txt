@@ -13,8 +13,8 @@ selected by default so he only has to select the `update` search handler to
 perform a multi-update:
 
 >>> from icemac.addressbook.browser.search.result.handler.update.testing \
-...     import select_persons_with_keyword_family_for_update
->>> browser = select_persons_with_keyword_family_for_update()
+...     import select_persons_with_keyword_for_update
+>>> browser = select_persons_with_keyword_for_update('family')
 
 
 Update wizard

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2011 Michael Howitz
 # See also LICENSE.txt
+import decimal
 import icemac.addressbook.browser.testing
+import icemac.addressbook.testing
 import unittest2 as unittest
 
 
@@ -12,8 +14,8 @@ class TestEmptyNewValue(unittest.TestCase):
 
     def test_adding_an_empty_new_value_does_not_change_the_updated_value(self):
         from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_family_for_update
-        browser = select_persons_with_keyword_family_for_update()
+            import select_persons_with_keyword_for_update
+        browser = select_persons_with_keyword_for_update('family')
         browser.getControl('field').displayValue = ['person -- last name']
         browser.getControl('Next').click()
         browser.getControl('new value', index=0).value = ''
@@ -27,60 +29,58 @@ class TestEmptyNewValue(unittest.TestCase):
             browser.contents)
 
 
+KEYWORD = u'keyword for test'
+
+
 class TestUserDefinedFields(unittest.TestCase):
     """Testing update of user defined fields."""
 
-    layer = icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
+    layer = icemac.addressbook.testing.WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER
+
+    def setUp(self):
+        self.ab = self.layer['rootFolder']['ab']
+
+    def create_updateable_person(self, **kw):
+        from icemac.addressbook.interfaces import IEntity, IPerson
+        keyword = icemac.addressbook.testing.create_keyword(self.ab, KEYWORD)
+        data = {'last_name': u'Tester', 'keywords': set([keyword]),
+                'return_obj': True}
+        data.update(kw)
+        return icemac.addressbook.testing.create(
+            self.ab, self.ab, IEntity(IPerson).class_name, **data)
 
     def test_bool_field_can_be_updated(self):
-        from icemac.addressbook.testing import create_field
         from icemac.addressbook.interfaces import IEntity, IPerson
-        from icemac.addressbook.testing import Browser
-        create_field(
-            self.layer['rootFolder']['ab'], IEntity(IPerson).class_name,
-            'Bool', u'Ever met?')
-        browser = Browser()
-        browser.login('mgr')
-        browser.open('http://localhost/ab')
-        browser.getLink('Koch').click()
-        # We set the value for the person under test to 'no':
-        browser.getControl('no', index=0).click()
-        browser.getControl('Apply').click()
-        self.assertEqual(
-            ['Data successfully updated.'], browser.get_messages())
         from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_family_for_update
-        browser = select_persons_with_keyword_family_for_update(browser)
+            import select_persons_with_keyword_for_update
+        field_name = icemac.addressbook.testing.create_field(
+            self.ab, IEntity(IPerson).class_name, 'Bool', u'Ever met')
+        self.create_updateable_person(**{field_name: False})
+        browser = select_persons_with_keyword_for_update(KEYWORD)
 
-        browser.getControl('field').displayValue = ['person -- Ever met?']
+        browser.getControl('field').displayValue = ['person -- Ever met']
         browser.getControl('Next').click()
         browser.getControl('yes').click()
         browser.getControl('operation').displayValue = [
             'replace existing value with new one']
         browser.getControl('Next').click()
         # Update sets the value to 'yes':
-        self.assertIn('<td>Koch</td><td>yes</td>',
+        self.assertIn('<td>Tester</td><td>yes</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
     def test_choice_field_can_be_updated(self):
-        from icemac.addressbook.testing import create_field
         from icemac.addressbook.interfaces import IEntity, IPostalAddress
-        from icemac.addressbook.testing import Browser
-        create_field(
-            self.layer['rootFolder']['ab'], IEntity(IPostalAddress).class_name,
-            'Choice', u'distance', values=[u'< 50 km', u'>= 50 km'])
-        browser = Browser()
-        browser.login('mgr')
-        browser.open('http://localhost/ab')
-        browser.getLink('Koch').click()
-        # We set the value for the person under test to '>= 50 km':
-        browser.getControl('distance').getControl('>= 50 km').click()
-        browser.getControl('Apply').click()
-        self.assertEqual(
-            ['Data successfully updated.'], browser.get_messages())
+        address_class_name = IEntity(IPostalAddress).class_name
+        field_name = icemac.addressbook.testing.create_field(
+            self.ab, address_class_name, 'Choice', u'distance',
+            values=[u'< 50 km', u'>= 50 km'])
+        person = self.create_updateable_person()
+        icemac.addressbook.testing.create(
+            self.ab, person, address_class_name,
+            **{field_name: '>= 50 km', 'set_as_default': True})
         from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_family_for_update
-        browser = select_persons_with_keyword_family_for_update(browser)
+            import select_persons_with_keyword_for_update
+        browser = select_persons_with_keyword_for_update(KEYWORD)
 
         browser.getControl('field').displayValue = [
             'postal address -- distance']
@@ -92,45 +92,35 @@ class TestUserDefinedFields(unittest.TestCase):
             'replace existing value with new one']
         browser.getControl('Next').click()
         # Update sets the value to '< 50 km':
-        file('response.html', 'w').write(browser.contents)
-        self.assertIn('<td>Koch</td><td><50km</td>',
+        self.assertIn('<td>Tester</td><td><50km</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
-    def _assert_number_field_can_be_updated(self, field_type):
-        from icemac.addressbook.testing import create_field
+    def _assert_number_field_can_be_updated(self, field_type, field_class):
         from icemac.addressbook.interfaces import IEntity, IPostalAddress
-        from icemac.addressbook.testing import Browser
-        create_field(
-            self.layer['rootFolder']['ab'], IEntity(IPostalAddress).class_name,
-            field_type, u'distance')
-        browser = Browser()
-        browser.login('mgr')
-        browser.open('http://localhost/ab')
-        browser.getLink('Koch').click()
-        # We set the value for the person under test to 50:
-        browser.getControl('distance').value = '50'
-        browser.getControl('Apply').click()
-        self.assertEqual(
-            ['Data successfully updated.'], browser.get_messages())
+        address_class_name = IEntity(IPostalAddress).class_name
+        field_name = icemac.addressbook.testing.create_field(
+            self.ab, address_class_name, field_type, u'distance')
+        person = self.create_updateable_person()
+        icemac.addressbook.testing.create(
+            self.ab, person, address_class_name,
+            **{field_name: field_class(50), 'set_as_default': True})
         from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_family_for_update
-        browser = select_persons_with_keyword_family_for_update(browser)
+            import select_persons_with_keyword_for_update
+        browser = select_persons_with_keyword_for_update(KEYWORD)
 
         browser.getControl('field').displayValue = [
             'postal address -- distance']
-        browser.handleErrors = False
         browser.getControl('Next').click()
         self.assertEqual('', browser.getControl('new value', index=0).value)
         browser.getControl('new value', index=0).value = '5'
         browser.getControl('operation').displayValue = ['add']
         browser.getControl('Next').click()
         # Update sets the value to 55:
-        file('response.html', 'w').write(browser.contents)
-        self.assertIn('<td>Koch</td><td>55</td>',
+        self.assertIn('<td>Tester</td><td>55</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
     def test_int_field_can_be_updated(self):
-        self._assert_number_field_can_be_updated('Int')
+        self._assert_number_field_can_be_updated('Int', int)
 
     def test_decimal_field_can_be_updated(self):
-        self._assert_number_field_can_be_updated('Decimal')
+        self._assert_number_field_can_be_updated('Decimal', decimal.Decimal)
