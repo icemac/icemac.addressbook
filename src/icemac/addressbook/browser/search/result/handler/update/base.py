@@ -2,6 +2,7 @@
 # Copyright (c) 2011 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.update.operators
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.interfaces
@@ -26,15 +27,11 @@ class UpdateWizard(z3c.wizard.wizard.Wizard):
             ]
 
 
-def get_session(request):
-    """Get the session."""
-    return zope.session.interfaces.ISession(request)[
-        icemac.addressbook.interfaces.PACKAGE_ID]
 
 
 def get_update_data_session(request):
     """Get the session data for the current update."""
-    session = get_session(request)
+    session = icemac.addressbook.browser.base.get_session(request)
     key = 'search_result_handler:update'
     data = session.get(key, None)
     if data is None:

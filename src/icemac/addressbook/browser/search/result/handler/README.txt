@@ -11,8 +11,7 @@ named `person_ids`.
 
 To get the session call::
 
-    zope.session.interfaces.ISession(request)[
-        icemac.addressbook.interfaces.PACKAGE_ID]
+    icemac.addressbook.browser.base.get_session(request)
 
 
 
