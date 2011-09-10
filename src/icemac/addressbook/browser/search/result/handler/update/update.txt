@@ -12,21 +12,10 @@ The layer defines some persons. When user searches for them all persons are
 selected by default so he only has to select the `update` search handler to
 perform a multi-update:
 
->>> from icemac.addressbook.testing import Browser
->>> from pprint import pprint
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/ab/@@multi_keyword.html')
->>> browser.getControl('keywords').displayValue = ['church']
->>> browser.getControl('Search').click()
->>> pprint(browser.getControl('Apply on selected persons').displayOptions)
-['XLS export main (Exports person data and main addresses resp. phone numbers.)',
- 'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
- 'Update (Allows you to choose a field for update on each selected person.)',
- 'Deletion (Deletes selected persons.)']
->>> browser.getControl('Apply on selected persons').displayValue = ['Update']
->>> browser.handleErrors = False
->>> browser.getControl(name='form.buttons.apply').click()
+>>> from icemac.addressbook.browser.search.result.handler.update.testing \
+...     import select_persons_with_keyword_church_for_update
+>>> browser = select_persons_with_keyword_church_for_update()
+
 
 Update wizard
 =============
