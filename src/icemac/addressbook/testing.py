@@ -255,18 +255,6 @@ def TestBrowserDocFileSuite(*paths, **kw):
     return DocFileSuite(layer=WSGI_TEST_BROWSER_LAYER, *paths, **kw)
 
 
-# List of known users which are able to login using basic auth:
-USERNAME_PASSWORD_MAP = dict(mgr='mgrpw', editor='editor', visitor='visitor')
-
-class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
-    """Customized browser which provides login."""
-
-    def login(self, username):
-        """Login a user using basic auth."""
-        self.addHeader('Authorization', 'Basic %s:%s' %
-                       (username, USERNAME_PASSWORD_MAP[username]))
-
-
 # XXX see https://sourceforge.net/tracker/?func=detail&aid=3381282&group_id=273840&atid=2319598
 def _get_control_names(interface, browser=None, form=None):
     """Get a sorted list of names of controls providing the given interface.
@@ -337,6 +325,20 @@ def write_temp_file(content, suffix):
     os.write(fd, content)
     os.close(fd)
     return file(filename, 'r'), os.path.basename(filename)
+
+
+# List of known users which are able to login using basic auth:
+USERNAME_PASSWORD_MAP = dict(mgr='mgrpw', editor='editor', visitor='visitor')
+
+class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
+    """Customized browser which provides login."""
+
+    def login(self, username):
+        """Login a user using basic auth."""
+        self.addHeader('Authorization', 'Basic %s:%s' %
+                       (username, USERNAME_PASSWORD_MAP[username]))
+
+    get_messages = get_messages
 
 
 ### Helper functions to create objects in the database ###
@@ -498,7 +500,7 @@ def create_user(ab, first_name, last_name, email, password, roles, **kw):
 def create_field(entity_name, type, title, **kw):
     """Create a user defined field for an entity.
 
-    entity_name ... module name and class name of entity
+    entity_name ... IEntity.class_name
     type ... see values of .sources.FieldTypeSource
 
     """
