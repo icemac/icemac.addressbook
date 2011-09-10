@@ -503,6 +503,8 @@ def create_field(entity_name, type, title, **kw):
     entity_name ... IEntity.class_name
     type ... see values of .sources.FieldTypeSource
 
+    To create values for a Choice field use: values=<list of values>
+
     """
     field = icemac.addressbook.utils.create_obj(
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
