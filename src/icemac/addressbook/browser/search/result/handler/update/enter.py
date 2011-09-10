@@ -23,10 +23,16 @@ class IOperatorsSource(zc.sourcefactory.interfaces.IFactoredSource):
     "Marker interface for a source defining possible operators on a field."
 
 
-class TextOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
+class BaseOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
+    """Base class for operator sources."""
 
     # grokcore.component does not work hier, don't know why
     zope.interface.implementsOnly(IOperatorsSource)
+
+
+class TextOperatorsSource(BaseOperatorsSource):
+    """Operators for Text and TextLine fields."""
+
     zope.component.adapts(zope.schema.interfaces.IText)
 
     _default_value = 'append'
@@ -44,9 +50,9 @@ class TextOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
          ))
 
 
-class BoolOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
+class BoolOperatorsSource(BaseOperatorsSource):
+    """Operators for Bool fields."""
 
-    zope.interface.implementsOnly(IOperatorsSource)
     zope.component.adapts(zope.schema.interfaces.IBool)
 
     _default_value = 'replace'
