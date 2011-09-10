@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from decimal import Decimal
 import icemac.addressbook.testing
 import unittest
 
@@ -50,3 +51,43 @@ class TestOperators(unittest.TestCase):
 
     def test_remove_last_does_nothing_on_None(self):
         self.assertEqual(None, self.callOP(None, 'a', 'remove-last'))
+
+    def test_add_returns_value2_on_None(self):
+        self.assertEqual(2, self.callOP(None, 2, 'add'))
+
+    def test_add_returns_sum_of_value1_and_value2(self):
+        self.assertEqual(3, self.callOP(1, 2, 'add'))
+
+    def test_add_returns_sum_of_value1_and_value2_for_decimals(self):
+        self.assertEqual(Decimal(3),
+                         self.callOP(Decimal(1), Decimal(2), 'add'))
+
+    def test_sub_returns_neg_value2_on_None(self):
+        self.assertEqual(-2, self.callOP(None, 2, 'sub'))
+
+    def test_sub_returns_difference_of_value1_and_value2(self):
+        self.assertEqual(-1, self.callOP(1, 2, 'sub'))
+
+    def test_sub_returns_difference_of_value1_and_value2_for_decimals(self):
+        self.assertEqual(Decimal(-1),
+                         self.callOP(Decimal(1), Decimal(2), 'sub'))
+
+    def test_mul_returns_0_on_None(self):
+        self.assertEqual(0, self.callOP(None, 2, 'mul'))
+
+    def test_mul_returns_product_of_value1_and_value2(self):
+        self.assertEqual(6, self.callOP(3, 2, 'mul'))
+
+    def test_mul_returns_product_of_value1_and_value2_for_decimals(self):
+        self.assertEqual(Decimal(6),
+                         self.callOP(Decimal(3), Decimal(2), 'mul'))
+
+    def test_div_returns_0_on_None(self):
+        self.assertEqual(0, self.callOP(None, 2, 'div'))
+
+    def test_div_returns_whole_number_quotient_of_value1_and_value2(self):
+        self.assertEqual(3, self.callOP(10, 3, 'div'))
+
+    def test_div_returns_quotient_of_value1_and_value2(self):
+        self.assertEqual(Decimal(10) / Decimal(3),
+                         self.callOP(Decimal(10), Decimal(3), 'div'))
