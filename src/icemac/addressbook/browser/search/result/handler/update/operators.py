@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2011 Michael Howitz
 # See also LICENSE.txt
-import zope.interface
+import decimal
 import grokcore.component
+import zope.interface
 
 
 class IOperator(zope.interface.Interface):
@@ -38,14 +39,20 @@ class TextAppend(Operator):
         return self.operand1 + operand2
 
 
-class NoneAppend(Operator):
-    """Append to None."""
+class Replace(Operator):
+    """Replace."""
 
     grokcore.component.context(zope.interface.Interface)
-    grokcore.component.name('append')
+    grokcore.component.name('replace')
 
     def __call__(self, operand2):
         return operand2
+
+
+class NoneAppend(Replace):
+    """Append to None."""
+
+    grokcore.component.name('append')
 
 
 class TextPrepend(Operator):
@@ -58,24 +65,10 @@ class TextPrepend(Operator):
         return operand2 + self.operand1
 
 
-class NonePrepend(Operator):
+class NonePrepend(Replace):
     """Prepend to None."""
 
-    grokcore.component.context(zope.interface.Interface)
     grokcore.component.name('prepend')
-
-    def __call__(self, operand2):
-        return operand2
-
-
-class Replace(Operator):
-    """Replace."""
-
-    grokcore.component.context(zope.interface.Interface)
-    grokcore.component.name('replace')
-
-    def __call__(self, operand2):
-        return operand2
 
 
 class RemoveAll(Operator):
@@ -108,14 +101,10 @@ class RemoveFirst(Operator):
         return self.operand1.replace(operand2, '', 1)
 
 
-class NoneRemoveFirst(Operator):
+class NoneRemoveFirst(NoneRemoveAll):
     """Remove first for None."""
 
-    grokcore.component.context(zope.interface.Interface)
     grokcore.component.name('remove-first')
-
-    def __call__(self, operand2):
-        return self.operand1
 
 
 class RemoveLast(Operator):
@@ -129,11 +118,9 @@ class RemoveLast(Operator):
         return self.operand1[::-1].replace(operand2[::-1], '', 1)[::-1]
 
 
-class NoneRemoveLast(Operator):
+class NoneRemoveLast(NoneRemoveAll):
     """Remove last for None."""
 
-    grokcore.component.context(zope.interface.Interface)
     grokcore.component.name('remove-last')
 
-    def __call__(self, operand2):
-        return self.operand1
+
