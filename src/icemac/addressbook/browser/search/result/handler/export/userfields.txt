@@ -16,8 +16,8 @@ Create an addressbook:
 Create a defined field:
 
 >>> from icemac.addressbook.testing import create_field
->>> create_field(ab, 'icemac.addressbook.person.Person',
-...     u'Bool', u'photo permission?')
+>>> _ = create_field(ab, 'icemac.addressbook.person.Person',
+...                  u'Bool', u'photo permission?')
 
 Create a keyword and a person using this keyword:
 

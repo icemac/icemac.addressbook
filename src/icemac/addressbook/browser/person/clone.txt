@@ -17,8 +17,8 @@ As user defined fields and keywords may behave unusual, let's create
 some:
 
 >>> from icemac.addressbook.testing import create_field, create_keyword
->>> create_field(address_book, 'icemac.addressbook.person.Person',
-...              u'Date', u'last time met')
+>>> _ = create_field(address_book, 'icemac.addressbook.person.Person',
+...                  u'Date', u'last time met')
 >>> create_keyword(address_book, u'church', return_obj=False)
 >>> create_keyword(address_book, u'friends', return_obj=False)
 

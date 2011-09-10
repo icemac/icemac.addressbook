@@ -23,25 +23,25 @@ A browser to access it:
 And some user definded fields:
 
 >>> from icemac.addressbook.testing import create_field
->>> create_field(ab, 'icemac.addressbook.person.Person',
-...     u'Bool', u'photo permission?')
->>> create_field(ab, 'icemac.addressbook.person.Person',
-...     u'Datetime', u'last seen')
->>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
-...     u'Choice', u'state',
-...     values=[u'Sachsen', u'Sachsen-Anhalt', u'Brandenburg'])
->>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
-...     u'Int', u'number of letters')
->>> create_field(ab, 'icemac.addressbook.address.PostalAddress',
-...     u'Date', u'last time verified')
->>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
-...     u'Decimal', u'cost per minute')
->>> create_field(ab, 'icemac.addressbook.address.PhoneNumber',
-...     u'Text', u'mail box text')
->>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
-...     u'URI', u'company home page')
->>> create_field(ab, 'icemac.addressbook.address.HomePageAddress',
-...     u'TextLine', u'home page provider')
+>>> _ = create_field(ab, 'icemac.addressbook.person.Person',
+...                u'Bool', u'photo permission?')
+>>> _ = create_field(ab, 'icemac.addressbook.person.Person',
+...                  u'Datetime', u'last seen')
+>>> _ = create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...                  u'Choice', u'state',
+...                  values=[u'Sachsen', u'Sachsen-Anhalt', u'Brandenburg'])
+>>> _ = create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...                  u'Int', u'number of letters')
+>>> _ = create_field(ab, 'icemac.addressbook.address.PostalAddress',
+...                  u'Date', u'last time verified')
+>>> _ = create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...                  u'Decimal', u'cost per minute')
+>>> _ = create_field(ab, 'icemac.addressbook.address.PhoneNumber',
+...                  u'Text', u'mail box text')
+>>> _ = create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...                  u'URI', u'company home page')
+>>> _ = create_field(ab, 'icemac.addressbook.address.HomePageAddress',
+...                  u'TextLine', u'home page provider')
 
 And some data in the fields:
 

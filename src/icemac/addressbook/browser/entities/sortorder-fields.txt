@@ -22,7 +22,8 @@ To show that the sort order includes user defined fields, we have to create
 one:
 
 >>> from icemac.addressbook.testing import create_field
->>> create_field(ab, 'icemac.addressbook.person.Person', 'Bool', u'grown-up')
+>>> _ = create_field(
+...         ab, 'icemac.addressbook.person.Person', 'Bool', u'grown-up')
 
 The sort order of the fields can be changed in the master data area on each
 entity, for example we choose the `person` entity here:

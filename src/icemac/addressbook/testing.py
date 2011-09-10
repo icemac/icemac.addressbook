@@ -30,7 +30,9 @@ import zope.app.publication.httpfactory
 import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
 import zope.component
+import zope.component.hooks
 import zope.event
+import zope.lifecycleevent
 import zope.processlifetime
 import zope.site.hooks
 import zope.testbrowser.browser
@@ -227,6 +229,14 @@ ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
     name='AddressBookFunctionalLayer')
 
 
+# Layer to use ADDRESS_BOOK_FUNCTIONAL_LAYER with testbrowser:
+WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER = _WSGITestBrowserLayer(
+    bases=[WSGILayer(bases=[ZODB_ISOLATED_TEST_LAYER,
+                            ADDRESS_BOOK_FUNCTIONAL_LAYER],
+                     name='WSGIAddressBookFunctionalLayer')],
+    name='TestBrowserAddressBookFunctionalLayer')
+
+
 def DocFileSuite(*paths, **kw):
     """Project specific DocFileSuite."""
     kw['optionflags'] = (kw.get('optionflags', 0) |
@@ -362,8 +372,10 @@ def create_addressbook(name='ab', title=u'test address book', parent=None):
     return ab
 
 
-def create_keyword(addressbook, title, return_obj=True):
-    parent = addressbook.keywords
+@icemac.addressbook.utils.set_site
+def create_keyword(title, return_obj=True):
+    """Create a new keyword."""
+    parent = zope.component.hooks.getSite().keywords
     name = icemac.addressbook.utils.create_and_add(
         parent, icemac.addressbook.keyword.Keyword, title=title)
     if return_obj:
@@ -458,7 +470,7 @@ def create(
     parent, entity_name, return_obj=False, set_as_default=False, *args, **kw):
     """Create an object using an entity.
 
-    entity_name ... module name and class name of entity
+    entity_name ... IEntity.class_name
 
     """
     entity = zope.component.getUtility(
@@ -473,6 +485,7 @@ def create(
     if set_as_default:
         field = icemac.addressbook.person.get_default_field(entity.interface)
         field.set(parent, obj)
+    zope.lifecycleevent.modified(obj)
     if return_obj:
         return obj
 
@@ -503,6 +516,8 @@ def create_field(entity_name, type, title, **kw):
     entity_name ... IEntity.class_name
     type ... see values of .sources.FieldTypeSource
 
+    Returns the name of the created field.
+
     To create values for a Choice field use: values=<list of values>
 
     """
@@ -510,4 +525,4 @@ def create_field(entity_name, type, title, **kw):
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
     entity = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntity, name=entity_name)
-    entity.addField(field)
+    return entity.addField(field)
