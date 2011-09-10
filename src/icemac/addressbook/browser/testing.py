@@ -55,3 +55,17 @@ SEARCH_LAYER = _SearchLayer(name='SearchLayer')
 
 WSGI_SEARCH_LAYER = icemac.addressbook.testing._WSGITestBrowserLayer(
     bases=(SEARCH_LAYER,), name='WSGISearchLayer')
+
+
+def search_for_persons_with_keyword_church_using_browser():
+    """Searches for all persons with the keyword `church`.
+
+    Returns the browser.
+
+    """
+    browser = icemac.addressbook.testing.Browser()
+    browser.login('mgr')
+    browser.open('http://localhost/ab/@@multi_keyword.html')
+    browser.getControl('keywords').displayValue = ['church']
+    browser.getControl('Search').click()
+    return browser
