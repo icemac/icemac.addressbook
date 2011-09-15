@@ -55,8 +55,6 @@ class TextOperatorsSource(BaseOperatorsSource):
 class ReplaceableOperatorsSource(BaseOperatorsSource):
     """Operators for Bool, Choice, Date, Datetime and URI fields."""
 
-    zope.component.adapts(zope.schema.interfaces.IBool)
-
     _default_value = 'replace'
     _missing_value = None
     _mapping = stabledict.StableDict(
