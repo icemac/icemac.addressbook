@@ -53,7 +53,7 @@ class TextOperatorsSource(BaseOperatorsSource):
 
 
 class ReplaceableOperatorsSource(BaseOperatorsSource):
-    """Operators for Bool, Choice, Date and Datetime fields."""
+    """Operators for Bool, Choice, Date, Datetime and URI fields."""
 
     zope.component.adapts(zope.schema.interfaces.IBool)
 
