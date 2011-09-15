@@ -84,7 +84,6 @@ class DecimalOperatorsSource(IntOperatorsSource):
     _missing_value = decimal.Decimal(0)
 
 
-
 class Value(SessionStorageStep):
     """Step where the user enters the new value."""
 
