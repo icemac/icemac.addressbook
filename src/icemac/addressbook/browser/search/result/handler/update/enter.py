@@ -6,6 +6,7 @@ from __future__ import absolute_import
 from .base import SessionStorageStep
 from icemac.addressbook.i18n import _
 import decimal
+import gocept.reference.field
 import grokcore.component
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
@@ -61,6 +62,25 @@ class ReplaceableOperatorsSource(BaseOperatorsSource):
             (('replace', _('replace existing value with new one')),))
 
 
+class KeywordOperatorsSource(BaseOperatorsSource):
+    """Operators for keywords."""
+
+    zope.component.adapts(gocept.reference.field.Set)
+
+    _default_value = 'union'
+    _missing_value = set()
+    _mapping = stabledict.StableDict((
+        ('union', _('append selected keywords to existing ones')),
+        ('difference', _('remove selected keywords from existing ones')),
+        ('intersection', _(
+            'intersection (i. e. keywords which are in selected keywords and '
+            'existing ones)')),
+        ('symmetric_difference', _(
+            'symmetric difference (i. e. keywords which are either in selected '
+            'keywords or existing ones but not both)')),
+        ))
+
+
 class IntOperatorsSource(BaseOperatorsSource):
     """Operators for Int fields."""
 
@@ -106,6 +126,9 @@ class Value(SessionStorageStep):
         if isinstance(selected_field, zope.schema.Choice):
             # Choices need the source of selectable values:
             parameters['source'] = selected_field.source
+        if isinstance(selected_field, gocept.reference.field.Set):
+            # Keyword field needs its value_type:
+            parameters['value_type'] = selected_field.value_type
         # If an IOrderable field has a missing_value which is not None,
         # min, max, and default have to be non-None values, too *sigh*:
         if zope.schema.interfaces.IInt.providedBy(selected_field):
