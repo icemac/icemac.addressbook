@@ -2,6 +2,7 @@
 # Copyright (c) 2011 Michael Howitz
 # See also LICENSE.txt
 import decimal
+import gocept.reference.collection
 import grokcore.component
 import zope.interface
 
@@ -122,6 +123,54 @@ class NoneRemoveLast(NoneRemoveAll):
     """Remove last for None."""
 
     grokcore.component.name('remove-last')
+
+
+class KeywordOperator(Operator):
+    """Base class for keyword operators."""
+
+    grokcore.component.context(gocept.reference.collection.InstrumentedSet)
+
+    def __init__(self, operand1):
+        super(KeywordOperator, self).__init__(operand1)
+        # convert InstrumentedSet to a set so normal set operations are
+        # useable on it
+        self.operand1 = set(x for x in self.operand1)
+
+
+class KeywordUnion(KeywordOperator):
+    """Union keywords."""
+
+    grokcore.component.name('union')
+
+    def __call__(self, operand2):
+        return self.operand1.union(operand2)
+
+
+class KeywordDifference(KeywordOperator):
+    """Difference keywords."""
+
+    grokcore.component.name('difference')
+
+    def __call__(self, operand2):
+        return self.operand1.difference(operand2)
+
+
+class KeywordIntersection(KeywordOperator):
+    """Intersect keywords."""
+
+    grokcore.component.name('intersection')
+
+    def __call__(self, operand2):
+        return self.operand1.intersection(operand2)
+
+
+class KeywordSymmetricDifference(KeywordOperator):
+    """Compute symmetric difference of keywords."""
+
+    grokcore.component.name('symmetric_difference')
+
+    def __call__(self, operand2):
+        return self.operand1.symmetric_difference(operand2)
 
 
 class IntAdd(Operator):

@@ -87,6 +87,7 @@
   <adapter
       for="zope.schema.interfaces.IURI"
       factory=".enter.ReplaceableOperatorsSource" />
+  <adapter factory=".enter.KeywordOperatorsSource" />
   <adapter factory=".enter.IntOperatorsSource" />
   <adapter factory=".enter.DecimalOperatorsSource" />
 

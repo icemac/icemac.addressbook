@@ -7,7 +7,7 @@ import unittest
 class TestOperators(unittest.TestCase):
     """Testing ..operators.*"""
 
-    layer = icemac.addressbook.testing.ZCML_AND_ZODB_LAYER
+    layer = icemac.addressbook.testing.ZODB_ISOLATED_TEST_LAYER
 
     def callOP(self, value1, value2, operator_name):
         import zope.component
@@ -15,6 +15,29 @@ class TestOperators(unittest.TestCase):
         operator = zope.component.getAdapter(
             value1, IOperator, name=operator_name)
         return operator(value2)
+
+    def create_folders(self, quantity):
+        """Create some folders needed for keyword tests."""
+        from icemac.addressbook.utils import create_and_add
+        from zope.container.folder import Folder
+        root = self.layer['rootFolder']
+        folders = tuple()
+        for i in range(quantity):
+            folders += (root[create_and_add(root, Folder)], )
+        return folders
+
+    def assert_set_op(self, expected, operand1, operator, operand2):
+        from gocept.reference.collection import InstrumentedSet
+        import zope.component.hooks
+        old_site = zope.component.hooks.getSite()
+        try:
+            zope.component.hooks.setSite(self.layer['rootFolder'])
+            self.assertEqual(
+                set(expected),
+                self.callOP(
+                    InstrumentedSet(operand1), set(operand2), operator))
+        finally:
+            zope.component.hooks.setSite(old_site)
 
     def test_append_returns_value2_if_value2_is_None(self):
         self.assertEqual('bar', self.callOP(None, u'bar', 'append'))
@@ -51,6 +74,25 @@ class TestOperators(unittest.TestCase):
 
     def test_remove_last_does_nothing_on_None(self):
         self.assertEqual(None, self.callOP(None, 'a', 'remove-last'))
+
+    def test_union_returns_union_of_values(self):
+        f1, f2, f3 = self.create_folders(3)
+        self.assert_set_op([f1, f2, f3], [f1, f2], 'union', [f2, f3])
+
+    def test_difference_returns_difference_of_values(self):
+        f1, f2, f3, f4 = self.create_folders(4)
+        self.assert_set_op([f1, f3],
+                           [f1, f2, f3, f4], 'difference', [f2, f4])
+
+    def test_intersection_returns_intersection_of_values(self):
+        f1, f2, f3, f4 = self.create_folders(4)
+        self.assert_set_op([f2],
+                           [f1, f2, f3], 'intersection', [f2, f4])
+
+    def test_symmetric_difference_returns_symmetric_difference_of_values(self):
+        f1, f2, f3 = self.create_folders(3)
+        self.assert_set_op([f1, f3],
+                           [f1, f2], 'symmetric_difference', [f2, f3])
 
     def test_add_returns_value2_on_None(self):
         self.assertEqual(2, self.callOP(None, 2, 'add'))

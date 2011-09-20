@@ -95,6 +95,26 @@ class TestUserDefinedFields(unittest.TestCase):
         self.assertIn('<td>Tester</td><td><50km</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
+    def test_keywords_field_can_be_updated(self):
+        from icemac.addressbook.interfaces import IEntity, IPerson
+        person = self.create_updateable_person()
+        icemac.addressbook.testing.create_keyword(self.ab, u'second kw')
+        from icemac.addressbook.browser.search.result.handler.update.testing \
+            import select_persons_with_keyword_for_update
+        browser = select_persons_with_keyword_for_update(KEYWORD)
+
+        browser.handleErrors = False
+        browser.getControl('field').displayValue = ['person -- keywords']
+        browser.getControl('Next').click()
+        self.assertEqual([KEYWORD, 'second kw'],
+                         browser.getControl('new value').displayOptions)
+        browser.getControl('new value').displayValue = ['second kw']
+        browser.getControl('operation').displayValue = [
+            'append selected keywords to existing ones']
+        browser.getControl('Next').click()
+        self.assertIn('<td>Tester</td><td>keywordfortest,secondkw</td>',
+                      browser.contents.replace(' ', '').replace('\n', ''))
+
     def _assert_number_field_can_be_updated(self, field_type, field_class):
         from icemac.addressbook.interfaces import IEntity, IPostalAddress
         address_class_name = IEntity(IPostalAddress).class_name
