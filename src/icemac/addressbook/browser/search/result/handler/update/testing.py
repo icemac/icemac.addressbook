@@ -11,7 +11,6 @@ def select_persons_with_keyword_for_update(keyword):
 
     """
     browser = search_for_persons_with_keyword_search_using_browser(keyword)
-    file('response.html', 'w').write(browser.contents)
     browser.getControl('Apply on selected persons').displayValue = ['Update']
     browser.getControl(name='form.buttons.apply').click()
     return browser
