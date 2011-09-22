@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
@@ -29,3 +28,10 @@ class IPersonCount(zope.interface.Interface):
 
     count = zope.schema.Int(title=_(u'number of persons'), required=False)
     notes = zope.schema.TextLine(title=_(u'notes'), required=False)
+
+
+class IErrorMessage(zope.interface.Interface):
+    """Render error message human readable."""
+
+    def __unicode__():
+        """Returns the translateable error text."""
