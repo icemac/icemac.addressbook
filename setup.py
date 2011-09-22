@@ -120,6 +120,7 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'gocept.selenium',
+            'mock',
             'plone.testing',
             'unittest2',
             'xlrd',

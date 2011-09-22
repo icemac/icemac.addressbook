@@ -115,7 +115,8 @@ class TestUserDefinedFields(unittest.TestCase):
         self.assertIn('<td>Tester</td><td>keywordfortest,secondkw</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
-    def _assert_number_field_can_be_updated(self, field_type, field_class):
+    def _create_user_defined_field(self, field_type, field_class):
+        """Create a user defined field."""
         from icemac.addressbook.interfaces import IEntity, IPostalAddress
         address_class_name = IEntity(IPostalAddress).class_name
         field_name = icemac.addressbook.testing.create_field(
@@ -124,17 +125,28 @@ class TestUserDefinedFields(unittest.TestCase):
         icemac.addressbook.testing.create(
             self.ab, person, address_class_name,
             **{field_name: field_class(50), 'set_as_default': True})
+
+    def _update_field_value(self, field_name, operator, value):
+        """Update a number field."""
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
         browser = select_persons_with_keyword_for_update(KEYWORD)
 
-        browser.getControl('field').displayValue = [
-            'postal address -- distance']
+        browser.getControl('field').displayValue = [field_name]
         browser.getControl('Next').click()
         self.assertEqual('', browser.getControl('new value', index=0).value)
-        browser.getControl('new value', index=0).value = '5'
-        browser.getControl('operation').displayValue = ['add']
+        browser.getControl('new value', index=0).value = value
+        browser.getControl('operation').displayValue = [operator]
+        browser.handleErrors = False
         browser.getControl('Next').click()
+        return browser
+
+    def _assert_number_field_can_be_updated(
+            self, field_type, field_class, operator='add', value='5'):
+        """Assert that a number field can be updated as expected."""
+        self._create_user_defined_field(field_type, field_class)
+        browser = self._update_field_value(
+            'postal address -- distance', operator, value)
         # Update sets the value to 55:
         self.assertIn('<td>Tester</td><td>55</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
@@ -144,3 +156,25 @@ class TestUserDefinedFields(unittest.TestCase):
 
     def test_decimal_field_can_be_updated(self):
         self._assert_number_field_can_be_updated('Decimal', decimal.Decimal)
+
+    def test_validation_errors_show_up_in_result_table(self):
+        from icemac.addressbook.interfaces import IEntity, IEMailAddress
+        person = self.create_updateable_person()
+        icemac.addressbook.testing.create(
+            self.ab, person, IEntity(IEMailAddress).class_name, set_as_default=True)
+        browser = self._update_field_value(
+            'e-mail address -- e-mail address', 'append', 'foo')
+        self.assertIn('<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>',
+                      browser.contents.replace(' ', '').replace('\n', ''))
+        # Complete button is not shown:
+        self.assertEqual(['form.buttons.back'],
+                         icemac.addressbook.testing.get_submit_control_names(browser))
+
+    def test_division_by_zero_is_handled_like_a_validation_error(self):
+        self._create_user_defined_field('Int', int)
+        browser = self._update_field_value('postal address -- distance', 'div', '0')
+        self.assertIn('<td>Tester</td><td>50</td><td>Divisionbyzero</td>',
+                      browser.contents.replace(' ', '').replace('\n', ''))
+        # Complete button is not shown:
+        self.assertEqual(['form.buttons.back'],
+                         icemac.addressbook.testing.get_submit_control_names(browser))

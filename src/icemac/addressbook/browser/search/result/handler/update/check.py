@@ -19,6 +19,7 @@ import stabledict
 import transaction
 import z3c.form.field
 import z3c.table.column
+import zope.i18n
 import zope.interface
 import zope.schema
 
@@ -34,8 +35,9 @@ class ErrorColumn(z3c.table.column.Column):
     """Column displaying operation and validation errors."""
 
     def renderCell(self, person):
-        # XXX render constraint errors
-        return ''
+        session = get_update_data_session(self.request)
+        return zope.i18n.translate(
+            session.get('errors', {}).get(person.__name__), context=self.request)
 
 def get_chosen_entity_and_field(request):
     """Returns entity and field objects for chosen field."""
@@ -73,6 +75,16 @@ class Result(SessionStorageStep):
     fields = z3c.form.field.Fields()
     handleApplyOnComplete = False
 
+    @property
+    def session(self):
+        return get_update_data_session(self.request)
+
+    def update(self):
+        self._update_persons()
+        # Make sure that changes are not yet persisted:
+        transaction.doom()
+        super(Result, self).update()
+
     def _update_persons(self):
         """Update the persons as the user seleted it."""
         person_ids = icemac.addressbook.browser.base.get_session(
@@ -80,16 +92,21 @@ class Result(SessionStorageStep):
         persons = [self.context[x] for x in person_ids]
         entity, field = get_chosen_entity_and_field(self.request)
         update_data = get_update_data_session(self.request)
-        update_persons(persons, entity, field, update_data['operation'],
-                       update_data['new_value'])
+        errors = update_persons(persons, entity, field, update_data['operation'],
+                                update_data['new_value'])
+        self.session['errors'] = errors
 
     def renderResultTable(self):
-        self._update_persons()
-        # Make sure that changes are not yet persisted:
-        transaction.doom()
         table = ReviewTable(self.context, self.request)
         table.update()
         return table.render()
+
+    @property
+    def showCompleteButton(self):
+        """Complete button condition."""
+        if self.session.get('errors'):
+            return False
+        return super(Result, self).showCompleteButton
 
     def doComplete(self, action):
         """Handler for Complete button."""
