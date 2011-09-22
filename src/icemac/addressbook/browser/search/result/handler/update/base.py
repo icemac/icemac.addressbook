@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.errormessage
 import icemac.addressbook.browser.search.result.handler.update.operators
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.interfaces
@@ -10,6 +11,7 @@ import persistent.mapping
 import z3c.wizard.step
 import z3c.wizard.wizard
 import zope.component
+import zope.interface
 import zope.session.interfaces
 
 
@@ -56,6 +58,7 @@ class SessionStorageStep(icemac.addressbook.browser.wizard.Step):
 
 def update_persons(persons, entity, field, operator_name, update_value):
     "Update `entity.field` of `persons` by using `function` and `update_value`."
+    errors = dict()
     for person in persons:
         schema_field = icemac.addressbook.entities.get_bound_schema_field(
             person, entity, field)
@@ -64,7 +67,18 @@ def update_persons(persons, entity, field, operator_name, update_value):
             current_value,
             icemac.addressbook.browser.search.result.handler.update.operators.\
             IOperator, name=operator_name)
-        new_value = operator(update_value)
-        schema_field.set(schema_field.context, new_value)
-
+        try:
+            new_value = operator(update_value)
+        except Exception, e:
+            errors[person.__name__] = (
+                icemac.addressbook.browser.errormessage.render_error(
+                    entity, schema_field.__name__, e))
+        else:
+            try:
+                schema_field.set(schema_field.context, new_value)
+            except zope.interface.Invalid, e:
+                errors[person.__name__] = (
+                    icemac.addressbook.browser.errormessage.render_error(
+                        entity, schema_field.__name__, e))
+    return errors
 
