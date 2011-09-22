@@ -5,8 +5,8 @@
 import os.path
 import setuptools
 
-def read(*path_elements):
-    return "\n\n" + file(os.path.join(*path_elements)).read()
+def read(filename):
+    return file(filename).read()
 
 version = '1.6.1dev'
 
@@ -14,12 +14,11 @@ setuptools.setup(
     name='icemac.addressbook',
     version=version,
     description="Multi user address book application",
-    long_description=(
-        read('README.txt') +
-        read('INSTALL.txt') +
-        read('TODO.txt') +
-        read('CHANGES.txt')
-        ),
+    long_description="\n\n".join([
+        read('README.txt'),
+        read('INSTALL.txt'),
+        read('TODO.txt'),
+        read('CHANGES.txt')] ),
     keywords='python address book addressbook zope3 zope application web '
              'phone number e-mail email home page homepage',
     author='Michael Howitz',
