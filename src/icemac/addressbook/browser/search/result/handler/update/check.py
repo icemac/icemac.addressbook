@@ -37,7 +37,8 @@ class ErrorColumn(z3c.table.column.Column):
     def renderCell(self, person):
         session = get_update_data_session(self.request)
         return zope.i18n.translate(
-            session.get('errors', {}).get(person.__name__), context=self.request)
+            session.get('errors', {}).get(person.__name__, ''),
+            context=self.request)
 
 def get_chosen_entity_and_field(request):
     """Returns entity and field objects for chosen field."""
