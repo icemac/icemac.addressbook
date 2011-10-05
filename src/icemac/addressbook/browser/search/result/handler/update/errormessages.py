@@ -9,7 +9,7 @@ import icemac.addressbook.browser.interfaces
 
 @grokcore.component.adapter(None, ZeroDivisionError)
 @grokcore.component.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
-def zero_divisition_error(field, exc):
+def zero_division_error(field, exc):
     return _('Division by zero')
 
 
