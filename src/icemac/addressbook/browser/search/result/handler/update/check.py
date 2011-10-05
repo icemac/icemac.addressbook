@@ -7,15 +7,14 @@ from .base import (
     SessionStorageStep, get_update_data_session, update_persons,
     clean_update_data_session)
 from icemac.addressbook.i18n import _
-import grokcore.component
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.table
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
+import icemac.addressbook.preferences.sources
 import icemac.addressbook.sources
-import stabledict
 import transaction
 import z3c.form.field
 import z3c.table.column
