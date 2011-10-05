@@ -2,7 +2,6 @@
 # Copyright (c) 2011 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
-import zope.interface
 import grokcore.component
 import icemac.addressbook.browser.interfaces
 
