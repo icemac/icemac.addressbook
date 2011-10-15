@@ -86,6 +86,7 @@ setuptools.setup(
         'z3c.preference',
         'z3c.ptcompat',
         'z3c.table',
+        'z3c.wizard',
         'zc.catalog',
         'zc.sourcefactory',
         'zdaemon',
