@@ -7,8 +7,6 @@ import datetime
 import decimal
 import gocept.reference.field
 import grokcore.component
-import icemac.ab.importer.browser.wizard.base
-import icemac.ab.importer.interfaces
 import icemac.addressbook.browser
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
