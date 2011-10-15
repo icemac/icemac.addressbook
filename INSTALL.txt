@@ -5,7 +5,7 @@
 Prerequisites
 =============
 
-You only need Python 2.5.x or 2.6.x. (Other python versions are currently
+You only need Python 2.6.x. (Other python versions are currently
 not supported.)
 
 First installation
@@ -48,7 +48,7 @@ Update
    previously are used as defaults instead of the application
    defaults.  Example::
 
-     $ python2.5 install.py ../icemac.addressbook-0.4
+     $ python2.6 install.py ../icemac.addressbook-0.4
 
    3. Answer the questions about admin user name, password and so on.
 

@@ -53,12 +53,12 @@ Faking the python version, results in the described error message:
 >>> orig_version_info = sys.version_info
 >>> sys.version_info = (2, 4, 6, 'final', 0)
 >>> check_prerequisites()
-ERROR: icemac.addressbook currently supports python 2.5 and 2.6
+ERROR: icemac.addressbook currently supports only Python 2.6
        But you try to install it using python 2.4.6.
 False
 >>> sys.version_info = (2, 7, 0, 'final', 0)
 >>> check_prerequisites()
-ERROR: icemac.addressbook currently supports python 2.5 and 2.6
+ERROR: icemac.addressbook currently supports only Python 2.6
        But you try to install it using python 2.7.0.
 False
 >>> sys.version_info = orig_version_info
