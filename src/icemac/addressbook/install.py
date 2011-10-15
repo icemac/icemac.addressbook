@@ -13,8 +13,8 @@ def check_prerequisites():
         print "ERROR: buildout.cfg already exists."
         print "       Please (re-)move the existing one and restart install."
         return False
-    if sys.version_info[:2] not in [(2, 5), (2, 6)]:
-        print "ERROR: icemac.addressbook currently supports python 2.5 and 2.6"
+    if sys.version_info[:2] not in [(2, 6)]:
+        print "ERROR: icemac.addressbook currently supports only Python 2.6"
         print "       But you try to install it using python %s.%s.%s." % (
             sys.version_info[:3])
         return False

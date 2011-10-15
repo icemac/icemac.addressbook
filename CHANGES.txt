@@ -2,8 +2,14 @@
 Change log
 ==========
 
-1.6.1 (unreleased)
+1.7.0 (unreleased)
 ==================
+
+General
+-------
+
+- Dropped support for Python 2.5, so currently only Python 2.6 is supported.
+
 
 Features
 --------
