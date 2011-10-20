@@ -180,7 +180,7 @@ class TestUserDefinedFields(unittest.TestCase):
                          icemac.addressbook.testing.get_submit_control_names(browser))
 
     def test_datatype_of_field_for_change_can_be_changed(self):
-        person = self.create_updateable_person()
+        self.create_updateable_person()
         browser = self._update_field_value('person -- first name', 'append', 'foo')
         browser.getControl('Back').click()
         browser.getControl('Back').click()
@@ -188,4 +188,11 @@ class TestUserDefinedFields(unittest.TestCase):
         browser.getControl('Next').click()
         # Another field is used to avoid conflicts on data types:
         self.assertEqual('', browser.getControl('new value').value)
- 
+
+    def test_not_hitting_complete_button_does_not_persist_any_changes(self):
+        self.create_updateable_person()
+        browser = self._update_field_value('person -- last name', 'append', 'foo')
+        browser.getLink('Person list').click()
+        # The last name of person 'Tester' is unchanged:
+        self.assertIn(
+            '<a href="http://localhost/ab/Person">Tester</a>', browser.contents)
