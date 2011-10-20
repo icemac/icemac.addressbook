@@ -141,7 +141,7 @@ class Value(SessionStorageStep):
             parameters.update(dict(min=-max_decimal, max=max_decimal,
                                    default=missing_value))
         new_value_field = selected_field.__class__(**parameters)
-        new_value_field.__name__ = 'new_value'
+        new_value_field.__name__ = 'new_value-%s' % session['field']
         fields.append(new_value_field)
 
         operation_field =  zope.schema.Choice(
