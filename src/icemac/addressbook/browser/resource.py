@@ -17,6 +17,7 @@ table_css = hurry.resource.ResourceInclusion(css, 'table.css')
 form_css = hurry.resource.ResourceInclusion(css, 'form.css')
 no_max_content_css = hurry.resource.ResourceInclusion(
     css, 'no_max_content.css', depends=[form_css])
+import_css = hurry.resource.ResourceInclusion(css, 'wizard.css')
 
 # JavaScript
 js = hurry.resource.Library('js', os.path.join('resources', 'js'))

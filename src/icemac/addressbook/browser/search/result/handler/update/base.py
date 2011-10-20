@@ -15,13 +15,12 @@ import zope.interface
 import zope.session.interfaces
 
 
-class UpdateWizard(z3c.wizard.wizard.Wizard):
+class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):
 
     label = _(u'Update Wizard')
     confirmationPageName = '@@multi-update-completed'
 
     def setUpSteps(self):
-#        icemac.ab.importer.browser.resource.import_css.need()
         return [
             z3c.wizard.step.addStep(self, 'chooseField', weight=1),
             z3c.wizard.step.addStep(self, 'enterValue', weight=2),
