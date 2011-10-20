@@ -178,3 +178,14 @@ class TestUserDefinedFields(unittest.TestCase):
         # Complete button is not shown:
         self.assertEqual(['form.buttons.back'],
                          icemac.addressbook.testing.get_submit_control_names(browser))
+
+    def test_datatype_of_field_for_change_can_be_changed(self):
+        person = self.create_updateable_person()
+        browser = self._update_field_value('person -- first name', 'append', 'foo')
+        browser.getControl('Back').click()
+        browser.getControl('Back').click()
+        browser.getControl('field').displayValue = ['person -- birth date']
+        browser.getControl('Next').click()
+        # Another field is used to avoid conflicts on data types:
+        self.assertEqual('', browser.getControl('new value').value)
+ 
