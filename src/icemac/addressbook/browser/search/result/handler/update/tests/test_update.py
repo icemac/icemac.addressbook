@@ -137,7 +137,6 @@ class TestUserDefinedFields(unittest.TestCase):
         self.assertEqual('', browser.getControl('new value', index=0).value)
         browser.getControl('new value', index=0).value = value
         browser.getControl('operation').displayValue = [operator]
-        browser.handleErrors = False
         browser.getControl('Next').click()
         return browser
 
@@ -181,7 +180,8 @@ class TestUserDefinedFields(unittest.TestCase):
 
     def test_datatype_of_field_for_change_can_be_changed(self):
         self.create_updateable_person()
-        browser = self._update_field_value('person -- first name', 'append', 'foo')
+        browser = self._update_field_value(
+            'person -- first name', 'append', 'foo')
         browser.getControl('Back').click()
         browser.getControl('Back').click()
         browser.getControl('field').displayValue = ['person -- birth date']
@@ -191,8 +191,41 @@ class TestUserDefinedFields(unittest.TestCase):
 
     def test_not_hitting_complete_button_does_not_persist_any_changes(self):
         self.create_updateable_person()
-        browser = self._update_field_value('person -- last name', 'append', 'foo')
+        browser = self._update_field_value(
+            'person -- last name', 'append', 'foo')
         browser.getLink('Person list').click()
         # The last name of person 'Tester' is unchanged:
-        self.assertIn(
-            '<a href="http://localhost/ab/Person">Tester</a>', browser.contents)
+        self.assertIn('<a href="http://localhost/ab/Person">Tester</a>',
+                      browser.contents)
+
+    def test_if_user_selects_a_step_and_data_is_missing_he_gets_redirected_back(
+            self):
+        self.create_updateable_person()
+        from icemac.addressbook.browser.search.result.handler.update.testing \
+            import select_persons_with_keyword_for_update
+        browser = select_persons_with_keyword_for_update(KEYWORD)
+        self.assertEqual('http://localhost/ab/@@multi-update', browser.url)
+        browser.getLink('New value').click()
+        # 'chooseField' is the first step, so we get redirected there
+        self.assertEqual(
+            'http://localhost/ab/multi-update/chooseField', browser.url)
+        browser.getLink('Check result').click()
+        self.assertEqual(
+            'http://localhost/ab/multi-update/chooseField', browser.url)
+        browser.getControl('field').displayValue = ['person -- first name']
+        browser.getControl('Next').click()
+
+        self.assertEqual(
+            'http://localhost/ab/multi-update/enterValue', browser.url)
+        browser.getLink('Choose a field for update').click()
+        self.assertEqual(
+            'http://localhost/ab/multi-update/chooseField', browser.url)
+        browser.getLink('Check result').click()
+        # After selecting the field 'enterValue' is complete, as the only
+        # required field has a default value
+        self.assertEqual(
+            'http://localhost/ab/multi-update/checkResult', browser.url)
+        # There is no 'complete' button as the user did not enter data in step
+        # 'enterValue':
+        self.assertEqual(['form.buttons.back'],
+                         icemac.addressbook.testing.get_submit_control_names(browser))

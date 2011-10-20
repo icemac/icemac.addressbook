@@ -39,6 +39,7 @@ class ErrorColumn(z3c.table.column.Column):
             session.get('errors', {}).get(person.__name__, ''),
             context=self.request)
 
+
 def get_chosen_entity_and_field(request):
     """Returns entity and field objects for chosen field."""
     field_token = get_update_data_session(request)['field']
@@ -79,23 +80,32 @@ class Result(SessionStorageStep):
     def session(self):
         return get_update_data_session(self.request)
 
+    def _completeable(self):
+        """Tells whether this step is completeable."""
+        session = self.session
+        return 'field' in session and 'operation' in session
+
     def update(self):
-        self._update_persons()
-        # Make sure that changes are not yet persisted:
-        transaction.doom()
+        if self._completeable():
+            # Otherwise the user has clicked on this step in navigation before
+            # entring data.
+            self._update_persons()
+            # Make sure that changes are not yet persisted:
+            transaction.doom()
         super(Result, self).update()
 
     def _update_persons(self):
-        """Update the persons as the user seleted it."""
+        """Update the persons as the user selected it."""
         person_ids = icemac.addressbook.browser.base.get_session(
             self.request)['person_ids']
         persons = [self.context[x] for x in person_ids]
         entity, field = get_chosen_entity_and_field(self.request)
-        update_data = get_update_data_session(self.request)
         fieldname = self.getContent()['field']
-        errors = update_persons(persons, entity, field, update_data['operation'],
+        update_data = self.session
+        errors = update_persons(persons, entity, field, update_data['operation']
+                                ,
                                 update_data['new_value-%s' % fieldname])
-        self.session['errors'] = errors
+        update_data['errors'] = errors
 
     def renderResultTable(self):
         table = ReviewTable(self.context, self.request)
@@ -105,6 +115,8 @@ class Result(SessionStorageStep):
     @property
     def showCompleteButton(self):
         """Complete button condition."""
+        if not self._completeable():
+            return False
         if self.session.get('errors'):
             return False
         return super(Result, self).showCompleteButton
