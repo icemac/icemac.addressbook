@@ -110,8 +110,7 @@ class Value(SessionStorageStep):
     label = _(u'New value')
     fields = z3c.form.field.Fields()
 
-    def update(self):
-        session = self.getContent()
+    def _create_fields(self, session):
         entity, selected_field = icemac.addressbook.fieldsource.untokenize(
             session['field'])
         fields = []
@@ -143,13 +142,19 @@ class Value(SessionStorageStep):
         new_value_field = selected_field.__class__(**parameters)
         new_value_field.__name__ = 'new_value-%s' % session['field']
         fields.append(new_value_field)
-
-        operation_field =  zope.schema.Choice(
+        operation_field = zope.schema.Choice(
             title=_('operation'), source=source,
             description=_(
                 'What should be done with the current value and the new one?'),
-            default=source.factory._default_value,)
+            default=source.factory._default_value, )
         operation_field.__name__ = 'operation'
         fields.append(operation_field)
         self.fields = z3c.form.field.Fields(*fields)
+
+    def update(self):
+        session = self.getContent()
+        if 'field' in session:
+            # Otherwise the user has selected this step before completing the
+            # previous one.
+            self._create_fields(session)
         super(Value, self).update()
