@@ -66,13 +66,16 @@ foobar</td>
   </tbody>
   ...
 
-Hitting `Complete` persists the change.
+Hitting `Complete` persists the change and redirects to the person list,
+displaying a message.
 
 >>> browser.getControl('Complete').click()
 >>> browser.url
-'http://localhost/ab/@@multi-update-completed'
+'http://localhost/ab'
+>>> browser.get_messages()
+['Data successfully updated.']
 
-The fields got changed as promoted on check page:
+The fields got changed as promised in the message:
 
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Koch').click()
