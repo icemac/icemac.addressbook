@@ -67,7 +67,7 @@
       for="icemac.addressbook.interfaces.IAddressBook"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="multi-update-completed"
-      template="completed.pt"
+      class=".complete.Redirect"
       permission="icemac.addressbook.EditAddressBook"
       />
 
