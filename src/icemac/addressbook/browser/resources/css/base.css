@@ -32,19 +32,14 @@ body {
 }
 
 #content {
-    background-image: url(/++resource++img/ring_binder_book_red.jpg);
-    background-position: right 5px;
-    background-repeat: no-repeat;
-    background-color: #eee;
+    background: #eee url(/++resource++img/ring_binder_book_red.jpg) no-repeat right 5px;
     border: 1px solid #999;
-    min-height: 250px;
     min-height: 495px;
     padding: 5px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     -moz-border-radius-bottomleft: 8px;
     -moz-border-radius-bottomright: 8px;
-
 }
 
 #main-menu {
@@ -168,8 +163,7 @@ div#info-messages {
 }
 
 div#info-messages ul li {
-    background-image: url(/++resource++img/Symbol-Check.png);
-    background-repeat: no-repeat;
+    background: url(/++resource++img/Symbol-Check.png) no-repeat;
     list-style-type: none;
     padding-left: 36px;
     padding-top: 6px;
@@ -183,20 +177,15 @@ dl#about dd {
 
 /* error messages */
 div.status div.summary {
-    background-image: url(/++resource++img/Symbol-Error.png);
-    background-repeat: no-repeat;
-    background-position: 1px 1px;
+    background: #FFCC66 url(/++resource++img/Symbol-Error.png) no-repeat 1px 1px;
     padding-left: 36px;
     padding-top: 7px;
     height: 25px;
-    background-color: #FFCC66;
     border: 5px ridge #996633;
 }
 
 div.status ul.errors li {
-    background-image: url(/++resource++img/Symbol-Error.png);
-    background-repeat: no-repeat;
-    background-position: 1px 1px;
+    background: url(/++resource++img/Symbol-Error.png) no-repeat 1px 1px;
     padding-left: 36px;
     list-style-type: none;
 }
