@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2010-2011 Michael Howitz
 # See also LICENSE.txt
-
+import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import zope.app.appsetup.bootstrap
 import zope.preference.default
 import zope.preference.interfaces
-import icemac.addressbook.utils
 
 
 def add(address_book):
@@ -30,14 +30,12 @@ def add(address_book):
     person_entity = icemac.addressbook.interfaces.IEntity(
         icemac.addressbook.interfaces.IPerson)
     personList.columns.append(
-        icemac.addressbook.preferences.sources.tokenize(
-            person_entity, 'last_name'))
+        icemac.addressbook.fieldsource.tokenize(person_entity, 'last_name'))
     personList.columns.append(
-        icemac.addressbook.preferences.sources.tokenize(
-            person_entity, 'first_name'))
+        icemac.addressbook.fieldsource.tokenize(person_entity, 'first_name'))
     personList._p_changed = True
     # The default sort column is person last name.
-    personList.order_by = icemac.addressbook.preferences.sources.tokenize(
+    personList.order_by = icemac.addressbook.fieldsource.tokenize(
         person_entity, 'last_name')
     # The default sort direction is ascending
     personList.sort_direction = 'ascending'

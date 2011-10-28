@@ -32,6 +32,14 @@ class YesNoSource(TitleMappingSource):
 yes_no_source = YesNoSource()
 
 
+class AscDescSource(TitleMappingSource):
+    _mapping = stabledict.StableDict(
+        (('ascending', _(u'ascending (A-->Z)')),
+         ('descending', _(u'descending (Z-->A)'))))
+
+asc_desc_source = AscDescSource()
+
+
 class FieldTypeSource(TitleMappingSource):
     _mapping = stabledict.StableDict(
         ((u'Bool', _(u'bool')),
