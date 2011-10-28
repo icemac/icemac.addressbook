@@ -5,7 +5,7 @@
 
   <gocept:pagelet
       name="about.html"
-      for="zope.site.interfaces.IRootFolder"
+      for="*"
       permission="zope.Public"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       class=".about.About"
