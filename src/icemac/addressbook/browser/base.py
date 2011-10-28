@@ -165,8 +165,10 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
 
 
 def update_with_redirect(class_, self):
-    "Call update of super class and redirect when necessary."
+    """Call update of super class and redirect when necessary."""
     get_needed_resources(self)
+    # Caution: we need the class_ parameter as we get infinite recursion if
+    # using self.__class__ in the super call.
     super(class_, self).update()
     if self.request.response.getStatus() in (302, 303, 304):
         # already redirecting
