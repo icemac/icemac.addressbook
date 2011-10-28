@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
-
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
@@ -11,6 +10,7 @@ import zope.container.contained
 import zope.container.sample
 import zope.interface
 import zope.schema
+import zope.schema.interfaces
 
 
 class IDummy(zope.interface.Interface):
@@ -38,6 +38,8 @@ class TestEntity(unittest.TestCase):
         zope.component.provideAdapter(
             zope.container.contained.NameChooser,
             [icemac.addressbook.interfaces.IEntities])
+        zope.component.provideAdapter(
+            icemac.addressbook.entities.user_field_to_schema_field)
 
         # Order storage
         storage = icemac.addressbook.orderstorage.OrderStorage()
@@ -52,9 +54,7 @@ class TestEntity(unittest.TestCase):
         self.user_field = icemac.addressbook.entities.Field()
         self.user_field.type = 'TextLine'
         self.entity.addField(self.user_field)
-        self.schemaized_field = (
-            icemac.addressbook.entities.user_field_to_schema_field(
-                self.user_field))
+        self.schemaized_field = zope.schema.interfaces.IField(self.user_field)
 
     def tearDown(self):
         zope.component.testing.tearDown()
