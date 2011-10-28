@@ -10,9 +10,9 @@ Set up
 
 We need a browser, and a user logged-in:
 
->>> from zope.testbrowser.wsgi import Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 
 
 Root view
@@ -56,12 +56,26 @@ The login screen can be accessed by anonymous users:
 >>> anon.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 
-It's about screen displayes the same information as it has the same URL:
+Its about screen displays the same information as it has the same URL:
 
 >>> anon.getLink(id="about-view").url
 'http://localhost/++skin++AddressBook/@@about.html'
 >>> anon.getLink(id="about-view").click()
 >>> browser.contents.count(icemac.addressbook.copyright)
 2
+>>> browser.getLink('VistaICO.com').url
+'http://www.vistaico.com'
+
+
+Deeper inside
+=============
+
+The about screen can be accessed on every object, for example we use a person:
+
+>>> from icemac.addressbook.testing import create_person
+>>> create_person(ab, ab, u'Tester', return_obj=False)
+>>> browser = Browser()
+>>> browser.login('visitor')
+>>> browser.open('http://localhost/ab/Person/@@about.html')
 >>> browser.getLink('VistaICO.com').url
 'http://www.vistaico.com'

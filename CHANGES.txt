@@ -28,6 +28,11 @@ UI changes
   deletion of the selected persons has been moved to these search result
   handlers.
 
+Bug fixes
+---------
+
+- Running the address book in a vhost environment did not allow to access the
+  about screen, as it was only registered for the root folder.
 
 Other
 -----
