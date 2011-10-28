@@ -12,7 +12,10 @@ import zope.schema
 
 
 class SearchView(icemac.addressbook.browser.search.base.BaseView):
-    pass
+    """View which represents the name search."""
+    form_explanation = _(
+        'You may use wildcards in this search: Use ? for a single character '
+        'or * for multiple characters.')
 
 
 class ISearchFields(zope.interface.Interface):
@@ -30,7 +33,7 @@ class SearchForm(icemac.addressbook.browser.search.base.BaseSearchForm):
 
 
 class Search(icemac.addressbook.browser.search.base.BaseSearch):
-    "The actual search."
+    """The actual search."""
 
     zope.component.adapts(SearchView)
 

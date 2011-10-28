@@ -135,16 +135,20 @@ div#body {
     clear: both;
 }
 
-/* Login page */
-div#content div form div.row {
+/* Login page + forms */
+div#content div.row {
     margin-top: 3px;
 }
 
 /* bulleted list */
-
 ul.bullet li {
     margin-left: 15px;
     list-style: disc outside none;
+}
+
+ul.bullet li.selected a {
+  font-weight: bold;
+  font-style: italic;
 }
 
 

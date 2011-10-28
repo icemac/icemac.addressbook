@@ -17,9 +17,12 @@ The search view
 ===============
 
 - There is a base view `.base.BaseView` which should be used as base
-  class for the new search view. The view class does not need any
-  additional features, but it is needed later on to register the
-  viewlets for it.
+  class for the new search view.
+
+- Put the explanation of your search form on the `form_explanation` attribute
+  of your child class of `.base.BaseView`. It will be displayed below the form.
+  The view class does not need any further additions, but it is needed later on
+  to register the viewlets for it.
 
 - The view has to be registered as a pagelet using the template
   `search.pt`.  Example::
