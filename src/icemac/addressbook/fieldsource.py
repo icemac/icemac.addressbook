@@ -11,12 +11,12 @@ import zope.component
 
 
 def tokenize(entity, field_name):
-    "Convert an entity and a field_name into a unique string token."
+    """Convert an entity and a field_name into a unique string token."""
     return "%s###%s" % (entity.name, field_name)
 
 
 def untokenize(token):
-    "Convert a token containing of entity and field name back to the objects."
+    """Convert a token containing entity and field name back to the objects."""
     entity_name, field_name = token.split('###')
     entity = icemac.addressbook.interfaces.IEntity(entity_name)
     field = entity.getRawField(field_name)
@@ -24,7 +24,7 @@ def untokenize(token):
 
 
 class Source(zc.sourcefactory.basic.BasicSourceFactory):
-    "Fields of a person."
+    """Fields of a person."""
 
     def getValues(self):
         # Only the main entities (the ones with default values on the
