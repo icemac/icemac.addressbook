@@ -217,7 +217,7 @@ class TestUserDefinedFields(unittest.TestCase):
 
         self.assertEqual(
             'http://localhost/ab/multi-update/enterValue', browser.url)
-        browser.getLink('Choose a field for update').click()
+        browser.getLink('Choose field').click()
         self.assertEqual(
             'http://localhost/ab/multi-update/chooseField', browser.url)
         browser.getLink('Check result').click()
