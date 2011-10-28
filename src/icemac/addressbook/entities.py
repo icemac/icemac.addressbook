@@ -275,10 +275,7 @@ class Entity(object):
 
         """
         for name, field in self.getRawFields(sorted=sorted):
-            if icemac.addressbook.interfaces.IField.providedBy(field):
-                yield name, user_field_to_schema_field(field)
-            else:
-                yield name, field
+            yield name, zope.schema.interfaces.IField(field)
 
     def getFieldValues(self, sorted=True):
         """Get list of the schema fields on the entity.
@@ -434,7 +431,7 @@ field_storage = zope.annotation.factory(
 
 
 def get_bound_schema_field(obj, entity, field):
-    "Returns a bound zope.schema field for `entity` and `field` on `obj`."
+    """Returns a bound zope.schema field for `entity` and `field` on `obj`."""
     if not entity.interface.providedBy(obj):
          # If the entity is for another object, we expect to find the entity
          # on a default_attrib.
@@ -446,5 +443,5 @@ def get_bound_schema_field(obj, entity, field):
         # protected, but there is no other way.
         obj = zope.security.proxy.getObject(obj)
         obj = icemac.addressbook.interfaces.IUserFieldStorage(obj)
-        field = user_field_to_schema_field(field)
+        field = zope.schema.interfaces.IField(field)
     return field.bind(obj)
