@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
-
-from icemac.addressbook.i18n import _
 import datetime
 import icemac.addressbook.browser.table
 import icemac.addressbook.entities
+import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
 import icemac.truncatetext
 import z3c.form.term
@@ -236,8 +235,7 @@ class BasePersonList(object):
         # Entity and field of the column which sould be used for order-by:
         try:
             order_by_entity, order_by_field = (
-                icemac.addressbook.preferences.sources.untokenize(
-                    order_by))
+                icemac.addressbook.fieldsource.untokenize(order_by))
         except KeyError:
             # Field has been deleted, so we can't use it for sorting:
             order_by_entity, order_by_field = None, None
@@ -246,8 +244,7 @@ class BasePersonList(object):
         for column_name in self.prefs.columns:
             try:
                 entity, field = (
-                    icemac.addressbook.preferences.sources.untokenize(
-                        column_name))
+                    icemac.addressbook.fieldsource.untokenize(column_name))
             except KeyError:
                 # Column no longer exists
                 continue

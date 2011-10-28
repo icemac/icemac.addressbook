@@ -13,7 +13,6 @@ import icemac.addressbook.browser.table
 import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
-import icemac.addressbook.preferences.sources
 import icemac.addressbook.sources
 import transaction
 import z3c.form.field
@@ -43,7 +42,7 @@ class ErrorColumn(z3c.table.column.Column):
 def get_chosen_entity_and_field(request):
     """Returns entity and field objects for chosen field."""
     field_token = get_update_data_session(request)['field']
-    return icemac.addressbook.preferences.sources.untokenize(field_token)
+    return icemac.addressbook.fieldsource.untokenize(field_token)
 
 
 class ReviewTable(icemac.addressbook.browser.table.Table):
