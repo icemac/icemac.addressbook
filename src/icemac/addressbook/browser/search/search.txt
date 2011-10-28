@@ -28,12 +28,12 @@ We need an address book, some keywords and some persons:
 ...                        keywords=set([church]))
 >>> liese = create_person(addressbook, addressbook, u'Tester', first_name=u'Liese')
 
->>> from zope.app.wsgi.testlayer import Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 
 Visitors are allowed to search, so we log in as a visitor:
 
->>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.login('visitor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 There is a link in the global navigation which leads to the searches
@@ -60,6 +60,10 @@ keywords assigned to:
 
 >>> browser.getLink('Keyword search').click()
 
+An explanation text is displayed:
+
+>>> [x.text for x in browser.etree.xpath("//div[@id='content']/div[2]")]
+['The keywords you want to search for have to be in the right box. Use the arrow buttons to move them.']
 
 When no entry in the keywords field is selected no persons are found:
 

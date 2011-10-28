@@ -2,7 +2,7 @@
 # Copyright (c) 2010-2011 Michael Howitz
 # See also LICENSE.txt
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.search.base
 import icemac.addressbook.sources
 import stabledict
@@ -13,7 +13,10 @@ import zope.schema
 
 
 class SearchView(icemac.addressbook.browser.search.base.BaseView):
-    pass
+    """View representing multi-keyword search."""
+    form_explanation = _(
+        'The keywords you want to search for have to be in the right box. '
+        'Use the arrow buttons to move them.')
 
 
 class SearchTermConcatenationSource(

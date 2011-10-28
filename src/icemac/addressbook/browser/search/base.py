@@ -2,8 +2,7 @@
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.search.interfaces
 import z3c.form.button
 import z3c.form.field
@@ -19,7 +18,10 @@ class BaseView(zope.publisher.browser.BrowserView):
     to provide IBrowserView).
 
     """
+    form_explanation = u'' # description of the search form displayed below it
+
     search_params = None
+    show_headline = False
 
     @property
     def result(self):

@@ -5,4 +5,6 @@
 
 
 class Search(object):
-    pass
+    """View to select a search."""
+    show_headline = True
+    form_explanation = u''
