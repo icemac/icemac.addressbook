@@ -160,23 +160,28 @@ class TestUserDefinedFields(unittest.TestCase):
         from icemac.addressbook.interfaces import IEntity, IEMailAddress
         person = self.create_updateable_person()
         icemac.addressbook.testing.create(
-            self.ab, person, IEntity(IEMailAddress).class_name, set_as_default=True)
+            self.ab, person,
+            IEntity(IEMailAddress).class_name, set_as_default=True)
         browser = self._update_field_value(
             'e-mail address -- e-mail address', 'append', 'foo')
-        self.assertIn('<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
+        self.assertIn(
+            '<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>',
+            browser.contents.replace(' ', '').replace('\n', ''))
         # Complete button is not shown:
-        self.assertEqual(['form.buttons.back'],
-                         icemac.addressbook.testing.get_submit_control_names(browser))
+        self.assertEqual(
+            ['form.buttons.back'],
+            icemac.addressbook.testing.get_submit_control_names(browser))
 
     def test_division_by_zero_is_handled_like_a_validation_error(self):
         self._create_user_defined_field('Int', int)
-        browser = self._update_field_value('postal address -- distance', 'div', '0')
+        browser = self._update_field_value(
+            'postal address -- distance', 'div', '0')
         self.assertIn('<td>Tester</td><td>50</td><td>Divisionbyzero</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
         # Complete button is not shown:
-        self.assertEqual(['form.buttons.back'],
-                         icemac.addressbook.testing.get_submit_control_names(browser))
+        self.assertEqual(
+            ['form.buttons.back'],
+            icemac.addressbook.testing.get_submit_control_names(browser))
 
     def test_datatype_of_field_for_change_can_be_changed(self):
         self.create_updateable_person()
@@ -198,7 +203,7 @@ class TestUserDefinedFields(unittest.TestCase):
         self.assertIn('<a href="http://localhost/ab/Person">Tester</a>',
                       browser.contents)
 
-    def test_if_user_selects_a_step_and_data_is_missing_he_gets_redirected_back(
+    def test_if_user_selects_a_step_with_data_missing_he_gets_redirected_back(
             self):
         self.create_updateable_person()
         from icemac.addressbook.browser.search.result.handler.update.testing \
@@ -227,5 +232,6 @@ class TestUserDefinedFields(unittest.TestCase):
             'http://localhost/ab/multi-update/checkResult', browser.url)
         # There is no 'complete' button as the user did not enter data in step
         # 'enterValue':
-        self.assertEqual(['form.buttons.back'],
-                         icemac.addressbook.testing.get_submit_control_names(browser))
+        self.assertEqual(
+            ['form.buttons.back'],
+            icemac.addressbook.testing.get_submit_control_names(browser))

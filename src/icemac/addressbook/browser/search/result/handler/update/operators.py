@@ -208,6 +208,7 @@ class IntSub(Operator):
     def __call__(self, operand2):
         return self.operand1 - operand2
 
+
 class DecimalSub(IntSub):
     """Substract operand2 from operand1 for decimals."""
 

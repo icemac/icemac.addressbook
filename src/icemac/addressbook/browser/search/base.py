@@ -18,7 +18,7 @@ class BaseView(zope.publisher.browser.BrowserView):
     to provide IBrowserView).
 
     """
-    form_explanation = u'' # description of the search form displayed below it
+    form_explanation = u''  # description of the search form displayed below it
 
     search_params = None
     show_headline = False

@@ -95,6 +95,7 @@ def setUpStackedDemoStorage(self, name):
     self['zodbDB'] = plone.testing.zodb.stackDemoStorage(
         self['zodbDB'], name=name)
 
+
 def createZODBConnection(zodbDB):
     connection = zodbDB.open()
     zodbRoot = connection.root()
@@ -102,10 +103,12 @@ def createZODBConnection(zodbDB):
         zope.app.publication.zopepublication.ZopePublication.root_name]
     return connection, zodbRoot, rootFolder
 
+
 def setUpZODBConnection(self):
     self['zodbConnection'], self['zodbRoot'], self['rootFolder'] = (
         createZODBConnection(self['zodbDB']))
     transaction.begin()
+
 
 def tearDownZODBConnection(self):
     del self['rootFolder']
@@ -113,6 +116,7 @@ def tearDownZODBConnection(self):
     self['zodbConnection'].close()
     del self['zodbConnection']
     del self['zodbRoot']
+
 
 def tearDownStackedDemoStorage(self):
     self['zodbDB'].close()
@@ -338,6 +342,7 @@ def write_temp_file(content, suffix):
 
 # List of known users which are able to login using basic auth:
 USERNAME_PASSWORD_MAP = dict(mgr='mgrpw', editor='editor', visitor='visitor')
+
 
 class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     """Customized browser which provides login."""

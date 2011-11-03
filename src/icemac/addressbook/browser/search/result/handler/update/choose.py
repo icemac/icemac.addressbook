@@ -23,4 +23,3 @@ class Field(SessionStorageStep):
 
     interface = IFieldChooser
     label = _(u'Choose field')
-

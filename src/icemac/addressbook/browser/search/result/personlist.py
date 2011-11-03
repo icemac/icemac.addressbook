@@ -7,9 +7,6 @@ import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.search.result.base
 
 
-import sys
-sys.setrecursionlimit(500)
-
 class PersonTable(
     icemac.addressbook.browser.personlist.BasePersonList,
     icemac.addressbook.browser.search.result.base.BasePersonTable):
@@ -24,4 +21,3 @@ class ExportForm(
     "Export form showing a table of found results."
 
     table_class = PersonTable
-

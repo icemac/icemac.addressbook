@@ -73,8 +73,8 @@ class KeywordOperatorsSource(BaseOperatorsSource):
             'intersection (i. e. keywords which are in selected keywords and '
             'existing ones)')),
         ('symmetric_difference', _(
-            'symmetric difference (i. e. keywords which are either in selected '
-            'keywords or existing ones but not both)')),
+            'symmetric difference (i. e. keywords which are either in '
+            'selected keywords or existing ones but not both)')),
         ))
 
 

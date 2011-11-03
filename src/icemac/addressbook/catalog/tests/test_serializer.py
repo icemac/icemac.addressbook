@@ -56,4 +56,3 @@ class TestObjectSerializer(unittest.TestCase):
         address = icemac.addressbook.address.PostalAddress()
         address.city = u'Dunkelhausen'
         address.country = gocept.country.db.Country('DE')
-

@@ -18,4 +18,3 @@ class ExportForm(
     "Export form showing a table containing the names of the found persons."
 
     table_class = PersonTable
-
