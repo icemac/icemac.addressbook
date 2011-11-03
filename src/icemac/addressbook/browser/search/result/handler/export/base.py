@@ -2,8 +2,6 @@
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.browser.base
-import icemac.addressbook.browser.search.base
-import icemac.addressbook.interfaces
 
 
 class BaseExport(object):

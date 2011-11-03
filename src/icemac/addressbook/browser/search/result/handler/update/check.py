@@ -10,16 +10,12 @@ from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.table
-import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
-import icemac.addressbook.sources
 import transaction
 import z3c.form.field
 import z3c.table.column
 import zope.i18n
-import zope.interface
-import zope.schema
 
 
 class TitleColumn(z3c.table.column.Column):

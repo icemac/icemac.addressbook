@@ -1,26 +1,14 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
+"""Error renderers"""
 
 from icemac.addressbook.i18n import _
-import datetime
-import decimal
-import gocept.reference.field
 import grokcore.component
 import icemac.addressbook.browser
 import icemac.addressbook.browser.interfaces
-import icemac.addressbook.interfaces
-import persistent.mapping
-import time
-import z3c.form.field
-import zc.sourcefactory.contextual
 import zope.component
-import zope.interface
 import zope.schema
-import zope.security.proxy
-
-
-# Error renderers
 
 
 @grokcore.component.adapter(
@@ -34,7 +22,7 @@ def email_constraint_not_satisfield(field, exc):
 
 
 def render_error(entity, field_name, exc):
-    "Render the error text using the error render adapters."
+    """Render the error text using the error render adapters."""
 
     # A queryMultiAdapter call with name=None behaves strange: it seems to
     # delete all adapters matching object and interface, so make sure that

@@ -7,15 +7,12 @@ from .base import SessionStorageStep
 from icemac.addressbook.i18n import _
 import decimal
 import gocept.reference.field
-import grokcore.component
-import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
 import stabledict
 import sys
 import z3c.form.field
 import zc.sourcefactory.interfaces
-import zc.sourcefactory.source
 import zope.component
 import zope.interface
 import zope.schema

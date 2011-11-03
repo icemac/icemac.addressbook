@@ -4,8 +4,6 @@
 
 import icemac.addressbook.testing
 import unittest
-import zope.component
-import zope.component.testing
 
 
 class SerializableObject(object):

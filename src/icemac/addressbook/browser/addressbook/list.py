@@ -3,18 +3,8 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import _
-import datetime
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.table
-import icemac.addressbook.interfaces
-import icemac.truncatetext
-import z3c.form.term
-import z3c.table.column
-import zope.component
-import zope.i18n
-import zope.preference.interfaces
-import zope.schema.interfaces
-
 
 
 class PersonList(
@@ -33,5 +23,5 @@ class PersonList(
 
     @property
     def values(self):
-        "The values are stored on the context."
+        """The values are stored on the context."""
         return self.context.values()

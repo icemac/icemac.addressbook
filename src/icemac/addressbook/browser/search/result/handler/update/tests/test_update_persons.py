@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2011 Michael Howitz
+# See also LICENSE.txt
 from __future__ import absolute_import
-import icemac.addressbook.testing
 import mock
 import unittest2 as unittest
 

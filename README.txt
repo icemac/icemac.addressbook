@@ -23,11 +23,13 @@ Features
 
 - assign keywords to persons
 
-- search for persons by keywords
+- search for persons by keywords and names
 
 - import data from XLS (Excel) or CSV files
 
 - export persons found using a search as XLS file
+
+- update a single field of multiple persons as returned by a search
 
 - multi-client capability
 

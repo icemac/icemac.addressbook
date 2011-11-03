@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2011 Michael Howitz
+# See also LICENSE.txt
 from __future__ import absolute_import
+
 from .base import SessionStorageStep
 from icemac.addressbook.i18n import _
-import icemac.addressbook.browser.wizard
 import icemac.addressbook.fieldsource
 import zope.interface
 import zope.schema

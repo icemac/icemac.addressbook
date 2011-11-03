@@ -2,8 +2,6 @@
 # Copyright (c) 2010-2011 Michael Howitz
 # See also LICENSE.txt
 
-import zope.component
-import zope.publisher.interfaces.browser
 import zope.interface
 import icemac.addressbook.export.interfaces
 
