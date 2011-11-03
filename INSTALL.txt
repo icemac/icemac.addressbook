@@ -11,8 +11,8 @@ not supported.)
 First installation
 ==================
 
-CAUTION: icemac.addressbook can't be installed using ``easy_install``,
-you have to follow these simple steps.
+CAUTION: icemac.addressbook can't be installed using ``easy_install`` or
+``pip``, you have to follow these simple steps.
 
 Neither you need any root privileges nor it installs anything outside
 its directory.
