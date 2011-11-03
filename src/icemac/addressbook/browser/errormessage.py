@@ -13,12 +13,12 @@ import zope.schema
 
 @grokcore.component.adapter(
     None, zope.schema.interfaces.ConstraintNotSatisfied, name="email")
-@grokcore.component.implementer(icemac.addressbook.browser.interfaces.IErrorMessage)
+@grokcore.component.implementer(
+    icemac.addressbook.browser.interfaces.IErrorMessage)
 def email_constraint_not_satisfield(field, exc):
     value = exc.args[0]
     return _(u'${value} is not a valid e-mail address.',
              mapping=dict(value=value))
-
 
 
 def render_error(entity, field_name, exc):

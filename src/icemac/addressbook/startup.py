@@ -12,8 +12,11 @@ zope.event
 def application_factory(global_conf, conf='zope.conf', db=None,
                         requestFactory=HTTPPublicationRequestFactory,
                         handle_errors=True):
-    """Application Factory, mainly copyied from zope.app.wsgi.getWSGIApplication,
-       but added the ability to do the set up done in zope.conf from outside."""
+    """Application Factory, mainly copyied from
+       zope.app.wsgi.getWSGIApplication, but added the ability to do the set up
+       done in zope.conf from outside.
+
+    """
     if db is None:
         zope_conf = os.path.join(global_conf['here'], conf)
         db = zope.app.wsgi.config(zope_conf)

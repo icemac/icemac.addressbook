@@ -97,9 +97,9 @@ class Result(SessionStorageStep):
         entity, field = get_chosen_entity_and_field(self.request)
         fieldname = self.getContent()['field']
         update_data = self.session
-        errors = update_persons(persons, entity, field, update_data['operation']
-                                ,
-                                update_data['new_value-%s' % fieldname])
+        errors = update_persons(
+            persons, entity, field, update_data['operation'],
+            update_data['new_value-%s' % fieldname])
         update_data['errors'] = errors
 
     def renderResultTable(self):

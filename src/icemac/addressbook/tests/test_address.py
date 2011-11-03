@@ -37,7 +37,8 @@ class Test_normalize_phone_number(unittest.TestCase):
         self.assertEqual('+491234567890', self.callFUT('+491234567890'))
 
     def test_everything_but_numbers_and_leading_plus_is_removed(self):
-        self.assertEqual('+491234567890', self.callFUT('+49 (1234) 5678 - 90X'))
+        self.assertEqual(
+            '+491234567890', self.callFUT('+49 (1234) 5678 - 90X'))
 
     def test_leading_zero_is_replaced_by_country_code(self):
         self.assertEqual('+491234567891', self.callFUT('01234/5678-91'))

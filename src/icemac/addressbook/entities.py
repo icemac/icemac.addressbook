@@ -433,9 +433,9 @@ field_storage = zope.annotation.factory(
 def get_bound_schema_field(obj, entity, field):
     """Returns a bound zope.schema field for `entity` and `field` on `obj`."""
     if not entity.interface.providedBy(obj):
-         # If the entity is for another object, we expect to find the entity
-         # on a default_attrib.
-         obj = getattr(obj, entity.tagged_values['default_attrib'])
+        # If the entity is for another object, we expect to find the entity
+        # on a default_attrib.
+        obj = getattr(obj, entity.tagged_values['default_attrib'])
     if icemac.addressbook.interfaces.IField.providedBy(field):
         # User defined fields need to be adapted. Additionally security
         # proxy must be removed as otherwise access fails. This might be a

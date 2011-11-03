@@ -2,7 +2,7 @@ import unittest
 
 
 class TestSearchResultHandler(unittest.TestCase):
-    """Testing icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"""
+    """Testing .manager.SearchResultHandler."""
 
     def test_two_SearchResultHandlers_are_equal_when_viewName_is_equal(self):
         from icemac.addressbook.browser.search.result.handler.manager import (

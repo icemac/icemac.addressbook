@@ -53,7 +53,10 @@ class SessionStorageStep(icemac.addressbook.browser.wizard.Step):
 
 
 def update_persons(persons, entity, field, operator_name, update_value):
-    "Update `entity.field` of `persons` by using `function` and `update_value`."
+    """Update `entity.field` of `persons` by using `function` and
+       `update_value`.
+
+    """
     errors = dict()
     for person in persons:
         schema_field = icemac.addressbook.entities.get_bound_schema_field(
@@ -77,4 +80,3 @@ def update_persons(persons, entity, field, operator_name, update_value):
                     icemac.addressbook.browser.errormessage.render_error(
                         entity, schema_field.__name__, e))
     return errors
-
