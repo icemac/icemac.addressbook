@@ -4,7 +4,6 @@
 """Search by `name` index."""
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.search.base
-import icemac.addressbook.browser.search.interfaces
 import zope.catalog.interfaces
 import zope.component
 import zope.interface

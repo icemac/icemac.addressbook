@@ -6,13 +6,10 @@ import icemac.addressbook.browser.base
 import icemac.addressbook.browser.errormessage
 import icemac.addressbook.browser.search.result.handler.update.operators
 import icemac.addressbook.browser.wizard
-import icemac.addressbook.interfaces
 import persistent.mapping
 import z3c.wizard.step
-import z3c.wizard.wizard
 import zope.component
 import zope.interface
-import zope.session.interfaces
 
 
 class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):

@@ -23,7 +23,6 @@ import plone.testing.zodb
 import re
 import tempfile
 import transaction
-import unittest
 import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
 import zope.app.publication.httpfactory

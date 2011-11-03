@@ -4,8 +4,6 @@
 
 from icemac.addressbook.i18n import _
 import icemac.addressbook.interfaces
-import icemac.addressbook.sources
-import stabledict
 import zc.sourcefactory.basic
 import zope.component
 

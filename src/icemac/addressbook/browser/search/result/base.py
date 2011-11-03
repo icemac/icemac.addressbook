@@ -6,11 +6,9 @@ from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.manager
-import icemac.addressbook.interfaces
 import z3c.form.button
 import z3c.ptcompat
 import z3c.table.column
-import zc.sourcefactory.interfaces
 import zope.interface
 import zope.schema
 

@@ -3,11 +3,8 @@
 # See also LICENSE.txt
 # $Id$
 
-from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.search.result.handler.export.base
 import icemac.addressbook.export.xls.simple
-import icemac.addressbook.interfaces
-import zope.session.interfaces
 
 
 class DefaultsExport(
