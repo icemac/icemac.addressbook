@@ -64,22 +64,19 @@ class _AddressBookUnitTests(plone.testing.Layer):
 ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 
 
+ZCML_LAYER = plone.testing.zca.ZCMLSandbox(
+    name="AddressbookZCML", filename="ftesting.zcml",
+    package=icemac.addressbook)
+
+
 class _ZCMLAndZODBLayer(plone.testing.zodb.EmptyZODB):
     """Layer which sets up ZCML and ZODB to be useable for Zope 3."""
-    defaultBases = (plone.testing.zca.LAYER_CLEANUP,)
-
-    package = icemac.addressbook
+    defaultBases = (ZCML_LAYER,)
 
     def setUp(self):
         super(_ZCMLAndZODBLayer, self).setUp()
-        plone.testing.zca.setUpZcmlFiles(
-            [("ftesting.zcml", self.package)])
         zope.event.notify(zope.processlifetime.DatabaseOpened(self['zodbDB']))
         transaction.commit()
-
-    def tearDown(self):
-        plone.testing.zca.tearDownZcmlFiles()
-        super(_ZCMLAndZODBLayer, self).tearDown()
 
     def testSetUp(self):
         pass
