@@ -5,7 +5,12 @@ Change log
 1.7.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+Other
+-----
+
+- Updated to `Zope Toolkit 1.1.2`_ for dependent packages.
+
+.. _`Zope Toolkit 1.1.2`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.2.html
 
 
 1.7.0 (2011-11-03)
