@@ -65,16 +65,16 @@ ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 
 
 ZCML_LAYER = plone.testing.zca.ZCMLSandbox(
-    name="AddressbookZCML", filename="ftesting.zcml",
+    name="AddressBookZCML", filename="ftesting.zcml",
     package=icemac.addressbook)
 
 
-class _ZCMLAndZODBLayer(plone.testing.zodb.EmptyZODB):
-    """Layer which sets up ZCML and ZODB to be useable for Zope 3."""
+class _ZODBLayer(plone.testing.zodb.EmptyZODB):
+    """Layer which sets up ZODB to be useable for Zope 3."""
     defaultBases = (ZCML_LAYER,)
 
     def setUp(self):
-        super(_ZCMLAndZODBLayer, self).setUp()
+        super(_ZODBLayer, self).setUp()
         zope.event.notify(zope.processlifetime.DatabaseOpened(self['zodbDB']))
         transaction.commit()
 
@@ -84,8 +84,7 @@ class _ZCMLAndZODBLayer(plone.testing.zodb.EmptyZODB):
     def testTearDown(self):
         pass
 
-
-ZCML_AND_ZODB_LAYER = _ZCMLAndZODBLayer(name='ZCMLAndZODBLayer')
+ZODB_LAYER = _ZODBLayer(name='ZODBLayer')
 
 
 def setUpStackedDemoStorage(self, name):
@@ -122,7 +121,7 @@ def tearDownStackedDemoStorage(self):
 
 class _ZODBTestLayer(plone.testing.Layer):
     """Layer which opens the ZODB for each test."""
-    defaultBases = (ZCML_AND_ZODB_LAYER,)
+    defaultBases = (ZODB_LAYER,)
 
     def testSetUp(self):
         setUpZODBConnection(self)
@@ -135,7 +134,7 @@ FUNCTIONAL_LAYER = _ZODBTestLayer(name='ZODBTestLayer')
 
 class _ZODBIsolatedTestLayer(plone.testing.Layer):
     """Layer which puts a DemoStorage on ZODB for each test."""
-    defaultBases = (ZCML_AND_ZODB_LAYER,)
+    defaultBases = (ZODB_LAYER,)
 
     def testSetUp(self):
         setUpStackedDemoStorage(self, self.__name__)
@@ -207,7 +206,7 @@ def setUpAddressBook(self):
 
 class _AddressBookFunctionalLayer(plone.testing.Layer):
     "Layer where the address book gets created in the layer set up."
-    defaultBases = (ZCML_AND_ZODB_LAYER,)
+    defaultBases = (ZODB_LAYER,)
 
     def setUp(self):
         setUpStackedDemoStorage(self, 'AddressBookFunctionalTestCase')
