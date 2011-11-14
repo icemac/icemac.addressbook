@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
@@ -20,6 +20,7 @@ import zope.catalog.text
 import zope.component
 import zope.container.btree
 import zope.container.interfaces
+import zope.event
 import zope.index.text.lexicon
 import zope.interface
 import zope.intid
@@ -117,50 +118,68 @@ def create_address_book_infrastructure(addressbook, event=None):
     add_entity_to_order(icemac.addressbook.file.interfaces.IFile)
     add_entity_to_order(icemac.addressbook.interfaces.IKeyword)
 
-    add_more_addressbook_infrastructure(addressbook, addressbook)
+    zope.event.notify(AddressBookCreated(addressbook))
 
 
-@icemac.addressbook.utils.set_site
-def add_more_addressbook_infrastructure(addressbook):
+class AddressBookCreated(object):
+    """Event which signales that an address book has been created.
+
+    Subscribers can expect that the new address book is a site (but not set
+    as such).
+    """
+
+    def __init__(self, address_book):
+        self.address_book = address_book
+
+
+import grokcore.component
+@grokcore.component.subscribe(AddressBookCreated)
+def add_more_addressbook_infrastructure(event):
     "Add more infrastructure which depends on addressbook set as site."
-    # intid utility
-    if not icemac.addressbook.utils.utility_locally_registered(
-            addressbook, zope.intid.interfaces.IIntIds):
-        intids = zope.app.appsetup.bootstrap.ensureUtility(
-            addressbook, zope.intid.interfaces.IIntIds, '', zope.intid.IntIds)
+    addressbook = event.address_book
+    try:
+        old_site = zope.component.hooks.getSite()
+        zope.component.hooks.setSite(addressbook)
+        # intid utility
+        if not icemac.addressbook.utils.utility_locally_registered(
+                addressbook, zope.intid.interfaces.IIntIds):
+            intids = zope.app.appsetup.bootstrap.ensureUtility(
+                addressbook, zope.intid.interfaces.IIntIds, '', zope.intid.IntIds)
 
-    # catalog
-    if icemac.addressbook.utils.utility_locally_registered(
-            addressbook, zope.catalog.interfaces.ICatalog):
-        catalog = zope.component.queryUtility(zope.catalog.interfaces.ICatalog)
-    else:
-        # add catalog
-        catalog = zope.app.appsetup.bootstrap.ensureUtility(
-            addressbook, zope.catalog.interfaces.ICatalog, '',
-            zope.catalog.catalog.Catalog)
+        # catalog
+        if icemac.addressbook.utils.utility_locally_registered(
+                addressbook, zope.catalog.interfaces.ICatalog):
+            catalog = zope.component.queryUtility(zope.catalog.interfaces.ICatalog)
+        else:
+            # add catalog
+            catalog = zope.app.appsetup.bootstrap.ensureUtility(
+                addressbook, zope.catalog.interfaces.ICatalog, '',
+                zope.catalog.catalog.Catalog)
 
-    # indexes
-    if 'keywords' not in catalog:
-        catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
-            'get_titles', icemac.addressbook.interfaces.IKeywordTitles,
-            field_callable=True)
-    if 'name' not in catalog:
-        catalog['name'] = zope.catalog.text.TextIndex(
-            'get_name', icemac.addressbook.interfaces.IPersonName,
-            field_callable=True,
-            lexicon=zope.index.text.lexicon.Lexicon(
-                zope.index.text.lexicon.Splitter(),
-                zope.index.text.lexicon.CaseNormalizer()))
+        # indexes
+        if 'keywords' not in catalog:
+            catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
+                'get_titles', icemac.addressbook.interfaces.IKeywordTitles,
+                field_callable=True)
+        if 'name' not in catalog:
+            catalog['name'] = zope.catalog.text.TextIndex(
+                'get_name', icemac.addressbook.interfaces.IPersonName,
+                field_callable=True,
+                lexicon=zope.index.text.lexicon.Lexicon(
+                    zope.index.text.lexicon.Splitter(),
+                    zope.index.text.lexicon.CaseNormalizer()))
 
-    # authenticator (PAU)
-    if not icemac.addressbook.utils.utility_locally_registered(
-            addressbook, zope.authentication.interfaces.IAuthentication):
-        pau = zope.app.appsetup.bootstrap.ensureUtility(
-            addressbook, zope.authentication.interfaces.IAuthentication, '',
-            zope.pluggableauth.authentication.PluggableAuthentication)
-        pau.credentialsPlugins = (u'No Challenge if Authenticated',
-                                  u'Flashed Session Credentials',)
-        pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
+        # authenticator (PAU)
+        if not icemac.addressbook.utils.utility_locally_registered(
+                addressbook, zope.authentication.interfaces.IAuthentication):
+            pau = zope.app.appsetup.bootstrap.ensureUtility(
+                addressbook, zope.authentication.interfaces.IAuthentication, '',
+                zope.pluggableauth.authentication.PluggableAuthentication)
+            pau.credentialsPlugins = (u'No Challenge if Authenticated',
+                                      u'Flashed Session Credentials',)
+            pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
 
-    # default preferences
-    icemac.addressbook.preferences.default.add(addressbook)
+        # default preferences
+        icemac.addressbook.preferences.default.add(addressbook)
+    finally:
+        zope.component.hooks.setSite(old_site)
