@@ -10,6 +10,8 @@ Other
 
 - Updated to `Zope Toolkit 1.1.2`_ for dependent packages.
 
+- Updated other dependent packages (outside ZTK) to newest versions.
+
 .. _`Zope Toolkit 1.1.2`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.2.html
 
 
