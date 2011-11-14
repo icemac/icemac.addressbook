@@ -16,9 +16,8 @@
         icemac.addressbook <a tal:attributes="href string:${request/URL/0}/@@about.html"
                              id="about-view"><img src="/++resource++img/Symbol-Information.png"
                alt="info-i"
-               img:attributes="title; alt"
-               title="Information about icemac.addressbook"
-               />
+               i18n:attributes="title; alt"
+               title="Information about icemac.addressbook" />
         </a>
       </h1>
       <span class="LoginLogoutBox">
