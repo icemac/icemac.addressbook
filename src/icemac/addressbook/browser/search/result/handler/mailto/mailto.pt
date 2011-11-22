@@ -1,0 +1,6 @@
+<div i18n:domain="icemac.addressbook" id="mailto">
+  <h2 i18n:translate="">Send an e-mail</h2>
+  <a tal:attributes="href view/mailto_link" i18n:translate="">
+    Click here to open your e-mail client
+  </a>
+</div>
