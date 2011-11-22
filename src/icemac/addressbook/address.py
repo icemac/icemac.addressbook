@@ -1,9 +1,9 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
+import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import persistent
@@ -82,6 +82,13 @@ def email_address_title(email):
     if email.email:
         title = email.email
     return title
+
+@grokcore.component.adapter(icemac.addressbook.interfaces.IPerson)
+@grokcore.component.implementer(icemac.addressbook.interfaces.IEMailAddress)
+def email_address_of_person(person):
+    email_entity = icemac.addressbook.interfaces.IEntity(
+        icemac.addressbook.interfaces.IEMailAddress)
+    return getattr(person, email_entity.tagged_values['default_attrib'])
 
 
 class HomePageAddress(
