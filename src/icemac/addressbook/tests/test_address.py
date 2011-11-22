@@ -1,4 +1,5 @@
-import unittest
+import unittest2 as unittest
+import icemac.addressbook.testing
 
 
 class Test_default_attrib_name_to_entity(unittest.TestCase):
@@ -55,3 +56,32 @@ class Test_normalize_phone_number(unittest.TestCase):
 
     def test_only_leading_double_zeros_are_replaced_by_plus(self):
         self.assertEqual('+421234007891', self.callFUT('0042-1234/0078-91'))
+
+
+class Test_email_address_of_person(unittest.TestCase):
+    """Testing ..address.email_address_of_person."""
+
+    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+
+    def setUp(self):
+        from icemac.addressbook.testing import create_person
+        self.ab = self.layer['addressbook']
+        self.person = create_person(self.ab, self.ab, u'Tester')
+
+    def test_returns_default_email_address(self):
+        from icemac.addressbook.testing import create_email_address
+        from icemac.addressbook.interfaces import IEMailAddress
+        create_email_address(
+            self.ab, self.person, email=u'tester@exmaple.com',
+            set_as_default=False)
+        create_email_address(
+            self.ab, self.person, email=u't@exmaple.net',
+            set_as_default=True)
+        self.assertEqual(u't@exmaple.net', IEMailAddress(self.person).email)
+
+    def test_raises_exception_if_default_email_address_does_not_exist(self):
+        from icemac.addressbook.interfaces import IEMailAddress
+        with self.assertRaises(TypeError) as err:
+            IEMailAddress(self.person)
+        self.assertEqual('Could not adapt', err.exception[0])
+
