@@ -25,7 +25,8 @@ class TestOnlyAdminIsAllowedToUseUpdate(unittest.TestCase):
             ['XLS export main (Exports person data and main addresses resp. '
               'phone numbers.)',
              'XLS export complete (Exports person data and all addresses '
-               'resp. phone numbers.)'],
+               'resp. phone numbers.)',
+             'E-Mail (Creates a link to send e-mails.)'],
             browser.getControl('Apply on selected persons').displayOptions)
 
     def each_part_of_the_update_wizard_is_not_accessible_for(self, username):

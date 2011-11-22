@@ -5,6 +5,13 @@ Change log
 1.7.1 (unreleased)
 ==================
 
+Features
+--------
+
+- Added search result handler which allows to send an e-mail to the persons
+  found by the search.
+
+
 Other
 -----
 

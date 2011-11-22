@@ -58,14 +58,14 @@ WSGI_SEARCH_LAYER = icemac.addressbook.testing._WSGITestBrowserLayer(
     bases=(SEARCH_LAYER,), name='WSGISearchLayer')
 
 
-def search_for_persons_with_keyword_search_using_browser(keyword):
+def search_for_persons_with_keyword_search_using_browser(keyword, login='mgr'):
     """Searches for all persons with the given keyword.
 
     Returns the browser.
 
     """
     browser = icemac.addressbook.testing.Browser()
-    browser.login('mgr')
+    browser.login(login)
     browser.open('http://localhost/ab/@@multi_keyword.html')
     browser.getControl('keywords').displayValue = [keyword]
     browser.getControl('Search').click()

@@ -141,7 +141,8 @@ Editor
 >>> editor.getControl('Search').click()
 >>> editor.getControl('Apply on selected persons').displayOptions
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
- 'XLS export complete (Exports person data and all addresses resp. phone numbers.)']
+ 'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
+ 'E-Mail (Creates a link to send e-mails.)']
 
 >>> editor.open(delete_url)
 Traceback (most recent call last):
@@ -160,7 +161,8 @@ Visitor
 >>> visitor.getControl('Search').click()
 >>> visitor.getControl('Apply on selected persons').displayOptions
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
- 'XLS export complete (Exports person data and all addresses resp. phone numbers.)']
+ 'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
+ 'E-Mail (Creates a link to send e-mails.)']
 
 >>> visitor.open(delete_url)
 Traceback (most recent call last):
