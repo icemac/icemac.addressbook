@@ -15,6 +15,7 @@ import icemac.addressbook.principals.sources
 import icemac.addressbook.startup
 import icemac.addressbook.utils
 import inspect
+import lxml.etree
 import os
 import os.path
 import plone.testing
@@ -347,6 +348,12 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         """Login a user using basic auth."""
         self.addHeader('Authorization', 'Basic %s:%s' %
                        (username, USERNAME_PASSWORD_MAP[username]))
+
+    def etree_to_list(self, etree):
+        """"Convert an etree into a list (lines without leading whitespace.)"""
+        return [x.strip()
+                for x in lxml.etree.tostring(etree).split('\n')
+                if x.strip()]
 
     get_messages = get_messages
 
