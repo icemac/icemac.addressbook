@@ -15,6 +15,8 @@ Features
 Other
 -----
 
+- Added some Screenshots_ to the SourceForge_ page.
+
 - Updated to `Zope Toolkit 1.1.2`_ for dependent packages.
 
 - Updated other dependent packages (outside ZTK) to newest versions.
