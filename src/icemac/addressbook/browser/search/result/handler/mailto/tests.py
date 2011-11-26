@@ -90,9 +90,8 @@ class MailToTest(unittest.TestCase):
         self.assertEqual(
             ['<div id="mailto">',
              '<h2>Send an e-mail</h2>',
-             '<a href="mailto:?bcc=icemac@example.net,mail@example.com">',
-             'Click here to open your e-mail client',
-             '</a>',
+             '<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
+             'Click here to open your e-mail client</a>',
              '</div>'],
             browser.etree_to_list(
                 browser.etree.xpath('//div[@id="mailto"]')[0]))
