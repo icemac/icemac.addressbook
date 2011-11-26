@@ -22,9 +22,9 @@ ValueError: browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser
 
 When there is no message an empty list is displayed:
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser
->>> browser = ExtendedTestBrowser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> from icemac.addressbook.testing import Browser
+>>> browser = Browser()
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook')
 >>> get_messages(browser)
 []
