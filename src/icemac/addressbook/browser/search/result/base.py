@@ -7,8 +7,8 @@ import icemac.addressbook.browser.base
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.manager
 import z3c.form.button
-import z3c.ptcompat
 import z3c.table.column
+import zope.browserpage.viewpagetemplatefile
 import zope.interface
 import zope.schema
 
@@ -26,7 +26,8 @@ class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
 
     ignoreContext = True
     interface = ISearchResultHanderChoice
-    template = z3c.ptcompat.ViewPageTemplateFile('result.pt')
+    template = zope.browserpage.viewpagetemplatefile.ViewPageTemplateFile(
+        'result.pt')
     id = 'search-export-form'
     table_class = NotImplemented
 

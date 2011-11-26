@@ -19,6 +19,9 @@ Other
 
 - Updated other dependent packages (outside ZTK) to newest versions.
 
+- Using `Chameleon 2` as HTML render engine resulting in faster page
+  rendering. (Test run in half of the time now.)
+
 .. _`Zope Toolkit 1.1.2`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.2.html
 
 
