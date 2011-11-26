@@ -42,3 +42,12 @@ Features
 
 - Optimized for the following browsers: Firefox, Safari. IE works but might
   look ugly.
+
+===========
+Screenshots
+===========
+
+See SourceForge_.
+
+.. _SourceForge : https://sourceforge.net/projects/icemac/#screenshots
+
