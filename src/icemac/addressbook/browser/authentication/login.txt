@@ -53,9 +53,7 @@ Wrong user name
 ['Login failed. Username and/or password might be wrong.']
 >>> print browser.contents
 <!DOCTYPE...
-<p>
-  Please provide Login Information
-</p>...
+  ...Please provide Login Information...
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 
@@ -69,9 +67,7 @@ Wrong password
 ['Login failed. Username and/or password might be wrong.']
 >>> print browser.contents
 <!DOCTYPE...
-<p>
-  Please provide Login Information
-</p>...
+  ...Please provide Login Information...
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 

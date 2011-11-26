@@ -2,14 +2,14 @@
 # Copyright (c) 2009-2011 Michael Howitz
 # See also LICENSE.txt
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.file.interfaces
 import z3c.form.browser.file
 import z3c.form.converter
 import z3c.form.interfaces
 import z3c.form.widget
-import z3c.ptcompat
 import zope.component
 import zope.schema.interfaces
 
@@ -17,7 +17,7 @@ import zope.schema.interfaces
 class FileWidget(z3c.form.browser.file.FileWidget):
     "FileWidget for use with icemac.addressbook.file.interfaces.IFile['data']."
 
-    download_template = z3c.ptcompat.ViewPageTemplateFile('widget_download.pt')
+    download_template = ViewPageTemplateFile('widget_download.pt')
 
     @property
     def href(self):

@@ -22,14 +22,10 @@ Before creating the first addressbook the overview page tells that
 there are not addressbooks:
 
 >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
->>> browser.handleErrors = False # XXX needed to test with z3c.pt
 >>> browser.open('http://localhost/++skin++AddressBook/')
 >>> print browser.contents
 <!DOCTYPE ...
-<p>
-  There are no address books created yet, click on "Add address book" to create one.
-</p>...
->>> browser.handleErrors = True # XXX needed to test with z3c.pt
+  ...There are no address books created yet, click on "Add address book" to create one...
 
 
 Create an address book

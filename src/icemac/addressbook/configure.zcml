@@ -87,8 +87,8 @@
   <include package="hurry.zoperesource" />
 
   <include
-      zcml:condition="installed z3c.pt"
-      package="z3c.pt" />
+      zcml:condition="installed z3c.ptcompat"
+      package="z3c.ptcompat" />
 
   <include package=".browser" />
   <include package=".file" />
