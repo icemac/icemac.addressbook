@@ -5,11 +5,11 @@
     i18n_domain="icemac.addressbook">
 
   <include package="grokcore.component" file="meta.zcml"/>
-  <grok:grok package="." />
+  <grok:grok package="."
+             exclude="generations" />
 
   <exclude package="z3c.form" file="file.zcml" />
 
-  <include package="zope.app.pagetemplate" file="meta.zcml" />
   <include package="zope.app.publication" file="meta.zcml" />
   <include package="zope.browserpage" file="meta.zcml" />
   <include package="zope.browserresource" file="meta.zcml" />

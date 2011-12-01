@@ -36,7 +36,7 @@ Update
 
 - When you are updating from version 0.3.x or earlier follow the steps
   described in `First installation`_ followed by the steps described
-  in `Second part of steps for older versions`_.
+  in `Second part of steps for really old versions`_.
 
 - When you are updating from version 0.4 or newer follow these steps:
 
@@ -59,13 +59,22 @@ Update
 
     zope.generations.interfaces.UnableToEvolve: (..., u'icemac.addressbook', ...)
 
-  Then you have to upgrade to version 0.5.x first and start the
-  application, so that legacy data can be converted. Version 1.x is no
-  longer compatible with these older versions.
+  - If you upgrade from version 0.x then you have to upgrade to version 0.5.4
+    first and start the application, so that legacy data can be
+    converted. Version 1.x is no longer compatible with these older versions.
+
+  - IF you upgrade from version 1.x then you have to upgrade to version 1.7.0
+    first and start the application, so that legacy data can be
+    converted. Version 2.x is no longer compatible with these older versions.
+
+  - You might need to **not** install any additional packages during these
+    upgrade steps as the installer always tries to install the newest
+    versions of the additonal packages which might not be compatible with
+    the older versions.
 
 
-Second part of steps for older versions
----------------------------------------
+Second part of steps for really old versions
+--------------------------------------------
 
 1. Stop the old instance of the application.
 
