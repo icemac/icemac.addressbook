@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 from .base import (
     SessionStorageStep, get_update_data_session, update_persons,
-    clean_update_data_session)
+    clean_update_data_session, get_fieldname_in_session)
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.personlist
@@ -99,7 +99,7 @@ class Result(SessionStorageStep):
         update_data = self.session
         errors = update_persons(
             persons, entity, field, update_data['operation'],
-            update_data['new_value-%s' % fieldname])
+            update_data[get_fieldname_in_session(fieldname)])
         update_data['errors'] = errors
 
     def renderResultTable(self):

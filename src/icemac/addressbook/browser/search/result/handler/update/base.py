@@ -80,3 +80,8 @@ def update_persons(persons, entity, field, operator_name, update_value):
                     icemac.addressbook.browser.errormessage.render_error(
                         entity, schema_field.__name__, e))
     return errors
+
+
+def get_fieldname_in_session(fieldname):
+    """Returns the name of the field used in the session."""
+    return 'new_value.%s' % fieldname

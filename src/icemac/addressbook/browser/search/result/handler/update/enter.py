@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 from __future__ import absolute_import
 
-from .base import SessionStorageStep
+from .base import SessionStorageStep, get_fieldname_in_session
 from icemac.addressbook.i18n import _
 import decimal
 import gocept.reference.field
@@ -137,7 +137,7 @@ class Value(SessionStorageStep):
             parameters.update(dict(min=-max_decimal, max=max_decimal,
                                    default=missing_value))
         new_value_field = selected_field.__class__(**parameters)
-        new_value_field.__name__ = 'new_value-%s' % session['field']
+        new_value_field.__name__ = get_fieldname_in_session(session['field'])
         fields.append(new_value_field)
         operation_field = zope.schema.Choice(
             title=_('operation'), source=source,

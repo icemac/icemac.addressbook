@@ -11,6 +11,12 @@ Features
 - Added search result handler which allows to send an e-mail to the persons
   found by the search.
 
+Bugfixes
+--------
+
+- The search result handler which updates data did not handle keywords well,
+  it was not possible to remove a keyword from a person.
+
 
 Other
 -----
