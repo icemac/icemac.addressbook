@@ -8,7 +8,7 @@ import setuptools
 def read(filename):
     return file(filename).read()
 
-version = '1.8.0dev'
+version = '2.0.0dev'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -108,12 +108,6 @@ setuptools.setup(
         'zope.securitypolicy',
         'zope.session',
         'zope.traversing',
-        'zope.app.authentication', # XXX required by older installations,
-                                   # deprecated and converted in 1.5
-                                   # (evolve3.py), remove in version 1.7 (Add
-                                   # notice to CHANGES.txt then, to show what
-                                   # to do to upgrade when evolve to
-                                   # generation 16 fails.)
         ],
     extras_require = dict(
         test=[

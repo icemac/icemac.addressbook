@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.7.1 (unreleased)
+2.0.0 (unreleased)
 ==================
 
 Features
@@ -31,6 +31,11 @@ Other
   rendering. (Test run in half of the time now.)
 
 .. _`Zope Toolkit 1.1.2`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.2.html
+
+- Dropped some package dependencies which only existed for compatibility
+  reasons with older versions. To upgrade to this version you might need to
+  upgrade to at least 1.5.0 first. (See Update_.)
+
 
 
 1.7.0 (2011-11-03)
