@@ -42,8 +42,10 @@ class TestUserDefinedFields(unittest.TestCase):
 
     def create_updateable_person(self, **kw):
         from icemac.addressbook.interfaces import IEntity, IPerson
-        keyword = icemac.addressbook.testing.create_keyword(self.ab, KEYWORD)
-        data = {'last_name': u'Tester', 'keywords': set([keyword]),
+        keywords = set(
+            icemac.addressbook.testing.create_keyword(self.ab, keyword)
+            for keyword in kw.pop('keywords', [KEYWORD]))
+        data = {'last_name': u'Tester', 'keywords': keywords,
                 'return_obj': True}
         data.update(kw)
         return icemac.addressbook.testing.create(
@@ -97,22 +99,21 @@ class TestUserDefinedFields(unittest.TestCase):
 
     def test_keywords_field_can_be_updated(self):
         from icemac.addressbook.interfaces import IEntity, IPerson
-        person = self.create_updateable_person()
-        icemac.addressbook.testing.create_keyword(self.ab, u'second kw')
+        person = self.create_updateable_person(
+            keywords=[KEYWORD, u'second kw'])
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
         browser = select_persons_with_keyword_for_update(KEYWORD)
 
-        browser.handleErrors = False
         browser.getControl('field').displayValue = ['person -- keywords']
         browser.getControl('Next').click()
         self.assertEqual([KEYWORD, 'second kw'],
                          browser.getControl('new value').displayOptions)
         browser.getControl('new value').displayValue = ['second kw']
         browser.getControl('operation').displayValue = [
-            'append selected keywords to existing ones']
+            'remove selected keywords from existing ones']
         browser.getControl('Next').click()
-        self.assertIn('<td>Tester</td><td>keywordfortest,secondkw</td>',
+        self.assertIn('<td>Tester</td><td>keywordfortest</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
 
     def _create_user_defined_field(self, field_type, field_class):
