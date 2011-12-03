@@ -66,7 +66,7 @@ ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 
 
 ZCML_LAYER = plone.testing.zca.ZCMLSandbox(
-    name="AddressBookZCML", filename="ftesting.zcml",
+    name="AddressBookZCML", filename="ftesting.zcml", module=__name__,
     package=icemac.addressbook)
 
 
