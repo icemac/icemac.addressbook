@@ -40,7 +40,7 @@ class _SearchLayer(plone.testing.Layer):
                            keywords=set([family, church]))
         create_person(addressbook, addressbook, u'Liebig',
                       keywords=set([church]), notes=u'family')
-
+        create_person(addressbook, addressbook, u'Tester', first_name=u'Liese')
         transaction.commit()
         setupZODBConn.close()
 
