@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.0.0 (unreleased)
+1.8.0 (unreleased)
 ==================
 
 Features
@@ -15,7 +15,7 @@ Bugfixes
 --------
 
 - The search result handler which updates data did not handle keywords well,
-  it was not possible to remove a keyword from a person.
+  it was not possible to remove a keyword from a person using that handler.
 
 
 Other
@@ -23,19 +23,17 @@ Other
 
 - Added some Screenshots_ to the SourceForge_ page.
 
-- Updated to `Zope Toolkit 1.1.2`_ for dependent packages.
+- Updated to `Zope Toolkit 1.1.3`_ for dependent packages.
 
 - Updated other dependent packages (outside ZTK) to newest versions.
 
 - Using `Chameleon 2` as HTML render engine resulting in faster page
   rendering. (Test run in half of the time now.)
 
-.. _`Zope Toolkit 1.1.2`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.2.html
-
 - Dropped some package dependencies which only existed for compatibility
-  reasons with older versions. To upgrade to this version you might need to
-  upgrade to at least 1.5.0 first. (See Update_.)
+  reasons with older versions. Data gets converted during first start-up.
 
+.. _`Zope Toolkit 1.1.3`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.3.html
 
 
 1.7.0 (2011-11-03)
