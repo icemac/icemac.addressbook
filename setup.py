@@ -8,7 +8,7 @@ import setuptools
 def read(filename):
     return file(filename).read()
 
-version = '2.0.0dev'
+version = '1.8.0dev'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -88,6 +88,7 @@ setuptools.setup(
         'zc.catalog',
         'zc.sourcefactory',
         'zdaemon',
+        'zodbupdate',
         'zope.app.appsetup',
         'zope.app.debug',
         'zope.app.locales >= 3.6.0',
