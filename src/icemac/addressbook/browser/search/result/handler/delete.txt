@@ -62,9 +62,9 @@ selected by default:
       <td></td>
     </tr>
     <tr class="table-even-row">
-      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-5" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Utzer</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-5">Ben</a></td>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-6" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-6">Utzer</a></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-6">Ben</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>

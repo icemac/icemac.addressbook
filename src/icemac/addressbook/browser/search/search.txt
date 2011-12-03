@@ -8,31 +8,10 @@ types.
 Set up
 ======
 
-We need an address book, some keywords and some persons:
-
->>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_keyword)
->>> addressbook = create_addressbook()
->>> friends = create_keyword(addressbook, u'friends')
->>> family = create_keyword(addressbook, u'family')
->>> church = create_keyword(addressbook, u'church')
->>> work = create_keyword(addressbook, u'work')
->>> anyone_else = create_keyword(addressbook, u'anyone else')
->>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
-...                         keywords=set([friends]))
->>> koch = create_person(addressbook, addressbook, u'Koch',
-...                      keywords=set([family, church]))
->>> velleuer = create_person(addressbook, addressbook, u'Velleuer',
-...                          keywords=set([family, church]))
->>> liebig = create_person(addressbook, addressbook, u'Liebig',
-...                        keywords=set([church]))
->>> liese = create_person(addressbook, addressbook, u'Tester', first_name=u'Liese')
+Visitors are allowed to search, so we log in as a visitor:
 
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
-
-Visitors are allowed to search, so we log in as a visitor:
-
 >>> browser.login('visitor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
