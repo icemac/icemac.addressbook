@@ -7,31 +7,11 @@ Search results can be exported in different formats.
 Set up
 ======
 
-We need an address book, some keywords and some persons:
-
->>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_keyword)
->>> import datetime
->>> addressbook = create_addressbook()
->>> friends = create_keyword(addressbook, u'friends')
->>> family = create_keyword(addressbook, u'family')
->>> church = create_keyword(addressbook, u'church')
->>> work = create_keyword(addressbook, u'work')
->>> anyone_else = create_keyword(addressbook, u'anyone else')
->>> hohmuth = create_person(addressbook, addressbook, u'Hohmuth',
-...                         keywords=set([friends]))
->>> koch = create_person(
-...     addressbook, addressbook, u'Koch', keywords=set([family, church]),
-...     birth_date=datetime.date(1952, 1, 24))
->>> liebig = create_person(addressbook, addressbook, u'Liebig',
-...                        keywords=set([church]))
-
->>> from zope.app.wsgi.testlayer import Browser
->>> browser = Browser()
-
 Visitors are allowed to search and export, so we log in as a visitor:
 
->>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> from icemac.addressbook.testing import Browser
+>>> browser = Browser()
+>>> browser.login('visitor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Export
@@ -83,9 +63,14 @@ displayed, the checkboxes of the rows are pre-selected:
       <td></td>
     </tr>
     <tr class="table-odd-row">
-      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Liebig</a></td>
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
       <td></td>
+    </tr>
+    <tr class="table-even-row">
+      <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
+      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+       <td></td>
     </tr>
   </tbody>
 </table>...
@@ -105,7 +90,7 @@ persons are exported:
 [u'Address book - Export']
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(4, 13)
+(5, 13)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -138,7 +123,20 @@ persons are exported:
  text:u'Koch',
  xldate:19017.0,
  text:u'family, church',
+ text:u'father-in-law',
  empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'Germany',
+ empty:'',
+ empty:'',
+ empty:'']
+[empty:'',
+ text:u'Liebig',
+ empty:'',
+ text:u'church',
+ text:u'family',
  empty:'',
  empty:'',
  empty:'',
@@ -148,15 +146,15 @@ persons are exported:
  empty:'',
  empty:'']
 [empty:'',
- text:u'Liebig',
+ text:u'Velleuer',
  empty:'',
- text:u'church',
- empty:'',
- empty:'',
+ text:u'family, church',
  empty:'',
  empty:'',
  empty:'',
  empty:'',
+ empty:'',
+ text:u'Germany',
  empty:'',
  empty:'',
  empty:'']
@@ -170,7 +168,7 @@ are exported:
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
 >>> work_sheet_0 = xls_workbook.sheet_by_index(0)
 >>> (work_sheet_0.nrows, work_sheet_0.ncols)
-(3, 13)
+(4, 13)
 >>> for rx in range(work_sheet_0.nrows):
 ...     pprint.pprint(work_sheet_0.row(rx))
 [text:u'person',
@@ -203,12 +201,25 @@ are exported:
  text:u'Liebig',
  empty:'',
  text:u'church',
+ text:u'family',
  empty:'',
  empty:'',
  empty:'',
  empty:'',
  empty:'',
  empty:'',
+ empty:'',
+ empty:'']
+[empty:'',
+ text:u'Velleuer',
+ empty:'',
+ text:u'family, church',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ empty:'',
+ text:u'Germany',
  empty:'',
  empty:'',
  empty:'']
@@ -220,6 +231,7 @@ deselect them. We also test here another exporter:
 >>> browser.goBack()
 >>> browser.getControl(name='persons:list').getControl(value="Person-2").click()
 >>> browser.getControl(name='persons:list').getControl(value="Person-3").click()
+>>> browser.getControl(name='persons:list').getControl(value="Person-4").click()
 >>> browser.getControl('XLS export complete').click()
 >>> browser.getControl(name='form.buttons.apply').click()
 >>> xls_workbook = xlrd.open_workbook(file_contents=browser.contents)

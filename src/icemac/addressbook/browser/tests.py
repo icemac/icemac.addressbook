@@ -19,9 +19,6 @@ def test_suite():
         "browser/entities/file.txt",
         "browser/entities/sortorder-fields.txt",
         "browser/entities/sortorder.txt",
-        "browser/search/result/handler/export/export.txt",
-        "browser/search/result/handler/export/translation.txt",
-        "browser/search/result/handler/export/userfields.txt",
         "browser/keyword/keyword.txt",
         "browser/masterdata/masterdata.txt",
         "browser/person/clone.txt",
@@ -31,11 +28,14 @@ def test_suite():
         "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
-        "browser/search/search.txt",
+        "browser/search/result/handler/export/translation.txt",
+        "browser/search/result/handler/export/userfields.txt",
         )
     suite.addTest(
         icemac.addressbook.testing.DocFileSuite(
             "browser/search/result/handler/delete.txt",
+            "browser/search/result/handler/export/export.txt",
+            "browser/search/search.txt",
             layer=icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
             ))
     suite.addTest(
