@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 # $Id$
 
-import gocept.selenium.grok
+import gocept.selenium.wsgi
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
 import icemac.addressbook.file.file
@@ -162,6 +162,14 @@ class WSGILayer(plone.testing.Layer):
     def tearDown(self):
         del self['wsgi_app']
 
+    def testSetUp(self):
+        # The layer has to store the database at layer set up (depending
+        # layers require this) but we get a new database at test set up, so
+        # we have to set the right ZODB here:
+        self['wsgi_app'].requestFactory = (
+            zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
+                self['zodbDB']))
+
 WSGI_LAYER = WSGILayer()
 
 
@@ -180,19 +188,25 @@ class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
             zope.app.wsgi.testlayer.TransactionMiddleware(
                 getRootFolder, self['wsgi_app']))
 
-    def testSetUp(self):
-        # WSGI app stores the database at layer set up but we get a new
-        # database at test set up, so we have to set the right ZODB here:
-        self['wsgi_app'].requestFactory = (
-            zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
-                self['zodbDB']))
-
-
 WSGI_TEST_BROWSER_LAYER = _WSGITestBrowserLayer(name='WSGITestBrowserLayer')
 
 
-SeleniumLayer = gocept.selenium.grok.Layer(
-    icemac.addressbook, name='SeleniumLayer')
+class GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
+                                                 plone.testing.Layer):
+    """Layer which integrates gocept.selenium with plone.testing."""
+
+    defaultBases = (WSGI_LAYER, )
+
+    def __init__(self, *args, **kw):
+        # WSGI application is set up in base layers so we cannot access it
+        # here yet:
+        gocept.selenium.wsgi.Layer.__init__(self, application=None)
+        plone.testing.Layer.__init__(self, *args, **kw)
+
+    def setup_wsgi_stack(self, app):
+        return self['wsgi_app']
+
+SELENIUM_LAYER = GoceptSeleniumPloneTestingIntegrationLayer()
 
 
 def setUpAddressBook(self):
