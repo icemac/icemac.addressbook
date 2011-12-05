@@ -1,17 +1,17 @@
-import gocept.selenium.grok
+import gocept.selenium.wsgi
 import icemac.addressbook.testing
 import transaction
 
 
-class TestFieldOrder(gocept.selenium.grok.TestCase):
+class TestFieldOrder(gocept.selenium.wsgi.TestCase):
 
-    layer = icemac.addressbook.testing.SeleniumLayer
+    layer = icemac.addressbook.testing.SELENIUM_LAYER
     level = 2
 
     def setUp(self):
         super(TestFieldOrder, self).setUp()
         ab = icemac.addressbook.testing.create_addressbook(
-            parent=self.getRootFolder())
+            parent=self.layer['rootFolder'])
         icemac.addressbook.testing.create_user(
             ab, ab, u'Selenium', u'Tester', u'sel@example.com', '12345678',
             ['Administrator'])
@@ -19,8 +19,7 @@ class TestFieldOrder(gocept.selenium.grok.TestCase):
 
     def test_field_movement(self):
         sel = self.selenium
-        sel.open(
-            'http://%s/++skin++AddressBook/ab' % self.selenium.server)
+        sel.open('http://%s/++skin++AddressBook/ab' % self.selenium.server)
         # Login
         sel.type("login", "sel@example.com")
         sel.type("password", "12345678")
