@@ -119,7 +119,7 @@ setuptools.setup(
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.testbrowser [wsgi]',
+            'zope.testbrowser[wsgi]',
             'zope.testing >= 3.8',
             ],
         chameleon=[
