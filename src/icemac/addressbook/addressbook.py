@@ -4,6 +4,7 @@
 # $Id$
 
 from icemac.addressbook.i18n import _
+import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
@@ -132,7 +133,6 @@ class AddressBookCreated(object):
         self.address_book = address_book
 
 
-import grokcore.component
 @grokcore.component.subscribe(AddressBookCreated)
 def add_more_addressbook_infrastructure(event):
     "Add more infrastructure which depends on addressbook set as site."
@@ -144,12 +144,14 @@ def add_more_addressbook_infrastructure(event):
         if not icemac.addressbook.utils.utility_locally_registered(
                 addressbook, zope.intid.interfaces.IIntIds):
             intids = zope.app.appsetup.bootstrap.ensureUtility(
-                addressbook, zope.intid.interfaces.IIntIds, '', zope.intid.IntIds)
+                addressbook, zope.intid.interfaces.IIntIds, '',
+                zope.intid.IntIds)
 
         # catalog
         if icemac.addressbook.utils.utility_locally_registered(
                 addressbook, zope.catalog.interfaces.ICatalog):
-            catalog = zope.component.queryUtility(zope.catalog.interfaces.ICatalog)
+            catalog = zope.component.queryUtility(
+                zope.catalog.interfaces.ICatalog)
         else:
             # add catalog
             catalog = zope.app.appsetup.bootstrap.ensureUtility(
@@ -171,9 +173,11 @@ def add_more_addressbook_infrastructure(event):
 
         # authenticator (PAU)
         if not icemac.addressbook.utils.utility_locally_registered(
-                addressbook, zope.authentication.interfaces.IAuthentication):
+                addressbook,
+                zope.authentication.interfaces.IAuthentication):
             pau = zope.app.appsetup.bootstrap.ensureUtility(
-                addressbook, zope.authentication.interfaces.IAuthentication, '',
+                addressbook, zope.authentication.interfaces.IAuthentication,
+                '',
                 zope.pluggableauth.authentication.PluggableAuthentication)
             pau.credentialsPlugins = (u'No Challenge if Authenticated',
                                       u'Flashed Session Credentials',)

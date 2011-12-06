@@ -83,6 +83,7 @@ def email_address_title(email):
         title = email.email
     return title
 
+
 @grokcore.component.adapter(icemac.addressbook.interfaces.IPerson)
 @grokcore.component.implementer(icemac.addressbook.interfaces.IEMailAddress)
 def email_address_of_person(person):
