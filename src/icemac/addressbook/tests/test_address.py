@@ -84,4 +84,3 @@ class Test_email_address_of_person(unittest.TestCase):
         with self.assertRaises(TypeError) as err:
             IEMailAddress(self.person)
         self.assertEqual('Could not adapt', err.exception[0])
-
