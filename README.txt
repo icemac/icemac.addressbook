@@ -30,6 +30,7 @@ Features
 - export persons found using a search as XLS file
 
 - update a single field of multiple persons as returned by a search
+  (multi-update)
 
 - multi-client capability
 

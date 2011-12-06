@@ -2,6 +2,46 @@
  Old changes
 =============
 
+1.5.0 (2010-11-23)
+==================
+
+Features
+--------
+
+- Added support for Python 2.6.
+
+- Added an "about addressbook" view which shows the version number. The blue
+  "i" right of "icemac.addressbook" in each view is a link to it.
+
+- Added messages telling about successful actions, e. g. applying or
+  canceling a form.
+
+- Made it possible to sort the entities.
+
+- Made 'main adresses and numbers' an entity, so it could be sorted along
+  with the other entities.
+
+- Added ability to delete the persons found in a search. User must have the
+  administrator role to use this feature as it might be dangerous.
+
+- Added installation option to configure that the address book process sould
+  run as another user than the one who started it.
+
+Bug fixes
+---------
+
+- When copying a person, the creation dates and modification dates of the
+  addresses in the copied person are changed along the person.
+
+
+Other changes
+-------------
+
+- Updated to `Zope Toolkit 1.0`_ for dependent packages.
+
+.. _`Zope Toolkit 1.0`: http://docs.zope.org/zopetoolkit/releases/overview-1.0.html
+
+
 1.4.0 (2010-08-19)
 ==================
 
