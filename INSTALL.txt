@@ -34,7 +34,7 @@ its directory.
 Update
 ======
 
-- When you are updating from version 0.3.x or earlier follow the steps
+- If you are updating from version 0.3.x or earlier follow the steps
   described in `First installation`_ followed by the steps described
   in `Second part of steps for really old versions`_.
 
@@ -62,10 +62,6 @@ Update
   - If you upgrade from version 0.x then you have to upgrade to version 0.5.4
     first and start the application, so that legacy data can be
     converted. Version 1.x is no longer compatible with these older versions.
-
-  - IF you upgrade from version 1.x then you have to upgrade to version 1.7.0
-    first and start the application, so that legacy data can be
-    converted. Version 2.x is no longer compatible with these older versions.
 
   - You might need to **not** install any additional packages during these
     upgrade steps as the installer always tries to install the newest
@@ -96,6 +92,14 @@ Run the tests
 Run the unit tests and functional tests using::
 
   $ bin/test
+
+To run the Selenium tests you additionally need: Selenium Server.  Download
+"Selenium Server" from SeleniumHQ_.  Start it like any other ``jar`` package
+is started on your operating system. Run all tests using::
+
+  $ bin/test --all
+
+.. _SeleniumHQ: http://seleniumhq.org/download/
 
 Run the application
 ===================

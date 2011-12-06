@@ -20,7 +20,7 @@ setuptools.setup(
         read('TODO.txt'),
         read('CHANGES.txt')] ),
     keywords='python address book addressbook zope3 zope application web '
-             'phone number e-mail email home page homepage',
+             'phone number e-mail email home page homepage wsgi',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
     url='http://pypi.python.org/pypi/icemac.addressbook',
@@ -119,7 +119,7 @@ setuptools.setup(
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.testbrowser[wsgi]',
+            'zope.testbrowser[wsgi]>=4.0',
             'zope.testing >= 3.8',
             ],
         chameleon=[
