@@ -67,6 +67,7 @@ class MailToTest(unittest.TestCase):
 
     get_persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
                    'mailto.MailTo.get_persons')
+
     @mock.patch(get_persons)
     def test_unique_mail_addresses_returns_sorted_unique_email_addresses(
             self, get_persons):
@@ -79,7 +80,6 @@ class MailToTest(unittest.TestCase):
     def test_view_displays_mail_adresses_of_selected_persons_as_link(self):
         from icemac.addressbook.browser.testing import (
             search_for_persons_with_keyword_search_using_browser)
-        import lxml.etree
         browser = search_for_persons_with_keyword_search_using_browser(
             'mail-me', 'visitor')
         browser.handleErrors = False
