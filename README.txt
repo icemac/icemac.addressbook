@@ -42,7 +42,7 @@ Features
   other languages.
 
 - Optimized for the following browsers: Firefox, Safari. IE works but might
-  look ugly.
+  look ugly. (Mobile version of Safari has some glitches.)
 
 ===========
 Screenshots
