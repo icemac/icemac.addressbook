@@ -11,7 +11,7 @@
            target="_blank">Firefox</a></dd>
     <dd><a href="http://www.apple.com/safari" target="_blank">Safari</a></dd>
     <dt i18n:translate="">Copyright:</dt>
-    <dd tal:content="provider:copyright">2010 Michael Howitz</dd>
+    <dd tal:content="provider:copyright">(c) Michael Howitz</dd>
     <dt i18n:translate="">License:</dt>
     <dd><a href="http://www.zope.org/Resources/ZPL" target="_blank">ZPL 2.1</a></dd>
     <dt i18n:translate="">Icons from:</dt>
