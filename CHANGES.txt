@@ -5,7 +5,10 @@ Change log
 1.8.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+Other
+-----
+
+- Updated other dependent packages (outside ZTK) to newest versions.
 
 
 1.8.0 (2011-12-14)
