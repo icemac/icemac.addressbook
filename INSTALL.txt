@@ -38,7 +38,7 @@ Update
   described in `First installation`_ followed by the steps described
   in `Second part of steps for really old versions`_.
 
-- When you are updating from version 0.4 or newer follow these steps:
+- If you are updating from version 0.4 or newer follow these steps:
 
    1. Download and extract the source distribution (see Download_) to a
    new a directory.
