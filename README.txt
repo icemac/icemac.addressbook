@@ -14,8 +14,24 @@ a web application.
 Features
 ========
 
-- store data of persons including (postal address, e-mail address,
-  home page address, phone number and files)
+General
+=======
+
+- multi-client capability
+
+- user and role management
+
+- Completely translated into German, and easily translateable into
+  other languages.
+
+- Optimized for the following browsers: Firefox, Safari. IE works but might
+  look ugly. (Mobile version of Safari has some glitches.)
+
+Data
+====
+
+- store data of persons including postal address, e-mail address,
+  home page address, phone number and files
 
 - add data fields to persons and addresses using the user interface
 
@@ -23,26 +39,26 @@ Features
 
 - assign keywords to persons
 
-- search for persons by keywords and names
-
 - import data from XLS (Excel) or CSV files
+
+Search & Export
+===============
+
+- search for persons by keywords and names
 
 - export persons found using a search as XLS file
 
 - update a single field of multiple persons as returned by a search
   (multi-update)
 
-- multi-client capability
+Technical
+=========
 
-- user and role management
+- really good test coverage of program code (> 98 %)
 
-- really good test coverage (> 98 %)
+- data storage is an object database (ZODB) so no additional database is
+  required
 
-- Completely translated into German, and easily translateable into
-  other languages.
-
-- Optimized for the following browsers: Firefox, Safari. IE works but might
-  look ugly. (Mobile version of Safari has some glitches.)
 
 ===========
 Screenshots
