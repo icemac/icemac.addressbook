@@ -142,8 +142,7 @@ div#content div.row {
 
 /* bulleted list */
 ul.bullet li {
-    margin-left: 15px;
-    list-style: disc outside none;
+    list-style: disc inside none;
 }
 
 ul.bullet li.selected a {
