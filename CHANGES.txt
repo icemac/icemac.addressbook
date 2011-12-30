@@ -5,6 +5,11 @@ Change log
 1.8.1 (unreleased)
 ==================
 
+Features
+--------
+
+- Added favicon.ico to the application.
+
 Other
 -----
 
