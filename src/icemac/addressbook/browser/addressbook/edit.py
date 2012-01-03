@@ -25,10 +25,6 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     def handleApply(self, action):
         super(EditForm, self).handleApply(self, action)
 
-    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
-    def handleCancel(self, action):
-        self.status = self.noChangesMessage
-
     @z3c.form.button.buttonAndHandler(
         _(u'Delete all persons in address book'), name='delete_content',
         condition=icemac.addressbook.browser.base.can_access(
