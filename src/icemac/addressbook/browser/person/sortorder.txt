@@ -181,10 +181,10 @@ Using the default sort order, the fieldsets are ordered the following way:
  'name',
  'data',
  'apply',
- 'cancel',
  'clone_person',
  'delete_person',
- 'delete_entry']
+ 'delete_entry',
+ 'cancel']
 
 User defined entity sort order
 ------------------------------
@@ -234,10 +234,10 @@ down, the sort order in the person edit form changes accordingly:
  'data',
  'url',
  'apply',
- 'cancel',
  'clone_person',
  'delete_person',
- 'delete_entry']
+ 'delete_entry',
+ 'cancel']
 
 User defined field sort order
 -----------------------------
@@ -281,10 +281,10 @@ the person edit form changes accordingly:
  'data',
  'url',
  'apply',
- 'cancel',
  'clone_person',
  'delete_person',
- 'delete_entry']
+ 'delete_entry',
+ 'cancel']
 
 
 

@@ -40,10 +40,10 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     def applyChanges(self, data):
         # GroupForm has its own applyChanges but we need the one from
-        # BaseEditForm here as inside the goups no changes are made
-        # but there is a subscriber which raises an error which is
-        # handled by BaseEditForm.
-        return icemac.addressbook.browser.base.BaseEditForm.applyChanges(
+        # _AbstractEditForm here as inside the goups no changes are made but
+        # there is a subscriber which raises an error which is handled by
+        # _AbstractEditForm.
+        return icemac.addressbook.browser.base._AbstractEditForm.applyChanges(
             self, data)
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
@@ -51,10 +51,6 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         # because we define a new action we have to duplicate the
         # existing action because otherwise we'll loose it.
         super(EditForm, self).handleApply(self, action)
-
-    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
-    def handleCancel(self, action):
-        self.status = self.noChangesMessage
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete'), name='delete', condition=can_delete_keyword)

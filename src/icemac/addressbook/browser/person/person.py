@@ -202,10 +202,6 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
             icemac.addressbook.browser.file.file.update_blob(
                 group.widgets[prefix + 'data'], group.getContent())
 
-    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
-    def handleCancel(self, action):
-        self.status = self.noChangesMessage
-
     @z3c.form.button.buttonAndHandler(
         _(u'Clone person'), name='clone_person',
         condition=icemac.addressbook.browser.base.can_access(
@@ -323,7 +319,3 @@ class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
 
         url = self.url(selected_entry)
         self.request.response.redirect(url + '/@@delete.html')
-
-    @z3c.form.button.buttonAndHandler(_(u'Cancel'), name='cancel')
-    def handleCancel(self, action):
-        self.status = self.noChangesMessage

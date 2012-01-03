@@ -2,9 +2,10 @@
 # Copyright (c) 2008-2011 Michael Howitz
 # See also LICENSE.txt
 
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import classproperty
 import gocept.reference.interfaces
+import grokcore.component
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
@@ -176,16 +177,19 @@ def update_with_redirect(class_, self):
     if self.status in (self.successMessage, self.noChangesMessage):
         self.redirect_to_next_url()
 
+class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
+    """Abstract base class for edit forms.
 
-class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
-    """Base Edit form."""
+    CAUTION: Not to be used as direct base class of forms, use one of its
+             child classes!
 
+    """
     next_url = None  # target object after edit, one of ('object', 'parent')
     next_view = None  # target view after edit (None for default view)
     id = 'edit-form'
 
     def update(self):
-        update_with_redirect(BaseEditForm, self)
+        update_with_redirect(_AbstractEditForm, self)
 
     def redirect_to_next_url(self, next_url=None, next_view=None):
         if next_url is None:
@@ -207,35 +211,59 @@ class BaseEditForm(BaseForm, z3c.formui.form.EditForm):
 
     def applyChanges(self, data):
         try:
-            return super(BaseEditForm, self).applyChanges(data)
+            return super(_AbstractEditForm, self).applyChanges(data)
         except zope.interface.Invalid, e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(e)
 
 
-class BaseEditFormWithCancel(BaseEditForm):
-    "BaseEditForm with cancel button."
+class BaseEditForm(_AbstractEditForm):
+    """Base edit form.
 
-    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
-    def handleApply(self, action):
-        # because we define a new action we have to duplicate the
-        # existing action because otherwise we'll lose it.
-        super(BaseEditFormWithCancel, self).handleApply(self, action)
+    It has a cancel button registered on it.
+    """
 
-    @z3c.form.button.buttonAndHandler(_('Cancel'), name='cancel')
-    def handleCancel(self, action):
-        self.status = self.noChangesMessage
+
+class EditActions(z3c.form.button.ButtonActions,
+                  grokcore.component.MultiAdapter):
+    """Custom edit actions to add a cancel button on each edit form."""
+
+    grokcore.component.adapts(BaseEditForm,
+                              zope.interface.Interface,
+                              zope.interface.Interface)
+
+    def update(self):
+        self.form.buttons = z3c.form.button.Buttons(
+            self.form.buttons,
+            z3c.form.button.Button('cancel', _(u'Cancel')))
+        super(EditActions, self).update()
+
+
+class EditActionHandler(z3c.form.button.ButtonActionHandler,
+                        grokcore.component.MultiAdapter):
+    """Edit action handler which is able to handle the cancel action."""
+
+    grokcore.component.adapts(BaseEditForm,
+                              zope.interface.Interface,
+                              zope.interface.Interface,
+                              z3c.form.button.ButtonAction)
+
+    def __call__(self):
+        if self.action.name == 'form.buttons.cancel':
+            self.form.status = self.form.noChangesMessage
+            return
+        super(EditActionHandler, self).__call__()
 
 
 class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
-    "BaseEditForm as group form."
+    """EditForm (with cancel) as group form."""
 
     # This is needed here as GroupForm does not do a super-call.
     def update(self):
         update_with_redirect(GroupEditForm, self)
 
 
-class BaseDeleteForm(BaseEditForm):
+class BaseDeleteForm(_AbstractEditForm):
     "Display a deletion confirmation dialog."
 
     label = _(u'Do you really want to delete this entry?')

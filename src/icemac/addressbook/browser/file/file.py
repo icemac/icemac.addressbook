@@ -111,7 +111,7 @@ IFile_data_not_required = z3c.form.widget.StaticWidgetAttribute(
     field=icemac.addressbook.file.interfaces.IFile['data'], widget=None)
 
 
-class Edit(icemac.addressbook.browser.base.BaseEditFormWithCancel):
+class Edit(icemac.addressbook.browser.base.BaseEditForm):
     "Edit a file."
 
     interface = icemac.addressbook.file.interfaces.IFile
