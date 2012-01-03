@@ -44,7 +44,7 @@ displayed, the checkboxes of the rows are pre-selected:
 >>> browser.getControl('Search').click()
 >>> (get_submit_control_names(form=browser.getForm(index=0)),
 ...  get_submit_control_names(form=browser.getForm(index=1)))
-(['form.buttons.search'], ['form.buttons.apply'])
+(['form.buttons.search'], ['form.buttons.apply', 'form.buttons.cancel'])
 
 >>> print browser.contents
 <!DOCTYPE ...
