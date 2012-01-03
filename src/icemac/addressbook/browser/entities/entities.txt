@@ -98,6 +98,23 @@ field
 ['Data successfully updated.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
+>>> browser.getLink('Edit', index=1).click()
+>>> browser.getControl('title').value
+'foobar'
+
+
+Cancel editing a field
+======================
+
+When canceling the edit of a field the previous values are kept:
+
+>>> browser.getControl('title').value = 'barrrrrrr'
+>>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
+>>> browser.getLink('Edit', index=1).click()
+>>> browser.getControl('title').value
+'foobar'
 
 
 Use a field
