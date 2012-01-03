@@ -21,7 +21,7 @@ class ISearchResultHanderChoice(zope.interface.Interface):
         source=icemac.addressbook.browser.search.result.handler.manager.source)
 
 
-class BaseSearchResultForm(icemac.addressbook.browser.base.BaseEditForm):
+class BaseSearchResultForm(icemac.addressbook.browser.base._AbstractEditForm):
     """Base form of search results allowing handling of results."""
 
     ignoreContext = True
