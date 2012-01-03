@@ -50,6 +50,20 @@ The edit form submits to itself and shows the stored data:
 >>> browser.getControl('title').value
 'ftest book'
 
+
+Canceling edit of address book data
+===================================
+
+If the manager decides to cancel editing values are not changed:
+
+>>> browser.getControl('title').value = 'fancy book'
+>>> browser.getControl('Cancel').click()
+>>> get_messages(browser)
+['No changes were applied.']
+>>> browser.getControl('title').value
+'ftest book'
+
+
 Person list
 ===========
 
