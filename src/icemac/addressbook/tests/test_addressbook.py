@@ -6,7 +6,7 @@ import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
 import icemac.addressbook.utils
-import unittest
+import unittest2 as unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
 import zope.intid.interfaces
@@ -19,7 +19,7 @@ class TestAddressbook(unittest.TestCase):
     layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
 
     def assertLocalUtility(self, ab, iface):
-        self.assertTrue(icemac.addressbook.utils.utility_locally_registered(
+        self.assertIsNotNone(icemac.addressbook.utils.queryLocalUtility(
             ab, iface))
 
     def assertAttribute(self, ab, attribute, iface):

@@ -55,13 +55,13 @@ def iter_by_interface(container, interface):
             yield obj
 
 
-def utility_locally_registered(site, interface):
-    """Test, whether a utility is registered on the site manager of the `site`.
+def queryLocalUtility(site, interface):
+    """Query a utility from the site manager of `site`.
 
     interface ... interface the utility is registered for
 
     """
     for registration in site.getSiteManager().registeredUtilities():
         if registration.provided == interface:
-            return True
-    return False
+            return registration.component
+    return None
