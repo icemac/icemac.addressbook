@@ -141,18 +141,17 @@ def add_more_addressbook_infrastructure(event):
         old_site = zope.component.hooks.getSite()
         zope.component.hooks.setSite(addressbook)
         # intid utility
-        if not icemac.addressbook.utils.utility_locally_registered(
-                addressbook, zope.intid.interfaces.IIntIds):
-            intids = zope.app.appsetup.bootstrap.ensureUtility(
+        local_intids = icemac.addressbook.utils.queryLocalUtility(
+            addressbook, zope.intid.interfaces.IIntIds)
+        if local_intids is None:
+            zope.app.appsetup.bootstrap.ensureUtility(
                 addressbook, zope.intid.interfaces.IIntIds, '',
                 zope.intid.IntIds)
 
         # catalog
-        if icemac.addressbook.utils.utility_locally_registered(
-                addressbook, zope.catalog.interfaces.ICatalog):
-            catalog = zope.component.queryUtility(
-                zope.catalog.interfaces.ICatalog)
-        else:
+        catalog = icemac.addressbook.utils.queryLocalUtility(addressbook,
+            zope.catalog.interfaces.ICatalog)
+        if catalog is None:
             # add catalog
             catalog = zope.app.appsetup.bootstrap.ensureUtility(
                 addressbook, zope.catalog.interfaces.ICatalog, '',
@@ -172,9 +171,9 @@ def add_more_addressbook_infrastructure(event):
                     zope.index.text.lexicon.CaseNormalizer()))
 
         # authenticator (PAU)
-        if not icemac.addressbook.utils.utility_locally_registered(
-                addressbook,
-                zope.authentication.interfaces.IAuthentication):
+        pau = icemac.addressbook.utils.queryLocalUtility(
+            addressbook, zope.authentication.interfaces.IAuthentication)
+        if pau is None:
             pau = zope.app.appsetup.bootstrap.ensureUtility(
                 addressbook, zope.authentication.interfaces.IAuthentication,
                 '',
