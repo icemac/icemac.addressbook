@@ -82,7 +82,7 @@ setuptools.setup(
         'z3c.locales [compile] >= 0.3.0',
         'z3c.menu.ready2go',
         'z3c.pagelet',
-        'z3c.preference',
+        'z3c.preference >= 0.2dev',
         'z3c.table',
         'z3c.wizard',
         'zc.catalog',

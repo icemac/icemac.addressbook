@@ -4,9 +4,21 @@
     i18n_domain="icemac.addressbook">
 
   <preferenceGroup
-      id="personList"
-      title="Person List Preferences"
-      schema=".interfaces.IPersonList"
+      id="ab"
+      title="Address Book Preferences"
+      category="true"
+      />
+
+  <preferenceGroup
+      id="ab.personLists"
+      title="Person Lists"
+      schema=".interfaces.IPersonLists"
+      />
+
+  <preferenceGroup
+      id="ab.personListTab"
+      title="Person List Tab"
+      schema=".interfaces.IPersonListTab"
       />
 
   <z3c:siteMenuItem
@@ -15,18 +27,17 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Preferences"
      title="Preferences"
-     viewName="++preferences++/personList"
+     viewName="++preferences++/ab"
      permission="icemac.addressbook.ViewAddressBook"
      weight="190"
      />
 
   <z3c:pagelet
-      for="zope.preference.interfaces.IPreferenceGroup"
+      for="zope.preference.interfaces.IPreferenceCategory"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="index.html"
       permission="z3c.preference.EditPreference"
       class=".browser.EditForm"
       />
-
 
 </configure>
