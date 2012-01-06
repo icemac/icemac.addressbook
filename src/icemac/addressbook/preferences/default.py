@@ -21,20 +21,23 @@ def add(address_book):
         default_prefs = zope.component.getUtility(
         zope.preference.interfaces.IDefaultPreferenceProvider)
 
-    # Set the defaults for the person list.
-    personList = default_prefs.getDefaultPreferenceGroup('personList')
-    personList.columns = []
+    # Set the defaults for the person lists.
+    personLists = default_prefs.getDefaultPreferenceGroup('ab.personLists')
+    personLists.columns = []
     # The default columns are person last name and person first name.
     person_entity = icemac.addressbook.interfaces.IEntity(
         icemac.addressbook.interfaces.IPerson)
-    personList.columns.append(
+    personLists.columns.append(
         icemac.addressbook.fieldsource.tokenize(person_entity, 'last_name'))
-    personList.columns.append(
+    personLists.columns.append(
         icemac.addressbook.fieldsource.tokenize(person_entity, 'first_name'))
-    personList._p_changed = True
+    personLists._p_changed = True
     # The default sort column is person last name.
-    personList.order_by = icemac.addressbook.fieldsource.tokenize(
+    personLists.order_by = icemac.addressbook.fieldsource.tokenize(
         person_entity, 'last_name')
     # The default sort direction is ascending
-    personList.sort_direction = 'ascending'
-    personList.batch_size = 20
+    personLists.sort_direction = 'ascending'
+
+    # Set the defaults for the person list tab:
+    prefs = default_prefs.getDefaultPreferenceGroup('ab.personListTab')
+    prefs.batch_size = 20

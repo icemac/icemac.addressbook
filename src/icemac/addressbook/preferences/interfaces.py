@@ -9,8 +9,8 @@ import zope.interface
 import zope.schema
 
 
-class IPersonList(zope.interface.Interface):
-    """Person list preferences."""
+class IPersonLists(zope.interface.Interface):
+    """Person lists preferences."""
 
     columns = zope.schema.List(
         title=_('columns'), required=True,
@@ -25,5 +25,9 @@ class IPersonList(zope.interface.Interface):
     sort_direction = zope.schema.Choice(
         title=_('sort direction'),
         source=icemac.addressbook.sources.asc_desc_source)
+
+
+class IPersonListTab(zope.interface.Interface):
+    """Preferences of the person list tab."""
 
     batch_size = zope.schema.Int(title=_('batch size'), min=1)

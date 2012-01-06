@@ -207,14 +207,17 @@ class BasePersonList(object):
     """
     @property
     def prefs(self):
-        "User defined preferences for person list."
+        """User defined preferences for person list."""
         return zope.component.getUtility(
-            zope.preference.interfaces.IPreferenceGroup, name="personList")
+            zope.preference.interfaces.IPreferenceGroup, name="ab")
 
     def __init__(self, *args, **kw):
         super(BasePersonList, self).__init__(*args, **kw)
-        self.sortOrder = self.prefs.sort_direction
+        self.sortOrder = self.prefs.personLists.sort_direction
+
+    def update(self):
         self._columns = self._set_up_columns()
+        super(BasePersonList, self).update()
 
     def _set_up_columns(self):
         """Creates the columns of the table."""
@@ -228,11 +231,10 @@ class BasePersonList(object):
     def _set_up_user_selected_columns_and_sort_on(self, columns_before):
         """Creates the columns selected by the user in the preferences and
         computes the sort order."""
-        prefs = self.prefs
-        order_by = prefs.order_by
+        order_by = self.prefs.personLists.order_by
         columns = []
         index = 0  # current column index
-        # Entity and field of the column which sould be used for order-by:
+        # Entity and field of the column which should be used for order-by:
         try:
             order_by_entity, order_by_field = (
                 icemac.addressbook.fieldsource.untokenize(order_by))
@@ -241,7 +243,7 @@ class BasePersonList(object):
             order_by_entity, order_by_field = None, None
 
         # Create all columns and compute the order-by column:
-        for column_name in self.prefs.columns:
+        for column_name in self.prefs.personLists.columns:
             try:
                 entity, field = (
                     icemac.addressbook.fieldsource.untokenize(column_name))
@@ -262,7 +264,7 @@ class BasePersonList(object):
         return columns
 
     def setUpColumns(self):
-        "Return the previously computed columns and via ZCML registered ones."
+        """Return the computed columns and via ZCML registered ones."""
         return self._columns
 
     values = NotImplemented

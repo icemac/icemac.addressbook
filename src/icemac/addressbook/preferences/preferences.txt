@@ -28,7 +28,7 @@ person list preferences:
 
 >>> browser.getLink('Preferences').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++preferences++/personList'
+'http://localhost/++skin++AddressBook/ab/++preferences++/ab'
 >>> preferences_url = browser.url
 >>> browser.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']
@@ -42,7 +42,7 @@ users get redirected to the login screen:
 >>> anon = Browser()
 >>> anon.open(preferences_url)
 >>> print anon.url
-http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Bpreferences%2B%2B%2FpersonList%2F%40%40index.html
+http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Bpreferences%2B%2B%2Fab%2F%40%40index.html
 
 Visitors are able to access the preferences, the form is displayed:
 

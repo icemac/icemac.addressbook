@@ -88,7 +88,7 @@ The minimum batch size is 1, otherwise an error message is displayed:
 >>> get_messages(browser)
 []
 >>> browser.url
-'http://localhost/.../ab/++preferences++/personList/@@index.html'
+'http://localhost/.../ab/++preferences++/ab/@@index.html'
 >>> print browser.contents
 <!DOCTYPE ...
   <div class="error">Value is too small</div>

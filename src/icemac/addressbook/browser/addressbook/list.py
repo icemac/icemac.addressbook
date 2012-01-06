@@ -18,8 +18,8 @@ class PersonList(
 
     def __init__(self, *args, **kw):
         super(PersonList, self).__init__(*args, **kw)
-        self.startBatchingAt = self.prefs.batch_size
-        self.batchSize = self.prefs.batch_size
+        self.batchSize = self.prefs.personListTab.batch_size
+        self.startBatchingAt = self.batchSize
 
     @property
     def values(self):
