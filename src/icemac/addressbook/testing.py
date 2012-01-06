@@ -547,3 +547,15 @@ def create_field(entity_name, type, title, **kw):
     entity = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntity, name=entity_name)
     return entity.addField(field)
+
+
+class InstallationAssertions(object):
+    """Assertions helpful to check automatic installation routines."""
+
+    def assertLocalUtility(self, ab, iface, name=''):
+        self.assertIsNotNone(
+            zope.component.queryUtility(iface, context=ab, name=name))
+
+    def assertAttribute(self, ab, attribute, iface, name=''):
+        self.assertTrue(iface.providedBy(getattr(ab, attribute)))
+        self.assertLocalUtility(ab, iface, name)

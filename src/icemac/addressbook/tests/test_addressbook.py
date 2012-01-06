@@ -9,22 +9,16 @@ import icemac.addressbook.utils
 import unittest2 as unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
+import zope.component
 import zope.intid.interfaces
 import zope.location.interfaces
 import zope.pluggableauth.interfaces
 
 
-class TestAddressbook(unittest.TestCase):
+class TestAddressbook(unittest.TestCase,
+                      icemac.addressbook.testing.InstallationAssertions):
 
     layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
-
-    def assertLocalUtility(self, ab, iface):
-        self.assertIsNotNone(icemac.addressbook.utils.queryLocalUtility(
-            ab, iface))
-
-    def assertAttribute(self, ab, attribute, iface):
-        self.assertTrue(iface.providedBy(getattr(ab, attribute)))
-        self.assertLocalUtility(ab, iface)
 
     def check_addressbook(self, ab):
         self.assertTrue(zope.location.interfaces.ISite.providedBy(ab))
@@ -32,7 +26,8 @@ class TestAddressbook(unittest.TestCase):
             ab, 'keywords', icemac.addressbook.interfaces.IKeywords)
         self.assertAttribute(
             ab, 'principals',
-            zope.pluggableauth.interfaces.IAuthenticatorPlugin)
+            zope.pluggableauth.interfaces.IAuthenticatorPlugin,
+            name=u'icemac.addressbook.principals')
         self.assertAttribute(
             ab, 'entities',
             icemac.addressbook.interfaces.IEntities)

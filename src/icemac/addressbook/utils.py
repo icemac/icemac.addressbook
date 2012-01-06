@@ -53,15 +53,3 @@ def iter_by_interface(container, interface):
     for obj in container.values():
         if interface.providedBy(obj):
             yield obj
-
-
-def queryLocalUtility(site, interface):
-    """Query a utility from the site manager of `site`.
-
-    interface ... interface the utility is registered for
-
-    """
-    for registration in site.getSiteManager().registeredUtilities():
-        if registration.provided == interface:
-            return registration.component
-    return None
