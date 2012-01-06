@@ -10,6 +10,18 @@ Features
 
 - Added favicon.ico to the application.
 
+Bugfixes
+--------
+
+- User preferences were stored globally instead of locally in the address
+  book of the user. Users with the same internal ID shared preferences
+  across address books. As the internal IDs are simply a counter this
+  happened every time if using the multi-client capability.
+
+  The problem was fixed by storing user preferences locally and copying
+  existing global preferences over to the each address book where a user for
+  the internal user ID of the preferences exists.
+
 Other
 -----
 
