@@ -135,27 +135,24 @@ class AddressBookCreated(object):
 
 @grokcore.component.subscribe(AddressBookCreated)
 def add_more_addressbook_infrastructure(event):
-    """Add more infrastructure which depends on addressbook set as site."""
+    """Add infrastructure which depends on address book as site manager."""
     addressbook = event.address_book
     try:
         old_site = zope.component.hooks.getSite()
         zope.component.hooks.setSite(addressbook)
+
         # intid utility
-        local_intids = icemac.addressbook.utils.queryLocalUtility(
-            addressbook, zope.intid.interfaces.IIntIds)
-        if local_intids is None:
-            zope.app.appsetup.bootstrap.ensureUtility(
-                addressbook, zope.intid.interfaces.IIntIds, '',
-                zope.intid.IntIds)
+        zope.app.appsetup.bootstrap.ensureUtility(
+            addressbook, zope.intid.interfaces.IIntIds, '',
+            zope.intid.IntIds)
 
         # catalog
-        catalog = icemac.addressbook.utils.queryLocalUtility(addressbook,
-            zope.catalog.interfaces.ICatalog)
+        catalog = zope.app.appsetup.bootstrap.ensureUtility(
+            addressbook, zope.catalog.interfaces.ICatalog, '',
+            zope.catalog.catalog.Catalog)
         if catalog is None:
-            # add catalog
-            catalog = zope.app.appsetup.bootstrap.ensureUtility(
-                addressbook, zope.catalog.interfaces.ICatalog, '',
-                zope.catalog.catalog.Catalog)
+            catalog = zope.component.getUtility(
+                zope.catalog.interfaces.ICatalog)
 
         # indexes
         if 'keywords' not in catalog:
@@ -171,13 +168,11 @@ def add_more_addressbook_infrastructure(event):
                     zope.index.text.lexicon.CaseNormalizer()))
 
         # authenticator (PAU)
-        pau = icemac.addressbook.utils.queryLocalUtility(
-            addressbook, zope.authentication.interfaces.IAuthentication)
-        if pau is None:
-            pau = zope.app.appsetup.bootstrap.ensureUtility(
-                addressbook, zope.authentication.interfaces.IAuthentication,
-                '',
-                zope.pluggableauth.authentication.PluggableAuthentication)
+        pau = zope.app.appsetup.bootstrap.ensureUtility(
+            addressbook, zope.authentication.interfaces.IAuthentication,
+            '',
+            zope.pluggableauth.authentication.PluggableAuthentication)
+        if pau is not None:
             pau.credentialsPlugins = (u'No Challenge if Authenticated',
                                       u'Flashed Session Credentials',)
             pau.authenticatorPlugins = (u'icemac.addressbook.principals',)

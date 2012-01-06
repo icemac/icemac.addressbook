@@ -7,18 +7,19 @@ import icemac.addressbook.utils
 import zope.app.appsetup.bootstrap
 import zope.preference.default
 import zope.preference.interfaces
+import zope.component
 
 
 def add(address_book):
     """Add a default preferences provider to the address book."""
     # Add a default preferences utility on the address book site.
-    default_prefs = icemac.addressbook.utils.queryLocalUtility(
-        address_book, zope.preference.interfaces.IDefaultPreferenceProvider)
+    default_prefs = zope.app.appsetup.bootstrap.ensureUtility(
+        address_book,
+        zope.preference.interfaces.IDefaultPreferenceProvider, '',
+        zope.preference.default.DefaultPreferenceProvider)
     if default_prefs is None:
-        default_prefs = zope.app.appsetup.bootstrap.ensureUtility(
-            address_book,
-            zope.preference.interfaces.IDefaultPreferenceProvider, '',
-            zope.preference.default.DefaultPreferenceProvider)
+        default_prefs = zope.component.getUtility(
+        zope.preference.interfaces.IDefaultPreferenceProvider)
 
     # Set the defaults for the person list.
     personList = default_prefs.getDefaultPreferenceGroup('personList')
