@@ -302,7 +302,7 @@ class IPersonEntries(zope.interface.Interface):
 
 
 class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
-    "Form to choose entry for deletion."
+    """Form to choose entry for deletion."""
 
     label = _(u'Please choose an entry for deletion:')
     interface = IPersonEntries
