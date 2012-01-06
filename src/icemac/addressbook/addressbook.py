@@ -37,7 +37,7 @@ import zope.site.site
 
 class AddressBook(zope.container.btree.BTreeContainer,
                   zope.site.site.SiteManagerContainer):
-    "An address book."
+    """An address book."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
 
@@ -135,7 +135,7 @@ class AddressBookCreated(object):
 
 @grokcore.component.subscribe(AddressBookCreated)
 def add_more_addressbook_infrastructure(event):
-    "Add more infrastructure which depends on addressbook set as site."
+    """Add more infrastructure which depends on addressbook set as site."""
     addressbook = event.address_book
     try:
         old_site = zope.component.hooks.getSite()
@@ -181,6 +181,12 @@ def add_more_addressbook_infrastructure(event):
             pau.credentialsPlugins = (u'No Challenge if Authenticated',
                                       u'Flashed Session Credentials',)
             pau.authenticatorPlugins = (u'icemac.addressbook.principals',)
+
+        # principal annotation utility
+        zope.app.appsetup.bootstrap.ensureUtility(
+            addressbook,
+            zope.principalannotation.interfaces.IPrincipalAnnotationUtility,
+            '', zope.principalannotation.utility.PrincipalAnnotationUtility)
 
         # default preferences
         icemac.addressbook.preferences.default.add(addressbook)

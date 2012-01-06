@@ -92,7 +92,7 @@ setuptools.setup(
         'zope.app.appsetup',
         'zope.app.debug',
         'zope.app.locales >= 3.6.0',
-        'zope.app.principalannotation',
+        'zope.principalannotation',
         'zope.app.wsgi',
         'zope.browserpage',
         'zope.copypastemove',
