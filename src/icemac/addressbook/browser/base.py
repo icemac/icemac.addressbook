@@ -91,15 +91,25 @@ class BaseForm(BaseView):
 
     # privat
     _status = ''
+    _fields = None
 
     @property
     def fields(self):
+        if self._fields is not None:
+            return self._fields
         if self.interface is None:
             field_values = ()
         else:
             fields = icemac.addressbook.interfaces.IEntity(self.interface)
             field_values = fields.getFieldValues()
-        return z3c.form.field.Fields(*field_values)
+        self._fields = z3c.form.field.Fields(*field_values)
+        return self._fields
+
+    @fields.setter
+    def fields(self, fields):
+        if self._fields is not None:
+            raise ValueError('fields is already set')
+        self._fields = fields
 
     class status(classproperty.classproperty):
         def __get__(self):
@@ -176,6 +186,7 @@ def update_with_redirect(class_, self):
         return
     if self.status in (self.successMessage, self.noChangesMessage):
         self.redirect_to_next_url()
+
 
 class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
     """Abstract base class for edit forms.
