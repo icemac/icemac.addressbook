@@ -53,6 +53,8 @@ XLS main adresses and numbers export
 There is a link in the global navigation which leads to the searches,
 we choose the keyword search as it has export abilities:
 
+>>> print browser.contents
+...Suche...
 >>> browser.getLink('Suche').click()
 >>> browser.getLink('Schlagwortsuche').click()
 >>> browser.getControl('Schlagworte').displayValue = ['Kirche']
