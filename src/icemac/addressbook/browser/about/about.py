@@ -1,5 +1,6 @@
 import icemac.addressbook
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.resource
 import pkg_resources
 import zope.component
 import zope.contentprovider.interfaces
@@ -25,7 +26,8 @@ class CopyrightContentProvider(object):
         pass
 
     def update(self):
-        pass
+        # Making sure css is rendered in layout.pt:
+        icemac.addressbook.browser.resource.base_css.need()
 
     def render(self):
         return icemac.addressbook.copyright

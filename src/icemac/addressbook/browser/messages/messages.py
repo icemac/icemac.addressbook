@@ -2,8 +2,8 @@
 # Copyright (c) 2010-2012 Michael Howitz
 # See also LICENSE.txt
 
-from hurry.jquery import jquery
 import icemac.addressbook.browser.interfaces
+import js.jquery
 import z3c.flashmessage.receiver
 import zope.component
 import zope.contentprovider.provider
@@ -24,7 +24,7 @@ class MessagesContentProvider(
         'messages.pt')
 
     def update(self):
-        jquery.need()
+        js.jquery.jquery.need()
         self.messages = list(self.receive())
 
     def render(self):

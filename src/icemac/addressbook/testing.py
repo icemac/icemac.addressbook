@@ -28,6 +28,7 @@ import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
 import zope.app.publication.httpfactory
 import zope.app.publication.zopepublication
+import zope.app.wsgi
 import zope.app.wsgi.testlayer
 import zope.component
 import zope.component.hooks
@@ -164,9 +165,14 @@ class WSGILayer(plone.testing.Layer):
 
     def testSetUp(self):
         # The layer has to store the database at layer set up (depending
-        # layers require this) but we get a new database at test set up, so
-        # we have to set the right ZODB here:
-        self['wsgi_app'].requestFactory = (
+        # layers require this) but we get a new database demo storage layer
+        # at test set up, so we have to set the new ZODB here:
+        app = self['wsgi_app']
+        while not isinstance(app, zope.app.wsgi.WSGIPublisherApplication):
+            # The outermost WSGI app not necessarily is our Zope app, so we
+            # have to walk down the WSGI-Stack:
+            app = app.app
+        app.requestFactory = (
             zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
                 self['zodbDB']))
 

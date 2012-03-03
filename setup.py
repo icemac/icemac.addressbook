@@ -63,15 +63,15 @@ setuptools.setup(
         'ZConfig',
         'ZODB3',
         'classproperty',
+        'fanstatic',
         'gocept.country',
         'gocept.pagelet',
         'gocept.reference',
-        'hurry.jquery',
-        'hurry.jqueryui',
-        'hurry.resource',
-        'hurry.zoperesource',
+        'grokcore.component',
         'icemac.ab.locales [compile] >= 0.7',
         'icemac.truncatetext',
+        'js.jquery',
+        'js.jqueryui',
         'setuptools',
         'xlwt',
         'z3c.authviewlet',
@@ -92,7 +92,6 @@ setuptools.setup(
         'zope.app.appsetup',
         'zope.app.debug',
         'zope.app.locales >= 3.6.0',
-        'zope.principalannotation',
         'zope.app.wsgi',
         'zope.browserpage',
         'zope.copypastemove',
@@ -104,6 +103,7 @@ setuptools.setup(
         'zope.mimetype',
         'zope.pluggableauth',
         'zope.preference',
+        'zope.principalannotation',
         'zope.principalregistry',
         'zope.publisher',
         'zope.securitypolicy',
@@ -135,5 +135,8 @@ setuptools.setup(
       debug_pdb = icemac.addressbook.startup:zdaemon_controller_debug_pdb
       [paste.app_factory]
       main = icemac.addressbook.startup:application_factory
+      [fanstatic.libraries]
+      css = icemac.addressbook.browser.resource:css_lib
+      js = icemac.addressbook.browser.resource:js_lib
       """
     )
