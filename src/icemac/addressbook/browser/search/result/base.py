@@ -47,7 +47,11 @@ class BaseSearchResultForm(icemac.addressbook.browser.base._AbstractEditForm):
         session = icemac.addressbook.browser.base.get_session(self.request)
         session['person_ids'] = self.request.form.get('persons', ())
 
-        self.request.response.redirect(data['search_result_handler'].viewName)
+        # Fanstatic seems to have a problem with cookies and relative
+        # redirects (a new cookie is set in this case), so we have to
+        # redirect using an absolute URL.
+        self.request.response.redirect(self.url(
+            self.context, data['search_result_handler'].viewName))
 
 
 class BasePersonTable(icemac.addressbook.browser.table.Table):

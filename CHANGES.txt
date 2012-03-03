@@ -27,6 +27,9 @@ Other
 
 - Updated other dependent packages (outside ZTK) to newest versions.
 
+- Using Fanstatic – a WSGI middleware – to deliver CSS and JS instead of
+  ``hurry.resource``.
+
 
 1.8.0 (2011-12-14)
 ==================

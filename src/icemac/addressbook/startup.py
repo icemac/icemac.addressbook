@@ -1,17 +1,17 @@
 from zope.app.publication.httpfactory import HTTPPublicationRequestFactory
 import code
+import fanstatic
 import os
 import sys
 import zdaemon.zdctl
 import zope.app.debug
 import zope.app.wsgi
 import zope.app.wsgi.interfaces
-zope.event
+import zope.event
 
+IGNORED = None
 
-def application_factory(global_conf, conf='zope.conf', db=None,
-                        requestFactory=HTTPPublicationRequestFactory,
-                        handle_errors=True):
+def application_factory(global_conf, conf='zope.conf', db=None):
     """Application Factory, mainly copyied from
        zope.app.wsgi.getWSGIApplication, but added the ability to do the set up
        done in zope.conf from outside.
@@ -21,7 +21,8 @@ def application_factory(global_conf, conf='zope.conf', db=None,
         zope_conf = os.path.join(global_conf['here'], conf)
         db = zope.app.wsgi.config(zope_conf)
     application = zope.app.wsgi.WSGIPublisherApplication(
-        db, requestFactory, handle_errors)
+        db, factory=HTTPPublicationRequestFactory, handle_errors=True)
+    application = fanstatic.make_fanstatic(application, IGNORED)
 
     # Create the application, notify subscribers.
     zope.event.notify(

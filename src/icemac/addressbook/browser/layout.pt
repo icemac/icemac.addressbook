@@ -8,8 +8,6 @@
     <tal:block replace="structure provider:login-logout-head" />
     <title>icemac.addressbook</title>
     <link rel="icon" href="/++resource++img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="/++resource++css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="/++resource++css/base.css" />
   </head>
   <body class="main">
     <div id="head">
