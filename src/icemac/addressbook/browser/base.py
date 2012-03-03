@@ -79,8 +79,11 @@ class BaseView(FlashView):
         get_needed_resources(self)
         super(BaseView, self).update()
 
-    def url(self, obj):
-        return zope.traversing.browser.absoluteURL(obj, self.request)
+    def url(self, obj, view_name=None):
+        url = zope.traversing.browser.absoluteURL(obj, self.request)
+        if view_name:
+            url += '/' + view_name
+        return url
 
 
 class BaseForm(BaseView):
