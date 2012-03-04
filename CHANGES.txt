@@ -10,6 +10,8 @@ Features
 
 - Added favicon.ico to the application.
 
+- Split preferences into multiple groups.
+
 Bugfixes
 --------
 
