@@ -19,6 +19,7 @@ no_max_content_css = fanstatic.Resource(
     css_lib, 'no_max_content.css', depends=[form_css])
 import_css = fanstatic.Resource(css_lib, 'wizard.css')
 
+
 # JavaScript
 js_lib = fanstatic.Library('js', os.path.join('resources', 'js'))
 
