@@ -4,6 +4,7 @@ import icemac.addressbook.browser.resource
 import pkg_resources
 import zope.component
 import zope.contentprovider.interfaces
+import zope.contentprovider.provider
 import zope.interface
 
 
@@ -14,16 +15,9 @@ class About(object):
         return pkg_resources.get_distribution('icemac.addressbook').version
 
 
-class CopyrightContentProvider(object):
+class CopyrightContentProvider(
+    zope.contentprovider.provider.ContentProviderBase):
     """Content provider for the copyright string."""
-    zope.interface.implements(zope.contentprovider.interfaces.IContentProvider)
-    zope.component.adapts(
-        zope.interface.Interface,
-        icemac.addressbook.browser.interfaces.IAddressBookLayer,
-        zope.interface.Interface)
-
-    def __init__(self, *args):
-        pass
 
     def update(self):
         # Making sure css is rendered in layout.pt:
