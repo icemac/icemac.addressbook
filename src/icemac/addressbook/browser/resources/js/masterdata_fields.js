@@ -10,7 +10,7 @@ $(document).ready(function() {
     $("table#entity-fields tbody").sortable({
 	    helper: fixHelper,
         axis: "y",
-        cursor: 'row-resize',
+        cursor: 'row-resize'
     }).disableSelection();
 
     $("button#entity-fields-save").click(function(){
@@ -20,5 +20,3 @@ $(document).ready(function() {
         window.location.href = submit_url;
     });
 });
-
-// {}
