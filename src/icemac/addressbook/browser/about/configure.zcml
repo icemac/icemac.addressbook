@@ -13,6 +13,10 @@
       />
 
   <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           *"
+      provides="zope.contentprovider.interfaces.IContentProvider"
       factory=".about.CopyrightContentProvider"
       name="copyright" />
 
