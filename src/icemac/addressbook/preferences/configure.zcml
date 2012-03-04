@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="icemac.addressbook">
 
   <preferenceGroup
@@ -38,6 +39,13 @@
       name="index.html"
       permission="z3c.preference.EditPreference"
       class=".browser.EditForm"
+      />
+
+  <browser:resourceDirectory
+      name="prefs"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      directory="resources"
+      permission="zope.Public"
       />
 
 </configure>

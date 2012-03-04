@@ -1,0 +1,17 @@
+#edit-form fieldset div.group {
+    display: none;
+}
+
+#edit-form fieldset div.visible {
+}
+
+#edit-form fieldset {
+    display: inline-block;
+    padding-bottom: 9px !important;
+    margin-bottom: 5px;
+    width: 98%;
+}
+
+#edit-form fieldset legend {
+    cursor: pointer;
+}
