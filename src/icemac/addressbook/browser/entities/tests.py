@@ -3,15 +3,11 @@ import icemac.addressbook.testing
 import transaction
 
 
-class TestFieldOrder(gocept.selenium.wsgi.TestCase):
-
-    layer = icemac.addressbook.testing.SELENIUM_LAYER
-    level = 2
+class TestFieldOrder(icemac.addressbook.testing.SeleniumTestCase):
 
     def setUp(self):
         super(TestFieldOrder, self).setUp()
-        ab = icemac.addressbook.testing.create_addressbook(
-            parent=self.layer['rootFolder'])
+        ab = self.layer['addressbook']
         icemac.addressbook.testing.create_user(
             ab, ab, u'Selenium', u'Tester', u'sel@example.com', '12345678',
             ['Administrator'])

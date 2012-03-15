@@ -197,24 +197,6 @@ class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
 WSGI_TEST_BROWSER_LAYER = _WSGITestBrowserLayer(name='WSGITestBrowserLayer')
 
 
-class GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
-                                                 plone.testing.Layer):
-    """Layer which integrates gocept.selenium with plone.testing."""
-
-    defaultBases = (WSGI_LAYER, )
-
-    def __init__(self, *args, **kw):
-        # WSGI application is set up in base layers so we cannot access it
-        # here yet:
-        gocept.selenium.wsgi.Layer.__init__(self, application=None)
-        plone.testing.Layer.__init__(self, *args, **kw)
-
-    def setup_wsgi_stack(self, app):
-        return self['wsgi_app']
-
-SELENIUM_LAYER = GoceptSeleniumPloneTestingIntegrationLayer()
-
-
 def setUpAddressBook(self):
     self.old_site = zope.site.hooks.getSite()
     conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
@@ -249,12 +231,44 @@ ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
     name='AddressBookFunctionalLayer')
 
 
+# WSGI layer which creates addressbook at layer set up
+WSGI_ADDRESS_BOOK_LAYER = WSGILayer(
+    bases=[ZODB_ISOLATED_TEST_LAYER,
+           ADDRESS_BOOK_FUNCTIONAL_LAYER],
+    name='WSGIAddressBookFunctionalLayer')
+
 # Layer to use ADDRESS_BOOK_FUNCTIONAL_LAYER with testbrowser:
 WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER = _WSGITestBrowserLayer(
-    bases=[WSGILayer(bases=[ZODB_ISOLATED_TEST_LAYER,
-                            ADDRESS_BOOK_FUNCTIONAL_LAYER],
-                     name='WSGIAddressBookFunctionalLayer')],
+    bases=[WSGI_ADDRESS_BOOK_LAYER],
     name='TestBrowserAddressBookFunctionalLayer')
+
+
+class GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
+                                                 plone.testing.Layer):
+    """Layer which integrates gocept.selenium with plone.testing."""
+
+    defaultBases = (WSGI_ADDRESS_BOOK_LAYER, )
+
+    def __init__(self, *args, **kw):
+        # WSGI application is set up in base layers so we cannot access it
+        # here yet:
+        gocept.selenium.wsgi.Layer.__init__(self, application=None)
+        plone.testing.Layer.__init__(self, *args, **kw)
+
+    def setup_wsgi_stack(self, app):
+        return self['wsgi_app']
+
+SELENIUM_LAYER = GoceptSeleniumPloneTestingIntegrationLayer()
+
+
+class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
+    """Base test class for selenium tests."""
+    layer = SELENIUM_LAYER
+    level = 2
+
+    def login(self, username='mgr', password='mgrpw'):
+        self.selenium.open("http://%s:%s@%s/" % (
+            username, password, self.selenium.server))
 
 
 def DocFileSuite(*paths, **kw):
