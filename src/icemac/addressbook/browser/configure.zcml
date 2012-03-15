@@ -52,6 +52,20 @@
       template="form.pt"
       />
 
+  <z3c:macro
+     name="addressbook-form"
+     macro="addressbook-form"
+     template="form.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:macro
+     name="addressbook-form-groups"
+     macro="groups"
+     template="form.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
   <!-- z3c.table -->
 
   <adapter

@@ -7,6 +7,7 @@
   <preferenceGroup
       id="ab"
       title="Address Book Preferences"
+      description="Please select a preference category to edit it."
       category="true"
       />
 
@@ -47,5 +48,10 @@
       directory="resources"
       permission="zope.Public"
       />
+
+  <z3c:template
+      template="editform.pt"
+      for=".browser.EditForm"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer" />
 
 </configure>
