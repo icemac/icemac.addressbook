@@ -24,5 +24,5 @@ class Wizard(z3c.wizard.wizard.Wizard):
     """Customized wizard."""
 
     def update(self):
-        icemac.addressbook.browser.resource.import_css.need()
+        icemac.addressbook.browser.resource.wizard_css.need()
         super(Wizard, self).update()
