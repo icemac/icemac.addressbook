@@ -17,7 +17,7 @@ table_css = fanstatic.Resource(css_lib, 'table.css')
 form_css = fanstatic.Resource(css_lib, 'form.css')
 no_max_content_css = fanstatic.Resource(
     css_lib, 'no_max_content.css', depends=[form_css])
-import_css = fanstatic.Resource(css_lib, 'wizard.css')
+wizard_css = fanstatic.Resource(css_lib, 'wizard.css')
 
 
 # JavaScript
