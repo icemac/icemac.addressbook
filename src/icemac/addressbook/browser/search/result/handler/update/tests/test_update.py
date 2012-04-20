@@ -103,7 +103,7 @@ class TestUserDefinedFields(unittest.TestCase):
             keywords=[KEYWORD, u'second kw'])
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(KEYWORD)
+        browser = select_persons_with_keyword_for_update(u'second kw')
 
         browser.getControl('field').displayValue = ['person -- keywords']
         browser.getControl('Next').click()
@@ -115,6 +115,13 @@ class TestUserDefinedFields(unittest.TestCase):
         browser.getControl('Next').click()
         self.assertIn('<td>Tester</td><td>keywordfortest</td>',
                       browser.contents.replace(' ', '').replace('\n', ''))
+        browser.getControl('Complete').click()
+        # After removing the keyword from the person no person can be found:
+        from icemac.addressbook.browser.testing import (
+            search_for_persons_with_keyword_search_using_browser)
+        browser = search_for_persons_with_keyword_search_using_browser(
+            'second kw')
+        self.assertIn('No person found.', browser.contents)
 
     def _create_user_defined_field(self, field_type, field_class):
         """Create a user defined field."""

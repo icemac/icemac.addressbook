@@ -15,6 +15,10 @@ Features
 Bugfixes
 --------
 
+- The search result handler which updates data did not update the catalog,
+  so these changes were invisible for the search. Updated catalog and search
+  result handler.
+
 - User preferences were stored globally instead of locally in the address
   book of the user. Users with the same internal ID shared preferences
   across address books. As the internal IDs are simply a counter this
