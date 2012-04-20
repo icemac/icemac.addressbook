@@ -10,6 +10,7 @@ import persistent.mapping
 import z3c.wizard.step
 import zope.component
 import zope.interface
+import zope.lifecycleevent
 
 
 class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):
@@ -79,6 +80,8 @@ def update_persons(persons, entity, field, operator_name, update_value):
                 errors[person.__name__] = (
                     icemac.addressbook.browser.errormessage.render_error(
                         entity, schema_field.__name__, e))
+            else:
+                zope.lifecycleevent.modified(person)
     return errors
 
 

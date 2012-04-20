@@ -5,8 +5,12 @@ Change log
 1.8.1 (unreleased)
 ==================
 
-- ...
+Bugfixes
+--------
 
+- The search result handler which updates data did not update the catalog,
+  so these changes were invisible for the search. Updated catalog and search
+  result handler.
 
 
 1.8.0 (2011-12-14)
