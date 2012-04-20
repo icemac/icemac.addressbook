@@ -20,7 +20,8 @@ def evolve(context):
 
         util = zope.component.getUtility(IPrincipalAnnotationUtility)
         sm = root_folder.getSiteManager()
-        assert sm.unregisterUtility(provided=IPrincipalAnnotationUtility) is True
+        assert sm.unregisterUtility(
+            provided=IPrincipalAnnotationUtility) is True
         del util.__parent__[util.__name__]
     finally:
         zope.component.hooks.setSite(old_site)
