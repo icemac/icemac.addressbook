@@ -8,7 +8,7 @@ import setuptools
 def read(filename):
     return file(filename).read()
 
-version = '1.8.1dev'
+version = '1.8.1'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -68,7 +68,7 @@ setuptools.setup(
         'gocept.pagelet',
         'gocept.reference',
         'grokcore.component',
-        'icemac.ab.locales [compile] >= 0.7',
+        'icemac.ab.locales [compile] >= 0.10',
         'icemac.truncatetext',
         'js.jquery',
         'js.jqueryui',
