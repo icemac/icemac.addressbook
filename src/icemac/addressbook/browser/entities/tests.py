@@ -1,4 +1,3 @@
-import gocept.selenium.wsgi
 import icemac.addressbook.testing
 import transaction
 
