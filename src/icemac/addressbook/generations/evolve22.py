@@ -3,7 +3,6 @@
 # $Id$
 
 import icemac.addressbook.generations.utils
-import zope.authentication.interfaces
 import zope.component
 import zope.pluggableauth.interfaces
 import zope.principalannotation.interfaces

@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
-import icemac.addressbook.utils
 import zope.app.appsetup.bootstrap
 import zope.preference.default
 import zope.preference.interfaces

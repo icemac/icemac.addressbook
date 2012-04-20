@@ -1,11 +1,7 @@
 import icemac.addressbook
-import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import pkg_resources
-import zope.component
-import zope.contentprovider.interfaces
 import zope.contentprovider.provider
-import zope.interface
 
 
 class About(object):

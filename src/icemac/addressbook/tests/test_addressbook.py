@@ -9,7 +9,6 @@ import icemac.addressbook.utils
 import unittest2 as unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
-import zope.component
 import zope.intid.interfaces
 import zope.location.interfaces
 import zope.pluggableauth.interfaces
