@@ -15,3 +15,16 @@
 #edit-form fieldset legend {
     cursor: pointer;
 }
+
+#edit-form div.viewspace p,
+#edit-form fieldset div.group p {
+    font-size: 85%;
+}
+
+#edit-form div.viewspace p {
+    color: #555;
+}
+
+#edit-form fieldset div.group p {
+    color: #666;
+}

@@ -14,12 +14,14 @@
   <preferenceGroup
       id="ab.personLists"
       title="Person Lists"
+      description="Preferences for all person lists."
       schema=".interfaces.IPersonLists"
       />
 
   <preferenceGroup
       id="ab.personListTab"
       title="Person List Tab"
+      description="Preferences only for the person list tab."
       schema=".interfaces.IPersonListTab"
       />
 
