@@ -54,7 +54,7 @@ The login screen can be accessed by anonymous users:
 >>> anon = Browser()
 >>> anon.open('http://localhost/++skin++AddressBook/ab')
 >>> anon.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 
 Its about screen displays the same information as it has the same URL:
 

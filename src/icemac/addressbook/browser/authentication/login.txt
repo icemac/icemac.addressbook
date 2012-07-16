@@ -31,11 +31,11 @@ the log-in page:
 >>> from icemac.addressbook.testing import get_messages
 >>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> get_messages(browser)
 ['To log-in enter your username and password and submit the form.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 
 Login failure
 =============
@@ -55,7 +55,7 @@ Wrong user name
 <!DOCTYPE...
   ...Please provide Login Information...
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 
 Wrong password
 --------------
@@ -69,7 +69,7 @@ Wrong password
 <!DOCTYPE...
   ...Please provide Login Information...
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 
 User name and passwort are not displayed if there was an error:
 
@@ -88,7 +88,7 @@ Login as editor
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> browser.getLink('Person list').click()
 
 Editors are allowed to create new persons:
@@ -113,7 +113,7 @@ Selecting the ``Logout``-Link leads to the log-in form:
 ['You have been logged out successfully.',
  'To log-in enter your username and password and submit the form.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 
 
 Login as visitor
@@ -125,7 +125,7 @@ Login as visitor
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> browser.getLink('Person list').click()
 
 Visitors are only able to see persons but not edit them (there are no
@@ -143,7 +143,7 @@ Logout behaves the same like for editors:
 ['You have been logged out successfully.',
  'To log-in enter your username and password and submit the form.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2FPerson-4%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2FPerson-4%2F%40%40index.html'
 
 
 Login as administrator
@@ -155,7 +155,7 @@ Login as administrator
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person-4/@@index.html'
+'http://localhost/ab/Person-4/@@index.html'
 
 Administrators are able to edit users
 
@@ -172,7 +172,7 @@ Administrators are able to edit users
 ['You have been logged out successfully.',
  'To log-in enter your username and password and submit the form.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
 
 
 Login to other addressbook not possible
@@ -181,13 +181,13 @@ Login to other addressbook not possible
 It is not possible to log in into another addressbook besides the one
 the user was created in (password does not get accepted):
 
->>> browser.open('http://localhost/++skin++AddressBook/ab2')
+>>> browser.open('http://localhost/ab2')
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab2%2F%40%40index.html'
+'http://localhost/ab2/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab2%2F%40%40index.html'
 >>> browser.getControl('User Name').value = 'admin@example.com'
 >>> browser.getControl('Password').value = '34567890'
 >>> browser.getControl('Log in').click()
 >>> get_messages(browser)
 ['Login failed. Username and/or password might be wrong.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab2%2F%40%40index.html'
+'http://localhost/ab2/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab2%2F%40%40index.html'

@@ -172,7 +172,7 @@ This newly created user is able to log in:
 
 >>> visitor = Browser('http://localhost/++skin++AddressBook/ab')
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
 >>> visitor.getControl('User Name').value = 'tester@example.com'
 >>> visitor.getControl('Password').value = '12345678'
 >>> visitor.getControl('Log in').click()
@@ -649,7 +649,7 @@ asks the user for its new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> editor.getControl('User Name').value = 'hans.tester'
 >>> editor.getControl('Password').value = 'testtest'
 >>> editor.getControl('Log in').click()
@@ -734,7 +734,7 @@ password immediately asks the user for his new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = 'utzer123'
 >>> visitor.getControl('Log in').click()
