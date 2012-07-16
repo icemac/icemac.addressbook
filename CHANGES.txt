@@ -5,7 +5,8 @@ Change log
 1.8.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Login in a virtual hosting environment might have led to not accessible
+  URLs. This was fixed by using the whole URL in the `camefrom` parameter.
 
 
 1.8.1 (2012-04-20)
