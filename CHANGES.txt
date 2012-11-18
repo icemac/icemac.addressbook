@@ -5,8 +5,20 @@ Change log
 1.8.2 (unreleased)
 ==================
 
+Bugfixes
+--------
+
 - Login in a virtual hosting environment might have led to not accessible
   URLs. This was fixed by using the whole URL in the `camefrom` parameter.
+
+Other
+-----
+
+- Updated to `Zope Toolkit 1.1.4`_ for dependent packages.
+
+- Updated other dependent packages (outside ZTK) to newest versions.
+
+.. _`Zope Toolkit 1.1.4`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.4.html
 
 
 1.8.1 (2012-04-20)
