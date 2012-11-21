@@ -1,0 +1,6 @@
+<div i18n:domain="icemac.addressbook">
+  <h2 i18n:translate="">Names of selected persons</h2>
+  <p tal:content="view/person_list" />
+  <a tal:attributes="href view/next_url"
+     i18n:translate="">Go back to addressbook</a>
+</div>

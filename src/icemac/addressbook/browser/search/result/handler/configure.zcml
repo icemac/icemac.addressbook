@@ -35,5 +35,6 @@
   <include package=".export" />
   <include package=".mailto" />
   <include package=".update" />
+  <include package=".names" />
 
 </configure>
