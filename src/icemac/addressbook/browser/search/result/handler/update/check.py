@@ -9,6 +9,7 @@ from .base import (
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.personlist
+import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.browser.table
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
@@ -41,7 +42,8 @@ def get_chosen_entity_and_field(request):
     return icemac.addressbook.fieldsource.untokenize(field_token)
 
 
-class ReviewTable(icemac.addressbook.browser.table.Table):
+class ReviewTable(icemac.addressbook.browser.table.Table,
+                  icemac.addressbook.browser.search.result.handler.base.Base):
     """Table containing changed data for review."""
 
     sortOn = None
@@ -59,12 +61,11 @@ class ReviewTable(icemac.addressbook.browser.table.Table):
 
     @property
     def values(self):
-        session = icemac.addressbook.browser.base.get_session(self.request)
-        for person_id in session['person_ids']:
-            yield self.context[person_id]
+        return self.persons
 
 
-class Result(SessionStorageStep):
+class Result(SessionStorageStep,
+             icemac.addressbook.browser.search.result.handler.base.Base):
     """Step where the user can check the result."""
 
     label = _(u'Check result')
@@ -91,14 +92,11 @@ class Result(SessionStorageStep):
 
     def _update_persons(self):
         """Update the persons as the user selected it."""
-        person_ids = icemac.addressbook.browser.base.get_session(
-            self.request)['person_ids']
-        persons = [self.context[x] for x in person_ids]
         entity, field = get_chosen_entity_and_field(self.request)
         fieldname = self.getContent()['field']
         update_data = self.session
         errors = update_persons(
-            persons, entity, field, update_data['operation'],
+            self.persons, entity, field, update_data['operation'],
             update_data[get_fieldname_in_session(fieldname)])
         update_data['errors'] = errors
 

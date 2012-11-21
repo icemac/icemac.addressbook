@@ -13,6 +13,7 @@ To get the session call::
 
     icemac.addressbook.browser.base.get_session(request)
 
+You might use ``.base.Base`` as a base class for your search result handler.
 
 
 2. Adding it to the search result handler source
