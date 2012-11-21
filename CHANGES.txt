@@ -5,6 +5,13 @@ Change log
 1.8.2 (unreleased)
 ==================
 
+Features
+--------
+
+- Added search result handler which prints the names of the selected persons
+  als comma separated list.
+
+
 Bugfixes
 --------
 

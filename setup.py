@@ -113,6 +113,7 @@ setuptools.setup(
     extras_require = dict(
         test=[
             'gocept.selenium',
+            'gocept.testing',
             'mock',
             'plone.testing',
             'unittest2',
