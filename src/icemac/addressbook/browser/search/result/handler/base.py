@@ -9,5 +9,4 @@ class Base(object):
     def persons(self):
         addressbook = zope.component.hooks.getSite()
         session = icemac.addressbook.browser.base.get_session(self.request)
-        for id in session['person_ids']:
-            yield addressbook[id]
+        return [addressbook[id] for id in session['person_ids']]
