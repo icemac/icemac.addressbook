@@ -209,23 +209,24 @@ def setUpAddressBook(self):
 
 class _AddressBookFunctionalLayer(plone.testing.Layer):
     "Layer where the address book gets created in the layer set up."
-    defaultBases = (ZODB_LAYER,)
+    defaultBases = (ZODB_ISOLATED_TEST_LAYER,)
 
     def setUp(self):
         setUpStackedDemoStorage(self, 'AddressBookFunctionalTestCase')
-        self['addressbook'] = setUpAddressBook(self)
+        setUpAddressBook(self)
 
     def tearDown(self):
         zope.site.hooks.setSite(self.old_site)
-        del self['addressbook']
         tearDownStackedDemoStorage(self)
 
     def testSetUp(self):
         setUpZODBConnection(self)
+        self['addressbook'] = self['rootFolder']['ab']
         zope.site.hooks.setSite(self['addressbook'])
 
     def testTearDown(self):
         tearDownZODBConnection(self)
+        del self['addressbook']
 
 ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
     name='AddressBookFunctionalLayer')
@@ -233,8 +234,7 @@ ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
 
 # WSGI layer which creates addressbook at layer set up
 WSGI_ADDRESS_BOOK_LAYER = WSGILayer(
-    bases=[ZODB_ISOLATED_TEST_LAYER,
-           ADDRESS_BOOK_FUNCTIONAL_LAYER],
+    bases=[ADDRESS_BOOK_FUNCTIONAL_LAYER],
     name='WSGIAddressBookFunctionalLayer')
 
 # Layer to use ADDRESS_BOOK_FUNCTIONAL_LAYER with testbrowser:
