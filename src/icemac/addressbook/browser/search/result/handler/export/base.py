@@ -2,9 +2,10 @@
 # Copyright (c) 2008-2012 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.search.result.handler.base
 
 
-class BaseExport(object):
+class BaseExport(icemac.addressbook.browser.search.result.handler.base.Base):
     """Base class for exporters.
 
     Subclasses only have to set the `exporter_class` which should implement
@@ -14,9 +15,7 @@ class BaseExport(object):
     exporter_class = NotImplemented
 
     def __call__(self):
-        session = icemac.addressbook.browser.base.get_session(self.request)
-        persons = [self.context[id] for id in session['person_ids']]
-        exporter = self.exporter_class(persons, self.request)
+        exporter = self.exporter_class(self.persons, self.request)
 
         self.request.response.setHeader('Content-Type', exporter.mime_type)
         self.request.response.setHeader(
