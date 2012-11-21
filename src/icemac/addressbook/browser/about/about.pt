@@ -21,5 +21,5 @@
   </dl>
   <p>&#xA0;</p>
   <a href="javascript:history.go(-1)"
-     i18n:translate="">go back</a>
+     i18n:translate="">Go back</a>
 </tal:i18n>
