@@ -142,7 +142,8 @@ Editor
 >>> editor.getControl('Apply on selected persons').displayOptions
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
  'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
- 'E-Mail (Creates a link to send e-mails.)']
+ 'E-Mail (Creates a link to send e-mails.)',
+ 'Names (Comma separated list of person names.)']
 
 >>> editor.open(delete_url)
 Traceback (most recent call last):
@@ -162,7 +163,8 @@ Visitor
 >>> visitor.getControl('Apply on selected persons').displayOptions
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
  'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
- 'E-Mail (Creates a link to send e-mails.)']
+ 'E-Mail (Creates a link to send e-mails.)',
+ 'Names (Comma separated list of person names.)']
 
 >>> visitor.open(delete_url)
 Traceback (most recent call last):
