@@ -37,4 +37,3 @@ The following features might be implemented over the next months:
   * combined search
 
   * wildcard search
-
