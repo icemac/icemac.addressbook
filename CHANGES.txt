@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.8.2 (unreleased)
+1.9.0 (unreleased)
 ==================
 
 Features
@@ -24,6 +24,8 @@ Other
 - Updated to `Zope Toolkit 1.1.4`_ for dependent packages.
 
 - Updated other dependent packages (outside ZTK) to newest versions.
+
+- Moved `chameleon-cache` into `var` directory.
 
 .. _`Zope Toolkit 1.1.4`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.4.html
 
@@ -149,22 +151,6 @@ Other
 - Changed test setup to use `plone.testing` layer.
 
 .. _`Zope Toolkit 1.1`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.html
-
-
-
-1.6.0 (2011-02-03)
-==================
-
-Features
---------
-
-- Added ability to sort the fields of the entities.
-
-Bug fixes
----------
-
-- It is no longer possible to add new fields to the 'main adresses and
-  numbers' entity as it makes no sense and breaks the address book.
 
 
 Previous Versions
