@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2012 Michael Howitz
 # See also LICENSE.txt
-import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.base
 
 
