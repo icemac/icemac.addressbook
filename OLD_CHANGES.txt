@@ -2,6 +2,21 @@
  Old changes
 =============
 
+1.6.0 (2011-02-03)
+==================
+
+Features
+--------
+
+- Added ability to sort the fields of the entities.
+
+Bug fixes
+---------
+
+- It is no longer possible to add new fields to the 'main adresses and
+  numbers' entity as it makes no sense and breaks the address book.
+
+
 1.5.0 (2010-11-23)
 ==================
 
