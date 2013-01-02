@@ -8,7 +8,10 @@ Change log
 Other
 -----
 
-- Updated to `Zope Toolkit 1.1.5`_ for dependent packages.
+- Updated to run on  `Zope Toolkit 1.1.5`_.
+
+- Updated most other packages (outside ZTK) needed for address book to
+  newest versions.
 
 .. _`Zope Toolkit 1.1.5`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.5.html
 
