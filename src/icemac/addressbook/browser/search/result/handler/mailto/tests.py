@@ -86,7 +86,6 @@ class MailToTest(unittest.TestCase):
         browser.getControl('Apply on selected persons').displayValue = [
             'E-Mail']
         browser.getControl(name='form.buttons.apply').click()
-        file('response.html', 'w').write(browser.contents)
         self.assertEqual(
             ['<div id="mailto">',
              '<h2>Send an e-mail</h2>',
