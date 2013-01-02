@@ -34,12 +34,11 @@ class IAddressBook(zope.interface.Interface):
         u'zope.pluggableauth.plugins.principalfolder.'
         u'IInternalPrincipalContainer')
     importer = zope.interface.Attribute(
-        u'icemac.addressbook.importer.interfaces.IImportContainer')
+        u'icemac.ab.importer.interfaces.IImportContainer')
     entities = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IEntities')
     orders = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IOrderStorage')
-
     title = zope.schema.TextLine(title=_(u'title'))
 
 
