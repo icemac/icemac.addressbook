@@ -8,21 +8,17 @@ fields are displayed:
 Set up
 ======
 
-We need an address book:
+We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
-
-A browser to access it:
-
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 And some user definded fields:
 
 >>> from icemac.addressbook.testing import create_field
+>>> ab = layer['addressbook']
 >>> _ = create_field(ab, 'icemac.addressbook.person.Person',
 ...                u'Bool', u'photo permission?')
 >>> _ = create_field(ab, 'icemac.addressbook.person.Person',

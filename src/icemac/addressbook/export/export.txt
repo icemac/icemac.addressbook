@@ -12,13 +12,12 @@ At first we have to create an addressbook, some keywords and some
 persons with data:
 
 >>> from icemac.addressbook.testing import (
-...     create_addressbook, create_person, create_postal_address,
-...     create_phone_number, create_email_address, create_home_page_address,
-...     create_keyword)
+...     create_person, create_postal_address, create_keyword,
+...     create_phone_number, create_email_address, create_home_page_address)
 >>> import zope.site.hooks
 >>> import gocept.country.db
 >>> import datetime
->>> addressbook = create_addressbook()
+>>> addressbook = layer['addressbook']
 
 >>> church = create_keyword(addressbook, u'church')
 >>> family = create_keyword(addressbook, u'family')

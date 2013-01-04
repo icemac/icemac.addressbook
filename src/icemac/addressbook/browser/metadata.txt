@@ -8,13 +8,11 @@ automatically set resp. changed.
 Set up
 ======
 
-Create an address book and log an as an editor:
+Log in as an editor:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser
->>> address_book = create_addressbook()
->>> browser = ExtendedTestBrowser()
->>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> from icemac.addressbook.testing import Browser
+>>> browser = Browser()
+>>> browser.login('editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 
@@ -36,6 +34,7 @@ The creation date is set on creation:
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
+>>> address_book = layer['addressbook']
 >>> isinstance(IZopeDublinCore(address_book['Person']).created, datetime)
 True
 
@@ -71,7 +70,7 @@ At first we have to create a new principal and log in:
 >>> from icemac.addressbook.testing import create_user, get_messages
 >>> create_user(address_book, address_book, u'Hans', u'Tester', u'hans@test.de',
 ...             u'12345678', ('Editor',))
->>> editor = ExtendedTestBrowser()
+>>> editor = Browser()
 >>> editor.open('http://localhost/++skin++AddressBook/ab/Person')
 >>> editor.getControl('User Name').value = 'hans@test.de'
 >>> editor.getControl('Password').value = '12345678'

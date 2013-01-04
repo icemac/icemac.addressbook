@@ -8,23 +8,16 @@ fields.
 Set up
 ======
 
-We need an address book:
+We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> from pprint import pprint
->>> import zope.site.hooks
->>> ab = create_addressbook()
->>> old_site = zope.site.hooks.getSite()
-
-And a browser to access it:
-
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 And a helper function for the test:
 
+>>> from pprint import pprint
 >>> def pprint_form_fields(browser):
 ...     pprint([x.name.rsplit('.', 1)[1]
 ...             for x in browser.getForm().mech_form.controls])
@@ -104,8 +97,9 @@ When switching the first name and the last name of the person the person add
 form changes accordingly:
 
 >>> from icemac.addressbook.interfaces import IPerson, IEntity
+>>> import zope.site.hooks
 >>> person_entity = IEntity(IPerson)
->>> zope.site.hooks.setSite(ab)
+>>> zope.site.hooks.setSite(layer['addressbook'])
 >>> person_entity.setFieldOrder(('last_name', 'first_name'))
 
 >>> browser.getLink('Person list').click()
@@ -139,7 +133,8 @@ Set up
 We need a separate address book to test the default sort order and a person
 (and some data in it) to use the edit form:
 
->>> from icemac.addressbook.testing import create_full_person, create_file
+>>> from icemac.addressbook.testing import (
+...     create_full_person, create_file, create_addressbook)
 >>> ab2 = create_addressbook('ab2')
 >>> person = create_full_person(ab2, ab2, u'Tester')
 >>> create_file(ab2, person, return_obj=False)
@@ -351,9 +346,3 @@ addresses and numbers` sub form changes accordingly:
  'default_home_page_address:list',
  'default_home_page_address-empty-marker',
  ...
-
-Tear down
-=========
-
->>> zope.site.hooks.setSite(old_site)
-

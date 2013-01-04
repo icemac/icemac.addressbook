@@ -8,10 +8,8 @@ function to clone person data exists.
 Setup
 =====
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> address_book = create_addressbook()
->>> browser = Browser()
+>>> from icemac.addressbook.testing import Browser, get_messages
+>>> address_book = layer['addressbook']
 
 As user defined fields and keywords may behave unusual, let's create
 some:
@@ -25,8 +23,8 @@ some:
 To clone a person, an already existing one is needed, so we create one
 as an editor:
 
->>> from icemac.addressbook.testing import get_messages
->>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser = Browser()
+>>> browser.login('editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
@@ -141,7 +139,7 @@ There is no `clone` button presented to the visitor:
 
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Testerella').click()
 >>> get_all_control_names(visitor)

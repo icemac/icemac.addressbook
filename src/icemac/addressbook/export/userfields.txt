@@ -10,8 +10,7 @@ Setup
 
 Create an addressbook:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
+>>> ab = layer['addressbook']
 
 Create some user defined fields:
 

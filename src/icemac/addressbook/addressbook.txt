@@ -7,8 +7,7 @@ There is some initial data stored on an address book when it is created.
 Set up
 ======
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
+>>> ab = layer['addressbook']
 
 Orders
 ======

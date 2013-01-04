@@ -10,22 +10,20 @@ Set up
 
 Create an address book, a user defined field for a file inside:
 
->>> from icemac.addressbook.testing import create_field, create_addressbook
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import create_field, Browser, get_messages
+>>> ab = layer['addressbook']
 >>> _ = create_field(
 ...         ab, 'icemac.addressbook.file.file.File', 'Text', u'mynotes')
 
 Create a browser to access the address book. Log in as
 `Administrator`:
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Create a person using the web ui as it is easier than doing it in code:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'

@@ -11,8 +11,7 @@ Setup
 
 Create an addressbook:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
+>>> ab = layer['addressbook']
 
 User defined fields are not translated, but might behave special, so
 let's create a field:
@@ -42,7 +41,7 @@ header:
 
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> browser.login('visitor')
 >>> browser.addHeader('Accept-Language', 'de-DE')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 

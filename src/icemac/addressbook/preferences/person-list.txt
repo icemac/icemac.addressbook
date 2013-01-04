@@ -7,16 +7,11 @@ The person list can be customized using preferences:
 Set up
 ======
 
-We need an address book:
+We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
-
-And a browser to access it:
-
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Default preferences
@@ -45,6 +40,7 @@ person list, too. At first we need some persons:
 
 >>> from icemac.addressbook.testing import create_full_person
 >>> import datetime
+>>> ab = layer['addressbook']
 >>> create_full_person(ab, ab, u'Tester', first_name=u'Hans',
 ...     birth_date=datetime.date(1975, 4, 2), return_obj=False)
 >>> create_full_person(ab, ab, u'Streber', first_name=u'Gunter',

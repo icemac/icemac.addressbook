@@ -7,17 +7,11 @@ There are user specific preferences in the address book:
 Set up
 ======
 
-We need an address book:
+We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
-
-And a browser to access it:
-
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Location
@@ -47,7 +41,7 @@ http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Fl
 Visitors are able to access the preferences, the form is displayed:
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open(preferences_url)
 >>> visitor.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']
@@ -55,7 +49,7 @@ Visitors are able to access the preferences, the form is displayed:
 Editors are also able to access the preferences:
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 >>> editor.open(preferences_url)
 >>> editor.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']

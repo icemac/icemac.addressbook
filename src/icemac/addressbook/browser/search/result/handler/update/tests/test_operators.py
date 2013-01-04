@@ -7,7 +7,7 @@ import unittest
 class TestOperators(unittest.TestCase):
     """Testing ..operators.*"""
 
-    layer = icemac.addressbook.testing.ZODB_ISOLATED_TEST_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def callOP(self, value1, value2, operator_name):
         import zope.component

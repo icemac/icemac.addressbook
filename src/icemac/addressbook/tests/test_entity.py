@@ -217,7 +217,7 @@ class TestEntity(unittest.TestCase):
 class Test_get_bound_schema_field(unittest.TestCase):
     """Testing icemac.addressbook.entities.get_bound_schema_field()."""
 
-    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def callFUT(self, object, entity, field):
         from icemac.addressbook.entities import get_bound_schema_field

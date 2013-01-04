@@ -8,11 +8,9 @@ fields.
 Set up
 ======
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 
@@ -74,6 +72,7 @@ Order by field
 Set up
 ------
 
+>>> from icemac.addressbook.testing import create_addressbook
 >>> ab2 = create_addressbook('ab2')
 >>> browser.open('http://localhost/++skin++AddressBook/ab2')
 

@@ -5,8 +5,13 @@
 The overview contains a list of all addressbooks and allows to create
 new addressbooks.
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> browser = Browser()
+Set up
+======
+
+Remove the address book defined on the layer to start empty:
+
+>>> del layer['rootFolder']['ab']
+
 
 Overview
 ========
@@ -14,6 +19,8 @@ Overview
 The overview page requires an authenticated user with the
 administrator role:
 
+>>> from icemac.addressbook.testing import Browser, get_messages
+>>> browser = Browser()
 >>> browser.open('http://localhost/++skin++AddressBook/')
 Traceback (most recent call last):
 HTTPError: HTTP Error 401: Unauthorized
@@ -33,7 +40,6 @@ Create an address book
 
 On the overview page is a link to add a new address book:
 
->>> from icemac.addressbook.testing import get_messages
 >>> browser.getLink('address book').click()
 >>> browser.getControl('title').value = 'test book'
 >>> browser.getControl('Add').click()

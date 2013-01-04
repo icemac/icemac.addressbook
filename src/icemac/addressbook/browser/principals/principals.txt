@@ -8,10 +8,9 @@ thier data themselves.
 Set up
 ======
 
->>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_email_address, create_full_person)
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import (create_person,
+...     create_email_address, create_full_person, Browser)
+>>> ab = layer['addressbook']
 
 Users are persons stored in the addressbook augmented by login
 information. So we have to create persons first:
@@ -37,7 +36,7 @@ Administrators can create new users in the master data area. So we
 log-in as administrator and go there:
 
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
@@ -567,7 +566,7 @@ Only administrators can create new users. Logging in as editor does
 not show an `add user` link:
 
 >>> editor_browser = Browser()
->>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+>>> editor_browser.login('editor')
 >>> editor_browser.open('http://localhost/++skin++AddressBook/ab')
 >>> editor_browser.getLink('Master data').click()
 >>> editor_browser.getLink('Users').click()

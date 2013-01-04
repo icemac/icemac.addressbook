@@ -49,8 +49,6 @@ Login screen
 
 The login screen can be accessed by anonymous users:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
 >>> anon = Browser()
 >>> anon.open('http://localhost/++skin++AddressBook/ab')
 >>> anon.url
@@ -73,6 +71,7 @@ Deeper inside
 The about screen can be accessed on every object, for example we use a person:
 
 >>> from icemac.addressbook.testing import create_person
+>>> ab = layer['addressbook']
 >>> create_person(ab, ab, u'Tester', return_obj=False)
 >>> browser = Browser()
 >>> browser.login('visitor')

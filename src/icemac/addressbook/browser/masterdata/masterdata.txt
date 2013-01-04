@@ -3,22 +3,17 @@
 =============
 
 There are some masterdata which can be edited by persons who are allowed to.
-
->>> from icemac.addressbook.testing import create_addressbook
->>> from zope.app.wsgi.testlayer import Browser
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
-
-There is a master data overview which shows all parts the user can
-see, this differs between the roles.
+There is a master data overview which shows all parts the user can see, this
+differs between the roles.
 
 Manager
 =======
 
 At first we log in as manager:
 
+>>> from icemac.addressbook.testing import Browser
 >>> manager = Browser()
->>> manager.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> manager.login('mgr')
 >>> manager.open('http://localhost/++skin++AddressBook/ab')
 >>> manager.getLink('Master data').click()
 >>> print manager.contents
@@ -45,7 +40,7 @@ Editor
 A user with the editor role sees the following parts:
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 >>> editor.open('http://localhost/++skin++AddressBook/ab')
 >>> editor.getLink('Master data').click()
 >>> print editor.contents
@@ -70,7 +65,7 @@ Visitor
 A user with the visitor role sees the fewest parts:
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Master data').click()
 >>> print visitor.contents

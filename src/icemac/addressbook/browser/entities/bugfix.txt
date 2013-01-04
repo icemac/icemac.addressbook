@@ -8,15 +8,12 @@ There were some bugs when using entities.
 Set up
 ======
 
-Create an address book, a local adminstrator and a browser to access it:
+Create a local adminstrator:
 
->>> from icemac.addressbook.testing import create_addressbook, create_user
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import create_user, Browser, get_messages
+>>> ab = layer['addressbook']
 >>> create_user(
 ...     ab, ab, u'Ad', u'Min', u'ad@min.de', u'12345678', ('Administrator',))
-
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> browser = Browser()
 
 Edit entities as local administrator
 ====================================
@@ -26,7 +23,7 @@ A local administrator was not able to edit the entities.
 Log in as the local administrator and navigate to the edit entities
 section of the master data:
 
->>> from icemac.addressbook.testing import get_messages
+>>> browser = Browser()
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getControl('User Name').value = 'ad@min.de'
 >>> browser.getControl('Password').value = '12345678'

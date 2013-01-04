@@ -8,22 +8,19 @@ places where fields are displayed in order are changed accordingly.
 Set up
 ======
 
-Create an address book and a browser to access it. Log in as
-`Administrator`:
+Log in as `Administrator`:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 To show that the sort order includes user defined fields, we have to create
 one:
 
 >>> from icemac.addressbook.testing import create_field
->>> _ = create_field(
-...         ab, 'icemac.addressbook.person.Person', 'Bool', u'grown-up')
+>>> _ = create_field(layer['addressbook'], 'icemac.addressbook.person.Person',
+...                  'Bool', u'grown-up')
 
 The sort order of the fields can be changed in the master data area on each
 entity, for example we choose the `person` entity here:
