@@ -7,13 +7,9 @@ The export reflects the sort order defined for entities and fields.
 Set up
 ======
 
-We need an address book which must be the current site:
+We need an address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
->>> import zope.site.hooks
->>> old_site = zope.site.hooks.getSite()
->>> zope.site.hooks.setSite(ab)
+>>> ab = layer['addressbook']
 
 
 XLS main adresses and numbers export
@@ -348,10 +344,3 @@ down, the sort order in the export changes accordingly:
  text:u'Germany',
  empty:'',
  empty:'']
-
-
-Tear down
-=========
-
->>> zope.site.hooks.setSite(old_site)
-

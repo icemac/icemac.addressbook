@@ -14,11 +14,9 @@ Set up
 Create an address book and a browser to access it. Log in as
 `Administrator`:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Create Field

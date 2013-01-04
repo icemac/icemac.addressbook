@@ -17,7 +17,7 @@ import zope.pluggableauth.interfaces
 class TestAddressbook(unittest.TestCase,
                       icemac.addressbook.testing.InstallationAssertions):
 
-    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def check_addressbook(self, ab):
         self.assertTrue(zope.location.interfaces.ISite.providedBy(ab))
@@ -40,9 +40,7 @@ class TestAddressbook(unittest.TestCase,
 
     def setUp(self):
         super(TestAddressbook, self).setUp()
-        root = self.layer['rootFolder']
-        root['ab'] = self.ab = icemac.addressbook.utils.create_obj(
-            icemac.addressbook.addressbook.AddressBook)
+        self.ab = self.layer['addressbook']
 
     def test_create(self):
         self.check_addressbook(self.ab)

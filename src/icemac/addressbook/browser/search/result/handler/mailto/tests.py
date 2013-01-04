@@ -6,18 +6,17 @@ import plone.testing
 
 class MailToLayer(plone.testing.Layer):
 
-    defaultBases = [icemac.addressbook.testing.WSGI_TEST_BROWSER_LAYER]
+    defaultBases = [icemac.addressbook.testing.TEST_BROWSER_LAYER]
 
     def setUp(self):
         from icemac.addressbook.testing import (
             create_person, create_full_person, create_email_address,
             createZODBConnection, setUpStackedDemoStorage, setUpAddressBook)
         import transaction
-        setUpStackedDemoStorage(self, 'SearchLayer')
-        ab = setUpAddressBook(self)
+        setUpStackedDemoStorage(self, 'MailToLayer')
         setupZODBConn, rootObj, rootFolder = createZODBConnection(
             self['zodbDB'])
-
+        ab = rootFolder['ab']
         kw = set([icemac.addressbook.testing.create_keyword(ab, u'mail-me')])
         # No EMailAddress object
         self['p0'] = create_person(ab, ab, u'No Mail', keywords=kw)
@@ -61,9 +60,10 @@ class MailToTest(unittest.TestCase):
     def test_persons_returns_persons_for_ids_in_session(self, session):
         from icemac.addressbook.testing import (
             create_person, create_full_person, create_email_address)
-        persons = [self.layer[x] for x in 'p1 p2'.split()]
-        session.return_value = dict(person_ids=[x.__name__ for x in persons])
-        self.assertEqual(persons, list(self.get_view().get_persons()))
+        person_ids = [self.layer[x].__name__ for x in 'p1 p2'.split()]
+        session.return_value = dict(person_ids=person_ids)
+        self.assertEqual(person_ids,
+                         [x.__name__ for x in self.get_view().get_persons()])
 
     get_persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
                    'mailto.MailTo.get_persons')

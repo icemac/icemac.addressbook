@@ -5,11 +5,6 @@
 Person data (name, address, ...) is stored in an address book.  The
 user can add and change the data of persons there.
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
->>> browser = Browser()
 
 Add a person
 ============
@@ -17,7 +12,9 @@ Add a person
 Editors are allowed to add new persons with addresses, so we log-in as
 an editor. In the add menu there is a link to create a person:
 
->>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> from icemac.addressbook.testing import Browser
+>>> browser = Browser()
+>>> browser.login('editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('person').click()
 
@@ -447,7 +444,7 @@ Visitor
 Visitors can not change any data, they can only view it:
 
 >>> visitor_browser = Browser()
->>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor_browser.login('visitor')
 >>> visitor_browser.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor_browser.getLink('Petra').click()
 >>> print visitor_browser.contents

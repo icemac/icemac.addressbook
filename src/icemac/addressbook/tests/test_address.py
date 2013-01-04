@@ -61,7 +61,7 @@ class Test_normalize_phone_number(unittest.TestCase):
 class Test_email_address_of_person(unittest.TestCase):
     """Testing ..address.email_address_of_person."""
 
-    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def setUp(self):
         from icemac.addressbook.testing import create_person

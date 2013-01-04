@@ -8,16 +8,11 @@ afterwards.
 Setup
 =====
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
->>> browser = Browser()
-
 To add a file, a person is needed, so create one as an editor:
 
->>> from icemac.addressbook.testing import get_messages
->>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> from icemac.addressbook.testing import Browser, get_messages
+>>> browser = Browser()
+>>> browser.login('editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = u'Tester'
@@ -335,7 +330,7 @@ Visitors can only download files, they cannot create them, edit them
 nor delete them.
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Tester').click()
 

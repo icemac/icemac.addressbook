@@ -9,7 +9,7 @@ Set up
 ======
 
 >>> from icemac.addressbook.testing import create_addressbook, create_user
->>> ab = create_addressbook()
+>>> ab = layer['addressbook']
 >>> ab2 = create_addressbook('ab2')
 >>> create_user(ab, ab, u'Viktor', u'Visitor', u'visitor@example.com',
 ...     u'12345678', ('Visitor',))

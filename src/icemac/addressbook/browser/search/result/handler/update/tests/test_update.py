@@ -35,10 +35,10 @@ KEYWORD = u'keyword for test'
 class TestUserDefinedFields(unittest.TestCase):
     """Testing update of user defined fields."""
 
-    layer = icemac.addressbook.testing.WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
 
     def setUp(self):
-        self.ab = self.layer['rootFolder']['ab']
+        self.ab = self.layer['addressbook']
 
     def create_updateable_person(self, **kw):
         from icemac.addressbook.interfaces import IEntity, IPerson

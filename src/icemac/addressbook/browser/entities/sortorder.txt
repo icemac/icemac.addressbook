@@ -8,14 +8,11 @@ entities are displayed in order are changed accordingly.
 Set up
 ======
 
-Create an address book and a browser to access it. Log in as
-`Administrator`:
+Log in as `Administrator`:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> ab = create_addressbook()
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 The sort order of the entities can be changed in the master data area:
@@ -35,9 +32,8 @@ resp. ``down`` links.
 >>> import zope.site.hooks
 >>> import zope.component
 >>> import icemac.addressbook.interfaces
->>> old_site = zope.site.hooks.getSite()
 >>> def get_entity_titles():
-...     zope.site.hooks.setSite(ab)
+...     zope.site.hooks.setSite(layer['addressbook'])
 ...     entities = zope.component.getUtility(
 ...        icemac.addressbook.interfaces.IEntities)
 ...     return [x.title for x in entities.getEntities()]
@@ -140,6 +136,7 @@ The sort order of the entries in the add menu also depends on the entity
 order: the phone number is shown before the postal address:
 
 >>> from icemac.addressbook.testing import create_full_person
+>>> ab = layer['addressbook']
 >>> create_full_person(ab, ab, u'Tester', return_obj=False)
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('Tester').click()
@@ -163,7 +160,7 @@ Editor
 ------
 
 >>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor.login('editor')
 >>> editor.open(up_link_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -176,16 +173,10 @@ Visitor
 -------
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open(up_link_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 >>> visitor.open(down_link_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
-
-
-Tear down
-=========
-
->>> zope.site.hooks.setSite(old_site)

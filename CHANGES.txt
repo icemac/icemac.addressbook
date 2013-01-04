@@ -2,8 +2,8 @@
 Change log
 ==========
 
-1.9.1 (unreleased)
-==================
+1.10.0 (unreleased)
+===================
 
 Other
 -----
@@ -12,6 +12,8 @@ Other
 
 - Updated most other packages (outside ZTK) needed for address book to
   newest versions.
+
+- Simplified and streamlined test layers.
 
 .. _`Zope Toolkit 1.1.5`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.5.html
 

@@ -5,15 +5,12 @@
 A person can have one or more keywords. They can be managed in the
 master data section.
 
->>> from icemac.addressbook.testing import create_addressbook
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> create_addressbook()
-<AddressBook u'ab' (u'test address book')>
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 
 Editors are allowed to manage keywords, so we log in as an editor:
 
->>> browser.addHeader('Authorization', 'Basic editor:editor')
+>>> browser.login('editor')
 >>> browser.open('http://localhost/++skin++AddressBook/ab')
 
 Navigating to the keywords overview page, shows that there are
@@ -323,7 +320,7 @@ Visitor
 Visitors are allowed to see the keywords but not to change them:
 
 >>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor.login('visitor')
 >>> visitor.open('http://localhost/++skin++AddressBook/ab')
 >>> visitor.getLink('Master data').click()
 >>> visitor.getLink('Keywords').click()

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2012 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 import gocept.selenium.wsgi
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
@@ -63,17 +61,9 @@ class _AddressBookUnitTests(plone.testing.Layer):
     def tearDown(self):
         zope.testing.cleanup.tearDown()
 
-ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
-
-
-ZCML_LAYER = plone.testing.zca.ZCMLSandbox(
-    name="AddressBookZCML", filename="ftesting.zcml", module=__name__,
-    package=icemac.addressbook)
-
 
 class _ZODBLayer(plone.testing.zodb.EmptyZODB):
     """Layer which sets up ZODB to be useable for Zope 3."""
-    defaultBases = (ZCML_LAYER,)
 
     def setUp(self):
         super(_ZODBLayer, self).setUp()
@@ -85,8 +75,6 @@ class _ZODBLayer(plone.testing.zodb.EmptyZODB):
 
     def testTearDown(self):
         pass
-
-ZODB_LAYER = _ZODBLayer(name='ZODBLayer')
 
 
 def setUpStackedDemoStorage(self, name):
@@ -121,22 +109,8 @@ def tearDownStackedDemoStorage(self):
     del self['zodbDB']
 
 
-class _ZODBTestLayer(plone.testing.Layer):
-    """Layer which opens the ZODB for each test."""
-    defaultBases = (ZODB_LAYER,)
-
-    def testSetUp(self):
-        setUpZODBConnection(self)
-
-    def testTearDown(self):
-        tearDownZODBConnection(self)
-
-FUNCTIONAL_LAYER = _ZODBTestLayer(name='ZODBTestLayer')
-
-
 class _ZODBIsolatedTestLayer(plone.testing.Layer):
     """Layer which puts a DemoStorage on ZODB for each test."""
-    defaultBases = (ZODB_LAYER,)
 
     def testSetUp(self):
         setUpStackedDemoStorage(self, self.__name__)
@@ -145,13 +119,40 @@ class _ZODBIsolatedTestLayer(plone.testing.Layer):
     def testTearDown(self):
         tearDownStackedDemoStorage(self)
         tearDownZODBConnection(self)
+        zope.site.hooks.setSite(None)
 
-ZODB_ISOLATED_TEST_LAYER = _ZODBIsolatedTestLayer(name='ZODBIsolatedTestLayer')
+
+def setUpAddressBook(self):
+    conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
+    addressbook = create_addressbook(parent=rootFolder)
+    zope.site.hooks.setSite(addressbook)
+    transaction.commit()
+    #conn.close()
+    return addressbook
 
 
-class WSGILayer(plone.testing.Layer):
+class _AddressBookFunctionalLayer(plone.testing.Layer):
+    "Layer where the address book gets created in the layer set up."
+
+    def setUp(self):
+        setUpStackedDemoStorage(self, 'AddressBookFunctionalTestCase')
+        setUpAddressBook(self)
+
+    def tearDown(self):
+        tearDownStackedDemoStorage(self)
+
+    def testSetUp(self):
+        setUpZODBConnection(self)
+        self['addressbook'] = self['rootFolder']['ab']
+        zope.site.hooks.setSite(self['addressbook'])
+
+    def testTearDown(self):
+        tearDownZODBConnection(self)
+        del self['addressbook']
+
+
+class _WSGILayer(plone.testing.Layer):
     """Layer which sets up a WSGI stack."""
-    defaultBases = (ZODB_ISOLATED_TEST_LAYER,)
 
     def get_wsgi_pipeline(self):
         return icemac.addressbook.startup.application_factory(
@@ -176,13 +177,10 @@ class WSGILayer(plone.testing.Layer):
             zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
                 self['zodbDB']))
 
-WSGI_LAYER = WSGILayer()
-
 
 class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
                             plone.testing.Layer):
     """Layer for zope.testbrowser.wsgi tests."""
-    defaultBases = (WSGI_LAYER,)
 
     def make_wsgi_app(self):
         def getRootFolder():
@@ -194,60 +192,10 @@ class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
             zope.app.wsgi.testlayer.TransactionMiddleware(
                 getRootFolder, self['wsgi_app']))
 
-WSGI_TEST_BROWSER_LAYER = _WSGITestBrowserLayer(name='WSGITestBrowserLayer')
 
-
-def setUpAddressBook(self):
-    self.old_site = zope.site.hooks.getSite()
-    conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
-    addressbook = create_addressbook(parent=rootFolder)
-    zope.site.hooks.setSite(addressbook)
-    transaction.commit()
-    conn.close()
-    return addressbook
-
-
-class _AddressBookFunctionalLayer(plone.testing.Layer):
-    "Layer where the address book gets created in the layer set up."
-    defaultBases = (ZODB_ISOLATED_TEST_LAYER,)
-
-    def setUp(self):
-        setUpStackedDemoStorage(self, 'AddressBookFunctionalTestCase')
-        setUpAddressBook(self)
-
-    def tearDown(self):
-        zope.site.hooks.setSite(self.old_site)
-        tearDownStackedDemoStorage(self)
-
-    def testSetUp(self):
-        setUpZODBConnection(self)
-        self['addressbook'] = self['rootFolder']['ab']
-        zope.site.hooks.setSite(self['addressbook'])
-
-    def testTearDown(self):
-        tearDownZODBConnection(self)
-        del self['addressbook']
-
-ADDRESS_BOOK_FUNCTIONAL_LAYER = _AddressBookFunctionalLayer(
-    name='AddressBookFunctionalLayer')
-
-
-# WSGI layer which creates addressbook at layer set up
-WSGI_ADDRESS_BOOK_LAYER = WSGILayer(
-    bases=[ADDRESS_BOOK_FUNCTIONAL_LAYER],
-    name='WSGIAddressBookFunctionalLayer')
-
-# Layer to use ADDRESS_BOOK_FUNCTIONAL_LAYER with testbrowser:
-WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER = _WSGITestBrowserLayer(
-    bases=[WSGI_ADDRESS_BOOK_LAYER],
-    name='TestBrowserAddressBookFunctionalLayer')
-
-
-class GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
-                                                 plone.testing.Layer):
+class _GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
+                                                  plone.testing.Layer):
     """Layer which integrates gocept.selenium with plone.testing."""
-
-    defaultBases = (WSGI_ADDRESS_BOOK_LAYER, )
 
     def __init__(self, *args, **kw):
         # WSGI application is set up in base layers so we cannot access it
@@ -258,9 +206,53 @@ class GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
     def setup_wsgi_stack(self, app):
         return self['wsgi_app']
 
-SELENIUM_LAYER = GoceptSeleniumPloneTestingIntegrationLayer()
+
+# Layer factories
+
+def ZCMLLayer(name, module, package, filename="ftesting.zcml", bases=None):
+    """Factory to create a new ZCML test layer.
+
+    name ... layer name, suffixed by 'ZCML'
+    module ... usually `__name__`
+    package ... where the ftesting.zcml lives.
+    """
+    return plone.testing.zca.ZCMLSandbox(
+        name="%sZCML" % name, bases=bases, filename=filename, module=module,
+        package=package)
 
 
+def ZODBLayer(name, zcml_layer):
+    """Factory to create a ZODB test layer isolated on test level."""
+    zodb_layer = _ZODBLayer(bases=[zcml_layer], name='%sZODBLayer' % name)
+    isolated_layer = _ZODBIsolatedTestLayer(
+        bases=[zodb_layer], name='%sZODBIsolatedLayer' % name)
+    return _AddressBookFunctionalLayer(
+        bases=[isolated_layer], name='%sSiteLayer' % name)
+
+
+def TestBrowserLayer(name, zodb_layer):
+    """Factory to create a layer for test browser based on WSGI."""
+    wsgi_layer = _WSGILayer(bases=[zodb_layer], name='%sWSGILayer' % name)
+    return _WSGITestBrowserLayer(
+        bases=[wsgi_layer], name='%sTestBrowserLayer' % name)
+
+
+def SeleniumLayer(name, zodb_layer):
+    """Factory to create a new Selenium layer based on WSGI."""
+    wsgi_layer = _WSGILayer(bases=[zodb_layer], name='%sWSGILayer' % name)
+    return _GoceptSeleniumPloneTestingIntegrationLayer(
+        bases=[wsgi_layer], name='%sSeleniumLayer' % name)
+
+
+# Predefined layers
+ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
+ZCML_LAYER = ZCMLLayer('AddressBook', __name__, icemac.addressbook)
+ZODB_LAYER = ZODBLayer('AddressBook', ZCML_LAYER)
+TEST_BROWSER_LAYER = TestBrowserLayer('AddressBook', ZODB_LAYER)
+SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
+
+
+# Test cases
 class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
     """Base test class for selenium tests."""
     layer = SELENIUM_LAYER
@@ -291,12 +283,12 @@ def DocFileSuite(*paths, **kw):
 
 def FunctionalDocFileSuite(*paths, **kw):
     """DocFileSuite on FUNCTIONAL_LAYER."""
-    return DocFileSuite(layer=FUNCTIONAL_LAYER, *paths, **kw)
+    return DocFileSuite(layer=ZODB_LAYER, *paths, **kw)
 
 
 def TestBrowserDocFileSuite(*paths, **kw):
-    """DocFileSuite on WSGI_TEST_BROWSER_LAYER."""
-    return DocFileSuite(layer=WSGI_TEST_BROWSER_LAYER, *paths, **kw)
+    """DocFileSuite on TEST_BROWSER_LAYER."""
+    return DocFileSuite(layer=TEST_BROWSER_LAYER, *paths, **kw)
 
 
 # XXX see https://sourceforge.net/tracker/?func=detail&aid=3381282&group_id=273840&atid=2319598
@@ -395,14 +387,16 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 ### Helper functions to create objects in the database ###
 
 
-def create_addressbook(name='ab', title=u'test address book', parent=None):
+def create_addressbook(name='ab', title=None, parent=None):
     """Create an address book.
 
     When parent is `None`, it gets created in the root folder of the data base.
 
     """
     ab = icemac.addressbook.utils.create_obj(
-        icemac.addressbook.addressbook.AddressBook, title=title)
+        icemac.addressbook.addressbook.AddressBook)
+    if title is not None:
+        ab.title = title
     if parent is None:
         frame = inspect.currentframe()
         try:

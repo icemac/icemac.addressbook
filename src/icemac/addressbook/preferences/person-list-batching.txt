@@ -8,20 +8,16 @@ preferences:
 Set up
 ======
 
-We need an address book:
+We need A browser to access the address book:
 
->>> from icemac.addressbook.testing import create_addressbook
->>> ab = create_addressbook()
-
-A browser to access it:
-
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+>>> browser.login('mgr')
 
 And many persons in the address book:
 
 >>> from icemac.addressbook.testing import create_person
+>>> ab = layer['addressbook']
 >>> for i in xrange(1, 22):
 ...    create_person(ab, ab, u'Tester %s' % i, return_obj=False)
 

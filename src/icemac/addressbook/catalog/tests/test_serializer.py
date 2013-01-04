@@ -47,7 +47,7 @@ class TestFieldSerializer(unittest.TestCase):
 
 class TestObjectSerializer(unittest.TestCase):
 
-    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def test_serializer_serializes_all_field_values(self):
         import gocept.country.db
@@ -56,3 +56,4 @@ class TestObjectSerializer(unittest.TestCase):
         address = icemac.addressbook.address.PostalAddress()
         address.city = u'Dunkelhausen'
         address.country = gocept.country.db.Country('DE')
+        # XXX test not yet complete

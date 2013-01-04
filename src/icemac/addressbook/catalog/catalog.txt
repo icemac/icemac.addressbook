@@ -5,9 +5,8 @@
 The catalog is used for efficient searches, we demonstrate here that
 the catalog is really used.
 
->>> from icemac.addressbook.testing import (create_addressbook, create_person,
-...     create_keyword)
->>> addressbook = create_addressbook()
+>>> from icemac.addressbook.testing import create_person, create_keyword
+>>> addressbook = layer['addressbook']
 
 IntId
 =====

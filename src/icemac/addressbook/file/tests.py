@@ -61,7 +61,7 @@ class TestFile(Base):
 class FTestFile(Base):
     """Tests for methods which need functional setup."""
 
-    layer = icemac.addressbook.testing.FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def test_openDetached(self):
         # need to assign to tree, so commit works

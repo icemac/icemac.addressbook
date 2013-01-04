@@ -61,7 +61,7 @@ class TestPersistentEntities(EntitiesTests, unittest.TestCase):
 
 class TestEntities_getMainEntities(unittest.TestCase):
 
-    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def callFUT(self, sorted):
         import zope.component
@@ -98,7 +98,7 @@ class TestEntities_getMainEntities(unittest.TestCase):
 
 class TestEntityOrder(unittest.TestCase):
 
-    layer = icemac.addressbook.testing.ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.ZODB_LAYER
 
     def getEntity(self, iface_name):
         import icemac.addressbook.interfaces

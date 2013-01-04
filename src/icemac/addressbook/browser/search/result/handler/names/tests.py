@@ -6,7 +6,7 @@ import unittest2 as unittest
 class NamesTests(unittest.TestCase):
     """Testing .Names."""
 
-    layer = icemac.addressbook.testing.WSGI_ADDRESS_BOOK_FUNCTIONAL_LAYER
+    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
 
     def setUp(self):
         from icemac.addressbook.testing import create_person
