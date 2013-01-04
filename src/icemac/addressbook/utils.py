@@ -53,3 +53,20 @@ def iter_by_interface(container, interface):
     for obj in container.values():
         if interface.providedBy(obj):
             yield obj
+
+
+def unique_by_attr_factory(attr_name, error_message):
+    """Returns a function checking `attr_name` is unique on parent."""
+    def unique(obj, event=None):
+        """Makes sure `attr_name` is unique on obj's parent.
+
+        May be used as handler for object events.
+
+        """
+        if getattr(obj, '__parent__', None) is None:
+            return
+        container = obj.__parent__
+        values = [getattr(x, attr_name) for x in container.values()]
+        if len(values) != len(set(values)):
+            raise zope.interface.Invalid(error_message)
+    return unique

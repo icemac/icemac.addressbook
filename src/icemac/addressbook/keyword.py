@@ -1,20 +1,16 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2012 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
+from icemac.addressbook.i18n import _
+import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import persistent
 import zope.catalog.interfaces
+import zope.component
 import zope.container.btree
 import zope.container.contained
-import zope.component
 import zope.interface
 import zope.lifecycleevent
 import zope.schema.fieldproperty
-
-import icemac.addressbook.interfaces
-
-from icemac.addressbook.i18n import MessageFactory as _
 
 
 class KeywordContainer(zope.container.btree.BTreeContainer):
@@ -61,10 +57,5 @@ def changed(obj, event):
             break
 
 
-def uniqueTitles(obj, event):
-    if getattr(obj, '__parent__', None) is None:
-        return
-    container = obj.__parent__
-    titles = [x.title for x in container.values()]
-    if len(titles) != len(set(titles)):
-        raise zope.interface.Invalid(_(u'This keyword already exists.'))
+uniqueTitles = icemac.addressbook.utils.unique_by_attr_factory(
+    'title', _(u'This keyword already exists.'))
