@@ -1,7 +1,5 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2012 Michael Howitz
 # See also LICENSE.txt
-# $Id$
 
 import zope.container.interfaces
 import zope.event
@@ -45,7 +43,6 @@ def create_and_add(parent, class_, *args, **kw):
     return add(parent, obj)
 
 
-create_and_add_with_set_site = set_site(create_and_add)
 
 
 def iter_by_interface(container, interface):
