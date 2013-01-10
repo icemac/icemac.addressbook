@@ -37,6 +37,8 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     label = _(u'Edit keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     next_url = 'parent'
+    z3c.form.form.extends(icemac.addressbook.browser.base.GroupEditForm,
+                          ignoreFields=True)
 
     def applyChanges(self, data):
         # GroupForm has its own applyChanges but we need the one from
@@ -45,12 +47,6 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         # _AbstractEditForm.
         return icemac.addressbook.browser.base._AbstractEditForm.applyChanges(
             self, data)
-
-    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
-    def handleApply(self, action):
-        # because we define a new action we have to duplicate the
-        # existing action because otherwise we'll loose it.
-        super(EditForm, self).handleApply(self, action)
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete'), name='delete', condition=can_delete_keyword)
