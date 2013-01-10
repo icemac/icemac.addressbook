@@ -20,7 +20,8 @@ class RoleSource(zc.sourcefactory.basic.BasicSourceFactory):
             zope.securitypolicy.interfaces.IRole)
         names = [r.id
                  for r in roles
-                 if r.id.startswith('icemac.addressbook.global.')]
+                 if (r.id.startswith('icemac.addressbook.global.') or
+                     r.id.startswith('icemac.ab.'))]
         return sorted(names)
 
     def getTitle(self, value):
