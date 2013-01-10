@@ -26,12 +26,6 @@
       class=".entities.List"
       />
 
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IEntities"
-     />
-
   <!-- entity -->
 
   <adapter factory=".fields.FieldsTraverser" />
@@ -48,12 +42,6 @@
       class=".fields.List"
       template="fields_list.pt"
       />
-
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IEditableEntity"
-     />
 
   <z3c:pagelet
      name="addField.html"
@@ -89,12 +77,6 @@
       permission="icemac.addressbook.EditEntities"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       class=".fields.EditForm"
-      />
-
-  <browser:defaultView
-      name="index.html"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      for="icemac.addressbook.interfaces.IField"
       />
 
   <z3c:pagelet

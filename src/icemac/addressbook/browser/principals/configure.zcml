@@ -24,13 +24,6 @@
      template="principals.pt"
      />
 
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="zope.pluggableauth.plugins.principalfolder.IInternalPrincipalContainer"
-     />
-
-
   <adapter
      for="zope.pluggableauth.plugins.principalfolder.IInternalPrincipalContainer
           icemac.addressbook.browser.interfaces.IAddressBookLayer
@@ -79,12 +72,6 @@
      factory=".principals.password_not_required"
      />
   <adapter factory=".principals.EditForm_password_Validator" />
-
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.principals.interfaces.IPrincipal"
-     />
 
   <!-- delete confirmation -->
   <z3c:pagelet

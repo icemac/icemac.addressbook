@@ -20,12 +20,6 @@
      class=".person.PersonEditForm"
      />
 
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IPerson"
-     />
-
   <z3c:pagelet
      name="delete_person.html"
      for="...interfaces.IPerson"

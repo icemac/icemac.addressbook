@@ -47,17 +47,11 @@
      />
 
   <z3c:pagelet
-     name="edit.html"
+     name="index.html"
      for="icemac.addressbook.file.interfaces.IFile"
      permission="icemac.addressbook.EditFile"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".file.Edit"
-     />
-
-  <browser:defaultView
-     name="edit.html"
-     for="icemac.addressbook.file.interfaces.IFile"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 
   <class class=".download.DownloadResult">

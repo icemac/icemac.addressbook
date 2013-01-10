@@ -33,12 +33,6 @@
      class=".keyword.Table"
      />
 
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IKeywords"
-     />
-
   <z3c:siteMenuItem
      manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
@@ -57,12 +51,6 @@
      permission="icemac.addressbook.ViewKeyword"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".keyword.EditForm"
-     />
-
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IKeyword"
      />
 
   <z3c:pagelet
