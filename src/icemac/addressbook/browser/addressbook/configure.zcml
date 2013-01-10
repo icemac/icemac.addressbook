@@ -7,6 +7,12 @@
 
   <adapter factory=".edit.PersonCount" />
 
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="*"
+     />
+
   <!-- Root folder view -->
   <z3c:pagelet
      name="addAddressBook.html"
@@ -14,12 +20,6 @@
      permission="zope.ManageContent"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".add.AddForm"
-     />
-
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="zope.site.interfaces.IRootFolder"
      />
 
   <!-- person list -->
@@ -41,12 +41,6 @@
      factory="z3c.table.header.SortingColumnHeader"
      />
 
-
-  <browser:defaultView
-     name="index.html"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     for="icemac.addressbook.interfaces.IAddressBook"
-     />
 
   <z3c:siteMenuItem
      for="*"
