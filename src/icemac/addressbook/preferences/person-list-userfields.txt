@@ -13,7 +13,7 @@ We need a browser to access the address book:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 And some user definded fields:
 
@@ -56,7 +56,7 @@ And some data in the fields:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Utzer'
@@ -128,7 +128,7 @@ Selecting columns shows them in the person list:
       <td>1.45</td>
       <td>mycomp</td>
       <td>42</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
@@ -140,7 +140,7 @@ Selecting columns shows them in the person list:
       <td></td>
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -189,7 +189,7 @@ set in preferences:
       <td>1.45</td>
       <td>mycomp</td>
       <td>42</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>2001 1 8 </td>
@@ -200,7 +200,7 @@ set in preferences:
       <td></td>
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -261,11 +261,11 @@ Let's select the "person -- last seen" column for order by:
   <tbody>
     <tr class="table-even-row">
       <td>2010 8 9  20:15:00 </td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
   ...
@@ -299,10 +299,10 @@ column:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...

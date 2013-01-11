@@ -22,14 +22,23 @@
      class=".add.AddForm"
      />
 
+  <!-- welcome page -->
+  <gocept:pagelet
+     for="...interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="index.html"
+     template="welcome.pt"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
   <!-- person list -->
   <gocept:pagelet
-     name="index.html"
+     name="person-list.html"
      for="...interfaces.IAddressBook"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ViewPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".list.PersonList"
-     template="overview.pt"
+     template="list.pt"
      />
 
   <adapter
@@ -41,15 +50,14 @@
      factory="z3c.table.header.SortingColumnHeader"
      />
 
-
   <z3c:siteMenuItem
      for="*"
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Person list"
      title="Person list"
-     viewName="@@index.html"
-     permission="icemac.addressbook.ViewAddressBook"
+     viewName="@@person-list.html"
+     permission="icemac.addressbook.ViewPerson"
      weight="1"
      />
 

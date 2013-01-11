@@ -48,6 +48,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete the selected persons?')
     interface = ISelectionCount
     next_url = 'object'
+    next_view = '@@person-list.html'
 
     def _handle_delete(self):
         ids = get_selected_person_ids(self.request)
@@ -55,4 +56,4 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
             self.context, ids)
         self.status = _('Selected persons deleted: ${num}',
                         mapping=dict(num=num_deleted))
-        self.redirect_to_next_url('object', '')
+        self.redirect_to_next_url('object', self.next_view)

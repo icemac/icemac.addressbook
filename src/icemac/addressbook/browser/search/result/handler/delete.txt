@@ -22,7 +22,7 @@ user, too:
 Only administrators are allowed to delete, so we log in as an administrator:
 
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 There is a link in the global navigation which leads to the searches
 overview providing links to the offered search types, which lead to the
@@ -53,22 +53,22 @@ selected by default:
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+      <td><a href="http://localhost/ab/Person-2">Koch</a></td>
       <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
+      <td><a href="http://localhost/ab/Person-4">Liebig</a></td>
       <td></td>
     </tr>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-6" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-6">Utzer</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-6">Ben</a></td>
+      <td><a href="http://localhost/ab/Person-6">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-6">Ben</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
       <td></td>
     </tr>
  </tbody>
@@ -88,7 +88,7 @@ Selecting this button leads to an are-you-sure question:
 >>> browser.getControl(name='form.buttons.apply').click()
 >>> delete_url = browser.url
 >>> delete_url
-'http://localhost/++skin++AddressBook/ab/@@delete_persons.html'
+'http://localhost/ab/@@delete_persons.html'
 
 The number of persons for deletion is shown on the question screen:
 
@@ -115,7 +115,7 @@ anybody:
 >>> get_messages(browser)
 ['Deletion canceled.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/@@person-list.html'
 >>> 'Koch' in browser.contents
 True
 >>> 'Liebig' in browser.contents
@@ -134,7 +134,7 @@ Editor
 
 >>> editor = Browser()
 >>> editor.login('editor')
->>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/ab')
 >>> editor.getLink('Search').click()
 >>> editor.getLink('Keyword search').click()
 >>> editor.getControl('church').click()
@@ -154,7 +154,7 @@ Visitor
 
 >>> visitor = Browser()
 >>> visitor.login('visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.getLink('Search').click()
 >>> visitor.getLink('Keyword search').click()
 >>> visitor.getControl('church').click()
@@ -210,7 +210,7 @@ Seleting the `delete` button leads to the person list after deleting the selecte
 >>> get_messages(browser)
 ['Selected persons deleted: 2']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/@@person-list.html'
 >>> 'Koch' in browser.contents
 True
 >>> 'Liebig' in browser.contents

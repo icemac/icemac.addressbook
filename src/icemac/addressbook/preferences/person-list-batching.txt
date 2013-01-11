@@ -27,15 +27,15 @@ Default batching size
 The defaut batching size is 20 items per batch, so batching links are
 rendered for the current person list:
 
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab/person-list.html')
 >>> print browser.contents
 <!DOCTYPE ...
     </tr>
   </tbody>
 </table>
   <div class="batch">
-    <a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=20&table-batchStart=0" class="current first">1</a>
-<a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=20&table-batchStart=20" class="last">2</a>
+    <a href="http://localhost/ab/person-list.html?table-batchSize=20&table-batchStart=0" class="current first">1</a>
+<a href="http://localhost/ab/person-list.html?table-batchSize=20&table-batchStart=20" class="last">2</a>
   </div>
 </div>
     </div>
@@ -84,7 +84,7 @@ The minimum batch size is 1, otherwise an error message is displayed:
 >>> get_messages(browser)
 []
 >>> browser.url
-'http://localhost/.../ab/++preferences++/ab/@@index.html'
+'http://localhost/ab/++preferences++/ab/@@index.html'
 >>> print browser.contents
 <!DOCTYPE ...
   <div class="error">Value is too small</div>
@@ -103,11 +103,11 @@ With a little batch size batch spachers are displayed:
 >>> print browser.contents
 <!DOCTYPE ...
 <div class="batch">
-  <a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=1&table-batchStart=0" class="current first">1</a>
-<a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=1&table-batchStart=1">2</a>
-<a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=1&table-batchStart=2">3</a>
-<a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=1&table-batchStart=3">4</a>
+  <a href="http://localhost/ab/person-list.html?table-batchSize=1&table-batchStart=0" class="current first">1</a>
+<a href="http://localhost/ab/person-list.html?table-batchSize=1&table-batchStart=1">2</a>
+<a href="http://localhost/ab/person-list.html?table-batchSize=1&table-batchStart=2">3</a>
+<a href="http://localhost/ab/person-list.html?table-batchSize=1&table-batchStart=3">4</a>
 …
-<a href="http://localhost/++skin++AddressBook/ab/index.html?table-batchSize=1&table-batchStart=20" class="last">21</a>
+<a href="http://localhost/ab/person-list.html?table-batchSize=1&table-batchStart=20" class="last">21</a>
 </div>
   ...

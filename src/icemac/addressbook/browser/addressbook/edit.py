@@ -76,4 +76,4 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
         icemac.addressbook.browser.base.delete_persons(
             self.context, self.context.keys())
         self.status = _('Address book contents deleted.')
-        self.redirect_to_next_url('object', '')
+        self.redirect_to_next_url('object', 'person-list.html')

@@ -12,7 +12,7 @@ We need a browser to access the address book:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 Default preferences
 ===================
@@ -96,18 +96,18 @@ date in the person list:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>1975 4 2 </td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
 </table>
@@ -133,14 +133,14 @@ Then we have to assign the keywords to persons:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> browser.getLink('Streber').click()
 >>> browser.getControl('keywords').displayValue = ['Friends']
 >>> browser.getControl('Apply').click()
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 
 The keywords are sorted by their lower case variant inside the cell:
 
@@ -157,18 +157,18 @@ The keywords are sorted by their lower case variant inside the cell:
   <tbody>
     <tr class="table-even-row">
       <td>Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
    </tr>
   </tbody>
  ...
@@ -185,7 +185,7 @@ whole browser window. At first we need some notes text:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 
 Only the first 20 characters of the note are displayed:
 
@@ -202,18 +202,18 @@ Only the first 20 characters of the note are displayed:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>Gave him 20 Dollars in …</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -258,17 +258,17 @@ On the person list the values of the default address are displayed:
     <tr class="table-even-row">
       <td></td>
       <td>Germany</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>c/o Mama</td>
       <td>Gabon</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td>Germany</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
  </tbody>
   ...
@@ -285,7 +285,7 @@ Changing the default address changes to person list, too:
     <tr class="table-odd-row">
       <td>c/o Papa</td>
       <td>Fiji</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   ...
 
@@ -301,7 +301,7 @@ enter a home page address.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 
 After selecting the home page column in the preferences, it gets
 displayed in the person list:
@@ -318,15 +318,15 @@ displayed in the person list:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><a href="http://www.example.com" target="_blank">http://www.example.com</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -343,7 +343,7 @@ enter an a-mail address.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 
 After selecting the e-mail address column in the preferences, it gets
 displayed in the person list:
@@ -360,15 +360,15 @@ displayed in the person list:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><a href="mailto:tester@example.com">tester@example.com</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -396,17 +396,17 @@ The user is able to select a column which is used to sort the person list.
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
       <td>1975 4 2 </td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
   ...
@@ -433,18 +433,18 @@ are sorted to the end:
   <tbody>
     <tr class="table-even-row">
       <td>1975 4 2 </td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -470,17 +470,17 @@ sorted by lower case variant of the cell contents:
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td>Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
   </tbody>
  ...
@@ -493,24 +493,24 @@ title:
 
 >>> browser.getLink('first name').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html?table-sortOrder=ascending&table-sortOn=table-first_name-1'
+'http://localhost/ab/person-list.html?table-sortOrder=ascending&table-sortOn=table-first_name-1'
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
  ...
@@ -535,18 +535,18 @@ to descending:
   <tbody>
     <tr class="table-even-row">
       <td>Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
  ...
@@ -556,24 +556,24 @@ header:
 
 >>> browser.getLink('keywords').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html?table-sortOrder=ascending&table-sortOn=table-keywords-0'
+'http://localhost/ab/person-list.html?table-sortOrder=ascending&table-sortOn=table-keywords-0'
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Utzer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person">Tester</a></td>
+      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td>Friends</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Streber</a></td>
+      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
   </tbody>
  ...

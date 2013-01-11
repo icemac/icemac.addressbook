@@ -133,6 +133,7 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
 
     class_ = None  # create object from this class
     next_url = None  # target after creation, one of ('object', 'parent')
+    next_view = None  # target view after creation, None --> default view
 
     def createAndAdd(self, data):
         # overwriting method as otherwise object created event would
@@ -175,7 +176,7 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
             context = self.context
         else:
             raise ValueError("Don't know how to handle next_url %r.")
-        return self.url(context)
+        return self.url(context, self.next_view)
 
 
 def update_with_redirect(class_, self):
@@ -284,7 +285,7 @@ class BaseDeleteForm(_AbstractEditForm):
     requiredInfo = None  # do never display requiredInfo
     interface = None
     field_names = ()  # tuple of field names for display; empty for all
-    next_view_after_delete = None  # when None, use same view as self.next_view
+    next_view_after_delete = None  # None --> default view
 
     need = 'no_max_content_css'
     mode = z3c.form.interfaces.DISPLAY_MODE

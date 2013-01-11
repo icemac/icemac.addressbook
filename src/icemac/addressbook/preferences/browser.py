@@ -21,6 +21,7 @@ class EditForm(icemac.addressbook.browser.base.BaseEditForm,
     """Preference EditForm which uses address book's form CSS."""
 
     next_url = 'site'
+    next_view = 'person-list.html'
     __init__ = z3c.preference.browser.CategoryEditForm.__init__
 
     def update(self):

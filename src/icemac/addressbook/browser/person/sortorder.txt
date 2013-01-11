@@ -138,7 +138,7 @@ We need a separate address book to test the default sort order and a person
 >>> ab2 = create_addressbook('ab2')
 >>> person = create_full_person(ab2, ab2, u'Tester')
 >>> create_file(ab2, person, return_obj=False)
->>> browser.open('http://localhost/++skin++AddressBook/ab2')
+>>> browser.open('http://localhost/ab2/person-list.html')
 
 
 Default sort order
@@ -298,7 +298,7 @@ use the edit form:
 
 >>> ab3 = create_addressbook('ab3')
 >>> person = create_full_person(ab3, ab3, u'Utzer')
->>> browser.open('http://localhost/++skin++AddressBook/ab3')
+>>> browser.open('http://localhost/ab3/person-list.html')
 
 
 Default sort order
