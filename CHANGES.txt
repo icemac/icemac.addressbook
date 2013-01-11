@@ -5,6 +5,13 @@ Change log
 1.10.0 (unreleased)
 ===================
 
+Features
+--------
+
+- Added welcome page displayed after login. So additional packages might
+  provide roles which do not allow to access the persons in the address
+  book.
+
 Other
 -----
 

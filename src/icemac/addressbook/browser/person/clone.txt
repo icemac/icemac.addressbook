@@ -38,7 +38,7 @@ as an editor:
 >>> get_messages(browser)
 ['"Tester, Hans" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab/Person'
@@ -86,7 +86,7 @@ Changing data in the clone does not change the original:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('last name').value
@@ -114,7 +114,7 @@ Changing data in the original does not change the clone:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 >>> browser.getLink('Testerella').click()
 >>> browser.getControl('last name').value
@@ -140,7 +140,7 @@ There is no `clone` button presented to the visitor:
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> visitor = Browser()
 >>> visitor.login('visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Testerella').click()
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']

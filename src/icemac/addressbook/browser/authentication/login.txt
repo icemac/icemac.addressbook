@@ -113,7 +113,7 @@ Selecting the ``Logout``-Link leads to the log-in form:
 ['You have been logged out successfully.',
  'To log-in enter your username and password and submit the form.']
 >>> browser.url
-'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2Fperson-list.html'
 
 
 Login as visitor
@@ -125,7 +125,7 @@ Login as visitor
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/person-list.html'
 >>> browser.getLink('Person list').click()
 
 Visitors are only able to see persons but not edit them (there are no

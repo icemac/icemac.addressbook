@@ -13,7 +13,7 @@ Log in as an editor:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('editor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 
 Creation date
@@ -30,10 +30,10 @@ The creation date is set on creation:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 >>> address_book = layer['addressbook']
 >>> isinstance(IZopeDublinCore(address_book['Person']).created, datetime)
 True
@@ -71,14 +71,14 @@ At first we have to create a new principal and log in:
 >>> create_user(address_book, address_book, u'Hans', u'Tester', u'hans@test.de',
 ...             u'12345678', ('Editor',))
 >>> editor = Browser()
->>> editor.open('http://localhost/++skin++AddressBook/ab/Person')
+>>> editor.open('http://localhost/ab/Person')
 >>> editor.getControl('User Name').value = 'hans@test.de'
 >>> editor.getControl('Password').value = '12345678'
 >>> editor.getControl('Log in').click()
 >>> get_messages(editor)
 ['You have been logged-in successfully.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 
 Modifier
 ~~~~~~~~
@@ -152,7 +152,7 @@ modification dates to ``None``:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> person = address_book['Person']
 >>> print IZopeDublinCore(person).modified == default_moddate
 True
@@ -175,7 +175,7 @@ entries do not change:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> person = address_book['Person']
 >>> print IZopeDublinCore(person).modified == default_moddate
 False

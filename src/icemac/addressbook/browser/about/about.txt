@@ -21,9 +21,9 @@ Root view
 The root view is basic auth protected, so we have to log-in to see the root
 view.  There is a link on the root view pointing to the about screen:
 
->>> browser.open('http://localhost/++skin++AddressBook')
+>>> browser.open('http://localhost')
 >>> browser.getLink(id="about-view").url
-'http://localhost/++skin++AddressBook/@@about.html'
+'http://localhost/@@about.html'
 >>> browser.getLink(id="about-view").click()
 
 It displays the version number of the address book:
@@ -50,14 +50,14 @@ Login screen
 The login screen can be accessed by anonymous users:
 
 >>> anon = Browser()
->>> anon.open('http://localhost/++skin++AddressBook/ab')
+>>> anon.open('http://localhost/ab')
 >>> anon.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 
 Its about screen displays the same information as it has the same URL:
 
 >>> anon.getLink(id="about-view").url
-'http://localhost/++skin++AddressBook/@@about.html'
+'http://localhost/@@about.html'
 >>> anon.getLink(id="about-view").click()
 >>> browser.contents.count(icemac.addressbook.copyright)
 2

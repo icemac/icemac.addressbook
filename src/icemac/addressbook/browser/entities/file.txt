@@ -31,7 +31,7 @@ Create a person using the web ui as it is easier than doing it in code:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 
 Add file to person
@@ -76,7 +76,7 @@ The data in the user defined field can be edited as well:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> print browser.getControl('mynotes').value
 second letter

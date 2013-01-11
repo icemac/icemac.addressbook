@@ -68,9 +68,10 @@ class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
 
 class PersonAddForm(z3c.form.group.GroupForm,
                     icemac.addressbook.browser.base.BaseAddForm):
-
+    """Add a person."""
     label = _(u'Add new person')
     next_url = 'parent'
+    next_view = 'person-list.html'
     interface_for_menu = icemac.addressbook.interfaces.IPerson
 
     def __init__(self, *args, **kw):
@@ -129,6 +130,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     label = _(u'Edit person data')
     next_url = 'parent'
+    next_view = 'person-list.html'
     interface_for_menu = icemac.addressbook.interfaces.IPerson
 
     def __init__(self, *args, **kw):
@@ -258,6 +260,7 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this person?')
     interface = icemac.addressbook.interfaces.IPerson
     field_names = ('first_name', 'last_name')
+    next_view_after_delete = 'person-list.html'
 
     def _do_delete(self):
         try:

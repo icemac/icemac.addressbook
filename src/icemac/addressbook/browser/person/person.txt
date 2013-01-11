@@ -100,7 +100,7 @@ displayed:
 >>> get_messages(browser)
 ['"Tester, Hans" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Hans...
@@ -156,7 +156,7 @@ changes were not saved:
 >>> get_messages(browser)
 ['No changes were applied.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Hans...
@@ -210,7 +210,7 @@ back to the overview page of the address book:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Petra...
@@ -445,7 +445,7 @@ Visitors can not change any data, they can only view it:
 
 >>> visitor_browser = Browser()
 >>> visitor_browser.login('visitor')
->>> visitor_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor_browser.open('http://localhost/ab/person-list.html')
 >>> visitor_browser.getLink('Petra').click()
 >>> print visitor_browser.contents
 <!DOCTYPE...
@@ -498,12 +498,12 @@ He has to go to the edit page of the person and has to choose the
 apporiate delete button there. He is presented with a list of the
 existing adresses and numbers:
 
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab/person-list.html')
 >>> browser.getLink('Petra').click()
 >>> person_edit_form_url = browser.url
 >>> browser.getControl('Delete single entry').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person/@@delete_entry.html'
+'http://localhost/ab/Person/@@delete_entry.html'
 >>> entries = browser.getControl('Entries').displayOptions
 >>> entries
 ['postal address -- c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
@@ -619,11 +619,11 @@ To delete a person the user has to be at least an editor.  He has to
 go to the edit page of the person and has to choose the delete button
 there. He is presented with an `are you sure` formular:
 
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab/person-list.html')
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('Delete whole person').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person/@@delete_person.html'
+'http://localhost/ab/Person/@@delete_person.html'
 
 If he decides not to delete the entry he is led back to the person's
 edit form:
@@ -643,7 +643,7 @@ where the person is no longer listed:
 >>> get_messages(browser)
 ['"Tester, Petra" deleted.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> browser.open(browser.url)
 >>> 'Petra' in browser.contents
 False

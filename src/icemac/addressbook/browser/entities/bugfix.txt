@@ -24,7 +24,7 @@ Log in as the local administrator and navigate to the edit entities
 section of the master data:
 
 >>> browser = Browser()
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'ad@min.de'
 >>> browser.getControl('Password').value = '12345678'
 >>> browser.getControl('Log in').click()
@@ -34,7 +34,7 @@ section of the master data:
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Entities').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++entities'
+'http://localhost/ab/++attribute++entities'
 >>> print browser.contents
 <!DOCTYPE ...
           <td>address book</td>

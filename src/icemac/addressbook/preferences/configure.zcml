@@ -32,7 +32,7 @@
      name="Preferences"
      title="Preferences"
      viewName="++preferences++/ab"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="z3c.preference.EditPreference"
      weight="190"
      />
 

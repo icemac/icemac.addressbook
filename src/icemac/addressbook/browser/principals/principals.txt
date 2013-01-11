@@ -37,7 +37,7 @@ log-in as administrator and go there:
 
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 
@@ -65,16 +65,16 @@ fine as administrator:
 >>> get_messages(browser)
 ['"Admin, Arne" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> browser = Browser()
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'
 >>> browser.getControl('Log in').click()
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 
@@ -95,7 +95,7 @@ shown.):
 
 >>> browser.getLink('user').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@addPrincipal.html'
+'http://localhost/ab/++attribute++principals/@@addPrincipal.html'
 >>> browser.getControl('person').displayOptions
 ['Tester, Hans', 'Utzer, Ben']
 
@@ -107,7 +107,7 @@ users list:
 >>> get_messages(browser)
 ['Addition canceled.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> print browser.contents
 <!DOCTYPE ...
 ...Admin, Arne...
@@ -156,29 +156,29 @@ of all users is shown:
 >>> get_messages(browser)
 ['"Tester, Hans" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> print browser.contents
 <!DOCTYPE ...
   <h2>Users</h2>
   ...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...<a href="http://localhost/ab/++attribute++principals/1">Admin, Arne</a>...
 ...arne@example.com...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...<a href="http://localhost/ab/++attribute++principals/2">Tester, Hans</a>...
 ...tester@example.com...
 ...first new editor...
 
 This newly created user is able to log in:
 
->>> visitor = Browser('http://localhost/++skin++AddressBook/ab')
+>>> visitor = Browser('http://localhost/ab')
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%40%40index.html'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 >>> visitor.getControl('User Name').value = 'tester@example.com'
 >>> visitor.getControl('Password').value = '12345678'
 >>> visitor.getControl('Log in').click()
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 
 A logout link is shown after logging-in:
 
@@ -221,12 +221,12 @@ users list is displayed then:
 >>> get_messages(browser)
 ['No changes were applied.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> print browser.contents
 <!DOCTYPE ...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...<a href="http://localhost/ab/++attribute++principals/1">Admin, Arne</a>...
 ...arne@example.com...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...<a href="http://localhost/ab/++attribute++principals/2">Tester, Hans</a>...
 ...tester@example.com...
 ...first new editor...
 
@@ -245,9 +245,9 @@ button saves the entred values:
 ['Data successfully updated.']
 >>> print browser.contents
 <!DOCTYPE ...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/1">Admin, Arne</a>...
+...<a href="http://localhost/ab/++attribute++principals/1">Admin, Arne</a>...
 ...arne@example.com...
-...<a href="http://localhost/++skin++AddressBook/ab/++attribute++principals/2">Tester, Hans</a>...
+...<a href="http://localhost/ab/++attribute++principals/2">Tester, Hans</a>...
 ...hans@example.com...
 ...Hans the tester...
 >>> browser.getLink('Tester, Hans').click()
@@ -306,7 +306,7 @@ to an error message:
 >>> get_messages(browser)
 ['No changes were applied.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 Only persons which are not users can become a user
 --------------------------------------------------
@@ -354,7 +354,7 @@ create a person and make her a user:
 >>> get_messages(browser)
 ['"Loscher" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> browser.getLink('Loscher').click()
 >>> get_submit_control_names(browser)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.clone_person', 'form.buttons.delete_entry', 'form.buttons.delete_person']
@@ -370,7 +370,7 @@ create a person and make her a user:
 >>> get_messages(browser)
 ['"Loscher" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 There is no delete button for persons in the form of the person:
 
@@ -387,7 +387,7 @@ deletion is not possible:
 >>> get_messages(browser)
 ['Failed to delete person: This person is connected to a user. To delete this person, delete the user first.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/ab/person-list.html'
 >>> 'Loscher' in browser.contents
 True
 
@@ -451,14 +451,14 @@ able to create new persons:
 
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> unstable = Browser()
->>> unstable.open('http://localhost/++skin++AddressBook/ab')
+>>> unstable.open('http://localhost/ab')
 >>> unstable.getControl('User Name').value = 'uu@example.com'
 >>> unstable.getControl('Password').value = 'u1u2u3u4'
 >>> unstable.getControl('Log in').click()
 >>> get_messages(unstable)
 ['You have been logged-in successfully.']
 >>> unstable.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> unstable.getLink('Master data').click()
 >>> unstable.getLink('Users').click()
 >>> print unstable.contents
@@ -486,7 +486,7 @@ can create new persons and change his username:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 >>> unstable.reload()
 >>> unstable.getLink('person').click()
@@ -511,7 +511,7 @@ change his roles and see all other users in the users list:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 >>> unstable.reload()
 >>> unstable.getControl('roles').displayValue
@@ -538,13 +538,13 @@ permissions to see anything:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 >>> unstable.reload()
 Traceback (most recent call last):
 httperror_seek_wrapper: HTTP Error 403: Forbidden
 >>> unstable = Browser()
->>> unstable.open('http://localhost/++skin++AddressBook/ab')
+>>> unstable.open('http://localhost/ab')
 >>> unstable.getControl('User Name').value = 'uu@example.com'
 >>> unstable.getControl('Password').value = 'u1u2u3u4'
 >>> unstable.getControl('Log in').click()
@@ -553,7 +553,7 @@ HTTPError: HTTP Error 403: Forbidden
 >>> get_messages(unstable)
 ['You have been logged-in successfully.']
 >>> unstable.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> print unstable.contents
 <!DOCTYPE ...
 ...Unauthorized...You are not authorized...
@@ -567,7 +567,7 @@ not show an `add user` link:
 
 >>> editor_browser = Browser()
 >>> editor_browser.login('editor')
->>> editor_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> editor_browser.open('http://localhost/ab')
 >>> editor_browser.getLink('Master data').click()
 >>> editor_browser.getLink('Users').click()
 >>> editor_browser.getLink('user')
@@ -587,7 +587,7 @@ can't see or edit any user:
 Manipulating the URL to directly access the add user form raises an
 error:
 
->>> editor_browser.open('http://localhost/++skin++AddressBook/ab/++attribute++principals/@@addPrincipal.html')
+>>> editor_browser.open('http://localhost/ab/++attribute++principals/@@addPrincipal.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 
@@ -599,12 +599,12 @@ Users with the editor role are allowed to see and edit their own user
 data but not the roles. We log-in as an editor:
 
 >>> editor = Browser()
->>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/ab')
 >>> editor.getControl('User Name').value = 'hans@example.com'
 >>> editor.getControl('Password').value = '12345678'
 >>> editor.getControl('Log in').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> editor.getLink('Master data').click()
 >>> editor.getLink('Users').click()
 >>> print editor.contents
@@ -648,14 +648,14 @@ asks the user for its new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> editor.getControl('User Name').value = 'hans.tester'
 >>> editor.getControl('Password').value = 'testtest'
 >>> editor.getControl('Log in').click()
 >>> get_messages(editor)
 ['You have been logged-in successfully.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> print editor.contents
 <!DOCTYPE...
 ...hans.tester...
@@ -682,7 +682,7 @@ The new log-in name an password can also be used to normally log-in:
 >>> get_messages(editor)
 ['You have been logged-in successfully.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/2/index.html'
+'http://localhost/ab/++attribute++principals/2/index.html'
 
 Visitor
 =======
@@ -692,14 +692,14 @@ but not the other userdata. Utzer, Ben has the visitor role, so let
 hin log-in:
 
 >>> visitor = Browser()
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = '12345678'
 >>> visitor.getControl('Log in').click()
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/ab/@@index.html'
 >>> visitor.getLink('Master data').click()
 >>> visitor.getLink('Users').click()
 >>> print visitor.contents
@@ -733,14 +733,14 @@ password immediately asks the user for his new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = 'utzer123'
 >>> visitor.getControl('Log in').click()
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> print visitor.contents
 <!DOCTYPE...
 ...ben.utzer@example.com...
@@ -757,7 +757,7 @@ The new password can also be used at normal log-in:
 >>> pprint(get_messages(visitor))
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/@@index.html'
+'http://localhost/ab/++attribute++principals/@@index.html'
 
 
 Delete a user
@@ -773,7 +773,7 @@ To delete a user the administrator has to open the edit form of the
 user:
 
 >>> browser = Browser()
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'
 >>> browser.getControl('Log in').click()
@@ -788,7 +788,7 @@ On the edit form a delete button leads to an "are-you-sure-form":
 
 >>> browser.getControl('Delete user').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/5/@@delete_user.html'
+'http://localhost/ab/++attribute++principals/5/@@delete_user.html'
 
 If the administrator decides not to delete the user he is led back to
 the user's edit form:
@@ -818,12 +818,12 @@ the user list where the user is no longer listed:
 
 >>> browser.getControl('Delete user').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/5/@@delete_user.html'
+'http://localhost/ab/++attribute++principals/5/@@delete_user.html'
 >>> browser.getControl('Yes, delete').click()
 >>> get_messages(browser)
 ['"Someone, Else" deleted.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 >>> browser.open(browser.url)
 >>> 'Someone, Else' in browser.contents
 False
@@ -840,7 +840,7 @@ The person can be used to create a new user:
 >>> get_messages(browser)
 ['"Someone, Else" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals'
 
 Editor
 ------
@@ -851,7 +851,7 @@ An editor can't delete anybody, there is not even a delete button:
 >>> editor.getLink('Users').click()
 >>> editor.getLink('Hans').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/2'
+'http://localhost/ab/++attribute++principals/2'
 >>> editor_url = editor.url
 >>> from icemac.addressbook.testing import get_submit_control_names
 >>> get_submit_control_names(editor)
@@ -873,7 +873,7 @@ A visitor can't delete anybody, there is not even a delete button:
 >>> visitor.getLink('Users').click()
 >>> visitor.getLink('Utzer, Ben').click()
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/++attribute++principals/3'
+'http://localhost/ab/++attribute++principals/3'
 >>> visitor_url = visitor.url
 >>> get_submit_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']

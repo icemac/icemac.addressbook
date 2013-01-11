@@ -4,7 +4,7 @@
 
 Person data (name, address, ...) is stored inside an address book.
 
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
+>>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 
 Create an address book
@@ -12,8 +12,8 @@ Create an address book
 
 As only managers are allowed to create address books we have to login:
 
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
->>> browser.open('http://localhost/++skin++AddressBook/')
+>>> browser.login('mgr')
+>>> browser.open('http://localhost/')
 
 On the start page there is a link to add an address book:
 
@@ -25,7 +25,7 @@ On the start page there is a link to add an address book:
 ['"test book" added.']
 >>> address_book_url = browser.url
 >>> address_book_url
-'http://localhost/++skin++AddressBook/AddressBook'
+'http://localhost/AddressBook'
 
 
 Editing address book's data
@@ -36,7 +36,7 @@ the formerly entred data:
 
 >>> browser.getLink('Edit address book').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook/@@edit.html'
+'http://localhost/AddressBook/@@edit.html'
 >>> edit_address_book_url = browser.url
 >>> browser.getControl('title').value
 'test book'
@@ -78,7 +78,7 @@ There is also an add link in the add menu to add a person:
 
 >>> browser.getLink('person')
 <Link text='person'
-      url='http://localhost/++skin++AddressBook/AddressBook/@@addPerson.html'>
+      url='http://localhost/AddressBook/@@addPerson.html'>
 
 
 Editors
@@ -180,7 +180,7 @@ in address book` button there. An `are you sure` form is displayed:
 >>> browser.getLink('Edit address book').click()
 >>> browser.getControl('Delete all persons in address book').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook/@@delete_content.html'
+'http://localhost/AddressBook/@@delete_content.html'
 
 When the adminstrator decides not to delete the persons he is led back
 to the address book's edit form:
@@ -205,7 +205,7 @@ list where only the users are still shown:
 >>> get_messages(browser)
 ['Address book contents deleted.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/AddressBook'
+'http://localhost/AddressBook/person-list.html'
 >>> print browser.contents
 <!DOCTYPE ...
   <h2>Persons</h2>
@@ -218,12 +218,12 @@ list where only the users are still shown:
   </thead>
   <tbody>
     <tr class="table-even-row">
-      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">User</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-3">Hans</a></td>
+      <td><a href="http://localhost/AddressBook/Person-3">User</a></td>
+      <td><a href="http://localhost/AddressBook/Person-3">Hans</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Utzr</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/AddressBook/Person-4">Kurt</a></td>
+      <td><a href="http://localhost/AddressBook/Person-4">Utzr</a></td>
+      <td><a href="http://localhost/AddressBook/Person-4">Kurt</a></td>
     </tr>
   </tbody>
 </table>

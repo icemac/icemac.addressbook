@@ -108,7 +108,7 @@ the file name are replaced by underscores:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getLink('Download file').click()
 >>> browser.headers['content-type']
@@ -129,7 +129,7 @@ the file extension and file contents:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('file name').value == filename
 True
@@ -157,7 +157,7 @@ the filename or file content, it is set to ``application/octet-stream``.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('Mime Type').value
 'application/octet-stream'
@@ -170,7 +170,7 @@ set to ``application/octet-stream``.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('Mime Type').value
 ''
@@ -234,7 +234,7 @@ Change
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('file name', index=1).value == filename3
 True
@@ -331,7 +331,7 @@ nor delete them.
 
 >>> visitor = Browser()
 >>> visitor.login('visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Tester').click()
 
 Create
@@ -364,7 +364,7 @@ True
 There are neither any input widgets nor a delete button:
 
 >>> from icemac.addressbook.testing import get_all_control_names
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Tester').click()
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel']
@@ -385,7 +385,7 @@ Download
 
 A visitor can download any file:
 
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Tester').click()
 >>> visitor.getLink('Download file').click()
 >>> visitor.headers['content-type']

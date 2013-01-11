@@ -127,7 +127,7 @@ The field shows up on the add form as a text line:
 
 >>> browser.getLink('Person list').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@index.html'
+'http://localhost/++skin++AddressBook/ab/@@person-list.html'
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('foobar').value
@@ -137,7 +137,7 @@ The field shows up on the add form as a text line:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 Edit form
 ---------
@@ -155,7 +155,7 @@ assigned in the add form:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('foobar').value
 'my value'
@@ -235,7 +235,7 @@ was created by an administrator:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 The entered values get persisted:
 
@@ -248,7 +248,7 @@ The entered values get persisted:
 >>> get_messages(editor)
 ['No changes were applied.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 Add form
 ~~~~~~~~
@@ -266,7 +266,7 @@ The editor can enter values in user defined fields in the add form:
 >>> get_messages(editor)
 ['"Bester" added.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 
 Edit form
 ---------
@@ -283,7 +283,7 @@ The editor is also able to edit the values he entered himself:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab'
+'http://localhost/++skin++AddressBook/ab/person-list.html'
 >>> editor.getLink('Bester').click()
 >>> editor.getControl('foobar').value
 'still better'

@@ -47,7 +47,7 @@ country name:
 
 >>> en_browser = Browser()
 >>> en_browser.login('editor')
->>> en_browser.open('http://localhost/++skin++AddressBook/ab')
+>>> en_browser.open('http://localhost/ab/person-list.html')
 >>> en_browser.getLink('Deutsch').click()
 >>> en_browser.getControl('main postal address').displayValue
 ['Thun, Switzerland']
