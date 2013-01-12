@@ -82,15 +82,16 @@ class MailToTest(unittest.TestCase):
             search_for_persons_with_keyword_search_using_browser)
         browser = search_for_persons_with_keyword_search_using_browser(
             'mail-me', 'visitor')
-        browser.handleErrors = False
         browser.getControl('Apply on selected persons').displayValue = [
             'E-Mail']
         browser.getControl(name='form.buttons.apply').click()
         self.assertEqual(
             ['<div id="mailto">',
              '<h2>Send an e-mail</h2>',
-             '<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
-             'Click here to open your e-mail client</a>',
+             '<p>',
+             '<a href="mailto:?bcc=icemac@example.net,mail@example.com">Click here to open your e-mail client</a>',
+             '</p>',
+             '<br /><a href="javascript:history.go(-1)">Go back</a>',
              '</div>'],
             browser.etree_to_list(
                 browser.etree.xpath('//div[@id="mailto"]')[0]))
