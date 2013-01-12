@@ -71,7 +71,7 @@ displaying a message.
 
 >>> browser.getControl('Complete').click()
 >>> browser.url
-'http://localhost/ab'
+'http://localhost/ab/person-list.html'
 >>> browser.get_messages()
 ['Data successfully updated.']
 
