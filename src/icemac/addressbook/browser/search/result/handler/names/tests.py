@@ -15,7 +15,7 @@ class NamesTests(unittest.TestCase):
         self.p1 = create_person(ab, ab, u'Vrozzek', first_name=u'Paul')
         self.p2 = create_person(ab, ab, u'Vranzz', first_name=u'Peter')
 
-    def test_returns_comma_separated_list_of_names(self):
+    def test_returns_comma_separated_list_of_names_and_count(self):
         from gocept.testing.mock import Property
         from icemac.addressbook.testing import Browser
         browser = Browser()
@@ -25,6 +25,6 @@ class NamesTests(unittest.TestCase):
             'persons')
         with patch(persons, Property()) as persons:
             persons.return_value = [self.p1, self.p2]
-            browser.handleErrors = False
             browser.open('http://localhost/ab/@@person-names.html')
             self.assertIn('Paul Vrozzek, Peter Vranzz', browser.contents)
+            self.assertIn('Number of persons: 2', browser.contents)
