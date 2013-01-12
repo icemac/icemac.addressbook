@@ -7,4 +7,5 @@ class Redirect(icemac.addressbook.browser.base.BaseView):
 
     def __call__(self):
         self.send_flash(_('Data successfully updated.'))
-        self.request.response.redirect(self.url(self.context))
+        self.request.response.redirect(
+            self.url(self.context, 'person-list.html'))
