@@ -11,5 +11,5 @@ class Names(icemac.addressbook.browser.search.result.handler.base.Base,
             icemac.addressbook.interfaces.IPersonName(person).get_name()
             for person in self.persons)
 
-    def next_url(self):
-        return self.url(self.context)
+    def person_count(self):
+        return len(self.persons)
