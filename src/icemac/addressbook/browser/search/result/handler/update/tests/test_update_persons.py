@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2011-2012 Michael Howitz
+# Copyright (c) 2011-2013 Michael Howitz
 # See also LICENSE.txt
 from __future__ import absolute_import
 import mock

@@ -1,4 +1,4 @@
-# Copyright (c) 2008-2012 Michael Howitz
+# Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 """Initial generation."""

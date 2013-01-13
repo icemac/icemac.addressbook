@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2012 Michael Howitz
+# Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
 import grokcore.component
 import icemac.addressbook.interfaces
