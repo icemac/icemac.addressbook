@@ -363,8 +363,8 @@ def write_temp_file(content, suffix):
     return file(filename, 'r'), os.path.basename(filename)
 
 
-# List of known users which are able to login using basic auth:
-USERNAME_PASSWORD_MAP = dict(mgr='mgrpw', editor='editor', visitor='visitor')
+# List of users those passwords are not equal to the login name:
+USERNAME_PASSWORD_MAP = dict(mgr='mgrpw')
 
 
 class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
@@ -372,8 +372,9 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     def login(self, username):
         """Login a user using basic auth."""
-        self.addHeader('Authorization', 'Basic %s:%s' %
-                       (username, USERNAME_PASSWORD_MAP[username]))
+        self.addHeader(
+            'Authorization', 'Basic %s:%s' %
+            (username, USERNAME_PASSWORD_MAP.get(username, username)))
 
     def etree_to_list(self, etree):
         """"Convert an etree into a list (lines without leading whitespace.)"""
@@ -382,7 +383,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
                 if x.strip()]
 
     get_messages = get_messages
-
+    get_all_control_names = get_all_control_names
 
 ### Helper functions to create objects in the database ###
 
