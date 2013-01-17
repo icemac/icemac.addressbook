@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 import grokcore.component
 import icemac.addressbook.interfaces
+import icemac.addressbook.schema
 import persistent
 import persistent.interfaces
 import zc.sourcefactory.basic
@@ -214,15 +215,8 @@ class Entity(object):
     #          EditableEntity (see below).
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntity)
-
-    # IEntityRead
-
-    title = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEntity['title'])
-    interface = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEntity['interface'])
-    class_name = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEntity['class_name'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IEntityRead)
 
     def __init__(self, title, interface, class_name, **kw):
         # To create an entity, use `create_entity` factory (see below) which
@@ -387,15 +381,8 @@ class Field(persistent.Persistent, zope.container.contained.Contained):
     """User defined field."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IField)
-
-    type = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IField['type'])
-    title = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IField['title'])
-    values = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IField['values'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IField['notes'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IField)
 
 
 class FieldAdapterFactory(persistent.Persistent):

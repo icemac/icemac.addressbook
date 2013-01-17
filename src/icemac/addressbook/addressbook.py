@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.entities
@@ -11,6 +9,7 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.orderstorage
 import icemac.addressbook.preferences.default
+import icemac.addressbook.schema
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
@@ -31,7 +30,6 @@ import zope.location.interfaces
 import zope.pluggableauth.authentication
 import zope.pluggableauth.interfaces
 import zope.pluggableauth.plugins.principalfolder
-import zope.schema.fieldproperty
 import zope.site.site
 
 
@@ -40,15 +38,14 @@ class AddressBook(zope.container.btree.BTreeContainer,
     """An address book."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IAddressBook)
 
     entities = None
     importer = None
     keywords = None
     principals = None
     orders = None
-
-    title = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IAddressBook['title'])
 
     def __repr__(self):
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)

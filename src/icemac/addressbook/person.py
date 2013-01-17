@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import gocept.reference
 import icemac.addressbook.address
 import icemac.addressbook.entities
@@ -21,15 +19,8 @@ class Person(zope.container.btree.BTreeContainer):
     zope.interface.implements(icemac.addressbook.interfaces.IPerson,
                               icemac.addressbook.interfaces.IPersonDefaults,
                               zope.annotation.interfaces.IAttributeAnnotatable)
-
-    first_name = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['first_name'])
-    last_name = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['last_name'])
-    birth_date = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['birth_date'])
-    notes = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPerson['notes'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IPerson, omit=['keywords'])
 
     keywords = gocept.reference.ReferenceCollection(
         'keywords', ensure_integrity=True)
