@@ -1,16 +1,14 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
+import icemac.addressbook.schema
 import persistent
 import zope.container.contained
 import zope.globalrequest
 import zope.interface
-import zope.schema.fieldproperty
 
 
 class PostalAddress(
@@ -18,17 +16,8 @@ class PostalAddress(
     "A postal address."
 
     zope.interface.implements(icemac.addressbook.interfaces.IPostalAddress)
-
-    address_prefix = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['address_prefix'])
-    street = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['street'])
-    city = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['city'])
-    zip = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['zip'])
-    country = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPostalAddress['country'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IPostalAddress)
 
 
 # postal address entity, default_attrib is the name of the attribute
@@ -62,9 +51,8 @@ class EMailAddress(
     """An e-mail address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IEMailAddress)
-
-    email = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IEMailAddress['email'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IEMailAddress)
 
 
 # e-mail address entity, default_attrib is the name of the attribute
@@ -97,9 +85,8 @@ class HomePageAddress(
     """A home page address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IHomePageAddress)
-
-    url = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IHomePageAddress['url'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IHomePageAddress)
 
 
 # home page address entity, default_attrib is the name of the attribute
@@ -124,9 +111,8 @@ class PhoneNumber(
     """A phone number."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IPhoneNumber)
-
-    number = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.interfaces.IPhoneNumber['number'])
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.interfaces.IPhoneNumber)
 
 
 # phone number entity, default_attrib is the name of the attribute

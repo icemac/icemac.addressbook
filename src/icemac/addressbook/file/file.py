@@ -17,17 +17,14 @@ class File(persistent.Persistent, zope.container.contained.Contained):
     "A file."
 
     zope.interface.implements(icemac.addressbook.file.interfaces.IFile)
+    icemac.addressbook.schema.createFieldProperties(
+        icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 
     def __init__(self, *args, **kw):
         super(File, self).__init__(*args, **kw)
         # initialize blob with no data
         self._data = ZODB.blob.Blob()
         self.data = ''
-
-    name = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.file.interfaces.IFile['name'])
-    mimeType = zope.schema.fieldproperty.FieldProperty(
-        icemac.addressbook.file.interfaces.IFile['mimeType'])
 
     @property
     def size(self):
