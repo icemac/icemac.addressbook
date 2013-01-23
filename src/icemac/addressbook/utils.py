@@ -1,22 +1,29 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-
+import contextlib
 import zope.container.interfaces
 import zope.event
 import zope.lifecycleevent
-import zope.site.hooks
+
+
+@contextlib.contextmanager
+def site(site):
+    """Context manager to set site in zope.component.hooks."""
+    old_site = zope.component.hooks.getSite()
+    zope.component.hooks.setSite(site)
+    try:
+        yield site
+    finally:
+        zope.component.hooks.setSite(old_site)
 
 
 def set_site(func):
     "Decorator which does the set-site-dance."
-    def decorated(site, *args, **kw):
-        old_site = zope.site.hooks.getSite()
-        try:
-            zope.site.hooks.setSite(site)
+    def decorated(site_obj, *args, **kw):
+        with site(site_obj):
             return func(*args, **kw)
-        finally:
-            zope.site.hooks.setSite(old_site)
     return decorated
+
 
 
 def create_obj(class_, *args, **kw):
