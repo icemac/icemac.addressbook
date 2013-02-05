@@ -25,6 +25,13 @@
       schema=".interfaces.IPersonListTab"
       />
 
+  <preferenceGroup
+      id="ab.timeZone"
+      title="TimeZone"
+      description="Datetimes get converted to the selected time zone."
+      schema=".interfaces.ITimeZone"
+      />
+
   <z3c:siteMenuItem
      manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
      for="*"

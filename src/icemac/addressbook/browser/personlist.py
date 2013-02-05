@@ -87,7 +87,7 @@ class DateTimeColumn(z3c.table.column.FormatterColumn,
         if key is None:
             # empty date fields should be sorted to the end of the list
             key = self.maxValue
-        return key
+        return key.isoformat()
 
 
 class DateColumn(DateTimeColumn):

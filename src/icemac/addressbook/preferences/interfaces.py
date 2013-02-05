@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2010-2013 Michael Howitz
 # See also LICENSE.txt
-
 from icemac.addressbook.i18n import _
 import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
+import pytz
+import stabledict
 import zope.interface
 import zope.schema
 
@@ -31,3 +32,15 @@ class IPersonListTab(zope.interface.Interface):
     """Preferences of the person list tab."""
 
     batch_size = zope.schema.Int(title=_('batch size'), min=1)
+
+
+class TimeZones(icemac.addressbook.sources.TitleMappingSource):
+    """Source of all available time zones."""
+
+    _mapping = stabledict.StableDict(((x, x) for x in pytz.all_timezones))
+
+
+class ITimeZone(zope.interface.Interface):
+    """Preferred time zone."""
+
+    time_zone = zope.schema.Choice(title=_('time zone'), source=TimeZones())
