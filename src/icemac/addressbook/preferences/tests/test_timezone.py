@@ -1,0 +1,47 @@
+import icemac.addressbook.testing
+import unittest2 as unittest
+
+
+class TimeZoneTests(unittest.TestCase):
+    """Testing time zone preferences."""
+
+    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
+
+    def get_browser(self, url='http://localhost/ab/++preferences++/ab.timeZone'):
+        browser = icemac.addressbook.testing.Browser()
+        browser.login('visitor')
+        browser.handleErrors = False
+        browser.open(url)
+        return browser
+
+    def test_default_value_is_UTC(self):
+        self.assertEqual(
+            ['UTC'], self.get_browser().getControl('time zone').displayValue)
+
+    def test_changed_value_is_stored(self):
+        browser = self.get_browser()
+        browser.getControl('time zone').displayValue = ['Europe/Berlin']
+        browser.getControl('Apply').click()
+        self.assertIn('Data successfully updated.', browser.contents)
+        self.assertEqual(
+            ['Europe/Berlin'], browser.getControl('time zone').displayValue)
+
+    def test_metadata_is_converted_to_selected_time_zone(self):
+        from datetime import datetime
+        from icemac.addressbook.testing import create_keyword
+        from pytz import utc
+        from zope.dublincore.interfaces import IZopeDublinCore
+        from zope.component import getUtility
+        from zope.preference.interfaces import IDefaultPreferenceProvider
+
+        kw = create_keyword(self.layer['addressbook'], u'foo')
+        IZopeDublinCore(kw).modified = datetime(2001, 1, 1, tzinfo=utc)
+        default_prefs = getUtility(IDefaultPreferenceProvider)
+        default_prefs.getDefaultPreferenceGroup('ab.timeZone').time_zone = (
+            'Etc/GMT-4')
+
+        browser = self.get_browser(
+            'http://localhost/ab/++attribute++keywords/%s' % kw.__name__)
+        self.assertIn('01/01/01 04:00', browser.contents)
+        self.assertIn('Modification Date (Etc/GMT-4)', browser.contents)
+        self.assertIn('Creation Date (Etc/GMT-4)', browser.contents)

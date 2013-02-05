@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.metadata.interfaces
 import z3c.form.field
 import z3c.form.group
 import z3c.form.interfaces
 import zope.component
 import zope.dublincore.interfaces
+import zope.preference.interfaces
 
 
 class MetadataGroup(z3c.form.group.Group):
@@ -40,12 +40,20 @@ class MetadataGroup(z3c.form.group.Group):
         self.widgets.update()
 
 
-ModifiedLabel = z3c.form.widget.StaticWidgetAttribute(
-    _(u'Modification Date (UTC)'),
+def timezone_messageid_factory(message_id):
+    """Sets the currently selected time zone in the mapping of the message id."""
+    def factory(ignored):
+        prefs = zope.component.getUtility(
+            zope.preference.interfaces.IPreferenceGroup, name="ab.timeZone")
+        return _(message_id, mapping=dict(timezone=prefs.time_zone))
+    return factory
+
+ModifiedLabel = z3c.form.widget.ComputedWidgetAttribute(
+    timezone_messageid_factory(_(u'Modification Date (${timezone})')),
     field=zope.dublincore.interfaces.IDCTimes['modified'])
 
-CreatedLabel = z3c.form.widget.StaticWidgetAttribute(
-    _(u'Creation Date (UTC)'),
+CreatedLabel = z3c.form.widget.ComputedWidgetAttribute(
+    timezone_messageid_factory(_(u'Creation Date (${timezone})')),
     field=zope.dublincore.interfaces.IDCTimes['created'])
 
 MetadataGroupFieldsNotRequired = z3c.form.widget.StaticWidgetAttribute(

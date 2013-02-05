@@ -40,3 +40,7 @@ def add(address_book):
     # Set the defaults for the person list tab:
     prefs = default_prefs.getDefaultPreferenceGroup('ab.personListTab')
     prefs.batch_size = 20
+
+    # Set the default time zone:
+    prefs = default_prefs.getDefaultPreferenceGroup('ab.timeZone')
+    prefs.time_zone = 'UTC'
