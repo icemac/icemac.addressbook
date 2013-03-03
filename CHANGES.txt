@@ -13,8 +13,10 @@ Features
   book.
 
 - Added ability to user preferences to set current time zone. Datetimes,
-  e. g. creation date and modification date, are converted to the selected
-  time zone. Default is UTC.
+  e. g. creation date, modification date and user defined fields of type
+  datetime, are converted to the selected time zone. Default is UTC.
+
+- Added JavaScript calendar widget to datetime fields.
 
 - Added number of displayed persons in search result handler which displays
   the names of the selected persons (new in 1.9.0).

@@ -1,4 +1,5 @@
 from mock import patch, Mock
+import icemac.addressbook.testing
 import unittest2 as unittest
 
 
@@ -53,3 +54,44 @@ class DatetimeDataConverterTests(unittest.TestCase):
         from datetime import datetime
         from pytz import timezone
         self.assertIsNone(self.make_one().toFieldValue(u''))
+
+
+class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
+    """Testing ..form.zope_i18n_pattern_to_jquery_pattern()."""
+
+    def callFUT(self, pattern):
+        from ..form import zope_i18n_pattern_to_jquery_pattern
+        return zope_i18n_pattern_to_jquery_pattern(pattern)
+
+    def test_converts_German_date_format_correctly(self):
+        self.assertEqual('dd.mm.y hh:mm', self.callFUT('dd.MM.yy HH:mm'))
+
+    def test_converts_American_date_format_correctly(self):
+        self.assertEqual('m/d/y hh:mm TT', self.callFUT('M/d/yy h:mm a'))
+
+
+class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
+    """Selenium testing ..form.DatetimeWidget."""
+
+    def setUp(self):
+        from icemac.addressbook.testing import create_field, create_keyword
+        super(DatetimeWidgetTests, self).setUp()
+        ab = self.layer['addressbook']
+        keyword_entity_name = 'icemac.addressbook.keyword.Keyword'
+        create_field(ab, keyword_entity_name, 'Datetime', u'datetime')
+        self.kw = create_keyword(ab, u'foobar')
+
+    def test_datetime_widget_renders_javascript_calendar(self):
+        self.login('editor', 'editor')
+        s = self.selenium
+        s.open('/ab/++attribute++keywords/%s' % self.kw.__name__)
+        # Activate the datetime field which opens the JavaScript calendar
+        s.click('id=form-widgets-Field-1')
+        # Click the `now` button:
+        s.click("//button[@type='button']")
+        # And the `done` button:
+        s.click("xpath=(//button[@type='button'])[2]")
+        # Save the form:
+        s.clickAndWait("id=form-buttons-apply")
+        # Successful apply leads back to keyword overview
+        s.assertLocation('http://%s/ab/++attribute++keywords' % s.server)
