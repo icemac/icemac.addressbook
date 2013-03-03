@@ -60,7 +60,10 @@ class IPersonName(zope.interface.Interface):
     """Name of a person, used for indexing."""
 
     def get_name():
-        """Return first name and last name of the person."""
+        """Return first name and last name of the person.
+
+        Names are sepatated by a space.
+        """
 
 
 class IPostalAddress(zope.interface.Interface):
