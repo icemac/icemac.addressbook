@@ -259,6 +259,7 @@ class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
     level = 2
 
     def login(self, username='mgr', password='mgrpw'):
+        transaction.commit()
         self.selenium.open("http://%s:%s@%s/" % (
             username, password, self.selenium.server))
 
