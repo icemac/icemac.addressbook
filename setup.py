@@ -72,6 +72,7 @@ setuptools.setup(
         'icemac.ab.locales [compile] >= 0.11',
         'icemac.truncatetext',
         'js.jquery',
+        'js.jquery_timepicker_addon',
         'js.jqueryui',
         'setuptools',
         'xlwt',

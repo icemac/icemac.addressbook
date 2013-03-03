@@ -35,3 +35,7 @@ class IErrorMessage(zope.interface.Interface):
 
     def __unicode__():
         """Returns the translateable error text."""
+
+
+class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
+    """Special date and time widget to be able to use a JavaScript picker."""

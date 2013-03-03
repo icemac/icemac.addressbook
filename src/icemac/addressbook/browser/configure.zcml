@@ -42,8 +42,8 @@
      provides="z3c.form.interfaces.IFieldWidget"
      factory=".widget.SortedSelectFieldWidget" />
 
-  <!-- z3c.form -->
 
+  <!-- z3c.form -->
   <adapter factory=".datamanager.AnnotationField" />
 
   <z3c:template
@@ -66,8 +66,22 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 
-  <!-- z3c.table -->
+  <class class=".form.DatetimeWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDatetimeWidget"
+        />
+  </class>
 
+  <z3c:widgetTemplate
+      widget=".interfaces.IDatetimeWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="datetime_input.pt"
+      />
+
+
+  <!-- z3c.table -->
   <adapter
       for="*
            icemac.addressbook.browser.interfaces.IAddressBookLayer
