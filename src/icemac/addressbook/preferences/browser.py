@@ -13,7 +13,7 @@ lib = fanstatic.Library('prefs', 'resources')
 css = fanstatic.Resource(
         lib, 'prefs.css',
         depends=[icemac.addressbook.browser.resource.form_css])
-js = fanstatic.Resource(lib, 'prefs.js', depends=[js.jqueryui.jqueryui])
+js = fanstatic.Resource(lib, 'prefs.js', depends=[js.jqueryui.effects_fade])
 
 
 class EditForm(icemac.addressbook.browser.base.BaseEditForm,

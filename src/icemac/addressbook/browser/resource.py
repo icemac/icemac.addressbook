@@ -24,4 +24,4 @@ wizard_css = fanstatic.Resource(css_lib, 'wizard.css')
 js_lib = fanstatic.Library('js', os.path.join('resources', 'js'))
 
 masterdata_fields = fanstatic.Resource(
-    js_lib, 'masterdata_fields.js', depends=[js.jqueryui.jqueryui])
+    js_lib, 'masterdata_fields.js', depends=[js.jqueryui.ui_sortable])
