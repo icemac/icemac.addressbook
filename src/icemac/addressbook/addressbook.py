@@ -2,7 +2,7 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
-import grokcore.component
+import grokcore.component as grok
 import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
@@ -18,6 +18,7 @@ import zope.catalog.catalog
 import zope.catalog.interfaces
 import zope.catalog.text
 import zope.component
+import zope.component.hooks
 import zope.container.btree
 import zope.container.interfaces
 import zope.event
@@ -53,6 +54,13 @@ class AddressBook(zope.container.btree.BTreeContainer,
 address_book_entity = icemac.addressbook.entities.create_entity(
     _(u'address book'),
     icemac.addressbook.interfaces.IAddressBook, AddressBook)
+
+
+@grok.adapter(None)
+@grok.implementer(icemac.addressbook.interfaces.IAddressBook)
+def get_address_book(context):
+    """Get the current address book from every context."""
+    return zope.component.hooks.getSite()
 
 
 def create_and_register(addressbook, attrib_name, class_, interface, name=''):
@@ -130,7 +138,7 @@ class AddressBookCreated(object):
         self.address_book = address_book
 
 
-@grokcore.component.subscribe(AddressBookCreated)
+@grok.subscribe(AddressBookCreated)
 def add_more_addressbook_infrastructure(event):
     """Add infrastructure which depends on address book as site manager."""
     addressbook = event.address_book
