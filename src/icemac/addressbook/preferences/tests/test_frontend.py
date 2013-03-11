@@ -11,7 +11,7 @@ class FrontEndTests(icemac.addressbook.testing.SeleniumTestCase):
         # Preference groups are closed by default, fields are not visible:
         sel.assertNotVisible("css=#form-widgets-columns-row")
         # After opening the group the field is shown:
-        sel.click("css=legend")
+        sel.click("//fieldset[@class='personLists']/legend")
         sel.waitForVisible("css=#form-widgets-columns-row")
         # Clicking on a form element does not close the group:
         sel.addSelection("id=form-widgets-columns-from",
@@ -19,5 +19,5 @@ class FrontEndTests(icemac.addressbook.testing.SeleniumTestCase):
         sel.click("name=from2toButton")
         sel.assertVisible("css=#form-widgets-columns-row")
         # Clicking on the legend closes the group:
-        sel.click("css=legend")
+        sel.click("//fieldset[@class='personLists']/legend")
         sel.waitForNotVisible("css=#form-widgets-columns-row")
