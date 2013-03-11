@@ -63,7 +63,7 @@ sure that this package is installed:
 >>> browser.getControl('Hinzufügen').click()
 >>> print browser.contents
 <!DOCTYPE ...
-     <fieldset>
+     <fieldset class="ab">
        <legend>Person</legend>
        <div class="group">
            <div class="status">
