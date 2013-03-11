@@ -56,26 +56,16 @@ class MailToTest(unittest.TestCase):
         view.request = mock.Mock()
         return view
 
-    @mock.patch('icemac.addressbook.browser.base.get_session')
-    def test_persons_returns_persons_for_ids_in_session(self, session):
-        from icemac.addressbook.testing import (
-            create_person, create_full_person, create_email_address)
-        person_ids = [self.layer[x].__name__ for x in 'p1 p2'.split()]
-        session.return_value = dict(person_ids=person_ids)
-        self.assertEqual(person_ids,
-                         [x.__name__ for x in self.get_view().get_persons()])
-
-    get_persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
-                   'mailto.MailTo.get_persons')
-
-    @mock.patch(get_persons)
     def test_unique_mail_addresses_returns_sorted_unique_email_addresses(
-            self, get_persons):
-        get_persons.return_value = [
-            self.layer[x] for x in 'p0 p1 p2 p3 p4'.split()]
-
-        self.assertEqual([u'icemac@example.net', u'mail@example.com'],
-                         self.get_view().unique_mail_addresses)
+            self):
+        from gocept.testing.mock import Property
+        persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
+                   'mailto.MailTo.persons')
+        with mock.patch(persons, Property()) as persons:
+            persons.return_value = [
+                self.layer[x] for x in 'p0 p1 p2 p3 p4'.split()]
+            self.assertEqual([u'icemac@example.net', u'mail@example.com'],
+                             self.get_view().unique_mail_addresses)
 
     def test_view_displays_mail_adresses_of_selected_persons_as_link(self):
         from icemac.addressbook.browser.testing import (

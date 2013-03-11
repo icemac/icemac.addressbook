@@ -7,6 +7,6 @@ class Base(object):
 
     @property
     def persons(self):
-        addressbook = zope.component.hooks.getSite()
+        addressbook = icemac.addressbook.interfaces.IAddressBook(None)
         session = icemac.addressbook.browser.base.get_session(self.request)
         return [addressbook[id] for id in session['person_ids']]

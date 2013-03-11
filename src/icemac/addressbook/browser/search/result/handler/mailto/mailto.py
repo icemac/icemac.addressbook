@@ -1,19 +1,15 @@
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.search.result.handler.base
 import zope.component.hooks
 
 
-class MailTo(object):
-
-    def get_persons(self):
-        addressbook = zope.component.hooks.getSite()
-        session = icemac.addressbook.browser.base.get_session(self.request)
-        for id in session['person_ids']:
-            yield addressbook[id]
+class MailTo(icemac.addressbook.browser.search.result.handler.base.Base):
+    """Create a mailto link for all persons in selection."""
 
     @property
     def unique_mail_addresses(self):
         addresses = set()
-        for person in self.get_persons():
+        for person in self.persons:
             email = icemac.addressbook.interfaces.IEMailAddress(person, None)
             if email is None:
                 continue
