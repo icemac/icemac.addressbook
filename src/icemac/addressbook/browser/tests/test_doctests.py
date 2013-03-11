@@ -10,7 +10,6 @@ import zope.testing.renormalizing
 
 def test_suite():
     suite = icemac.addressbook.testing.TestBrowserDocFileSuite(
-        "browser/about/about.txt",
         "browser/addressbook/addressbook.txt",
         "browser/authentication/login.txt",
         "browser/entities/bugfix.txt",
