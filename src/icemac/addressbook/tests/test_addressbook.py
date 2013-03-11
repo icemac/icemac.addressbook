@@ -61,3 +61,13 @@ class TestAddressbook(unittest.TestCase,
         self.ab.title = u'My address book'
         self.assertEqual("<AddressBook u'ab' (u'My address book')>",
                          repr(self.ab))
+
+
+class GetAddressBookTests(unittest.TestCase):
+    """Testing ..addressbook.get_address_book."""
+
+    layer = icemac.addressbook.testing.ZODB_LAYER
+
+    def test_returns_current_addressbook(self):
+        from icemac.addressbook.interfaces import IAddressBook
+        self.assertEqual(self.layer['addressbook'], IAddressBook(42))
