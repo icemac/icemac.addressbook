@@ -35,7 +35,8 @@
    </metal:block>
    <metal:block define-macro="groups">
      <fieldset tal:condition="view/groups|nothing"
-               tal:repeat="view view/groups">
+               tal:repeat="view view/groups"
+               tal:attributes="class view/context/__name__">
        <legend tal:condition="view/label"
                 tal:content="view/label">Label</legend>
        <div class="group">
