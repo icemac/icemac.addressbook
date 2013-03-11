@@ -13,6 +13,7 @@ import z3c.form.widget
 import zope.component
 import zope.preference.interfaces
 import zope.schema.interfaces
+import icemac.addressbook.preferences.utils
 
 
 class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
@@ -25,9 +26,7 @@ class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
     @property
     def time_zone_name(self):
         """User selected time zone name."""
-        return zope.component.getUtility(
-            zope.preference.interfaces.IPreferenceGroup,
-            name="ab.timeZone").time_zone
+        return icemac.addressbook.preferences.utils.get_time_zone_name()
 
     def toWidgetValue(self, value):
         """Convert to time zone user has selected."""
