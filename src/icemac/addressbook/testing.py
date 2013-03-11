@@ -22,6 +22,7 @@ import plone.testing.zodb
 import re
 import tempfile
 import transaction
+import unittest2 as unittest
 import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
 import zope.app.publication.httpfactory
@@ -40,7 +41,6 @@ import zope.testbrowser.wsgi
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
-
 
 if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
     from zope.testing import doctest
@@ -252,6 +252,15 @@ TEST_BROWSER_LAYER = TestBrowserLayer('AddressBook', ZODB_LAYER)
 SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
 
 
+# Mixins
+class ZODBMixIn(object):
+    """Mix in methods for test cases basing on ZODB layer."""
+
+    def create_person(self, last_name, **kw):
+        ab = self.layer['addressbook']
+        return create_person(ab, ab, last_name, **kw)
+
+
 # Test cases
 class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
     """Base test class for selenium tests."""
@@ -262,6 +271,19 @@ class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
         transaction.commit()
         self.selenium.open("http://%s:%s@%s/" % (
             username, password, self.selenium.server))
+
+
+class BrowserTestCase(unittest.TestCase,
+                      ZODBMixIn):
+    """Test case for zope.testbrowser tests."""
+
+    layer = TEST_BROWSER_LAYER
+
+    def get_browser(self, login=None):
+        browser = Browser()
+        if login is not None:
+            browser.login(login)
+        return browser
 
 
 def DocFileSuite(*paths, **kw):
