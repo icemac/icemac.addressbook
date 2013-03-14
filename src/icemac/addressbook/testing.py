@@ -261,6 +261,15 @@ class ZODBMixIn(object):
         return create_person(ab, ab, last_name, **kw)
 
 
+class BrowserMixIn(object):
+    """Mix in methods for browser test cases."""
+    def get_browser(self, login=None):
+        browser = Browser()
+        if login is not None:
+            browser.login(login)
+        return browser
+
+
 # Test cases
 class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
     """Base test class for selenium tests."""
@@ -274,16 +283,11 @@ class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
 
 
 class BrowserTestCase(unittest.TestCase,
-                      ZODBMixIn):
+                      ZODBMixIn,
+                      BrowserMixIn):
     """Test case for zope.testbrowser tests."""
 
     layer = TEST_BROWSER_LAYER
-
-    def get_browser(self, login=None):
-        browser = Browser()
-        if login is not None:
-            browser.login(login)
-        return browser
 
 
 def DocFileSuite(*paths, **kw):
