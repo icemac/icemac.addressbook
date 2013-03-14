@@ -48,7 +48,20 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="index.html"
       permission="z3c.preference.EditPreference"
-      class=".browser.EditForm"
+      class=".browser.CategoryEditForm"
+      />
+
+  <z3c:template
+      template="editform.pt"
+      for=".browser.CategoryEditForm"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer" />
+
+  <z3c:pagelet
+      for="zope.preference.interfaces.IPreferenceGroup"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="index.html"
+      permission="z3c.preference.EditPreference"
+      class=".browser.PrefGroupEditForm"
       />
 
   <browser:resourceDirectory
@@ -57,10 +70,5 @@
       directory="resources"
       permission="zope.Public"
       />
-
-  <z3c:template
-      template="editform.pt"
-      for=".browser.EditForm"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer" />
 
 </configure>

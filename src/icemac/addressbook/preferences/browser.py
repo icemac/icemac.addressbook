@@ -16,9 +16,9 @@ css = fanstatic.Resource(
 js = fanstatic.Resource(lib, 'prefs.js', depends=[js.jqueryui.effects_fade])
 
 
-class EditForm(icemac.addressbook.browser.base.BaseEditForm,
-               z3c.preference.browser.CategoryEditForm):
-    """Preference EditForm which uses address book's form CSS."""
+class CategoryEditForm(icemac.addressbook.browser.base.BaseEditForm,
+                       z3c.preference.browser.CategoryEditForm):
+    """Preference CategoryEditForm which uses CSS of address book."""
 
     next_url = 'site'
     next_view = 'person-list.html'
@@ -27,4 +27,16 @@ class EditForm(icemac.addressbook.browser.base.BaseEditForm,
     def update(self):
         css.need()
         js.need()
-        super(EditForm, self).update()
+        super(CategoryEditForm, self).update()
+
+
+class PrefGroupEditForm(icemac.addressbook.browser.base.BaseEditForm,
+                        z3c.preference.browser.EditForm):
+    """Preference group EditForm which uses CSS of address book."""
+
+    __init__ = z3c.preference.browser.EditForm.__init__
+
+    def redirect_to_next_url(self):
+        # Stay on form but reload the values from database in case of
+        # cancel:
+        self.request.response.redirect(self.request.URL)
