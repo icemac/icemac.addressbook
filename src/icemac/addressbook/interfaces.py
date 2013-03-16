@@ -42,11 +42,20 @@ class IAddressBook(zope.interface.Interface):
     title = zope.schema.TextLine(title=_(u'title'))
 
 
-class IPerson(zope.interface.Interface):
-    """A person."""
-
+class IPersonName(zope.interface.Interface):
+    """Name of a person."""
     first_name = zope.schema.TextLine(title=_(u'first name'), required=False)
     last_name = zope.schema.TextLine(title=_(u'last name'))
+
+    def get_name():
+        """Return first name and last name of the person.
+
+        Names are sepatated by a space.
+        """
+
+class IPersonData(zope.interface.Interface):
+    """Data of a person."""
+
     birth_date = zope.schema.Date(title=_(u'birth date'), required=False)
     keywords = gocept.reference.field.Set(
         title=_('keywords'), required=False,
@@ -56,14 +65,8 @@ class IPerson(zope.interface.Interface):
     notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
-class IPersonName(zope.interface.Interface):
-    """Name of a person, used for indexing."""
-
-    def get_name():
-        """Return first name and last name of the person.
-
-        Names are sepatated by a space.
-        """
+class IPerson(IPersonName, IPersonData):
+    """A person."""
 
 
 class IPostalAddress(zope.interface.Interface):

@@ -45,6 +45,11 @@
     />
 
   <permission
+    id="icemac.addressbook.ViewPersonName"
+    title="XXX"
+    />
+
+  <permission
     id="icemac.addressbook.ViewPerson"
     title="XXX"
     />
@@ -150,6 +155,13 @@
     id="icemac.addressbook.EditEntities"
     title="XXX"
     />
+
+  <!-- see the preferences tab and change prefs -->
+  <permission
+    id="icemac.addressbook.EditAllPreferences"
+    title="XXX"
+    />
+
 
   <grantAll principal="zope.manager" />
 

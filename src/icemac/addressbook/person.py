@@ -14,11 +14,12 @@ import zope.schema.fieldproperty
 
 
 class Person(zope.container.btree.BTreeContainer):
-    "A person."
+    """A person."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IPerson,
                               icemac.addressbook.interfaces.IPersonDefaults,
                               zope.annotation.interfaces.IAttributeAnnotatable)
+
     icemac.addressbook.schema.createFieldProperties(
         icemac.addressbook.interfaces.IPerson, omit=['keywords'])
 
@@ -32,6 +33,11 @@ class Person(zope.container.btree.BTreeContainer):
         'default_home_page_address', ensure_integrity=True)
     default_phone_number = gocept.reference.Reference(
         'default_phone_number', ensure_integrity=True)
+
+    def get_name(self):
+        values = [self.first_name, self.last_name]
+        result = [x for x in values if x]
+        return ' '.join(result)
 
 
 person_entity = icemac.addressbook.entities.create_entity(
@@ -113,17 +119,3 @@ class Keywords(object):
     def get_titles(self):
         return [icemac.addressbook.interfaces.ITitle(x)
                 for x in self.context.keywords]
-
-
-class PersonName(object):
-
-    zope.interface.implements(icemac.addressbook.interfaces.IPersonName)
-    zope.component.adapts(icemac.addressbook.interfaces.IPerson)
-
-    def __init__(self, person):
-        self.person = person
-
-    def get_name(self):
-        values = [self.person.first_name, self.person.last_name]
-        result = [x for x in values if x]
-        return ' '.join(result)
