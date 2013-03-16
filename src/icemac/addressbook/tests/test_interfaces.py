@@ -29,11 +29,6 @@ class TestInterfaces(unittest.TestCase):
         gocept.reference.verify.verifyObject(
             icemac.addressbook.interfaces.IPersonDefaults, person)
 
-    def test_person_name(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IPersonName,
-            icemac.addressbook.person.PersonName(None))
-
     def test_address_book(self):
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IAddressBook,

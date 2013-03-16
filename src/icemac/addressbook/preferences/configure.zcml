@@ -39,7 +39,7 @@
      name="Preferences"
      title="Preferences"
      viewName="++preferences++/ab"
-     permission="z3c.preference.EditPreference"
+     permission="icemac.addressbook.EditAllPreferences"
      weight="190"
      />
 
@@ -47,7 +47,7 @@
       for="zope.preference.interfaces.IPreferenceCategory"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="index.html"
-      permission="z3c.preference.EditPreference"
+      permission="icemac.addressbook.EditAllPreferences"
       class=".browser.CategoryEditForm"
       />
 

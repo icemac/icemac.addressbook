@@ -55,6 +55,11 @@
 
   <grant
      role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.ViewPersonName"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
      permission="icemac.addressbook.ViewPerson"
      />
 
@@ -162,6 +167,10 @@
      role="icemac.addressbook.global.Editor"
      permission="z3c.preference.EditPreference"
      />
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permission="icemac.addressbook.EditAllPreferences"
+     />
 
   <!-- Visitor -->
   <role id="icemac.addressbook.global.Visitor"
@@ -187,6 +196,11 @@
   <grant
      role="icemac.addressbook.global.Visitor"
      permission="icemac.addressbook.ViewSomePrincipals"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.ViewPersonName"
      />
 
   <grant
@@ -232,6 +246,10 @@
   <grant
      role="icemac.addressbook.global.Visitor"
      permission="z3c.preference.EditPreference"
+     />
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permission="icemac.addressbook.EditAllPreferences"
      />
 
 

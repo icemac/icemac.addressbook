@@ -1,4 +1,4 @@
-import unittest2
+import unittest2 as unittest
 
 
 class MockEntitiesAndOrder(object):
@@ -20,7 +20,7 @@ class MockEntitiesAndOrder(object):
         return self.order.keys()
 
 
-class PersonDefaultsEntityTest(unittest2.TestCase):
+class PersonDefaultsEntityTest(unittest.TestCase):
 
     def setUp(self):
         import icemac.addressbook.interfaces
@@ -75,25 +75,26 @@ class PersonDefaultsEntityTest(unittest2.TestCase):
             self.callFUT(sorted=False))
 
 
-class TestPersonName(unittest2.TestCase):
+class Person_get_name_Tests(unittest.TestCase):
+    """Testing ..person.Person.get_name()."""
 
-    def callFUT(self, first_name=None, last_name=None):
+    def callMUT(self, first_name=None, last_name=None):
         import icemac.addressbook.person
         person = icemac.addressbook.person.Person()
         if first_name:
             person.first_name = first_name
         if last_name:
             person.last_name = last_name
-        return icemac.addressbook.person.PersonName(person).get_name()
+        return person.get_name()
 
-    def test_get_name_returns_last_name_and_first_name_when_existing(self):
-        self.assertEqual(u'Bernd Tester', self.callFUT(u'Bernd', u'Tester'))
+    def test_returns_last_name_and_first_name_when_existing(self):
+        self.assertEqual(u'Bernd Tester', self.callMUT(u'Bernd', u'Tester'))
 
-    def test_get_name_returns_last_name_when_first_name_not_existing(self):
-        self.assertEqual(u'Tester', self.callFUT(last_name=u'Tester'))
+    def test_returns_last_name_when_first_name_not_existing(self):
+        self.assertEqual(u'Tester', self.callMUT(last_name=u'Tester'))
 
-    def test_get_name_returns_first_name_when_last_name_not_existing(self):
-        self.assertEqual(u'Berns', self.callFUT(first_name=u'Berns'))
+    def test_returns_first_name_when_last_name_not_existing(self):
+        self.assertEqual(u'Berns', self.callMUT(first_name=u'Berns'))
 
-    def test_get_name_returns_empty_string_when_no_name_exists(self):
-        self.assertEqual(u'', self.callFUT())
+    def test_returns_empty_string_when_no_name_exists(self):
+        self.assertEqual(u'', self.callMUT())

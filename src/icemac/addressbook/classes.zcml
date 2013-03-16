@@ -33,8 +33,12 @@
        interface="icemac.addressbook.file.interfaces.IFileContainer"
        />
     <require
+       permission="icemac.addressbook.ViewPersonName"
+       interface=".interfaces.IPersonName"
+       />
+    <require
        permission="icemac.addressbook.ViewPerson"
-       interface=".interfaces.IPerson
+       interface=".interfaces.IPersonData
                   .interfaces.IPersonDefaults
                   zope.container.interfaces.IReadContainer"
        attributes="__annotations__"
