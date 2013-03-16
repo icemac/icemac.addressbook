@@ -64,7 +64,7 @@ class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
         return zope_i18n_pattern_to_jquery_pattern(pattern)
 
     def test_converts_German_date_format_correctly(self):
-        self.assertEqual('dd.mm.y hh:mm', self.callFUT('dd.MM.yy HH:mm'))
+        self.assertEqual('dd.mm.y HH:mm', self.callFUT('dd.MM.yy HH:mm'))
 
     def test_converts_American_date_format_correctly(self):
         self.assertEqual('m/d/y hh:mm TT', self.callFUT('M/d/yy h:mm a'))
