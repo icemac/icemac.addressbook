@@ -264,6 +264,11 @@ class ZODBMixIn(object):
 class BrowserMixIn(object):
     """Mix in methods for browser test cases."""
     def get_browser(self, login=None):
+        """Get a test browser.
+
+        If `login` is not `None`: user is logged in via basic auth.
+
+        """
         browser = Browser()
         if login is not None:
             browser.login(login)
