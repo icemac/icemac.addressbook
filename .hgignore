@@ -1,0 +1,21 @@
+syntax: glob
+
+*.egg-info
+*.pyc
+.installed.cfg
+.mr.developer.cfg
+bin
+buildout.cfg
+coverage
+debug-ajax.ini
+debug-pdb.ini
+deploy.ini
+develop-eggs
+my-buildout.cfg
+parts
+site.zcml
+zdaemon-debug-ajax.conf
+zdaemon-debug-pdb.conf
+zdaemon.conf
+zope.conf
+var/chameleon-cache/*
