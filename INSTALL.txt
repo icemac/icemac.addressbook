@@ -5,11 +5,23 @@
 Prerequisites
 =============
 
-You only need Python 2.6.x. (Other python versions are currently
-not supported.)
+* You only need Python 2.6.x. (Other Python versions are currently
+  not supported.)
+
+There are two variants for installation:
+
+  * Package installation (to be preferred)
+
+  * Source installation (for development)
+
+Package installation
+====================
+
+Follow these steps if you want to install the pre-packaged address book
+(preferred way):
 
 First installation
-==================
+------------------
 
 CAUTION: icemac.addressbook can't be installed using ``easy_install`` or
 ``pip``, you have to follow these simple steps.
@@ -32,7 +44,7 @@ its directory.
 6. Start the application. See `Run the application`_
 
 Update
-======
+------
 
 - If you are updating from version 0.3.x or earlier follow the steps
   described in `First installation`_ followed by the steps described
@@ -86,16 +98,34 @@ Second part of steps for really old versions
 
 5. Start the new instance of the application.
 
+
+Source installation
+===================
+
+1. Get the source code::
+
+   $ hg clone https://bitbucket.org/icemac/icemac.addressbook
+
+2. Install the sources::
+
+   $ cd icemac.addressbook
+   $ printf "[buildout]\nextends = profiles/%s\n" dev.cfg > buildout.cfg
+   $ python2.6 bootstrap.py
+   $ bin/buildout
+
+
 Run the tests
 =============
+
+Running the tests is independent from your choosen installation kind.
 
 Run the unit tests and functional tests using::
 
   $ bin/test
 
-To run the Selenium tests you additionally need: Selenium Server.  Download
-"Selenium Server" from SeleniumHQ_.  Start it like any other ``jar`` package
-is started on your operating system. Run all tests using::
+To run the Selenium tests you additionally need: a running Selenium Server.
+Download "Selenium Server" from SeleniumHQ_.  Start it like any other
+``jar`` package is started on your operating system. Run all tests using::
 
   $ bin/test --all
 
@@ -103,6 +133,8 @@ is started on your operating system. Run all tests using::
 
 Run the application
 ===================
+
+Running the application is independent from your choosen installation kind.
 
 To run the application instance in foreground start using::
 
@@ -120,8 +152,13 @@ The default URL is to access the application is::
 
   http://127.0.0.1:8080
 
-To log-in at this URL you need the username and password you chose
-when running ``install.py``. The are stored in ``admin.zcml``.
+To log-in at this URL you need a username and password.
+
+ * If you installed via package installation you had to chose them when
+   running ``install.py``. They are stored in ``admin.zcml``.
+
+ * If you installed the sources you find username and password in
+   ``dev_admin_user.zcml``.
 
 Create a new address book using the `add address book` link on the
 right. How to create new users inside this address book is described
@@ -130,6 +167,8 @@ in `Create new users`_.
 
 Change configuration of the installation
 ========================================
+
+This section is only valid if you chose package installation.
 
 The values you entered during installation resp. update are stored in
 a file named `install.user.ini` in the address book directory.

@@ -59,7 +59,6 @@ Technical
 - data storage is an object database (ZODB) so no additional database is
   required
 
-
 ===========
 Screenshots
 ===========
@@ -68,3 +67,13 @@ See SourceForge_.
 
 .. _SourceForge : https://sourceforge.net/projects/icemac/#screenshots
 
+=======
+Hacking
+=======
+
+Fork me on: https://bitbucket.org/icemac/icemac.addressbook
+
+.. image:: https://secure.travis-ci.org/icemac/icemac.addressbook.png
+   :target: https://travis-ci.org/icemac/icemac.addressbook
+
+See `Source installation`_, too.
