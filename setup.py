@@ -15,10 +15,10 @@ setuptools.setup(
     version=version,
     description="Multi user address book application",
     long_description="\n\n".join([
-        read('README.txt'),
-        read('INSTALL.txt'),
-        read('TODO.txt'),
-        read('CHANGES.txt')] ),
+        read('README.rst'),
+        read('INSTALL.rst'),
+        read('TODO.rst'),
+        read('CHANGES.rst')] ),
     keywords='python address book addressbook zope3 zope application web '
              'phone number e-mail email home page homepage wsgi',
     author='Michael Howitz',
