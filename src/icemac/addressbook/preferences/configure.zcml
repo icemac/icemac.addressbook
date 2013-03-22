@@ -27,7 +27,7 @@
 
   <preferenceGroup
       id="ab.timeZone"
-      title="TimeZone"
+      title="Time zone"
       description="Datetimes get converted to the selected time zone."
       schema=".interfaces.ITimeZone"
       />

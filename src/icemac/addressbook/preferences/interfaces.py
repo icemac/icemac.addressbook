@@ -43,4 +43,4 @@ class TimeZones(icemac.addressbook.sources.TitleMappingSource):
 class ITimeZone(zope.interface.Interface):
     """Preferred time zone."""
 
-    time_zone = zope.schema.Choice(title=_('time zone'), source=TimeZones())
+    time_zone = zope.schema.Choice(title=_('Time zone'), source=TimeZones())

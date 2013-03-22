@@ -16,15 +16,15 @@ class TimeZoneTests(unittest.TestCase):
 
     def test_default_value_is_UTC(self):
         self.assertEqual(
-            ['UTC'], self.get_browser().getControl('time zone').displayValue)
+            ['UTC'], self.get_browser().getControl('Time zone').displayValue)
 
     def test_changed_value_is_stored(self):
         browser = self.get_browser()
-        browser.getControl('time zone').displayValue = ['Europe/Berlin']
+        browser.getControl('Time zone').displayValue = ['Europe/Berlin']
         browser.getControl('Apply').click()
         self.assertIn('Data successfully updated.', browser.contents)
         self.assertEqual(
-            ['Europe/Berlin'], browser.getControl('time zone').displayValue)
+            ['Europe/Berlin'], browser.getControl('Time zone').displayValue)
 
     def test_metadata_is_converted_to_selected_time_zone(self):
         from datetime import datetime

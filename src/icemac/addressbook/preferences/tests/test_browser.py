@@ -9,10 +9,10 @@ class PrefGroupEditForm(icemac.addressbook.testing.BrowserTestCase):
         url = 'http://localhost/ab/++preferences++/ab.timeZone/@@index.html'
         browser.open(url)
         self.assertEqual(
-            ['UTC'], browser.getControl('time zone').displayValue)
-        browser.getControl('time zone').displayValue = ['Navajo']
+            ['UTC'], browser.getControl('Time zone').displayValue)
+        browser.getControl('Time zone').displayValue = ['Navajo']
         browser.getControl('Cancel').click()
         # After redirect the original value is restored in the field:
         self.assertEqual(
-            ['UTC'], browser.getControl('time zone').displayValue)
+            ['UTC'], browser.getControl('Time zone').displayValue)
         self.assertEqual(url, browser.url)
