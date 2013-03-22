@@ -11,11 +11,13 @@ debug-ajax.ini
 debug-pdb.ini
 deploy.ini
 develop-eggs
+log/*
 my-buildout.cfg
 parts
 site.zcml
+var/*
+var/chameleon-cache/*
 zdaemon-debug-ajax.conf
 zdaemon-debug-pdb.conf
 zdaemon.conf
 zope.conf
-var/chameleon-cache/*
