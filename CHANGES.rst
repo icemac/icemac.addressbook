@@ -24,6 +24,8 @@ Features
 Other
 -----
 
+- Moved source code to: https://bitbucket.org/icemac/icemac.addressbook
+
 - Updated to run on `Zope Toolkit 1.1.5`_.
 
 - Updated most other packages (outside ZTK) needed for address book to
