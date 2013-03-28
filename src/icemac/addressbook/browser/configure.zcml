@@ -16,6 +16,16 @@
      template="layout.pt"
      />
 
+  <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           *"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".layout.AddressBookTitle"
+      name="addressbook-title"
+      permission="zope.Public"
+  />
+
   <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
 
   <adapter
