@@ -6,9 +6,12 @@
       interface="zope.annotation.interfaces.IAttributeAnnotatable"
       />
     <require
+       permission="zope.Public"
+       interface=".interfaces.IAddressBook"
+       />
+    <require
        permission="icemac.addressbook.ViewAddressBook"
-       interface=".interfaces.IAddressBook
-                  zope.container.interfaces.IReadContainer"
+       interface="zope.container.interfaces.IReadContainer"
        attributes="__annotations__
                    getSiteManager"
        />

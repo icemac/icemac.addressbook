@@ -3,17 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
       lang="en"
-      i18n:domain="icemac.addressbook">
+      i18n:domain="icemac.addressbook"
+      tal:define="title provider:addressbook-title">
   <head>
     <tal:block replace="structure provider:login-logout-head" />
-    <title>icemac.addressbook</title>
+    <title tal:content="title">icemac.addressbook</title>
     <link rel="shortcut icon" href="/++resource++img/favicon.ico" type="image/x-icon" />
   </head>
   <body class="main">
     <div id="head">
       <h1>
-        icemac.addressbook <a tal:attributes="href string:${request/URL/0}/@@about.html"
-                             id="about-view"><img src="/++resource++img/Symbol-Information.png"
+        <span tal:content="title">icemac.addressbook</span>
+        <a tal:attributes="href string:${request/URL/0}/@@about.html"
+           id="about-view"><img src="/++resource++img/Symbol-Information.png"
                alt="info-i"
                i18n:attributes="title; alt"
                title="Information about icemac.addressbook" />

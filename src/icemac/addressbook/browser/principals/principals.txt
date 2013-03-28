@@ -634,7 +634,7 @@ notes:
 
 The editor can change the data and save them. The login-name needn't
 even be an e-mail address. Changing the own log-in name immediately
-asks the user for its new credentials:
+asks the user for his new credentials:
 
 >>> from pprint import pprint
 >>> editor.getControl('login').value = 'hans.tester'
@@ -648,14 +648,14 @@ asks the user for its new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> editor.url
-'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
 >>> editor.getControl('User Name').value = 'hans.tester'
 >>> editor.getControl('Password').value = 'testtest'
 >>> editor.getControl('Log in').click()
 >>> get_messages(editor)
 ['You have been logged-in successfully.']
 >>> editor.url
-'http://localhost/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals/@@index.html'
 >>> print editor.contents
 <!DOCTYPE...
 ...hans.tester...
@@ -733,14 +733,14 @@ password immediately asks the user for his new credentials:
  'Data successfully updated.',
  'To log-in enter your username and password and submit the form.']
 >>> visitor.url
-'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals'
+'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Battribute%2B%2Bprincipals%2F%40%40index.html'
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = 'utzer123'
 >>> visitor.getControl('Log in').click()
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/ab/++attribute++principals'
+'http://localhost/ab/++attribute++principals/@@index.html'
 >>> print visitor.contents
 <!DOCTYPE...
 ...ben.utzer@example.com...

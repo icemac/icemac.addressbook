@@ -21,6 +21,9 @@ Features
 - Added number of displayed persons in search result handler which displays
   the names of the selected persons (new in 1.9.0).
 
+- Now displays the name of the address book in HTML title tag and as
+  headline inside the application.
+
 Other
 -----
 
