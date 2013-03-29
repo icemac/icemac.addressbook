@@ -6,4 +6,4 @@ install:
   - python bootstrap.py
   - bin/buildout
 script:
-  - bin/test -vv --all --ndiff
+  - bin/test -vv --ndiff
