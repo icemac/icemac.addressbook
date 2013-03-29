@@ -49,6 +49,7 @@ class MailToTest(unittest.TestCase):
     """Testing .mailto.MailTo."""
 
     layer = MAILTO_LAYER
+    maxDiff = None
 
     def get_view(self):
         from .mailto import MailTo
@@ -76,12 +77,8 @@ class MailToTest(unittest.TestCase):
             'E-Mail']
         browser.getControl(name='form.buttons.apply').click()
         self.assertEqual(
-            ['<div id="mailto">',
-             '<h2>Send an e-mail</h2>',
-             '<p>',
-             '<a href="mailto:?bcc=icemac@example.net,mail@example.com">Click here to open your e-mail client</a>',
-             '</p>',
-             '<br /><a href="javascript:history.go(-1)">Go back</a>',
-             '</div>'],
-            browser.etree_to_list(
-                browser.etree.xpath('//div[@id="mailto"]')[0]))
+            [['<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
+              'Click here to open your e-mail client</a>'],
+             ['<a href="javascript:history.go(-1)">Go back</a>']],
+            [browser.etree_to_list(x)
+             for x in browser.etree.xpath('//div[@id="mailto"]//a')])
