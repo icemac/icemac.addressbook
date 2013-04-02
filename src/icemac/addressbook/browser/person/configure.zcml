@@ -1,6 +1,7 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
    xmlns:z3c="http://namespaces.zope.org/z3c">
 
   <!-- person -->
@@ -170,5 +171,36 @@
 <!--           ..interfaces.IAddressBookLayer" -->
 <!--      provides="z3c.form.interfaces.IFieldWidget" -->
 <!--      factory="z3c.form.browser.radio.RadioFieldWidget" /> -->
+
+  <!-- person list -->
+  <gocept:pagelet
+     name="person-list.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".list.PersonList"
+     template="list.pt"
+     />
+
+  <adapter
+      for="icemac.addressbook.interfaces.IAddressBook
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           .list.PersonList
+           z3c.table.interfaces.IColumn"
+     provides="z3c.table.interfaces.IColumnHeader"
+     factory="z3c.table.header.SortingColumnHeader"
+     />
+
+  <z3c:siteMenuItem
+     for="*"
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Person list"
+     title="Person list"
+     viewName="@@person-list.html"
+     permission="icemac.addressbook.ViewPerson"
+     weight="1"
+     />
+
 
 </configure>

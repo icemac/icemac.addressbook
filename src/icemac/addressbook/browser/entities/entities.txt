@@ -77,7 +77,7 @@ Edit a field
 
 When editing the added field the previously entered values are displayed:
 
->>> browser.getLink('Edit', index=1).click()
+>>> browser.getLink('Edit').click()
 >>> edit_field_url = browser.url
 >>> edit_field_url
 'http://localhost/...++entities/icemac.addressbook.person.Person/Field-1'
@@ -95,7 +95,7 @@ field
 ['Data successfully updated.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
->>> browser.getLink('Edit', index=1).click()
+>>> browser.getLink('Edit').click()
 >>> browser.getControl('title').value
 'foobar'
 
@@ -109,7 +109,7 @@ When canceling the edit of a field the previous values are kept:
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
 ['No changes were applied.']
->>> browser.getLink('Edit', index=1).click()
+>>> browser.getLink('Edit').click()
 >>> browser.getControl('title').value
 'foobar'
 
@@ -467,7 +467,7 @@ of the previously deleted field is not reused:
 ['"really?" added.']
 >>> browser.url
 'http://localhost/...ab/++attribute++entities/icemac.addressbook.person.Person'
->>> browser.getLink('Edit', index=1).url
+>>> browser.getLink('Edit').url
 'http://localhost/...++entities/icemac.addressbook.person.Person/Field-2'
->>> browser.getLink('Edit', index=1).url == edit_field_url
+>>> browser.getLink('Edit').url == edit_field_url
 False
