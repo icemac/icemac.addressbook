@@ -12,21 +12,11 @@ import zc.buildout.testing
 def DocFileSuite(*args, **kw):
 
     def setUp(test):
-        # XXX needed until zc.buildout 1.2.2 is released
-        test.original_logging_handlers = logging.getLogger().handlers[:]
-        # XXX end
         zc.buildout.testing.buildoutSetUp(test)
         zc.buildout.testing.install_develop('icemac.addressbook', test)
 
     def tearDown(test):
         zc.buildout.testing.buildoutTearDown(test)
-        # XXX needed until zc.buildout 1.2.2 is released
-        root_logger = logging.getLogger()
-        for handler in root_logger.handlers[:]:
-            root_logger.removeHandler(handler)
-        for handler in test.original_logging_handlers:
-            root_logger.addHandler(handler)
-        # XXX end
 
     def call_with_user_input(input, function, *args, **kw):
         stdin = StringIO.StringIO()
