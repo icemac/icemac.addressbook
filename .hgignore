@@ -4,6 +4,7 @@ syntax: glob
 *.pyc
 .installed.cfg
 .mr.developer.cfg
+DE_TODO.txt
 bin
 buildout.cfg
 coverage
