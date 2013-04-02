@@ -372,6 +372,7 @@ Prints the introduction text for additional packages:
  Known packages:
    icemac.ab.importer -- Import of CSV files
    icemac.ab.importxls -- Import of XLS (Excel) files
+   icemac.ab.calendar -- Calendar using persons in address book
 
 
 get_additional_packages
@@ -597,6 +598,7 @@ Hint: to use the default value (the one in [brackets]),  enter no value.
  Known packages:
    icemac.ab.importer -- Import of CSV files
    icemac.ab.importxls -- Import of XLS (Excel) files
+   icemac.ab.calendar -- Calendar using persons in address book
  Package 1: []
   Migrate old address book content to new instance: [no]
 creating admin.zcml ...
