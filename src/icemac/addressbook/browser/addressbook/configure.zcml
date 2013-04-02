@@ -5,7 +5,7 @@
    xmlns:gocept="http://namespaces.gocept.com/zcml"
    i18n_domain="icemac.addressbook">
 
-  <adapter factory=".edit.PersonCount" />
+  <adapter factory=".crud.PersonCount" />
 
   <browser:defaultView
      name="index.html"
@@ -19,7 +19,7 @@
      for="zope.site.interfaces.IRootFolder"
      permission="zope.ManageContent"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".add.AddForm"
+     class=".crud.AddForm"
      />
 
   <!-- welcome page -->
@@ -31,52 +31,22 @@
      permission="icemac.addressbook.ViewAddressBook"
      />
 
-  <!-- person list -->
-  <gocept:pagelet
-     name="person-list.html"
-     for="...interfaces.IAddressBook"
-     permission="icemac.addressbook.ViewPerson"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".list.PersonList"
-     template="list.pt"
-     />
-
-  <adapter
-      for="icemac.addressbook.interfaces.IAddressBook
-           icemac.addressbook.browser.interfaces.IAddressBookLayer
-           .list.PersonList
-           z3c.table.interfaces.IColumn"
-     provides="z3c.table.interfaces.IColumnHeader"
-     factory="z3c.table.header.SortingColumnHeader"
-     />
-
-  <z3c:siteMenuItem
-     for="*"
-     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     name="Person list"
-     title="Person list"
-     viewName="@@person-list.html"
-     permission="icemac.addressbook.ViewPerson"
-     weight="1"
-     />
-
   <z3c:pagelet
      name="edit.html"
      for="...interfaces.IAddressBook"
      permission="icemac.addressbook.EditAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".edit.EditForm"
+     class=".crud.EditForm"
      />
 
   <z3c:siteMenuItem
-     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     manager="icemac.addressbook.browser.masterdata.manager.IMasterData"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     name="Edit address book"
-     title="Edit address book"
-     viewName="@@edit.html"
+     name="Address book"
+     title="Address book"
      permission="icemac.addressbook.EditAddressBook"
-     weight="999"
+     viewName="@@edit.html"
+     weight="1"
      />
 
   <z3c:pagelet
@@ -84,7 +54,7 @@
      for="icemac.addressbook.interfaces.IAddressBook"
      permission="icemac.addressbook.EditAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".edit.DeleteForm"
+     class=".crud.DeleteForm"
      />
 
   <z3c:pagelet
@@ -92,7 +62,7 @@
      for="icemac.addressbook.interfaces.IAddressBook"
      permission="icemac.addressbook.EditAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".edit.DeleteContentForm"
+     class=".crud.DeleteContentForm"
      />
 
   <!-- Add menu -->
@@ -106,6 +76,5 @@
      permission="icemac.addressbook.AddPerson"
      weight="1"
      />
-
 
 </configure>

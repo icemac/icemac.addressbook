@@ -24,6 +24,8 @@ Features
 - Now displays the name of the address book in HTML title tag and as
   headline inside the application.
 
+- Moved link to edit form of address book from tabs to master data.
+
 Other
 -----
 

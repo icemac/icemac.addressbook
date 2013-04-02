@@ -86,7 +86,7 @@ When the selected value of the choice gets deleted, ...
 >>> browser.getLink('Edit fields', index=7).click()
 >>> browser.url
 'http://localh.../ab/++attribute++entities/icemac.addressbook.keyword.Keyword'
->>> browser.getLink('Edit', index=1).click()
+>>> browser.getLink('Edit').click()
 >>> browser.url
 'http://...++attribute++entities/icemac.addressbook.keyword.Keyword/Field-1'
 >>> remove = browser.getControl(name='form.widgets.values.1.remove')
