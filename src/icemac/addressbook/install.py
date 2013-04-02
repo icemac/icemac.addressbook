@@ -157,6 +157,7 @@ class Configurator(object):
         print ' Known packages:'
         print '   icemac.ab.importer -- Import of CSV files'
         print '   icemac.ab.importxls -- Import of XLS (Excel) files'
+        print '   icemac.ab.calendar -- Calendar using persons in address book'
 
     def get_additional_packages(self):
         packages = []
