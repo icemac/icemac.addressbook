@@ -65,8 +65,9 @@ def get_address_book(context):
 
 def create_and_register(addressbook, attrib_name, class_, interface, name=''):
     """Create an object on an attribute and register it as local utility."""
-    if getattr(addressbook, attrib_name, None) is not None:
-        return
+    obj = getattr(addressbook, attrib_name, None)
+    if obj is not None:
+        return obj
     site_mgr = addressbook.getSiteManager()
     obj = icemac.addressbook.utils.create_obj(class_)
     setattr(addressbook, attrib_name, obj)
