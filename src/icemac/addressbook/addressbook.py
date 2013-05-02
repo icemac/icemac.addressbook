@@ -73,6 +73,13 @@ def create_and_register(addressbook, attrib_name, class_, interface, name=''):
     setattr(addressbook, attrib_name, obj)
     zope.location.locate(obj, addressbook, '++attribute++' + attrib_name)
     site_mgr.registerUtility(obj, interface, name=name)
+    return obj
+
+
+def add_entity_to_order(orders, iface):
+    """Add an entitiy to the entity orders."""
+    orders.add(icemac.addressbook.interfaces.IEntity(iface).name,
+               icemac.addressbook.interfaces.ENTITIES)
 
 
 @zope.component.adapter(
@@ -105,25 +112,20 @@ def create_address_book_infrastructure(addressbook, event=None):
         icemac.addressbook.interfaces.IEntities)
 
     # add order storage utility
-    create_and_register(
+    orders = create_and_register(
         addressbook, 'orders',
         icemac.addressbook.orderstorage.OrderStorage,
         icemac.addressbook.interfaces.IOrderStorage)
 
-    def add_entity_to_order(iface):
-        addressbook.orders.add(
-            icemac.addressbook.interfaces.IEntity(iface).name,
-            icemac.addressbook.interfaces.ENTITIES)
-
-    add_entity_to_order(icemac.addressbook.interfaces.IAddressBook)
-    add_entity_to_order(icemac.addressbook.interfaces.IPerson)
-    add_entity_to_order(icemac.addressbook.interfaces.IPersonDefaults)
-    add_entity_to_order(icemac.addressbook.interfaces.IPostalAddress)
-    add_entity_to_order(icemac.addressbook.interfaces.IPhoneNumber)
-    add_entity_to_order(icemac.addressbook.interfaces.IEMailAddress)
-    add_entity_to_order(icemac.addressbook.interfaces.IHomePageAddress)
-    add_entity_to_order(icemac.addressbook.file.interfaces.IFile)
-    add_entity_to_order(icemac.addressbook.interfaces.IKeyword)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IAddressBook)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IPerson)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IPersonDefaults)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IPostalAddress)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IPhoneNumber)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IEMailAddress)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IHomePageAddress)
+    add_entity_to_order(orders, icemac.addressbook.file.interfaces.IFile)
+    add_entity_to_order(orders, icemac.addressbook.interfaces.IKeyword)
 
     zope.event.notify(AddressBookCreated(addressbook))
 
