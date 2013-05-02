@@ -61,10 +61,15 @@ class TestEntity(unittest.TestCase):
 
     # IEntityWrite
 
-    def test_add_field_storage(self):
+    def test_addField_adds_field_to_entity(self):
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
         self.assertTrue(self.user_field is entities[u'Field'])
+
+    def test_addField_stores_entities_interface_on_field(self):
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        self.assertEqual(IDummy, entities[u'Field'].interface)
 
     def test_add_field_adapter_registration(self):
         field = zope.component.getMultiAdapter(

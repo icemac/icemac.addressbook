@@ -321,6 +321,7 @@ class Entity(object):
             provided=icemac.addressbook.interfaces.IField,
             required=(icemac.addressbook.interfaces.IEntity, self.interface),
             name=name)
+        field.interface = self.interface
         return name
 
     def setFieldOrder(self, field_names):
@@ -383,6 +384,7 @@ class Field(persistent.Persistent, zope.container.contained.Contained):
     zope.interface.implements(icemac.addressbook.interfaces.IField)
     icemac.addressbook.schema.createFieldProperties(
         icemac.addressbook.interfaces.IField)
+    interface = None
 
 
 class FieldAdapterFactory(persistent.Persistent):
