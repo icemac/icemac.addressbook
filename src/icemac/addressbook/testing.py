@@ -416,6 +416,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     get_messages = get_messages
     get_all_control_names = get_all_control_names
+    in_out_widget_select = in_out_widget_select
 
 ### Helper functions to create objects in the database ###
 
@@ -578,10 +579,10 @@ def create_user(ab, first_name, last_name, email, password, roles, **kw):
 
 
 @icemac.addressbook.utils.set_site
-def create_field(entity_name, type, title, **kw):
+def create_field(entity_name_or_interface, type, title, **kw):
     """Create a user defined field for an entity.
 
-    entity_name ... IEntity.class_name
+    entity_name ... Name used to register the entity as utility
     type ... see values of .sources.FieldTypeSource
 
     Returns the name of the created field.
@@ -591,8 +592,12 @@ def create_field(entity_name, type, title, **kw):
     """
     field = icemac.addressbook.utils.create_obj(
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
-    entity = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntity, name=entity_name)
+    if isinstance(entity_name_or_interface, basestring):
+        entity = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntity, name=entity_name)
+    else:
+        entity = icemac.addressbook.interfaces.IEntity(
+            entity_name_or_interface)
     return entity.addField(field)
 
 
