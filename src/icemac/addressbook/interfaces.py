@@ -260,6 +260,7 @@ class IField(zope.interface.Interface):
     """User defined field."""
 
     __name__ = zope.interface.Attribute('internal field name')
+    interface = zope.interface.Attribute('interface the field belongs to')
 
     type = zope.schema.Choice(
         title=_(u'type'),
