@@ -594,7 +594,8 @@ def create_field(entity_name_or_interface, type, title, **kw):
         icemac.addressbook.entities.Field, type=type, title=title, **kw)
     if isinstance(entity_name_or_interface, basestring):
         entity = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntity, name=entity_name)
+            icemac.addressbook.interfaces.IEntity,
+            name=entity_name_or_interface)
     else:
         entity = icemac.addressbook.interfaces.IEntity(
             entity_name_or_interface)
