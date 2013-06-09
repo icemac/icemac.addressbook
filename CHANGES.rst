@@ -26,6 +26,8 @@ Features
 
 - Moved link to edit form of address book from tabs to master data.
 
+- Added checkbox in search result table to deselect all entries.
+
 Other
 -----
 
