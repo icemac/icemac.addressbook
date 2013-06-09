@@ -49,9 +49,11 @@ class _SearchLayer(plone.testing.Layer):
         del self['kw_anyone_else']
         icemac.addressbook.testing.tearDownStackedDemoStorage(self)
 
-
+_SEARCH_LAYER = _SearchLayer(name='SearchLayer')
 WSGI_SEARCH_LAYER = icemac.addressbook.testing.TestBrowserLayer(
-    'Search', _SearchLayer(name='SearchLayer'))
+    'WSGISearch', _SEARCH_LAYER)
+SELENIUM_SEARCH_LAYER = icemac.addressbook.testing.SeleniumLayer(
+    'SeleniumSearch', _SEARCH_LAYER)
 
 
 def search_for_persons_with_keyword_search_using_browser(keyword, login='mgr'):

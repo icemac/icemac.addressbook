@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 
 import fanstatic
+import js.jquery
 import js.jqueryui
 import os.path
 
@@ -25,3 +26,6 @@ js_lib = fanstatic.Library('js', os.path.join('resources', 'js'))
 
 masterdata_fields = fanstatic.Resource(
     js_lib, 'masterdata_fields.js', depends=[js.jqueryui.ui_sortable])
+
+table = fanstatic.Resource(
+    js_lib, 'table.js', depends=[js.jquery.jquery])
