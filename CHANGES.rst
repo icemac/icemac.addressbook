@@ -12,7 +12,7 @@ Features
   provide roles which do not allow to access the persons in the address
   book.
 
-- Added ability to user preferences to set current time zone. Datetimes,
+- Added ability in user preferences to set current time zone. Datetimes,
   e. g. creation date, modification date and user defined fields of type
   datetime, are converted to the selected time zone. Default is UTC.
 
