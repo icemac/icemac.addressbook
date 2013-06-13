@@ -25,7 +25,6 @@ def set_site(func):
     return decorated
 
 
-
 def create_obj(class_, *args, **kw):
     """Create an object of class and fire created event."""
     obj = class_(*args)
@@ -48,8 +47,6 @@ def add(parent, obj):
 def create_and_add(parent, class_, *args, **kw):
     obj = create_obj(class_, *args, **kw)
     return add(parent, obj)
-
-
 
 
 def iter_by_interface(container, interface):

@@ -1,6 +1,5 @@
-import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.base
-import zope.component.hooks
+import icemac.addressbook.interfaces
 
 
 class MailTo(icemac.addressbook.browser.search.result.handler.base.Base):

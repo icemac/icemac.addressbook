@@ -10,7 +10,6 @@ import zope.annotation.interfaces
 import zope.container.btree
 import zope.interface
 import zope.lifecycleevent
-import zope.schema.fieldproperty
 
 
 class Person(zope.container.btree.BTreeContainer):
