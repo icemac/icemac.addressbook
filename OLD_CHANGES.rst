@@ -2,6 +2,60 @@
  Old changes
 =============
 
+1.7.0 (2011-11-03)
+==================
+
+General
+-------
+
+- Dropped support for Python 2.5, so currently only Python 2.6 is supported.
+
+
+UI changes
+----------
+
+- Previously search results could only be exported. The options have been
+  widened, so different handlings of search results are possible. So
+  deletion of the selected persons has been moved to these search result
+  handlers.
+
+- Added explanation text to search from.
+
+Features
+--------
+
+- Added a new search type: Search for person names. You may use wildcards in
+  this search (? for a single character or * for multiple characters).
+
+- Search results now display the columns the user selected in his personal
+  preferences.
+
+- Added search result handler to modify a single field on all selected persons
+  in the search result. Depending on the kind of the field different operations
+  are possible (replace with, append to, remove from, add to, multipy with,
+  intersect with, ...). Only users with "Administrator" role can use this
+  handler as wrong usage might be dangerous for the data.
+
+
+Bug fixes
+---------
+
+- Running the address book in a vhost environment did not allow to access the
+  about screen, as it was only registered for the root folder.
+
+Other
+-----
+
+- Updated to `Zope Toolkit 1.1`_ for dependent packages.
+
+- Integrated `decorator` package into distribution as needed version is
+  prone to disappear from PyPI.
+
+- Changed test setup to use `plone.testing` layer.
+
+.. _`Zope Toolkit 1.1`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.html
+
+
 1.6.0 (2011-02-03)
 ==================
 
