@@ -42,14 +42,6 @@ selected by default:
 >>> browser.getControl('Search').click()
 >>> print browser.contents
 <!DOCTYPE ...
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>last name</th>
-      <th>first name</th>
-    </tr>
-  </thead>
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
@@ -71,8 +63,7 @@ selected by default:
       <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
       <td></td>
     </tr>
- </tbody>
-</table>...
+ </tbody>...
 
 To delete the selected persons is shown the administrator has to choose the
 adequate entry in the `handele` menu:

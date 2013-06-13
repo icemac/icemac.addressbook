@@ -48,14 +48,6 @@ displayed, the checkboxes of the rows are pre-selected:
 
 >>> print browser.contents
 <!DOCTYPE ...
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>last name</th>
-      <th>first name</th>
-    </tr>
-  </thead>
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
@@ -72,8 +64,7 @@ displayed, the checkboxes of the rows are pre-selected:
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
        <td></td>
     </tr>
-  </tbody>
-</table>...
+  </tbody>...
 
 Choosing the export button returns an XLS document, all selected
 persons are exported:
