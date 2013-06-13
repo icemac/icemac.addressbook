@@ -69,7 +69,7 @@ setuptools.setup(
         'gocept.pagelet',
         'gocept.reference',
         'grokcore.component',
-        'icemac.ab.locales [compile] >= 0.11',
+        'icemac.ab.locales [compile] >= 0.12',
         'icemac.truncatetext',
         'js.jquery',
         'js.jquery_timepicker_addon',
