@@ -323,7 +323,7 @@ def TestBrowserDocFileSuite(*paths, **kw):
     return DocFileSuite(layer=TEST_BROWSER_LAYER, *paths, **kw)
 
 
-# XXX see https://sourceforge.net/tracker/?func=detail&aid=3381282&group_id=273840&atid=2319598
+# XXX see https://bitbucket.org/icemac/icemac.addressbook/issue/1
 def _get_control_names(interface, browser=None, form=None):
     """Get a sorted list of names of controls providing the given interface.
 

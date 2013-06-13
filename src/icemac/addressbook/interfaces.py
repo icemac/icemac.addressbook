@@ -53,6 +53,7 @@ class IPersonName(zope.interface.Interface):
         Names are sepatated by a space.
         """
 
+
 class IPersonData(zope.interface.Interface):
     """Data of a person."""
 

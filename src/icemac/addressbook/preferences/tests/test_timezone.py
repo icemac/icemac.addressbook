@@ -7,7 +7,8 @@ class TimeZoneTests(unittest.TestCase):
 
     layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
 
-    def get_browser(self, url='http://localhost/ab/++preferences++/ab.timeZone'):
+    def get_browser(
+            self, url='http://localhost/ab/++preferences++/ab.timeZone'):
         browser = icemac.addressbook.testing.Browser()
         browser.login('visitor')
         browser.handleErrors = False

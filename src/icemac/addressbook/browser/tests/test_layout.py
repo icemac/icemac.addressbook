@@ -25,4 +25,3 @@ class LayoutTests(icemac.addressbook.testing.BrowserTestCase):
         self.assertEqual('icemac.addressbook', browser.title)
         self.assertEqual(
             'icemac.addressbook', browser.etree.xpath('//h1/span')[0].text)
-

@@ -1,5 +1,4 @@
 import icemac.addressbook.testing
-import transaction
 
 
 class TestFieldOrder(icemac.addressbook.testing.SeleniumTestCase):

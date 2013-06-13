@@ -45,4 +45,3 @@ class AboutTests(icemac.addressbook.testing.BrowserTestCase):
         browser.open('http://localhost/ab/Person')
         browser.getLink(id="about-view").click()
         self.assertEqual('http://localhost/@@about.html',  browser.url)
-

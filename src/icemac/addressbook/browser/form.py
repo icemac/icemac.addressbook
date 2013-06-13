@@ -10,8 +10,6 @@ import z3c.form.browser.text
 import z3c.form.converter
 import z3c.form.interfaces
 import z3c.form.widget
-import zope.component
-import zope.preference.interfaces
 import zope.schema.interfaces
 import icemac.addressbook.preferences.utils
 
@@ -75,7 +73,7 @@ def zope_i18n_pattern_to_jquery_pattern(pattern):
     # pattern_mapping contains only the differences, so by default produce
     # char * count (or the char if it is no tuple):
     pattern = ''.join(
-        [pattern_mapping.get(x, x[0]*x[1] if isinstance(x, tuple) else x)
+        [pattern_mapping.get(x, x[0] * x[1] if isinstance(x, tuple) else x)
          for x in bin_pattern])
     return pattern
 
@@ -85,7 +83,7 @@ def zope_i18n_pattern_to_jquery_pattern(pattern):
 class DatetimeWidget(z3c.form.browser.text.TextWidget):
     """Widget to enter date and time using JavaScript picker."""
 
-    klass ='datetime-widget'
+    klass = 'datetime-widget'
 
     def update(self):
         super(DatetimeWidget, self).update()

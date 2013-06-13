@@ -1,5 +1,5 @@
 import icemac.addressbook.browser.base
-import zope.component.hooks
+import icemac.addressbook.interfaces
 
 
 class Base(object):

@@ -5,7 +5,6 @@
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
-import icemac.addressbook.utils
 import unittest2 as unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces

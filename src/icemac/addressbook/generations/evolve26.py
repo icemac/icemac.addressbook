@@ -19,4 +19,3 @@ def evolve(ab):
         for name, field in entity.getRawFields(sorted=False):
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 field.interface = entity.interface
-

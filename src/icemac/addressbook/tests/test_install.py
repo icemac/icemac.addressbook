@@ -4,7 +4,6 @@
 
 import StringIO
 import doctest
-import logging
 import sys
 import zc.buildout.testing
 

@@ -3,8 +3,7 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.testing import (
-    create_addressbook, create_person, create_full_person, create_keyword,
-    create_user)
+    create_person, create_full_person, create_keyword)
 import datetime
 import icemac.addressbook.testing
 import plone.testing

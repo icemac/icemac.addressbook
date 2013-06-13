@@ -41,7 +41,7 @@ class MetadataGroup(z3c.form.group.Group):
 
 
 def timezone_messageid_factory(message_id):
-    """Sets the currently selected time zone in the mapping of the message id."""
+    "Sets the currently selected time zone in the mapping of the message id."
     def factory(ignored):
         prefs = zope.component.getUtility(
             zope.preference.interfaces.IPreferenceGroup, name="ab.timeZone")
