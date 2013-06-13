@@ -66,14 +66,6 @@ a table with links to the edit forms of the found persons:
 >>> browser.getControl('Search').click()
 >>> print browser.contents
 <!DOCTYPE ...
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>last name</th>
-      <th>first name</th>
-    </tr>
-  </thead>
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
@@ -90,9 +82,7 @@ a table with links to the edit forms of the found persons:
       <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
       <td></td>
     </tr>
-  </tbody>
-</table>
-  ...
+  </tbody>...
 
 
 The form is displayed on the result page, too. The previously selected
