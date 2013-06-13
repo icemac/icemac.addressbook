@@ -12,7 +12,7 @@ Visitors are allowed to search and export, so we log in as a visitor:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('visitor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 Export
 ======
@@ -51,17 +51,17 @@ displayed, the checkboxes of the rows are pre-selected:
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-2">Koch</a></td>
+      <td><a href="http://localhost/ab/Person-2">Koch</a></td>
       <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-4">Liebig</a></td>
+      <td><a href="http://localhost/ab/Person-4">Liebig</a></td>
       <td></td>
     </tr>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/Person-3">Velleuer</a></td>
+      <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
        <td></td>
     </tr>
   </tbody>...
