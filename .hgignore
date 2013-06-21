@@ -5,6 +5,7 @@ syntax: glob
 .installed.cfg
 .mr.developer.cfg
 DE_TODO.txt
+admin.zcml
 bin
 buildout.cfg
 coverage
@@ -12,6 +13,8 @@ debug-ajax.ini
 debug-pdb.ini
 deploy.ini
 develop-eggs
+eggs
+install.user.ini
 log/*
 my-buildout.cfg
 parts
