@@ -143,7 +143,7 @@ Other
 Previous Versions
 =================
 
-See ``OLD_CHANGES.txt`` inside the package.
+See ``OLD_CHANGES.rst`` inside the package.
 
 ==========
  Download
