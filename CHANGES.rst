@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.10.1 (unreleased)
+1.10.1 (2013-06-25)
 ===================
 
 - Update ``bootstrap.py`` to current version so updating an older instance
