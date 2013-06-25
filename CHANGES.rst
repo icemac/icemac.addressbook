@@ -5,7 +5,8 @@ Change log
 1.10.1 (unreleased)
 ===================
 
-- Nothing changed yet.
+- Update ``bootstrap.py`` to current version so updating an older instance
+  does not fail.
 
 
 1.10.0 (2013-06-21)
