@@ -39,7 +39,7 @@ True
 Wrong python version
 --------------------
 
-icemac.addressbook currently only runs with python 2.5. If another
+icemac.addressbook currently only runs with python 2.6. If another
 version is used, an error is displayed. We expect here that the version
 of the python which runs the tests matches the requirement, so
 ``True`` is returned:
