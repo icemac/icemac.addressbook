@@ -8,7 +8,7 @@ import setuptools
 def read(filename):
     return file(filename).read()
 
-version = '1.10.3.dev0'
+version = '2.0.0.dev0'
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -41,7 +41,12 @@ setuptools.setup(
         'Natural Language :: German',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2 :: only',
         'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: Implementation',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Communications',
         'Topic :: Communications :: Email',
         'Topic :: Communications :: Email :: Address Book',
