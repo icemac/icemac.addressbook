@@ -2,9 +2,10 @@
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
 
-import os.path
-import sys
 import ConfigParser
+import os.path
+import stabledict
+import sys
 
 
 def check_prerequisites():
@@ -94,7 +95,8 @@ class Configurator(object):
             to_read.append(self.user_config)
 
         # create config
-        self._conf = ConfigParser.SafeConfigParser()
+        self._conf = ConfigParser.SafeConfigParser(
+            dict_type=stabledict.StableDict)
         self._conf.read(to_read)
         if self.user_config is not None:
             self._conf.set('migration', 'old_instance',
@@ -209,7 +211,8 @@ class Configurator(object):
 
     def create_buildout_cfg(self):
         print 'creating buildout.cfg ...'
-        buildout_cfg = ConfigParser.SafeConfigParser()
+        buildout_cfg = ConfigParser.SafeConfigParser(
+            dict_type=stabledict.StableDict)
         buildout_cfg.add_section('buildout')
         buildout_cfg.set('buildout', 'extends', 'profiles/prod.cfg')
         buildout_cfg.set('buildout', 'newest', 'true')
