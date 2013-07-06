@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.10.2 (unreleased)
+1.10.2 (2013-07-06)
 ===================
 
 - Update to `zc.buildout` 1.7.1.
