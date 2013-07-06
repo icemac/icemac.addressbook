@@ -5,8 +5,19 @@
 Prerequisites
 =============
 
-* You only need Python 2.6.x. (Other Python versions are currently
-  not supported.)
+* You only need Python 2.6.x.
+
+  * Other Python versions are currently not supported.
+
+  * For a smooth installation ensure your Python installation is clean by
+
+    * either compiling your own Python 2.6.x from the `source code`_
+
+    * or by installing a `virtualenv`_.
+
+.. _`source code` : http://www.python.org/download/releases/2.6/
+
+.. _`virtualenv` : https://pypi.python.org/pypi/virtualenv
 
 There are two variants for installation:
 
