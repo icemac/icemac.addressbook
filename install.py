@@ -71,7 +71,8 @@ def migrate():
 
 if __name__ == '__main__':
     python = sys.executable
-    if not icemac.addressbook.install.check_prerequisites():
+    if icemac.addressbook.install.not_matched_prerequisites():
+        print icemac.addressbook.install.not_matched_prerequisites()
         sys.exit(-1)
     conf_args = []
     if len(sys.argv) > 1:

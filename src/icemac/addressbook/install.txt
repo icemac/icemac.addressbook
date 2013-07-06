@@ -5,65 +5,6 @@
 As icemac.addressbook is not installable using `easy_install`, there are
 some helpers for installation.
 
-check_prerequisites
-===================
-
-This function tests whether the installation might be successful.
-
-Existing buildout.cfg
----------------------
-
-If there is already a `buildout.cfg` file, an error message is
-displayed and ``False`` is returned.
-
-In the current directory already exists a `buildout.cfg`:
-
->>> from icemac.addressbook.install import check_prerequisites
->>> ls(sample_buildout)
-d  bin
--  buildout.cfg
-d  develop-eggs
-d  eggs
-d  parts
->>> check_prerequisites()
-ERROR: buildout.cfg already exists.
-       Please (re-)move the existing one and restart install.
-False
-
-If there is no `buildout.cfg` file, ``True`` is returned:
-
->>> remove(sample_buildout, 'buildout.cfg')
->>> check_prerequisites()
-True
-
-Wrong python version
---------------------
-
-icemac.addressbook currently only runs with python 2.6. If another
-version is used, an error is displayed. We expect here that the version
-of the python which runs the tests matches the requirement, so
-``True`` is returned:
-
->>> check_prerequisites()
-True
-
-Faking the python version, results in the described error message:
-
->>> import sys
->>> orig_version_info = sys.version_info
->>> sys.version_info = (2, 4, 6, 'final', 0)
->>> check_prerequisites()
-ERROR: icemac.addressbook currently supports only Python 2.6
-       But you try to install it using python 2.4.6.
-False
->>> sys.version_info = (2, 7, 0, 'final', 0)
->>> check_prerequisites()
-ERROR: icemac.addressbook currently supports only Python 2.6
-       But you try to install it using python 2.7.0.
-False
->>> sys.version_info = orig_version_info
-
-
 Configurator
 ============
 

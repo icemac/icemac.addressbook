@@ -1,25 +1,33 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-
 import ConfigParser
 import os.path
-import stabledict
 import sys
+try:
+    # Python 2.7
+    from collections import OrderedDict
+except ImportError:
+    try:
+        # Python 2.6 in tests
+        from stabledict import StableDict as OrderedDict
+    except ImportError:
+        # Python 2.6 while calling install.py
+        OrderedDict = dict
 
 
-def check_prerequisites():
+def not_matched_prerequisites():
     "Check whether icemac.addressbook can be installed."
     if os.path.exists('buildout.cfg'):
-        print "ERROR: buildout.cfg already exists."
-        print "       Please (re-)move the existing one and restart install."
-        return False
-    if sys.version_info[:2] not in [(2, 6)]:
-        print "ERROR: icemac.addressbook currently supports only Python 2.6"
-        print "       But you try to install it using python %s.%s.%s." % (
-            sys.version_info[:3])
-        return False
-    return True
+        return (
+            "ERROR: buildout.cfg already exists.\n"
+            "       Please (re-)move the existing one and restart install.")
+    if sys.version_info[:2] not in [(2, 6), (2, 7)]:
+        return ("ERROR: icemac.addressbook currently supports only Python 2.6 "
+                "and 2.7.\n"
+                "       But you try to install it using Python %s.%s.%s." % (
+                    sys.version_info[:3]))
+    return False
 
 
 class Configurator(object):

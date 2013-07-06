@@ -2,10 +2,10 @@
 Change log
 ==========
 
-1.10.3 (unreleased)
-===================
+2.0.0 (unreleased)
+==================
 
-- Nothing changed yet.
+- Added Python 2.7 compatibility.
 
 
 1.10.2 (2013-07-06)
