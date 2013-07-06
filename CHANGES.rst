@@ -5,7 +5,10 @@ Change log
 1.10.2 (unreleased)
 ===================
 
-- Nothing changed yet.
+- Update to `zc.buildout` 1.7.1.
+
+- Downgrade ``bootstrap.py`` to the version of `zc.buildout` 1.7.1 so
+  initial bootstrap does not fail. This problem was introduced in version 1.10.1.
 
 
 1.10.1 (2013-06-25)
