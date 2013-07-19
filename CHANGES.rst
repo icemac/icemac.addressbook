@@ -5,7 +5,7 @@ Change log
 2.0.0 (unreleased)
 ==================
 
-- Added Python 2.7 compatibility.
+- Changed required Python to version 2.7.x, no longer supporting Python 2.6.
 
 
 1.10.2 (2013-07-06)

@@ -1,11 +1,10 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
 import zope.intid.interfaces

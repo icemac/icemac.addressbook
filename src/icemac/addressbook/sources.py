@@ -1,10 +1,8 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
-import stabledict
+from icemac.addressbook.i18n import _
+import collections
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
 import zope.component
@@ -25,7 +23,7 @@ class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
 
 
 class YesNoSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         ((True, _(u'yes')),
          (False, _(u'no'))))
 
@@ -33,7 +31,7 @@ yes_no_source = YesNoSource()
 
 
 class AscDescSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         (('ascending', _(u'ascending (A-->Z)')),
          ('descending', _(u'descending (Z-->A)'))))
 
@@ -41,7 +39,7 @@ asc_desc_source = AscDescSource()
 
 
 class FieldTypeSource(TitleMappingSource):
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         ((u'Bool', _(u'bool')),
          (u'Choice', _('choice')),
          (u'Date', _(u'date')),

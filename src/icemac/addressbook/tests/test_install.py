@@ -9,7 +9,6 @@ import sys
 import sys
 import tempfile
 import unittest
-import unittest2 as unittest
 import zc.buildout.testing
 
 
@@ -65,7 +64,7 @@ class TestNotMatchedPrerequisites(unittest.TestCase):
         with open('buildout.cfg', 'w') as buildout_cfg:
             buildout_cfg.write('[buildout]')
         self.assertEqual(
-            'ERROR: buildout.cfg already exists.'
+            'ERROR: buildout.cfg already exists.\n'
             '       Please (re-)move the existing one and restart install.',
             self.not_matched_prerequisites())
 
@@ -80,9 +79,8 @@ class TestNotMatchedPrerequisites(unittest.TestCase):
         try:
             sys.version_info = (2, 5, 6, 'final', 0)
             self.assertEqual(
-                'ERROR: icemac.addressbook currently supports only Python 2.6 '
-                'and 2.7.'
-                '       But you try to install it using python 2.5.6.',
+                'ERROR: icemac.addressbook currently supports only Python 2.7.'
+                '\n       But you try to install it using Python 2.5.6.',
                 self.not_matched_prerequisites())
         finally:
             sys.version_info = orig_version_info
@@ -92,9 +90,8 @@ class TestNotMatchedPrerequisites(unittest.TestCase):
         try:
             sys.version_info = (3, 0, 0, 'final', 0)
             self.assertEqual(
-                'ERROR: icemac.addressbook currently supports only Python 2.6 '
-                'and 2.7.'
-                '       But you try to install it using python 3.0.0.',
+                'ERROR: icemac.addressbook currently supports only Python 2.7.'
+                '\n       But you try to install it using Python 3.0.0.',
                 self.not_matched_prerequisites())
         finally:
             sys.version_info = orig_version_info
@@ -106,5 +103,6 @@ class TestNotMatchedPrerequisites(unittest.TestCase):
 
 
 def test_suite():
-    return unittest.TestSuite([DocFileSuite('../install.txt'),
-                               unittest.makeSuite(TestNotMatchedPrerequisites)])
+    return unittest.TestSuite(
+        [DocFileSuite('../install.txt'),
+         unittest.makeSuite(TestNotMatchedPrerequisites)])

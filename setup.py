@@ -43,7 +43,6 @@ setuptools.setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2 :: only',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
@@ -65,7 +64,6 @@ setuptools.setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'StableDict',
         'ZConfig',
         'ZODB3',
         'classproperty',
@@ -123,7 +121,6 @@ setuptools.setup(
             'gocept.testing',
             'mock',
             'plone.testing',
-            'unittest2',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
