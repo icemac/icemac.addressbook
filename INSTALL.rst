@@ -5,13 +5,13 @@
 Prerequisites
 =============
 
-* You only need Python 2.6.x or Python 2.7.x.
+* You only need Python 2.7.x.
 
   * Other Python versions are currently not supported.
 
   * For a smooth installation ensure your Python installation is clean by
 
-    * either compiling your own Python 2.6 resp. 2.7 from the `source code`_
+    * either compiling your own Python 2.7 from the `source code`_
 
     * or by creating a `virtualenv`_.
 

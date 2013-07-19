@@ -2,10 +2,10 @@
 # Copyright (c) 2010-2013 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+import collections
 import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
 import pytz
-import stabledict
 import zope.interface
 import zope.schema
 
@@ -37,7 +37,7 @@ class IPersonListTab(zope.interface.Interface):
 class TimeZones(icemac.addressbook.sources.TitleMappingSource):
     """Source of all available time zones."""
 
-    _mapping = stabledict.StableDict(((x, x) for x in pytz.all_timezones))
+    _mapping = collections.OrderedDict(((x, x) for x in pytz.all_timezones))
 
 
 class ITimeZone(zope.interface.Interface):

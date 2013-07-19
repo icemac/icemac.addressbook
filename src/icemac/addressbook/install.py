@@ -2,18 +2,9 @@
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
 import ConfigParser
+import collections
 import os.path
 import sys
-try:
-    # Python 2.7
-    from collections import OrderedDict
-except ImportError:
-    try:
-        # Python 2.6 in tests
-        from stabledict import StableDict as OrderedDict
-    except ImportError:
-        # Python 2.6 while calling install.py
-        OrderedDict = dict
 
 
 def not_matched_prerequisites():
@@ -22,10 +13,9 @@ def not_matched_prerequisites():
         return (
             "ERROR: buildout.cfg already exists.\n"
             "       Please (re-)move the existing one and restart install.")
-    if sys.version_info[:2] not in [(2, 6), (2, 7)]:
-        return ("ERROR: icemac.addressbook currently supports only Python 2.6 "
-                "and 2.7.\n"
-                "       But you try to install it using Python %s.%s.%s." % (
+    if sys.version_info[:2] != (2, 7):
+        return ("ERROR: icemac.addressbook currently supports only Python 2.7."
+                "\n       But you try to install it using Python %s.%s.%s." % (
                     sys.version_info[:3]))
     return False
 
@@ -104,7 +94,7 @@ class Configurator(object):
 
         # create config
         self._conf = ConfigParser.SafeConfigParser(
-            dict_type=stabledict.StableDict)
+            dict_type=collections.OrderedDict)
         self._conf.read(to_read)
         if self.user_config is not None:
             self._conf.set('migration', 'old_instance',
@@ -220,7 +210,7 @@ class Configurator(object):
     def create_buildout_cfg(self):
         print 'creating buildout.cfg ...'
         buildout_cfg = ConfigParser.SafeConfigParser(
-            dict_type=stabledict.StableDict)
+            dict_type=collections.OrderedDict)
         buildout_cfg.add_section('buildout')
         buildout_cfg.set('buildout', 'extends', 'profiles/prod.cfg')
         buildout_cfg.set('buildout', 'newest', 'true')
