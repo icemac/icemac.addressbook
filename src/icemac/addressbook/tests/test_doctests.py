@@ -13,7 +13,6 @@ def test_suite():
         # Caution: none of these tests can run as unittest!
         'adapter.txt',
         'address.txt',
-        'addressbook.txt',
         'person.txt',
         ))
     suite.addTest(icemac.addressbook.testing.TestBrowserDocFileSuite(
