@@ -60,6 +60,24 @@ class TestAddressbook(unittest.TestCase,
         self.assertEqual("<AddressBook u'ab' (u'My address book')>",
                          repr(self.ab))
 
+    def test_entity_order_is_created_initially(self):
+        from icemac.addressbook.interfaces import ENTITIES
+        self.assertEqual(
+            ['IcemacAddressbookAddressbookAddressbook',
+            'IcemacAddressbookPersonPerson',
+            'IcemacAddressbookPersonPersondefaults',
+            'IcemacAddressbookAddressPostaladdress',
+            'IcemacAddressbookAddressPhonenumber',
+            'IcemacAddressbookAddressEmailaddress',
+            'IcemacAddressbookAddressHomepageaddress',
+            'IcemacAddressbookFileFileFile',
+            'IcemacAddressbookKeywordKeyword'],
+            list(self.ab.orders.iter(ENTITIES)))
+
+    def test_only_entity_order_is_created_initially(self):
+        from icemac.addressbook.interfaces import ENTITIES
+        self.assertEqual([ENTITIES], list(self.ab.orders.namespaces()))
+
 
 class GetAddressBookTests(unittest.TestCase):
     """Testing ..addressbook.get_address_book."""
