@@ -28,7 +28,7 @@ def sorted_entities(entities):
     """Returns the entities sorted as defined in IEntityOrder."""
     order = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntityOrder)
-    order = [x for x in order]
+    order = list(order)
     return sorted(entities, key=lambda x: order.index(x.name))
 
 
