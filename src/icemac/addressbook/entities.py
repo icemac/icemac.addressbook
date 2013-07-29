@@ -134,9 +134,8 @@ class EntityOrder(object):
 
     def __iter__(self):
         """Iterate over the entities sorted by order."""
-        for entity in self.order_storage.__iter__(
-            icemac.addressbook.interfaces.ENTITIES):
-            yield entity
+        return iter(self.order_storage.byNamespace(
+            icemac.addressbook.interfaces.ENTITIES))
 
     def up(self, entity, delta=1):
         """Move the entity one position up in the entity order."""
@@ -300,7 +299,7 @@ class Entity(object):
         order_storage = zope.component.queryUtility(
             icemac.addressbook.interfaces.IOrderStorage)
         try:
-            return order_storage.__iter__(self._order_storage_namespace)
+            return order_storage.byNamespace(self._order_storage_namespace)
         except (KeyError, ValueError, AttributeError):
             # Either the order_storage is None or the namespace cannot be
             # computed or it is unknown, so we can't order the fields.
