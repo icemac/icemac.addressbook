@@ -24,11 +24,14 @@ class OrderStorage(
         """Get an iterable of the known namespaces."""
         return self._storage.keys()
 
+    def byNamespace(self, namespace):
+        """Get the objects in an order namespace as a list."""
+        return self._storage[namespace]
+
     def get(self, obj, namespace):
         """Get the index of the object in the list."""
-        by_namespace = self.__iter__(namespace)
         try:
-            return by_namespace.index(obj)
+            return self.byNamespace(namespace).index(obj)
         except ValueError:
             raise KeyError(obj)
 
@@ -38,11 +41,8 @@ class OrderStorage(
 
     def isLast(self, obj, namespace):
         """Tell whether `obj` is the last object in the list."""
-        return (self.get(obj, namespace) + 1) == len(self.__iter__(namespace))
-
-    def __iter__(self, namespace):
-        """Iterate over the list of a namespace."""
-        return self._storage[namespace]
+        return ((self.get(obj, namespace) + 1) ==
+                len(self.byNamespace(namespace)))
 
     # IOrderStorageWrite
 
@@ -50,13 +50,13 @@ class OrderStorage(
         """Add an object to the order for a namespace."""
         if namespace not in self._storage:
             self._create_namespace(namespace)
-        storage = self._storage[namespace]
+        storage = self.byNamespace(namespace)
         if obj not in storage:
             storage.append(obj)
 
     def remove(self, obj, namespace):
         """Remove the object from the order of a namespace."""
-        self._storage[namespace].remove(obj)
+        self.byNamespace(namespace).remove(obj)
 
     def truncate(self, namespace):
         """Remove all objects from the order of a namespace."""
@@ -66,7 +66,7 @@ class OrderStorage(
 
     def up(self, obj, namespace, delta=1):
         """Move the object one position up in the list."""
-        storage = self._storage[namespace]
+        storage = self.byNamespace(namespace)
         for i in xrange(delta):
             index = storage.index(obj)
             if index == 0:
@@ -78,7 +78,7 @@ class OrderStorage(
 
     def down(self, obj, namespace, delta=1):
         """Move the object one position down in the list."""
-        storage = self._storage[namespace]
+        storage = self.byNamespace(namespace)
         for i in xrange(delta):
             index = storage.index(obj)
             if index == len(storage) - 1:
@@ -90,4 +90,5 @@ class OrderStorage(
     # private
 
     def _create_namespace(self, namespace):
+        """Create a new order namespace."""
         self._storage[namespace] = persistent.list.PersistentList()

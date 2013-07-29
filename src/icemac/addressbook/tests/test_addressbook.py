@@ -72,7 +72,7 @@ class TestAddressbook(unittest.TestCase,
             'IcemacAddressbookAddressHomepageaddress',
             'IcemacAddressbookFileFileFile',
             'IcemacAddressbookKeywordKeyword'],
-            list(self.ab.orders.iter(ENTITIES)))
+            self.ab.orders.byNamespace(ENTITIES))
 
     def test_only_entity_order_is_created_initially(self):
         from icemac.addressbook.interfaces import ENTITIES
