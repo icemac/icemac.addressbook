@@ -2,10 +2,10 @@
 Change log
 ==========
 
-1.10.3 (unreleased)
+1.10.3 (2013-07-30)
 ===================
 
-- Nothing changed yet.
+- Fix 1.10.2 brown bag release missing some text files so failing to install.
 
 
 1.10.2 (2013-07-06)
