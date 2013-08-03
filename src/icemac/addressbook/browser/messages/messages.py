@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 
 import icemac.addressbook.browser.interfaces
-import js.jquery
 import z3c.flashmessage.receiver
 import zope.component
 import zope.contentprovider.provider
@@ -24,7 +23,6 @@ class MessagesContentProvider(
         'messages.pt')
 
     def update(self):
-        js.jquery.jquery.need()
         self.messages = list(self.receive())
 
     def render(self):

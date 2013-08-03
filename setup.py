@@ -143,6 +143,5 @@ setuptools.setup(
       [fanstatic.libraries]
       css = icemac.addressbook.browser.resource:css_lib
       js = icemac.addressbook.browser.resource:js_lib
-      prefs = icemac.addressbook.preferences.browser:lib
       """
     )

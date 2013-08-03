@@ -43,12 +43,6 @@ def get_field_URL(entity, field, request):
 class List(object):
     """List fields of an entity."""
 
-    def update(self):
-        super(List, self).update()
-        icemac.addressbook.browser.resource.masterdata_fields.need()
-        icemac.addressbook.browser.resource.table_css.need()
-        icemac.addressbook.browser.resource.form_css.need()
-
     def _values(self):
         # zope.schema fields are no content classes, so they have no
         # permissions defined
