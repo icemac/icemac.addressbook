@@ -85,11 +85,6 @@ class PersonAddForm(z3c.form.group.GroupForm,
                   for entity in entities.getMainEntities()]
         self.groups = tuple(groups)
 
-    def update(self):
-        super(PersonAddForm, self).update()
-        # This call is needed because GroupForm does not do a super call.
-        icemac.addressbook.browser.base.get_needed_resources(self)
-
     def createAndAdd(self, data):
         # Create person first
         person_entity = icemac.addressbook.interfaces.IEntity(

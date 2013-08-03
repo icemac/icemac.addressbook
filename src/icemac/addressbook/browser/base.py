@@ -56,12 +56,6 @@ def all_(*constraints):
     return lambda form: all(constraint(form) for constraint in constraints)
 
 
-def get_needed_resources(self):
-    """Get the needed resources for self."""
-    if self.need:
-        getattr(icemac.addressbook.browser.resource, self.need).need()
-
-
 class FlashView(object):
     """Base class to send flash messages."""
 
@@ -72,12 +66,6 @@ class FlashView(object):
 
 class BaseView(FlashView):
     "Base for view classes."
-
-    need = None  # name of a resource from icemac.addressbook.browser.resource
-
-    def update(self):
-        get_needed_resources(self)
-        super(BaseView, self).update()
 
     def url(self, obj, view_name=None):
         url = zope.traversing.browser.absoluteURL(obj, self.request)
@@ -90,7 +78,6 @@ class BaseForm(BaseView):
     """Base for all forms."""
 
     interface = None  # interface for form
-    need = 'form_css'
 
     # privat
     _status = ''
@@ -181,7 +168,6 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
 
 def update_with_redirect(class_, self):
     """Call update of super class and redirect when necessary."""
-    get_needed_resources(self)
     # Caution: we need the class_ parameter as we get infinite recursion if
     # using self.__class__ in the super call.
     super(class_, self).update()
@@ -287,9 +273,12 @@ class BaseDeleteForm(_AbstractEditForm):
     field_names = ()  # tuple of field names for display; empty for all
     next_view_after_delete = None  # None --> default view
 
-    need = 'no_max_content_css'
     mode = z3c.form.interfaces.DISPLAY_MODE
     next_url = 'object'
+
+    def update(self):
+        icemac.addressbook.browser.resource.no_max_content_css.need()
+        super(BaseDeleteForm, self).update()
 
     @property
     def fields(self):

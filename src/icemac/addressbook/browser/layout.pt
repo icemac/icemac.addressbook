@@ -7,6 +7,7 @@
       tal:define="title provider:addressbook-title">
   <head>
     <tal:block replace="structure provider:login-logout-head" />
+    <tal:block replace="structure provider:fanstatic-viewlets" />
     <title tal:content="title">icemac.addressbook</title>
     <link rel="shortcut icon" href="/++resource++img/favicon.ico" type="image/x-icon" />
   </head>
