@@ -3,7 +3,7 @@
 
   %(prepend_zcml)s
 
-  <include package="icemac.addressbook" />
+  <include package="icemac.addressbook" file="application.zcml" />
 
   %(permissions_zcml)s
 
