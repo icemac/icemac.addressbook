@@ -244,7 +244,7 @@ def SeleniumLayer(name, zodb_layer):
         bases=[wsgi_layer], name='%sSeleniumLayer' % name)
 
 
-# Predefined layers
+# Predefined layers:
 ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 ZCML_LAYER = ZCMLLayer('AddressBook', __name__, icemac.addressbook)
 ZODB_LAYER = ZODBLayer('AddressBook', ZCML_LAYER)
