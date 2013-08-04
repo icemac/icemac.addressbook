@@ -1,8 +1,6 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.browser.testing
 import icemac.addressbook.testing
 import zope.testing.renormalizing
