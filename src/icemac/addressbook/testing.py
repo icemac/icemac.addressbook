@@ -251,6 +251,13 @@ ZODB_LAYER = ZODBLayer('AddressBook', ZCML_LAYER)
 TEST_BROWSER_LAYER = TestBrowserLayer('AddressBook', ZODB_LAYER)
 SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
 
+# Test layers including `locales` packages:
+TRANSLATION_ZCML_LAYER = ZCMLLayer(
+    'ABTranslation', __name__, icemac.addressbook, 'translationtesting.zcml',
+    bases=[ZCML_LAYER])
+TRANSLATION_ZODB_LAYER = ZODBLayer('ABTranslation', TRANSLATION_ZCML_LAYER)
+TRANSLATION_TEST_BROWSER_LAYER = TestBrowserLayer(
+    'ABTranslation', TRANSLATION_ZODB_LAYER)
 
 # Mixins
 class ZODBMixIn(object):

@@ -66,8 +66,6 @@
   <include package="z3c.layer.pagelet" />
   <include package="z3c.authviewlet" />
   <include package="zope.copypastemove" />
-  <include package="z3c.locales" />
-  <include package="zope.app.locales" />
   <include package="gocept.country"/>
   <include package="gocept.reference"/>
   <include package="z3c.form" />
@@ -81,7 +79,6 @@
   <include package="zope.contentprovider" />
   <include package="zope.securitypolicy" />
   <include package="zope.mimetype" />
-  <include package="icemac.ab.locales" />
   <include package="z3c.preference" />
 
   <include
