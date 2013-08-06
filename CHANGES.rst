@@ -5,6 +5,14 @@ Change log
 2.0.0 (unreleased)
 ==================
 
+Features
+--------
+
+- Put focus on first input field of form after loading the form.
+
+Other
+-----
+
 - Changed required Python to version 2.7.x, no longer supporting Python 2.6.
 
 
