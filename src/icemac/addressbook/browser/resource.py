@@ -39,7 +39,6 @@ masterdata_fields = fanstatic.Resource(
 table = fanstatic.Resource(
     js_lib, 'table.js', depends=[js.jquery.jquery])
 prefs = fanstatic.Resource(
-
     js_lib, 'prefs.js', depends=[js.jqueryui.effects_fade])
 
 js = fanstatic.Group([
