@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import  _
 import icemac.addressbook.browser.metadata
+import icemac.addressbook.browser.resource
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import urlparse
@@ -12,7 +12,6 @@ import zope.publisher.interfaces
 import zope.publisher.interfaces.http
 import zope.security.proxy
 import zope.traversing.browser
-import icemac.addressbook.browser.resource
 
 
 class FieldsTraverser(
