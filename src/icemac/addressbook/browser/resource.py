@@ -35,13 +35,14 @@ no_max_content_css = fanstatic.Resource(
 
 # JavaScript
 masterdata_fields = fanstatic.Resource(
-    js_lib, 'masterdata_fields.js', depends=[js.jqueryui.ui_sortable])
+    js_lib, 'masterdata_fields.js', bottom=True,
+    depends=[js.jqueryui.ui_sortable])
 table = fanstatic.Resource(
-    js_lib, 'table.js', depends=[js.jquery.jquery])
+    js_lib, 'table.js', bottom=True, depends=[js.jquery.jquery])
 prefs = fanstatic.Resource(
-    js_lib, 'prefs.js', depends=[js.jqueryui.effects_fade])
+    js_lib, 'prefs.js', bottom=True, depends=[js.jqueryui.effects_fade])
 form = fanstatic.Resource(
-    js_lib, 'form.js', depends=[js.jquery.jquery])
+    js_lib, 'form.js', bottom=True, depends=[js.jquery.jquery])
 
 
 js = fanstatic.Group([
