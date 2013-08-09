@@ -76,9 +76,9 @@ class OrderStorage(
     def truncate(self, namespace):
         """Remove all objects from the order of a namespace."""
         if namespace in self._storage:
-            # Creates new empty namespace when it exists.
-            # XXX truncate existing list instead of replacing it!
-            storage = self._create_namespace(namespace)
+            storage = self.byNamespace(namespace)
+            # Remove all contents from storage:
+            del storage[:]
             self._modified(storage)
 
     def up(self, obj, namespace, delta=1):
