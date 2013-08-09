@@ -10,6 +10,11 @@ Features
 
 - Put focus on first input field of form after loading the form.
 
+Bugfixes
+--------
+
+- Show metadata for entity field oder list.
+
 Other
 -----
 
