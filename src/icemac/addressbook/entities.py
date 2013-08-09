@@ -246,6 +246,12 @@ class Entity(object):
         "Dict of tagged values of the entity."
         return self._tagged_values.copy()
 
+    @property
+    def order_storage_namespace(self):
+        """Get the name space used in the order storage."""
+        return '%s%s' % (
+            icemac.addressbook.interfaces.FIELD_NS_PREFIX, self.name)
+
     def getRawFields(self, sorted=True):
         """Get (name, field) tuples of the schema fields on the entity.
 
@@ -299,7 +305,7 @@ class Entity(object):
         order_storage = zope.component.queryUtility(
             icemac.addressbook.interfaces.IOrderStorage)
         try:
-            return order_storage.byNamespace(self._order_storage_namespace)
+            return order_storage.byNamespace(self.order_storage_namespace)
         except (KeyError, ValueError, AttributeError):
             # Either the order_storage is None or the namespace cannot be
             # computed or it is unknown, so we can't order the fields.
@@ -328,7 +334,7 @@ class Entity(object):
         order_storage = zope.component.getUtility(
             icemac.addressbook.interfaces.IOrderStorage)
         existing_field_names = [x[0] for x in self._get_raw_fields_unordered()]
-        ns = self._order_storage_namespace
+        ns = self.order_storage_namespace
         # Removing exising contents of namespace in order storage while
         # creating the namespace when it does not yet exist
         order_storage.truncate(ns)
@@ -339,12 +345,6 @@ class Entity(object):
             order_storage.add(name, ns)
 
     # private
-
-    @property
-    def _order_storage_namespace(self):
-        "Get the name space used in the order storage."
-        return '%s%s' % (
-            icemac.addressbook.interfaces.FIELD_NS_PREFIX, self.name)
 
     def _get_raw_fields_unordered(self):
         "Get the raw fields not ordered."
