@@ -3,10 +3,22 @@
 # See also LICENSE.txt
 import BTrees.OOBTree
 import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import persistent
 import persistent.list
+import zope.annotation.interfaces
 import zope.container.contained
 import zope.interface
+import zope.lifecycleevent
+import zope.location
+
+
+@zope.interface.implementer(zope.annotation.interfaces.IAttributeAnnotatable)
+class OrderStorageList(persistent.list.PersistentList):
+    """List storing orders of a single namespace.
+
+    This list is metadata aware.
+    """
 
 
 class OrderStorage(
@@ -16,7 +28,8 @@ class OrderStorage(
     zope.interface.implements(icemac.addressbook.interfaces.IOrderStorage)
 
     def __init__(self, *args, **kw):
-        self._storage = BTrees.OOBTree.OOBTree()
+        self._storage = icemac.addressbook.utils.create_obj(
+            BTrees.OOBTree.OOBTree)
 
     # IOrderStorageRead
     def namespaces(self):
@@ -52,16 +65,21 @@ class OrderStorage(
         storage = self.byNamespace(namespace)
         if obj not in storage:
             storage.append(obj)
+            self._modified(storage)
 
     def remove(self, obj, namespace):
         """Remove the object from the order of a namespace."""
-        self.byNamespace(namespace).remove(obj)
+        storage = self.byNamespace(namespace)
+        storage.remove(obj)
+        self._modified(storage)
 
     def truncate(self, namespace):
         """Remove all objects from the order of a namespace."""
         if namespace in self._storage:
             # Creates new empty namespace when it exists.
-            self._create_namespace(namespace)
+            # XXX truncate existing list instead of replacing it!
+            storage = self._create_namespace(namespace)
+            self._modified(storage)
 
     def up(self, obj, namespace, delta=1):
         """Move the object one position up in the list."""
@@ -74,6 +92,7 @@ class OrderStorage(
                     "beginning of the list." % (obj, delta))
             storage[index - 1:index + 1] = reversed(
                 storage[index - 1:index + 1])
+        self._modified(storage)
 
     def down(self, obj, namespace, delta=1):
         """Move the object one position down in the list."""
@@ -85,9 +104,16 @@ class OrderStorage(
                     "Moving %r by %s positions down would move it beyond the "
                     "end of the list." % (obj, delta))
             storage[index:index + 2] = reversed(storage[index:index + 2])
+        self._modified(storage)
 
     # private
 
     def _create_namespace(self, namespace):
         """Create a new order namespace."""
-        self._storage[namespace] = persistent.list.PersistentList()
+        namespace_storage = icemac.addressbook.utils.create_obj(
+            OrderStorageList)
+        self._storage[namespace] = namespace_storage
+        zope.location.locate(namespace_storage, self._storage, namespace)
+
+    def _modified(self, obj):
+        zope.lifecycleevent.modified(obj)

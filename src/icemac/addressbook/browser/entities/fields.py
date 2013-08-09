@@ -7,6 +7,8 @@ import icemac.addressbook.browser.resource
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import urlparse
+import z3c.form.group
+import z3c.formui.form
 import zope.app.publication.traversers
 import zope.publisher.interfaces
 import zope.publisher.interfaces.http
@@ -39,6 +41,14 @@ def get_field_URL(entity, field, request):
     return url
 
 
+class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
+    """Form to only render metadata."""
+
+    id = 'standalone-metadata-form'
+    groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
+
+
+
 class List(object):
     """List fields of an entity."""
 
@@ -59,6 +69,22 @@ class List(object):
                    'delete-link': delete_url,
                    'edit-link': url,
                    'id': field.__name__}
+
+    def metadata(self):
+        # Entities are not persisitent. Because the sort order of the fields
+        # is shown in the list, we show the metadata of of this sort order:
+        os = zope.component.getUtility(
+            icemac.addressbook.interfaces.IOrderStorage)
+        try:
+            context = os.byNamespace(self.context.order_storage_namespace)
+        except KeyError:
+            # Sort order not yet changed, so we have no metadata:
+            return ''
+        form = MetadataForm(context, self.request)
+        # We cannot use form() here as this renders the layout template,
+        # too, which is not needed here:
+        form.update()
+        return form.render()
 
 
 class SaveSortorder(icemac.addressbook.browser.base.BaseView):
