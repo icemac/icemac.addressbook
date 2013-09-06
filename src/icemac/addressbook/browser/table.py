@@ -90,10 +90,6 @@ class Table(z3c.table.table.Table):
     startBatchingAt = 1000000
     no_rows_message = u''  # Set at subclass.
 
-    def update(self):
-        icemac.addressbook.browser.resource.table_css.need()
-        super(Table, self).update()
-
     def renderTable(self):
         if self.rows:
             return super(Table, self).renderTable()

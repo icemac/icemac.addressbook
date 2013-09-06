@@ -1,9 +1,7 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.metadata
@@ -84,11 +82,6 @@ class PersonAddForm(z3c.form.group.GroupForm,
                            entity.title, entity.name)
                   for entity in entities.getMainEntities()]
         self.groups = tuple(groups)
-
-    def update(self):
-        super(PersonAddForm, self).update()
-        # This call is needed because GroupForm does not do a super call.
-        icemac.addressbook.browser.base.get_needed_resources(self)
 
     def createAndAdd(self, data):
         # Create person first

@@ -2,7 +2,7 @@
 # Copyright (c) 2011-2013 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.browser.testing
-import unittest2 as unittest
+import unittest
 import urllib2
 
 

@@ -1,8 +1,6 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.browser.testing
 import icemac.addressbook.testing
 import zope.testing.renormalizing
@@ -22,12 +20,16 @@ def test_suite():
         "browser/person/file.txt",
         "browser/person/person.txt",
         "browser/person/sortorder.txt",
-        "browser/person/translation.txt",
         "browser/principals/principals.txt",
         "browser/rootfolder/rootfolder.txt",
-        "browser/search/result/handler/export/translation.txt",
         "browser/search/result/handler/export/userfields.txt",
         )
+    suite.addTest(
+        icemac.addressbook.testing.DocFileSuite(
+            "browser/person/translation.txt",
+            "browser/search/result/handler/export/translation.txt",
+            layer=icemac.addressbook.testing.TRANSLATION_TEST_BROWSER_LAYER
+            ))
     suite.addTest(
         icemac.addressbook.testing.DocFileSuite(
             "browser/search/result/handler/delete.txt",

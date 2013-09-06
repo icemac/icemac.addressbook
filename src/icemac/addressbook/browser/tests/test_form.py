@@ -1,6 +1,6 @@
 from mock import patch, Mock
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 
 
 class DatetimeDataConverterTests(unittest.TestCase):

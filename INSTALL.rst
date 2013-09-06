@@ -5,8 +5,19 @@
 Prerequisites
 =============
 
-* You only need Python 2.6.x. (Other Python versions are currently
-  not supported.)
+* You only need Python 2.7.x.
+
+  * Other Python versions are currently not supported.
+
+  * For a smooth installation ensure your Python installation is clean by
+
+    * either compiling your own Python 2.7 from the `source code`_
+
+    * or by creating a `virtualenv`_.
+
+.. _`source code` : http://www.python.org/download/releases/
+
+.. _`virtualenv` : https://pypi.python.org/pypi/virtualenv
 
 There are two variants for installation:
 
@@ -35,7 +46,7 @@ its directory.
 
 3. Run ``install.py`` using your desired python, e. g.::
 
-   $ python2.6 install.py
+   $ python2.7 install.py
 
 4. Answer the questions about admin user name, password and so on.
 
@@ -60,7 +71,7 @@ Update
    previously are used as defaults instead of the application
    defaults.  Example::
 
-     $ python2.6 install.py ../icemac.addressbook-0.4
+     $ python2.7 install.py ../icemac.addressbook-0.4
 
    3. Answer the questions about admin user name, password and so on.
 
@@ -110,7 +121,7 @@ Source installation
 
    $ cd icemac.addressbook
    $ printf "[buildout]\nextends = profiles/%s\n" dev.cfg > buildout.cfg
-   $ python2.6 bootstrap.py
+   $ python2.7 bootstrap.py
    $ bin/buildout
 
 
@@ -176,7 +187,7 @@ a file named `install.user.ini` in the address book directory.
 To change the configuration values call `install.py` using python and
 enter a `.` as parameter like this::
 
-  $ python2.6 install.py .
+  $ python2.7 install.py .
 
 The configuration questions get presented to you with your previously
 entered values as default.

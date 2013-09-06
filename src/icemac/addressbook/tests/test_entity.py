@@ -92,7 +92,7 @@ class TestEntity(unittest.TestCase):
             icemac.addressbook.interfaces.IOrderStorage)
         self.assertEqual(
             ['dummy2', 'dummy', 'Field'],
-            order_storage.__iter__(self.entity._order_storage_namespace))
+            order_storage.byNamespace(self.entity.order_storage_namespace))
 
     def test_setFieldOrder_missing_field_names(self):
         self.entity.setFieldOrder(['Field', 'dummy'])

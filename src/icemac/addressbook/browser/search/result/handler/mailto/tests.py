@@ -1,7 +1,7 @@
 import icemac.addressbook.testing
-import unittest2 as unittest
 import mock
 import plone.testing
+import unittest
 
 
 class MailToLayer(plone.testing.Layer):

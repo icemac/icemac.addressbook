@@ -23,7 +23,7 @@ def application_factory(global_conf, conf='zope.conf', db=None):
         db = zope.app.wsgi.config(zope_conf)
     application = zope.app.wsgi.WSGIPublisherApplication(
         db, factory=HTTPPublicationRequestFactory, handle_errors=True)
-    application = fanstatic.make_fanstatic(application, IGNORED)
+    application = fanstatic.make_fanstatic(application, IGNORED, bottom=True)
 
     # Create the application, notify subscribers.
     zope.event.notify(

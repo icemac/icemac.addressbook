@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2010-2013 Michael Howitz
 # See also LICENSE.txt
-
 from icemac.addressbook.i18n import _
+import collections
 import icemac.addressbook.browser.search.base
 import icemac.addressbook.sources
-import stabledict
 import zope.catalog.interfaces
 import zope.component
 import zope.interface
@@ -22,7 +21,7 @@ class SearchView(icemac.addressbook.browser.search.base.BaseView):
 class SearchTermConcatenationSource(
     icemac.addressbook.sources.TitleMappingSource):
 
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         (('and', _(u'search-and', default=u'and')),
          ('or', _(u'search-or', default=u'or'))))
 

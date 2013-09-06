@@ -2,11 +2,42 @@
 Change log
 ==========
 
-1.10.1 (unreleased)
-===================
+2.0.0 (unreleased)
+==================
+
+Features
+--------
+
+- Put focus on first input field of form after loading the form.
+
+Bugfixes
+--------
+
+- Show metadata for entity field oder list.
+
+Other
+-----
+
+- Changed required Python to version 2.7.x, no longer supporting Python 2.6.
 
 - Updated most other packages (outside ZTK) needed for address book to
   newest versions.
+
+
+1.10.2 (2013-07-06)
+===================
+
+- Update to `zc.buildout` 1.7.1.
+
+- Downgrade ``bootstrap.py`` to the version of `zc.buildout` 1.7.1 so
+  initial bootstrap does not fail. This problem was introduced in version 1.10.1.
+
+
+1.10.1 (2013-06-25)
+===================
+
+- Update ``bootstrap.py`` to current version so updating an older instance
+  does not fail.
 
 
 1.10.0 (2013-06-21)
