@@ -64,11 +64,4 @@
       class=".browser.PrefGroupEditForm"
       />
 
-  <browser:resourceDirectory
-      name="prefs"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      directory="resources"
-      permission="zope.Public"
-      />
-
 </configure>

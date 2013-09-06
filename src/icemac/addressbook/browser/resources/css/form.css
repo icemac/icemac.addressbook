@@ -103,7 +103,8 @@ form#edit-form div.group {
     float: left;
 }
 
-form#edit-form div.group + fieldset {
+form#edit-form div.group + fieldset,
+form#standalone-metadata-form {
     float: right;
 }
 

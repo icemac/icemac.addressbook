@@ -1,6 +1,6 @@
 from mock import patch
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 
 
 class NamesTests(unittest.TestCase):

@@ -1,13 +1,12 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import _
 import z3c.form.interfaces
 import z3c.formui.interfaces
 import z3c.layer.pagelet
 import z3c.preference.interfaces
 import zope.interface
+import zope.viewlet.interfaces
 
 
 class IAddressBookLayer(
@@ -39,3 +38,8 @@ class IErrorMessage(zope.interface.Interface):
 
 class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
     """Special date and time widget to be able to use a JavaScript picker."""
+
+
+class IFanstaticViewletManager(zope.viewlet.interfaces.IViewletManager):
+    "Register viewlets for this manager which `need()` fanstatic resources."
+

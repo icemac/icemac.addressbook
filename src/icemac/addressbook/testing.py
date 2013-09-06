@@ -22,7 +22,7 @@ import plone.testing.zodb
 import re
 import tempfile
 import transaction
-import unittest2 as unittest
+import unittest
 import z3c.etestbrowser.wsgi
 import zope.annotation.attribute
 import zope.app.publication.httpfactory
@@ -244,13 +244,20 @@ def SeleniumLayer(name, zodb_layer):
         bases=[wsgi_layer], name='%sSeleniumLayer' % name)
 
 
-# Predefined layers
+# Predefined layers:
 ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 ZCML_LAYER = ZCMLLayer('AddressBook', __name__, icemac.addressbook)
 ZODB_LAYER = ZODBLayer('AddressBook', ZCML_LAYER)
 TEST_BROWSER_LAYER = TestBrowserLayer('AddressBook', ZODB_LAYER)
 SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
 
+# Test layers including `locales` packages:
+TRANSLATION_ZCML_LAYER = ZCMLLayer(
+    'ABTranslation', __name__, icemac.addressbook, 'translationtesting.zcml',
+    bases=[ZCML_LAYER])
+TRANSLATION_ZODB_LAYER = ZODBLayer('ABTranslation', TRANSLATION_ZCML_LAYER)
+TRANSLATION_TEST_BROWSER_LAYER = TestBrowserLayer(
+    'ABTranslation', TRANSLATION_ZODB_LAYER)
 
 # Mixins
 class ZODBMixIn(object):

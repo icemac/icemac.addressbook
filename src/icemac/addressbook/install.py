@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-
+import ConfigParser
+import collections
 import os.path
 import sys
-import ConfigParser
 
 
-def check_prerequisites():
+def not_matched_prerequisites():
     "Check whether icemac.addressbook can be installed."
     if os.path.exists('buildout.cfg'):
-        print "ERROR: buildout.cfg already exists."
-        print "       Please (re-)move the existing one and restart install."
-        return False
-    if sys.version_info[:2] not in [(2, 6)]:
-        print "ERROR: icemac.addressbook currently supports only Python 2.6"
-        print "       But you try to install it using python %s.%s.%s." % (
-            sys.version_info[:3])
-        return False
-    return True
+        return (
+            "ERROR: buildout.cfg already exists.\n"
+            "       Please (re-)move the existing one and restart install.")
+    if sys.version_info[:2] != (2, 7):
+        return ("ERROR: icemac.addressbook currently supports only Python 2.7."
+                "\n       But you try to install it using Python %s.%s.%s." % (
+                    sys.version_info[:3]))
+    return False
 
 
 class Configurator(object):
@@ -94,7 +93,8 @@ class Configurator(object):
             to_read.append(self.user_config)
 
         # create config
-        self._conf = ConfigParser.SafeConfigParser()
+        self._conf = ConfigParser.SafeConfigParser(
+            dict_type=collections.OrderedDict)
         self._conf.read(to_read)
         if self.user_config is not None:
             self._conf.set('migration', 'old_instance',
@@ -209,7 +209,8 @@ class Configurator(object):
 
     def create_buildout_cfg(self):
         print 'creating buildout.cfg ...'
-        buildout_cfg = ConfigParser.SafeConfigParser()
+        buildout_cfg = ConfigParser.SafeConfigParser(
+            dict_type=collections.OrderedDict)
         buildout_cfg.add_section('buildout')
         buildout_cfg.set('buildout', 'extends', 'profiles/prod.cfg')
         buildout_cfg.set('buildout', 'newest', 'true')

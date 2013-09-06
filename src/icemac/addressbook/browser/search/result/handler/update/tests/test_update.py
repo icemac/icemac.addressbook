@@ -4,7 +4,7 @@
 import decimal
 import icemac.addressbook.browser.testing
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 
 
 class TestEmptyNewValue(unittest.TestCase):

@@ -1,5 +1,5 @@
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 
 
 class TimeZoneTests(unittest.TestCase):

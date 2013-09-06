@@ -180,6 +180,8 @@ class IEntityRead(zope.interface.Interface):
         "Uniqe name of the entity which only contains letters.")
     tagged_values = zope.interface.Attribute(
         "Dict of tagged values of the entity.")
+    order_storage_namespace = zope.interface.Attribute(
+        "Get the name space used in the order storage.")
 
     def getRawField(field_name):
         """Get a field by its name. (Without any conversion.)"""
@@ -311,8 +313,8 @@ class IOrderStorageRead(zope.interface.Interface):
         Raises a KeyError when the object is not in the list.
         """
 
-    def __iter__(namespace):
-        """Iterate over the objects registered for the namespace."""
+    def byNamespace(namespace):
+        """List of the objects registered for the namespace."""
 
 
 class IOrderStorageWrite(zope.interface.Interface):

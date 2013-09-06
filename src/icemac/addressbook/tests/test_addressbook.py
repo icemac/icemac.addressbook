@@ -1,11 +1,10 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
-import unittest2 as unittest
+import unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
 import zope.intid.interfaces
@@ -60,6 +59,24 @@ class TestAddressbook(unittest.TestCase,
         self.ab.title = u'My address book'
         self.assertEqual("<AddressBook u'ab' (u'My address book')>",
                          repr(self.ab))
+
+    def test_entity_order_is_created_initially(self):
+        from icemac.addressbook.interfaces import ENTITIES
+        self.assertEqual(
+            ['IcemacAddressbookAddressbookAddressbook',
+            'IcemacAddressbookPersonPerson',
+            'IcemacAddressbookPersonPersondefaults',
+            'IcemacAddressbookAddressPostaladdress',
+            'IcemacAddressbookAddressPhonenumber',
+            'IcemacAddressbookAddressEmailaddress',
+            'IcemacAddressbookAddressHomepageaddress',
+            'IcemacAddressbookFileFileFile',
+            'IcemacAddressbookKeywordKeyword'],
+            self.ab.orders.byNamespace(ENTITIES))
+
+    def test_only_entity_order_is_created_initially(self):
+        from icemac.addressbook.interfaces import ENTITIES
+        self.assertEqual([ENTITIES], list(self.ab.orders.namespaces()))
 
 
 class GetAddressBookTests(unittest.TestCase):

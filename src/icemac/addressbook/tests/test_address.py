@@ -1,5 +1,5 @@
-import unittest2 as unittest
 import icemac.addressbook.testing
+import unittest
 
 
 class Test_default_attrib_name_to_entity(unittest.TestCase):

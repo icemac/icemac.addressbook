@@ -26,6 +26,20 @@
       permission="zope.Public"
   />
 
+  <browser:viewletManager
+      provides=".interfaces.IFanstaticViewletManager"
+      layer=".interfaces.IAddressBookLayer"
+      name="fanstatic-viewlets"
+      permission="zope.Public"
+      />
+
+  <browser:viewlet
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="DefaultResources"
+      class=".resource.DefaultResources"
+      permission="zope.Public" />
+
   <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
 
   <adapter

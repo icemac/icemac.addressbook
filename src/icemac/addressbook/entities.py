@@ -28,7 +28,7 @@ def sorted_entities(entities):
     """Returns the entities sorted as defined in IEntityOrder."""
     order = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntityOrder)
-    order = [x for x in order]
+    order = list(order)
     return sorted(entities, key=lambda x: order.index(x.name))
 
 
@@ -134,9 +134,8 @@ class EntityOrder(object):
 
     def __iter__(self):
         """Iterate over the entities sorted by order."""
-        for entity in self.order_storage.__iter__(
-            icemac.addressbook.interfaces.ENTITIES):
-            yield entity
+        return iter(self.order_storage.byNamespace(
+            icemac.addressbook.interfaces.ENTITIES))
 
     def up(self, entity, delta=1):
         """Move the entity one position up in the entity order."""
@@ -247,6 +246,12 @@ class Entity(object):
         "Dict of tagged values of the entity."
         return self._tagged_values.copy()
 
+    @property
+    def order_storage_namespace(self):
+        """Get the name space used in the order storage."""
+        return '%s%s' % (
+            icemac.addressbook.interfaces.FIELD_NS_PREFIX, self.name)
+
     def getRawFields(self, sorted=True):
         """Get (name, field) tuples of the schema fields on the entity.
 
@@ -300,7 +305,7 @@ class Entity(object):
         order_storage = zope.component.queryUtility(
             icemac.addressbook.interfaces.IOrderStorage)
         try:
-            return order_storage.__iter__(self._order_storage_namespace)
+            return order_storage.byNamespace(self.order_storage_namespace)
         except (KeyError, ValueError, AttributeError):
             # Either the order_storage is None or the namespace cannot be
             # computed or it is unknown, so we can't order the fields.
@@ -329,7 +334,7 @@ class Entity(object):
         order_storage = zope.component.getUtility(
             icemac.addressbook.interfaces.IOrderStorage)
         existing_field_names = [x[0] for x in self._get_raw_fields_unordered()]
-        ns = self._order_storage_namespace
+        ns = self.order_storage_namespace
         # Removing exising contents of namespace in order storage while
         # creating the namespace when it does not yet exist
         order_storage.truncate(ns)
@@ -340,12 +345,6 @@ class Entity(object):
             order_storage.add(name, ns)
 
     # private
-
-    @property
-    def _order_storage_namespace(self):
-        "Get the name space used in the order storage."
-        return '%s%s' % (
-            icemac.addressbook.interfaces.FIELD_NS_PREFIX, self.name)
 
     def _get_raw_fields_unordered(self):
         "Get the raw fields not ordered."

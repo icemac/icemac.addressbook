@@ -74,10 +74,6 @@ class CheckBoxColumn(z3c.table.column.CheckBoxColumn):
     header = u'<input type="checkbox" class="checkall" checked="checked" />'
     weight = -1
 
-    def update(self):
-        super(CheckBoxColumn, self).update()
-        icemac.addressbook.browser.resource.table.need()
-
     def getItemKey(self, item):
         return 'persons:list'
 

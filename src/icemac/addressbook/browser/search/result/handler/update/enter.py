@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2011-2013 Michael Howitz
 # See also LICENSE.txt
-from __future__ import absolute_import
-
 from .base import SessionStorageStep, get_fieldname_in_session
 from icemac.addressbook.i18n import _
+import collections
 import decimal
 import gocept.reference.field
 import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
-import stabledict
 import sys
 import z3c.form.field
 import zc.sourcefactory.interfaces
@@ -37,7 +35,7 @@ class TextOperatorsSource(BaseOperatorsSource):
 
     _default_value = 'append'
     _missing_value = u''
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         (('prepend', _('prepend new value to existing one')),
          ('replace', _('replace existing value with new one')),
          ('append', _('append new value to existing one')),
@@ -55,7 +53,7 @@ class ReplaceableOperatorsSource(BaseOperatorsSource):
 
     _default_value = 'replace'
     _missing_value = None
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
             (('replace', _('replace existing value with new one')),))
 
 
@@ -66,7 +64,7 @@ class KeywordOperatorsSource(BaseOperatorsSource):
 
     _default_value = 'union'
     _missing_value = set()
-    _mapping = stabledict.StableDict((
+    _mapping = collections.OrderedDict((
         ('union', _('append selected keywords to existing ones')),
         ('difference', _('remove selected keywords from existing ones')),
         ('intersection', _(
@@ -85,7 +83,7 @@ class IntOperatorsSource(BaseOperatorsSource):
 
     _default_value = 'add'
     _missing_value = 0
-    _mapping = stabledict.StableDict(
+    _mapping = collections.OrderedDict(
         (('add', _('add new value to existing one')),
          ('sub', _('substract new value from existing one')),
          ('mul', _('multiply new value by existing one')),

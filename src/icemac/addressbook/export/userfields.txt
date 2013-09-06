@@ -43,7 +43,7 @@ Create some persons:
 ...          'Field-3': u'Sachsen-Anhalt',  'Field-4': 3})
 >>> create(ab, liebig, 'icemac.addressbook.address.PhoneNumber',
 ...        set_as_default=True, **{'number': u'01234-5678-90',
-...          'Field-5': decimal.Decimal('1.43'),
+...          'Field-5': decimal.Decimal('1.421'),
 ...          'Field-6': 'I am not here, leave a message, beep.'})
 
 >>> howitz = create(
@@ -141,7 +141,7 @@ numbers as an XLS file:
  number:3.0,
  text:u'Sachsen-Anhalt',
  text:u'01234-5678-90',
- number:1.4299999999999999,
+ number:1.421,
  text:u'I am not here, leave a message, beep.',
  empty:'',
  empty:'']
@@ -264,7 +264,7 @@ as an XLS file:
  empty:'',
  empty:'',
  text:u'01234-5678-90',
- number:1.4299999999999999,
+ number:1.421,
  text:u'I am not here, leave a message, beep.',
  empty:'',
  number:100.0,
