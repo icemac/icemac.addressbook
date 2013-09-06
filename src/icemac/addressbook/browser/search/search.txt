@@ -69,17 +69,17 @@ a table with links to the edit forms of the found persons:
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-2">Koch</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Koch</a></td>
       <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-4">Liebig</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-4">Liebig</a></td>
       <td></td>
     </tr>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Velleuer</a></td>
       <td></td>
     </tr>
   </tbody>...
@@ -103,12 +103,12 @@ keywords only persons having all keywords are found:
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-2">Koch</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Koch</a></td>
       <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Velleuer</a></td>
       <td></td>
     </tr>
   </tbody>...
@@ -124,17 +124,17 @@ of the selected keywords are found:
    <tbody>
      <tr class="table-even-row">
        <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person" checked="checked" /></td>
-       <td><a href="http://localhost/ab/Person">Hohmuth</a></td>
+       <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Hohmuth</a></td>
        <td></td>
      </tr>
      <tr class="table-odd-row">
        <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-2" checked="checked" /></td>
-       <td><a href="http://localhost/ab/Person-2">Koch</a></td>
+       <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Koch</a></td>
        <td></td>
     </tr>
      <tr class="table-even-row">
        <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-3" checked="checked" /></td>
-       <td><a href="http://localhost/ab/Person-3">Velleuer</a></td>
+       <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Velleuer</a></td>
       <td></td>
      </tr>
    </tbody>
@@ -182,12 +182,12 @@ a table with links to the edit forms of the found persons:
   <tbody>
     <tr class="table-even-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-4" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-4">Liebig</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-4">Liebig</a></td>
       <td></td>
     </tr>
     <tr class="table-odd-row">
       <td><input type="checkbox" class="checkbox-widget" name="persons:list" value="Person-5" checked="checked" /></td>
-      <td><a href="http://localhost/ab/Person-5">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-5">Tester</a></td>
       <td><a href="http://localhost/ab/Person-5">Liese</a></td>
    </tr>
   </tbody>

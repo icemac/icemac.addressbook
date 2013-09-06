@@ -90,24 +90,24 @@ date in the person list:
     <tr>
       <th><a href="?table-sortOrder=ascending&table-sortOn=table-birth_date-0" title="Sort">birth date</a></th>
       <th><a href="?table-sortOrder=ascending&table-sortOn=table-first_name-1" title="Sort">first name</a></th>
-      <th><a href="?table-sortOrder=descending&table-sortOn=table-last_name-2" title="Sort">last name</a></th>
+      <th class="sorted-on ascending"><a href="?table-sortOrder=descending&table-sortOn=table-last_name-2" title="Sort">last name</a></th>
     </tr>
   </thead>
   <tbody>
     <tr class="table-even-row">
       <td></td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>1975 4 2 </td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
 </table>
@@ -158,17 +158,17 @@ The keywords are sorted by their lower case variant inside the cell:
     <tr class="table-even-row">
       <td>Friends</td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>church, family, Friends</td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
    </tr>
   </tbody>
  ...
@@ -203,17 +203,17 @@ Only the first 20 characters of the note are displayed:
     <tr class="table-even-row">
       <td></td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>Gave him 20 Dollars in …</td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td></td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -258,17 +258,17 @@ On the person list the values of the default address are displayed:
     <tr class="table-even-row">
       <td></td>
       <td>Germany</td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>c/o Mama</td>
       <td>Gabon</td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
       <td>Germany</td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
  </tbody>
   ...
@@ -285,7 +285,7 @@ Changing the default address changes to person list, too:
     <tr class="table-odd-row">
       <td>c/o Papa</td>
       <td>Fiji</td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   ...
 
@@ -318,15 +318,15 @@ displayed in the person list:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><a href="http://www.example.com" target="_blank">http://www.example.com</a></td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -360,15 +360,15 @@ displayed in the person list:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/ab/Person-2">Streber</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
       <td><a href="mailto:tester@example.com">tester@example.com</a></td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
       <td></td>
-      <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -395,17 +395,17 @@ The user is able to select a column which is used to sort the person list.
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
-      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
       <td>1975 4 2 </td>
-      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
@@ -432,17 +432,17 @@ are sorted to the end:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td>1975 4 2 </td>
+      <td class="sorted-on ascending">1975 4 2 </td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
@@ -468,17 +468,17 @@ sorted by lower case variant of the cell contents:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td>church, family, Friends</td>
+      <td class="sorted-on ascending">church, family, Friends</td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
-      <td>Friends</td>
+      <td class="sorted-on ascending">Friends</td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
@@ -499,17 +499,17 @@ title:
   <tbody>
     <tr class="table-even-row">
       <td></td>
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>Friends</td>
-      <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-even-row">
       <td>church, family, Friends</td>
-      <td><a href="http://localhost/ab/Person">Hans</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
@@ -534,17 +534,17 @@ to descending:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td>Friends</td>
+      <td class="sorted-on descending">Friends</td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td>church, family, Friends</td>
+      <td class="sorted-on descending">church, family, Friends</td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
-      <td></td>
+      <td class="sorted-on descending"></td>
       <td></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
@@ -561,17 +561,17 @@ header:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td></td>
       <td><a href="http://localhost/ab/Person-3">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td>church, family, Friends</td>
+      <td class="sorted-on ascending">church, family, Friends</td>
       <td><a href="http://localhost/ab/Person">Hans</a></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-even-row">
-      <td>Friends</td>
+      <td class="sorted-on ascending">Friends</td>
       <td><a href="http://localhost/ab/Person-2">Gunter</a></td>
       <td><a href="http://localhost/ab/Person-2">Streber</a></td>
     </tr>

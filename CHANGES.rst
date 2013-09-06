@@ -5,7 +5,8 @@ Change log
 1.10.1 (unreleased)
 ===================
 
-- Nothing changed yet.
+- Updated most other packages (outside ZTK) needed for address book to
+  newest versions.
 
 
 1.10.0 (2013-06-21)
