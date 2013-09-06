@@ -128,7 +128,7 @@ Selecting columns shows them in the person list:
       <td>1.45</td>
       <td>mycomp</td>
       <td>42</td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
       <td></td>
@@ -140,7 +140,7 @@ Selecting columns shows them in the person list:
       <td></td>
       <td></td>
       <td></td>
-      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -189,7 +189,7 @@ set in preferences:
       <td>1.45</td>
       <td>mycomp</td>
       <td>42</td>
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>2001 1 8 </td>
@@ -200,7 +200,7 @@ set in preferences:
       <td></td>
       <td></td>
       <td></td>
-      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -260,11 +260,11 @@ Let's select the "person -- last seen" column for order by:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td>2010 8 9  20:15:00 </td>
+      <td class="sorted-on ascending">2010 8 9  20:15:00 </td>
       <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td></td>
+      <td class="sorted-on ascending"></td>
       <td><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
   </tbody>
@@ -299,10 +299,10 @@ column:
 <!DOCTYPE ...
   <tbody>
     <tr class="table-even-row">
-      <td><a href="http://localhost/ab/Person">Tester</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person">Tester</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td><a href="http://localhost/ab/Person-2">Utzer</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/Person-2">Utzer</a></td>
     </tr>
   </tbody>
   ...
@@ -311,7 +311,7 @@ column:
 Preferences form
 ----------------
 
-Deleted columns are omitted in the preferences form:
+Deleted columns are marked as such in the preferences form:
 
 >>> browser.getLink('Preferences').click()
 >>> pprint(browser.getControl('order by').displayOptions)
@@ -334,9 +334,11 @@ Deleted columns are omitted in the preferences form:
  'e-mail address -- e-mail address',
  'home page address -- URL',
  'home page address -- company home page',
- 'home page address -- home page provider']
+ 'home page address -- home page provider',
+ 'Missing: IcemacAddressbookPersonPerson###Field-2']
 
-The first entry of the list is selected which means that no value is selected:
+The deleted one is still selected:
 
 >>> browser.getControl('order by').displayValue
-['person -- first name']
+['Missing: IcemacAddressbookPersonPerson###Field-2']
+

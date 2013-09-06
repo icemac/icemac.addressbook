@@ -87,7 +87,7 @@ class TestUserDefinedFields(unittest.TestCase):
         browser.getControl('field').displayValue = [
             'postal address -- distance']
         browser.getControl('Next').click()
-        self.assertEqual(['no value', '< 50 km', '>= 50 km'],
+        self.assertEqual(['No value', '< 50 km', '>= 50 km'],
                          browser.getControl('new value').displayOptions)
         browser.getControl('new value').displayValue = ['< 50 km']
         browser.getControl('operation').displayValue = [

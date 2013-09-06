@@ -71,4 +71,4 @@ The error occured when adding a new object for the entity with the user defined 
 >>> browser.getLink('Person list').click()
 >>> browser.getLink('person').click()
 >>> browser.getControl('Ümläuttößt').displayOptions
-['no value', 'K\xc3\xbcche']
+['No value', 'K\xc3\xbcche']

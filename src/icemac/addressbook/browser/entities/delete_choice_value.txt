@@ -60,7 +60,7 @@ To use the field create a keyword:
 >>> browser.getLink('keyword').click()
 >>> browser.getControl('keyword').value = 'foo'
 >>> browser.getControl('kind').displayOptions
-['no value', 'one', 'two', 'three']
+['No value', 'one', 'two', 'three']
 >>> browser.getControl('kind').displayValue = ['two']
 >>> browser.getControl('Add').click()
 >>> get_messages(browser)
@@ -100,8 +100,9 @@ the value is no longer displayed for the keyword:
 
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Keywords').click()
+>>> browser.handleErrors = False
 >>> browser.getLink('foo').click()
 >>> browser.getControl('kind').displayOptions
-['no value', 'one', 'three']
+['No value', 'one', 'three']
 >>> browser.getControl('kind').displayValue
-['no value']
+['No value']
