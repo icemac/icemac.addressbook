@@ -263,19 +263,31 @@ class TestEntityAdapters(unittest.TestCase):
             TypeError, icemac.addressbook.interfaces.IEntity, None)
 
     # adaption from string
-    def test_unknown_name(self):
+    def test_unknown_string_name(self):
         self.assertRaises(
             ValueError, icemac.addressbook.interfaces.IEntity, 'asdf')
+
+    # adaption from unicode
+    def test_unknown_unicode_name(self):
+        self.assertRaises(
+            ValueError, icemac.addressbook.interfaces.IEntity, u'asdf')
 
     def test_class_name(self):
         self.assertRaises(
             ValueError, icemac.addressbook.interfaces.IEntity,
             'icemac.addressbook.tests.stubs.Duck')
 
-    def test_known_name(self):
+    # adaption from string
+    def test_known_string_name(self):
         self.assertEqual(
             self.duck, icemac.addressbook.interfaces.IEntity(
                 'IcemacAddressbookTestsStubsDuck'))
+
+    # adaption from unicode
+    def test_known_unicode_name(self):
+        self.assertEqual(
+            self.duck, icemac.addressbook.interfaces.IEntity(
+                u'IcemacAddressbookTestsStubsDuck'))
 
     # adaption from interface
     def test_unknown_interface(self):
