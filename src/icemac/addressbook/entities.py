@@ -60,7 +60,7 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     "Predefined entities and user defined fields in the address book."
 
 
-@zope.component.adapter(str)
+@zope.component.adapter(basestring)
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_name(name):
     "Adapt Entity.name (not Entity.class_name!) to entity."
