@@ -270,6 +270,7 @@ class ZODBMixIn(object):
 
 class BrowserMixIn(object):
     """Mix in methods for browser test cases."""
+
     def get_browser(self, login=None):
         """Get a test browser.
 
