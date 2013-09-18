@@ -39,10 +39,10 @@ class TimeZoneTests(unittest.TestCase):
         IZopeDublinCore(kw).modified = datetime(2001, 1, 1, tzinfo=utc)
         default_prefs = getUtility(IDefaultPreferenceProvider)
         default_prefs.getDefaultPreferenceGroup('ab.timeZone').time_zone = (
-            'Etc/GMT-4')
+            'Asia/Aden')
 
         browser = self.get_browser(
             'http://localhost/ab/++attribute++keywords/%s' % kw.__name__)
-        self.assertIn('01/01/01 04:00', browser.contents)
-        self.assertIn('Modification Date (Etc/GMT-4)', browser.contents)
-        self.assertIn('Creation Date (Etc/GMT-4)', browser.contents)
+        self.assertIn('01/01/01 03:00', browser.contents)
+        self.assertIn('Modification Date (Asia/Aden)', browser.contents)
+        self.assertIn('Creation Date (Asia/Aden)', browser.contents)

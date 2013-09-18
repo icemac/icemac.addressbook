@@ -37,7 +37,7 @@ class IPersonListTab(zope.interface.Interface):
 class TimeZones(icemac.addressbook.sources.TitleMappingSource):
     """Source of all available time zones."""
 
-    _mapping = collections.OrderedDict(((x, x) for x in pytz.all_timezones))
+    _mapping = collections.OrderedDict(((x, x) for x in pytz.common_timezones))
 
 
 class ITimeZone(zope.interface.Interface):
