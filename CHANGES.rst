@@ -15,6 +15,7 @@ Bugfixes
 
 - Show metadata for entity field order list.
 
+- Show only most common time zones in prefereces for select.
 
 Other
 -----
