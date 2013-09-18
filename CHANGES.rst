@@ -13,7 +13,8 @@ Features
 Bugfixes
 --------
 
-- Show metadata for entity field oder list.
+- Show metadata for entity field order list.
+
 
 Other
 -----
