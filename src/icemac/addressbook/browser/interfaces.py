@@ -43,3 +43,11 @@ class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
 class IFanstaticViewletManager(zope.viewlet.interfaces.IViewletManager):
     "Register viewlets for this manager which `need()` fanstatic resources."
 
+
+class IAttributeTraversalHook(zope.interface.Interface):
+    """Hook to be called when traversing an attribute.
+
+    The traversed object and the request are taken to get the subscription
+    adapters registered for this interface.
+
+    """

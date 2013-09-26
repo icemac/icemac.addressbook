@@ -128,6 +128,14 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      />
 
+  <view
+      for="*"
+      type="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="attribute"
+      provides="zope.traversing.interfaces.ITraversable"
+      factory=".namespace.attr"
+      />
+
   <include package=".about" />
   <include package=".addressbook" />
   <include package=".authentication" />
