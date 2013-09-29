@@ -20,5 +20,6 @@
   </class>
 
   <adapter factory=".browser.form.DatetimeDataConverter" />
+  <adapter factory=".browser.form.DateDataConverter" />
 
 </configure>

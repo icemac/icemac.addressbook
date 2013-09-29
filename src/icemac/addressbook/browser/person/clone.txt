@@ -30,7 +30,7 @@ as an editor:
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('first name').value = 'Hans'
 >>> browser.getControl('keywords').displayValue = ['church']
->>> browser.getControl('last time met').value = '10/02/01'
+>>> browser.getControl('last time met').value = '2001 1 10 '
 >>> browser.getControl('e-mail').value = 'hans@tester.de'
 >>> browser.getControl('number').value = '116'
 >>> browser.getControl('URL').value = 'http://tester.de'
@@ -65,7 +65,7 @@ entered data is still the same:
 >>> browser.getControl('keywords').displayValue
 ['church']
 >>> browser.getControl('last time met').value
-'10/02/01'
+'2001 1 10 '
 >>> browser.getControl('e-mail', index=1).value
 'hans@tester.de'
 >>> browser.getControl('number', index=1).value
@@ -78,7 +78,7 @@ Changing data in the clone does not change the original:
 >>> browser.getControl('last name').value = 'Testerella'
 >>> browser.getControl('first name').value = 'Marta'
 >>> browser.getControl('keywords').displayValue = ['friends']
->>> browser.getControl('last time met').value = '10/02/02'
+>>> browser.getControl('last time met').value = '2001 2 10 '
 >>> browser.getControl('e-mail', index=1).value = 'm@test333.de'
 >>> browser.getControl('number', index=1).value = '333'
 >>> browser.getControl('URL').value = 'http://test333.de'
@@ -96,7 +96,7 @@ Changing data in the clone does not change the original:
 >>> browser.getControl('keywords').displayValue
 ['church']
 >>> browser.getControl('last time met').value
-'10/02/01'
+'2001 1 10 '
 >>> browser.getControl('e-mail', index=1).value
 'hans@tester.de'
 >>> browser.getControl('number', index=1).value
@@ -108,7 +108,7 @@ Changing data in the original does not change the clone:
 
 >>> browser.getControl('last name').value = 'Testr'
 >>> browser.getControl('keywords').displayValue = ['church', 'friends']
->>> browser.getControl('last time met').value = '10/02/03'
+>>> browser.getControl('last time met').value = '2001 3 10 '
 >>> browser.getControl('number', index=1).value = '012354-234234-23'
 >>> browser.getControl('Apply').click()
 >>> get_messages(browser)
@@ -124,7 +124,7 @@ Changing data in the original does not change the clone:
 >>> browser.getControl('keywords').displayValue
 ['friends']
 >>> browser.getControl('last time met').value
-'10/02/02'
+'2001 2 10 '
 >>> browser.getControl('e-mail', index=1).value
 'm@test333.de'
 >>> browser.getControl('number', index=1).value

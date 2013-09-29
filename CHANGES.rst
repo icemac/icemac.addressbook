@@ -5,7 +5,8 @@ Change log
 1.10.5 (unreleased)
 ===================
 
-- Nothing changed yet.
+- The year in dates now have to be entered with 4 digits allowing to enter
+  birthdates before 1930.
 
 
 1.10.4 (2013-07-30)

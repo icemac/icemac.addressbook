@@ -45,7 +45,7 @@ Clicking on it, deselects it, so no country is selected afterwards.):
     </li>
     <li>
         birth date:
-      <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
+      <div class="error">The datetime string did not match the pattern u'yyyy MMM d '.</div>
     </li>
   </ul>
 </div>...
@@ -70,7 +70,7 @@ There are fields for the person's personal data:
 
 >>> browser.getControl('first name').value = u'Hans'
 >>> browser.getControl('last name').value = u'Tester'
->>> browser.getControl('birth date').value = u'00/02/29'
+>>> browser.getControl('birth date').value = u'2000 2 29 '
 
 Fields for the primary postal address:
 
@@ -117,7 +117,7 @@ displayed values are the ones entered before:
 >>> browser.getControl('last name').value
 'Tester'
 >>> browser.getControl('birth date').value
-'00/02/29'
+'2000 2 29 '
 >>> browser.getControl('address prefix').value
 'c/o Mama'
 >>> browser.getControl('street').value
@@ -166,7 +166,7 @@ changes were not saved:
 >>> browser.getControl('last name').value
 'Tester'
 >>> browser.getControl('birth date').value
-'00/02/29'
+'2000 2 29 '
 >>> browser.getControl('zip').value
 '99999'
 >>> browser.getControl('e-mail address', index=1).value
@@ -197,7 +197,7 @@ displayed:
              <ul class="errors">
           <li>
               birth date:
-     <div class="error">The datetime string did not match the pattern u'yy/MM/dd'.</div>
+     <div class="error">The datetime string did not match the pattern u'yyyy MMM d '.</div>
     </li>
   </ul>
 </div>...
@@ -205,7 +205,7 @@ displayed:
 After correction the errors and applying the changes the user is led
 back to the overview page of the address book:
 
->>> browser.getControl('birth date').value = u'01/01/01'
+>>> browser.getControl('birth date').value = '2001 1 1 '
 >>> browser.getControl('Apply').click()
 >>> get_messages(browser)
 ['Data successfully updated.']
@@ -224,7 +224,7 @@ page again:
 >>> browser.getControl('last name').value
 'Tester'
 >>> browser.getControl('birth date').value
-'01/01/01'
+'2001 1 1 '
 >>> browser.getControl('zip').value
 '88888'
 >>> browser.getControl('e-mail address', index=1).value
