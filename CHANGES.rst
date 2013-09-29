@@ -2,7 +2,7 @@
 Change log
 ==========
 
-1.10.5 (unreleased)
+1.10.5 (2013-09-29)
 ===================
 
 - The year in dates now have to be entered with 4 digits allowing to enter
