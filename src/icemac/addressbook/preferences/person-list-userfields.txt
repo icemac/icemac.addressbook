@@ -60,7 +60,7 @@ And some data in the fields:
 
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Utzer'
->>> browser.getControl('last time verified').value = '01/01/08'
+>>> browser.getControl('last time verified').value = '2001 1 8 '
 >>> browser.getControl('last seen').value = '10/08/09 20:15'
 >>> browser.getControl('Add').click()
 >>> get_messages(browser)

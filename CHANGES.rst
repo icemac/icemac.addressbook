@@ -13,6 +13,9 @@ Features
 Bugfixes
 --------
 
+- The year in dates now have to be entered with 4 digits allowing to enter
+  birthdates before 1930. (Merge from 1.10 branch.)
+
 - Show metadata for entity field order list.
 
 - Show only most common time zones in prefereces for select.

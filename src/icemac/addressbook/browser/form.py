@@ -130,3 +130,9 @@ class DatetimeWidget(z3c.form.browser.text.TextWidget):
 def DatetimeFieldWidget(field, request):
     """Factory for DatetimeWidget."""
     return z3c.form.widget.FieldWidget(field, DatetimeWidget(request))
+
+
+class DateDataConverter(z3c.form.converter.DateDataConverter):
+    """Special date converter which does not have a year 2k problem."""
+    length = 'medium'
+
