@@ -20,4 +20,15 @@
       factory=".about.CopyrightContentProvider"
       name="copyright" />
 
+  <subscriber
+      for="*"
+      provides="..interfaces.IIconProviderInfo"
+      factory=".about.DialogIcons" />
+
+  <subscriber
+      for="*"
+      provides="..interfaces.IIconProviderInfo"
+      factory=".about.AddressBookIcon" />
+
+
 </configure>

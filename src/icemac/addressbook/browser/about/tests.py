@@ -23,11 +23,10 @@ class AboutTests(icemac.addressbook.testing.BrowserTestCase):
         # ... and the copyright string (it is contained twice, as the footer
         # contains it, too):
         self.assertEqual(2, browser.contents.count(copyright))
-        # There is a link to proicons.com as the license for using the icons
+        # There is a link to VistaIco as the license for using the icons
         # requires this:
-        self.assertEqual(
-            'http://www.proicons.com/icon/i141s0/vistaico_toolbar_icons.htm',
-            browser.getLink('proicons.com').url)
+        self.assertEqual('http://www.vistaico.com',
+                         browser.getLink('VistaICO.com').url)
 
     def test_about_dialog_is_displayed_on_login_screen(self):
         # The login screen can be accessed by anonymous users:

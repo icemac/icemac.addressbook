@@ -51,3 +51,11 @@ class IAttributeTraversalHook(zope.interface.Interface):
     adapters registered for this interface.
 
     """
+
+
+class IIconProviderInfo(zope.interface.Interface):
+    """Information about a someone whose icons are used in the address book."""
+
+    name = zope.interface.Attribute('Name of the person or company')
+    url = zope.interface.Attribute(
+        'URL of the website the icons where taken from')
