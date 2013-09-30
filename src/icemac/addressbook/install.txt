@@ -477,21 +477,25 @@ log handler:
 creating buildout.cfg ...
 >>> cat('buildout.cfg')
 [buildout]
-extends = profiles/prod.cfg
 newest = true
 allow-picked-versions = true
+extends = profiles/prod.cfg
 eggs-directory = /var/lib/eggs
-[deploy.ini]
-host = server.local
-port = 8081
-log-handler = FileHandler
-log-handler-args = 'a'
+<BLANKLINE>
 [site.zcml]
 permissions_zcml = <include package="icemac.ab.reporting" />
 	<include package="icemac.ab.relations" />
+<BLANKLINE>
+[deploy.ini]
+log-handler-args = 'a'
+host = server.local
+log-handler = FileHandler
+port = 8081
+<BLANKLINE>
 [app]
 eggs += icemac.ab.reporting
       icemac.ab.relations
+<BLANKLINE>
 [test]
 eggs += icemac.ab.reporting
       icemac.ab.relations
@@ -524,9 +528,9 @@ When the username is not empty a zdaemon.conf section is added:
 >>> config.create_buildout_cfg()
 creating buildout.cfg ...
 >>> cat('buildout.cfg')
-[buildout]...
 [zdaemon.conf]
-user = user mac...
+user = user mac
+[buildout]...
 
 store
 -----
@@ -537,30 +541,35 @@ Stores the current configuration values in a file named
 >>> config.store()
 saving config ...
 >>> cat('install.user.ini')
-[install]
-eggs_dir = /Users/mac
+[log]
+interval = 7
+when = D
+handler = FileHandler
+backups = 2
+max_size = 12345
+<BLANKLINE>
 [admin]
 login = admin
 password = geheim
+<BLANKLINE>
 [server]
+username = mac
 host = localhost
 port = 8080
-username = mac
-[log]
-handler = FileHandler
-max_size = 12345
-when = D
-interval = 7
-backups = 2
-[packages]
-package_1 = icemac.ab.importxls
-package_2 = icemac.ab.importcsv
-package_3 =
+<BLANKLINE>
 [migration]
 do_migration = yes
 stop_server = no
 start_server = yes
 old_instance = /.../sample-buildout/prev_version
+<BLANKLINE>
+[install]
+eggs_dir = /Users/mac
+<BLANKLINE>
+[packages]
+package_1 = icemac.ab.importxls
+package_2 = icemac.ab.importcsv
+package_3 =
 
 
 Complete run
@@ -598,39 +607,45 @@ saving config ...
 
 >>> cat('buildout.cfg')
 [buildout]
-extends = profiles/prod.cfg
 newest = true
 allow-picked-versions = true
+extends = profiles/prod.cfg
 eggs-directory = py-eggs
+<BLANKLINE>
 [deploy.ini]
-host = my.computer.local
-port = 13090
-log-handler = FileHandler
 log-handler-args = 'a'
+host = my.computer.local
+log-handler = FileHandler
+port = 13090
 
 >>> cat('install.user.ini')
-[install]
-eggs_dir = py-eggs
+[log]
+interval = 1
+when = midnight
+handler = FileHandler
+backups = 5
+max_size = 1000
+<BLANKLINE>
 [admin]
 login = me
 password = secret
+<BLANKLINE>
 [server]
+username =
 host = my.computer.local
 port = 13090
-username =
-[log]
-handler = FileHandler
-max_size = 1000
-when = midnight
-interval = 1
-backups = 5
-[packages]
-package_1 =
+<BLANKLINE>
 [migration]
 do_migration = no
 stop_server = no
 start_server = no
 old_instance =
+<BLANKLINE>
+[install]
+eggs_dir = py-eggs
+<BLANKLINE>
+[packages]
+package_1 =
 
 >>> cat('admin.zcml')
 <configure xmlns="http://namespaces.zope.org/zope">
