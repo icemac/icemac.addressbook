@@ -11,7 +11,7 @@ Change log
 1.10.6 (2013-09-30)
 ===================
 
-- Fix 1.10.5 brown back release which dies during update of old address book
+- Fix 1.10.5 brown bag release which dies during update of old address book
   instance.
 
 
