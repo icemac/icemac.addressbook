@@ -5,7 +5,8 @@ Change log
 1.10.6 (unreleased)
 ===================
 
-- Nothing changed yet.
+- Fix 1.10.5 brown back release which dies during update of old address book
+  instance.
 
 
 1.10.5 (2013-09-29)
