@@ -57,11 +57,10 @@ its directory.
 Update
 ------
 
-- If you are updating from version 0.3.x or earlier follow the steps
-  described in `First installation`_ followed by the steps described
-  in `Second part of steps for really old versions`_.
+- If you are updating from version 0.x get the latest 1.x version from
+  `PyPI`_ and follow the update procedure described there in INSTALL.rst.
 
-- If you are updating from version 0.4 or newer follow these steps:
+- If you are updating from version 1.x or newer follow these steps:
 
    1. Download and extract the source distribution (see Download_) to a
    new a directory.
@@ -71,44 +70,13 @@ Update
    previously are used as defaults instead of the application
    defaults.  Example::
 
-     $ python2.7 install.py ../icemac.addressbook-0.4
+     $ python2.7 install.py ../icemac.addressbook-1.10.6
 
    3. Answer the questions about admin user name, password and so on.
 
    4. Start the new instance of the application.
 
-- If you get an error when running the application after updating
-  which looks like::
-
-    zope.generations.interfaces.UnableToEvolve: (..., u'icemac.addressbook', ...)
-
-  - If you upgrade from version 0.x then you have to upgrade to version 0.5.4
-    first and start the application, so that legacy data can be
-    converted. Version 1.x is no longer compatible with these older versions.
-
-  - You might need to **not** install any additional packages during these
-    upgrade steps as the installer always tries to install the newest
-    versions of the additonal packages which might not be compatible with
-    the older versions.
-
-
-Second part of steps for really old versions
---------------------------------------------
-
-1. Stop the old instance of the application.
-
-2. Create a backup of the ZODB og the old instance using::
-
-   $ bin/backup
-
-3. Copy the backup directory (``var/backups``) to the new instance.
-
-4. Restore the backup into the new instance using::
-
-   $ bin/restore
-
-5. Start the new instance of the application.
-
+.. _`PyPI` : https://pypi.python.org/simple/icemac.addressbook
 
 Source installation
 ===================
