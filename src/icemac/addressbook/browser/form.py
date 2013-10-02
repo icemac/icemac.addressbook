@@ -5,13 +5,14 @@ from js.jquery_timepicker_addon import timepicker_locales, timepicker
 from js.jqueryui import ui_datepicker_locales, base as jqueryui_css
 import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.interfaces
+import icemac.addressbook.preferences.utils
 import pytz
 import z3c.form.browser.text
 import z3c.form.converter
 import z3c.form.interfaces
 import z3c.form.widget
 import zope.schema.interfaces
-import icemac.addressbook.preferences.utils
 
 
 class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
@@ -136,3 +137,19 @@ class DateDataConverter(z3c.form.converter.DateDataConverter):
     """Special date converter which does not have a year 2k problem."""
     length = 'medium'
 
+
+class IImageSelectWidget(zope.interface.Interface):
+    """Marker."""
+    # XXX move me to .interfaces
+
+
+@grok.adapter(zope.schema.interfaces.IChoice,
+              icemac.addressbook.interfaces.IImageSource,
+              icemac.addressbook.browser.interfaces.IAddressBookLayer)
+@grok.implementer(z3c.form.interfaces.IFieldWidget)
+def SelectFieldWidget(field, source, request):
+    """IFieldWidget factory for SelectWidget."""
+    import pdb; pdb.set_trace() ############################
+    widget = z3c.form.browser.select.SelectWidget(request)
+    zope.interface.alsoProvides(widget, IImageSelectWidget)
+    return z3c.form.widget.FieldWidget(field, widget)
