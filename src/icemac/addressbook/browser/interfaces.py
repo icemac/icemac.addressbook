@@ -40,6 +40,10 @@ class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
     """Special date and time widget to be able to use a JavaScript picker."""
 
 
+class IImageSelectWidget(z3c.form.interfaces.ISelectWidget):
+    """Select widget displays images as selectables."""
+
+
 class IFanstaticViewletManager(zope.viewlet.interfaces.IViewletManager):
     "Register viewlets for this manager which `need()` fanstatic resources."
 
