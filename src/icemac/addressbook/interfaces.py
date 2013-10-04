@@ -42,10 +42,9 @@ class FaviconSource(zc.sourcefactory.basic.BasicSourceFactory):
         zope.interface.implements(IImageSource)
 
     def getValues(self):
-        return ['addressbook-red', 'addressbook-green', 'addressbook-blue']
-
-    def getTitle(self, value):
-        return '/++resource++img/favicon.ico'
+        return ['/++resource++img/favicon-red-preview.png',
+                '/++resource++img/favicon-green-preview.png',
+                '/++resource++img/favicon-black-preview.png']
 
 favicon_source = FaviconSource()
 
