@@ -2,16 +2,19 @@
 # See also LICENSE.txt
 from datetime import datetime
 from js.jquery_timepicker_addon import timepicker_locales, timepicker
-from js.jqueryui import ui_datepicker_locales, base as jqueryui_css
+from js.jqueryui import base as jqueryui_css
+from js.jqueryui import ui_datepicker_locales, ui_selectable
 import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.preferences.utils
 import pytz
+import z3c.form.browser.select
 import z3c.form.browser.text
 import z3c.form.converter
 import z3c.form.interfaces
 import z3c.form.widget
+import zope.interface
 import zope.schema.interfaces
 
 
@@ -138,9 +141,16 @@ class DateDataConverter(z3c.form.converter.DateDataConverter):
     length = 'medium'
 
 
-class IImageSelectWidget(zope.interface.Interface):
-    """Marker."""
-    # XXX move me to .interfaces
+class ImageSelectWidget(z3c.form.browser.select.SelectWidget):
+    """Select widget displays images as selectables."""
+
+    zope.interface.implements(
+        icemac.addressbook.browser.interfaces.IImageSelectWidget)
+
+    def update(self):
+        super(ImageSelectWidget, self).update()
+        jqueryui_css.need()
+        ui_selectable.need()
 
 
 @grok.adapter(zope.schema.interfaces.IChoice,
@@ -149,7 +159,4 @@ class IImageSelectWidget(zope.interface.Interface):
 @grok.implementer(z3c.form.interfaces.IFieldWidget)
 def SelectFieldWidget(field, source, request):
     """IFieldWidget factory for SelectWidget."""
-    import pdb; pdb.set_trace() ############################
-    widget = z3c.form.browser.select.SelectWidget(request)
-    zope.interface.alsoProvides(widget, IImageSelectWidget)
-    return z3c.form.widget.FieldWidget(field, widget)
+    return z3c.form.widget.FieldWidget(field, ImageSelectWidget(request))

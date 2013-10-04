@@ -9,6 +9,7 @@ import icemac.addressbook.sources
 import re
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
+import zc.sourcefactory.source
 import zope.component
 import zope.interface
 import zope.schema
@@ -24,6 +25,29 @@ class ITitle(zope.interface.Interface):
 
     def __str__():
         """Return the title of the entity."""
+
+
+class IImageSource(zope.interface.Interface):
+    """Marker interface for a source which uses images as titles.
+
+    Title needs to be the URL of the image.
+
+    """
+
+
+class FaviconSource(zc.sourcefactory.basic.BasicSourceFactory):
+    """Source containing possbile favicons."""
+
+    class source_class(zc.sourcefactory.source.FactoredSource):
+        zope.interface.implements(IImageSource)
+
+    def getValues(self):
+        return ['addressbook-red', 'addressbook-green', 'addressbook-blue']
+
+    def getTitle(self, value):
+        return '/++resource++img/favicon.ico'
+
+favicon_source = FaviconSource()
 
 
 class IAddressBook(zope.interface.Interface):
@@ -43,7 +67,7 @@ class IAddressBook(zope.interface.Interface):
 
     title = zope.schema.TextLine(title=_(u'title'))
     icon = zope.schema.Choice(title=_('favicon'),
-                              source=icemac.addressbook.sources.favicon_source)
+                              source=favicon_source)
 
 
 class IKeywords(zope.interface.Interface):
@@ -437,10 +461,3 @@ class IEntityOrder(zope.interface.Interface):
         When it would be moved beyond the end of the entity order a
         ValueError is raised.
         """
-
-class IImageSource(zope.interface.Interface):
-    """Marker interface for a source which uses images as titles."""
-
-
-zope.interface.alsoProvides(icemac.addressbook.sources.favicon_source,
-                            IImageSource)

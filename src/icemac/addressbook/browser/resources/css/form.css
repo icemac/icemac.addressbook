@@ -120,3 +120,27 @@ form#search-export-form div.buttons {
 form#search-export-form div.buttons input#form-buttons-delete {
     margin-left: 25px;
 }
+
+/* jQuery-UI selectable */
+form .widget .ui-selectable .ui-selected {
+    background: #F0F0D0;
+    color: white;
+}
+form .widget .ui-selectable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+form .widget .ui-selectable li {
+    margin: 3px;
+    padding: 0.4em;
+    font-size: 1.4em;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+form .widget .ui-selectable li img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
