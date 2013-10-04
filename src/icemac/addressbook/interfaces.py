@@ -1,14 +1,15 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import gocept.country
 import gocept.country.db
 import gocept.reference.field
 import icemac.addressbook.sources
 import re
+import zc.sourcefactory.basic
+import zc.sourcefactory.contextual
+import zope.component
 import zope.interface
 import zope.schema
 
@@ -42,6 +43,60 @@ class IAddressBook(zope.interface.Interface):
     title = zope.schema.TextLine(title=_(u'title'))
 
 
+class IKeywords(zope.interface.Interface):
+    """Collection of keywords."""
+
+    def get_keywords():
+        """Get an iterable of the keywords in the collection."""
+
+    def get_keyword_by_title(title, default=None):
+        "Get the keyword with the given title or `default`."
+
+
+class IKeywordTitles(zope.interface.Interface):
+    """Collection of keywords titles."""
+
+    def get_titles():
+        """Get the titles of the keywords in the collection."""
+
+
+class IKeyword(zope.interface.Interface):
+    """A keyword."""
+
+    title = zope.schema.TextLine(title=_(u'keyword'))
+
+
+class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
+    "Source of all keywords in the address book."
+
+    def getValues(self):
+        keywords = zope.component.getUtility(IKeywords)
+        return sorted(keywords.get_keywords(), key=lambda x: x.title.lower())
+
+    def getTitle(self, value):
+        return value.title
+
+keyword_source = KeywordSource()
+
+
+class ContextByInterfaceSource(
+    zc.sourcefactory.contextual.BasicContextualSourceFactory):
+    "Source to select objects from context container by a given interface."
+
+    def __init__(self, interface):
+        super(ContextByInterfaceSource, self).__init__()
+        self.interface = interface
+
+    def getValues(self, context):
+        for value in context.values():
+            if self.interface.providedBy(value):
+                yield value
+
+    def getTitle(self, context, value):
+        return ITitle(value)
+
+
+
 class IPersonName(zope.interface.Interface):
     """Name of a person."""
     first_name = zope.schema.TextLine(title=_(u'first name'), required=False)
@@ -62,7 +117,7 @@ class IPersonData(zope.interface.Interface):
         title=_('keywords'), required=False,
         value_type=zope.schema.Choice(
             title=_('keywords'),
-            source=icemac.addressbook.sources.keyword_source))
+            source=keyword_source))
     notes = zope.schema.Text(title=_(u'notes'), required=False)
 
 
@@ -110,43 +165,16 @@ class IPersonDefaults(zope.interface.Interface):
 
     default_postal_address = zope.schema.Choice(
         title=_(u'main postal address'),
-        source=icemac.addressbook.sources.ContextByInterfaceSource(
-            IPostalAddress))
+        source=ContextByInterfaceSource(IPostalAddress))
     default_phone_number = zope.schema.Choice(
         title=_(u'main phone number'),
-        source=icemac.addressbook.sources.ContextByInterfaceSource(
-            IPhoneNumber))
+        source=ContextByInterfaceSource(IPhoneNumber))
     default_email_address = zope.schema.Choice(
         title=_(u'main e-mail address'),
-        source=icemac.addressbook.sources.ContextByInterfaceSource(
-            IEMailAddress))
+        source=ContextByInterfaceSource(IEMailAddress))
     default_home_page_address = zope.schema.Choice(
         title=_(u'main home page address'),
-        source=icemac.addressbook.sources.ContextByInterfaceSource(
-            IHomePageAddress))
-
-
-class IKeywords(zope.interface.Interface):
-    """Collection of keywords."""
-
-    def get_keywords():
-        """Get an iterable of the keywords in the collection."""
-
-    def get_keyword_by_title(title, default=None):
-        "Get the keyword with the given title or `default`."
-
-
-class IKeywordTitles(zope.interface.Interface):
-    """Collection of keywords titles."""
-
-    def get_titles():
-        """Get the titles of the keywords in the collection."""
-
-
-class IKeyword(zope.interface.Interface):
-    """A keyword."""
-
-    title = zope.schema.TextLine(title=_(u'keyword'))
+        source=ContextByInterfaceSource(IHomePageAddress))
 
 
 class IEntities(zope.interface.Interface):

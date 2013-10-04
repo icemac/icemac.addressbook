@@ -36,7 +36,7 @@ class ISearchForm(zope.interface.Interface):
         title=_('keywords'), required=False,
         value_type=zope.schema.Choice(
             title=_('keywords'),
-            source=icemac.addressbook.sources.keyword_source))
+            source=icemac.addressbook.interfaces.keyword_source))
 
 
 class SearchForm(icemac.addressbook.browser.search.base.BaseSearchForm):

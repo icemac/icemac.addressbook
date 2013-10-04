@@ -277,8 +277,9 @@ class PersonEntriesSource(
         for entity in entities:
             if entity.interface is None:
                 continue
-            for value in icemac.addressbook.sources.ContextByInterfaceSource(
-                    entity.interface).factory.getValues(context):
+            source = icemac.addressbook.interfaces.ContextByInterfaceSource(
+                entity.interface).factory.getValues(context)
+            for value in source:
                 yield value
 
     def getTitle(self, context, value):
