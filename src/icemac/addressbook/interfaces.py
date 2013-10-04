@@ -40,7 +40,10 @@ class IAddressBook(zope.interface.Interface):
         u'icemac.addressbook.interfaces.IEntities')
     orders = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IOrderStorage')
+
     title = zope.schema.TextLine(title=_(u'title'))
+    icon = zope.schema.Choice(title=_('favicon'),
+                              source=icemac.addressbook.sources.favicon_source)
 
 
 class IKeywords(zope.interface.Interface):
@@ -434,3 +437,10 @@ class IEntityOrder(zope.interface.Interface):
         When it would be moved beyond the end of the entity order a
         ValueError is raised.
         """
+
+class IImageSource(zope.interface.Interface):
+    """Marker interface for a source which uses images as titles."""
+
+
+zope.interface.alsoProvides(icemac.addressbook.sources.favicon_source,
+                            IImageSource)

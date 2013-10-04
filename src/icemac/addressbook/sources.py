@@ -81,3 +81,17 @@ class SiteMenuSource(zc.sourcefactory.basic.BasicSourceFactory):
 
     def getToken(self, value):
         return value.url
+
+
+class FaviconSource(zc.sourcefactory.basic.BasicSourceFactory):
+
+    def getValues(self):
+        return ['', 'addressbook-red']
+
+    def getTitle(self, value):
+        if value:
+            return '<img src="/++resource++img/favicon.ico" />'
+        else:
+            return ''
+
+favicon_source = FaviconSource()

@@ -104,6 +104,13 @@
       template="datetime_input.pt"
       />
 
+  <z3c:widgetTemplate
+      widget=".form.IImageSelectWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="imageselect_input.pt"
+      />
+
 
   <!-- z3c.table -->
   <adapter
