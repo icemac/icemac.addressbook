@@ -1,6 +1,11 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
+"""Module containing sources which are independen from interfaces.
+
+Other sources are defined in interfaces.py to avoid circular references.
+
+"""
 from icemac.addressbook.i18n import _
 import collections
 import zc.sourcefactory.basic
@@ -50,39 +55,6 @@ class FieldTypeSource(TitleMappingSource):
          (u'TextLine', _(u'text line')),
          (u'URI', _(u'URL')),
          ))
-
-
-class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
-    "Source of keywords in the address book."
-
-    def getValues(self):
-        import icemac.addressbook.interfaces  # avoid circular import
-        keywords = zope.component.getUtility(
-            icemac.addressbook.interfaces.IKeywords)
-        return sorted(keywords.get_keywords(), key=lambda x: x.title.lower())
-
-    def getTitle(self, value):
-        return value.title
-
-keyword_source = KeywordSource()
-
-
-class ContextByInterfaceSource(
-    zc.sourcefactory.contextual.BasicContextualSourceFactory):
-    "Source to select objects from context container by a given interface."
-
-    def __init__(self, interface):
-        super(ContextByInterfaceSource, self).__init__()
-        self.interface = interface
-
-    def getValues(self, context):
-        for value in context.values():
-            if self.interface.providedBy(value):
-                yield value
-
-    def getTitle(self, context, value):
-        import icemac.addressbook.interfaces  # avoid circular import
-        return icemac.addressbook.interfaces.ITitle(value)
 
 
 class SiteMenuSource(zc.sourcefactory.basic.BasicSourceFactory):
