@@ -97,6 +97,13 @@
         />
   </class>
 
+  <class class=".form.ImageSelectWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.ISelectWidget"
+        />
+  </class>
+
   <z3c:widgetTemplate
       widget=".interfaces.IDatetimeWidget"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"

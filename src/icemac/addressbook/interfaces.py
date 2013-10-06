@@ -65,8 +65,10 @@ class IAddressBook(zope.interface.Interface):
         u'icemac.addressbook.interfaces.IOrderStorage')
 
     title = zope.schema.TextLine(title=_(u'title'))
-    icon = zope.schema.Choice(title=_('favicon'),
-                              source=favicon_source)
+    favicon = zope.schema.Choice(
+        title=_('favicon'),
+        source=favicon_source,
+        default='/++resource++img/favicon-green-preview.png')
 
 
 class IKeywords(zope.interface.Interface):
