@@ -14,7 +14,7 @@ Create a browser and log in an editor which preferes German:
 >>> browser = Browser()
 >>> browser.login('editor')
 >>> browser.addHeader('Accept-Language', 'de-DE')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 
 Translation of country name
