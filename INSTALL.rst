@@ -98,13 +98,34 @@ Run the tests
 
 Running the tests is independent from your choosen installation kind.
 
+Unit tests and functional tests
+-------------------------------
+
 Run the unit tests and functional tests using::
 
   $ bin/test
 
-To run the Selenium tests you additionally need: a running Selenium Server.
-Download "Selenium Server" from SeleniumHQ_.  Start it like any other
-``jar`` package is started on your operating system. Run all tests using::
+Selenium tests
+--------------
+
+To run the Selenium tests you additionally need:
+
+* Selenium Server from SeleniumHQ_
+
+* Firefox with a version between 7 and 17 (newer versions lead to test
+  errors!)
+
+Run the tests following these steps:
+
+* set the variable `GOCEPT_SELENIUM_BROWSER` like this::
+
+  $ export GOCEPT_SELENIUM_BROWSER='*firefox <Path to Firefox binary>'
+
+* start the server::
+
+  $ java -jar <Path to Selenium Server jar>
+
+* run all tests using::
 
   $ bin/test --all
 
