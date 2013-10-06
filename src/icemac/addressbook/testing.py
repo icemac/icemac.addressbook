@@ -294,6 +294,9 @@ class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
         self.selenium.open("http://%s:%s@%s/" % (
             username, password, self.selenium.server))
 
+    def assertMessage(self, text):
+        self.selenium.assertText('css=#info-messages', text)
+
 
 class BrowserTestCase(unittest.TestCase,
                       ZODBMixIn,

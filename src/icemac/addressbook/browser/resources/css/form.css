@@ -132,6 +132,7 @@ form .widget .ui-selectable {
     padding: 0;
 }
 form .widget .ui-selectable li {
+    width: 140px;
     margin: 3px;
     padding: 0.4em;
     font-size: 1.4em;
