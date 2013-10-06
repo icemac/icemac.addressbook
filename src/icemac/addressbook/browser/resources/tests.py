@@ -9,5 +9,6 @@ class ResourcesTests(unittest.TestCase):
 
     def test_image_resources_can_be_delivered(self):
         browser = icemac.addressbook.testing.Browser()
-        browser.open('http://localhost/++resource++img/favicon.ico')
+        browser.open(
+            'http://localhost/++resource++img/Symbol-Information.png')
         self.assertEqual('200 Ok', browser.headers['status'])

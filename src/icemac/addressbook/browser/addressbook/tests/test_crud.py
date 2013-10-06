@@ -122,7 +122,7 @@ class AddressbookEditSeleniumTests(
         self.assertMessage('Data successfully updated.')
         # The edit form submits to itself and shows the stored data:
         sel.assertValue('id=form-widgets-title', 'ftest book')
-        sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)
+        sel.assertCssCount('css=#form-widgets-favicon-0.ui-selected', 1)
 
 
 class SecurityTests(icemac.addressbook.testing.BrowserTestCase):
