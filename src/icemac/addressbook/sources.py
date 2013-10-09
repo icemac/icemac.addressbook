@@ -19,7 +19,7 @@ import zope.globalrequest
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
     "Abstract base class for sources using a mapping between value and title."
 
-    _mapping = None  # to be set in child class
+    _mapping = None  # collections.OrderedDict, to be set in child class
 
     def getValues(self):
         return self._mapping.keys()
