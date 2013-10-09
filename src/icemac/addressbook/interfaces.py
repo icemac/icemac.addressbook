@@ -2,6 +2,7 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+import collections
 import gocept.country
 import gocept.country.db
 import gocept.reference.field
@@ -35,16 +36,19 @@ class IImageSource(zope.interface.Interface):
     """
 
 
-class FaviconSource(zc.sourcefactory.basic.BasicSourceFactory):
+class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     """Source containing possbile favicons."""
 
     class source_class(zc.sourcefactory.source.FactoredSource):
         zope.interface.implements(IImageSource)
 
-    def getValues(self):
-        return ['/++resource++img/favicon-red-preview.png',
-                '/++resource++img/favicon-green-preview.png',
-                '/++resource++img/favicon-black-preview.png']
+    _mapping = collections.OrderedDict(
+        (('/++resource++img/favicon-red.png',
+          '/++resource++img/favicon-red-preview.png'),
+          ('/++resource++img/favicon-green.png',
+           '/++resource++img/favicon-green-preview.png'),
+           ('/++resource++img/favicon-black.png',
+            '/++resource++img/favicon-black-preview.png')))
 
 favicon_source = FaviconSource()
 
@@ -68,7 +72,7 @@ class IAddressBook(zope.interface.Interface):
     favicon = zope.schema.Choice(
         title=_('favicon'),
         source=favicon_source,
-        default='/++resource++img/favicon-green-preview.png')
+        default='/++resource++img/favicon-green.png')
 
 
 class IKeywords(zope.interface.Interface):
