@@ -100,9 +100,9 @@ class AddressbookEditSeleniumTests(
 
         # Default value of favicon is pre-selected:
         sel.assertCssCount(
-            'css=#form-widgets-favicon-1.ui-selected '
-            'img[src="/++resource++img/favicon-green-preview.png"]', 1)
-        sel.clickAt('form-widgets-favicon-2', '20,20')
+            'css=.ui-selected '
+            'img[src="/++resource++img/favicon-red-preview.png"]', 1)
+        sel.clickAt('form-widgets-favicon-1', '20,20')
         sel.clickAndWait('form-buttons-add')
         self.assertMessage('"test book" added.')
         self.assertEqual(
@@ -114,7 +114,7 @@ class AddressbookEditSeleniumTests(
                          sel.getLocation())
         # The add form actually stored the values:
         sel.assertValue('id=form-widgets-title', 'test book')
-        sel.assertCssCount('css=#form-widgets-favicon-2.ui-selected', 1)
+        sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)
         # The edit form is able to change the data:
         sel.type('id=form-widgets-title', 'ftest book')
         sel.clickAt('form-widgets-favicon-0', '20,20')

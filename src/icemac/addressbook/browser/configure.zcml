@@ -164,6 +164,19 @@
       class=".favicon.RootFavIconURL"
       permission="zope.Public" />
 
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.red" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.green" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.black" />
+
   <include package=".about" />
   <include package=".addressbook" />
   <include package=".authentication" />
