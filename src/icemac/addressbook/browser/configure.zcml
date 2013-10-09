@@ -150,6 +150,20 @@
       factory=".namespace.attr"
       />
 
+  <browser:page
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.AddressBookFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="zope.site.interfaces.IFolder"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
   <include package=".about" />
   <include package=".addressbook" />
   <include package=".authentication" />
