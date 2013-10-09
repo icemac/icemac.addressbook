@@ -19,6 +19,7 @@ import zope.schema
 PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
 FIELD_NS_PREFIX = 'fields-'
+DEFAULT_FAVICON = '/++resource++img/favicon-red.png'
 
 
 class ITitle(zope.interface.Interface):
@@ -36,19 +37,29 @@ class IImageSource(zope.interface.Interface):
     """
 
 
+class IFaviconData(zope.interface.Interface):
+    """Data of a favicon."""
+
+    path = zope.interface.Attribute('Path to be used in URL.')
+    preview_path = zope.interface.Attribute('Path to be used in preview.')
+
+
 class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     """Source containing possbile favicons."""
 
     class source_class(zc.sourcefactory.source.FactoredSource):
         zope.interface.implements(IImageSource)
 
-    _mapping = collections.OrderedDict(
-        (('/++resource++img/favicon-red.png',
-          '/++resource++img/favicon-red-preview.png'),
-          ('/++resource++img/favicon-green.png',
-           '/++resource++img/favicon-green-preview.png'),
-           ('/++resource++img/favicon-black.png',
-            '/++resource++img/favicon-black-preview.png')))
+    @property
+    def _mapping(self):
+        data = [(x.path, x.preview_path)
+                for x in zope.component.subscribers(
+                        (self, ), IFaviconData)]
+        if not data:
+            # We are at import time, so the subscribers are not yet set up
+            # but IAddressBook.favicon checks if the default value is valid:
+            data = [(DEFAULT_FAVICON, DEFAULT_FAVICON)]
+        return collections.OrderedDict(sorted(data))
 
 favicon_source = FaviconSource()
 
@@ -72,7 +83,7 @@ class IAddressBook(zope.interface.Interface):
     favicon = zope.schema.Choice(
         title=_('favicon'),
         source=favicon_source,
-        default='/++resource++img/favicon-green.png')
+        default=DEFAULT_FAVICON)
 
 
 class IKeywords(zope.interface.Interface):

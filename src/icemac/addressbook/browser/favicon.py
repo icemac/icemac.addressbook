@@ -1,11 +1,12 @@
 import icemac.addressbook.interfaces
+import zope.interface
 
 
 class RootFavIconURL(object):
     """URL to the FavIcon outside an address book."""
 
     def __call__(self):
-        return '/++resource++img/favicon-red.png'
+        return icemac.addressbook.interfaces.DEFAULT_FAVICON
 
 
 class AddressBookFavIconURL(object):
@@ -15,3 +16,23 @@ class AddressBookFavIconURL(object):
         address_book = icemac.addressbook.interfaces.IAddressBook(self.context)
         return address_book.favicon
 
+
+class FavIconData(object):
+    """Data of a FavIcon."""
+
+    zope.interface.implements(icemac.addressbook.interfaces.IFaviconData)
+
+    def __init__(self, path, preview_path):
+        self.path = path
+        self.preview_path = preview_path
+
+    def __call__(self, *args):
+        return self
+
+
+red  = FavIconData('/++resource++img/favicon-red.png',
+                   '/++resource++img/favicon-red-preview.png')
+green = FavIconData('/++resource++img/favicon-green.png',
+                    '/++resource++img/favicon-green-preview.png')
+black = FavIconData('/++resource++img/favicon-black.png',
+                    '/++resource++img/favicon-black-preview.png')
