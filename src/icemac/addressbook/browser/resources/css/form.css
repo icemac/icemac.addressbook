@@ -54,6 +54,10 @@
     opacity: 0.85;
 }
 
+select.set-field {
+    min-width: 200px;
+}
+
 #content textarea {
     height: 15ex;
     width: 100%;
