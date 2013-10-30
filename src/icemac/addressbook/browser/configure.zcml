@@ -164,6 +164,20 @@
       class=".favicon.RootFavIconURL"
       permission="zope.Public" />
 
+  <browser:page
+      for="zope.security.interfaces.IUnauthorized"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="zope.publisher.interfaces.INotFound"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
   <subscriber
        for="*"
        provides="icemac.addressbook.interfaces.IFaviconData"
