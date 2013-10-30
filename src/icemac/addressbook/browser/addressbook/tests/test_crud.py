@@ -2,33 +2,11 @@ import icemac.addressbook.testing
 
 
 class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
-    """Testing ..crud.*."""
+    """Testing ..crud.*.
 
-    def test_new_address_book_can_be_added_and_edited(self):
-        # Only managers are allowed to create address books:
-        browser = self.get_browser('mgr')
-        browser.open('http://localhost/')
-        # On the start page there is a link to add an address book:
-        browser.getLink('address book').click()
-        browser.getControl('title').value = 'test book'
-        browser.getControl('Add').click()
-        self.assertEqual(['"test book" added.'], browser.get_messages())
-        self.assertEqual('http://localhost/AddressBook', browser.url)
-        # Editing is done in master data section:
-        browser.getLink('Master data').click()
-        browser.getLink('Address book').click()
-        self.assertEqual(
-            'http://localhost/AddressBook/@@edit.html', browser.url)
-        # The add form actually stored the values:
-        self.assertEqual('test book', browser.getControl('title').value)
-        # The edit form is able to change the data:
-        browser.getControl('title').value = 'ftest book'
-        browser.getControl('Apply').click()
-        self.assertEqual(
-            ['Data successfully updated.'], browser.get_messages())
-        # The edit form submits to itself and shows the stored data:
-        self.assertEqual('ftest book', browser.getControl('title').value)
+    Without add as it needs JavaScript. See AddressbookEditSeleniumTests.
 
+    """
     def test_edit_can_be_canceled(self):
         self.layer['addressbook'].title = u'ftest-ab'
         browser = self.get_browser('mgr')
@@ -106,6 +84,45 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         self.assertEqual('http://localhost/ab/person-list.html', browser.url)
         self.assertIn('Person-3">User', browser.contents)
         self.assertIn('Person-4">Utzr', browser.contents)
+
+
+class AddressbookEditSeleniumTests(
+        icemac.addressbook.testing.SeleniumTestCase):
+    """Selenium testing .crud.EditForm."""
+
+    def test_new_address_book_can_be_added_and_edited(self):
+        # Only managers are allowed to create address books:
+        self.login()
+        sel = self.selenium
+        # On the start page there is a link to add an address book:
+        sel.clickAndWait('link=address book')
+        sel.type('id=form-widgets-title', 'test book')
+
+        # Default value of favicon is pre-selected:
+        sel.assertCssCount(
+            'css=.ui-selected '
+            'img[src="/++resource++img/favicon-red-preview.png"]', 1)
+        sel.clickAt('form-widgets-favicon-1', '20,20')
+        sel.clickAndWait('form-buttons-add')
+        self.assertMessage('"test book" added.')
+        self.assertEqual(
+            'http://%s/AddressBook' % sel.server, sel.getLocation())
+        # Editing is done in master data section:
+        sel.clickAndWait('link=Master data')
+        sel.clickAndWait('link=Address book')
+        self.assertEqual('http://%s/AddressBook/@@edit.html' % sel.server,
+                         sel.getLocation())
+        # The add form actually stored the values:
+        sel.assertValue('id=form-widgets-title', 'test book')
+        sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)
+        # The edit form is able to change the data:
+        sel.type('id=form-widgets-title', 'ftest book')
+        sel.clickAt('form-widgets-favicon-0', '20,20')
+        sel.clickAndWait('form-buttons-apply')
+        self.assertMessage('Data successfully updated.')
+        # The edit form submits to itself and shows the stored data:
+        sel.assertValue('id=form-widgets-title', 'ftest book')
+        sel.assertCssCount('css=#form-widgets-favicon-0.ui-selected', 1)
 
 
 class SecurityTests(icemac.addressbook.testing.BrowserTestCase):

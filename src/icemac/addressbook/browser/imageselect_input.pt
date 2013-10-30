@@ -1,0 +1,68 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">
+  <ol
+    tal:attributes="id view/id;
+                    class view/klass;
+                    style view/style;
+                    title view/title;
+                    lang view/lang;
+                    onclick view/onclick;
+                    ondblclick view/ondblclick;
+                    onmousedown view/onmousedown;
+                    onmouseup view/onmouseup;
+                    onmouseover view/onmouseover;
+                    onmousemove view/onmousemove;
+                    onmouseout view/onmouseout;
+                    onkeypress view/onkeypress;
+                    onkeydown view/onkeydown;
+                    onkeyup view/onkeyup;
+                    tabindex view/tabindex;
+                    onfocus view/onfocus;
+                    onblur view/onblur;
+                    onchange view/onchange">
+  <tal:block repeat="item view/items">
+    <li tal:attributes="
+          id item/id;
+          data-value item/value;
+          class python:'ui-selecting' if item['selected'] else None">
+      <img tal:attributes="src item/content" />
+    </li>
+  </tal:block>
+  </ol>
+
+<input type="hidden"
+       tal:attributes="id string:${view/id}-value;
+                       name string:${view/name}:list;" />
+<input type="hidden" value="1"
+       tal:attributes="name string:${view/name}-empty-marker" />
+
+<script tal:content="string:
+  $(function() {
+    store_value = function(element) {
+        $('input#${view/id}-value').val(element.data('value'));
+    };
+    $('#${view/id}').selectable({
+        element: null,
+        filter: 'li',
+        create: function(event, ui) {
+            // Trigger mouse stop event (this will select all .ui-selecting
+            // elements, and deselect all .ui-unselecting elements).
+            $('#${view/id}').data('ui-selectable')._mouseStop(null);
+            // Store initial selection in target field:
+            store_value($('#${view/id} .ui-selected'));
+        },
+        selected: function(event, ui) {
+            // Set the first selected element, overriding any existing element.
+            element = $(ui.selected);
+        },
+        stop: function(event, ui) {
+            // Remove all the other possibly selected elements.
+            // --> This is a single select widget!
+            element.siblings().removeClass('ui-selected');
+            store_value(element)
+      }
+    });
+});
+"></script>
+</div>

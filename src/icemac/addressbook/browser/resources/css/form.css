@@ -1,4 +1,4 @@
-div#content label span.required {
+#content label span.required {
     color: red;
 }
 
@@ -10,11 +10,11 @@ div#content label span.required {
     color: red;
 }
 
-div#content form div.widget {
+#content form div.widget {
     margin-left: 1em;
 }
 
-div#content fieldset {
+#content fieldset {
     background-color: #f0f0d0;
     opacity: 0.92;
     padding: 0 4px 6px 4px;
@@ -23,11 +23,11 @@ div#content fieldset {
     -moz-border-radius: 5px;
 }
 
-div#content fieldset fieldset {
+#content fieldset fieldset {
     background-color: #f0f0e0;
 }
 
-div#content legend {
+#content legend {
     background-color: #f0f0d0;
     font-weight: bold;
     padding: 0 2px;
@@ -36,25 +36,29 @@ div#content legend {
     -moz-border-radius: 5px;
 }
 
-div#content fieldset fieldset {
+#content fieldset fieldset {
     float: right;
 }
 
-div#content fieldset fieldset div.row {
+#content fieldset fieldset div.row {
     background-color: #f0f0e0;
     font-weight: normal;
     font-size: small;
 }
 
-div#content fieldset fieldset legend {
+#content fieldset fieldset legend {
     font-size: small;
 }
 
-div#content select {
+#content select {
     opacity: 0.85;
 }
 
-div#content textarea {
+select.set-field {
+    min-width: 200px;
+}
+
+#content textarea {
     height: 15ex;
     width: 100%;
     font-size: 11px;
@@ -82,7 +86,7 @@ form div.widget div.buttons {
     width: inherit;
 }
 
-div#content form div {
+#content form div {
     clear: both;
 }
 
@@ -119,4 +123,29 @@ form#search-export-form div.buttons {
 
 form#search-export-form div.buttons input#form-buttons-delete {
     margin-left: 25px;
+}
+
+/* jQuery-UI selectable */
+form .widget .ui-selectable .ui-selected {
+    background: #F0F0D0;
+    color: white;
+}
+form .widget .ui-selectable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+form .widget .ui-selectable li {
+    width: 140px;
+    margin: 3px;
+    padding: 0.4em;
+    font-size: 1.4em;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+form .widget .ui-selectable li img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -253,8 +253,7 @@ SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
 
 # Test layers including `locales` packages:
 TRANSLATION_ZCML_LAYER = ZCMLLayer(
-    'ABTranslation', __name__, icemac.addressbook, 'translationtesting.zcml',
-    bases=[ZCML_LAYER])
+    'ABTranslation', __name__, icemac.addressbook, 'translationtesting.zcml')
 TRANSLATION_ZODB_LAYER = ZODBLayer('ABTranslation', TRANSLATION_ZCML_LAYER)
 TRANSLATION_TEST_BROWSER_LAYER = TestBrowserLayer(
     'ABTranslation', TRANSLATION_ZODB_LAYER)
@@ -293,6 +292,9 @@ class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
         transaction.commit()
         self.selenium.open("http://%s:%s@%s/" % (
             username, password, self.selenium.server))
+
+    def assertMessage(self, text):
+        self.selenium.assertText('css=#info-messages', text)
 
 
 class BrowserTestCase(unittest.TestCase,

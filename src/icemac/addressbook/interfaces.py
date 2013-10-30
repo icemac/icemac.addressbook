@@ -2,6 +2,7 @@
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+import collections
 import gocept.country
 import gocept.country.db
 import gocept.reference.field
@@ -9,6 +10,7 @@ import icemac.addressbook.sources
 import re
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
+import zc.sourcefactory.source
 import zope.component
 import zope.interface
 import zope.schema
@@ -17,6 +19,7 @@ import zope.schema
 PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
 FIELD_NS_PREFIX = 'fields-'
+DEFAULT_FAVICON = '/++resource++img/favicon-red.png'
 
 
 class ITitle(zope.interface.Interface):
@@ -24,6 +27,41 @@ class ITitle(zope.interface.Interface):
 
     def __str__():
         """Return the title of the entity."""
+
+
+class IImageSource(zope.interface.Interface):
+    """Marker interface for a source which uses images as titles.
+
+    Title needs to be the URL of the image.
+
+    """
+
+
+class IFaviconData(zope.interface.Interface):
+    """Data of a favicon."""
+
+    path = zope.interface.Attribute('Path to be used in URL.')
+    preview_path = zope.interface.Attribute('Path to be used in preview.')
+
+
+class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
+    """Source containing possbile favicons."""
+
+    class source_class(zc.sourcefactory.source.FactoredSource):
+        zope.interface.implements(IImageSource)
+
+    @property
+    def _mapping(self):
+        data = [(x.path, x.preview_path)
+                for x in zope.component.subscribers(
+                        (self, ), IFaviconData)]
+        if not data:
+            # We are at import time, so the subscribers are not yet set up
+            # but IAddressBook.favicon checks if the default value is valid:
+            data = [(DEFAULT_FAVICON, DEFAULT_FAVICON)]
+        return collections.OrderedDict(sorted(data))
+
+favicon_source = FaviconSource()
 
 
 class IAddressBook(zope.interface.Interface):
@@ -40,7 +78,12 @@ class IAddressBook(zope.interface.Interface):
         u'icemac.addressbook.interfaces.IEntities')
     orders = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IOrderStorage')
+
     title = zope.schema.TextLine(title=_(u'title'))
+    favicon = zope.schema.Choice(
+        title=_('favicon'),
+        source=favicon_source,
+        default=DEFAULT_FAVICON)
 
 
 class IKeywords(zope.interface.Interface):
@@ -125,7 +168,11 @@ class IPerson(IPersonName, IPersonData):
     """A person."""
 
 
-class IPostalAddress(zope.interface.Interface):
+class IPersonEntity(zope.interface.Interface):
+    """Entity of a person."""
+
+
+class IPostalAddress(IPersonEntity):
     """A postal address."""
 
     address_prefix = zope.schema.TextLine(
@@ -139,7 +186,7 @@ class IPostalAddress(zope.interface.Interface):
         required=False, default=gocept.country.db.Country('DE'))
 
 
-class IEMailAddress(zope.interface.Interface):
+class IEMailAddress(IPersonEntity):
     """An e-mail address."""
 
     email = zope.schema.TextLine(
@@ -148,13 +195,13 @@ class IEMailAddress(zope.interface.Interface):
             "^[/$!%=+A-Za-z0-9_.-]+@([A-Za-z0-9_\-]+\.)+[A-Za-z]{2,6}$").match)
 
 
-class IHomePageAddress(zope.interface.Interface):
+class IHomePageAddress(IPersonEntity):
     """A home page address."""
 
     url = zope.schema.URI(title=_(u'URL'), required=False)
 
 
-class IPhoneNumber(zope.interface.Interface):
+class IPhoneNumber(IPersonEntity):
     """A phone number."""
 
     number = zope.schema.TextLine(title=_(u'number'), required=False)

@@ -4,6 +4,7 @@
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
@@ -64,6 +65,8 @@ class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
     prefix = 'defaults'
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class PersonAddForm(z3c.form.group.GroupForm,
                     icemac.addressbook.browser.base.BaseAddForm):
     """Add a person."""

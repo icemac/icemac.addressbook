@@ -1,9 +1,11 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
+import icemac.addressbook.browser.interfaces
+import zope.interface
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class Search(object):
     """View to select a search."""
     show_headline = True

@@ -12,6 +12,8 @@ import zope.interface
 import zope.size.interfaces
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     label = _(u'Add new address book')
@@ -20,6 +22,8 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     next_url = 'object'
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     label = _(u'Edit address book data')
@@ -40,6 +44,8 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.redirect_to_next_url('object', '@@delete_content.html')
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete whole address book."
 
@@ -71,6 +77,8 @@ class PersonCount(object):
             context=zope.globalrequest.getRequest())
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete address book contents (aka persons)."
 
