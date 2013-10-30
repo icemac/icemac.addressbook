@@ -40,6 +40,30 @@
       class=".resource.DefaultResources"
       permission="zope.Public" />
 
+  <browser:viewlet
+      for="..interfaces.IPerson"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
+  <browser:viewlet
+      for="..interfaces.IPersonEntity"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
+  <browser:viewlet
+      view=".interfaces.IAddressBookBackground"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
   <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
 
   <adapter

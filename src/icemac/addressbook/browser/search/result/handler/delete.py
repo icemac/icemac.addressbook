@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
-import icemac.addressbook.browser.base
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
 import zope.globalrequest
 import zope.i18n
@@ -42,6 +41,8 @@ class SelectionCount(object):
             context=request)
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     "Delete selected persons."
 

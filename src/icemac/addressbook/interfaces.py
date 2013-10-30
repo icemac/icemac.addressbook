@@ -168,7 +168,11 @@ class IPerson(IPersonName, IPersonData):
     """A person."""
 
 
-class IPostalAddress(zope.interface.Interface):
+class IPersonEntity(zope.interface.Interface):
+    """Entity of a person."""
+
+
+class IPostalAddress(IPersonEntity):
     """A postal address."""
 
     address_prefix = zope.schema.TextLine(
@@ -182,7 +186,7 @@ class IPostalAddress(zope.interface.Interface):
         required=False, default=gocept.country.db.Country('DE'))
 
 
-class IEMailAddress(zope.interface.Interface):
+class IEMailAddress(IPersonEntity):
     """An e-mail address."""
 
     email = zope.schema.TextLine(
@@ -191,13 +195,13 @@ class IEMailAddress(zope.interface.Interface):
             "^[/$!%=+A-Za-z0-9_.-]+@([A-Za-z0-9_\-]+\.)+[A-Za-z]{2,6}$").match)
 
 
-class IHomePageAddress(zope.interface.Interface):
+class IHomePageAddress(IPersonEntity):
     """A home page address."""
 
     url = zope.schema.URI(title=_(u'URL'), required=False)
 
 
-class IPhoneNumber(zope.interface.Interface):
+class IPhoneNumber(IPersonEntity):
     """A phone number."""
 
     number = zope.schema.TextLine(title=_(u'number'), required=False)

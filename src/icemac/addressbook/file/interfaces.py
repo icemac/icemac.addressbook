@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import zope.interface
 import zope.schema
 import zope.mimetype.interfaces
+import icemac.addressbook.interfaces
 
 
-class IFile(zope.interface.Interface):
+class IFile(icemac.addressbook.interfaces.IPersonEntity):
     "A file uploaded from harddisk to addressbook."
 
     name = zope.schema.TextLine(
