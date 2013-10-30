@@ -39,3 +39,24 @@ class LayoutTests(icemac.addressbook.testing.BrowserTestCase):
         browser.open('http://localhost/ab')
         self.assertIn('href="/++resource++img/favicon-green.png"',
                       browser.contents)
+
+    def test_renders_NotFound_page_nicely(self):
+        from mechanize import HTTPError
+        browser = self.get_browser()
+        with self.assertRaises(HTTPError) as err:
+            browser.open('http://localhost/I-do-not-exist')
+        self.assertEqual('HTTP Error 404: Not Found', str(err.exception))
+        # If this test fails there was an exception during rendering the
+        # errror page:
+        self.assertIn('The page you are trying to access is not available',
+                      browser.contents)
+
+    def test_renders_Unauthorized_page_nicely(self):
+        from mechanize import HTTPError
+        browser = self.get_browser()
+        with self.assertRaises(HTTPError) as err:
+            browser.open('http://localhost/')
+        self.assertEqual('HTTP Error 401: Unauthorized', str(err.exception))
+        # If this test fails there was an exception during rendering the
+        # errror page:
+        self.assertIn('You are not authorized.', browser.contents)
