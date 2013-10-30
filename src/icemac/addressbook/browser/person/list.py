@@ -3,10 +3,14 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.table
+import zope.interface
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class PersonList(
     icemac.addressbook.browser.personlist.BasePersonList,
     icemac.addressbook.browser.table.PageletTable):

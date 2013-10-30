@@ -31,6 +31,8 @@ css = fanstatic.Group([
 # not rendered on every page
 no_max_content_css = fanstatic.Resource(
     css_lib, 'no_max_content.css', depends=[form_css])
+background_css = fanstatic.Resource(
+    css_lib, 'background.css', depends=[base_css])
 
 
 # JavaScript
@@ -59,6 +61,16 @@ class DefaultResources(zope.viewlet.viewlet.ViewletBase):
     def update(self):
         css.need()
         js.need()
+
+    def render(self):
+        return u''
+
+
+class AddressBookResources(zope.viewlet.viewlet.ViewletBase):
+    """Resources which are address book specific."""
+
+    def update(self):
+        background_css.need()
 
     def render(self):
         return u''

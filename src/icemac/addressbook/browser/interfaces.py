@@ -63,3 +63,7 @@ class IIconProviderInfo(zope.interface.Interface):
     name = zope.interface.Attribute('Name of the person or company')
     url = zope.interface.Attribute(
         'URL of the website the icons where taken from')
+
+
+class IAddressBookBackground(zope.interface.Interface):
+    """Marker for views which should display the address book background."""

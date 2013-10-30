@@ -32,7 +32,7 @@ body {
 }
 
 #content {
-    background: #eee url(/++resource++img/ring_binder_book_red.jpg) no-repeat right 5px;
+    background: #eee;
     border: 1px solid #999;
     min-height: 495px;
     padding: 5px;

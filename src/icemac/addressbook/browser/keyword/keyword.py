@@ -1,18 +1,20 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import z3c.form.button
 import z3c.table.column
+import zope.interface
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     label = _(u'Add new keyword')
@@ -31,6 +33,8 @@ def can_delete_keyword(form):
         )
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
@@ -54,12 +58,16 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.redirect_to_next_url('object', '@@delete.html')
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this keyword?')
     interface = icemac.addressbook.interfaces.IKeyword
     field_names = ('title', )
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class Table(icemac.addressbook.browser.table.Table):
     """List keywords in address book."""
 
