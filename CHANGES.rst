@@ -10,6 +10,8 @@ Features
 
 - Put focus on first input field of form after loading the form.
 
+- FavIcon can now be selected in address book section of master data.
+
 Bugfixes
 --------
 

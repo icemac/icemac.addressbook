@@ -35,22 +35,13 @@ there are not addressbooks:
   ...There are no address books created yet, click on "Add address book" to create one...
 
 
-Create an address book
-======================
-
-On the overview page is a link to add a new address book:
-
->>> browser.getLink('address book').click()
->>> browser.getControl('title').value = 'test book'
->>> browser.getControl('Add').click()
->>> get_messages(browser)
-['"test book" added.']
->>> address_book_url = browser.url
->>> address_book_url
-'http://localhost/++skin++AddressBook/AddressBook'
-
 View Addressbooks
 =================
+
+At first we have to create one:
+
+>>> from icemac.addressbook.testing import create_addressbook
+>>> _ = create_addressbook('AddressBook', title=u'test book')
 
 The overview page contains a list of the existing addressbooks
 together with the number of entries inside:
@@ -86,7 +77,7 @@ object, I add it directly to the root folder.):
 
 After creating a person one entry is displayed:
 
->>> from icemac.addressbook.testing import create_addressbook, create_person
+>>> from icemac.addressbook.testing import create_person
 >>> ab = create_addressbook('ab2', title=u'ab w/ content')
 >>> create_person(ab, ab, u'Tester', return_obj=False)
 >>> browser.reload()

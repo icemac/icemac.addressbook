@@ -1,14 +1,16 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.interfaces
 import z3c.pagelet.browser
 import zope.size.interfaces
 import zope.traversing.browser.absoluteurl
+import zope.interface
+import icemac.addressbook.browser.interfaces
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class FrontPage(z3c.pagelet.browser.BrowserPagelet):
     """Pagelet for the front page."""
 

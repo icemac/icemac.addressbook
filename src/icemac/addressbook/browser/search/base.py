@@ -1,8 +1,8 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.search.interfaces
 import z3c.form.button
 import z3c.form.field
@@ -10,6 +10,8 @@ import z3c.formui.form
 import zope.interface
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class BaseView(zope.publisher.browser.BrowserView):
     """Base class for search views.
 

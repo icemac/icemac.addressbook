@@ -4,6 +4,7 @@
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.errormessage
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.search.result.handler.update.operators
 import icemac.addressbook.browser.wizard
 import persistent.mapping
@@ -46,6 +47,8 @@ def clean_update_data_session(request):
         del session[UPDATE_SESSION_KEY]
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class SessionStorageStep(icemac.addressbook.browser.wizard.Step):
     """Step which stores its data in a dict in the session."""
 
