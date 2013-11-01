@@ -54,6 +54,7 @@
     opacity: 0.85;
 }
 
+select.list-field,
 select.set-field {
     min-width: 200px;
 }
