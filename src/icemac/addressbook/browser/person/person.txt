@@ -247,7 +247,8 @@ The entries in the add menu have a specific sort order:
 
 >>> print browser.contents
 <!DOCTYPE...
-        <ul id="add-menu-content"><li>
+        <ul id="add-menu-content">
+          <li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
 </li>
 <li>
