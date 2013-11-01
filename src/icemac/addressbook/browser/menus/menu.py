@@ -1,11 +1,11 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-import zope.viewlet.manager
 import icemac.addressbook.browser.menus.interfaces
 import z3c.menu.ready2go.manager
+import zope.viewlet.manager
+import zope.viewlet.viewlet
+
 
 MainMenu = zope.viewlet.manager.ViewletManager(
     'main-menu', icemac.addressbook.browser.menus.interfaces.IMainMenu,
@@ -44,6 +44,26 @@ class OrdersWeightMenuManager(z3c.menu.ready2go.manager.MenuManager):
         return sorted(viewlets, key=getWeight)
 
 
+class EmptyViewlet(zope.viewlet.viewlet.ViewletBase):
+    """Helper class for AlwaysRenderTemplateManager."""
+
+    def render(self):
+        return u''
+
+EMPTY_VIEWLET = EmptyViewlet(None, None, None, None)
+
+
+class AlwaysRenderTemplateManager(OrdersWeightMenuManager):
+    """Manager rendering template even there are no viewlets."""
+
+    def update(self):
+        super(AlwaysRenderTemplateManager, self).update()
+        self.have_viewlets = bool(self.viewlets)
+        if not self.have_viewlets:
+            # Trick `render` method to render manager's template:
+            self.viewlets.append(EMPTY_VIEWLET)
+
+
 AddMenu = zope.viewlet.manager.ViewletManager(
     'add-menu', icemac.addressbook.browser.menus.interfaces.IAddMenu,
-    bases=(OrdersWeightMenuManager,))
+    bases=(AlwaysRenderTemplateManager,))

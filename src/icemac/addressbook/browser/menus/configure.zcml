@@ -24,6 +24,7 @@
      name="add-menu"
      class=".menu.AddMenu"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="add-menu.pt"
      permission="zope.Public"
      />
 
