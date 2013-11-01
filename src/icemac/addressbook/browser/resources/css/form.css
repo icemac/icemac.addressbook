@@ -65,6 +65,20 @@ select.set-field {
     font-size: 11px;
 }
 
+#content form div.multi-widget-checkbox {
+    float: left;
+    margin-right: 6px;
+    margin-top: 5px;
+}
+
+#content form div.multi-widget .buttons {
+    margin-top: 5px;
+}
+
+#content form div.multi-widget-input {
+    clear: none;
+}
+
 /* buttons */
 form div.buttons,
 div.js-form div.buttons {
