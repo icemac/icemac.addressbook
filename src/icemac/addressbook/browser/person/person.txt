@@ -249,27 +249,18 @@ The entries in the add menu have a specific sort order:
 <!DOCTYPE...
         <ul id="add-menu-content"><li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
-<BLANKLINE>
 </li>
-<BLANKLINE>
 <li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
-<BLANKLINE>
 </li>
-<BLANKLINE>
 <li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addEMailAddress.html"><span>e-mail address</span></a>
-<BLANKLINE>
 </li>
-<BLANKLINE>
 <li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addHomePageAddress.html"><span>home page</span></a>
-<BLANKLINE>
 </li>
-<BLANKLINE>
 <li>
   <a href="http://localhost/++skin++AddressBook/ab/Person/@@addFile.html"><span>file</span></a>
-<BLANKLINE>
 </li>
 </ul>...
 
