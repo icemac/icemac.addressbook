@@ -29,10 +29,12 @@ import zope.app.publication.httpfactory
 import zope.app.publication.zopepublication
 import zope.app.wsgi
 import zope.app.wsgi.testlayer
+import zope.browserpage.metaconfigure
 import zope.component
 import zope.component.hooks
 import zope.event
 import zope.lifecycleevent
+import zope.principalregistry.principalregistry
 import zope.processlifetime
 import zope.site.hooks
 import zope.testbrowser.browser
@@ -41,6 +43,7 @@ import zope.testbrowser.wsgi
 import zope.testing.cleanup
 import zope.testing.renormalizing
 import zope.testrunner.layer
+
 
 if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
     from zope.testing import doctest
@@ -60,6 +63,15 @@ class _AddressBookUnitTests(plone.testing.Layer):
 
     def tearDown(self):
         zope.testing.cleanup.tearDown()
+
+
+class _ZCMLTearDownLayer(plone.testing.Layer):
+    """Clear module globals set during ZCML set up."""
+
+    def tearDown(self):
+        # Needed so another ZCML layer can be run.
+        zope.browserpage.metaconfigure.clear()
+        zope.principalregistry.principalregistry.principalRegistry._clear()
 
 
 class _ZODBLayer(plone.testing.zodb.EmptyZODB):
@@ -209,16 +221,26 @@ class _GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
 
 # Layer factories
 
-def ZCMLLayer(name, module, package, filename="ftesting.zcml", bases=None):
+def ZCMLLayer(name, module, package, filename="ftesting.zcml"):
     """Factory to create a new ZCML test layer.
 
     name ... layer name, suffixed by 'ZCML'
     module ... usually `__name__`
     package ... where the ftesting.zcml lives.
     """
+    # A primary ZCML layer is a secondary one without a base + some teardown
+    sandbox = SecondaryZCMLLayer(
+        name, module, package, bases=None, filename=filename)
+    return _ZCMLTearDownLayer(
+        name="%sZCMLTearDown" % name, bases=[sandbox], module=module)
+
+
+def SecondaryZCMLLayer(name, module, package, bases, filename="ftesting.zcml"):
+    """Factory to create a new ZCML test layer above an existing one."""
     return plone.testing.zca.ZCMLSandbox(
-        name="%sZCML" % name, bases=bases, filename=filename, module=module,
-        package=package)
+        name="%sZCML" % name, bases=bases, filename=filename,
+        module=module, package=package)
+
 
 
 def ZODBLayer(name, zcml_layer):
