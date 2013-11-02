@@ -318,9 +318,8 @@ def delete_persons(address_book, ids):
         ref_target = gocept.reference.interfaces.IReferenceTarget(
             zope.security.proxy.getObject(address_book[name]))
         if ref_target.is_referenced(recursive=False):
-            # Persons which are referenced by a user can't be
-            # deleted using this function. We check this here to
-            # avoid getting an error.
+            # Persons which are referenced can't be deleted using this
+            # function. We check this here to avoid getting an error.
             continue
         del address_book[name]
         deleted += 1
