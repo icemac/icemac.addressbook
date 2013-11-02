@@ -51,7 +51,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     next_url = 'object'
     next_view = '@@person-list.html'
 
-    def _handle_delete(self):
+    def _handle_action(self):
         ids = get_selected_person_ids(self.request)
         num_deleted = icemac.addressbook.browser.base.delete_persons(
             self.context, ids)

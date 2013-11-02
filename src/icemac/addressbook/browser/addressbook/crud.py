@@ -87,7 +87,7 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     interface = icemac.addressbook.browser.interfaces.IPersonCount
     next_view = '@@edit.html'
 
-    def _handle_delete(self):
+    def _handle_action(self):
         icemac.addressbook.browser.base.delete_persons(
             self.context, self.context.keys())
         self.status = _('Address book contents deleted.')

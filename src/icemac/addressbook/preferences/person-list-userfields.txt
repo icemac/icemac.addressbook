@@ -165,7 +165,7 @@ Let's delete the "photo permission?" column:
 >>> print browser.contents
 <!DOCTYPE ...
 ...photo permission?...
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"photo permission?" deleted.']
 
@@ -285,7 +285,7 @@ Let's delete the currently selected order-by column "last seen" on "person":
 >>> print browser.contents
 <!DOCTYPE ...
 ...last seen...
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 
 
 Person list

@@ -383,7 +383,7 @@ Even when the url of the delete confirmation dialog is directly accessed
 deletion is not possible:
 
 >>> browser.open(delete_confirmation_url)
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['Failed to delete person: This person is connected to a user. To delete this person, delete the user first.']
 >>> browser.url
@@ -819,7 +819,7 @@ the user list where the user is no longer listed:
 >>> browser.getControl('Delete user').click()
 >>> browser.url
 'http://localhost/ab/++attribute++principals/5/@@delete_user.html'
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"Someone, Else" deleted.']
 >>> browser.url

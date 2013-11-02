@@ -264,25 +264,25 @@ class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
         update_with_redirect(GroupEditForm, self)
 
 
-class BaseDeleteForm(_AbstractEditForm):
-    "Display a deletion confirmation dialog."
+class _BaseConfirmForm(_AbstractEditForm):
+    "Display a confirmation dialog before the action."
 
-    label = _(u'Do you really want to delete this entry?')
-    requiredInfo = None  # do never display requiredInfo
+    label = NotImplemented
     interface = None
     field_names = ()  # tuple of field names for display; empty for all
-    next_view_after_delete = None  # None --> default view
+    cancel_status_message = NotImplemented
 
+    requiredInfo = None  # do never display requiredInfo
     mode = z3c.form.interfaces.DISPLAY_MODE
     next_url = 'object'
 
     def update(self):
         icemac.addressbook.browser.resource.no_max_content_css.need()
-        super(BaseDeleteForm, self).update()
+        super(_BaseConfirmForm, self).update()
 
     @property
     def fields(self):
-        fields = super(BaseDeleteForm, self).fields
+        fields = super(_BaseConfirmForm, self).fields
         if self.field_names:
             fields = fields.select(*self.field_names)
         return fields
@@ -290,13 +290,24 @@ class BaseDeleteForm(_AbstractEditForm):
     @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
     def handleCancel(self, action):
         self.redirect_to_next_url(self.next_url)
-        self.status = _('Deletion canceled.')
+        self.status = self.cancel_status_message
 
-    @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='delete')
-    def handleDelete(self, action):
-        self._handle_delete()
+    @z3c.form.button.buttonAndHandler(_(u'Yes'), name='action')
+    def handleAction(self, action):
+        self._handle_action()
 
-    def _handle_delete(self):
+    def _handle_action(self):
+        raise NotImplementedError()
+
+
+class BaseDeleteForm(_BaseConfirmForm):
+    "Display a deletion confirmation dialog."
+
+    label = _(u'Do you really want to delete this entry?')
+    next_view_after_delete = None  # None --> default view
+    cancel_status_message = _('Deletion canceled.')
+
+    def _handle_action(self):
         self.redirect_to_next_url('parent', self.next_view_after_delete)
         self.status = _(
             '"${title}" deleted.',

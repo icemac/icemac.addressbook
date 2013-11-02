@@ -395,7 +395,7 @@ HTTPError: HTTP Error 403: Forbidden
 When the administrator is sure to delete the field, the field gets deleted:
 
 >>> browser.getLink('Delete').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"foobar" deleted.']
 >>> browser.url

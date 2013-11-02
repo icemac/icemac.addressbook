@@ -197,7 +197,7 @@ by default:
 
 Seleting the `delete` button leads to the person list after deleting the selected persons:
 
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['Selected persons deleted: 2']
 >>> browser.url
