@@ -46,15 +46,17 @@ class Persons(zc.sourcefactory.contextual.BasicContextualSourceFactory):
             yield context.person
             return
 
+        persons_of_existing_pricipals = frozenset(
+            [principal.person for principal in context.values()])
+
         for person in root.values():
-            if getattr(person.default_email_address, 'email', None):
-                # show only persons which are not yet users
-                reftarget = gocept.reference.interfaces.IReferenceTarget(
-                    person)
-                if reftarget.is_referenced(recursive=False):
-                    # XXX must check for other types of reference here
-                    continue
-                yield person
+            if getattr(person.default_email_address, 'email', None) is None:
+                # Show only persons which have an e-mail address:
+                continue
+            if person in persons_of_existing_pricipals:
+                # Show only persons which are not yet users:
+                continue
+            yield person
 
     def getTitle(self, context, value):
         return icemac.addressbook.interfaces.ITitle(value)
