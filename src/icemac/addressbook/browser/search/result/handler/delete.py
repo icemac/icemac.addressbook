@@ -36,8 +36,8 @@ class SelectionCount(object):
         request = zope.globalrequest.getRequest()
         self.count = len(get_selected_person_ids(request))
         self.notes = zope.i18n.translate(
-            _(u'Whether one of the selected persons is a user, it cannot get '
-              u'deleted here, you have to delete the user before.'),
+            _(u'You are not able to delete a person which is referenced. '
+              u'You have to remove the references before.'),
             context=request)
 
 
