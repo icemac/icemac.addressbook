@@ -176,7 +176,7 @@ overview as well:
 >>> browser.getLink('Delete', index=1).click()
 >>> browser.url
 'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"ab w/ content" deleted.']
 >>> browser.url

@@ -544,7 +544,7 @@ the person edit form:
 True
 >>> browser.getControl('RST-Software').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 [u'"RST-Software, Forsterstra\xdfe 302a, 98344, Erfurt, Germany" deleted.']
 >>> browser.url == person_edit_form_url
@@ -559,7 +559,7 @@ Deleting the main address creates a new, empty address:
 >>> browser.getControl('Demoweg').click() # deselects default selection
 >>> browser.getControl('Demoweg').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"c/o Mama, Demoweg 23, 88888, Testhausen, Austria" deleted.']
 >>> browser.url == person_edit_form_url
@@ -573,7 +573,7 @@ addresses:
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('+4901761234567').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"+4901761234567" deleted.']
 >>> browser.url == person_edit_form_url
@@ -584,7 +584,7 @@ True
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('pt@rst-software.de').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"pt@rst-software.de" deleted.']
 >>> browser.url == person_edit_form_url
@@ -595,7 +595,7 @@ True
 >>> browser.getControl('Delete single entry').click()
 >>> browser.getControl('http://petra.example.com').click()
 >>> browser.getControl('Delete entry').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"http://petra.example.com" deleted.']
 >>> browser.url == person_edit_form_url
@@ -631,7 +631,7 @@ If he decides to delete the entry he is led back to the address book
 where the person is no longer listed:
 
 >>> browser.getControl('Delete whole person').click()
->>> browser.getControl('Yes, delete').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"Tester, Petra" deleted.']
 >>> browser.url

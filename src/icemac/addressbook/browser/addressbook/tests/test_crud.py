@@ -78,7 +78,7 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         # When he decides to delete all persons he is led back to the person
         # list where only the users are still shown:
         browser.getControl('Delete all persons in address book').click()
-        browser.getControl('Yes, delete').click()
+        browser.getControl('Yes').click()
         self.assertEqual(
             ['Address book contents deleted.'], browser.get_messages())
         self.assertEqual('http://localhost/ab/person-list.html', browser.url)
