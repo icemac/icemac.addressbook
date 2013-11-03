@@ -87,7 +87,9 @@ setuptools.setup(
         'z3c.locales [compile] >= 0.3.0',
         'z3c.menu.ready2go',
         'z3c.pagelet',
+        'z3c.pagelet[chameleon]',
         'z3c.preference >= 0.2dev',
+        'z3c.ptcompat',
         'z3c.table',
         'z3c.wizard',
         'zc.catalog',
@@ -126,10 +128,6 @@ setuptools.setup(
             'zc.buildout',
             'zope.testbrowser[wsgi]>=4.0',
             'zope.testing >= 3.8',
-            ],
-        chameleon=[
-            'z3c.pagelet[chameleon]',
-            'z3c.ptcompat',
             ],
         ),
     entry_points = """
