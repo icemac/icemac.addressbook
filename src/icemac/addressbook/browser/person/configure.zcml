@@ -43,7 +43,7 @@
      for="...interfaces.IPerson"
      permission="icemac.addressbook.ClonePerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class="..base.CloneObject"
+     class=".person.ClonePersonForm"
      />
 
   <adapter

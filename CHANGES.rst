@@ -12,6 +12,8 @@ Features
 
 - FavIcon can now be selected in address book section of master data.
 
+- Add confirmation before cloning a person.
+
 Bugfixes
 --------
 

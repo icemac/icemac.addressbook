@@ -350,12 +350,13 @@ class PrefixGroup(z3c.form.group.Group):
             *fields.getFieldValues(), **dict(prefix=self.prefix))
 
 
-class CloneObject(BaseView):
-    """View class to clone an object and store the clone into the parent.
+class BaseCloneForm(_BaseConfirmForm):
+    "Display a cloning confirmation dialog."
 
-    Redirects to the default view of the clone."""
+    label = _(u'Do you really want to clone this entry?')
+    cancel_status_message = _('Cloning canceled.')
 
-    def __call__(self):
+    def _handle_action(self):
         # clone object
         unsecure_context = zope.security.proxy.getObject(self.context)
         copier = zope.copypastemove.interfaces.IObjectCopier(unsecure_context)

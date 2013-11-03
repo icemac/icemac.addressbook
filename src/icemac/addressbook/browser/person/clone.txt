@@ -50,6 +50,7 @@ Clone person
 There is a button on the edit form to clone a person:
 
 >>> browser.getControl('Clone person').click()
+>>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"Tester, Hans" cloned.']
 
