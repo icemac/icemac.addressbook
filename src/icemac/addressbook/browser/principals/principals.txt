@@ -385,7 +385,7 @@ deletion is not possible:
 >>> browser.open(delete_confirmation_url)
 >>> browser.getControl('Yes').click()
 >>> get_messages(browser)
-['Failed to delete person: This person is connected to a user. To delete this person, delete the user first.']
+['Failed to delete person: This person is referenced. To delete this person, remove the reference before.']
 >>> browser.url
 'http://localhost/ab/person-list.html'
 >>> 'Loscher' in browser.contents

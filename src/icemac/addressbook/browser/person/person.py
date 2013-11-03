@@ -263,8 +263,8 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
         except gocept.reference.interfaces.IntegrityError:
             transaction.abort()
             message = _(
-                'Failed to delete person: This person is connected to '
-                'a user. To delete this person, delete the user first.')
+                'Failed to delete person: This person is referenced. '
+                'To delete this person, remove the reference before.')
             zope.component.getUtility(
                 z3c.flashmessage.interfaces.IMessageSource).send(message)
 
