@@ -29,15 +29,15 @@ class LayoutTests(icemac.addressbook.testing.BrowserTestCase):
     def test_renders_default_favicon_on_root_page(self):
         browser = self.get_browser('mgr')  # need to log in to avoid HTTP-401
         browser.open('http://localhost')
-        self.assertIn('href="/++resource++img/favicon-red.png"',
+        self.assertIn('href="/++resource++img/favicon-red.ico"',
                       browser.contents)
 
     def test_renders_selected_favicon_inside_address_book(self):
         self.layer['addressbook'].favicon = (
-            u'/++resource++img/favicon-green.png')
+            u'/++resource++img/favicon-green.ico')
         browser = self.get_browser()
         browser.open('http://localhost/ab')
-        self.assertIn('href="/++resource++img/favicon-green.png"',
+        self.assertIn('href="/++resource++img/favicon-green.ico"',
                       browser.contents)
 
     def test_renders_NotFound_page_nicely(self):

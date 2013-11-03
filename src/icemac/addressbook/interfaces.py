@@ -19,7 +19,7 @@ import zope.schema
 PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
 FIELD_NS_PREFIX = 'fields-'
-DEFAULT_FAVICON = '/++resource++img/favicon-red.png'
+DEFAULT_FAVICON = '/++resource++img/favicon-red.ico'
 
 
 class ITitle(zope.interface.Interface):
