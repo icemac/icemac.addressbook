@@ -202,8 +202,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     @z3c.form.button.buttonAndHandler(
         _(u'Clone person'), name='clone_person',
-        condition=icemac.addressbook.browser.base.can_access(
-            '@@clone.html'))
+        condition=icemac.addressbook.browser.base.can_access('@@clone.html'))
     def handleClonePerson(self, action):
         self.redirect_to_next_url('object', '@@clone.html')
 
