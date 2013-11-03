@@ -448,6 +448,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     get_messages = get_messages
     get_all_control_names = get_all_control_names
+    get_submit_control_names = get_submit_control_names
     in_out_widget_select = in_out_widget_select
 
 ### Helper functions to create objects in the database ###
