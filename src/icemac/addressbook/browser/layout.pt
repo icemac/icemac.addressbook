@@ -10,7 +10,7 @@
     <tal:block replace="structure provider:fanstatic-viewlets" />
     <title tal:content="title">icemac.addressbook</title>
     <link rel="shortcut icon"
-          type="image/png"
+          type="image/x-icon"
           tal:attributes="href context/@@favicon-url" />
   </head>
   <body class="main">
