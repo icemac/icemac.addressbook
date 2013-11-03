@@ -270,6 +270,12 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
                 z3c.flashmessage.interfaces.IMessageSource).send(message)
 
 
+class ClonePersonForm(icemac.addressbook.browser.base.BaseCloneForm):
+    label = _(u'Do you really want to clone this person?')
+    interface = icemac.addressbook.interfaces.IPerson
+    field_names = ('first_name', 'last_name')
+
+
 class PersonEntriesSource(
     zc.sourcefactory.contextual.BasicContextualSourceFactory):
     "Source to select entries (addresses, files, ...) from a person."
