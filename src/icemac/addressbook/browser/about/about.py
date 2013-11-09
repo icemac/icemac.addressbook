@@ -2,7 +2,6 @@
 # Copyright (c) 2013 Michael Howitz
 from ..interfaces import IIconProviderInfo
 import icemac.addressbook
-import icemac.addressbook.browser.resource
 import pkg_resources
 import zope.contentprovider.provider
 

@@ -2,7 +2,6 @@
 # See also LICENSE.txt
 """Base classes and functions for wizards."""
 
-import icemac.addressbook.browser.resource
 import z3c.form.field
 import z3c.wizard.step
 import z3c.wizard.wizard

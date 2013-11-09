@@ -9,8 +9,6 @@ Other sources are defined in interfaces.py to avoid circular references.
 from icemac.addressbook.i18n import _
 import collections
 import zc.sourcefactory.basic
-import zc.sourcefactory.contextual
-import zc.sourcefactory.source
 import zope.component
 import zope.component.hooks
 import zope.globalrequest

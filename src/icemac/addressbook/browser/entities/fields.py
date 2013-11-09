@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import  _
 import icemac.addressbook.browser.metadata
-import icemac.addressbook.browser.resource
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import urlparse

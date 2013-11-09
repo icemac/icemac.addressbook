@@ -8,7 +8,6 @@ import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
-import icemac.addressbook.sources
 import icemac.addressbook.utils
 import transaction
 import z3c.form.button
