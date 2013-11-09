@@ -5,8 +5,8 @@ icemac.addressbook
 *Purpose:* Store, search and export addresses and phone numbers using
 a web application.
 
-*Status:* version used in production but still missing some functionality
-(See `To do`_)
+*Status:* stable version, used in production; some features might be added in
+future (See `To do`_)
 
 .. contents::
 

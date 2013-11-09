@@ -2,6 +2,7 @@ syntax: glob
 
 *.egg-info
 *.pyc
+.coverage
 .installed.cfg
 .mr.developer.cfg
 DE_TODO.txt
@@ -14,6 +15,7 @@ debug-pdb.ini
 deploy.ini
 develop-eggs
 eggs
+htmlcov
 install.user.ini
 log/*
 my-buildout.cfg
