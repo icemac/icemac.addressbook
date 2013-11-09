@@ -139,7 +139,6 @@ class ContextByInterfaceSource(
         return ITitle(value)
 
 
-
 class IPersonName(zope.interface.Interface):
     """Name of a person."""
     first_name = zope.schema.TextLine(title=_(u'first name'), required=False)

@@ -47,7 +47,6 @@ class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
 
-
 class List(object):
     """List fields of an entity."""
 

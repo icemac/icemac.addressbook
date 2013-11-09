@@ -41,4 +41,3 @@ class EntityMetadataTests(icemac.addressbook.testing.BrowserTestCase):
             '<span id="form-widgets-creator" '
                    'class="text-widget textline-field">Manager',
             browser.contents)
-

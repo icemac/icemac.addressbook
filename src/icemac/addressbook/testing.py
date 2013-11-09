@@ -242,7 +242,6 @@ def SecondaryZCMLLayer(name, module, package, bases, filename="ftesting.zcml"):
         module=module, package=package)
 
 
-
 def ZODBLayer(name, zcml_layer):
     """Factory to create a ZODB test layer isolated on test level."""
     zodb_layer = _ZODBLayer(bases=[zcml_layer], name='%sZODBLayer' % name)
@@ -279,6 +278,7 @@ TRANSLATION_ZCML_LAYER = ZCMLLayer(
 TRANSLATION_ZODB_LAYER = ZODBLayer('ABTranslation', TRANSLATION_ZCML_LAYER)
 TRANSLATION_TEST_BROWSER_LAYER = TestBrowserLayer(
     'ABTranslation', TRANSLATION_ZODB_LAYER)
+
 
 # Mixins
 class ZODBMixIn(object):

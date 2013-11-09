@@ -17,4 +17,3 @@ class attr(zope.traversing.namespace.attr):
             (target, self.request),
             icemac.addressbook.browser.interfaces.IAttributeTraversalHook))
         return target
-
