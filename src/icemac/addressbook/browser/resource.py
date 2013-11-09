@@ -12,7 +12,6 @@ css_lib = fanstatic.Library('css', os.path.join('resources', 'css'))
 js_lib = fanstatic.Library('js', os.path.join('resources', 'js'))
 
 
-
 # CSS
 reset_css = fanstatic.Resource(css_lib, 'reset.css')
 base_css = fanstatic.Resource(css_lib, 'base.css', depends=[reset_css])

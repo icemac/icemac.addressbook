@@ -30,7 +30,7 @@ class FavIconData(object):
         return self
 
 
-red  = FavIconData('/++resource++img/favicon-red.ico',
+red = FavIconData('/++resource++img/favicon-red.ico',
                    '/++resource++img/favicon-red-preview.png')
 green = FavIconData('/++resource++img/favicon-green.ico',
                     '/++resource++img/favicon-green-preview.png')
