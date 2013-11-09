@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 # $Id$
 
-import gocept.reference.interfaces
 import icemac.addressbook.interfaces
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
