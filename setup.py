@@ -42,7 +42,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2 :: only',
+        'Programming Language :: Python :: 2 :: Only',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
