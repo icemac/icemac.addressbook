@@ -5,7 +5,8 @@ Change log
 2.0.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update used buildout recipe `z3c.recipe.staticlxml` to a version
+  compatible with some 64 bit Linux like Suse Linux.
 
 
 2.0.0 (2013-11-09)
