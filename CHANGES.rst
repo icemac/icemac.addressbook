@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.0.1 (unreleased)
+2.0.1 (2013-12-08)
 ==================
 
 - Update used buildout recipe `z3c.recipe.staticlxml` to a version
