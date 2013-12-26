@@ -105,8 +105,7 @@ class AddressbookEditSeleniumTests(
         sel.clickAt('form-widgets-favicon-1', '20,20')
         sel.clickAndWait('form-buttons-add')
         self.assertMessage('"test book" added.')
-        self.assertEqual(
-            'http://%s/AddressBook' % sel.server, sel.getLocation())
+        sel.assertLocation('http://%s/AddressBook/@@welcome.html' % sel.server)
         # Editing is done in master data section:
         sel.clickAndWait('link=Master data')
         sel.clickAndWait('link=Address book')

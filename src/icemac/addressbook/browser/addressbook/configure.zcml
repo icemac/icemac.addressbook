@@ -22,11 +22,34 @@
      class=".crud.AddForm"
      />
 
+  <!-- Start page after login -->
+  <browser:page
+     for="...interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="index.html"
+     class=".startpage.Dispatch"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.welcome" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.person_list" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.search" />
+
+
   <!-- welcome page -->
   <gocept:pagelet
      for="...interfaces.IAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     name="index.html"
+     name="welcome.html"
      template="welcome.pt"
      permission="icemac.addressbook.ViewAddressBook"
      />

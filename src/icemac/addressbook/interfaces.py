@@ -20,6 +20,8 @@ PACKAGE_ID = 'icemac.addressbook'
 ENTITIES = 'entites_namespace'
 FIELD_NS_PREFIX = 'fields-'
 DEFAULT_FAVICON = '/++resource++img/favicon-red.ico'
+DEFAULT_STARTPAGE_DATA = (
+    'icemac.addressbook.interfaces.IAddressBook', '@@welcome.html')
 
 
 class ITitle(zope.interface.Interface):
@@ -48,6 +50,7 @@ class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     """Source containing possbile favicons."""
 
     class source_class(zc.sourcefactory.source.FactoredSource):
+        # We need the interface to register a widget for it:
         zope.interface.implements(IImageSource)
 
     @property
@@ -62,6 +65,38 @@ class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
         return collections.OrderedDict(sorted(data))
 
 favicon_source = FaviconSource()
+
+
+class IStartpageData(zope.interface.Interface):
+    """Data of a possible startpage after login."""
+
+    iface_name = zope.interface.Attribute(
+        'Dotted name to an interface to get the object those URL should '
+        'be computed.')
+    view = zope.interface.Attribute(
+        'View to be displayed on object, might be `None`.')
+    title = zope.interface.Attribute('i18n message id for display in UI')
+
+
+class StartpageSource(icemac.addressbook.sources.TitleMappingSource):
+    """Source containing possbile startpages to be shown after login."""
+
+    @property
+    def _mapping(self):
+        data = [((x.iface_name, x.view), x.title)
+                for x in zope.component.subscribers(
+                        (self, ), IStartpageData)]
+        if not data:
+            # We are at import time, so the subscribers are not yet set up
+            # but IAddressBook.startpage checks if the default value is
+            # valid:
+            data = [(DEFAULT_STARTPAGE_DATA, u'')]
+        return collections.OrderedDict(sorted(data))
+
+    def getToken(self, value):
+        return str(value)
+
+startpage_source = StartpageSource()
 
 
 class IAddressBook(zope.interface.Interface):
@@ -84,6 +119,10 @@ class IAddressBook(zope.interface.Interface):
         title=_('favicon'),
         source=favicon_source,
         default=DEFAULT_FAVICON)
+    startpage = zope.schema.Choice(
+        title=_('start page after log-in'),
+        source=startpage_source,
+        default=DEFAULT_STARTPAGE_DATA)
 
 
 class IKeywords(zope.interface.Interface):
