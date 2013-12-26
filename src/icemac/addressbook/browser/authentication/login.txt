@@ -88,7 +88,7 @@ Login as editor
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 >>> browser.getLink('Person list').click()
 
 Editors are allowed to create new persons:

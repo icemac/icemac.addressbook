@@ -5,7 +5,9 @@ Change log
 2.0.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Feature: Add ability to set start page for all users in master data
+  section. It is shown after a user has logged in. (It no longer needs to be
+  the welcome page introduced in version 1.10.)
 
 
 2.0.1 (2013-12-08)
@@ -140,5 +142,3 @@ See ``OLD_CHANGES.rst`` inside the package.
 ==========
  Download
 ==========
-
-

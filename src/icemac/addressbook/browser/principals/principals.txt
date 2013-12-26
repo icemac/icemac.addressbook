@@ -74,7 +74,7 @@ fine as administrator:
 >>> get_messages(browser)
 ['You have been logged-in successfully.']
 >>> browser.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
 
@@ -178,7 +178,7 @@ This newly created user is able to log in:
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 
 A logout link is shown after logging-in:
 
@@ -458,7 +458,7 @@ able to create new persons:
 >>> get_messages(unstable)
 ['You have been logged-in successfully.']
 >>> unstable.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 >>> unstable.getLink('Master data').click()
 >>> unstable.getLink('Users').click()
 >>> print unstable.contents
@@ -604,7 +604,7 @@ data but not the roles. We log-in as an editor:
 >>> editor.getControl('Password').value = '12345678'
 >>> editor.getControl('Log in').click()
 >>> editor.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 >>> editor.getLink('Master data').click()
 >>> editor.getLink('Users').click()
 >>> print editor.contents
@@ -699,7 +699,7 @@ hin log-in:
 >>> get_messages(visitor)
 ['You have been logged-in successfully.']
 >>> visitor.url
-'http://localhost/ab/@@index.html'
+'http://localhost/ab/@@welcome.html'
 >>> visitor.getLink('Master data').click()
 >>> visitor.getLink('Users').click()
 >>> print visitor.contents
