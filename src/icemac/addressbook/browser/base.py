@@ -370,24 +370,25 @@ class BaseCloneForm(_BaseConfirmForm):
                 object=icemac.addressbook.interfaces.ITitle(self.context))))
 
 
+def can_access_uri_part(context, request, uri_part):
+    """Tell if current user can to access a URI part relative to context."""
+    traverser = zope.traversing.publicationtraverse.PublicationTraverser()
+    try:
+        view = traverser.traverseRelativeURL(request, context, uri_part)
+    except (zope.security.interfaces.Unauthorized,
+            zope.security.interfaces.Forbidden,
+            LookupError):
+        return False
+    # We're assuming that view pages are callable this is a pretty sound
+    # assumption:
+    return zope.security.canAccess(view, '__call__')
+
+
 def can_access(uri_part):
     """Create a button condition function to test whether the user can
     access the URL context/@@absolute_url/<uri_part>."""
     def can_access_form(form):
-        traverser = zope.traversing.publicationtraverse.PublicationTraverser()
-        try:
-            view = traverser.traverseRelativeURL(
-                form.request, form.context, uri_part)
-        except (zope.security.interfaces.Unauthorized,
-                zope.security.interfaces.Forbidden,
-                LookupError):
-            return False
-        else:
-            # we're assuming that view pages are callable
-            # this is a pretty sound assumption
-            if not zope.security.canAccess(view, '__call__'):
-                return False
-        return True
+        return can_access_uri_part(form.context, form.request, uri_part)
     return can_access_form
 
 
