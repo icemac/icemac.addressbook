@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.0.2 (unreleased)
+2.1.0 (unreleased)
 ==================
 
 - Feature: Add ability to set start page for all users in master data
