@@ -2,6 +2,34 @@
  Old changes
 =============
 
+1.9.0 (2012-12-29)
+==================
+
+Features
+--------
+
+- Added search result handler which prints the names of the selected persons
+  als comma separated list.
+
+
+Bugfixes
+--------
+
+- Login in a virtual hosting environment might have led to not accessible
+  URLs. This was fixed by using the whole URL in the `camefrom` parameter.
+
+Other
+-----
+
+- Updated to `Zope Toolkit 1.1.4`_ for dependent packages.
+
+- Updated other dependent packages (outside ZTK) to newest versions.
+
+- Moved `chameleon-cache` into `var` directory.
+
+.. _`Zope Toolkit 1.1.4`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.4.html
+
+
 1.8.1 (2012-04-20)
 ==================
 
