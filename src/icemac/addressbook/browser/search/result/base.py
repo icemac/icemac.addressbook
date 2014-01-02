@@ -44,8 +44,7 @@ class BaseSearchResultForm(icemac.addressbook.browser.base._AbstractEditForm):
             self.status = self.formErrorsMessage
             return
 
-        session = icemac.addressbook.browser.base.get_session(self.request)
-        session['person_ids'] = self.request.form.get('persons', ())
+        self.session['person_ids'] = self.request.form.get('persons', ())
 
         # Fanstatic seems to have a problem with cookies and relative
         # redirects (a new cookie is set in this case), so we have to

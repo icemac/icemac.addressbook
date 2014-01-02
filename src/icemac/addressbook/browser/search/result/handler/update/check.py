@@ -72,13 +72,13 @@ class Result(SessionStorageStep,
     handleApplyOnComplete = False
 
     @property
-    def session(self):
+    def update_data(self):
         return get_update_data_session(self.request)
 
     def _completeable(self):
         """Tells whether this step is completeable."""
-        session = self.session
-        return 'field' in session and 'operation' in session
+        update_data = self.update_data
+        return 'field' in update_data and 'operation' in update_data
 
     def update(self):
         if self._completeable():
@@ -93,7 +93,7 @@ class Result(SessionStorageStep,
         """Update the persons as the user selected it."""
         entity, field = get_chosen_entity_and_field(self.request)
         fieldname = self.getContent()['field']
-        update_data = self.session
+        update_data = self.update_data
         errors = update_persons(
             self.persons, entity, field, update_data['operation'],
             update_data[get_fieldname_in_session(fieldname)])
@@ -109,7 +109,7 @@ class Result(SessionStorageStep,
         """Complete button condition."""
         if not self._completeable():
             return False
-        if self.session.get('errors'):
+        if self.update_data.get('errors'):
             return False
         return super(Result, self).showCompleteButton
 

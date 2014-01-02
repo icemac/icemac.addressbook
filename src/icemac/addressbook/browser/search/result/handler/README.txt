@@ -9,11 +9,8 @@ Search result handlers are views on the address book.  They can expect to
 find the ids of the selected persons from the search result in a session key
 named `person_ids`.
 
-To get the session call::
-
-    icemac.addressbook.browser.base.get_session(request)
-
-You might use ``.base.Base`` as a base class for your search result handler.
+You should use ``.base.Base`` as a base class for your search result handler.
+The session can be accessed using the ``session`` property on this class.
 
 
 2. Adding it to the search result handler source
