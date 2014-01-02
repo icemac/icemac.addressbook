@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.1.1 (unreleased)
+2.2.0 (unreleased)
 ==================
 
 - Refactoring: Added `session` property to `BaseView` to ease session access.
