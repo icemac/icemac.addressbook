@@ -68,11 +68,17 @@ class FlashView(object):
 class BaseView(FlashView):
     "Base for view classes."
 
+    __PACKAGE_ID__ = icemac.addressbook.interfaces.PACKAGE_ID
+
     def url(self, obj, view_name=None):
         url = zope.traversing.browser.absoluteURL(obj, self.request)
         if view_name:
             url += '/' + view_name
         return url
+
+    @property
+    def session(self):
+        return get_session(self.request, name=self.__PACKAGE_ID__)
 
 
 class BaseForm(BaseView):
@@ -400,7 +406,6 @@ def can_access(uri_part):
     return can_access_form
 
 
-def get_session(request):
+def get_session(request, name=icemac.addressbook.interfaces.PACKAGE_ID):
     """Get the browser session of the current user."""
-    return zope.session.interfaces.ISession(request)[
-        icemac.addressbook.interfaces.PACKAGE_ID]
+    return zope.session.interfaces.ISession(request)[name]
