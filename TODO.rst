@@ -2,8 +2,8 @@
  To do
 =======
 
-Next major version
-==================
+Next version
+============
 
 - Probably: Full text search.
 
@@ -16,7 +16,7 @@ The following features might be implemented over the next months:
 
   * store picture per person
 
-- company as entity
+- company as entity (?)
 
 - import
 
