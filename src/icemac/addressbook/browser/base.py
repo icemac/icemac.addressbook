@@ -11,6 +11,7 @@ import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.addressbook.utils
 import transaction
+import urllib
 import z3c.flashmessage.interfaces
 import z3c.form.button
 import z3c.form.field
@@ -70,11 +71,13 @@ class BaseView(FlashView):
 
     __PACKAGE_ID__ = icemac.addressbook.interfaces.PACKAGE_ID
 
-    def url(self, obj, view_name=None):
-        url = zope.traversing.browser.absoluteURL(obj, self.request)
+    def url(self, obj, view_name=None, **kw):
+        url_parts = [zope.traversing.browser.absoluteURL(obj, self.request)]
         if view_name:
-            url += '/' + view_name
-        return url
+            url_parts.extend(['/', view_name])
+        if kw:
+            url_parts.extend(['?', urllib.urlencode(kw, doseq=True)])
+        return ''.join(url_parts)
 
     @property
     def session(self):
