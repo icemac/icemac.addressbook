@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import classproperty
 import gocept.reference
 import icemac.addressbook.interfaces
