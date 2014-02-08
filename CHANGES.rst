@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.3.0 (unreleased)
+2.3.0 (2014-02-08)
 ==================
 
 - Refactoring: Add option to add a query string to the URL in `url` method.
