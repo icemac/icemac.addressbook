@@ -187,6 +187,7 @@ True
 >>> browser.getControl('church')
 Traceback (most recent call last):
 LookupError: label 'church'
+...
 
 Delete a keyword
 ================
