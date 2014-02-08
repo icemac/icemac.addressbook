@@ -1,4 +1,4 @@
-# Copyright (c) 2010-2013 Michael Howitz
+# Copyright (c) 2010-2014 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 

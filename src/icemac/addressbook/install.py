@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2013 Michael Howitz
+# Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
 import ConfigParser
 import collections
