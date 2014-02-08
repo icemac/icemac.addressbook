@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2013 Michael Howitz
+# Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import gocept.reference

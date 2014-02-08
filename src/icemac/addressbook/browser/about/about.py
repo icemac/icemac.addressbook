@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2013 Michael Howitz
+# Copyright (c) 2013-2014 Michael Howitz
 from ..interfaces import IIconProviderInfo
 import icemac.addressbook
 import pkg_resources

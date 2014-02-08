@@ -1,5 +1,5 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2009-2013 Michael Howitz
+# Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
 # $Id$
 

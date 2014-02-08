@@ -1,5 +1,5 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2013 Michael Howitz
+# Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.browser.menus.interfaces
 import z3c.menu.ready2go.manager

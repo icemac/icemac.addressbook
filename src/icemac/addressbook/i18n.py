@@ -1,4 +1,4 @@
-# Copyright (c) 2008-2013 Michael Howitz
+# Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
 """I18n message factory for icemac.addressbook. """
 

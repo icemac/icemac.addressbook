@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Michael Howitz
+# Copyright (c) 2013-2014 Michael Howitz
 # See also LICENSE.txt
 from datetime import datetime
 from js.jquery_timepicker_addon import timepicker_locales, timepicker
