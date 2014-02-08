@@ -41,6 +41,7 @@ Deciding to cancel adding redirects to the person edit form:
 >>> browser.getControl('file')
 Traceback (most recent call last):
 LookupError: label 'file'
+...
 
 Uploading a file is required:
 
@@ -321,7 +322,9 @@ The deleted file is no longer displayed (there is now only one file):
 
 >>> browser.getControl('file name', index=1)
 Traceback (most recent call last):
-IndexError: list index out of range
+LookupError: label 'file name'
+Index 1 out of range, available choices are 0...0
+...
 
 Visitor
 =======

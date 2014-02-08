@@ -415,6 +415,8 @@ The field is no longer displayed in the add form and in the edit form:
 >>> browser.getControl('foobar')
 Traceback (most recent call last):
 LookupError: label 'foobar'
+...
+
 >>> browser.getControl('Cancel').click()
 >>> get_messages(browser)
 ['No changes were applied.']
@@ -424,6 +426,7 @@ LookupError: label 'foobar'
 >>> browser.getControl('foobar')
 Traceback (most recent call last):
 LookupError: label 'foobar'
+...
 
 The field is not displayed for editors, too:
 
@@ -433,6 +436,8 @@ The field is not displayed for editors, too:
 >>> editor.getControl('foobar')
 Traceback (most recent call last):
 LookupError: label 'foobar'
+...
+
 >>> editor.getControl('Cancel').click()
 >>> get_messages(editor)
 ['No changes were applied.']
@@ -441,6 +446,7 @@ LookupError: label 'foobar'
 >>> editor.getControl('foobar')
 Traceback (most recent call last):
 LookupError: label 'foobar'
+...
 
 The field is not displayed for visitors, too:
 
