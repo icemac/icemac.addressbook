@@ -66,4 +66,13 @@
   <subscriber handler=".principals.added" />
   <adapter factory=".principals.title" />
 
+  <subscriber
+    for="*"
+    provides=".interfaces.IEditorRole"
+    factory=".roles.editor_role" />
+  <subscriber
+    for="*"
+    provides=".interfaces.IVisitorRole"
+    factory=".roles.visitor_role" />
+
 </configure>

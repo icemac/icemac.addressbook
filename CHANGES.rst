@@ -7,6 +7,10 @@ Change log
 
 - Refactoring: Add option to add a query string to the URL in `url` method.
 
+- Refactoring: Allow additional packages to register their roles to be
+  handled like `Editor` or `Visitor` thus allowing them to change their
+  username and/or password.
+
 
 2.2.0 (2014-01-02)
 ==================
