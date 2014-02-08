@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2013 Michael Howitz
 # See also LICENSE.txt
+from .roles import has_editor_role, has_visitor_role
 from icemac.addressbook.i18n import _
 import classproperty
 import gocept.reference
@@ -95,12 +96,13 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
             for permission in EDITOR_VISITOR_PERMS + ONLY_EDITOR_PERMS:
                 permission_manager.unsetPermissionForPrincipal(
                     permission, self.__name__)
-            if ('icemac.addressbook.global.Editor' in roles or
-                'icemac.addressbook.global.Visitor' in roles):
+            editor_role = has_editor_role(roles)
+            visitor_role = has_visitor_role(roles)
+            if editor_role or visitor_role:
                 for permission in EDITOR_VISITOR_PERMS:
                     permission_manager.grantPermissionToPrincipal(
                         permission, self.__name__)
-            if 'icemac.addressbook.global.Editor' in roles:
+            if editor_role:
                 for permission in ONLY_EDITOR_PERMS:
                     permission_manager.grantPermissionToPrincipal(
                         permission, self.__name__)

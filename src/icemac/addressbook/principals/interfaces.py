@@ -61,3 +61,11 @@ class IRoot(zope.interface.Interface):
 
     You have to provide an adapter from the root object to this interface.
     """
+
+
+class IVisitorRole(zope.interface.Interface):
+    """Role which is set on a user who is only allowed to read."""
+
+
+class IEditorRole(zope.interface.Interface):
+    """Role which is set on a user who is only allowed to read and write."""
