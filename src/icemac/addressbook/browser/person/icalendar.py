@@ -37,4 +37,3 @@ class iCalendar(icemac.addressbook.browser.base.BaseView):
         cal = icemac.addressbook.icalendar.Calendar()
         cal.add_component(self.icalendar_event)
         return cal.to_ical()
-
