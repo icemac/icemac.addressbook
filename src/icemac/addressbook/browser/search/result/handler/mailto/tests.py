@@ -1,22 +1,15 @@
 import icemac.addressbook.testing
 import mock
-import plone.testing
 import unittest
 
 
-class MailToLayer(plone.testing.Layer):
+class MailToLayer(icemac.addressbook.testing._AbstractDataLayer):
 
     defaultBases = [icemac.addressbook.testing.TEST_BROWSER_LAYER]
 
-    def setUp(self):
+    def createData(self, ab):
         from icemac.addressbook.testing import (
-            create_person, create_full_person, create_email_address,
-            createZODBConnection, setUpStackedDemoStorage, setUpAddressBook)
-        import transaction
-        setUpStackedDemoStorage(self, 'MailToLayer')
-        setupZODBConn, rootObj, rootFolder = createZODBConnection(
-            self['zodbDB'])
-        ab = rootFolder['ab']
+            create_person, create_full_person, create_email_address)
         kw = set([icemac.addressbook.testing.create_keyword(ab, u'mail-me')])
         # No EMailAddress object
         self['p0'] = create_person(ab, ab, u'No Mail', keywords=kw)
@@ -31,16 +24,13 @@ class MailToLayer(plone.testing.Layer):
         # default email address is None
         create_email_address(
             ab, self['p4'], email=u'other@example.com', set_as_default=False)
-        transaction.commit()
-        setupZODBConn.close()
 
-    def tearDown(self):
+    def removeData(self):
         del self['p0']
         del self['p1']
         del self['p2']
         del self['p3']
         del self['p4']
-        icemac.addressbook.testing.tearDownStackedDemoStorage(self)
 
 MAILTO_LAYER = MailToLayer()
 

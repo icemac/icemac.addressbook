@@ -219,6 +219,29 @@ class _GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
         return self['wsgi_app']
 
 
+class _AbstractDataLayer(plone.testing.Layer):
+    """Base for layers creating data in the address book."""
+
+    def setUp(self):
+        setUpStackedDemoStorage(self, self.__class__.__name__)
+        setupZODBConn, rootObj, rootFolder = createZODBConnection(
+            self['zodbDB'])
+        self.createData(rootFolder['ab'])
+        transaction.commit()
+        setupZODBConn.close()
+
+    def createData(self, address_book):
+        raise NotImplementedError('To be implemented by sub-class.')
+
+    def removeData(self):
+        """Remove data in tear down if necassary."""
+        pass
+
+    def tearDown(self):
+        self.removeData()
+        icemac.addressbook.testing.tearDownStackedDemoStorage(self)
+
+
 # Layer factories
 
 def ZCMLLayer(name, module, package, filename="ftesting.zcml"):
@@ -325,6 +348,7 @@ class BrowserTestCase(unittest.TestCase,
     """Test case for zope.testbrowser tests."""
 
     layer = TEST_BROWSER_LAYER
+    maxDiff = None
 
 
 def DocFileSuite(*paths, **kw):
