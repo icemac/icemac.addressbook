@@ -6,19 +6,13 @@ from icemac.addressbook.testing import (
     create_person, create_full_person, create_keyword)
 import datetime
 import icemac.addressbook.testing
-import plone.testing
-import transaction
 
 
-class _SearchLayer(plone.testing.Layer):
+class _SearchLayer(icemac.addressbook.testing._AbstractDataLayer):
     """Layer wich creates base data for searches."""
     defaultBases = (icemac.addressbook.testing.ZODB_LAYER,)
 
-    def setUp(self):
-        icemac.addressbook.testing.setUpStackedDemoStorage(self, 'SearchLayer')
-        setupZODBConn, rootObj, rootFolder = (
-            icemac.addressbook.testing.createZODBConnection(self['zodbDB']))
-        addressbook = rootFolder['ab']
+    def createData(self, addressbook):
         friends = self['kw_friends'] = create_keyword(addressbook, u'friends')
         family = self['kw_family'] = create_keyword(addressbook, u'family')
         church = self['kw_church'] = create_keyword(addressbook, u'church')
@@ -37,16 +31,14 @@ class _SearchLayer(plone.testing.Layer):
                            keywords=set([family, church]))
         create_person(addressbook, addressbook, u'Liebig',
                       keywords=set([church]), notes=u'family')
-        create_person(addressbook, addressbook, u'Tester', first_name=u'Liese')
-        transaction.commit()
-        setupZODBConn.close()
+        create_person(addressbook, addressbook, u'Tester', first_name=u'Liese',
+                      birth_date=datetime.date(1976, 11, 15))
 
-    def tearDown(self):
+    def removeData(self):
         del self['kw_family']
         del self['kw_church']
         del self['kw_work']
         del self['kw_anyone_else']
-        icemac.addressbook.testing.tearDownStackedDemoStorage(self)
 
 _SEARCH_LAYER = _SearchLayer(name='SearchLayer')
 WSGI_SEARCH_LAYER = icemac.addressbook.testing.TestBrowserLayer(
