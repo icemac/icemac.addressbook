@@ -220,6 +220,13 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
     def handleDeleteAddress(self, action):
         self.redirect_to_next_url('object', '@@delete_entry.html')
 
+    @z3c.form.button.buttonAndHandler(
+        _(u'Export'), name='export',
+        condition=icemac.addressbook.browser.base.can_access(
+            '@@export.html'))
+    def handleExport(self, action):
+        self.redirect_to_next_url('object', '@@export.html')
+
     def applyChanges(self, data):
         """Special variant which sends ModifiedEvent for each modified
         object. (not to be used universally!)"""

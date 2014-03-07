@@ -36,5 +36,6 @@
   <include package=".mailto" />
   <include package=".update" />
   <include package=".names" />
+  <include package=".icalendar" />
 
 </configure>

@@ -134,7 +134,7 @@ text fields):
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> browser.getLink('Prause').click()
 >>> get_all_control_names(browser)
-['form.buttons.apply', 'form.buttons.cancel']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
 Logout behaves the same like for editors:
 

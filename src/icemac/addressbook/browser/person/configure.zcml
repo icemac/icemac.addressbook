@@ -202,5 +202,31 @@
      weight="1"
      />
 
+  <!-- export person data in different formats -->
+  <gocept:pagelet
+    for="...interfaces.IPerson"
+    layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+    name="export.html"
+    template="export.pt"
+    class=".export.ExportList"
+    permission="icemac.addressbook.ViewPerson"
+    />
+
+  <!-- ical export of birthdate -->
+  <browser:page
+     name="iCalendar"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".icalendar.iCalendar"
+     />
+
+  <adapter
+     for="...interfaces.IPerson
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     factory=".icalendar.iCalendar"
+     permission="icemac.addressbook.ViewPerson"
+     />
+
 
 </configure>

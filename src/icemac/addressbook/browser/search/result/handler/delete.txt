@@ -134,14 +134,15 @@ Editor
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
  'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
  'E-Mail (Creates a link to send e-mails.)',
- 'Names (Comma separated list of person names.)']
+ 'Names (Comma separated list of person names.)',
+ "iCalendar export birthday (Export person's birthdays as .ics file.)"]
 
 >>> editor.open(delete_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
 
 Visitor
-------
+-------
 
 >>> visitor = Browser()
 >>> visitor.login('visitor')
@@ -155,7 +156,8 @@ Visitor
 ['XLS export main (Exports person data and main addresses resp. phone numbers.)',
  'XLS export complete (Exports person data and all addresses resp. phone numbers.)',
  'E-Mail (Creates a link to send e-mails.)',
- 'Names (Comma separated list of person names.)']
+ 'Names (Comma separated list of person names.)',
+ "iCalendar export birthday (Export person's birthdays as .ics file.)"]
 
 >>> visitor.open(delete_url)
 Traceback (most recent call last):
