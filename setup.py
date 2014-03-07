@@ -8,7 +8,7 @@ import setuptools
 def read(filename):
     return file(filename).read()
 
-version = '2.3.1.dev0'
+version = '2.4.0'
 
 setuptools.setup(
     name='icemac.addressbook',
