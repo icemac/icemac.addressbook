@@ -144,7 +144,7 @@ There is no `clone` button presented to the visitor:
 >>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Testerella').click()
 >>> get_all_control_names(visitor)
-['form.buttons.apply', 'form.buttons.cancel']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
 Even when the visitor knows the URL he is not able to access the clone view:
 

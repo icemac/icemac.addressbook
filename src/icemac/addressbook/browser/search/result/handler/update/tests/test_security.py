@@ -23,11 +23,13 @@ class TestOnlyAdminIsAllowedToUseUpdate(unittest.TestCase):
         browser.getControl('Search').click()
         self.assertEqual(
             ['XLS export main (Exports person data and main addresses resp. '
-              'phone numbers.)',
+             'phone numbers.)',
              'XLS export complete (Exports person data and all addresses '
-               'resp. phone numbers.)',
+             'resp. phone numbers.)',
              'E-Mail (Creates a link to send e-mails.)',
-             'Names (Comma separated list of person names.)'],
+             'Names (Comma separated list of person names.)',
+             "iCalendar export birthday (Export person's birthdays as .ics "
+             "file.)"],
             browser.getControl('Apply on selected persons').displayOptions)
 
     def each_part_of_the_update_wizard_is_not_accessible_for(self, username):

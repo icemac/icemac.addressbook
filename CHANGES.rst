@@ -5,6 +5,18 @@ Change log
 2.3.1 (unreleased)
 ==================
 
+Features
+--------
+
+- Added search result handler which exports birthdates als iCalendar file.
+
+- Added export ability for a single person currently only exporting person's
+  birthdate as iCalendar file.
+
+
+Other
+-----
+
 - Updated most other packages (outside ZTK) needed for address book to
   newest versions.
 

@@ -370,7 +370,7 @@ There are neither any input widgets nor a delete button:
 >>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
 >>> visitor.getLink('Tester').click()
 >>> get_all_control_names(visitor)
-['form.buttons.apply', 'form.buttons.cancel']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
 Even trying to directly access the url fails:
 

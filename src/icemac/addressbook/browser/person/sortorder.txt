@@ -179,6 +179,7 @@ Using the default sort order, the fieldsets are ordered the following way:
  'clone_person',
  'delete_person',
  'delete_entry',
+ 'export',
  'cancel']
 
 User defined entity sort order
@@ -232,6 +233,7 @@ down, the sort order in the person edit form changes accordingly:
  'clone_person',
  'delete_person',
  'delete_entry',
+ 'export',
  'cancel']
 
 User defined field sort order
@@ -279,6 +281,7 @@ the person edit form changes accordingly:
  'clone_person',
  'delete_person',
  'delete_entry',
+ 'export',
  'cancel']
 
 

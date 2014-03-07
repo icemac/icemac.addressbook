@@ -460,7 +460,7 @@ are neither delete buttons nor input widgets:
 
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> get_all_control_names(visitor_browser)
-['form.buttons.apply', 'form.buttons.cancel']
+['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
 Visitors cannot delete even they know the delete view url:
 
