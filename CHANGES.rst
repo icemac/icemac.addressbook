@@ -5,7 +5,8 @@ Change log
 2.4.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix brown bag release 2.4.0: The migration of the ZODB from a previous
+  version was broken.
 
 
 2.4.0 (2014-03-07)
