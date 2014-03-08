@@ -10,6 +10,9 @@ Change log
 
 - No longer require `rsync` to be installed for migrations.
 
+- No longer copy the whole backup history when migrating but make a fresh
+  backup.
+
 
 2.4.0 (2014-03-07)
 ==================

@@ -61,16 +61,16 @@ def migrate():
         if bool_get(config, 'stop_server'):
             run_process('Stopping old instance', demon_path, 'stop')
         run_process('Creating backup of old instance',
-                    os.path.join('bin', 'backup'))
+                    os.path.join('bin', 'snapshotbackup'))
         print 'Copying data backups to new instance ...'
-        copy_dir(old_instance, cwd, 'var', 'backups')
+        copy_dir(old_instance, cwd, 'var', 'snapshotbackups')
         print 'Copying blob backups to new instance ...'
-        copy_dir(old_instance, cwd, 'var', 'blobstoragebackups')
+        copy_dir(old_instance, cwd, 'var', 'blobstoragesnapshots')
     finally:
         os.chdir(cwd)
 
     run_process('Restoring backup into new instance',
-                os.path.join('bin', 'restore'), '--no-prompt')
+                os.path.join('bin', 'snapshotrestore'), '--no-prompt')
     if bool_get(config, 'start_server'):
         run_process('Starting new instance', demon_path, 'start')
 
