@@ -29,6 +29,16 @@ def bool_get(config, key):
     return value == 'yes'
 
 
+def copy_dir(src_base, dest_base, *path_parts):
+    """Copy directory from src_base + path_parts to dest_base + path_parts."""
+    path = os.path.join(*path_parts)
+    src_dir = os.path.join(src_base, path)
+    dest_dir = os.path.join(dest_base, path)
+    if os.path.exists(dest_dir):
+        shutil.rmtree(dest_dir)
+    shutil.copytree(src_dir, dest_dir)
+
+
 def migrate():
     # Read the ini file the configurator just created to get the
     # migration options.
@@ -52,17 +62,10 @@ def migrate():
             run_process('Stopping old instance', demon_path, 'stop')
         run_process('Creating backup of old instance',
                     os.path.join('bin', 'backup'))
-        print 'Copying backup to new instance ...'
-        # copy backup dir
-        backup_dir = os.path.join('var', 'backups')
-        target_dir = os.path.join(cwd, backup_dir)
-        if os.path.exists(target_dir):
-            os.rmdir(target_dir)
-        shutil.copytree(os.path.join(old_instance, backup_dir), target_dir)
-        # copy blobs
-        blobs_dir = os.path.join('var', 'blobs')
-        shutil.copytree(os.path.join(old_instance, blobs_dir),
-                        os.path.join(cwd, blobs_dir))
+        print 'Copying data backups to new instance ...'
+        copy_dir(old_instance, cwd, 'var', 'backups')
+        print 'Copying blob backups to new instance ...'
+        copy_dir(old_instance, cwd, 'var', 'blobstoragebackups')
     finally:
         os.chdir(cwd)
 
