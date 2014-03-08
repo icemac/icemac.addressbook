@@ -53,9 +53,10 @@ def migrate():
         print 'Copying backup to new instance ...'
         # copy backup dir
         backup_dir = os.path.join('var', 'backups')
-        os.rmdir(os.path.join(cwd, backup_dir))
-        shutil.copytree(os.path.join(old_instance, backup_dir),
-                        os.path.join(cwd, backup_dir))
+        target_dir = os.path.join(cwd, backup_dir)
+        if os.path.exists(target_dir):
+            os.rmdir(target_dir)
+        shutil.copytree(os.path.join(old_instance, backup_dir), target_dir)
         # copy blobs
         blobs_dir = os.path.join('var', 'blobs')
         shutil.copytree(os.path.join(old_instance, blobs_dir),
@@ -84,4 +85,3 @@ if __name__ == '__main__':
     migrate()
 
     print 'Installation complete.'
-
