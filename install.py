@@ -22,10 +22,12 @@ def run_process(text, *args):
     if res:
         sys.exit(res)
 
+
 def bool_get(config, key):
     "Read value from config."
     value = config.get('migration', key)
     return value == 'yes'
+
 
 def migrate():
     # Read the ini file the configurator just created to get the
