@@ -67,7 +67,7 @@ def migrate():
         os.chdir(cwd)
 
     run_process('Restoring backup into new instance',
-                os.path.join('bin', 'restore'))
+                os.path.join('bin', 'restore'), '--no-prompt')
     if bool_get(config, 'start_server'):
         run_process('Starting new instance', demon_path, 'start')
 
