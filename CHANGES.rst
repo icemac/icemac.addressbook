@@ -8,6 +8,8 @@ Change log
 - Fix brown bag release 2.4.0: The migration of the ZODB from a previous
   version was broken.
 
+- No longer require `rsync` to be installed for migrations.
+
 
 2.4.0 (2014-03-07)
 ==================
