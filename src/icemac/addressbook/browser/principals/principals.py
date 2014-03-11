@@ -2,6 +2,7 @@
 # Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+from icemac.addressbook.principals.sources import role_source
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
@@ -13,10 +14,27 @@ import z3c.form.button
 import z3c.form.field
 import z3c.form.validator
 import z3c.form.widget
+import zope.i18n
 import zope.interface
 import zope.schema
 import zope.schema.interfaces
 import zope.security
+
+
+class RolesColumn(z3c.table.column.GetAttrColumn):
+    """GetAttrColumn where attr is an iterable of roles."""
+
+    header = _(u'roles')
+    attrName = 'roles'
+
+    def getSortKey(self, item):
+        return super(RolesColumn, self).getSortKey(item).lower()
+
+    def getValue(self, obj):
+        values = [zope.i18n.translate(role_source.factory.getTitle(x),
+                                      context=self.request)
+                  for x in super(RolesColumn, self).getValue(obj)]
+        return u', '.join(sorted(values, key=lambda x: x.lower()))
 
 
 class Overview(icemac.addressbook.browser.table.PageletTable):
@@ -32,9 +50,10 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
             z3c.table.column.addColumn(
                 self, z3c.table.column.GetAttrColumn, 'login', weight=2,
                 header=_(u'login name'), attrName='login'),
+            z3c.table.column.addColumn(self, RolesColumn, 'roles', weight=3),
             z3c.table.column.addColumn(
                 self, icemac.addressbook.browser.table.TruncatedContentColumn,
-                'notes', weight=3,
+                'notes', weight=4,
                 header=_(u'notes'), attrName='description', length=50),
             ]
 

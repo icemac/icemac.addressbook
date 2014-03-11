@@ -5,7 +5,7 @@ Change log
 2.4.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Display roles in user list.
 
 
 2.4.1 (2014-03-08)
