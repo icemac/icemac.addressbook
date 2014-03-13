@@ -1,36 +1,26 @@
 from __future__ import unicode_literals
-import icemac.addressbook.testing
+import icemac.addressbook.browser.testing
 
 
 class PersonListSelectedCheckerTests(
-        icemac.addressbook.testing.BrowserTestCase):
+        icemac.addressbook.browser.testing.SiteMenuTestCase):
     """Tesing ..menu.PersonListSelectedChecker"""
 
-    xpath = '//ul[@id="main-menu"]/li[1]'
-
-    def setUp(self):
-        super(PersonListSelectedCheckerTests, self).setUp()
-        self.browser = self.get_browser('visitor')
-
-    def assertSelected(self, expected):
-        selected = bool(
-            self.browser.etree.xpath(self.xpath)[0].attrib.get('class'))
-        self.assertEqual(expected, selected)
+    menu_item_index = 0
+    menu_item_title = 'Person list'
+    menu_item_URL = 'http://localhost/ab/@@person-list.html'
 
     def test_person_tab_is_selected_on_person_list(self):
-        self.browser.open('http://localhost/ab/@@person-list.html')
-        self.assertEqual(  # make sure we test the correct LI
-            'Person list',
-            self.browser.etree.xpath('%s/a/span' % self.xpath)[0].text)
-        self.assertSelected(True)
+        self.browser.open(self.menu_item_URL)
+        self.assertIsSelected()
 
     def test_person_tab_is_selected_on_persons_view(self):
         ab = self.layer['addressbook']
         tester = icemac.addressbook.testing.create_person(ab, ab, 'Tester')
         self.browser.open(
             'http://localhost/ab/%s/@@export.html' % tester.__name__)
-        self.assertSelected(True)
+        self.assertIsSelected()
 
     def test_person_tab_is_not_selected_on_search(self):
         self.browser.open('http://localhost/ab/search.html')
-        self.assertSelected(False)
+        self.assertIsNotSelected()
