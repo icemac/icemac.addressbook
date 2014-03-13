@@ -198,6 +198,7 @@
      name="Person list"
      title="Person list"
      viewName="@@person-list.html"
+     class=".menu.PersonListMenuItem"
      permission="icemac.addressbook.ViewPerson"
      weight="1"
      />
