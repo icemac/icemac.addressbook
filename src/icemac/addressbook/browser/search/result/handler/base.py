@@ -12,4 +12,4 @@ class Base(icemac.addressbook.browser.base.BaseView):
     @property
     def persons(self):
         addressbook = icemac.addressbook.interfaces.IAddressBook(None)
-        return [addressbook[id] for id in self.session['person_ids']]
+        return [addressbook[id] for id in self.session.get('person_ids', ())]
