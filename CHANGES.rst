@@ -5,7 +5,16 @@ Change log
 2.4.2 (unreleased)
 ==================
 
+Features
+--------
+
 - Display roles in user list.
+
+Fixes
+-----
+
+- Fix highlighting in the main menu: tabs are highlighted even if moving on
+  to subviews.
 
 
 2.4.1 (2014-03-08)
