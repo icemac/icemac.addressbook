@@ -1,8 +1,5 @@
-# -*- coding: latin-1 -*-
 # Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 import zope.viewlet.manager
 import z3c.menu.ready2go
 import z3c.menu.ready2go.manager
