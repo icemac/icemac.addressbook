@@ -9,7 +9,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="Search"
      title="Search"
-     viewName="search.html"
+     viewName="@@search.html"
      permission="icemac.addressbook.ViewPerson"
      weight="20"
      />
