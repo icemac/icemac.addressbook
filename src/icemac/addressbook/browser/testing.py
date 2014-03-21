@@ -89,7 +89,7 @@ class SiteMenuTestCase(icemac.addressbook.testing.BrowserTestCase):
     def assertIsNotSelected(self):
         self.assertFalse(self._is_item_selected())
 
-    def test_assert_right_menu_item_is_tested(self):
+    def test_assert_correct_menu_item_is_tested(self):
         self.browser.open(self.menu_item_URL)
         self.assertEqual(
             self.menu_item_title,
