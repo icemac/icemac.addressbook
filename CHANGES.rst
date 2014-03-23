@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.4.2 (unreleased)
+2.5.0 (unreleased)
 ==================
 
 Features
