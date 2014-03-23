@@ -5,6 +5,7 @@ from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.errormessage
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.result.handler.update.operators
 import icemac.addressbook.browser.wizard
 import persistent.mapping
@@ -91,3 +92,7 @@ def update_persons(persons, entity, field, operator_name, update_value):
 def get_fieldname_in_session(fieldname):
     """Returns the name of the field used in the session."""
     return 'new_value.%s' % fieldname
+
+
+update_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['multi-update', 'chooseField', 'enterValue', 'checkResult'])

@@ -56,6 +56,20 @@ The search view
      weight="10"
      />
 
+- To highlight the search menu item in the main menu when your search is used
+  register the name of the view (without ``@@``!) as ``ISearchMenuItemOn``.
+  Example Python code of the subscription adapter::
+
+    from icemac.addressbook.browser.menus.menu import SelectMenuItemOn
+    my_search_view = SelectMenuItemOn(['my_seach.html'])
+
+  Example ZCML code to register the subscription adapter::
+
+    <subscriber
+       for="*"
+       provides=".interfaces.ISearchMenuItemOn"
+       factory=".my_search_view" />
+
 
 The form viewlet
 ================

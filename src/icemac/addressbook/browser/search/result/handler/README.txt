@@ -37,3 +37,22 @@ this::
 
 The permission might be different for handlers which are able to change
 data.
+
+3. Activate highlighting of the search menu entry
+=================================================
+
+To highlight the search menu entry in the main menu when your search result
+handler is used, register the name of all views of your handler as
+``ISearchMenuItemOn`` (without ``@@``!).
+Example Python code of the subscription adapter::
+
+    from icemac.addressbook.browser.menus.menu import SelectMenuItemOn
+    my_handler_views = SelectMenuItemOn(
+        ['my_handler.html', 'handler_2nd_view.html'])
+
+  Example ZCML code to register the subscription adapter::
+
+    <subscriber
+       for="*"
+       provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+       factory=".my_handler_views" />

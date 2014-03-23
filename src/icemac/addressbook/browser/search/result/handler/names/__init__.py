@@ -1,4 +1,5 @@
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.result.handler.base
 
 
@@ -13,3 +14,6 @@ class Names(icemac.addressbook.browser.search.result.handler.base.Base,
 
     def person_count(self):
         return len(self.persons)
+
+names = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['person-names.html'])

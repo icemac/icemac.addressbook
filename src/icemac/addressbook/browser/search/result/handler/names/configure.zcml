@@ -22,4 +22,9 @@
      weight="40"
      />
 
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".names" />
+
 </configure>

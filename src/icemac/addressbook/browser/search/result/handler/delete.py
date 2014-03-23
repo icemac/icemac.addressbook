@@ -58,3 +58,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
         self.status = _('Selected persons deleted: ${num}',
                         mapping=dict(num=num_deleted))
         self.redirect_to_next_url('object', self.next_view)
+
+
+delete_view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['delete_persons.html'])

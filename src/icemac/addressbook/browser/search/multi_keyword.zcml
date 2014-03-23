@@ -45,4 +45,9 @@
 
   <adapter factory=".multi_keyword.Search" />
 
+  <subscriber
+   for="*"
+   provides=".interfaces.ISearchMenuItemOn"
+   factory=".multi_keyword.view" />
+
 </configure>

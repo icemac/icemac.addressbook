@@ -1,7 +1,10 @@
 # -*- coding: latin-1 -*-
 # Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
+import grokcore.component as grok
 import icemac.addressbook.browser.menus.interfaces
+import itertools
+import z3c.menu.ready2go.checker
 import z3c.menu.ready2go.manager
 import zope.viewlet.manager
 import zope.viewlet.viewlet
@@ -67,3 +70,51 @@ class AlwaysRenderTemplateManager(OrdersWeightMenuManager):
 AddMenu = zope.viewlet.manager.ViewletManager(
     'add-menu', icemac.addressbook.browser.menus.interfaces.IAddMenu,
     bases=(AlwaysRenderTemplateManager,))
+
+
+class SelectMenuItemOn(object):
+    """Subscription adapter factory returning names of views for which a
+    specific menu item in the main menu should be selected.
+
+    Expects a list of view names (without `@@`).
+    Example usage::
+
+      my_search_views = SelectMenuItemOn(('foosearch.html', 'csv-export.csv'))
+
+      <subscriber
+         for="*"
+         provides=".interfaces.ISearchMenuItemOn"
+         factory=".my_search_views" />
+
+    """
+    def __init__(self, view_names):
+        self.view_names = view_names
+
+    def __call__(self, *args):
+        return self.view_names
+
+
+class SubscriberSelectedChecker(
+        z3c.menu.ready2go.checker.ViewNameSelectedChecker,
+        grok.MultiAdapter):
+    """Selected checker using a subscription adapter to check view names.
+
+    In subclass as a ``grok.adapts`` statement like this::
+
+        grok.adapts(zope.interface.Interface,
+                    icemac.addressbook.browser.interfaces.IAddressBookLayer,
+                    zope.interface.Interface,
+                    icemac.addressbook.browser.menus.menu.MainMenu,
+                    <concrete menu item class>)
+
+    """
+    subscriber_interface = NotImplemented
+    grok.baseclass()
+
+    @property
+    def selected(self):
+        if super(SubscriberSelectedChecker, self).selected:
+            return True
+        view_names = itertools.chain(*zope.component.subscribers(
+            (self,), self.subscriber_interface))
+        return self.view.__name__ in view_names

@@ -32,6 +32,12 @@
      weight="200"
      />
 
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".delete.delete_view" />
+
+
   <include package=".export" />
   <include package=".mailto" />
   <include package=".update" />

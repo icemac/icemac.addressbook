@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 """Search by `name` index."""
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.base
 import zope.catalog.interfaces
 import zope.component
@@ -40,3 +41,7 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
         catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
         result_set = catalog.searchResults(name=search_term)
         return result_set
+
+
+view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['name_search.html'])
