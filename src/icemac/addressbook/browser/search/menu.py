@@ -13,7 +13,7 @@ import zope.viewlet.manager
 
 
 class SearchMenuItem(z3c.menu.ready2go.item.SiteMenuItem):
-    """Sitem menu item for the search tab."""
+    """Site menu item for the search tab."""
 
 
 class SearchMenuItemSelectedChecker(
