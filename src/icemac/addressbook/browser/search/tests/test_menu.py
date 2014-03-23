@@ -25,6 +25,5 @@ class SearchSelectedCheckerTests(
 
     def test_search_tab_is_selected_on_search_result_handler_view(self):
         browser = self.browser
-        browser.handleErrors = False
         browser.open('http://localhost/ab/@@multi-update')
         self.assertIsSelected()
