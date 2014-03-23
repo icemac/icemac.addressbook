@@ -91,4 +91,9 @@
   <adapter factory=".enter.IntOperatorsSource" />
   <adapter factory=".enter.DecimalOperatorsSource" />
 
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".base.update_views" />
+
 </configure>

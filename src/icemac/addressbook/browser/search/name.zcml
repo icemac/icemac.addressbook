@@ -45,4 +45,9 @@
       permission="icemac.addressbook.ViewPerson"
       />
 
+  <subscriber
+   for="*"
+   provides=".interfaces.ISearchMenuItemOn"
+   factory=".name.view" />
+
 </configure>

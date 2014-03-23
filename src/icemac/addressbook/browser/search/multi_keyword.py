@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import collections
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.base
 import icemac.addressbook.sources
 import zope.catalog.interfaces
@@ -59,3 +60,7 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
         catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
         result_set = catalog.searchResults(keywords={concat: keywords})
         return result_set
+
+
+view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['multi_keyword.html'])

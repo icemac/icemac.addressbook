@@ -22,4 +22,9 @@
      weight="30"
      />
 
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".mailto.mailto" />
+
 </configure>

@@ -1,3 +1,4 @@
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.interfaces
 
@@ -19,3 +20,7 @@ class MailTo(icemac.addressbook.browser.search.result.handler.base.Base):
 
     def mailto_link(self):
         return 'mailto:?bcc=%s' % ','.join(self.unique_mail_addresses)
+
+
+mailto = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    ['mailto.html'])

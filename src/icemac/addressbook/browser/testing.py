@@ -70,10 +70,11 @@ class SiteMenuTestCase(icemac.addressbook.testing.BrowserTestCase):
     menu_item_title = NotImplemented
     # URL to check if the right menu item is tested.
     menu_item_URL = NotImplemented
+    login_as = 'visitor'
 
     def setUp(self):
         super(SiteMenuTestCase, self).setUp()
-        self.browser = self.get_browser('visitor')
+        self.browser = self.get_browser(self.login_as)
 
     @property
     def _xpath(self):

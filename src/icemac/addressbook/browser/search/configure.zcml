@@ -10,6 +10,7 @@
      name="Search"
      title="Search"
      viewName="@@search.html"
+     class=".menu.SearchMenuItem"
      permission="icemac.addressbook.ViewPerson"
      weight="20"
      />
