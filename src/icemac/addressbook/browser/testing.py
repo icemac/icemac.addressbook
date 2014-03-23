@@ -61,9 +61,12 @@ def search_for_persons_with_keyword_search_using_browser(keyword, login='mgr'):
     return browser
 
 
-class SiteMenuTestCase(icemac.addressbook.testing.BrowserTestCase):
-    """Test case to test selections in the site menu."""
+class SiteMenuTestMixIn(object):
+    """Mix-in to test selections in the site menu.
 
+    Expects to be used together with a BrowserTestCase.
+
+    """
     # zero-based index of the position of the item in the menu
     menu_item_index = NotImplemented
     # Title of the menu item, used to make sure the right item is tested.
@@ -73,7 +76,7 @@ class SiteMenuTestCase(icemac.addressbook.testing.BrowserTestCase):
     login_as = 'visitor'
 
     def setUp(self):
-        super(SiteMenuTestCase, self).setUp()
+        super(SiteMenuTestMixIn, self).setUp()
         self.browser = self.get_browser(self.login_as)
 
     @property
@@ -95,3 +98,9 @@ class SiteMenuTestCase(icemac.addressbook.testing.BrowserTestCase):
         self.assertEqual(
             self.menu_item_title,
             self.browser.etree.xpath('%s/a/span' % self._xpath)[0].text)
+
+
+class SiteMenuTestCase(
+        SiteMenuTestMixIn,
+        icemac.addressbook.testing.BrowserTestCase):
+    """Test case to test selections in the site menu."""
