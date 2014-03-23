@@ -4,7 +4,7 @@ import icemac.addressbook.browser.testing
 
 class SearchSelectedCheckerTests(
         icemac.addressbook.browser.testing.SiteMenuTestCase):
-    """Tesing ..menu.SearchSelectedChecker"""
+    """Testing ..menu.SearchSelectedChecker"""
 
     menu_item_index = 1
     menu_item_title = 'Search'
