@@ -44,4 +44,4 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
 
 
 view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['name_search.html'])
+    'name_search.html')

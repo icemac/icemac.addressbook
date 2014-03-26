@@ -63,4 +63,4 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
 
 
 view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['multi_keyword.html'])
+    'multi_keyword.html')

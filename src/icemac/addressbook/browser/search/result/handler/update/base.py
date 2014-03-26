@@ -95,4 +95,4 @@ def get_fieldname_in_session(fieldname):
 
 
 update_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['multi-update', 'chooseField', 'enterValue', 'checkResult'])
+    'multi-update', 'chooseField', 'enterValue', 'checkResult')
