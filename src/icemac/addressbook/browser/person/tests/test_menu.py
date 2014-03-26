@@ -9,6 +9,7 @@ class PersonListSelectedCheckerTests(
     menu_item_index = 0
     menu_item_title = 'Person list'
     menu_item_URL = 'http://localhost/ab/@@person-list.html'
+    login_as = 'editor'
 
     def test_person_tab_is_selected_on_person_list(self):
         self.browser.open(self.menu_item_URL)
@@ -24,3 +25,7 @@ class PersonListSelectedCheckerTests(
     def test_person_tab_is_not_selected_on_search(self):
         self.browser.open('http://localhost/ab/search.html')
         self.assertIsNotSelected()
+
+    def test_person_tab_is_selected_on_person_add(self):
+        self.browser.open('http://localhost/ab/@@addPerson.html')
+        self.assertIsSelected()
