@@ -26,6 +26,8 @@ class PersonListSelectedChecker(
     def selected(self):
         if super(PersonListSelectedChecker, self).selected:
             return True
+        if self.view.__name__ == 'addPerson.html':
+            return True
         if icemac.addressbook.interfaces.IPerson.providedBy(self.context):
             return True
         return False
