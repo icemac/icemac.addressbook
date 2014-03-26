@@ -25,6 +25,6 @@ class FrontPage(z3c.pagelet.browser.BrowserPagelet):
             result.append(dict(
                 title=ab.title,
                 url=url,
-                delete_url=url + '/@@delete_address_book.html',
+                delete_url=url + '/@@delete-address_book.html',
                 count=zope.size.interfaces.ISized(ab).sizeForDisplay()))
         return result

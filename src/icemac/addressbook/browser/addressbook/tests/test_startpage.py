@@ -17,7 +17,7 @@ class DispatchSTests(icemac.addressbook.testing.SeleniumTestCase):
     def test_startpage_redirects_to_page_set_on_address_book(self):
         self.login()
         sel = self.selenium
-        sel.open('/ab/@@edit.html')
+        sel.open('/ab/@@edit-address_book.html')
         sel.select('id=form-widgets-startpage', 'label=Search')
         sel.type('id=form-widgets-title', 'Test')
         sel.clickAndWait('id=form-buttons-apply')
@@ -27,7 +27,7 @@ class DispatchSTests(icemac.addressbook.testing.SeleniumTestCase):
     def test_startpage_redirects_to_welcome_page_if_access_not_allowed(self):
         self.login()
         sel = self.selenium
-        sel.open('/ab/@@edit.html')
+        sel.open('/ab/@@edit-address_book.html')
         sel.select('id=form-widgets-startpage', 'label=Search')
         sel.type('id=form-widgets-title', 'Test')
         sel.clickAndWait('id=form-buttons-apply')

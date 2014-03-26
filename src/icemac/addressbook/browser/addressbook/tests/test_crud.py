@@ -10,7 +10,7 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
     def test_edit_can_be_canceled(self):
         self.layer['addressbook'].title = u'ftest-ab'
         browser = self.get_browser('mgr')
-        browser.open('http://localhost/ab/@@edit.html')
+        browser.open('http://localhost/ab/@@edit-address_book.html')
         self.assertEqual('ftest-ab', browser.getControl('title').value)
         browser.getControl('title').value = 'fancy book'
         browser.getControl('Cancel').click()
@@ -22,7 +22,8 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         from mechanize import HTTPError
         browser = self.get_browser('editor')
         with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/ab/@@delete_content.html')
+            browser.open(
+                'http://localhost/ab/@@delete-address_book-content.html')
         self.assertEqual('HTTP Error 403: Forbidden', str(err.exception))
 
     def test_visitor_is_not_allowed_to_delete_all_persons_in_address_book(
@@ -30,7 +31,7 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         from mechanize import HTTPError
         browser = self.get_browser('visitor')
         with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/ab/@@delete_content.html')
+            browser.open('http://localhost/ab/@@delete-address_book-content.html')
         self.assertEqual('HTTP Error 403: Forbidden', str(err.exception))
 
     def test_administrator_is_able_to_delete_all_persons_in_address_book(self):
@@ -58,10 +59,10 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         # persons in address book` button there. An `are you sure` form is
         # displayed:
         browser = self.get_browser('mgr')
-        browser.open('http://localhost/ab/@@edit.html')
+        browser.open('http://localhost/ab/@@edit-address_book.html')
         browser.getControl('Delete all persons in address book').click()
         self.assertEqual(
-            'http://localhost/ab/@@delete_content.html', browser.url)
+            'http://localhost/ab/@@delete-address_book-content.html', browser.url)
 
         # When the adminstrator decides not to delete the persons he is led
         # back to the address book's edit form:
@@ -73,7 +74,7 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
             'class="text-widget int-field">5</span>', browser.contents)
         browser.getControl('No, cancel').click()
         self.assertEqual(['Deletion canceled.'], browser.get_messages())
-        self.assertEqual('http://localhost/ab/@@edit.html', browser.url)
+        self.assertEqual('http://localhost/ab/@@edit-address_book.html', browser.url)
 
         # When he decides to delete all persons he is led back to the person
         # list where only the users are still shown:
@@ -109,7 +110,7 @@ class AddressbookEditSeleniumTests(
         # Editing is done in master data section:
         sel.clickAndWait('link=Master data')
         sel.clickAndWait('link=Address book')
-        self.assertEqual('http://%s/AddressBook/@@edit.html' % sel.server,
+        self.assertEqual('http://%s/AddressBook/@@edit-address_book.html' % sel.server,
                          sel.getLocation())
         # The add form actually stored the values:
         sel.assertValue('id=form-widgets-title', 'test book')
@@ -137,7 +138,7 @@ class SecurityTests(icemac.addressbook.testing.BrowserTestCase):
             browser.getLink('Address book')
         # Even opening the URL is not possible:
         with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/ab/@@edit.html')
+            browser.open('http://localhost/ab/@@edit-address_book.html')
         self.assertEqual('HTTP Error 403: Forbidden', str(err.exception))
 
     def test_visitor_is_not_allowed_to_edit_address_books_data(self):
@@ -150,7 +151,7 @@ class SecurityTests(icemac.addressbook.testing.BrowserTestCase):
             browser.getLink('Address book')
         # Even opening the URL is not possible:
         with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/ab/@@edit.html')
+            browser.open('http://localhost/ab/@@edit-address_book.html')
         self.assertEqual('HTTP Error 403: Forbidden', str(err.exception))
 
 

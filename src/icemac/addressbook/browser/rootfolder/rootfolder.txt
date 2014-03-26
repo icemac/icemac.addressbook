@@ -53,7 +53,7 @@ together with the number of entries inside:
     <li>
       <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
       (0 items)
-      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
   </ul>
   ...
@@ -71,7 +71,7 @@ object, I add it directly to the root folder.):
   <li>
     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
     (0 items)
-    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
   </li>
 </ul>...
 
@@ -86,12 +86,12 @@ After creating a person one entry is displayed:
 <ul class="bullet">
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>        (0 items)
-     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
    <li>
      <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
      (1 item)
-     <a href="http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html">Delete</a>
+     <a href="http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html">Delete</a>
    </li>
 </ul>...
 
@@ -103,12 +103,12 @@ After creating a person one entry is displayed:
    <li>
      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
      (0 items)
-     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
    <li>
      <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
      (2 items)
-     <a href="http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html">Delete</a>
+     <a href="http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html">Delete</a>
   </li>
 </ul>...
 
@@ -134,7 +134,7 @@ Editor
 ------
 
 >>> delete_address_book_url = (
-...     'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html')
+...     'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html')
 >>> editor_browser = Browser()
 >>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
 >>> editor_browser.open(delete_address_book_url)
@@ -159,7 +159,7 @@ sure` form is displayed:
 
 >>> browser.getLink('Delete', index=1).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
+'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html'
 
 When the adminstrator decides not to delete the address book he is led
 back to the overview of all address books:
@@ -175,7 +175,7 @@ overview as well:
 
 >>> browser.getLink('Delete', index=1).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@delete_address_book.html'
+'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html'
 >>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"ab w/ content" deleted.']
@@ -187,6 +187,6 @@ overview as well:
     <li>
       <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
       (0 items)
-      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete_address_book.html">Delete</a>
+      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
     </li>
   </ul>...
