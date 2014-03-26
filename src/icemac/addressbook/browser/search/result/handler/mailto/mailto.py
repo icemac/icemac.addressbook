@@ -23,4 +23,4 @@ class MailTo(icemac.addressbook.browser.search.result.handler.base.Base):
 
 
 mailto = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['mailto.html'])
+    'mailto.html')

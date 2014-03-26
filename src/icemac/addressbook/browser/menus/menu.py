@@ -73,13 +73,13 @@ AddMenu = zope.viewlet.manager.ViewletManager(
 
 
 class SelectMenuItemOn(object):
-    """Subscription adapter factory returning names of views for which a
-    specific menu item in the main menu should be selected.
+    """Subscription adapter factory returning interfaces or names of views
+    for which a specific menu item in the main menu should be selected.
 
-    Expects a list of view names (without `@@`).
+    Expects view names without `@@`.
     Example usage::
 
-      my_search_views = SelectMenuItemOn(('foosearch.html', 'csv-export.csv'))
+      my_search_views = SelectMenuItemOn('foosearch.html', IMyObject)
 
       <subscriber
          for="*"
@@ -87,11 +87,11 @@ class SelectMenuItemOn(object):
          factory=".my_search_views" />
 
     """
-    def __init__(self, view_names):
-        self.view_names = view_names
+    def __init__(self, *items):
+        self.items = items
 
     def __call__(self, *args):
-        return self.view_names
+        return self.items
 
 
 class SubscriberSelectedChecker(
@@ -115,6 +115,14 @@ class SubscriberSelectedChecker(
     def selected(self):
         if super(SubscriberSelectedChecker, self).selected:
             return True
-        view_names = itertools.chain(*zope.component.subscribers(
-            (self,), self.subscriber_interface))
-        return self.view.__name__ in view_names
+        view_name = self.view.__name__
+        context = self.context
+        items = zope.component.subscribers((self,), self.subscriber_interface)
+        for item in itertools.chain(*items):
+            if isinstance(item, basestring):
+                if view_name == item:
+                    return True
+            # If item is no view name it has to be an interface:
+            elif item.providedBy(context):
+                return True
+        return False

@@ -16,4 +16,4 @@ class Names(icemac.addressbook.browser.search.result.handler.base.Base,
         return len(self.persons)
 
 names = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['person-names.html'])
+    'person-names.html')

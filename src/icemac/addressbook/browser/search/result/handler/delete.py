@@ -61,4 +61,4 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 
 delete_view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
-    ['delete_persons.html'])
+    'delete_persons.html')
