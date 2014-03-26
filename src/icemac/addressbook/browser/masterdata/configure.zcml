@@ -29,7 +29,7 @@
     <browser:viewletManager
         layer=".interfaces.IAddressBookLayer"
         name="master-data"
-        class=".masterdata.manager.MasterDataManager"
+        class=".masterdata.menu.MasterDataManager"
         permission="zope.Public"
         template="bullet-menu.pt"
      />
