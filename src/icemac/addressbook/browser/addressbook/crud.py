@@ -30,7 +30,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     interface = icemac.addressbook.interfaces.IAddressBook
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     next_url = 'object'
-    next_view = '@@edit.html'
+    next_view = '@@edit-address_book.html'
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
@@ -39,9 +39,9 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     @z3c.form.button.buttonAndHandler(
         _(u'Delete all persons in address book'), name='delete_content',
         condition=icemac.addressbook.browser.base.can_access(
-            '@@delete_content.html'))
+            '@@delete-address_book-content.html'))
     def handleDeleteContent(self, action):
-        self.redirect_to_next_url('object', '@@delete_content.html')
+        self.redirect_to_next_url('object', '@@delete-address_book-content.html')
 
 
 @zope.interface.implementer(
@@ -85,7 +85,7 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(
         u'Do you really want to delete all persons in this address book?')
     interface = icemac.addressbook.browser.interfaces.IPersonCount
-    next_view = '@@edit.html'
+    next_view = '@@edit-address_book.html'
 
     def _handle_action(self):
         icemac.addressbook.browser.base.delete_persons(
