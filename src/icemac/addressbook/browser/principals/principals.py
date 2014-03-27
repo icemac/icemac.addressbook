@@ -197,8 +197,8 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         if 'login' in changed_field_names:
             self.send_flash(_('You changed the login name, please re-login.'))
         if ('password' in changed_field_names and
-            'password_repetition' in changed_field_names and
-            data['password']):
+                'password_repetition' in changed_field_names and
+                data['password']):
             self.send_flash(_('You changed the password, please re-login.'))
         return changes
 
