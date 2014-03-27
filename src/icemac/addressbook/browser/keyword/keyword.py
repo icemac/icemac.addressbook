@@ -5,6 +5,7 @@ from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
@@ -84,3 +85,8 @@ class Table(icemac.addressbook.browser.table.Table):
     def values(self):
         "The values are stored on the context."
         return self.context.get_keywords()
+
+
+keyword_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    icemac.addressbook.interfaces.IKeyword,
+    icemac.addressbook.interfaces.IKeywords, 'addKeyword.html')

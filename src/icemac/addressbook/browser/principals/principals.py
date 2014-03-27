@@ -4,6 +4,7 @@
 from icemac.addressbook.i18n import _
 from icemac.addressbook.principals.sources import role_source
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
@@ -16,6 +17,7 @@ import z3c.form.validator
 import z3c.form.widget
 import zope.i18n
 import zope.interface
+import zope.pluggableauth.plugins.principalfolder
 import zope.schema
 import zope.schema.interfaces
 import zope.security
@@ -222,3 +224,8 @@ class DeleteUserForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this user?')
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     field_names = ('person', 'login')
+
+
+principal_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    zope.pluggableauth.plugins.principalfolder.IInternalPrincipalContainer,
+    icemac.addressbook.principals.interfaces.IPrincipal)
