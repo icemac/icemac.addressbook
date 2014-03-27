@@ -78,7 +78,7 @@ class Table(icemac.addressbook.browser.table.Table):
         return [z3c.table.column.addColumn(
             self, icemac.addressbook.browser.table.TitleLinkColumn, 'keyword',
             header=_(u'keyword')),
-                ]
+            ]
 
     @property
     def values(self):
