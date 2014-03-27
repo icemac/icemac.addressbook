@@ -26,6 +26,13 @@
       class=".entities.List"
       />
 
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".entities.entity_views" />
+
+
   <!-- entity -->
 
   <adapter factory=".fields.FieldsTraverser" />

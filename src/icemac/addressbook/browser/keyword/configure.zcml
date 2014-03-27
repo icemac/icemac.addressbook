@@ -43,6 +43,12 @@
      weight="10"
      />
 
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".keyword.keyword_views" />
+
 
   <!-- Keyword -->
   <z3c:pagelet

@@ -4,6 +4,7 @@ from icemac.addressbook.i18n import _
 import icemac.addressbook.addressbook
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.interfaces
 import z3c.form.button
@@ -91,3 +92,8 @@ class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
             self.context, self.context.keys())
         self.status = _('Address book contents deleted.')
         self.redirect_to_next_url('object', 'person-list.html')
+
+
+address_book_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    'edit-address_book.html', 'delete-address_book-content.html',
+    'delete-address_book.html')

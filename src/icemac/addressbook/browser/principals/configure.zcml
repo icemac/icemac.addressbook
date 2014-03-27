@@ -33,6 +33,13 @@
      factory="z3c.table.header.SortingColumnHeader"
      />
 
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".principals.principal_views" />
+
+
   <!-- add principal -->
   <z3c:pagelet
      name="addPrincipal.html"

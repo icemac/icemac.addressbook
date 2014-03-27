@@ -11,6 +11,7 @@
      name="Master data"
      title="Master data"
      viewName="@@masterdata.html"
+     class=".menu.MasterDataMenuItem"
      permission="icemac.addressbook.ViewAddressBook"
      weight="200"
      />

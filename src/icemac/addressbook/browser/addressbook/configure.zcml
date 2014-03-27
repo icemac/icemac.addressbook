@@ -100,4 +100,10 @@
      weight="1"
      />
 
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".crud.address_book_views" />
+
 </configure>

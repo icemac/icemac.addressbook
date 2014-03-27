@@ -3,6 +3,7 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
 import z3c.flashmessage.interfaces
@@ -143,3 +144,9 @@ class MoveDown(MoveBase):
 
     direction = 'down'
     message = _('Moved ${entity} down.')
+
+
+entity_views = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
+    icemac.addressbook.interfaces.IEntities,
+    icemac.addressbook.interfaces.IEntity,
+    icemac.addressbook.interfaces.IField)
