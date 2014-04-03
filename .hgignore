@@ -2,7 +2,7 @@ syntax: glob
 
 *.egg-info
 *.pyc
-*.sublime-*
+*.sublime-workspace
 .coverage
 .installed.cfg
 .mr.developer.cfg

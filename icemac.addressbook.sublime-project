@@ -1,0 +1,24 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"3rdParty",
+				"bin",
+				"coverage",
+				"develop-eggs",
+				"htmlcov",
+				"log",
+				"parts",
+				"var"
+			],
+			"follow_symlinks": true,
+			"path": "."
+		},
+		{
+			"follow_symlinks": true,
+			"path": "../icemac.ab.importer/src/icemac/ab/importer"
+		}
+	]
+}
