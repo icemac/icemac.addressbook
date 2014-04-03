@@ -1,3 +1,5 @@
+# Copyright (c) 2014 Michael Howitz
+# See also LICENSE.txt
 from __future__ import unicode_literals
 import icemac.addressbook.browser.testing
 
