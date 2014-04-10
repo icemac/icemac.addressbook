@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import _
 import icemac.addressbook.interfaces
 import icemac.truncatetext
