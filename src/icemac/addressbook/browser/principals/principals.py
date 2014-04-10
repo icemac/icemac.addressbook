@@ -23,22 +23,6 @@ import zope.schema.interfaces
 import zope.security
 
 
-class RolesColumn(z3c.table.column.GetAttrColumn):
-    """GetAttrColumn where attr is an iterable of roles."""
-
-    header = _(u'roles')
-    attrName = 'roles'
-
-    def getSortKey(self, item):
-        return super(RolesColumn, self).getSortKey(item).lower()
-
-    def getValue(self, obj):
-        values = [zope.i18n.translate(role_source.factory.getTitle(x),
-                                      context=self.request)
-                  for x in super(RolesColumn, self).getValue(obj)]
-        return u', '.join(sorted(values, key=lambda x: x.lower()))
-
-
 class Overview(icemac.addressbook.browser.table.PageletTable):
 
     no_rows_message = _(
@@ -52,7 +36,10 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
             z3c.table.column.addColumn(
                 self, z3c.table.column.GetAttrColumn, 'login', weight=2,
                 header=_(u'login name'), attrName='login'),
-            z3c.table.column.addColumn(self, RolesColumn, 'roles', weight=3),
+            z3c.table.column.addColumn(
+                self, icemac.addressbook.browser.table.SourceColumn, 'roles',
+                header=_(u'roles'), attrName='roles', source=role_source,
+                weight=3),
             z3c.table.column.addColumn(
                 self, icemac.addressbook.browser.table.TruncatedContentColumn,
                 'notes', weight=4,
