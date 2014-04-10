@@ -8,6 +8,7 @@ import z3c.pagelet.browser
 import z3c.table.batch
 import z3c.table.column
 import z3c.table.table
+import zope.i18n
 
 
 # Columns
@@ -51,19 +52,34 @@ class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
         return result
 
 
-class KeywordsColumn(z3c.table.column.GetAttrColumn):
-    """GetAttrColumn where attr is an iterable of keywords."""
+class SourceColumn(z3c.table.column.GetAttrColumn):
+    """GetAttrColumn where attr is a value or iterable out of a source."""
 
-    attrName = 'keywords'
+    attrName = NotImplemented
+    soure = NotImplemented  # source the values are taken from
 
     def getSortKey(self, item):
-        return super(KeywordsColumn, self).getSortKey(item).lower()
+        # Sort case insensitive:
+        return super(SourceColumn, self).getSortKey(item).lower()
 
     def getValue(self, obj):
-        values = super(KeywordsColumn, self).getValue(obj)
-        return u', '.join(sorted(
-            (icemac.addressbook.interfaces.ITitle(x) for x in values),
-            key=lambda x: x.lower()))
+        values = super(SourceColumn, self).getValue(obj)
+        if not hasattr(values, '__iter__'):
+            if values is None:
+                values = []
+            else:
+                values = [values]
+        titles = [zope.i18n.translate(self.source.factory.getTitle(x),
+                                      context=self.request)
+                  for x in values]
+        return u', '.join(sorted(titles, key=lambda x: x.lower()))
+
+
+class KeywordsColumn(SourceColumn):
+    """SourceColumn where attr is an iterable of keywords."""
+
+    attrName = 'keywords'
+    source = icemac.addressbook.interfaces.keyword_source
 
 
 class LinkColumn(z3c.table.column.LinkColumn):
