@@ -16,6 +16,14 @@ Fixes
 - Fix highlighting in the main menu: tabs are highlighted even if moving on
   to subviews.
 
+Other
+-----
+
+- Updated to run on `Zope Toolkit 1.1.6`_.
+
+.. _`Zope Toolkit 1.1.6`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.6.html
+
+
 
 2.4.1 (2014-03-08)
 ==================
