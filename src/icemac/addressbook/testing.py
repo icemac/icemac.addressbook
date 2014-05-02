@@ -248,7 +248,7 @@ def ZCMLLayer(name, module, package, filename="ftesting.zcml"):
 
     name ... layer name, suffixed by 'ZCML'
     module ... usually `__name__`
-    package ... where the ftesting.zcml lives.
+    package ... package object, where the ftesting.zcml lives.
     """
     # A primary ZCML layer is a secondary one without a base + some teardown
     sandbox = SecondaryZCMLLayer(
