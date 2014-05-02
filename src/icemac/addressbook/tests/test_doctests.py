@@ -15,7 +15,4 @@ def test_suite():
         'address.txt',
         'person.txt',
         ))
-    suite.addTest(icemac.addressbook.testing.TestBrowserDocFileSuite(
-        'testing.txt',
-        ))
     return suite
