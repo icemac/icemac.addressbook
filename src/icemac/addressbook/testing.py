@@ -42,7 +42,6 @@ import zope.testbrowser.interfaces
 import zope.testbrowser.wsgi
 import zope.testing.cleanup
 import zope.testing.renormalizing
-import zope.testrunner.layer
 
 
 if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
@@ -53,7 +52,7 @@ else:
 
 class _AddressBookUnitTests(plone.testing.Layer):
     """Layer for gathering addressbook unit tests."""
-    defaultBases = (zope.testrunner.layer.UnitTests,)
+    defaultBases = (plone.testing.zca.LAYER_CLEANUP,)
 
     def setUp(self):
         # Some classes use gocept.reference and store default values for

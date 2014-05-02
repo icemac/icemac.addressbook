@@ -3,6 +3,7 @@ syntax: glob
 *.egg-info
 *.pyc
 *.sublime-workspace
+.cache
 .coverage
 .installed.cfg
 .mr.developer.cfg
@@ -21,6 +22,7 @@ install.user.ini
 log/*
 my-buildout.cfg
 parts
+pytest.ini
 site.zcml
 var/*
 var/chameleon-cache/*
