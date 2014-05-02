@@ -21,6 +21,8 @@ Other
 
 - Updated to run on `Zope Toolkit 1.1.6`_.
 
+- Add py.test to run the tests.
+
 .. _`Zope Toolkit 1.1.6`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.6.html
 
 
