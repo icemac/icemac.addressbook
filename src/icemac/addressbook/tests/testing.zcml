@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+    <browser:page
+        for="*"
+        name="test-get-messages.tst"
+        class=".example.PageTestGetMessages"
+        permission="zope.Public" />
+</configure>
