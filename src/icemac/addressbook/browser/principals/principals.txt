@@ -354,7 +354,7 @@ create a person and make her a user:
 >>> get_messages(browser)
 ['"Loscher" added.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Loscher').click()
 >>> get_submit_control_names(browser)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.clone_person', 'form.buttons.delete_entry', 'form.buttons.delete_person', 'form.buttons.export']

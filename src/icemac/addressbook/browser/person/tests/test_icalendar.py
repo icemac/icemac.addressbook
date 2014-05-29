@@ -26,7 +26,7 @@ class iCalendarTests(icemac.addressbook.testing.BrowserTestCase):
              'SUMMARY:Tester\\, Liese',
              'DTSTART;VALUE=DATE:19761115',
              'DTEND;VALUE=DATE:19761116',
-             'UID:http://localhost/ab/Person-5/iCalendar',
+             'UID:http://localhost/ab/Person-5/@@iCalendar',
              'RRULE:FREQ=YEARLY',
              'END:VEVENT',
              'END:VCALENDAR',

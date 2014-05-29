@@ -25,7 +25,7 @@ as an editor:
 
 >>> browser = Browser()
 >>> browser.login('editor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('first name').value = 'Hans'
@@ -38,10 +38,10 @@ as an editor:
 >>> get_messages(browser)
 ['"Tester, Hans" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 
 
 Clone person
@@ -58,7 +58,7 @@ The URL has changed as the cloned Person gets now edited, but the
 entered data is still the same:
 
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person-2'
+'http://localhost/ab/Person-2'
 >>> browser.getControl('last name').value
 'Tester'
 >>> browser.getControl('first name').value
@@ -87,7 +87,7 @@ Changing data in the clone does not change the original:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('last name').value
@@ -115,7 +115,7 @@ Changing data in the original does not change the clone:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 
 >>> browser.getLink('Testerella').click()
 >>> browser.getControl('last name').value
@@ -141,13 +141,13 @@ There is no `clone` button presented to the visitor:
 >>> from icemac.addressbook.testing import get_all_control_names
 >>> visitor = Browser()
 >>> visitor.login('visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab/person-list.html')
+>>> visitor.open('http://localhost/ab/person-list.html')
 >>> visitor.getLink('Testerella').click()
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
 Even when the visitor knows the URL he is not able to access the clone view:
 
->>> visitor.open('http://localhost/++skin++AddressBook/ab/Person/@@clone.html')
+>>> visitor.open('http://localhost/ab/Person/@@clone.html')
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden

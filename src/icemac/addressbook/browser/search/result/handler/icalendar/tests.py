@@ -27,7 +27,7 @@ class ExportBrowserSTests(icemac.addressbook.testing.BrowserTestCase):
              'SUMMARY:Koch',
              'DTSTART;VALUE=DATE:19520124',
              'DTEND;VALUE=DATE:19520125',
-             'UID:http://localhost/ab/Person-2/iCalendar',
+             'UID:http://localhost/ab/Person-2/@@iCalendar',
              'RRULE:FREQ=YEARLY',
              'END:VEVENT',
              'END:VCALENDAR',

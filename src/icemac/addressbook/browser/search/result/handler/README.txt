@@ -35,6 +35,8 @@ this::
      weight="<USED FOR SORTORDER>"
      />
 
+Caution: `viewName` must not start with '@@'.
+
 The permission might be different for handlers which are able to change
 data.
 

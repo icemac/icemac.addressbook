@@ -74,7 +74,10 @@ class BaseView(FlashView):
     def url(self, obj, view_name=None, **kw):
         url_parts = [zope.traversing.browser.absoluteURL(obj, self.request)]
         if view_name:
-            url_parts.extend(['/', view_name])
+            url_parts.append('/')
+            if not view_name.startswith('++'):
+                url_parts.append('@@')
+            url_parts.append(view_name)
         if kw:
             url_parts.extend(['?', urllib.urlencode(kw, doseq=True)])
         return ''.join(url_parts)

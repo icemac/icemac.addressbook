@@ -19,7 +19,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="update"
      title="Update (Allows you to choose a field for update on each selected person.)"
-     viewName="@@multi-update"
+     viewName="multi-update"
      class="icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"
      permission="icemac.addressbook.EditAddressBook"
      weight="100"

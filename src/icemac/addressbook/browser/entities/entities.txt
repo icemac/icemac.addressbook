@@ -13,7 +13,7 @@ Log in as `Administrator`:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 The entities can be edited in the master data area:
 
@@ -21,7 +21,7 @@ The entities can be edited in the master data area:
 >>> browser.getLink('Entities').click()
 >>> edit_entities_url = browser.url
 >>> edit_entities_url
-'http://localhost/++skin++AddressBook/ab/++attribute++entities'
+'http://localhost/ab/++attribute++entities'
 
 
 Add a new field
@@ -33,7 +33,7 @@ select an entity first and then choose the `add field` link:
 >>> browser.getLink('Edit fields', index=1).click()
 >>> edit_entity_url = browser.url
 >>> edit_entity_url
-'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+'http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person'
 >>> browser.getLink('field').click()
 >>> add_field_url = browser.url
 >>> add_field_url
@@ -61,13 +61,13 @@ When all invariants are satisfied, the form gets saved:
 >>> browser.getControl('notes').value = 'the\nbaz\nfield'
 >>> browser.getControl(name='form.buttons.add').click()
 >>> browser.url
-'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+'http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person'
 >>> print browser.contents
 <!DOCTYPE ...
       <tr id="Field-1" class="table-odd-row">
         <td>baz</td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
       </tr>
   ...
 
@@ -127,7 +127,7 @@ The field shows up on the add form as a text line:
 
 >>> browser.getLink('Person list').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/@@person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
 >>> browser.getControl('foobar').value
@@ -137,7 +137,7 @@ The field shows up on the add form as a text line:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 Edit form
 ---------
@@ -147,7 +147,7 @@ assigned in the add form:
 
 >>> browser.getLink('Tester').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 >>> browser.getControl('foobar').value
 'monster'
 >>> browser.getControl('foobar').value = 'my value'
@@ -155,7 +155,7 @@ assigned in the add form:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('foobar').value
 'my value'
@@ -178,7 +178,7 @@ they know the URL.
 
 >>> editor = Browser()
 >>> editor.addHeader('Authorization', 'Basic editor:editor')
->>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/ab')
 
 There is no edit link at master data:
 
@@ -223,11 +223,11 @@ Edit form of admin created content
 The editor is able to edit content which has user defined fields and
 was created by an administrator:
 
->>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/ab')
 >>> editor.getLink('Person list').click()
 >>> editor.getLink('Tester').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 >>> editor.getControl('foobar').value
 'my value'
 >>> editor.getControl('foobar').value = 'editor was here'
@@ -235,20 +235,20 @@ was created by an administrator:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 
 The entered values get persisted:
 
 >>> editor.getLink('Tester').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 >>> editor.getControl('foobar').value
 'editor was here'
 >>> editor.getControl('Cancel').click()
 >>> get_messages(editor)
 ['No changes were applied.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 
 Add form
 ~~~~~~~~
@@ -257,7 +257,7 @@ The editor can enter values in user defined fields in the add form:
 
 >>> editor.getLink('person').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/@@addPerson.html'
+'http://localhost/ab/@@addPerson.html'
 >>> editor.getControl('last name').value = 'Bester'
 >>> editor.getControl('foobar').value
 ''
@@ -266,7 +266,7 @@ The editor can enter values in user defined fields in the add form:
 >>> get_messages(editor)
 ['"Bester" added.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 Edit form
 ---------
@@ -275,7 +275,7 @@ The editor is also able to edit the values he entered himself:
 
 >>> editor.getLink('Bester').click()
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/Person-2'
+'http://localhost/ab/Person-2'
 >>> editor.getControl('foobar').value
 'better'
 >>> editor.getControl('foobar').value = 'still better'
@@ -283,7 +283,7 @@ The editor is also able to edit the values he entered himself:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 >>> editor.getLink('Bester').click()
 >>> editor.getControl('foobar').value
 'still better'
@@ -306,7 +306,7 @@ they know the URL.
 
 >>> visitor = Browser()
 >>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 
 There is no edit link at master data:
 
@@ -345,11 +345,11 @@ Use user defined fields
 The visitor can only see field contents of predefinded and user defined fields:
 
 >>> from icemac.addressbook.testing import get_all_control_names
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.getLink('Person list').click()
 >>> visitor.getLink('Tester').click()
 >>> visitor.url
-'http://localhost/++skin++AddressBook/ab/Person'
+'http://localhost/ab/Person'
 >>> get_all_control_names(visitor)
 ['form.buttons.apply', 'form.buttons.cancel', 'form.buttons.export']
 
@@ -364,7 +364,7 @@ then no longer used in the forms.
 >>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
-'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+'http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person'
 >>> 'foobar' in browser.contents
 True
 >>> browser.getLink('Delete').click()
@@ -430,7 +430,7 @@ LookupError: label 'foobar'
 
 The field is not displayed for editors, too:
 
->>> editor.open('http://localhost/++skin++AddressBook/ab')
+>>> editor.open('http://localhost/ab')
 >>> editor.getLink('Person list').click()
 >>> editor.getLink('Tester').click()
 >>> editor.getControl('foobar')
@@ -450,7 +450,7 @@ LookupError: label 'foobar'
 
 The field is not displayed for visitors, too:
 
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.getLink('Person list').click()
 >>> visitor.getLink('Tester').click()
 >>> 'foobar' in visitor.contents

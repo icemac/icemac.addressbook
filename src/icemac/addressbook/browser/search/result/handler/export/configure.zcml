@@ -16,7 +16,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="XLS-Defaults Export"
      title="XLS export main (Exports person data and main addresses resp. phone numbers.)"
-     viewName="@@defaults_export.html"
+     viewName="defaults_export.html"
      class="..manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
      weight="10"
@@ -36,7 +36,7 @@
      name="XLS-Complete Export"
      title="XLS export complete (Exports person data and all addresses resp. phone numbers.)"
      class="..manager.SearchResultHandler"
-     viewName="@@complete_export.html"
+     viewName="complete_export.html"
      permission="icemac.addressbook.ViewAddressBook"
      weight="20"
      />

@@ -23,6 +23,8 @@ Other
 
 - Add py.test to run the tests.
 
+- Automatically add ``@@`` in front of the view names.
+
 .. _`Zope Toolkit 1.1.6`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.6.html
 
 

@@ -30,7 +30,7 @@ The creation date is set on creation:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.url
 'http://localhost/ab/Person'

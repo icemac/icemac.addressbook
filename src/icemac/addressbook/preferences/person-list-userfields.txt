@@ -56,7 +56,7 @@ And some data in the fields:
 >>> get_messages(browser)
 ['"Tester" added.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Utzer'
