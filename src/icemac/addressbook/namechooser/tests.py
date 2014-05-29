@@ -5,14 +5,14 @@
 import doctest
 import icemac.addressbook.namechooser.namechooser
 import plone.testing
+import plone.testing.zca
 import zope.annotation.attribute
 import zope.testing.cleanup
-import zope.testrunner.layer
 
 
 class NameChooserLayer(plone.testing.Layer):
     """Layer for name chooser tests."""
-    defaultBases = (zope.testrunner.layer.UnitTests,)
+    defaultBases = [plone.testing.zca.LAYER_CLEANUP]
 
     def setUp(self):
         zope.component.provideAdapter(

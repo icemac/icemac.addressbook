@@ -6,3 +6,4 @@ addopts = {% for test_egg in parts.pytest_ini.test_eggs | split -%}
 				{%- endif %}
 			 {%- endfor %}
 		  {%- endfor %}
+python_files = test[s|_]*.py
