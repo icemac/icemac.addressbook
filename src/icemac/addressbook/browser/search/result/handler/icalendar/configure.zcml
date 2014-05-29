@@ -15,7 +15,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="export-icalendar"
      title="iCalendar export birthday (Export person's birthdays as .ics file.)"
-     viewName="@@export-icalendar.html"
+     viewName="export-icalendar.html"
      class="..manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
      weight="50"

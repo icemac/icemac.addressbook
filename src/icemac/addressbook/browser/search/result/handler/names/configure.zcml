@@ -16,7 +16,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="person-names"
      title="Names (Comma separated list of person names.)"
-     viewName="@@person-names.html"
+     viewName="person-names.html"
      class="..manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
      weight="40"

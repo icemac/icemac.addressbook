@@ -21,13 +21,13 @@ class StartpageData(object):
 
 
 welcome = StartpageData(
-    'icemac.addressbook.interfaces.IAddressBook', '@@welcome.html',
+    'icemac.addressbook.interfaces.IAddressBook', 'welcome.html',
     _('Welcome page'))
 person_list = StartpageData(
-    'icemac.addressbook.interfaces.IAddressBook', '@@person-list.html',
+    'icemac.addressbook.interfaces.IAddressBook', 'person-list.html',
     _('Person list'))
 search = StartpageData(
-    'icemac.addressbook.interfaces.IAddressBook', '@@search.html',
+    'icemac.addressbook.interfaces.IAddressBook', 'search.html',
     _('Search'))
 
 

@@ -15,7 +15,7 @@ an editor. In the add menu there is a link to create a person:
 >>> from icemac.addressbook.testing import Browser
 >>> browser = Browser()
 >>> browser.login('editor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('person').click()
 
 Person and address data are relatively complex. There are some
@@ -100,7 +100,7 @@ displayed:
 >>> get_messages(browser)
 ['"Tester, Hans" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Hans...
@@ -156,7 +156,7 @@ changes were not saved:
 >>> get_messages(browser)
 ['No changes were applied.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Hans...
@@ -210,7 +210,7 @@ back to the overview page of the address book:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/person-list.html'
+'http://localhost/ab/person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Petra...
@@ -249,19 +249,19 @@ The entries in the add menu have a specific sort order:
 <!DOCTYPE...
         <ul id="add-menu-content">
           <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
+  <a href="http://localhost/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
+  <a href="http://localhost/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addEMailAddress.html"><span>e-mail address</span></a>
+  <a href="http://localhost/ab/Person/@@addEMailAddress.html"><span>e-mail address</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addHomePageAddress.html"><span>home page</span></a>
+  <a href="http://localhost/ab/Person/@@addHomePageAddress.html"><span>home page</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addFile.html"><span>file</span></a>
+  <a href="http://localhost/ab/Person/@@addFile.html"><span>file</span></a>
 </li>
 </ul>...
 

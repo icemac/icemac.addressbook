@@ -21,7 +21,7 @@ ENTITIES = 'entites_namespace'
 FIELD_NS_PREFIX = 'fields-'
 DEFAULT_FAVICON = '/++resource++img/favicon-red.ico'
 DEFAULT_STARTPAGE_DATA = (
-    'icemac.addressbook.interfaces.IAddressBook', '@@welcome.html')
+    'icemac.addressbook.interfaces.IAddressBook', 'welcome.html')
 
 
 class ITitle(zope.interface.Interface):
@@ -56,8 +56,7 @@ class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     @property
     def _mapping(self):
         data = [(x.path, x.preview_path)
-                for x in zope.component.subscribers(
-                        (self, ), IFaviconData)]
+                for x in zope.component.subscribers((self, ), IFaviconData)]
         if not data:
             # We are at import time, so the subscribers are not yet set up
             # but IAddressBook.favicon checks if the default value is valid:
@@ -85,7 +84,7 @@ class StartpageSource(icemac.addressbook.sources.TitleMappingSource):
     def _mapping(self):
         data = [((x.iface_name, x.view), x.title)
                 for x in zope.component.subscribers(
-                        (self, ), IStartpageData)]
+                    (self, ), IStartpageData)]
         if not data:
             # We are at import time, so the subscribers are not yet set up
             # but IAddressBook.startpage checks if the default value is
@@ -162,7 +161,7 @@ keyword_source = KeywordSource()
 
 
 class ContextByInterfaceSource(
-    zc.sourcefactory.contextual.BasicContextualSourceFactory):
+        zc.sourcefactory.contextual.BasicContextualSourceFactory):
     "Source to select objects from context container by a given interface."
 
     def __init__(self, interface):

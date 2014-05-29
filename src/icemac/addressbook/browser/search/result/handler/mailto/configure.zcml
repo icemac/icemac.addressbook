@@ -16,7 +16,7 @@
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="mailto"
      title="E-Mail (Creates a link to send e-mails.)"
-     viewName="@@mailto.html"
+     viewName="mailto.html"
      class="icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
      weight="30"
