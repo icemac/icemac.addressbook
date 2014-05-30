@@ -10,7 +10,7 @@ Set up
 
 Create an address book, a user defined field for a file inside:
 
->>> from icemac.addressbook.testing import create_field, Browser, get_messages
+>>> from icemac.addressbook.testing import create_field, get_messages
 >>> ab = layer['addressbook']
 >>> _ = create_field(
 ...         ab, 'icemac.addressbook.file.file.File', 'Text', u'mynotes')
@@ -18,8 +18,7 @@ Create an address book, a user defined field for a file inside:
 Create a browser to access the address book. Log in as
 `Administrator`:
 
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 
 Create a person using the web ui as it is easier than doing it in code:

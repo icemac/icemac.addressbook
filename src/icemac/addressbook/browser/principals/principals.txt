@@ -9,7 +9,7 @@ Set up
 ======
 
 >>> from icemac.addressbook.testing import (create_person,
-...     create_email_address, create_full_person, Browser)
+...     create_email_address, create_full_person)
 >>> ab = layer['addressbook']
 
 Users are persons stored in the addressbook augmented by login
@@ -35,8 +35,7 @@ Administrator
 Administrators can create new users in the master data area. So we
 log-in as administrator and go there:
 
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Users').click()
@@ -66,7 +65,7 @@ fine as administrator:
 ['"Admin, Arne" added.']
 >>> browser.url
 'http://localhost/ab/++attribute++principals'
->>> browser = Browser()
+>>> browser = get_browser()
 >>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'
@@ -169,7 +168,8 @@ of all users is shown:
 
 This newly created user is able to log in:
 
->>> visitor = Browser('http://localhost/ab')
+>>> visitor = get_browser()
+>>> visitor.open('http://localhost/ab')
 >>> visitor.url
 'http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
 >>> visitor.getControl('User Name').value = 'tester@example.com'
@@ -450,7 +450,7 @@ The user can log in, see his user data, change his password. He is not
 able to create new persons:
 
 >>> from icemac.addressbook.testing import get_all_control_names
->>> unstable = Browser()
+>>> unstable = get_browser()
 >>> unstable.open('http://localhost/ab')
 >>> unstable.getControl('User Name').value = 'uu@example.com'
 >>> unstable.getControl('Password').value = 'u1u2u3u4'
@@ -543,7 +543,7 @@ permissions to see anything:
 >>> unstable.reload()
 Traceback (most recent call last):
 httperror_seek_wrapper: HTTP Error 403: Forbidden
->>> unstable = Browser()
+>>> unstable = get_browser()
 >>> unstable.open('http://localhost/ab')
 >>> unstable.getControl('User Name').value = 'uu@example.com'
 >>> unstable.getControl('Password').value = 'u1u2u3u4'
@@ -565,8 +565,7 @@ Security
 Only administrators can create new users. Logging in as editor does
 not show an `add user` link:
 
->>> editor_browser = Browser()
->>> editor_browser.login('editor')
+>>> editor_browser = get_browser('editor')
 >>> editor_browser.open('http://localhost/ab')
 >>> editor_browser.getLink('Master data').click()
 >>> editor_browser.getLink('Users').click()
@@ -598,7 +597,7 @@ Editor
 Users with the editor role are allowed to see and edit their own user
 data but not the roles. We log-in as an editor:
 
->>> editor = Browser()
+>>> editor = get_browser()
 >>> editor.open('http://localhost/ab')
 >>> editor.getControl('User Name').value = 'hans@example.com'
 >>> editor.getControl('Password').value = '12345678'
@@ -691,7 +690,7 @@ Users with the visitor role are only allowed to change their password
 but not the other userdata. Utzer, Ben has the visitor role, so let
 hin log-in:
 
->>> visitor = Browser()
+>>> visitor = get_browser()
 >>> visitor.open('http://localhost/ab')
 >>> visitor.getControl('User Name').value = 'ben.utzer@example.com'
 >>> visitor.getControl('Password').value = '12345678'
@@ -772,7 +771,7 @@ Administrator
 To delete a user the administrator has to open the edit form of the
 user:
 
->>> browser = Browser()
+>>> browser = get_browser()
 >>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'arne@example.com'
 >>> browser.getControl('Password').value = '1qay2wsx'

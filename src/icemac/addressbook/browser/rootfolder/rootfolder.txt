@@ -19,17 +19,17 @@ Overview
 The overview page requires an authenticated user with the
 administrator role:
 
->>> from icemac.addressbook.testing import Browser, get_messages
->>> browser = Browser()
->>> browser.open('http://localhost/++skin++AddressBook/')
+>>> from icemac.addressbook.testing import get_messages
+>>> browser = get_browser()
+>>> browser.open('http://localhost/')
 Traceback (most recent call last):
 HTTPError: HTTP Error 401: Unauthorized
 
 Before creating the first addressbook the overview page tells that
 there are not addressbooks:
 
->>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
->>> browser.open('http://localhost/++skin++AddressBook/')
+>>> browser.login('mgr')
+>>> browser.open('http://localhost/')
 >>> print browser.contents
 <!DOCTYPE ...
   ...There are no address books created yet, click on "Add address book" to create one...
@@ -46,14 +46,14 @@ At first we have to create one:
 The overview page contains a list of the existing addressbooks
 together with the number of entries inside:
 
->>> browser.open('http://localhost/++skin++AddressBook/')
+>>> browser.open('http://localhost/')
 >>> print browser.contents
 <!DOCTYPE ...
   <ul class="bullet">
     <li>
-      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+      <a href="http://localhost/AddressBook">test book</a>
       (0 items)
-      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
+      <a href="http://localhost/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
   </ul>
   ...
@@ -64,14 +64,14 @@ object, I add it directly to the root folder.):
 
 >>> from zope.container.btree import BTreeContainer
 >>> layer['rootFolder']['btree'] = BTreeContainer()
->>> browser.open('http://localhost/++skin++AddressBook/')
+>>> browser.open('http://localhost/')
 >>> print browser.contents
 <!DOCTYPE ...
 <ul class="bullet">
   <li>
-    <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+    <a href="http://localhost/AddressBook">test book</a>
     (0 items)
-    <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
+    <a href="http://localhost/AddressBook/@@delete-address_book.html">Delete</a>
   </li>
 </ul>...
 
@@ -85,13 +85,13 @@ After creating a person one entry is displayed:
 <!DOCTYPE ...
 <ul class="bullet">
    <li>
-     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>        (0 items)
-     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
+     <a href="http://localhost/AddressBook">test book</a>        (0 items)
+     <a href="http://localhost/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
    <li>
-     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
+     <a href="http://localhost/ab2">ab w/ content</a>
      (1 item)
-     <a href="http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html">Delete</a>
+     <a href="http://localhost/ab2/@@delete-address_book.html">Delete</a>
    </li>
 </ul>...
 
@@ -101,14 +101,14 @@ After creating a person one entry is displayed:
 <!DOCTYPE ...
 <ul class="bullet">
    <li>
-     <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+     <a href="http://localhost/AddressBook">test book</a>
      (0 items)
-     <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
+     <a href="http://localhost/AddressBook/@@delete-address_book.html">Delete</a>
    </li>
    <li>
-     <a href="http://localhost/++skin++AddressBook/ab2">ab w/ content</a>
+     <a href="http://localhost/ab2">ab w/ content</a>
      (2 items)
-     <a href="http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html">Delete</a>
+     <a href="http://localhost/ab2/@@delete-address_book.html">Delete</a>
   </li>
 </ul>...
 
@@ -134,9 +134,8 @@ Editor
 ------
 
 >>> delete_address_book_url = (
-...     'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html')
->>> editor_browser = Browser()
->>> editor_browser.addHeader('Authorization', 'Basic editor:editor')
+...     'http://localhost/ab2/@@delete-address_book.html')
+>>> editor_browser = get_browser('editor')
 >>> editor_browser.open(delete_address_book_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -144,8 +143,7 @@ HTTPError: HTTP Error 403: Forbidden
 Visitor
 -------
 
->>> visitor_browser = Browser()
->>> visitor_browser.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor_browser = get_browser('visitor')
 >>> visitor_browser.open(delete_address_book_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -159,7 +157,7 @@ sure` form is displayed:
 
 >>> browser.getLink('Delete', index=1).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html'
+'http://localhost/ab2/@@delete-address_book.html'
 
 When the adminstrator decides not to delete the address book he is led
 back to the overview of all address books:
@@ -168,25 +166,25 @@ back to the overview of all address books:
 >>> get_messages(browser)
 ['Deletion canceled.']
 >>> browser.url
-'http://localhost/++skin++AddressBook'
+'http://localhost'
 
 When he decides to delete the address book he is led back to the
 overview as well:
 
 >>> browser.getLink('Delete', index=1).click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab2/@@delete-address_book.html'
+'http://localhost/ab2/@@delete-address_book.html'
 >>> browser.getControl('Yes').click()
 >>> get_messages(browser)
 ['"ab w/ content" deleted.']
 >>> browser.url
-'http://localhost/++skin++AddressBook'
+'http://localhost'
 >>> print browser.contents
 <!DOCTYPE ...
   <ul class="bullet">
     <li>
-      <a href="http://localhost/++skin++AddressBook/AddressBook">test book</a>
+      <a href="http://localhost/AddressBook">test book</a>
       (0 items)
-      <a href="http://localhost/++skin++AddressBook/AddressBook/@@delete-address_book.html">Delete</a>
+      <a href="http://localhost/AddressBook/@@delete-address_book.html">Delete</a>
     </li>
   </ul>...

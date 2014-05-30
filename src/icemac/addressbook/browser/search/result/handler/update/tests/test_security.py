@@ -6,18 +6,14 @@ import unittest
 import urllib2
 
 
-class TestOnlyAdminIsAllowedToUseUpdate(unittest.TestCase):
+class TestOnlyAdminIsAllowedToUseUpdate(
+        unittest.TestCase,
+        icemac.addressbook.testing.BrowserMixIn):
 
     layer = icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
 
-    def _get_browser(self, username):
-        import icemac.addressbook.testing
-        browser = icemac.addressbook.testing.Browser()
-        browser.login(username)
-        return browser
-
     def update_handler_is_not_visible_for(self, username):
-        browser = self._get_browser(username)
+        browser = self.get_browser(username)
         browser.open('http://localhost/ab/@@multi_keyword.html')
         browser.getControl('keywords').displayValue = ['church']
         browser.getControl('Search').click()
@@ -33,7 +29,7 @@ class TestOnlyAdminIsAllowedToUseUpdate(unittest.TestCase):
             browser.getControl('Apply on selected persons').displayOptions)
 
     def each_part_of_the_update_wizard_is_not_accessible_for(self, username):
-        browser = self._get_browser(username)
+        browser = self.get_browser(username)
         for url in ('http://localhost/ab/@@multi-update',
                     'http://localhost/ab/multi-update/enterValue',
                     'http://localhost/ab/multi-update/checkResult',

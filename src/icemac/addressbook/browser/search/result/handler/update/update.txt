@@ -14,7 +14,7 @@ perform a multi-update:
 
 >>> from icemac.addressbook.browser.search.result.handler.update.testing \
 ...     import select_persons_with_keyword_for_update
->>> browser = select_persons_with_keyword_for_update('family')
+>>> browser = select_persons_with_keyword_for_update(layer, 'family')
 
 
 Update wizard

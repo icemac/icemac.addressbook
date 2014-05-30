@@ -10,9 +10,7 @@ Set up
 
 Log in as `Administrator`:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 
 The entities can be edited in the master data area:
@@ -176,8 +174,7 @@ Edit fields
 Users with the `editor` role are not able to edit fields even when
 they know the URL.
 
->>> editor = Browser()
->>> editor.addHeader('Authorization', 'Basic editor:editor')
+>>> editor = get_browser('editor')
 >>> editor.open('http://localhost/ab')
 
 There is no edit link at master data:
@@ -304,8 +301,7 @@ Edit fields
 Users with the `visitor` role are not able to edit fields even when
 they know the URL.
 
->>> visitor = Browser()
->>> visitor.addHeader('Authorization', 'Basic visitor:visitor')
+>>> visitor = get_browser('visitor')
 >>> visitor.open('http://localhost/ab')
 
 There is no edit link at master data:

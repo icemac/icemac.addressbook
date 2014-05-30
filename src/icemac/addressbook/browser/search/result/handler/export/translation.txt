@@ -39,11 +39,9 @@ As visitors are allowed to search and export, so we log in as a
 visitor, to enable translation, we also send an accept-language
 header:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('visitor')
+>>> browser = get_browser('visitor')
 >>> browser.addHeader('Accept-Language', 'de-DE')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 
 
 XLS main adresses and numbers export

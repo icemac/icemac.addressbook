@@ -8,10 +8,8 @@ fields.
 Set up
 ======
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 
 Columns field
@@ -74,7 +72,7 @@ Set up
 
 >>> from icemac.addressbook.testing import create_addressbook
 >>> ab2 = create_addressbook('ab2')
->>> browser.open('http://localhost/++skin++AddressBook/ab2')
+>>> browser.open('http://localhost/ab2')
 
 
 Default sort order

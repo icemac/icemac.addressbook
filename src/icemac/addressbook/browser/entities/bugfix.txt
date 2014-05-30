@@ -10,7 +10,7 @@ Set up
 
 Create a local adminstrator:
 
->>> from icemac.addressbook.testing import create_user, Browser, get_messages
+>>> from icemac.addressbook.testing import create_user, get_messages
 >>> ab = layer['addressbook']
 >>> create_user(
 ...     ab, ab, u'Ad', u'Min', u'ad@min.de', u'12345678', ('Administrator',))
@@ -23,7 +23,7 @@ A local administrator was not able to edit the entities.
 Log in as the local administrator and navigate to the edit entities
 section of the master data:
 
->>> browser = Browser()
+>>> browser = get_browser()
 >>> browser.open('http://localhost/ab')
 >>> browser.getControl('User Name').value = 'ad@min.de'
 >>> browser.getControl('Password').value = '12345678'

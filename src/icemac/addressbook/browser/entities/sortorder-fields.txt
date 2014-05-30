@@ -10,10 +10,8 @@ Set up
 
 Log in as `Administrator`:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 To show that the sort order includes user defined fields, we have to create
 one:
@@ -29,7 +27,7 @@ entity, for example we choose the `person` entity here:
 >>> browser.getLink('Entities').click()
 >>> browser.getLink('Edit fields', index=1).click()
 >>> browser.url
-'http://localhost/.../ab/++attribute++entities/icemac.addressbook.person.Person'
+'http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person'
 
 The default sort order looks the following way (user defined field was
 sorted to the end):
@@ -64,8 +62,8 @@ sorted to the end):
       </tr>
       <tr id="Field-1" class="table-odd-row">
         <td>grown-up</td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
       </tr>
     </tbody>
   ...
@@ -96,8 +94,8 @@ sorted to the end):
       </tr>
       <tr id="Field-1" class="table-odd-row">
         <td>grown-up</td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
-        <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1/@@delete.html">Delete</a></td>
+        <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/Field-1">Edit</a></td>
       </tr>
       <tr id="first_name" class="table-even-row">
         <td>first name</td>

@@ -29,8 +29,7 @@ As cookie authorization is used an unauthorized user is redirected to
 the log-in page:
 
 >>> from icemac.addressbook.testing import get_messages
->>> from z3c.etestbrowser.wsgi import ExtendedTestBrowser as Browser
->>> browser = Browser()
+>>> browser = get_browser()
 >>> browser.open('http://localhost/ab')
 >>> get_messages(browser)
 ['To log-in enter your username and password and submit the form.']

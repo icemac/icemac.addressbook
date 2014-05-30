@@ -2,16 +2,15 @@ import icemac.addressbook.testing
 import unittest
 
 
-class TimeZoneTests(unittest.TestCase):
+class TimeZoneTests(unittest.TestCase,
+                    icemac.addressbook.testing.BrowserMixIn):
     """Testing time zone preferences."""
 
     layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
 
     def get_browser(
             self, url='http://localhost/ab/++preferences++/ab.timeZone'):
-        browser = icemac.addressbook.testing.Browser()
-        browser.login('visitor')
-        browser.handleErrors = False
+        browser = super(TimeZoneTests, self).get_browser('visitor')
         browser.open(url)
         return browser
 

@@ -10,10 +10,8 @@ Set up
 
 We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 And a helper function for the test:
 

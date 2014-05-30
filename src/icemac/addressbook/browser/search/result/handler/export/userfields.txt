@@ -32,10 +32,8 @@ the defaults export but in complete export:
 
 As visitors are allowed to search and export, so we log in as a visitor:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('visitor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('visitor')
+>>> browser.open('http://localhost/ab')
 
 
 XLS main adresses and numbers export

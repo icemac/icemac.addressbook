@@ -12,9 +12,7 @@ Add a person
 Editors are allowed to add new persons with addresses, so we log-in as
 an editor. In the add menu there is a link to create a person:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('editor')
+>>> browser = get_browser('editor')
 >>> browser.open('http://localhost/ab')
 >>> browser.getLink('person').click()
 
@@ -435,8 +433,7 @@ Visitor
 
 Visitors can not change any data, they can only view it:
 
->>> visitor_browser = Browser()
->>> visitor_browser.login('visitor')
+>>> visitor_browser = get_browser('visitor')
 >>> visitor_browser.open('http://localhost/ab/person-list.html')
 >>> visitor_browser.getLink('Petra').click()
 >>> print visitor_browser.contents

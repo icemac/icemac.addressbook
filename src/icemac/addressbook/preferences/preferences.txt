@@ -9,10 +9,8 @@ Set up
 
 We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 Location
 ========
@@ -22,7 +20,7 @@ person list preferences:
 
 >>> browser.getLink('Preferences').click()
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++preferences++/ab'
+'http://localhost/ab/++preferences++/ab'
 >>> preferences_url = browser.url
 >>> browser.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']
@@ -33,23 +31,21 @@ Only accessible when logged in
 The preferences are only accessible for logged-in users. Anonymous
 users get redirected to the login screen:
 
->>> anon = Browser()
+>>> anon = get_browser()
 >>> anon.open(preferences_url)
 >>> print anon.url
-http://localhost/++skin++AddressBook/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2F%2B%2Bskin%2B%2BAddressBook%2Fab%2F%2B%2Bpreferences%2B%2B%2Fab%2F%40%40index.html
+http://localhost/ab/@@loginForm.html?camefrom=http%3A%2F%2Flocalhost%2Fab%2F%2B%2Bpreferences%2B%2B%2Fab%2F%40%40index.html
 
 Visitors are able to access the preferences, the form is displayed:
 
->>> visitor = Browser()
->>> visitor.login('visitor')
+>>> visitor = get_browser('visitor')
 >>> visitor.open(preferences_url)
 >>> visitor.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']
 
 Editors are also able to access the preferences:
 
->>> editor = Browser()
->>> editor.login('editor')
+>>> editor = get_browser('editor')
 >>> editor.open(preferences_url)
 >>> editor.getControl('sort direction').displayOptions
 ['ascending (A-->Z)', 'descending (Z-->A)']
