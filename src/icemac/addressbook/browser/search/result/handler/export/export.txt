@@ -9,9 +9,7 @@ Set up
 
 Visitors are allowed to search and export, so we log in as a visitor:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('visitor')
+>>> browser = get_browser('visitor')
 >>> browser.open('http://localhost/ab')
 
 Export

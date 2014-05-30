@@ -3,7 +3,8 @@ import icemac.addressbook.testing
 import unittest
 
 
-class NamesTests(unittest.TestCase):
+class NamesTests(unittest.TestCase,
+                 icemac.addressbook.testing.BrowserMixIn):
     """Testing .Names."""
 
     layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
@@ -17,9 +18,7 @@ class NamesTests(unittest.TestCase):
 
     def test_returns_comma_separated_list_of_names_and_count(self):
         from gocept.testing.mock import Property
-        from icemac.addressbook.testing import Browser
-        browser = Browser()
-        browser.login('visitor')
+        browser = self.get_browser('visitor')
         persons = (
             'icemac.addressbook.browser.search.result.handler.names.Names.'
             'persons')

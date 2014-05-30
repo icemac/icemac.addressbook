@@ -9,9 +9,7 @@ Set up
 
 We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 
 Default preferences

@@ -10,9 +10,7 @@ Set up
 
 Log in as an editor:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('editor')
+>>> browser = get_browser('editor')
 >>> browser.open('http://localhost/ab')
 
 
@@ -70,7 +68,7 @@ At first we have to create a new principal and log in:
 >>> from icemac.addressbook.testing import create_user, get_messages
 >>> create_user(address_book, address_book, u'Hans', u'Tester', u'hans@test.de',
 ...             u'12345678', ('Editor',))
->>> editor = Browser()
+>>> editor = get_browser()
 >>> editor.open('http://localhost/ab/Person')
 >>> editor.getControl('User Name').value = 'hans@test.de'
 >>> editor.getControl('Password').value = '12345678'

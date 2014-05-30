@@ -15,7 +15,7 @@ class TestEmptyNewValue(unittest.TestCase):
     def test_adding_an_empty_new_value_does_not_change_the_updated_value(self):
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update('family')
+        browser = select_persons_with_keyword_for_update(self.layer, 'family')
         browser.getControl('field').displayValue = ['person -- last name']
         browser.getControl('Next').click()
         browser.getControl('new value', index=0).value = ''
@@ -58,7 +58,7 @@ class TestUserDefinedFields(unittest.TestCase):
         field_name = icemac.addressbook.testing.create_field(
             self.ab, IEntity(IPerson).class_name, 'Bool', u'Ever met')
         self.create_updateable_person(**{field_name: False})
-        browser = select_persons_with_keyword_for_update(KEYWORD)
+        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
 
         browser.getControl('field').displayValue = ['person -- Ever met']
         browser.getControl('Next').click()
@@ -82,7 +82,7 @@ class TestUserDefinedFields(unittest.TestCase):
             **{field_name: '>= 50 km', 'set_as_default': True})
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(KEYWORD)
+        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
 
         browser.getControl('field').displayValue = [
             'postal address -- distance']
@@ -98,12 +98,11 @@ class TestUserDefinedFields(unittest.TestCase):
                       browser.contents.replace(' ', '').replace('\n', ''))
 
     def test_keywords_field_can_be_updated(self):
-        from icemac.addressbook.interfaces import IEntity, IPerson
-        person = self.create_updateable_person(
-            keywords=[KEYWORD, u'second kw'])
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(u'second kw')
+        self.create_updateable_person(keywords=[KEYWORD, u'second kw'])
+        browser = select_persons_with_keyword_for_update(
+            self.layer, u'second kw')
 
         browser.getControl('field').displayValue = ['person -- keywords']
         browser.getControl('Next').click()
@@ -120,7 +119,7 @@ class TestUserDefinedFields(unittest.TestCase):
         from icemac.addressbook.browser.testing import (
             search_for_persons_with_keyword_search_using_browser)
         browser = search_for_persons_with_keyword_search_using_browser(
-            'second kw')
+            self.layer, 'second kw')
         self.assertIn('No person found.', browser.contents)
 
     def _create_user_defined_field(self, field_type, field_class):
@@ -138,7 +137,7 @@ class TestUserDefinedFields(unittest.TestCase):
         """Update a number field."""
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(KEYWORD)
+        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
 
         browser.getControl('field').displayValue = [field_name]
         browser.getControl('Next').click()
@@ -216,7 +215,7 @@ class TestUserDefinedFields(unittest.TestCase):
         self.create_updateable_person()
         from icemac.addressbook.browser.search.result.handler.update.testing \
             import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(KEYWORD)
+        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
         self.assertEqual('http://localhost/ab/@@multi-update', browser.url)
         browser.getLink('New value').click()
         # 'chooseField' is the first step, so we get redirected there

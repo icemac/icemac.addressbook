@@ -10,9 +10,7 @@ Set up
 
 Visitors are allowed to search, so we log in as a visitor:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('visitor')
+>>> browser = get_browser('visitor')
 >>> browser.open('http://localhost/ab')
 
 There is a link in the global navigation which leads to the searches

@@ -8,11 +8,9 @@ preferences:
 Set up
 ======
 
-We need A browser to access the address book:
+We need a browser to access the address book:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 
 And many persons in the address book:
 

@@ -11,7 +11,7 @@ class ExportBrowserSTests(icemac.addressbook.testing.BrowserTestCase):
 
     def test_exports_ical_file(self):
         browser = search_for_persons_with_keyword_search_using_browser(
-            'family', login='visitor')
+            self.layer, 'family', login='visitor')
         browser.getControl('Apply on selected persons').displayValue = ['iCal']
         browser.handleErrors = False
         with patch('pkg_resources.get_distribution') as get_distribution:

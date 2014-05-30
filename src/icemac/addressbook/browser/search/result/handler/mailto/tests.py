@@ -62,7 +62,7 @@ class MailToTest(unittest.TestCase):
         from icemac.addressbook.browser.testing import (
             search_for_persons_with_keyword_search_using_browser)
         browser = search_for_persons_with_keyword_search_using_browser(
-            'mail-me', 'visitor')
+            self.layer, 'mail-me', 'visitor')
         browser.getControl('Apply on selected persons').displayValue = [
             'E-Mail']
         browser.getControl(name='form.buttons.apply').click()

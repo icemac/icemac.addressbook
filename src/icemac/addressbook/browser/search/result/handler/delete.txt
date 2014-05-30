@@ -16,12 +16,10 @@ user, too:
 ...     u'Utzer', u'ben@example.com', u'12345678', [],
 ...     keywords=set([layer['kw_church']]))
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
 
 Only administrators are allowed to delete, so we log in as an administrator:
 
->>> browser.login('mgr')
+>>> browser = get_browser('mgr')
 >>> browser.open('http://localhost/ab')
 
 There is a link in the global navigation which leads to the searches
@@ -123,8 +121,7 @@ possible even if the user knows the URL:
 Editor
 ------
 
->>> editor = Browser()
->>> editor.login('editor')
+>>> editor = get_browser('editor')
 >>> editor.open('http://localhost/ab')
 >>> editor.getLink('Search').click()
 >>> editor.getLink('Keyword search').click()
@@ -144,8 +141,7 @@ HTTPError: HTTP Error 403: Forbidden
 Visitor
 -------
 
->>> visitor = Browser()
->>> visitor.login('visitor')
+>>> visitor = get_browser('visitor')
 >>> visitor.open('http://localhost/ab')
 >>> visitor.getLink('Search').click()
 >>> visitor.getLink('Keyword search').click()

@@ -14,10 +14,8 @@ Set up
 Create an address book and a browser to access it. Log in as
 `Administrator`:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 Create Field
 ============
@@ -66,7 +64,7 @@ To use the field create a keyword:
 >>> get_messages(browser)
 ['"foo" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+'http://localhost/ab/++attribute++keywords'
 
 Editing is possible, the entered values were stored:
 

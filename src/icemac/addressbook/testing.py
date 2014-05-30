@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
+import functools
 import gocept.selenium.wsgi
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
@@ -183,25 +184,27 @@ class _WSGILayer(plone.testing.Layer):
         while not isinstance(app, zope.app.wsgi.WSGIPublisherApplication):
             # The outermost WSGI app not necessarily is our Zope app, so we
             # have to walk down the WSGI-Stack:
-            app = app.app
+            if hasattr(app, 'app'):
+                app = app.app
+            else:
+                app = app.wsgi_stack  # Used by AuthorizationMiddleware
         app.requestFactory = (
             zope.app.publication.httpfactory.HTTPPublicationRequestFactory(
                 self['zodbDB']))
 
 
-class _WSGITestBrowserLayer(zope.testbrowser.wsgi.Layer,
-                            plone.testing.Layer):
+class _WSGITestBrowserLayer(plone.testing.Layer):
     """Layer for zope.testbrowser.wsgi tests."""
 
-    def make_wsgi_app(self):
+    def setUp(self):
         def getRootFolder():
             return self['rootFolder']
-        # We could use zope.app.wsgi.testlayer.BrowserLayer but it extends
-        # ZODBLayer which we do not want as a base class, so we have to
-        # duplicate its middleware stack here:
-        return zope.testbrowser.wsgi.AuthorizationMiddleware(
+        self['wsgi_app'] = zope.testbrowser.wsgi.AuthorizationMiddleware(
             zope.app.wsgi.testlayer.TransactionMiddleware(
                 getRootFolder, self['wsgi_app']))
+
+    def tearDown(self):
+        del self['wsgi_app']
 
 
 class _GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
@@ -302,6 +305,18 @@ TRANSLATION_TEST_BROWSER_LAYER = TestBrowserLayer(
     'ABTranslation', TRANSLATION_ZODB_LAYER)
 
 
+def get_browser(layer, login=None):
+    """Get a test browser.
+
+    If `login` is not `None`: user is logged in via basic auth.
+
+    """
+    browser = Browser(wsgi_app=layer['wsgi_app'])
+    if login is not None:
+        browser.login(login)
+    return browser
+
+
 # Mixins
 class ZODBMixIn(object):
     """Mix in methods for test cases basing on ZODB layer."""
@@ -320,10 +335,7 @@ class BrowserMixIn(object):
         If `login` is not `None`: user is logged in via basic auth.
 
         """
-        browser = Browser()
-        if login is not None:
-            browser.login(login)
-        return browser
+        return get_browser(self.layer, login)
 
 
 # Test cases
@@ -358,6 +370,7 @@ def DocFileSuite(*paths, **kw):
     layer = kw.pop('layer')
     globs = kw.setdefault('globs', {})
     globs['layer'] = layer
+    globs['get_browser'] = functools.partial(get_browser, layer)
     if 'checker' not in kw:
         kw['checker'] = zope.testing.renormalizing.RENormalizing([
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),

@@ -10,9 +10,7 @@ Set up
 
 Create a browser and log in an editor which preferes German:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('editor')
+>>> browser = get_browser('editor')
 >>> browser.addHeader('Accept-Language', 'de-DE')
 >>> browser.open('http://localhost/ab')
 
@@ -45,8 +43,7 @@ The the main postal address drop down is also translated:
 A user who prefers English (default) sees the English translation of the
 country name:
 
->>> en_browser = Browser()
->>> en_browser.login('editor')
+>>> en_browser = get_browser('editor')
 >>> en_browser.open('http://localhost/ab/person-list.html')
 >>> en_browser.getLink('Deutsch').click()
 >>> en_browser.getControl('main postal address').displayValue

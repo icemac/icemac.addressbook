@@ -8,7 +8,7 @@ function to clone person data exists.
 Setup
 =====
 
->>> from icemac.addressbook.testing import Browser, get_messages
+>>> from icemac.addressbook.testing import get_messages
 >>> address_book = layer['addressbook']
 
 As user defined fields and keywords may behave unusual, let's create
@@ -23,8 +23,7 @@ some:
 To clone a person, an already existing one is needed, so we create one
 as an editor:
 
->>> browser = Browser()
->>> browser.login('editor')
+>>> browser = get_browser('editor')
 >>> browser.open('http://localhost/ab')
 >>> browser.getLink('person').click()
 >>> browser.getControl('last name').value = 'Tester'
@@ -139,8 +138,7 @@ Visitor
 There is no `clone` button presented to the visitor:
 
 >>> from icemac.addressbook.testing import get_all_control_names
->>> visitor = Browser()
->>> visitor.login('visitor')
+>>> visitor = get_browser('visitor')
 >>> visitor.open('http://localhost/ab/person-list.html')
 >>> visitor.getLink('Testerella').click()
 >>> get_all_control_names(visitor)

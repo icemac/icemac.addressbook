@@ -5,13 +5,10 @@
 A person can have one or more keywords. They can be managed in the
 master data section.
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
-
 Editors are allowed to manage keywords, so we log in as an editor:
 
->>> browser.login('editor')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('editor')
+>>> browser.open('http://localhost/ab')
 
 Navigating to the keywords overview page, shows that there are
 initially no keywords defined:
@@ -205,7 +202,7 @@ really wants to delete the keyword. If he decides not to delete the
 entry he is led back to the keyword's edit form:
 
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3/@@delete.html'
+'http://localhost/ab/++attribute++keywords/Keyword-3/@@delete.html'
 >>> browser.getControl('No, cancel').click()
 >>> get_messages(browser)
 ['Deletion canceled.']
@@ -224,7 +221,7 @@ where the keyword is no longer listed:
 ['"friend" deleted.']
 >>> keywords_url = browser.url
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+'http://localhost/ab/++attribute++keywords'
 >>> browser.open(browser.url)
 >>> 'friend' in browser.contents
 False
@@ -260,7 +257,7 @@ Creation
 Creating a keyword with a title which already exists leads to an error
 message:
 
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser.open('http://localhost/ab')
 >>> browser.getLink('Master data').click()
 >>> browser.getLink('Keywords').click()
 >>> browser.getLink('keyword').click()
@@ -269,7 +266,7 @@ message:
 >>> get_messages(browser)
 []
 >>> print browser.url
-http://localhost/++skin++AddressBook/ab/++attribute++keywords/@@addKeyword.html
+http://localhost/ab/++attribute++keywords/@@addKeyword.html
 >>> print browser.contents
 <!DOCTYPE...
 <div class="status">
@@ -295,7 +292,7 @@ it afterwards.):
 >>> get_messages(browser)
 ['"Arbeit" added.']
 >>> browser.url
-'http://localhost/++skin++AddressBook/ab/++attribute++keywords'
+'http://localhost/ab/++attribute++keywords'
 >>> browser.getLink('Arbeit').click()
 >>> browser.getControl('keyword').value = 'Company co-worker'
 >>> browser.getControl('Apply').click()
@@ -320,9 +317,8 @@ Visitor
 
 Visitors are allowed to see the keywords but not to change them:
 
->>> visitor = Browser()
->>> visitor.login('visitor')
->>> visitor.open('http://localhost/++skin++AddressBook/ab')
+>>> visitor = get_browser('visitor')
+>>> visitor.open('http://localhost/ab')
 >>> visitor.getLink('Master data').click()
 >>> visitor.getLink('Keywords').click()
 >>> print visitor.contents
@@ -334,16 +330,16 @@ Visitors are allowed to see the keywords but not to change them:
   </thead>
   <tbody>
     <tr class="table-even-row">
-      <td class="sorted-on ascending"><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-3">Arbeit</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/++attribute++keywords/Keyword-3">Arbeit</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td class="sorted-on ascending"><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword">Company co-worker</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/++attribute++keywords/Keyword">Company co-worker</a></td>
     </tr>
     <tr class="table-even-row">
-      <td class="sorted-on ascending"><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-2">Familie</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/++attribute++keywords/Keyword-2">Familie</a></td>
     </tr>
     <tr class="table-odd-row">
-      <td class="sorted-on ascending"><a href="http://localhost/++skin++AddressBook/ab/++attribute++keywords/Keyword-4">Kirche</a></td>
+      <td class="sorted-on ascending"><a href="http://localhost/ab/++attribute++keywords/Keyword-4">Kirche</a></td>
     </tr>
   </tbody>
   ...

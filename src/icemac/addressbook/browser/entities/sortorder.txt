@@ -10,10 +10,8 @@ Set up
 
 Log in as `Administrator`:
 
->>> from icemac.addressbook.testing import Browser
->>> browser = Browser()
->>> browser.login('mgr')
->>> browser.open('http://localhost/++skin++AddressBook/ab')
+>>> browser = get_browser('mgr')
+>>> browser.open('http://localhost/ab')
 
 The sort order of the entities can be changed in the master data area:
 
@@ -21,7 +19,7 @@ The sort order of the entities can be changed in the master data area:
 >>> browser.getLink('Entities').click()
 >>> edit_entities_url = browser.url
 >>> edit_entities_url
-'http://localhost/++skin++AddressBook/ab/++attribute++entities'
+'http://localhost/ab/++attribute++entities'
 
 Changing sort order
 ===================
@@ -65,8 +63,8 @@ There is no `up` link for the first entity in the table:
     <tr class="table-even-row">
       <td>address book</td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
     </tr>
  ...
 
@@ -89,9 +87,9 @@ There is no `down` link for the last entity in the table:
 <!DOCTYPE...
     <tr class="table-...-row">
       <td>keyword</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword/@@up.html">up</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.keyword.Keyword/@@up.html">up</a></td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.keyword.Keyword">Edit fields</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.keyword.Keyword">Edit fields</a></td>
    </tr>
   </tbody>
   ...
@@ -107,25 +105,25 @@ The entity sort order is reflected in the entity table:
     <tr class="table-even-row">
       <td>person</td>
       <td></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.Person">Edit fields</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person/@@down.html">down</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.Person">Edit fields</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>address book</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@up.html">up</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@up.html">up</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook/@@down.html">down</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.addressbook.AddressBook">Edit fields</a></td>
     </tr>
     <tr class="table-even-row">
       <td>postal address</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@up.html">up</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@down.html">down</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.address.PostalAddress">Edit fields</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@up.html">up</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.address.PostalAddress/@@down.html">down</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.address.PostalAddress">Edit fields</a></td>
     </tr>
     <tr class="table-odd-row">
       <td>main adresses and numbers</td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@up.html">up</a></td>
-      <td><a href="http://localhost/++skin++AddressBook/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@down.html">down</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@up.html">up</a></td>
+      <td><a href="http://localhost/ab/++attribute++entities/icemac.addressbook.person.PersonDefaults/@@down.html">down</a></td>
       <td></td>
     </tr>
     <tr class="table-even-row">
@@ -144,10 +142,10 @@ order: the phone number is shown before the postal address:
 <!DOCTYPE...
           <ul id="add-menu-content">
             <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
+  <a href="http://localhost/ab/Person/@@addPostalAddress.html"><span>postal address</span></a>
 </li>
 <li>
-  <a href="http://localhost/++skin++AddressBook/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
+  <a href="http://localhost/ab/Person/@@addPhoneNumber.html"><span>phone number</span></a>
   ...
 
 
@@ -160,8 +158,7 @@ though, they know the url.
 Editor
 ------
 
->>> editor = Browser()
->>> editor.login('editor')
+>>> editor = get_browser('editor')
 >>> editor.open(up_link_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
@@ -173,8 +170,7 @@ HTTPError: HTTP Error 403: Forbidden
 Visitor
 -------
 
->>> visitor = Browser()
->>> visitor.login('visitor')
+>>> visitor = get_browser('visitor')
 >>> visitor.open(up_link_url)
 Traceback (most recent call last):
 HTTPError: HTTP Error 403: Forbidden
