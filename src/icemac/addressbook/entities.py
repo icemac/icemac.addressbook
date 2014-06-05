@@ -47,10 +47,11 @@ class Entities(object):
 
     def getMainEntities(self, sorted=True):
         "Get an iterable of the most important entities."
-        entities = [zope.component.getUtility(
-                        icemac.addressbook.interfaces.IEntity,
-                        name='icemac.addressbook.' + suffix)
-                    for suffix in MAIN_ENTITIES_NAME_SUFFIXES]
+        entities = [
+            zope.component.getUtility(
+                icemac.addressbook.interfaces.IEntity,
+                name='icemac.addressbook.' + suffix)
+            for suffix in MAIN_ENTITIES_NAME_SUFFIXES]
         if sorted:
             entities = sorted_entities(entities)
         return entities
