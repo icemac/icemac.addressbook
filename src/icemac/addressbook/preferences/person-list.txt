@@ -131,14 +131,14 @@ Then we have to assign the keywords to persons:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Streber').click()
 >>> browser.getControl('keywords').displayValue = ['Friends']
 >>> browser.getControl('Apply').click()
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 The keywords are sorted by their lower case variant inside the cell:
 
@@ -183,7 +183,7 @@ whole browser window. At first we need some notes text:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 Only the first 20 characters of the note are displayed:
 
@@ -299,7 +299,7 @@ enter a home page address.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 After selecting the home page column in the preferences, it gets
 displayed in the person list:
@@ -341,7 +341,7 @@ enter an a-mail address.
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 After selecting the e-mail address column in the preferences, it gets
 displayed in the person list:
@@ -491,7 +491,7 @@ title:
 
 >>> browser.getLink('first name').click()
 >>> browser.url
-'http://localhost/ab/person-list.html?table-sortOrder=ascending&table-sortOn=table-first_name-1'
+'http://localhost/ab/@@person-list.html?table-sortOrder=ascending&table-sortOn=table-first_name-1'
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>
@@ -554,7 +554,7 @@ header:
 
 >>> browser.getLink('keywords').click()
 >>> browser.url
-'http://localhost/ab/person-list.html?table-sortOrder=ascending&table-sortOn=table-keywords-0'
+'http://localhost/ab/@@person-list.html?table-sortOrder=ascending&table-sortOn=table-keywords-0'
 >>> print browser.contents
 <!DOCTYPE ...
   <tbody>

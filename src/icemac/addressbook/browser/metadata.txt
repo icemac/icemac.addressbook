@@ -150,7 +150,7 @@ modification dates to ``None``:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> person = address_book['Person']
 >>> print IZopeDublinCore(person).modified == default_moddate
 True
@@ -173,7 +173,7 @@ entries do not change:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> person = address_book['Person']
 >>> print IZopeDublinCore(person).modified == default_moddate
 False

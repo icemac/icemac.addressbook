@@ -15,11 +15,11 @@ import zope.security.proxy
 import zope.traversing.browser.absoluteurl
 
 
-class UpLinkColumn(z3c.table.column.LinkColumn):
+class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
     """Column displaying an `up` link."""
 
     header = _('move-up-table-header', default='move')
-    linkName = '@@up.html'
+    linkName = 'up.html'
     linkContent = _('move-up-table-cell', default='up')
 
     def renderCell(self, item):
@@ -30,11 +30,11 @@ class UpLinkColumn(z3c.table.column.LinkColumn):
         return super(UpLinkColumn, self).renderCell(item)
 
 
-class DownLinkColumn(z3c.table.column.LinkColumn):
+class DownLinkColumn(icemac.addressbook.browser.table.LinkColumn):
     """Column displaying an `down` link."""
 
     header = _('move-down-table-header', default='move')
-    linkName = '@@down.html'
+    linkName = 'down.html'
     linkContent = _('move-down-table-cell', default='down')
 
     def renderCell(self, item):

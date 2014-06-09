@@ -154,8 +154,6 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
 
     @z3c.form.button.buttonAndHandler(_('Add'), name='add')
     def handleAdd(self, action):
-        # because we define a new action we have to duplicate the
-        # existing action because otherwise we'll lose it.
         super(BaseAddForm, self).handleAdd(self, action)
         if self._finishedAdd:
             self.status = _(
@@ -216,12 +214,10 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
             target = zope.site.hooks.getSite()
         else:
             raise ValueError('next_url %r unknown' % next_url)
-        target_url = self.url(target)
+
         if next_view is None:
             next_view = self.next_view
-        if next_view:
-            target_url += '/%s' % next_view
-        self.request.response.redirect(target_url)
+        self.request.response.redirect(self.url(target, next_view))
 
     def applyChanges(self, data):
         try:

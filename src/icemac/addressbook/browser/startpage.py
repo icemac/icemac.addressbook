@@ -24,5 +24,5 @@ person_list = StartpageData(
     'icemac.addressbook.interfaces.IAddressBook', 'person-list.html',
     _('Person list'))
 search = StartpageData(
-    'icemac.addressbook.interfaces.IAddressBook', '@@search.html',
+    'icemac.addressbook.interfaces.IAddressBook', 'search.html',
     _('Search'))
