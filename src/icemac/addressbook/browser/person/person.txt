@@ -154,7 +154,7 @@ changes were not saved:
 >>> get_messages(browser)
 ['No changes were applied.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Hans...
@@ -208,7 +208,7 @@ back to the overview page of the address book:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> print browser.contents
 <!DOCTYPE...
 ...Tester...Petra...
@@ -434,7 +434,7 @@ Visitor
 Visitors can not change any data, they can only view it:
 
 >>> visitor_browser = get_browser('visitor')
->>> visitor_browser.open('http://localhost/ab/person-list.html')
+>>> visitor_browser.open('http://localhost/ab/@@person-list.html')
 >>> visitor_browser.getLink('Petra').click()
 >>> print visitor_browser.contents
 <!DOCTYPE...
@@ -487,7 +487,7 @@ He has to go to the edit page of the person and has to choose the
 apporiate delete button there. He is presented with a list of the
 existing adresses and numbers:
 
->>> browser.open('http://localhost/ab/person-list.html')
+>>> browser.open('http://localhost/ab/@@person-list.html')
 >>> browser.getLink('Petra').click()
 >>> person_edit_form_url = browser.url
 >>> browser.getControl('Delete single entry').click()
@@ -608,7 +608,7 @@ To delete a person the user has to be at least an editor.  He has to
 go to the edit page of the person and has to choose the delete button
 there. He is presented with an `are you sure` formular:
 
->>> browser.open('http://localhost/ab/person-list.html')
+>>> browser.open('http://localhost/ab/@@person-list.html')
 >>> browser.getLink('Petra').click()
 >>> browser.getControl('Delete whole person').click()
 >>> browser.url
@@ -632,7 +632,7 @@ where the person is no longer listed:
 >>> get_messages(browser)
 ['"Tester, Petra" deleted.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.open(browser.url)
 >>> 'Petra' in browser.contents
 False

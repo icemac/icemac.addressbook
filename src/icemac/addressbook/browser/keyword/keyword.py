@@ -27,7 +27,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 def can_delete_keyword(form):
     """Button condition telling if the displayed keyword is deleteable."""
     return (
-        icemac.addressbook.browser.base.can_access('@@delete.html')(form)
+        icemac.addressbook.browser.base.can_access('delete.html')(form)
         and
         not gocept.reference.interfaces.IReferenceTarget(
             form.context).is_referenced()
@@ -56,7 +56,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     @z3c.form.button.buttonAndHandler(
         _(u'Delete'), name='delete', condition=can_delete_keyword)
     def handleDelete(self, action):
-        self.redirect_to_next_url('object', '@@delete.html')
+        self.redirect_to_next_url('object', 'delete.html')
 
 
 @zope.interface.implementer(

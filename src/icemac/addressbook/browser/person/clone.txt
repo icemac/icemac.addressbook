@@ -86,7 +86,7 @@ Changing data in the clone does not change the original:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('last name').value
@@ -114,7 +114,7 @@ Changing data in the original does not change the clone:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 >>> browser.getLink('Testerella').click()
 >>> browser.getControl('last name').value

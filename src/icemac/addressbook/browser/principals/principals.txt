@@ -387,7 +387,7 @@ deletion is not possible:
 >>> get_messages(browser)
 ['Failed to delete person: This person is referenced. To delete this person, remove the reference before.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> 'Loscher' in browser.contents
 True
 

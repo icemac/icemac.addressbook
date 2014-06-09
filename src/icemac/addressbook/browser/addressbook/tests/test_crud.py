@@ -31,7 +31,8 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         from mechanize import HTTPError
         browser = self.get_browser('visitor')
         with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/ab/@@delete-address_book-content.html')
+            browser.open(
+                'http://localhost/ab/@@delete-address_book-content.html')
         self.assertEqual('HTTP Error 403: Forbidden', str(err.exception))
 
     def test_administrator_is_able_to_delete_all_persons_in_address_book(self):
@@ -62,7 +63,8 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         browser.open('http://localhost/ab/@@edit-address_book.html')
         browser.getControl('Delete all persons in address book').click()
         self.assertEqual(
-            'http://localhost/ab/@@delete-address_book-content.html', browser.url)
+            'http://localhost/ab/@@delete-address_book-content.html',
+            browser.url)
 
         # When the adminstrator decides not to delete the persons he is led
         # back to the address book's edit form:
@@ -74,7 +76,8 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
             'class="text-widget int-field">5</span>', browser.contents)
         browser.getControl('No, cancel').click()
         self.assertEqual(['Deletion canceled.'], browser.get_messages())
-        self.assertEqual('http://localhost/ab/@@edit-address_book.html', browser.url)
+        self.assertEqual('http://localhost/ab/@@edit-address_book.html',
+                         browser.url)
 
         # When he decides to delete all persons he is led back to the person
         # list where only the users are still shown:
@@ -82,7 +85,7 @@ class CRUDTests(icemac.addressbook.testing.BrowserTestCase):
         browser.getControl('Yes').click()
         self.assertEqual(
             ['Address book contents deleted.'], browser.get_messages())
-        self.assertEqual('http://localhost/ab/person-list.html', browser.url)
+        self.assertEqual('http://localhost/ab/@@person-list.html', browser.url)
         self.assertIn('Person-3">User', browser.contents)
         self.assertIn('Person-4">Utzr', browser.contents)
 
@@ -110,8 +113,9 @@ class AddressbookEditSeleniumTests(
         # Editing is done in master data section:
         sel.clickAndWait('link=Master data')
         sel.clickAndWait('link=Address book')
-        self.assertEqual('http://%s/AddressBook/@@edit-address_book.html' % sel.server,
-                         sel.getLocation())
+        self.assertEqual(
+            'http://%s/AddressBook/@@edit-address_book.html' % sel.server,
+            sel.getLocation())
         # The add form actually stored the values:
         sel.assertValue('id=form-widgets-title', 'test book')
         sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)

@@ -13,7 +13,25 @@ import zope.i18n
 
 # Columns
 
-class TitleLinkColumn(z3c.table.column.LinkColumn):
+class LinkColumn(icemac.addressbook.browser.base.BaseView,
+                 z3c.table.column.LinkColumn):
+    """LinkColumn which does not display a link when the URL is `None`.
+
+    Also uses addressbook's URL computation method.
+
+    """
+    defaultValue = u''  # value which is rendered when there is no URL
+
+    def getLinkURL(self, item):
+        return self.url(item, self.linkName)
+
+    def renderCell(self, item):
+        if not self.getLinkURL(item):
+            return self.defaultValue
+        return super(LinkColumn, self).renderCell(item)
+
+
+class TitleLinkColumn(LinkColumn):
     """Column containing the title of an object and a link to the object."""
 
     header = _(u'Name')
@@ -26,13 +44,13 @@ class TitleLinkColumn(z3c.table.column.LinkColumn):
         return icemac.addressbook.interfaces.ITitle(item)
 
 
-class DeleteLinkColumn(z3c.table.column.LinkColumn):
+class DeleteLinkColumn(LinkColumn):
     """Column containing the a link to delete the object."""
 
     header = _(u'')
     weight = 100
     linkContent = _(u'Delete')
-    linkName = '@@delete.html'
+    linkName = 'delete.html'
 
 
 class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
@@ -80,17 +98,6 @@ class KeywordsColumn(SourceColumn):
 
     attrName = 'keywords'
     source = icemac.addressbook.interfaces.keyword_source
-
-
-class LinkColumn(z3c.table.column.LinkColumn):
-    "Special LinkColumn which does not display a link when the URL is `None`."
-
-    defaultValue = u''  # value which is rendered when there is no URL
-
-    def renderCell(self, item):
-        if not self.getLinkURL(item):
-            return self.defaultValue
-        return super(LinkColumn, self).renderCell(item)
 
 
 # Tables

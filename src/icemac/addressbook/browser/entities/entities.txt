@@ -153,7 +153,7 @@ assigned in the add form:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Tester').click()
 >>> browser.getControl('foobar').value
 'my value'
@@ -232,7 +232,7 @@ was created by an administrator:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 The entered values get persisted:
 
@@ -245,7 +245,7 @@ The entered values get persisted:
 >>> get_messages(editor)
 ['No changes were applied.']
 >>> editor.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 
 Add form
 ~~~~~~~~
@@ -280,7 +280,7 @@ The editor is also able to edit the values he entered himself:
 >>> get_messages(editor)
 ['Data successfully updated.']
 >>> editor.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> editor.getLink('Bester').click()
 >>> editor.getControl('foobar').value
 'still better'

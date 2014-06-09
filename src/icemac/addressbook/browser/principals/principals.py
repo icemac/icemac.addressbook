@@ -147,9 +147,9 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     @z3c.form.button.buttonAndHandler(
         _(u'Delete user'), name='delete_user',
         condition=icemac.addressbook.browser.base.can_access(
-            '@@delete_user.html'))
+            'delete_user.html'))
     def handleDeleteUser(self, action):
-        self.redirect_to_next_url('object', '@@delete_user.html')
+        self.redirect_to_next_url('object', 'delete_user.html')
 
     def applyChanges(self, data):
         current_principal_id = (

@@ -75,7 +75,7 @@ The data in the user defined field can be edited as well:
 >>> get_messages(browser)
 ['Data successfully updated.']
 >>> browser.url
-'http://localhost/ab/person-list.html'
+'http://localhost/ab/@@person-list.html'
 >>> browser.getLink('Tester').click()
 >>> print browser.getControl('mynotes').value
 second letter

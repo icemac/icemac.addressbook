@@ -201,31 +201,31 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     @z3c.form.button.buttonAndHandler(
         _(u'Clone person'), name='clone_person',
-        condition=icemac.addressbook.browser.base.can_access('@@clone.html'))
+        condition=icemac.addressbook.browser.base.can_access('clone.html'))
     def handleClonePerson(self, action):
-        self.redirect_to_next_url('object', '@@clone.html')
+        self.redirect_to_next_url('object', 'clone.html')
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete whole person'), name='delete_person',
         condition=icemac.addressbook.browser.base.all_(
-            icemac.addressbook.browser.base.can_access('@@delete_person.html'),
+            icemac.addressbook.browser.base.can_access('delete_person.html'),
             person_deletable))
     def handleDeletePerson(self, action):
-        self.redirect_to_next_url('object', '@@delete_person.html')
+        self.redirect_to_next_url('object', 'delete_person.html')
 
     @z3c.form.button.buttonAndHandler(
         _(u'Delete single entry'), name='delete_entry',
         condition=icemac.addressbook.browser.base.can_access(
-            '@@delete_entry.html'))
+            'delete_entry.html'))
     def handleDeleteAddress(self, action):
-        self.redirect_to_next_url('object', '@@delete_entry.html')
+        self.redirect_to_next_url('object', 'delete_entry.html')
 
     @z3c.form.button.buttonAndHandler(
         _(u'Export'), name='export',
         condition=icemac.addressbook.browser.base.can_access(
-            '@@export.html'))
+            'export.html'))
     def handleExport(self, action):
-        self.redirect_to_next_url('object', '@@export.html')
+        self.redirect_to_next_url('object', 'export.html')
 
     def applyChanges(self, data):
         """Special variant which sends ModifiedEvent for each modified
@@ -328,5 +328,4 @@ class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
             return
         selected_entry = data['entry']
 
-        url = self.url(selected_entry)
-        self.request.response.redirect(url + '/@@delete.html')
+        self.request.response.redirect(self.url(selected_entry, 'delete.html'))

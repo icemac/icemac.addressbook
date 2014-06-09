@@ -31,13 +31,16 @@ class FieldsTraverser(
             return super(FieldsTraverser, self).publishTraverse(request, name)
 
 
-def get_field_URL(entity, field, request):
+def get_field_URL(entity, field, request, view=None):
     """Compute the URL to access a field."""
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities)
-    url = zope.traversing.browser.absoluteURL(entities, request)
-    url += "/" + entity.__name__ + "/" + field.__name__
-    return url
+    url_parts = [zope.traversing.browser.absoluteURL(entities, request),
+                 entity.__name__,
+                 field.__name__]
+    if view is not None:
+        url_parts.append('@@%s' % view)
+    return '/'.join(url_parts)
 
 
 class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
@@ -60,7 +63,8 @@ class List(object):
         for field in self._values():
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 url = get_field_URL(self.context, field, self.request)
-                delete_url = '%s/@@delete.html' % url
+                delete_url = get_field_URL(
+                    self.context, field, self.request, 'delete.html')
             else:
                 url = delete_url = None
             yield {'title': field.title,
