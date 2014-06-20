@@ -347,7 +347,11 @@ class IEntityWrite(zope.interface.Interface):
     """Entity in the address book. (Write part of the interface.)"""
 
     def addField(field):
-        """Add a user defined field to the entity."""
+        """Add a user defined field to the entity.
+
+        Returns the name of the created field.
+
+        """
 
     def setFieldOrder(field_names):
         """Update the order of the fields like in `field_names`.
