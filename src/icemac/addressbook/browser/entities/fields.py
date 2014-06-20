@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
-from icemac.addressbook.i18n import  _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
@@ -16,7 +16,7 @@ import zope.traversing.browser
 
 
 class FieldsTraverser(
-    zope.app.publication.traversers.SimpleComponentTraverser):
+        zope.app.publication.traversers.SimpleComponentTraverser):
 
     zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
     zope.component.adapts(icemac.addressbook.interfaces.IEntity,
