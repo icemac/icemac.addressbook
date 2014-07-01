@@ -21,7 +21,7 @@ Other
 
 - Updated to run on `Zope Toolkit 1.1.6`_.
 
-- Add py.test to run the tests.
+- Add `py.test` to run the tests.
 
 - Automatically add ``@@`` in front of the view names.
 
@@ -71,12 +71,6 @@ Other
 - Refactoring: Allow additional packages to register their roles to be
   handled like `Editor` or `Visitor` thus allowing them to change their
   username and/or password.
-
-
-2.2.0 (2014-01-02)
-==================
-
-- Refactoring: Added `session` property to `BaseView` to ease session access.
 
 
 Previous Versions

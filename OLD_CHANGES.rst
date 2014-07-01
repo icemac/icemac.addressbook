@@ -2,6 +2,13 @@
  Old changes
 =============
 
+
+2.2.0 (2014-01-02)
+==================
+
+- Refactoring: Added `session` property to `BaseView` to ease session access.
+
+
 2.1.0 (2013-12-31)
 ==================
 
