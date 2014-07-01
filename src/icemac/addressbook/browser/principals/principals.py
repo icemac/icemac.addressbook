@@ -15,7 +15,6 @@ import z3c.form.button
 import z3c.form.field
 import z3c.form.validator
 import z3c.form.widget
-import zope.i18n
 import zope.interface
 import zope.pluggableauth.plugins.principalfolder
 import zope.schema

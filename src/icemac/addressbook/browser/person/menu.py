@@ -2,7 +2,6 @@ import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.menus.menu
 import z3c.menu.ready2go.checker
-import z3c.menu.ready2go.interfaces
 import z3c.menu.ready2go.item
 import zope.interface
 
