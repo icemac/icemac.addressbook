@@ -55,7 +55,7 @@ we choose the keyword search as it has export abilities:
 
 >>> browser.getLink('Suche').click()
 >>> browser.getLink('Schlagwortsuche').click()
->>> browser.getControl('Schlagworte').displayValue = ['Kirche']
+>>> browser.getControl('Schlagwörter').displayValue = ['Kirche']
 >>> browser.getControl('Suchen').click()
 
 The export produces an XLS file:
@@ -90,7 +90,7 @@ The export produces an XLS file:
 [text:u'Vorname',
  text:u'Familienname',
  text:u'Geburtsdatum',
- text:u'Schlagworte',
+ text:u'Schlagw\xf6rter',
  text:u'Anmerkungen',
  text:u'Fotoerlaubnis?',
  text:u'Adresszusatz',
@@ -152,7 +152,7 @@ The complete export is not really different from the main one:
 [text:u'Vorname',
  text:u'Familienname',
  text:u'Geburtsdatum',
- text:u'Schlagworte',
+ text:u'Schlagw\xf6rter',
  text:u'Anmerkungen',
  text:u'Fotoerlaubnis?',
  text:u'Adresszusatz',
