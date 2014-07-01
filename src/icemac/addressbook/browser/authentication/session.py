@@ -5,8 +5,8 @@ import zope.pluggableauth.plugins.session
 
 
 class FlashedSessionCredentialsPlugin(
-    zope.pluggableauth.plugins.session.SessionCredentialsPlugin,
-    icemac.addressbook.browser.base.FlashView):
+        zope.pluggableauth.plugins.session.SessionCredentialsPlugin,
+        icemac.addressbook.browser.base.FlashView):
     """SessionCredentialsPlugin with support for flash messages."""
 
     def challenge(self, request):
@@ -20,8 +20,8 @@ class FlashedSessionCredentialsPlugin(
 
 
 class FlashedSessionCredentialsLoginForm(
-    z3c.authviewlet.session.SessionCredentialsLoginForm,
-    icemac.addressbook.browser.base.FlashView):
+        z3c.authviewlet.session.SessionCredentialsLoginForm,
+        icemac.addressbook.browser.base.FlashView):
     """SessionCredentialsLoginForm with flash messages."""
 
     def update(self):

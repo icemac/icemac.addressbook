@@ -21,8 +21,8 @@ class OrderStorageList(persistent.list.PersistentList):
     """
 
 
-class OrderStorage(
-    persistent.Persistent, zope.container.contained.Contained):
+class OrderStorage(persistent.Persistent,
+                   zope.container.contained.Contained):
     """Storage of orders of objects."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IOrderStorage)

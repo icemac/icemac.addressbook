@@ -49,7 +49,7 @@ keyword_entity = icemac.addressbook.entities.create_entity(
 def changed(obj, event):
     for desc in event.descriptions:
         if (desc.interface == icemac.addressbook.interfaces.IKeyword and
-            'title' in desc.attributes):
+                'title' in desc.attributes):
             catalog = zope.component.getUtility(
                 zope.catalog.interfaces.ICatalog)
             catalog.updateIndex(catalog.get('keywords'))

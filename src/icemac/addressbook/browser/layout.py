@@ -2,8 +2,7 @@ from icemac.addressbook.interfaces import IAddressBook
 import zope.contentprovider.provider
 
 
-class AddressBookTitle(
-    zope.contentprovider.provider.ContentProviderBase):
+class AddressBookTitle(zope.contentprovider.provider.ContentProviderBase):
     """Content provider for the addressbook title string."""
 
     default_title = u'icemac.addressbook'

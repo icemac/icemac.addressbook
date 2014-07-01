@@ -45,7 +45,7 @@ class Configurator(object):
         self.store()
 
     def ask_user(
-        self, question, section, option, global_default=None, values=()):
+            self, question, section, option, global_default=None, values=()):
         """Ask the user for a value of section/option and store it in config.
 
         global_default ... use this value as default value when it is not
@@ -85,7 +85,7 @@ class Configurator(object):
 
         """
         if (self.user_config is not None and
-            not os.path.exists(self.user_config)):
+                not os.path.exists(self.user_config)):
             raise IOError('%r does not exist.' % self.user_config)
 
         to_read = ['install.default.ini']
@@ -193,18 +193,18 @@ class Configurator(object):
         print 'creating admin.zcml ...'
         admin_zcml = file('admin.zcml', 'w')
         admin_zcml.write('\n'.join(
-                ('<configure xmlns="http://namespaces.zope.org/zope">',
-                 '  <principal',
-                 '    id="icemac.addressbook.global.Administrator"',
-                 '    title="global administrator"',
-                 '    login="%s"' % self.admin_login,
-                 '    password_manager="Plain Text"',
-                 '    password="%s" />' % self.admin_passwd,
-                 '  <grant',
-                 '    role="zope.Manager"',
-                 '    principal="icemac.addressbook.global.Administrator" />',
-                 '</configure>',
-                 )))
+            ('<configure xmlns="http://namespaces.zope.org/zope">',
+             '  <principal',
+             '    id="icemac.addressbook.global.Administrator"',
+             '    title="global administrator"',
+             '    login="%s"' % self.admin_login,
+             '    password_manager="Plain Text"',
+             '    password="%s" />' % self.admin_passwd,
+             '  <grant',
+             '    role="zope.Manager"',
+             '    principal="icemac.addressbook.global.Administrator" />',
+             '</configure>',
+             )))
         admin_zcml.close()
 
     def create_buildout_cfg(self):

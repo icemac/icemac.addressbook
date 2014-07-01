@@ -53,7 +53,7 @@ class ReviewTable(icemac.addressbook.browser.table.Table,
             z3c.table.column.addColumn(
                 self, TitleColumn, 'name', weight=1, header=_('name')),
             icemac.addressbook.browser.personlist.createFieldColumn(
-                    self, entity, field, 2),
+                self, entity, field, 2),
             z3c.table.column.addColumn(
                 self, ErrorColumn, 'errors', weight=3, header=_('errors')),
             ]

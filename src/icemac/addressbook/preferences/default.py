@@ -18,7 +18,7 @@ def add(address_book):
         zope.preference.default.DefaultPreferenceProvider)
     if default_prefs is None:
         default_prefs = zope.component.getUtility(
-        zope.preference.interfaces.IDefaultPreferenceProvider)
+            zope.preference.interfaces.IDefaultPreferenceProvider)
 
     # Set the defaults for the person lists.
     personLists = default_prefs.getDefaultPreferenceGroup('ab.personLists')

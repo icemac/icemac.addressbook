@@ -4,8 +4,8 @@ import icemac.addressbook.browser.base
 
 
 class FlashedHTTPAuthenticationLogout(
-    z3c.authviewlet.auth.HTTPAuthenticationLogout,
-    icemac.addressbook.browser.base.FlashView):
+        z3c.authviewlet.auth.HTTPAuthenticationLogout,
+        icemac.addressbook.browser.base.FlashView):
     """HTTPAuthenticationLogout enriched by flash messages."""
 
     def logout(self, nextURL=None):

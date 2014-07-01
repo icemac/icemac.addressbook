@@ -64,14 +64,14 @@ class TestAddressbook(unittest.TestCase,
         from icemac.addressbook.interfaces import ENTITIES
         self.assertEqual(
             ['IcemacAddressbookAddressbookAddressbook',
-            'IcemacAddressbookPersonPerson',
-            'IcemacAddressbookPersonPersondefaults',
-            'IcemacAddressbookAddressPostaladdress',
-            'IcemacAddressbookAddressPhonenumber',
-            'IcemacAddressbookAddressEmailaddress',
-            'IcemacAddressbookAddressHomepageaddress',
-            'IcemacAddressbookFileFileFile',
-            'IcemacAddressbookKeywordKeyword'],
+             'IcemacAddressbookPersonPerson',
+             'IcemacAddressbookPersonPersondefaults',
+             'IcemacAddressbookAddressPostaladdress',
+             'IcemacAddressbookAddressPhonenumber',
+             'IcemacAddressbookAddressEmailaddress',
+             'IcemacAddressbookAddressHomepageaddress',
+             'IcemacAddressbookFileFileFile',
+             'IcemacAddressbookKeywordKeyword'],
             self.ab.orders.byNamespace(ENTITIES))
 
     def test_only_entity_order_is_created_initially(self):

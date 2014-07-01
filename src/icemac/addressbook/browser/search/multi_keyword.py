@@ -20,7 +20,7 @@ class SearchView(icemac.addressbook.browser.search.base.BaseView):
 
 
 class SearchTermConcatenationSource(
-    icemac.addressbook.sources.TitleMappingSource):
+        icemac.addressbook.sources.TitleMappingSource):
 
     _mapping = collections.OrderedDict(
         (('and', _(u'search-and', default=u'and')),

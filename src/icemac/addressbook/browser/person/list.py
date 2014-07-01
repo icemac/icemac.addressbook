@@ -12,8 +12,8 @@ import zope.interface
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class PersonList(
-    icemac.addressbook.browser.personlist.BasePersonList,
-    icemac.addressbook.browser.table.PageletTable):
+        icemac.addressbook.browser.personlist.BasePersonList,
+        icemac.addressbook.browser.table.PageletTable):
     """List persons in address book."""
 
     no_rows_message = _(

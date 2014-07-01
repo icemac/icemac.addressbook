@@ -39,5 +39,5 @@ class EntityMetadataTests(icemac.addressbook.testing.BrowserTestCase):
             'f:list=zip')
         self.assertIn(
             '<span id="form-widgets-creator" '
-                   'class="text-widget textline-field">Manager',
+            'class="text-widget textline-field">Manager',
             browser.contents)

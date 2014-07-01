@@ -9,8 +9,8 @@ import zope.interface
 
 
 class MessagesContentProvider(
-    zope.contentprovider.provider.ContentProviderBase,
-    z3c.flashmessage.receiver.GlobalMessageReceiver):
+        zope.contentprovider.provider.ContentProviderBase,
+        z3c.flashmessage.receiver.GlobalMessageReceiver):
     """Content provider displaying flash messages."""
 
     zope.component.adapts(

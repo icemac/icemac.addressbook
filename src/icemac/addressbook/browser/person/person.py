@@ -282,7 +282,7 @@ class ClonePersonForm(icemac.addressbook.browser.base.BaseCloneForm):
 
 
 class PersonEntriesSource(
-    zc.sourcefactory.contextual.BasicContextualSourceFactory):
+        zc.sourcefactory.contextual.BasicContextualSourceFactory):
     "Source to select entries (addresses, files, ...) from a person."
 
     def getValues(self, context):

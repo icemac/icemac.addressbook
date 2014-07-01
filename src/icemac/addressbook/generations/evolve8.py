@@ -58,7 +58,7 @@ def update_recursively(object, context, depth):
         return
     for name, obj in object.__dict__.items():
         if (zope.container.interfaces.IContainer.providedBy(object) and
-            not name.startswith('_')):
+                not name.startswith('_')):
             # short cut, only the values on public attributes which
             # are containers need to be converted
             update_recursively(obj, context, depth)

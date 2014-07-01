@@ -139,7 +139,7 @@ def setUpAddressBook(self):
     addressbook = create_addressbook(parent=rootFolder)
     zope.site.hooks.setSite(addressbook)
     transaction.commit()
-    #conn.close()
+    # conn.close()
     return addressbook
 
 
@@ -487,8 +487,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     get_submit_control_names = get_submit_control_names
     in_out_widget_select = in_out_widget_select
 
-### Helper functions to create objects in the database ###
 
+# Helper functions to create objects in the database
 
 def create_addressbook(name='ab', title=None, parent=None):
     """Create an address book.
@@ -573,7 +573,7 @@ def create_email_address(person, set_as_default=True, return_obj=True, **kw):
 
 @icemac.addressbook.utils.set_site
 def create_home_page_address(
-    person, set_as_default=True, return_obj=True, **kw):
+        person, set_as_default=True, return_obj=True, **kw):
     name = icemac.addressbook.utils.create_and_add(
         person, icemac.addressbook.address.HomePageAddress, **kw)
     address = person[name]
@@ -604,8 +604,8 @@ def create_file(person, return_obj=True, **kw):
 
 
 @icemac.addressbook.utils.set_site
-def create(
-    parent, entity_name, return_obj=False, set_as_default=False, *args, **kw):
+def create(parent, entity_name, return_obj=False, set_as_default=False,
+           *args, **kw):
     """Create an object using an entity.
 
     entity_name ... IEntity.class_name

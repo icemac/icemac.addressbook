@@ -9,16 +9,14 @@ import zope.interface
 import zope.viewlet.interfaces
 
 
-class IAddressBookLayer(
-    z3c.form.interfaces.IFormLayer,
-    z3c.layer.pagelet.IPageletBrowserLayer,
-    z3c.preference.interfaces.IPreferenceLayer):
+class IAddressBookLayer(z3c.form.interfaces.IFormLayer,
+                        z3c.layer.pagelet.IPageletBrowserLayer,
+                        z3c.preference.interfaces.IPreferenceLayer):
     """Address book browser layer with form support."""
 
 
-class IAddressBookBrowserSkin(
-    z3c.formui.interfaces.IDivFormLayer,
-    IAddressBookLayer):
+class IAddressBookBrowserSkin(z3c.formui.interfaces.IDivFormLayer,
+                              IAddressBookLayer):
     """The address book browser skin using the div-based layout."""
 
 

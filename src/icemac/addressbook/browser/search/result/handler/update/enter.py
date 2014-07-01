@@ -40,11 +40,11 @@ class TextOperatorsSource(BaseOperatorsSource):
          ('replace', _('replace existing value with new one')),
          ('append', _('append new value to existing one')),
          ('remove-all',
-            _('remove all occurrences of new value in existing one')),
+          _('remove all occurrences of new value in existing one')),
          ('remove-first',
-            _('remove left-most occurrence of new value in existing one')),
+          _('remove left-most occurrence of new value in existing one')),
          ('remove-last',
-            _('remove right-most occurrence of new value in existing one')),
+          _('remove right-most occurrence of new value in existing one')),
          ))
 
 
@@ -54,7 +54,7 @@ class ReplaceableOperatorsSource(BaseOperatorsSource):
     _default_value = 'replace'
     _missing_value = None
     _mapping = collections.OrderedDict(
-            (('replace', _('replace existing value with new one')),))
+        (('replace', _('replace existing value with new one')),))
 
 
 class KeywordOperatorsSource(BaseOperatorsSource):
