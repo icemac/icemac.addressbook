@@ -71,7 +71,7 @@ class URLColumn(LinkColumn):
 
 
 class DateTimeColumn(z3c.table.column.FormatterColumn,
-                 BaseColumn):
+                     BaseColumn):
     """Column which is sortable even with `None` values in it."""
 
     maxValue = END_OF_DATETIME
@@ -153,7 +153,7 @@ def getColumnClass(entity, field):
         # Keywords need a special column as they are an iterable:
         return icemac.addressbook.browser.table.KeywordsColumn
     if (zope.schema.interfaces.IText.providedBy(field) and
-        not zope.schema.interfaces.ITextLine.providedBy(field)):
+            not zope.schema.interfaces.ITextLine.providedBy(field)):
         # The content of text areas (but not text lines, which extend from
         # text area) should get truncated.
         return TruncatedContentColumn

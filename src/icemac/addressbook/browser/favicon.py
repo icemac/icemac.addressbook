@@ -31,7 +31,7 @@ class FavIconData(object):
 
 
 red = FavIconData('/++resource++img/favicon-red.ico',
-                   '/++resource++img/favicon-red-preview.png')
+                  '/++resource++img/favicon-red-preview.png')
 green = FavIconData('/++resource++img/favicon-green.ico',
                     '/++resource++img/favicon-green-preview.png')
 black = FavIconData('/++resource++img/favicon-black.ico',

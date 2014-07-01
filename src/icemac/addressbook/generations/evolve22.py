@@ -19,7 +19,7 @@ def evolve(addressbook):
         zope.principalannotation.interfaces.IPrincipalAnnotationUtility)
     for pid in principals.keys():
         prefs = principal_annotations.getAnnotationsById(pid).get(
-               zope.preference.preference.pref_key, {})
+            zope.preference.preference.pref_key, {})
         if 'personList' not in prefs:
             continue
         for key, value in prefs['personList'].items():

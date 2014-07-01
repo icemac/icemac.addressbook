@@ -11,8 +11,8 @@ import zope.globalrequest
 import zope.interface
 
 
-class PostalAddress(
-    persistent.Persistent, zope.container.contained.Contained):
+class PostalAddress(persistent.Persistent,
+                    zope.container.contained.Contained):
     "A postal address."
 
     zope.interface.implements(icemac.addressbook.interfaces.IPostalAddress)
@@ -46,8 +46,8 @@ def postal_address_title(address):
     return title
 
 
-class EMailAddress(
-    persistent.Persistent, zope.container.contained.Contained):
+class EMailAddress(persistent.Persistent,
+                   zope.container.contained.Contained):
     """An e-mail address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IEMailAddress)
@@ -80,8 +80,8 @@ def email_address_of_person(person):
     return getattr(person, email_entity.tagged_values['default_attrib'])
 
 
-class HomePageAddress(
-    persistent.Persistent, zope.container.contained.Contained):
+class HomePageAddress(persistent.Persistent,
+                      zope.container.contained.Contained):
     """A home page address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IHomePageAddress)
@@ -106,8 +106,8 @@ def home_page_address_title(hp):
     return title
 
 
-class PhoneNumber(
-    persistent.Persistent, zope.container.contained.Contained):
+class PhoneNumber(persistent.Persistent,
+                  zope.container.contained.Contained):
     """A phone number."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IPhoneNumber)

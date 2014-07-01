@@ -69,7 +69,7 @@ def update_persons(persons, entity, field, operator_name, update_value):
         current_value = schema_field.get(schema_field.context)
         operator = zope.component.getAdapter(
             current_value,
-            icemac.addressbook.browser.search.result.handler.update.operators.\
+            icemac.addressbook.browser.search.result.handler.update.operators.
             IOperator, name=operator_name)
         try:
             new_value = operator(update_value)

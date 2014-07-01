@@ -14,7 +14,7 @@ class TestSearchResultHandler(unittest.TestCase):
         self.assertEqual(h1, h2)
 
     def test_two_SearchResultHandlers_are_not_equal_when_viewName_is_unequal(
-        self):
+            self):
         from icemac.addressbook.browser.search.result.handler.manager import (
             SearchResultHandler)
         h1 = SearchResultHandler(None, None, None, None)

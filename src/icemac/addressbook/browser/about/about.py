@@ -17,7 +17,7 @@ class About(object):
 
 
 class CopyrightContentProvider(
-    zope.contentprovider.provider.ContentProviderBase):
+        zope.contentprovider.provider.ContentProviderBase):
     """Content provider for the copyright string."""
 
     def render(self):

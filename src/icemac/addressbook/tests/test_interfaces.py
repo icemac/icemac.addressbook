@@ -86,7 +86,7 @@ class TestInterfaces(unittest.TestCase):
         class IE(zope.interface.Interface):
             pass
         entity = icemac.addressbook.entities.Entity(
-                u'E', IE, 'icemac.addressbook.TestInterfaces')
+            u'E', IE, 'icemac.addressbook.TestInterfaces')
         zope.interface.verify.verifyObject(
             icemac.addressbook.interfaces.IEntityRead, entity)
         zope.interface.verify.verifyObject(
