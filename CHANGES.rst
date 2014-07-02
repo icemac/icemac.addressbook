@@ -5,7 +5,7 @@ Change log
 2.6.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix persistent view names containing ``@@`` which was doubled since 2.5.0.
 
 
 2.5.0 (2014-07-01)
