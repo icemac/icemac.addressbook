@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.6.0 (unreleased)
+2.5.1 (2014-07-03)
 ==================
 
 - Fix persistent view names containing ``@@`` which was doubled since 2.5.0.
