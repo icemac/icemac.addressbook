@@ -13,5 +13,6 @@ def evolve(ab):
     """Fix selected startpage after adding by default to view names.
 
     """
-    if ab.startpage[1].startswith('@@'):
-    	ab.startpage = (ab.startpage[0], ab.startpage[1][2:])
+    startpage_view = ab.startpage[1]
+    if startpage_view is not None and startpage_view.startswith('@@'):
+        ab.startpage = (ab.startpage[0], ab.startpage[1][2:])
