@@ -1,11 +1,6 @@
-# Copyright (c) 2008-2014 Michael Howitz
+# Copyright (c) 2014 Michael Howitz
 # See also LICENSE.txt
 import icemac.addressbook.generations.utils
-import icemac.addressbook.interfaces
-import zope.annotation.interfaces
-import zope.component
-import zope.interface
-import zope.location
 
 
 @icemac.addressbook.generations.utils.evolve_addressbooks
