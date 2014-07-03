@@ -73,7 +73,7 @@ setuptools.setup(
         'gocept.reference',
         'grokcore.component',
         'icalendar',
-        'icemac.ab.locales [compile] >= 2.4',
+        'icemac.ab.locales [compile] >= 2.5',
         'icemac.truncatetext',
         'js.jquery',
         'js.jquery_timepicker_addon',
