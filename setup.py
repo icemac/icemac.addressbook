@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
-
-import os.path
 import setuptools
+
 
 def read(filename):
     return file(filename).read()
 
+
 version = '2.6.0.dev0'
+
 
 setuptools.setup(
     name='icemac.addressbook',
@@ -18,7 +19,8 @@ setuptools.setup(
         read('README.rst'),
         read('INSTALL.rst'),
         read('TODO.rst'),
-        read('CHANGES.rst')] ),
+        read('CHANGES.rst')]
+    ),
     keywords='python address book addressbook zope3 zope application web '
              'phone number e-mail email home page homepage wsgi',
     author='Michael Howitz',
@@ -57,10 +59,10 @@ setuptools.setup(
         'Topic :: Office/Business',
         'Topic :: Office/Business :: Groupware',
         'Topic :: Religion',
-        ],
+    ],
     packages=setuptools.find_packages('src'),
-    package_dir = {'': 'src'},
-    namespace_packages = ['icemac'],
+    package_dir={'': 'src'},
+    namespace_packages=['icemac'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -117,8 +119,8 @@ setuptools.setup(
         'zope.securitypolicy',
         'zope.session',
         'zope.traversing',
-        ],
-    extras_require = dict(
+    ],
+    extras_require=dict(
         test=[
             'gocept.selenium',
             'gocept.testing',
@@ -129,9 +131,9 @@ setuptools.setup(
             'zc.buildout',
             'zope.testbrowser[wsgi]>=4.0',
             'zope.testing >= 3.8',
-            ],
-        ),
-    entry_points = """
+        ],
+    ),
+    entry_points="""
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt
       addressbook = icemac.addressbook.startup:zdaemon_controller
@@ -143,4 +145,4 @@ setuptools.setup(
       css = icemac.addressbook.browser.resource:css_lib
       js = icemac.addressbook.browser.resource:js_lib
       """
-    )
+)
