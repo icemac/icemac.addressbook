@@ -165,8 +165,3 @@ form .widget .ui-selectable li img {
     margin-left: auto;
     margin-right: auto;
 }
-
-/* Fix IE 10 to not render helper fields hidden in all other browsers. */
-#IcemacAddressbookPersonPerson_0-widgets-IcemacAddressbookPersonPerson_0-keywords-toDataContainer {
-    display: none;
-}
