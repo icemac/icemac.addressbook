@@ -24,8 +24,13 @@ General
 - Completely translated into German, and easily translateable into
   other languages.
 
-- Optimized for the following browsers: Firefox, Safari. IE works but might
-  look ugly. (Mobile version of Safari has some glitches.)
+- Optimized for the following browsers: Firefox, Safari. Internet Explorer
+  beforeversion 9 works but might looks ugly. (The Mobile version of Safari
+  has some glitches with multi selects.)
+
+- Calendar via `icemac.ab.calendar`_.
+
+.. _`icemac.ab.calendar` : https://pypi.python.org/pypi/icemac.ab.calendar
 
 Data
 ====
