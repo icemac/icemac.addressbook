@@ -5,7 +5,8 @@ Change log
 2.6.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix multi selects broken in Internet Explorer 10 by updating to `z3c.form
+  3.2.1`.
 
 
 2.5.1 (2014-07-03)
