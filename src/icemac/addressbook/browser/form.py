@@ -48,7 +48,9 @@ class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
 # Sources:
 # * http://api.jqueryui.com/datepicker
 # * http://trentrichardson.com/examples/timepicker/#tp-formatting
-# * https://github.com/zopefoundation/zope.i18n/blob/b8fff2676a7575bf2d3248c562f778776e0603ce/src/zope/i18n/interfaces/__init__.py#L377
+# * https://github.com/zopefoundation/zope.i18n/blob/
+#           b8fff2676a7575bf2d3248c562f778776e0603ce/src/zope/i18n/interfaces/
+#           __init__.py#L377
 pattern_mapping = {
     ('y', 2): 'y',
     ('y', 4): 'yy',
@@ -67,7 +69,7 @@ pattern_mapping = {
     ('S', 1): 'l',
     ('a', 1): 'TT',
     ('a', 2): 'TT',
-    }
+}
 
 
 def zope_i18n_pattern_to_jquery_pattern(pattern):
