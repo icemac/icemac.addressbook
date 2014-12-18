@@ -2,11 +2,14 @@
 Change log
 ==========
 
-2.5.3 (unreleased)
+2.6.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+Other
+-----
 
+- Updated most other packages (outside ZTK) needed for address book to
+  newest versions.
 
 2.5.2 (2014-12-18)
 ==================
