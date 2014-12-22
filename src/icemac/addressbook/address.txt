@@ -19,22 +19,22 @@ Some failing examples first:
 
     >>> e.email = u'asdfg'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: asdfg
+    ConstraintNotSatisfied: (u'asdfg', 'email')
     >>> e.email = u'ich@'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: ich@
+    ConstraintNotSatisfied: (u'ich@', 'email')
     >>> e.email = u'ich@goo@le.de'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: ich@goo@le.de
+    ConstraintNotSatisfied: (u'ich@goo@le.de', 'email')
     >>> e.email = u'ich@local'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: ich@local
+    ConstraintNotSatisfied: (u'ich@local', 'email')
     >>> e.email = u'ich@local..de'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: ich@local..de
+    ConstraintNotSatisfied: (u'ich@local..de', 'email')
     >>> e.email = u'ich@local.de.'
     Traceback (most recent call last):
-    ConstraintNotSatisfied: ich@local.de.
+    ConstraintNotSatisfied: (u'ich@local.de.', 'email')
 
 Now some working examples:
 
