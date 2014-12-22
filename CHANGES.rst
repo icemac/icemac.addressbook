@@ -8,8 +8,9 @@ Change log
 Other
 -----
 
-- Updated most other packages (outside ZTK) needed for address book to
-  newest versions.
+- Updated most libraries needed for address book to newest versions.
+
+- No longer depend on ZTK but build up out own list.
 
 2.5.2 (2014-12-18)
 ==================
