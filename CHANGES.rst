@@ -5,7 +5,8 @@ Change log
 2.5.3 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update to a combination of `bootstap.py`, `setuptools` and
+  `zc.buildout` which eventually allows to install `icemac.addressbook`.
 
 
 2.5.2 (2014-12-18)
