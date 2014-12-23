@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.5.3 (unreleased)
+2.5.3 (2014-12-23)
 ==================
 
 - Update to a combination of `bootstap.py`, `setuptools` and
