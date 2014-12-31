@@ -2,10 +2,10 @@
 Change log
 ==========
 
-2.5.4 (unreleased)
+2.6.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Add javascript date picker to date fields.
 
 
 2.5.3 (2014-12-23)

@@ -34,6 +34,10 @@ class IErrorMessage(zope.interface.Interface):
         """Returns the translateable error text."""
 
 
+class IDateWidget(z3c.form.interfaces.ITextWidget):
+    """Special date widget to be able to use a JavaScript picker."""
+
+
 class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
     """Special date and time widget to be able to use a JavaScript picker."""
 
