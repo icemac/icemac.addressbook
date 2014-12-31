@@ -5,12 +5,17 @@ Change log
 2.6.0 (unreleased)
 ==================
 
+Features
+--------
+
+- Add javascript date picker to date fields.
+
 Other
 -----
 
 - Updated most libraries needed for address book to newest versions.
 
-- No longer depend on ZTK but build up out own list.
+- No longer depend on ZTK but build up our own list.
 
 2.5.2 (2014-12-18)
 ==================
