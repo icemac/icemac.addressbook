@@ -98,9 +98,8 @@ class DatetimeWidgetBase(z3c.form.browser.text.TextWidget):
                   getFormatter('date', converter.length).getPattern()),
                   'changeMonth': True,
                   'changeYear': True,
+                  'yearRange': '-100:+10',
                   'firstDay': 0,
-                  'minDate': -365 * 100,
-                  'maxDate': 700,
                   }
 
         if self.picker_js_func_name == 'datetimepicker':
