@@ -10,6 +10,8 @@ Features
 
 - Add javascript date picker to date fields.
 
+- iCal export of birth dates now includes birth year, too.
+
 Other
 -----
 

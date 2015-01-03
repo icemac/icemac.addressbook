@@ -24,7 +24,7 @@ class ExportBrowserSTests(icemac.addressbook.testing.BrowserTestCase):
              'CALSCALE:GREGORIAN',
              'X-WR-CALNAME:birthdays of None',
              'BEGIN:VEVENT',
-             'SUMMARY:Koch',
+             'SUMMARY:Koch (*1952)',
              'DTSTART;VALUE=DATE:19520124',
              'DTEND;VALUE=DATE:19520125',
              'UID:http://localhost/ab/Person-2/@@iCalendar',
