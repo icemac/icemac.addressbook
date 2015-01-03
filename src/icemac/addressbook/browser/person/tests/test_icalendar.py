@@ -23,7 +23,7 @@ class iCalendarTests(icemac.addressbook.testing.BrowserTestCase):
              'PRODID:-//icemac.addressbook//1.2.3//EN',
              'CALSCALE:GREGORIAN',
              'BEGIN:VEVENT',
-             'SUMMARY:Tester\\, Liese',
+             'SUMMARY:Tester\\, Liese (*1976)',
              'DTSTART;VALUE=DATE:19761115',
              'DTEND;VALUE=DATE:19761116',
              'UID:http://localhost/ab/Person-5/@@iCalendar',

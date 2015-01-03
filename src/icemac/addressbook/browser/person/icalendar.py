@@ -8,6 +8,9 @@ import zope.interface
 import icemac.addressbook.icalendar
 
 
+ONE_DAY = timedelta(days=1)
+
+
 class iCalendar(icemac.addressbook.browser.base.BaseView):
     """Render the person's birthdate as iCal file."""
 
@@ -23,11 +26,14 @@ class iCalendar(icemac.addressbook.browser.base.BaseView):
     def icalendar_event(self):
         if self.context.birth_date is None:
             return
+        summary = '%s (*%s)' % (
+            icemac.addressbook.interfaces.ITitle(self.context),
+            self.context.birth_date.year)
         return icalendar.Event(
             uid=self.url(self.context, 'iCalendar'),
-            summary=icemac.addressbook.interfaces.ITitle(self.context),
+            summary=summary,
             dtstart=icalendar.vDate(self.context.birth_date),
-            dtend=icalendar.vDate(self.context.birth_date + timedelta(days=1)),
+            dtend=icalendar.vDate(self.context.birth_date + ONE_DAY),
             rrule=icalendar.vRecur(freq='yearly')
         )
 
