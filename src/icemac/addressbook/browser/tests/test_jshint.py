@@ -1,21 +1,7 @@
-import gocept.jslint
-import os
+import icemac.addressbook.testing
 
 
-class JSLintTest(gocept.jslint.TestCase):
-
-    jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/true')
-
-    options = (gocept.jslint.TestCase.options +
-               ('evil',
-                'eqnull',
-                'multistr',
-                'sub',
-                'undef',
-                'browser',
-                'jquery',
-                'devel'
-                ))
+class JSLintTest(icemac.addressbook.testing.JSLintTest):
 
     include = (
         'icemac.addressbook.browser:resources/js',
