@@ -29,7 +29,7 @@ class iCalendar(icemac.addressbook.browser.base.BaseView):
             dtstart=icalendar.vDate(self.context.birth_date),
             dtend=icalendar.vDate(self.context.birth_date + timedelta(days=1)),
             rrule=icalendar.vRecur(freq='yearly')
-        )
+            )
 
     def __call__(self):
         icemac.addressbook.icalendar.set_download_request_headers(
