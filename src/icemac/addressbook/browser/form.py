@@ -8,7 +8,6 @@ import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.preferences.utils
-import json
 import pytz
 import z3c.form.browser.select
 import z3c.form.browser.text
@@ -85,60 +84,49 @@ def zope_i18n_pattern_to_jquery_pattern(pattern):
     return pattern
 
 
-class DatetimeWidgetBase(z3c.form.browser.text.TextWidget):
-    """Base class widget to enter date and time using JavaScript picker."""
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IDatetimeWidget)
+class DatetimeWidget(z3c.form.browser.text.TextWidget):
+    """Widget to enter date and time using JavaScript picker."""
 
-    klass = NotImplemented
-    picker_js_func_name = NotImplemented
-
-    def get_parameters(self):
-        getFormatter = self.request.locale.dates.getFormatter
-        converter = z3c.form.interfaces.IDataConverter(self)
-        params = {'dateFormat': zope_i18n_pattern_to_jquery_pattern(
-                  getFormatter('date', converter.length).getPattern()),
-                  'changeMonth': True,
-                  'changeYear': True,
-                  'yearRange': '-100:+10',
-                  'firstDay': 0,
-                  }
-
-        if self.picker_js_func_name == 'datetimepicker':
-            params.update(
-                {'numberOfMonths': 3,
-                 'stepMonths': 3,
-                 'timeFormat': zope_i18n_pattern_to_jquery_pattern(
-                     getFormatter('time', converter.length).getPattern()),
-                 'hourGrid': 4,
-                 'hourMin': 6,
-                 'hourMax': 22,
-                 'minuteGrid': 15,
-                 'stepMinute': 15,
-                 })
-        return params
+    klass = 'datetime-widget'
 
     def update(self):
-        super(DatetimeWidgetBase, self).update()
-        locale_name = self.request.locale.id.language
+        super(DatetimeWidget, self).update()
         jqueryui_css.need()
         timepicker.need()
+
+        locale = self.request.locale
+        converter = z3c.form.interfaces.IDataConverter(self)
+        self.date_pattern = zope_i18n_pattern_to_jquery_pattern(
+            locale.dates.getFormatter('date', converter.length).getPattern())
+        self.time_pattern = zope_i18n_pattern_to_jquery_pattern(
+            locale.dates.getFormatter('time', converter.length).getPattern())
+
+        locale_name = locale.id.language
         if locale_name in timepicker_locales:
             timepicker_locales[locale_name].need()
         if locale_name in ui_datepicker_locales:
             ui_datepicker_locales[locale_name].need()
 
     def javascript(self):
-        return "jQuery('#%s').%s(%s);" % (
-            self.id, self.picker_js_func_name,
-            json.dumps(self.get_parameters()))
-
-
-@zope.interface.implementer(
-    icemac.addressbook.browser.interfaces.IDatetimeWidget)
-class DatetimeWidget(DatetimeWidgetBase):
-    """Widget to enter date and time using JavaScript picker."""
-
-    klass = 'datetime-widget'
-    picker_js_func_name = 'datetimepicker'
+        return '''
+           jQuery('#%(id)s').datetimepicker(
+               {dateFormat: '%(date_pattern)s',
+                changeMonth: true,
+                changeYear: true,
+                firstDay: 0,
+                minDate: -365,
+                maxDate: 700,
+                numberOfMonths: 3,
+                stepMonths: 3,
+                timeFormat: '%(time_pattern)s',
+                hourGrid: 4,
+                hourMin: 6,
+                hourMax: 22,
+                minuteGrid: 15,
+                stepMinute: 15});
+        ''' % self.__dict__
 
 
 @grok.adapter(
@@ -148,24 +136,6 @@ class DatetimeWidget(DatetimeWidgetBase):
 def DatetimeFieldWidget(field, request):
     """Factory for DatetimeWidget."""
     return z3c.form.widget.FieldWidget(field, DatetimeWidget(request))
-
-
-@zope.interface.implementer(
-    icemac.addressbook.browser.interfaces.IDateWidget)
-class DateWidget(DatetimeWidgetBase):
-    """Widget to enter date using a JavaScript picker."""
-
-    klass = 'date-widget'
-    picker_js_func_name = 'datepicker'
-
-
-@grok.adapter(
-    zope.schema.interfaces.IDate,
-    icemac.addressbook.browser.interfaces.IAddressBookLayer)
-@grok.implementer(z3c.form.interfaces.IFieldWidget)
-def DateFieldWidget(field, request):
-    """Factory for DateWidget."""
-    return z3c.form.widget.FieldWidget(field, DateWidget(request))
 
 
 class DateDataConverter(z3c.form.converter.DateDataConverter):
