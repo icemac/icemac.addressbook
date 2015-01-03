@@ -35,6 +35,7 @@ class DatetimeDataConverterTests(unittest.TestCase):
 
     def test_toWidgetValue_renders_native_datetime_unchanged(self):
         from datetime import datetime
+        from pytz import utc
         self.assertEqual(
             u'13/02/01 17:20',
             self.make_one().toWidgetValue(datetime(2013, 2, 1, 17, 20)))
@@ -50,6 +51,8 @@ class DatetimeDataConverterTests(unittest.TestCase):
             self.make_one().toFieldValue(u'13/02/01 21:20'))
 
     def test_toFieldValue_leaves_empty_value_alone(self):
+        from datetime import datetime
+        from pytz import timezone
         self.assertIsNone(self.make_one().toFieldValue(u''))
 
 
