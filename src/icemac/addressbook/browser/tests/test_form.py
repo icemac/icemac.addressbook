@@ -95,24 +95,3 @@ class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
         s.clickAndWait("id=form-buttons-apply")
         # Successful apply leads back to keyword overview
         s.assertLocation('http://%s/ab/++attribute++keywords' % s.server)
-
-
-class DateWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
-    """Selenium testing ..form.DateWidget."""
-
-    def test_date_widget_renders_javascript_calendar(self):
-        self.login('editor', 'editor')
-        s = self.selenium
-        s.open('/ab/@@addPerson.html')
-        # Activate the date field which opens the JavaScript calendar
-        s.click('id=IcemacAddressbookPersonPerson-widgets-'
-                'IcemacAddressbookPersonPerson-birth_date')
-        # Click the first of the first month:
-        s.click("link=1")
-        # Fill in required fiels:
-        s.type('id=IcemacAddressbookPersonPerson-widgets-'
-               'IcemacAddressbookPersonPerson-last_name', 'Tester')
-        # Save the form:
-        s.clickAndWait("id=form-buttons-add")
-        # Successful apply leads back to keyword overview
-        s.assertLocation('http://%s/ab/@@person-list.html' % s.server)

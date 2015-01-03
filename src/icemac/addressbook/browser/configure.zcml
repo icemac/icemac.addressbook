@@ -121,13 +121,6 @@
         />
   </class>
 
-  <class class=".form.DateWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDateWidget"
-        />
-  </class>
-
   <class class=".form.ImageSelectWidget">
     <require
         permission="zope.Public"
@@ -137,13 +130,6 @@
 
   <z3c:widgetTemplate
       widget=".interfaces.IDatetimeWidget"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      mode="input"
-      template="datetime_input.pt"
-      />
-
-  <z3c:widgetTemplate
-      widget=".interfaces.IDateWidget"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       mode="input"
       template="datetime_input.pt"
