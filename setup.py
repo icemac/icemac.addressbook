@@ -127,6 +127,7 @@ setuptools.setup(
             'gocept.selenium',
             'gocept.testing',
             'mock',
+            'gocept.jslint',
             'plone.testing',
             'xlrd',
             'z3c.etestbrowser',

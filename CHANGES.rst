@@ -19,6 +19,8 @@ Other
 
 - No longer depend on ZTK but build up our own list.
 
+- Lint JavaScript files.
+
 2.5.2 (2014-12-18)
 ==================
 
