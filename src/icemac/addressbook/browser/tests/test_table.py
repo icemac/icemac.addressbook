@@ -3,13 +3,13 @@ import unittest
 
 
 class DateTimeColumn_getSortKey_Tests(unittest.TestCase):
-    """Testing ..personlist.DateTimeColumn.getSortKey."""
+    """Testing ..table.DateTimeColumn.getSortKey."""
 
     def callMUT(self, value):
-        from ..personlist import DateTimeColumn
+        from ..table import DateTimeColumn
         col = DateTimeColumn(Mock(), Mock(), Mock())
-        getRawValue = ('icemac.addressbook.browser.personlist.'
-                       'DateTimeColumn.getRawValue')
+        getRawValue = (
+            'icemac.addressbook.browser.table.DateTimeColumn.getRawValue')
         with patch(getRawValue) as getRawValue:
             getRawValue.return_value = value
             return col.getSortKey(Mock())

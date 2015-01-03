@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
-import datetime
 import icemac.addressbook.browser.table
 import icemac.addressbook.entities
 import icemac.addressbook.fieldsource
@@ -15,37 +14,8 @@ import zope.preference.interfaces
 import zope.schema.interfaces
 
 
-END_OF_DATE = datetime.date(datetime.MAXYEAR, 12, 31)
-END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 31, 23, 59, 59)
-
-
-class BaseColumn(z3c.table.column.Column):
-    """Column which is able to get an object on an attribute of the item and
-    adapt it to specified interface."""
-
-    entity = None  # referenced entity
-    field = None  # referenced field on entity
-    defaultValue = u''  # Value for display when there is no value.
-
-    def getRawValue(self, item):
-        "Compute the value, which can be None."
-        schema_field = icemac.addressbook.entities.get_bound_schema_field(
-            item, self.entity, self.field)
-        # Returning the value of the bound object as it might differ from item:
-        return schema_field.get(schema_field.context)
-
-    def getValue(self, item):
-        "Compute the value, mostly ready for display."
-        obj = self.getRawValue(item)
-        if obj is None:
-            return self.defaultValue
-        return obj
-
-    renderCell = getValue
-
-
 class LinkColumn(z3c.table.column.LinkColumn,
-                 BaseColumn):
+                 icemac.addressbook.browser.table.BaseColumn):
     """LinkColumn which fetches link content from item."""
 
     def getSortKey(self, item):
@@ -70,34 +40,7 @@ class URLColumn(LinkColumn):
     getLinkURL = LinkColumn.getLinkContent
 
 
-class DateTimeColumn(z3c.table.column.FormatterColumn,
-                     BaseColumn):
-    """Column which is sortable even with `None` values in it."""
-
-    maxValue = END_OF_DATETIME
-
-    def renderCell(self, item):
-        value = self.getRawValue(item)
-        if value:
-            return self.getFormatter().format(value)
-        return self.defaultValue
-
-    def getSortKey(self, item):
-        key = self.getRawValue(item)
-        if key is None:
-            # empty date fields should be sorted to the end of the list
-            key = self.maxValue
-        return key.isoformat()
-
-
-class DateColumn(DateTimeColumn):
-    "DateColumn which is able to sort even `None` values."
-
-    formatterCategory = 'date'
-    maxValue = END_OF_DATE
-
-
-class TruncatedContentColumn(BaseColumn):
+class TruncatedContentColumn(icemac.addressbook.browser.table.BaseColumn):
     """Column which truncates its content."""
 
     length = 20  # number of characters to display
@@ -108,7 +51,7 @@ class TruncatedContentColumn(BaseColumn):
             self.getRawValue(item), self.length, self.ellipsis)
 
 
-class BoolColumn(BaseColumn):
+class BoolColumn(icemac.addressbook.browser.table.BaseColumn):
     "AdaptedGetAttrColumn for displaying bool values."
 
     def renderCell(self, item):
@@ -124,7 +67,7 @@ class BoolColumn(BaseColumn):
         return zope.i18n.translate(label, context=self.request)
 
 
-class TranslatedTiteledColumn(BaseColumn):
+class TranslatedTiteledColumn(icemac.addressbook.browser.table.BaseColumn):
     """Column which returns the translated ITitle of the value."""
 
     def renderCell(self, obj):
@@ -137,7 +80,7 @@ class TranslatedTiteledColumn(BaseColumn):
         return translated
 
 
-class EMailColumn(BaseColumn,
+class EMailColumn(icemac.addressbook.browser.table.BaseColumn,
                   z3c.table.column.EMailColumn):
     "Column which renders the cell contents as mailto-link."
 
@@ -160,7 +103,7 @@ def getColumnClass(entity, field):
     if zope.schema.interfaces.IDate.providedBy(field):
         # Date fields need a special column, as None values are not
         # compareable to date values:
-        return DateColumn
+        return icemac.addressbook.browser.table.DateColumn
     if field.__name__ == 'country':
         # Country is an object, so the translated title should be displayed:
         return TranslatedTiteledColumn
@@ -178,10 +121,10 @@ def getColumnClass(entity, field):
         if field.type == u'Text':
             return TruncatedContentColumn
         if field.type == u'Date':
-            return DateColumn
+            return icemac.addressbook.browser.table.DateColumn
         if field.type == u'Datetime':
-            return DateTimeColumn
-    return BaseColumn
+            return icemac.addressbook.browser.table.DateTimeColumn
+    return icemac.addressbook.browser.table.BaseColumn
 
 
 def createFieldColumn(table, entity, field, weight):
