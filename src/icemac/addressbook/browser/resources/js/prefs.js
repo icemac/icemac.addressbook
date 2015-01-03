@@ -5,6 +5,6 @@
         if ($.inArray(ev.target.nodeName, ["LEGEND", "FIELDSET"]) != -1) {
             var group = $(this).find('div.group');
             $(group).fadeToggle('slow');
-        };
+        }
     });
 })(jQuery);
