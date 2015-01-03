@@ -2,7 +2,7 @@
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import icemac.addressbook.interfaces
-import icemac.addressbook.schema
+import zope.schema.fieldproperty
 import icemac.addressbook.utils
 import persistent
 import zope.catalog.interfaces
@@ -31,7 +31,7 @@ class KeywordContainer(zope.container.btree.BTreeContainer):
 class Keyword(persistent.Persistent, zope.container.contained.Contained):
     "A keyword."
     zope.interface.implements(icemac.addressbook.interfaces.IKeyword)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IKeyword)
 
     def __init__(self, title=None):

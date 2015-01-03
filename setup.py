@@ -100,6 +100,7 @@ setuptools.setup(
         'zc.sourcefactory',
         'zdaemon',
         'zodbupdate',
+        'zope.schema >= 4.3'
         'zope.app.appsetup',
         'zope.app.debug',
         'zope.app.locales >= 3.6',

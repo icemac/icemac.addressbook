@@ -3,7 +3,7 @@
 # See also LICENSE.txt
 import grokcore.component
 import icemac.addressbook.interfaces
-import icemac.addressbook.schema
+import zope.schema.fieldproperty
 import persistent
 import persistent.interfaces
 import zc.sourcefactory.basic
@@ -215,7 +215,7 @@ class Entity(object):
     #          EditableEntity (see below).
 
     zope.interface.implements(icemac.addressbook.interfaces.IEntity)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IEntityRead)
 
     def __init__(self, title, interface, class_name, **kw):
@@ -382,7 +382,7 @@ class Field(persistent.Persistent, zope.container.contained.Contained):
     """User defined field."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IField)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IField)
     interface = None
 

@@ -17,7 +17,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
     "A file."
 
     zope.interface.implements(icemac.addressbook.file.interfaces.IFile)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 
     def __init__(self, *args, **kw):
