@@ -2,6 +2,7 @@
 # Copyright (c) 2008-2014 Michael Howitz
 # See also LICENSE.txt
 from icemac.addressbook.i18n import _
+import datetime
 import icemac.addressbook.interfaces
 import icemac.truncatetext
 import z3c.pagelet.browser
@@ -11,7 +12,65 @@ import z3c.table.table
 import zope.i18n
 
 
+END_OF_DATE = datetime.date(datetime.MAXYEAR, 12, 31)
+END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 31, 23, 59, 59)
+
+
 # Columns
+
+class BaseColumn(z3c.table.column.Column):
+    """Column which is able to get an object on an attribute of the item and
+    adapt it to specified interface."""
+
+    # CAUTION: This column needs the following fields to be set!
+
+    entity = NotImplemented  # referenced entity as object
+    field = NotImplemented  # referenced field on entity as object
+    defaultValue = u''  # Value for display when there is no value.
+
+    def getRawValue(self, item):
+        "Compute the value, which can be None."
+        schema_field = icemac.addressbook.entities.get_bound_schema_field(
+            item, self.entity, self.field)
+        # Returning the value of the bound object as it might differ from item:
+        return schema_field.get(schema_field.context)
+
+    def getValue(self, item):
+        "Compute the value, mostly ready for display."
+        obj = self.getRawValue(item)
+        if obj is None:
+            return self.defaultValue
+        return obj
+
+    renderCell = getValue
+
+
+class DateTimeColumn(z3c.table.column.FormatterColumn,
+                     BaseColumn):
+    """Column which is sortable even with `None` values in it."""
+
+    maxValue = END_OF_DATETIME
+
+    def renderCell(self, item):
+        value = self.getRawValue(item)
+        if value:
+            return self.getFormatter().format(value)
+        return self.defaultValue
+
+    def getSortKey(self, item):
+        key = self.getRawValue(item)
+        if key is None:
+            # empty date fields should be sorted to the end of the list
+            key = self.maxValue
+        return key.isoformat()
+
+
+class DateColumn(DateTimeColumn):
+    "DateColumn which is able to sort even `None` values."
+
+    formatterCategory = 'date'
+    maxValue = END_OF_DATE
+
 
 class LinkColumn(icemac.addressbook.browser.base.BaseView,
                  z3c.table.column.LinkColumn):
