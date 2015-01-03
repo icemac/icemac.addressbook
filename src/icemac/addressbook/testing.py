@@ -2,6 +2,7 @@
 # Copyright (c) 2009-2014 Michael Howitz
 # See also LICENSE.txt
 import functools
+import gocept.jslint
 import gocept.selenium.wsgi
 import icemac.addressbook.address
 import icemac.addressbook.addressbook
@@ -360,6 +361,22 @@ class BrowserTestCase(unittest.TestCase,
 
     layer = TEST_BROWSER_LAYER
     maxDiff = None
+
+
+class JSLintTest(gocept.jslint.TestCase):
+    """Base test class for JS lint tests."""
+
+    jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/true')
+    options = (gocept.jslint.TestCase.options + (
+               'evil',
+               'eqnull',
+               'multistr',
+               'sub',
+               'undef',
+               'browser',
+               'jquery',
+               'devel'
+               ))
 
 
 def DocFileSuite(*paths, **kw):
