@@ -9,7 +9,7 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.orderstorage
 import icemac.addressbook.preferences.default
-import icemac.addressbook.schema
+import zope.schema.fieldproperty
 import icemac.addressbook.utils
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
@@ -39,7 +39,7 @@ class AddressBook(zope.container.btree.BTreeContainer,
     """An address book."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IAddressBook)
 
     entities = None

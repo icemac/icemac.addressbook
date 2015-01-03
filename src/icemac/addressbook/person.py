@@ -19,7 +19,7 @@ class Person(zope.container.btree.BTreeContainer):
                               icemac.addressbook.interfaces.IPersonDefaults,
                               zope.annotation.interfaces.IAttributeAnnotatable)
 
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IPerson, omit=['keywords'])
 
     keywords = gocept.reference.ReferenceCollection(

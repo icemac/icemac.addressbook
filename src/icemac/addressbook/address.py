@@ -4,7 +4,7 @@ from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-import icemac.addressbook.schema
+import zope.schema.fieldproperty
 import persistent
 import zope.container.contained
 import zope.globalrequest
@@ -16,7 +16,7 @@ class PostalAddress(persistent.Persistent,
     "A postal address."
 
     zope.interface.implements(icemac.addressbook.interfaces.IPostalAddress)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IPostalAddress)
 
 
@@ -51,7 +51,7 @@ class EMailAddress(persistent.Persistent,
     """An e-mail address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IEMailAddress)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IEMailAddress)
 
 
@@ -85,7 +85,7 @@ class HomePageAddress(persistent.Persistent,
     """A home page address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IHomePageAddress)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IHomePageAddress)
 
 
@@ -111,7 +111,7 @@ class PhoneNumber(persistent.Persistent,
     """A phone number."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IPhoneNumber)
-    icemac.addressbook.schema.createFieldProperties(
+    zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IPhoneNumber)
 
 
