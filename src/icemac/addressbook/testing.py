@@ -392,7 +392,7 @@ def DocFileSuite(*paths, **kw):
         kw['checker'] = zope.testing.renormalizing.RENormalizing([
             (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
              '<DATETIME>')
-            ])
+        ])
     suite = doctest.DocFileSuite(*paths, **kw)
     suite.layer = layer
     return suite
