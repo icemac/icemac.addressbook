@@ -68,9 +68,9 @@ Technical
 Screenshots
 ===========
 
-See SourceForge_.
+See Wiki_.
 
-.. _SourceForge : https://sourceforge.net/projects/icemac/#screenshots
+.. _Wiki : https://bitbucket.org/icemac/icemac.addressbook/wiki/Home
 
 =======
 Hacking
