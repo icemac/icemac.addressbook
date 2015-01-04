@@ -2,83 +2,27 @@
 icemac.addressbook
 ==================
 
-*Purpose:* Store, search and export addresses and phone numbers using
-a web application.
+Purpose:
+    Store, search and export addresses and phone numbers using a web application.
+Status:
+    stable version, used in production; some features might be added in future
 
-*Status:* stable version, used in production; some features might be added in
-future (See `To do`_)
 
-.. contents::
+* Features_
+* Screenshots_
+* Download_
+* Installation_
+* Update_
+* `Run the tests`_
+* `Run the application`_
+* `User management`_
+* `To do`_
 
-========
-Features
-========
-
-General
-=======
-
-- multi-client capability
-
-- user and role management
-
-- Completely translated into German, and easily translateable into
-  other languages.
-
-- Optimized for the following browsers: Firefox, Safari. Internet Explorer
-  beforeversion 9 works but might looks ugly. (The Mobile version of Safari
-  has some glitches with multi selects.)
-
-- Calendar via `icemac.ab.calendar`_.
-
-.. _`icemac.ab.calendar` : https://pypi.python.org/pypi/icemac.ab.calendar
-
-Data
-====
-
-- store data of persons including postal address, e-mail address,
-  home page address, phone number and files
-
-- add data fields to persons and addresses using the user interface
-
-- ability to change the oder of the fields of persons and adresses
-
-- assign keywords to persons
-
-- import data from XLS (Excel) or CSV files
-
-Search & Export
-===============
-
-- search for persons by keywords and names
-
-- export persons found using a search as XLS file
-
-- update a single field of multiple persons as returned by a search
-  (multi-update)
-
-Technical
-=========
-
-- really good test coverage of program code (> 98 %)
-
-- data storage is an object database (ZODB) so no additional database is
-  required
-
-===========
-Screenshots
-===========
-
-See Wiki_.
-
-.. _Wiki : https://bitbucket.org/icemac/icemac.addressbook/wiki/Home
-
-=======
-Hacking
-=======
-
-Fork me on: https://bitbucket.org/icemac/icemac.addressbook
-
-.. image:: https://secure.travis-ci.org/icemac/icemac.addressbook.png
-   :target: https://travis-ci.org/icemac/icemac.addressbook
-
-See `Source installation`_, too.
+.. _Features : https://bitbucket.org/icemac/icemac.addressbook/wiki/Features
+.. _Screenshots : https://bitbucket.org/icemac/icemac.addressbook/wiki/Screenshots
+.. _Installation : https://bitbucket.org/icemac/icemac.addressbook/wiki/Installation
+.. _`User management` : https://bitbucket.org/icemac/icemac.addressbook/wiki/User%20management
+.. _`Update` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Update
+.. _`Run the tests`: https://bitbucket.org/icemac/icemac.addressbook/wiki/Run_the_tests
+.. _`Run the application` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Run_the_application
+.. _`To do` : https://bitbucket.org/icemac/icemac.addressbook/wiki/To%20do

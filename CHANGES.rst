@@ -108,7 +108,9 @@ Other
 Previous Versions
 =================
 
-See ``OLD_CHANGES.rst`` inside the package.
+See `OLD_CHANGES.rst`_.
+
+.. _`OLD_CHANGES.rst` : https://bitbucket.org/icemac/icemac.addressbook/src/tip/OLD_CHANGES.rst
 
 ==========
  Download

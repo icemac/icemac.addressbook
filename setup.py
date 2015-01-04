@@ -17,8 +17,7 @@ setuptools.setup(
     description="Multi user address book application",
     long_description="\n\n".join([
         read('README.rst'),
-        read('INSTALL.rst'),
-        read('TODO.rst'),
+        read('HACKING.rst'),
         read('CHANGES.rst')]
     ),
     keywords='python address book addressbook zope3 zope application web '
