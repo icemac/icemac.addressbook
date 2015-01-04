@@ -20,6 +20,7 @@ Status:
 
 .. _Features : https://bitbucket.org/icemac/icemac.addressbook/wiki/Features
 .. _Screenshots : https://bitbucket.org/icemac/icemac.addressbook/wiki/Screenshots
+.. _Download : https://pypi.python.org/pypi/icemac.addressbook#download
 .. _Installation : https://bitbucket.org/icemac/icemac.addressbook/wiki/Installation
 .. _`User management` : https://bitbucket.org/icemac/icemac.addressbook/wiki/User%20management
 .. _`Update` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Update
