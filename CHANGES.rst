@@ -12,6 +12,11 @@ Features
 
 - iCal export of birth dates now includes birth year, too.
 
+Fixes
+-----
+
+- Store `datetime` values in UTC.
+
 Other
 -----
 
