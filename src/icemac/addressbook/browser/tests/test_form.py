@@ -8,12 +8,13 @@ class DatetimeDataConverterTests(unittest.TestCase):
 
     def setUp(self):
         from gocept.testing.mock import Property
+        from pytz import timezone
         super(DatetimeDataConverterTests, self).setUp()
-        time_zone_name = ('icemac.addressbook.browser.form.'
-                          'DatetimeDataConverter.time_zone_name')
-        patcher = patch(time_zone_name, Property())
-        time_zone_name = patcher.start()
-        time_zone_name.return_value = 'Etc/GMT-4'
+        time_zone = ('icemac.addressbook.browser.form.'
+                          'DatetimeDataConverter.time_zone')
+        patcher = patch(time_zone, Property())
+        time_zone = patcher.start()
+        time_zone.return_value = timezone('Etc/GMT-4')
         self.addCleanup(patcher.stop)
 
     def make_one(self):

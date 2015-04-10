@@ -27,22 +27,21 @@ class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
 
     """
     @property
-    def time_zone_name(self):
-        """User selected time zone name."""
-        return icemac.addressbook.preferences.utils.get_time_zone_name()
+    def time_zone(self):
+        """User selected time zone."""
+        return icemac.addressbook.preferences.utils.get_time_zone()
 
     def toWidgetValue(self, value):
         """Convert to time zone user has selected."""
         if value is not self.field.missing_value and value.tzinfo is not None:
-            value = value.astimezone(pytz.timezone(self.time_zone_name))
+            value = value.astimezone(self.time_zone)
         return super(DatetimeDataConverter, self).toWidgetValue(value)
 
     def toFieldValue(self, value):
         value = super(DatetimeDataConverter, self).toFieldValue(value)
         if value is None:
             return value
-        return datetime(*value.timetuple()[:6],
-                        tzinfo=pytz.timezone(self.time_zone_name))
+        return self.time_zone.localize(value).astimezone(pytz.UTC)
 
 
 # Map zope.i18n binary pattern to jquery pattern:
