@@ -2,7 +2,7 @@
  Batching of the person list
 =============================
 
-The person list ist batched, the batch size can be configured in the user
+The person list is batched, the batch size can be configured in the user
 preferences:
 
 Set up
