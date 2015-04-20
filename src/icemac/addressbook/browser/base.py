@@ -31,10 +31,12 @@ import zope.traversing.publicationtraverse
 
 
 class display_title(object):
-    """ITitle adapter which can be used in PageTemplate using
-    ``obj/@@display_title``.
 
+    """ITitle adapter for PageTemplate.
+
+    Call it using: ``obj/@@display_title``.
     """
+
     zope.component.adapts(
         zope.interface.Interface,
         icemac.addressbook.browser.interfaces.IAddressBookLayer)
@@ -48,6 +50,7 @@ class display_title(object):
 
 
 def create(form, class_, data):
+    """Create an object from a class and assign values."""
     obj = icemac.addressbook.utils.create_obj(class_)
     z3c.formui.form.applyChanges(form, obj, data)
     return obj
@@ -59,6 +62,7 @@ def all_(*constraints):
 
 
 class FlashView(object):
+
     """Base class to send flash messages."""
 
     def send_flash(self, message):
@@ -67,7 +71,8 @@ class FlashView(object):
 
 
 class BaseView(FlashView):
-    "Base for view classes."
+
+    """Base for view classes."""
 
     __PACKAGE_ID__ = icemac.addressbook.interfaces.PACKAGE_ID
 
@@ -88,6 +93,7 @@ class BaseView(FlashView):
 
 
 class BaseForm(BaseView):
+
     """Base for all forms."""
 
     interface = None  # interface for form
@@ -129,6 +135,7 @@ class BaseForm(BaseView):
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
+
     """Simple base add form."""
 
     class_ = None  # create object from this class
@@ -190,12 +197,13 @@ def update_with_redirect(class_, self):
 
 
 class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
+
     """Abstract base class for edit forms.
 
     CAUTION: Not to be used as direct base class of forms, use one of its
              child classes!
-
     """
+
     next_url = None  # target object after edit, one of ('object', 'parent')
     next_view = None  # target view after edit (None for default view)
     id = 'edit-form'
@@ -228,6 +236,7 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
 
 
 class BaseEditForm(_AbstractEditForm):
+
     """Base edit form.
 
     It has a cancel button registered on it.
@@ -236,6 +245,7 @@ class BaseEditForm(_AbstractEditForm):
 
 class EditActions(z3c.form.button.ButtonActions,
                   grokcore.component.MultiAdapter):
+
     """Custom edit actions to add a cancel button on each edit form."""
 
     grokcore.component.adapts(BaseEditForm,
@@ -251,6 +261,7 @@ class EditActions(z3c.form.button.ButtonActions,
 
 class EditActionHandler(z3c.form.button.ButtonActionHandler,
                         grokcore.component.MultiAdapter):
+
     """Edit action handler which is able to handle the cancel action."""
 
     grokcore.component.adapts(BaseEditForm,
@@ -266,6 +277,7 @@ class EditActionHandler(z3c.form.button.ButtonActionHandler,
 
 
 class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
+
     """EditForm (with cancel) as group form."""
 
     # This is needed here as GroupForm does not do a super-call.
@@ -274,7 +286,8 @@ class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
 
 
 class _BaseConfirmForm(_AbstractEditForm):
-    "Display a confirmation dialog before the action."
+
+    """Display a confirmation dialog before the action."""
 
     label = NotImplemented
     interface = None
@@ -310,7 +323,8 @@ class _BaseConfirmForm(_AbstractEditForm):
 
 
 class BaseDeleteForm(_BaseConfirmForm):
-    "Display a deletion confirmation dialog."
+
+    """Display a deletion confirmation dialog."""
 
     label = _(u'Do you really want to delete this entry?')
     next_view_after_delete = None  # None --> default view
@@ -347,6 +361,7 @@ def delete_persons(address_book, ids):
 
 
 class PrefixGroup(z3c.form.group.Group):
+
     """Group which sets a prefix."""
 
     prefix = None  # to be set in subclass
@@ -360,7 +375,8 @@ class PrefixGroup(z3c.form.group.Group):
 
 
 class BaseCloneForm(_BaseConfirmForm):
-    "Display a cloning confirmation dialog."
+
+    """Display a cloning confirmation dialog."""
 
     label = _(u'Do you really want to clone this entry?')
     cancel_status_message = _('Cloning canceled.')
@@ -401,8 +417,11 @@ def can_access_uri_part(context, request, uri_part):
 
 
 def can_access(uri_part):
-    """Create a button condition function to test whether the user can
-    access the URL context/@@absolute_url/<uri_part>."""
+    """Button condition function to if access is allowed.
+
+    Returns a function which tests whether the user can access the URL
+    ``context/@@absolute_url/<uri_part>``.
+    """
     def can_access_form(form):
         return can_access_uri_part(form.context, form.request, uri_part)
     return can_access_form
