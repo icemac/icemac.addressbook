@@ -63,16 +63,19 @@ class List(object):
 
     def fields(self):
         for field in self._values():
+            omit = False
             if icemac.addressbook.interfaces.IField.providedBy(field):
                 url = get_field_URL(self.context, field, self.request)
                 delete_url = get_field_URL(
                     self.context, field, self.request, 'delete.html')
             else:
                 url = delete_url = None
-            yield {'title': field.title,
-                   'delete-link': delete_url,
-                   'edit-link': url,
-                   'id': field.__name__}
+                omit = field.queryTaggedValue('omit-from-field-list', False)
+            if not omit:
+                yield {'title': field.title,
+                       'delete-link': delete_url,
+                       'edit-link': url,
+                       'id': field.__name__}
 
     def metadata(self):
         # Entities are not persisitent. Because the sort order of the fields
