@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
@@ -17,6 +15,8 @@ import zope.traversing.browser
 
 class FieldsTraverser(
         zope.app.publication.traversers.SimpleComponentTraverser):
+
+    """Make fields traversable."""
 
     zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
     zope.component.adapts(icemac.addressbook.interfaces.IEntity,
@@ -44,6 +44,7 @@ def get_field_URL(entity, field, request, view=None):
 
 
 class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
+
     """Form to only render metadata."""
 
     id = 'standalone-metadata-form'
@@ -51,6 +52,7 @@ class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
 
 
 class List(object):
+
     """List fields of an entity."""
 
     def _values(self):
@@ -90,6 +92,7 @@ class List(object):
 
 
 class SaveSortorder(icemac.addressbook.browser.base.BaseView):
+
     """Save the field sort order as defined by user."""
 
     def __call__(self, f):
@@ -99,6 +102,8 @@ class SaveSortorder(icemac.addressbook.browser.base.BaseView):
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
+
+    """Add a new user defined field to an entity."""
 
     class_ = icemac.addressbook.entities.Field
     interface = icemac.addressbook.interfaces.IField
@@ -110,6 +115,8 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
 class BaseForm(object):
 
+    """Mix-in class redirecting back to the entity."""
+
     def redirect_to_next_url(self, *args):
         # redirect to the entity
         self.request.response.redirect(self.request.getURL(2))
@@ -117,11 +124,15 @@ class BaseForm(object):
 
 class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
 
+    """Edit a user defined field on an entity."""
+
     interface = icemac.addressbook.interfaces.IField
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
 
 class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
+
+    """Delete a user defined field from an entity."""
 
     label = _(
         u'Caution: When you delete this field, possibly data will get lost. '
