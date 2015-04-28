@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.menus.menu
@@ -16,6 +14,7 @@ import zope.traversing.browser.absoluteurl
 
 
 class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
+
     """Column displaying an `up` link."""
 
     header = _('move-up-table-header', default='move')
@@ -31,6 +30,7 @@ class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class DownLinkColumn(icemac.addressbook.browser.table.LinkColumn):
+
     """Column displaying an `down` link."""
 
     header = _('move-down-table-header', default='move')
@@ -46,10 +46,9 @@ class DownLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
-    """Special LinkColumn which only displayes a link for IMayHaveUserFields
-    items.
 
-    """
+    """LinkColumn only displaying a link for IMayHaveUserFields items."""
+
     linkContent = _(u'Edit fields')
     header = u''
 
@@ -60,6 +59,7 @@ class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class List(icemac.addressbook.browser.table.Table):
+
     """List existing entities."""
 
     sortOn = None  # do not sort rows
@@ -74,8 +74,7 @@ class List(icemac.addressbook.browser.table.Table):
             z3c.table.column.addColumn(
                 self, DownLinkColumn, 'down', weight=30),
             z3c.table.column.addColumn(
-                self, EditFieldsLinkColumn, 'fields', weight=100),
-            ]
+                self, EditFieldsLinkColumn, 'fields', weight=100)]
 
     @property
     def values(self):
@@ -86,6 +85,7 @@ class List(icemac.addressbook.browser.table.Table):
 
 
 class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
+
     """AbsoluteURL adapter for an entity."""
 
     zope.component.adapts(icemac.addressbook.interfaces.IEntity,
@@ -104,6 +104,8 @@ class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
 
 class EntitiesTraverser(zope.container.traversal.ItemTraverser):
 
+    """Make entities located and traverable."""
+
     zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
     zope.component.adapts(icemac.addressbook.interfaces.IEntities,
                           zope.publisher.interfaces.http.IHTTPRequest)
@@ -117,6 +119,7 @@ class EntitiesTraverser(zope.container.traversal.ItemTraverser):
 
 
 class MoveBase(icemac.addressbook.browser.base.BaseView):
+
     """Base class for movement views."""
 
     direction = None  # set on sub-class
@@ -133,14 +136,16 @@ class MoveBase(icemac.addressbook.browser.base.BaseView):
 
 
 class MoveUp(MoveBase):
-    "Move entity up in entity order."
+
+    """Move entity up in entity order."""
 
     direction = 'up'
     message = _('Moved ${entity} up.')
 
 
 class MoveDown(MoveBase):
-    "Move entity down in entity order."
+
+    """Move entity down in entity order."""
 
     direction = 'down'
     message = _('Moved ${entity} down.')
