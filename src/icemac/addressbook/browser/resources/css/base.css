@@ -188,8 +188,8 @@ div.status div.summary {
 }
 
 div.status ul.errors li {
-    background: url(/++resource++img/Symbol-Error.png) no-repeat 1px 1px;
-    padding-left: 36px;
+    background: url(/++resource++img/Symbol-Error.png) no-repeat 5px 5px;
+    padding-left: 42px;
     list-style-type: none;
 }
 
