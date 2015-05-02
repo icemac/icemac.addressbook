@@ -59,15 +59,21 @@ class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
 
     """Testing ..form.zope_i18n_pattern_to_jquery_pattern()."""
 
-    def callFUT(self, pattern):
+    def callFUT(self, kind, pattern):
         from ..form import zope_i18n_pattern_to_jquery_pattern
-        return zope_i18n_pattern_to_jquery_pattern(pattern)
+        return zope_i18n_pattern_to_jquery_pattern(kind, pattern)
 
-    def test_converts_German_date_format_correctly(self):
-        self.assertEqual('dd.mm.y HH:mm', self.callFUT('dd.MM.yy HH:mm'))
+    def test_converts_German_datetime_format_correctly(self):
+        self.assertEqual(
+            'dd.mm.y HH:mm', self.callFUT('datetime', 'dd.MM.yy HH:mm'))
 
-    def test_converts_American_date_format_correctly(self):
-        self.assertEqual('m/d/y hh:mm TT', self.callFUT('M/d/yy h:mm a'))
+    def test_converts_American_datetime_format_correctly(self):
+        self.assertEqual(
+            'm/d/y hh:mm TT', self.callFUT('datetime', 'M/d/yy h:mm a'))
+
+    def test_converts_American_time_format_correctly(self):
+        self.assertEqual(
+            'h:mm TT', self.callFUT('time', 'h:mm a'))
 
 
 class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):

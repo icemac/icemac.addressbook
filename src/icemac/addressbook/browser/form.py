@@ -52,34 +52,43 @@ class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
 #           b8fff2676a7575bf2d3248c562f778776e0603ce/src/zope/i18n/interfaces/
 #           __init__.py#L377
 pattern_mapping = {
-    ('y', 2): 'y',
-    ('y', 4): 'yy',
-    ('M', 1): 'm',
-    ('M', 2): 'mm',
-    ('M', 3): 'M',
-    ('M', 4): 'MM',
-    ('D', 1): 'o',
-    ('D', 2): 'o',
-    ('D', 3): 'oo',
-    ('E', 3): 'D',
-    ('E', 4): 'DD',
-    ('H', 1): 'h',
-    ('H', 2): 'HH',
-    ('h', 1): 'hh',
-    ('S', 1): 'l',
-    ('a', 1): 'TT',
-    ('a', 2): 'TT',
+    'date': {
+        ('y', 2): 'y',
+        ('y', 4): 'yy',
+        ('M', 1): 'm',
+        ('M', 2): 'mm',
+        ('M', 3): 'M',
+        ('M', 4): 'MM',
+        ('D', 1): 'o',
+        ('D', 2): 'o',
+        ('D', 3): 'oo',
+        ('E', 3): 'D',
+        ('E', 4): 'DD',
+    },
+    'time': {
+        ('H', 1): 'h',
+        ('H', 2): 'HH',
+        ('h', 1): 'h',
+        ('S', 1): 'l',
+        ('a', 1): 'TT',
+        ('a', 2): 'TT',
+    }
 }
+pattern_mapping['datetime'] = pattern_mapping['date'].copy()
+pattern_mapping['datetime'].update(pattern_mapping['time'])
+# Mappings of jquery and zope.i18n do not exactly match:
+pattern_mapping['datetime'][('h', 1)] = 'hh'
 
 
-def zope_i18n_pattern_to_jquery_pattern(pattern):
-    """Converts a zope.i18n datetime pattern to one of jquery."""
+def zope_i18n_pattern_to_jquery_pattern(kind, pattern):
+    """Convert a zope.i18n datetime pattern to one of jquery."""
     # bin_pattern is a list of tuples (char, count) or chars
     bin_pattern = zope.i18n.format.parseDateTimePattern(pattern)
     # pattern_mapping contains only the differences, so by default produce
     # char * count (or the char if it is no tuple):
     pattern = ''.join(
-        [pattern_mapping.get(x, x[0] * x[1] if isinstance(x, tuple) else x)
+        [pattern_mapping[kind].get(
+            x, x[0] * x[1] if isinstance(x, tuple) else x)
          for x in bin_pattern])
     return pattern
 
@@ -89,31 +98,41 @@ class DatetimeWidgetBase(z3c.form.browser.text.TextWidget):
 
     klass = NotImplemented
     picker_js_func_name = NotImplemented
+    type = NotImplemented
 
     def get_parameters(self):
-        getFormatter = self.request.locale.dates.getFormatter
         converter = z3c.form.interfaces.IDataConverter(self)
-        params = {'dateFormat': zope_i18n_pattern_to_jquery_pattern(
-                  getFormatter('date', converter.length).getPattern()),
-                  'changeMonth': True,
-                  'changeYear': True,
-                  'yearRange': '-100:+10',
-                  'firstDay': 0,
-                  }
-
-        if self.picker_js_func_name == 'datetimepicker':
+        params = {}
+        if 'date' in self.picker_js_func_name:
             params.update(
-                {'numberOfMonths': 3,
-                 'stepMonths': 3,
-                 'timeFormat': zope_i18n_pattern_to_jquery_pattern(
-                     getFormatter('time', converter.length).getPattern()),
+                {'dateFormat': self.get_format(converter, 'date', self.type),
+                 'changeMonth': True,
+                 'changeYear': True,
+                 'yearRange': '-100:+10',
+                 'firstDay': 0,
+                 'numberOfMonths': 3,
+                 'stepMonths': 3})
+        if 'time' in self.picker_js_func_name:
+            params.update(
+                {'timeFormat': self.get_format(converter, 'time', self.type),
                  'hourGrid': 4,
                  'hourMin': 6,
                  'hourMax': 22,
                  'minuteGrid': 15,
-                 'stepMinute': 15,
-                 })
+                 'stepMinute': 15})
         return params
+
+    def get_format(self, converter, type, for_):
+        """Get the jQuery format string from a z3c.form converter.
+
+        converter ... z3c.form data converter instance
+        type ... 'date' or 'time'
+        for_ ... 'date', 'time', or 'datetime'
+
+        """
+        getFormatter = self.request.locale.dates.getFormatter
+        return zope_i18n_pattern_to_jquery_pattern(
+            for_, getFormatter(type, converter.length).getPattern())
 
     def update(self):
         super(DatetimeWidgetBase, self).update()
@@ -138,6 +157,7 @@ class DatetimeWidget(DatetimeWidgetBase):
 
     klass = 'datetime-widget'
     picker_js_func_name = 'datetimepicker'
+    type = 'datetime'
 
 
 @grok.adapter(
@@ -156,6 +176,7 @@ class DateWidget(DatetimeWidgetBase):
 
     klass = 'date-widget'
     picker_js_func_name = 'datepicker'
+    type = 'date'
 
 
 @grok.adapter(
