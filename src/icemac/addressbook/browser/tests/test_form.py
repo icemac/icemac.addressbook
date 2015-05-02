@@ -4,6 +4,7 @@ import unittest
 
 
 class DatetimeDataConverterTests(unittest.TestCase):
+
     """Testing ..form.DatetimeDataConverter."""
 
     def setUp(self):
@@ -11,7 +12,7 @@ class DatetimeDataConverterTests(unittest.TestCase):
         from pytz import timezone
         super(DatetimeDataConverterTests, self).setUp()
         time_zone = ('icemac.addressbook.browser.form.'
-                          'DatetimeDataConverter.time_zone')
+                     'DatetimeDataConverter.time_zone')
         patcher = patch(time_zone, Property())
         time_zone = patcher.start()
         time_zone.return_value = timezone('Etc/GMT-4')
@@ -55,6 +56,7 @@ class DatetimeDataConverterTests(unittest.TestCase):
 
 
 class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
+
     """Testing ..form.zope_i18n_pattern_to_jquery_pattern()."""
 
     def callFUT(self, pattern):
@@ -69,6 +71,7 @@ class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
 
 
 class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
+
     """Selenium testing ..form.DatetimeWidget."""
 
     def setUp(self):
@@ -96,6 +99,7 @@ class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
 
 
 class DateWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
+
     """Selenium testing ..form.DateWidget."""
 
     def test_date_widget_renders_javascript_calendar(self):
