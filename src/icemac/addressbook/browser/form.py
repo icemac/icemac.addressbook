@@ -1,6 +1,5 @@
-# Copyright (c) 2013-2014 Michael Howitz
-# See also LICENSE.txt
-from datetime import datetime
+# -*- coding: utf-8 -*-
+
 from js.jquery_timepicker_addon import timepicker_locales, timepicker
 from js.jqueryui import base as jqueryui_css
 from js.jqueryui import ui_datepicker_locales, ui_selectable
