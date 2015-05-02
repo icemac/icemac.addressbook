@@ -188,6 +188,25 @@ def DateFieldWidget(field, request):
     return z3c.form.widget.FieldWidget(field, DateWidget(request))
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.ITimeWidget)
+class TimeWidget(DatetimeWidgetBase):
+    """Widget to enter time using JavaScript picker."""
+
+    klass = 'time-widget'
+    picker_js_func_name = 'timepicker'
+    type = 'time'
+
+
+@grok.adapter(
+    zope.schema.interfaces.ITime,
+    icemac.addressbook.browser.interfaces.IAddressBookLayer)
+@grok.implementer(z3c.form.interfaces.IFieldWidget)
+def TimeFieldWidget(field, request):
+    """Factory for TimeWidget."""
+    return z3c.form.widget.FieldWidget(field, TimeWidget(request))
+
+
 class DateDataConverter(z3c.form.converter.DateDataConverter):
     """Special date converter which does not have a year 2k problem."""
     length = 'medium'

@@ -124,3 +124,31 @@ class DateWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
         s.clickAndWait("id=form-buttons-add")
         # Successful apply leads back to keyword overview
         s.assertLocation('http://%s/ab/@@person-list.html' % s.server)
+
+
+class TimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
+
+    """Selenium testing ..form.TimeWidget."""
+
+    def setUp(self):
+        from icemac.addressbook.testing import create_field, create_keyword
+        super(TimeWidgetTests, self).setUp()
+        ab = self.layer['addressbook']
+        keyword_entity_name = 'icemac.addressbook.keyword.Keyword'
+        create_field(ab, keyword_entity_name, 'Time', u'time')
+        self.kw = create_keyword(ab, u'foobar')
+
+    def test_time_widget_renders_javascript_calendar(self):
+        self.login('editor', 'editor')
+        s = self.selenium
+        s.open('/ab/++attribute++keywords/%s' % self.kw.__name__)
+        # Activate the time field which opens the JavaScript calendar
+        s.click('id=form-widgets-Field-1')
+        # Click the `now` button:
+        s.click("//button[@type='button']")
+        # And the `done` button:
+        s.click("xpath=(//button[@type='button'])[2]")
+        # Save the form:
+        s.clickAndWait("id=form-buttons-apply")
+        # Successful apply leads back to keyword overview
+        s.assertLocation('http://%s/ab/++attribute++keywords' % s.server)

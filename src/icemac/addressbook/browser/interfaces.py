@@ -42,6 +42,10 @@ class IDatetimeWidget(z3c.form.interfaces.ITextWidget):
     """Special date and time widget to be able to use a JavaScript picker."""
 
 
+class ITimeWidget(z3c.form.interfaces.ITextWidget):
+    """Special time widget to be able to use a JavaScript picker."""
+
+
 class IImageSelectWidget(z3c.form.interfaces.ISelectWidget):
     """Select widget displays images as selectables."""
 
