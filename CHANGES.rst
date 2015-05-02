@@ -12,6 +12,8 @@ Features
 
 - iCal export of birth dates now includes birth year, too.
 
+- Add new `time` data type for user defined fields.
+
 Fixes
 -----
 

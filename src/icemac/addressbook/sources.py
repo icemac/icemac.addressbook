@@ -52,6 +52,7 @@ class FieldTypeSource(TitleMappingSource):
          (u'Int', _(u'integer number')),
          (u'Text', _(u'text area')),
          (u'TextLine', _(u'text line')),
+         (u'Time', _(u'time')),
          (u'URI', _(u'URL')),
          ))
 
