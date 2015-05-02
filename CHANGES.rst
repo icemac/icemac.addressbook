@@ -14,6 +14,8 @@ Features
 
 - Add new `time` data type for user defined fields.
 
+- Render time picker for `time` fields.
+
 Fixes
 -----
 
