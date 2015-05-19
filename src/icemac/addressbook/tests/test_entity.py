@@ -224,9 +224,10 @@ class Test_get_bound_schema_field(unittest.TestCase):
 
     layer = icemac.addressbook.testing.ZODB_LAYER
 
-    def callFUT(self, object, entity, field):
+    def callFUT(self, object, entity, field, default_attrib_fallback=True):
         from icemac.addressbook.entities import get_bound_schema_field
-        return get_bound_schema_field(object, entity, field)
+        return get_bound_schema_field(
+            object, entity, field, default_attrib_fallback)
 
     def test_returns_field_if_object_provides_entity_interface(self):
         from icemac.addressbook.addressbook import address_book_entity
@@ -251,6 +252,18 @@ class Test_get_bound_schema_field(unittest.TestCase):
         self.assertEqual(person.default_postal_address, field.context)
         self.assertEqual('country', field.__name__)
         self.assertTrue(isinstance(field, zope.schema.Choice))
+
+    def test_binds_field_to_obj_if_default_attrib_fallback_is_false(self):
+        # And iface is not provided by obj.
+        from icemac.addressbook.address import postal_address_entity
+        from icemac.addressbook.testing import create_full_person
+
+        ab = self.layer['addressbook']
+        person = create_full_person(ab, ab, u'Koch')
+        field = self.callFUT(person, postal_address_entity,
+                             postal_address_entity.getRawField('country'),
+                             default_attrib_fallback=False)
+        self.assertEqual(person, field.context)
 
     def test_user_defined_fields_get_converted_to_schema_fields(self):
         from icemac.addressbook.address import phone_number_entity
