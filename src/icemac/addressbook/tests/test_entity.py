@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import icemac.addressbook.testing
@@ -22,6 +20,7 @@ class IDummy(zope.interface.Interface):
 
 class Dummy(object):
     """Test entity."""
+
     zope.interface.implements(IDummy)
 
 
