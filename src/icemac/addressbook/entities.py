@@ -419,9 +419,14 @@ field_storage = zope.annotation.factory(
     FieldStorage, key='icemac.userfield.storage')
 
 
-def get_bound_schema_field(obj, entity, field):
-    """Returns a bound zope.schema field for `entity` and `field` on `obj`."""
-    if not entity.interface.providedBy(obj):
+def get_bound_schema_field(obj, entity, field, default_attrib_fallback=True):
+    """Return a bound zope.schema field for `entity` and `field` on `obj`.
+
+    If `default_attrib_fallback` is true and `obj` does not provide the
+    `entity` interface fall back to the `default_attrib`
+
+    """
+    if default_attrib_fallback and not entity.interface.providedBy(obj):
         # If the entity is for another object, we expect to find the entity
         # on a default_attrib.
         obj = getattr(obj, entity.tagged_values['default_attrib'])
