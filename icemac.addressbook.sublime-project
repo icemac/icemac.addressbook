@@ -2,8 +2,8 @@
   "folders":
   [
     {
-      "follow_symlinks": true,
       "path": ".",
+      "follow_symlinks": true,
       "folder_exclude_patterns": [
                 "*.egg-info",
                 ".cache",
@@ -29,6 +29,31 @@
     {
       "follow_symlinks": true,
       "path": "../icemac.ab.calendar",
+      "folder_exclude_patterns": [
+                "*.egg-info",
+                ".cache",
+                "__pycache__",
+                "bin",
+                "cache",
+                "coverage",
+                "develop-eggs",
+                "htmlcov",
+                "log",
+                "parts",
+                "var",
+                ],
+      "file_exclude_patterns": [
+                ".coverage",
+                ".coveragerc",
+                ".hgtags",
+                ".installed.cfg",
+                ".mr.developer.cfg",
+                "pytest.ini",
+                ]
+    },
+    {
+      "follow_symlinks": true,
+      "path": "../icemac.ab.calexport",
       "folder_exclude_patterns": [
                 "*.egg-info",
                 ".cache",
