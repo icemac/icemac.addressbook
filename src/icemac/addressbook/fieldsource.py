@@ -36,7 +36,7 @@ class Source(zc.sourcefactory.basic.BasicSourceFactory):
                 # ZODB even though it is not so easy to compute a title from
                 # it. But it would be more difficult to adapt consumers of
                 # this source (e. g. zope.preference) to store a string
-                # instead of nonpersistent field objects.
+                # instead of non-persistent field objects.
                 yield tokenize(entity, field_name)
 
     def getTitle(self, value):
