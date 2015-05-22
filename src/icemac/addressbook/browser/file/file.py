@@ -77,7 +77,7 @@ def update_blob(widget, file):
 class Add(icemac.addressbook.browser.base.BaseAddForm):
     "Add a file."
 
-    label = _(u'Add file')
+    label = _(u'Add new file')
     class_ = icemac.addressbook.file.file.File
     interface = icemac.addressbook.file.interfaces.IFile
     next_url = 'parent'
@@ -116,6 +116,7 @@ class Edit(icemac.addressbook.browser.base.BaseEditForm):
 
     interface = icemac.addressbook.file.interfaces.IFile
     next_url = 'parent'
+    label = _('Edit file')
 
     def applyChanges(self, data):
         changes = super(Edit, self).applyChanges(data)
