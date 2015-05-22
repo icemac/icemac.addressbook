@@ -12,7 +12,7 @@ class attr(zope.traversing.namespace.attr):
 
     def traverse(self, name, ignored):
         target = super(attr, self).traverse(name, ignored)
-        # Iterating the subsctibers calls them:
+        # Iterating the subscribers calls them:
         list(zope.component.subscribers(
             (target, self.request),
             icemac.addressbook.browser.interfaces.IAttributeTraversalHook))
