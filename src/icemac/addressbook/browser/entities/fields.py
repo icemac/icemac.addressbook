@@ -108,6 +108,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
     """Add a new user defined field to an entity."""
 
+    label = _(u'Add new field')
     class_ = icemac.addressbook.entities.Field
     interface = icemac.addressbook.interfaces.IField
     next_url = 'parent'
@@ -129,6 +130,7 @@ class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
 
     """Edit a user defined field on an entity."""
 
+    label = _(u'Edit field')
     interface = icemac.addressbook.interfaces.IField
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
