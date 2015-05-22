@@ -11,20 +11,12 @@ import zope.dublincore.interfaces
 import zope.preference.interfaces
 
 
-class MetadataGroup(z3c.form.group.Group):
-    "Group to display metadata information."
+class MetadataBaseGroup(z3c.form.group.Group):
+    """Base class for groups displaying meta data information."""
 
     label = _('metadata')
     mode = z3c.form.interfaces.DISPLAY_MODE
-
-    fields = z3c.form.field.Fields(
-        icemac.addressbook.metadata.interfaces.IEditor).select('creator')
-    fields += z3c.form.field.Fields(
-        zope.dublincore.interfaces.IDCTimes).select('created')
-    fields += z3c.form.field.Fields(
-        icemac.addressbook.metadata.interfaces.IEditor).select('modifier')
-    fields += z3c.form.field.Fields(
-        zope.dublincore.interfaces.IDCTimes).select('modified')
+    fields = NotImplemented
 
     def updateWidgets(self):
         """See interfaces.IForm"""
@@ -38,6 +30,19 @@ class MetadataGroup(z3c.form.group.Group):
         # parent form
         self.widgets.mode = self.mode
         self.widgets.update()
+
+
+class MetadataGroup(MetadataBaseGroup):
+    """Group displaying all meta data information."""
+
+    fields = z3c.form.field.Fields(
+        icemac.addressbook.metadata.interfaces.IEditor).select('creator')
+    fields += z3c.form.field.Fields(
+        zope.dublincore.interfaces.IDCTimes).select('created')
+    fields += z3c.form.field.Fields(
+        icemac.addressbook.metadata.interfaces.IEditor).select('modifier')
+    fields += z3c.form.field.Fields(
+        zope.dublincore.interfaces.IDCTimes).select('modified')
 
 
 def timezone_messageid_factory(message_id):
