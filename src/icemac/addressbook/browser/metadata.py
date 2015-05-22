@@ -27,7 +27,7 @@ class MetadataGroup(z3c.form.group.Group):
         zope.dublincore.interfaces.IDCTimes).select('modified')
 
     def updateWidgets(self):
-        '''See interfaces.IForm'''
+        """See interfaces.IForm"""
         self.widgets = zope.component.getMultiAdapter(
             (self, self.request, self.getContent()),
             z3c.form.interfaces.IWidgets)
@@ -41,7 +41,7 @@ class MetadataGroup(z3c.form.group.Group):
 
 
 def timezone_messageid_factory(message_id):
-    "Sets the currently selected time zone in the mapping of the message id."
+    """Set currently selected time zone in the mapping of the message id."""
     def factory(ignored):
         prefs = zope.component.getUtility(
             zope.preference.interfaces.IPreferenceGroup, name="ab.timeZone")
