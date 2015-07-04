@@ -1,5 +1,3 @@
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 import contextlib
 import zope.container.interfaces
 import zope.event
