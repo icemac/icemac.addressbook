@@ -16,7 +16,7 @@ class AboutTests(icemac.addressbook.testing.BrowserTestCase):
         browser.open('http://localhost')
         # There is a link on the root view pointing to the about dialog:
         browser.getLink(id="about-view").click()
-        self.assertEqual('http://localhost/@@about.html',  browser.url)
+        self.assertEqual('http://localhost/@@about.html', browser.url)
         # The about dialog displays the version number of the address book:
         self.assertIn(get_distribution('icemac.addressbook').version,
                       browser.contents)
@@ -34,7 +34,7 @@ class AboutTests(icemac.addressbook.testing.BrowserTestCase):
         browser.open('http://localhost/ab')
         # There is a link on the login view pointing to the about dialog:
         browser.getLink(id="about-view").click()
-        self.assertEqual('http://localhost/@@about.html',  browser.url)
+        self.assertEqual('http://localhost/@@about.html', browser.url)
 
     def test_about_dialog_is_displayed_inside_the_application(self):
         # The about screen can be accessed on every object, for example we
@@ -43,4 +43,4 @@ class AboutTests(icemac.addressbook.testing.BrowserTestCase):
         browser = self.get_browser('visitor')
         browser.open('http://localhost/ab/Person')
         browser.getLink(id="about-view").click()
-        self.assertEqual('http://localhost/@@about.html',  browser.url)
+        self.assertEqual('http://localhost/@@about.html', browser.url)
