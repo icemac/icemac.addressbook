@@ -153,9 +153,10 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
         entity_name = path.split('/')[-3]
         entity = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntity, name=entity_name)
-        sm = zope.site.hooks.getSiteManager()
-        sm.unregisterAdapter(
-            provided=icemac.addressbook.interfaces.IField,
-            required=(icemac.addressbook.interfaces.IEntity, entity.interface),
-            name=self.context.__name__)
-        return super(DeleteForm, self)._do_delete()
+        # XXX Without the following line removing the interface from the field
+        #     (``field.interface = None`` in ``removeField``) fails with a
+        #     ForbiddenAttribute error:
+        field = zope.proxy.removeAllProxies(self.context)
+        entity.removeField(field)
+        # We have no need for a super call here as `removeField()` already
+        # did the job.
