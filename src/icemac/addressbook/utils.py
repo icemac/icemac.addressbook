@@ -2,6 +2,7 @@ import contextlib
 import zope.container.interfaces
 import zope.event
 import zope.lifecycleevent
+import zope.traversing.api
 
 
 @contextlib.contextmanager
@@ -45,6 +46,13 @@ def add(parent, obj):
 def create_and_add(parent, class_, *args, **kw):
     obj = create_obj(class_, *args, **kw)
     return add(parent, obj)
+
+
+def delete(obj):
+    """Delete an object from its parent."""
+    name = zope.traversing.api.getName(obj)
+    parent = zope.traversing.api.getParent(obj)
+    del parent[name]
 
 
 def iter_by_interface(container, interface):

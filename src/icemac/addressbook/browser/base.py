@@ -339,9 +339,7 @@ class BaseDeleteForm(_BaseConfirmForm):
         self._do_delete()
 
     def _do_delete(self):
-        name = zope.traversing.api.getName(self.context)
-        parent = zope.traversing.api.getParent(self.context)
-        del parent[name]
+        icemac.addressbook.utils.delete(self.context)
 
 
 def delete_persons(address_book, ids):
