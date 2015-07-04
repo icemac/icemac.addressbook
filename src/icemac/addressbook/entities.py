@@ -11,6 +11,7 @@ import zope.schema
 import zope.schema.fieldproperty
 import zope.schema.interfaces
 import zope.security.proxy
+import zope.traversing.api
 
 
 MAIN_ENTITIES_NAME_SUFFIXES = [
@@ -328,6 +329,18 @@ class Entity(object):
             name=name)
         field.interface = self.interface
         return name
+
+    def removeField(self, field):
+        """Remove a user defined field from the entity."""
+        sm = zope.site.hooks.getSiteManager()
+        # The field no longer is allowed to be an adapter:
+        sm.unregisterAdapter(
+            provided=icemac.addressbook.interfaces.IField,
+            required=(icemac.addressbook.interfaces.IEntity, self.interface),
+            name=zope.traversing.api.getName(field))
+        field.interface = None
+        # The field needs to be removed from the entities utility:
+        icemac.addressbook.utils.delete(field)
 
     def setFieldOrder(self, field_names):
         """Update the order of the fields like in `field_names`."""

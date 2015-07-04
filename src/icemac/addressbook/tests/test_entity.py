@@ -7,6 +7,8 @@ import zope.component.testing
 import zope.container.contained
 import zope.container.sample
 import zope.interface
+import zope.location.interfaces
+import zope.location.traversing
 import zope.schema
 import zope.schema.interfaces
 
@@ -39,6 +41,9 @@ class TestEntity(unittest.TestCase):
             [icemac.addressbook.interfaces.IEntities])
         zope.component.provideAdapter(
             icemac.addressbook.entities.user_field_to_schema_field)
+        zope.component.provideAdapter(
+            zope.location.traversing.LocationPhysicallyLocatable,
+            adapts=[zope.location.interfaces.ILocation])
 
         # Order storage
         storage = icemac.addressbook.orderstorage.OrderStorage()
@@ -65,16 +70,33 @@ class TestEntity(unittest.TestCase):
             icemac.addressbook.interfaces.IEntities)
         self.assertTrue(self.user_field is entities[u'Field'])
 
+    def test_removeField_removes_field_from_entity(self):
+        entities = zope.component.getUtility(
+            icemac.addressbook.interfaces.IEntities)
+        self.assertIn(self.user_field, entities.values())
+        self.entity.removeField(self.user_field)
+        self.assertNotIn(self.user_field, entities.values())
+
     def test_addField_stores_entities_interface_on_field(self):
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities)
         self.assertEqual(IDummy, entities[u'Field'].interface)
+
+    def test_removeField_removes_entitys_interface_from_field(self):
+        self.entity.removeField(self.user_field)
+        self.assertIsNone(self.user_field.interface)
 
     def test_add_field_adapter_registration(self):
         field = zope.component.getMultiAdapter(
             (self.entity, Dummy()),
             icemac.addressbook.interfaces.IField, name=u'Field')
         self.assertTrue(self.user_field is field)
+
+    def test_removeField_removes_adapter_registration(self):
+        self.entity.removeField(self.user_field)
+        self.assertIsNone(zope.component.queryMultiAdapter(
+            (self.entity, Dummy()),
+            icemac.addressbook.interfaces.IField, name=u'Field'))
 
     def test_setFieldOrder_changing_initial_order(self):
         self.entity.setFieldOrder(['dummy2', 'Field', 'dummy'])

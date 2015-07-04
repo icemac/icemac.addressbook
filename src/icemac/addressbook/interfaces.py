@@ -353,6 +353,9 @@ class IEntityWrite(zope.interface.Interface):
 
         """
 
+    def removeField(field):
+        """Remove a user defined field from the entity."""
+
     def setFieldOrder(field_names):
         """Update the order of the fields like in `field_names`.
 
