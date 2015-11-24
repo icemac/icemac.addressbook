@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import zope.interface
 import zope.schema
@@ -9,7 +7,7 @@ import icemac.addressbook.interfaces
 
 
 class IFile(icemac.addressbook.interfaces.IPersonEntity):
-    "A file uploaded from harddisk to addressbook."
+    """A file uploaded from harddisk to addressbook."""
 
     name = zope.schema.TextLine(
         title=_(u'file name'), description=_(u'Name of the file.'))
@@ -45,11 +43,11 @@ class IFile(icemac.addressbook.interfaces.IPersonEntity):
         """
 
     def replace(filename):
-        """Replace with anoher file.
+        """Replace with another file.
 
         CAUTION: The file given as argument gets consumed!
         """
 
 
 class IFileContainer(zope.interface.Interface):
-    "Marker interface for container which can contain files."
+    """Marker interface for container which can contain files."""
