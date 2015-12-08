@@ -19,12 +19,12 @@ Features
 Fixes
 -----
 
-- Store `datetime` values in UTC.
+- Store ``datetime`` values in UTC.
 
 Other
 -----
 
-- Updated most libraries needed for address book to newest versions.
+- Update most libraries needed for address book to newest versions.
 
 - No longer depend on ZTK but build up our own list.
 
