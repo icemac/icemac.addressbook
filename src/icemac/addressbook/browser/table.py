@@ -58,6 +58,11 @@ class DateTimeColumn(z3c.table.column.FormatterColumn,
         return self.defaultValue
 
     def getSortKey(self, item):
+        # We use the isoformat as sort key, so comparison does not break if
+        # we mix timezone naive and timezone aware datetimes. And yes, we
+        # know that this might produce some glitches in the sort order but
+        # it is better than an HTTP-500 and better than trying to guess
+        # timezone information.
         key = self.getRawValue(item)
         if key is None:
             # empty date fields should be sorted to the end of the list
