@@ -36,7 +36,6 @@ import zope.event
 import zope.lifecycleevent
 import zope.principalregistry.principalregistry
 import zope.processlifetime
-import zope.site.hooks
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testbrowser.wsgi
@@ -131,13 +130,13 @@ class _ZODBIsolatedTestLayer(plone.testing.Layer):
     def testTearDown(self):
         tearDownStackedDemoStorage(self)
         tearDownZODBConnection(self)
-        zope.site.hooks.setSite(None)
+        zope.component.hooks.setSite(None)
 
 
 def setUpAddressBook(self):
     conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
     addressbook = create_addressbook(parent=rootFolder)
-    zope.site.hooks.setSite(addressbook)
+    zope.component.hooks.setSite(addressbook)
     transaction.commit()
     # conn.close()
     return addressbook
@@ -156,7 +155,7 @@ class _AddressBookFunctionalLayer(plone.testing.Layer):
     def testSetUp(self):
         setUpZODBConnection(self)
         self['addressbook'] = self['rootFolder']['ab']
-        zope.site.hooks.setSite(self['addressbook'])
+        zope.component.hooks.setSite(self['addressbook'])
 
     def testTearDown(self):
         tearDownZODBConnection(self)

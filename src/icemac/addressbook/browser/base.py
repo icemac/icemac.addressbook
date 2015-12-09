@@ -24,7 +24,7 @@ import zope.security
 import zope.security.interfaces
 import zope.security.proxy
 import zope.session.interfaces
-import zope.site.hooks
+import zope.component.hooks
 import zope.traversing.api
 import zope.traversing.browser
 import zope.traversing.publicationtraverse
@@ -219,7 +219,7 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
         elif next_url == 'parent':
             target = zope.traversing.api.getParent(self.context)
         elif next_url == 'site':
-            target = zope.site.hooks.getSite()
+            target = zope.component.hooks.getSite()
         else:
             raise ValueError('next_url %r unknown' % next_url)
 

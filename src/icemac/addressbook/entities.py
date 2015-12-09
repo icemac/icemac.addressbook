@@ -321,7 +321,7 @@ class Entity(object):
             icemac.addressbook.interfaces.IEntities)
         name = icemac.addressbook.utils.add(parent, field)
         # The field needs to be an adapter:
-        sm = zope.site.hooks.getSiteManager()
+        sm = zope.component.hooks.getSiteManager()
         sm.registerAdapter(
             FieldAdapterFactory(field),
             provided=icemac.addressbook.interfaces.IField,
@@ -332,7 +332,7 @@ class Entity(object):
 
     def removeField(self, field):
         """Remove a user defined field from the entity."""
-        sm = zope.site.hooks.getSiteManager()
+        sm = zope.component.hooks.getSiteManager()
         # The field no longer is allowed to be an adapter:
         sm.unregisterAdapter(
             provided=icemac.addressbook.interfaces.IField,
