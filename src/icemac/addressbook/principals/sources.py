@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.interfaces
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual

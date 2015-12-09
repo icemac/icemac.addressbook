@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2011-2014 Michael Howitz
-# See also LICENSE.txt
 
 
 def FieldSerializer(field, obj):

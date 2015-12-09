@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import icemac.addressbook.file.file
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.testing

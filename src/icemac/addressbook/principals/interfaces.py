@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import MessageFactory as _
 import icemac.addressbook.principals.sources
 import zope.interface
