@@ -9,6 +9,15 @@ import zope.interface
 
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
+class Search(object):
+    """View to select a search."""
+
+    show_headline = True
+    form_explanation = u''
+
+
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class BaseView(zope.publisher.browser.BrowserView):
     """Base class for search views.
 

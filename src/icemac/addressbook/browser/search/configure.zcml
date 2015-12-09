@@ -21,7 +21,7 @@
      permission="icemac.addressbook.ViewPerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      template="search.pt"
-     class=".Search"
+     class=".base.Search"
      />
 
   <configure package="icemac.addressbook.browser">

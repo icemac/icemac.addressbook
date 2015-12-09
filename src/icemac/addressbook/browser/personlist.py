@@ -146,15 +146,15 @@ class BasePersonList(object):
     or `icemac.addressbook.browser.table.Table`.
     """
 
+    def __init__(self, context, request, prefs=None):
+        super(BasePersonList, self).__init__(context, request)
+        self.sortOrder = self.prefs.personLists.sort_direction
+
     @property
     def prefs(self):
         """User defined preferences for person list."""
         return zope.component.getUtility(
             zope.preference.interfaces.IPreferenceGroup, name="ab")
-
-    def __init__(self, *args, **kw):
-        super(BasePersonList, self).__init__(*args, **kw)
-        self.sortOrder = self.prefs.personLists.sort_direction
 
     def update(self):
         self._columns = self._set_up_columns()

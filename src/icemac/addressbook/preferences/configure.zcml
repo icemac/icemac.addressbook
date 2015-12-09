@@ -39,7 +39,7 @@
      name="Preferences"
      title="Preferences"
      viewName="++preferences++/ab"
-     class=".browser.PreferencesMenuItem"
+     class=".menu.PreferencesMenuItem"
      permission="icemac.addressbook.EditAllPreferences"
      weight="190"
      />
