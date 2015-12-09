@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
-import icemac.addressbook.browser.base
 import icemac.addressbook.browser.search.result.handler.manager
 import z3c.form.button
 import z3c.table.column

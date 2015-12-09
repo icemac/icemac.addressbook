@@ -1,43 +1,58 @@
-import icemac.addressbook.testing
-import icemac.addressbook.tests
+from mock import patch
+from z3c.flashmessage.interfaces import IMessageSource
+from zope.authentication.interfaces import IAuthentication
+import contextlib
+import pytest
+import zope.component
+import zope.security.management
+import zope.security.testing
 
 
-ZCML_LAYER = icemac.addressbook.testing.SecondaryZCMLLayer(
-    'GetMessagesZCML', __name__, icemac.addressbook.tests,
-    [icemac.addressbook.testing.ZCML_LAYER], filename='testing.zcml')
-ZODB_LAYER = icemac.addressbook.testing.ZODBLayer(
-    'GetMessagesZODB', ZCML_LAYER)
-TEST_BROWSER_LAYER = icemac.addressbook.testing.TestBrowserLayer(
-    'GetMessagesTestBrowser', ZODB_LAYER)
+@pytest.yield_fixture('function')
+def fake_session(empty_zodb):
+    """Fake a user session to be static."""
+    with patch('zope.session.interfaces.ISession') as ISession:
+        ISession.return_value = {'z3c.flashmessage': {}}
+        yield
 
 
-class GetMessagesTests(icemac.addressbook.testing.BrowserTestCase):
-    """Testing ..testing.get_messages()."""
+@contextlib.contextmanager
+def fake_interaction(loginname):
+    """Fake an interaction for a user."""
+    auth = zope.component.getUtility(IAuthentication)
+    principal = auth.getPrincipalByLogin(loginname)
+    participation = zope.security.testing.Participation(principal)
+    zope.security.management.newInteraction(participation)
+    yield
+    zope.security.management.endInteraction()
 
-    layer = TEST_BROWSER_LAYER
 
-    def callFUT(self, browser):
-        from icemac.addressbook.testing import get_messages
-        return get_messages(browser)
+def send_msg(msg):
+    """Send a flash message."""
+    with fake_interaction('mgr'):
+        zope.component.getUtility(IMessageSource).send(msg)
 
-    def test_requires_an_z3c_etestbrowser(self):
-        from zope.app.wsgi.testlayer import Browser
-        browser = Browser(wsgi_app=self.layer['wsgi_app'])
-        with self.assertRaises(ValueError) as err:
-            self.callFUT(browser)
-        self.assertEqual(
-            'browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser',
-            str(err.exception))
 
-    def test_no_message_results_in_an_empty_list(self):
-        browser = self.get_browser('mgr')
-        browser.open('http://localhost')
-        self.assertEqual([], self.callFUT(browser))
+def test_testing__Browser__message__1(fake_session, browser):
+    """It is an empty list if there are no flash messages."""
+    browser.login('mgr')
+    browser.open('http://localhost')
+    assert [] == browser.message
 
-    def test_messages_are_returned_as_list(self):
-        browser = self.get_browser('mgr')
-        browser.open('http://localhost/@@test-get-messages.tst?msg=foo')
-        browser.open('http://localhost/@@test-get-messages.tst?msg=blah')
-        self.assertEqual("Message u'blah' sent.", browser.contents)
-        browser.open('http://localhost')
-        self.assertEqual(['foo', 'blah'], self.callFUT(browser))
+
+def test_testing__Browser__message__2(fake_session, browser):
+    """It is a string if there is exactly one flash message."""
+    send_msg('foo')
+    browser.login('mgr')
+    browser.handleErrors = False
+    browser.open('http://localhost')
+    assert 'foo' == browser.message
+
+
+def test_testing__Browser__message__3(fake_session, browser):
+    """It is a list of strings if there is more than one flash message."""
+    send_msg('foo')
+    send_msg('blah')
+    browser.login('mgr')
+    browser.open('http://localhost')
+    assert ['foo', 'blah'] == browser.message

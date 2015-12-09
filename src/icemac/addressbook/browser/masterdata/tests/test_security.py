@@ -1,26 +1,25 @@
-import icemac.addressbook.testing
+import pytest
 
 
-class MasterdataSecurityTests(icemac.addressbook.testing.BrowserTestCase):
-    """Security testing ..masterdata."""
+def assert_masterdata_links(browser, username, link_texts):
+    """Assert that the shown links match the expectations."""
+    browser.login(username)
+    browser.open(browser.MASTER_DATA_URL)
+    assert link_texts == browser.etree.xpath(
+        '//ul[@class="bullet"]/li/a/span/child::text()')
 
-    # There are some masterdata which can be edited by persons who are
-    # allowed to. There is a master data overview which shows all parts the
-    # user can see, this differs between the roles.
+# There are some master data which can be edited by persons who are
+# allowed to. There is a master data overview which shows all parts the
+# user can see, this differs between the roles.
 
-    def assert_masterdata_links(self, username, link_texts):
-        browser = self.get_browser(username)
-        browser.open('http://localhost/ab/@@masterdata.html')
-        self.assertEqual(
-            link_texts, browser.etree.xpath(
-                '//ul[@class="bullet"]/li/a/span/child::text()'))
 
-    def test_manager_sees_all_links_in_masterdata(self):
-        self.assert_masterdata_links(
-            'mgr', ['Address book', 'Keywords', 'Users', 'Entities'])
+def test_masterdata_security__1(address_book, browser):
+    """A manager sees all links on the master data page."""
+    assert_masterdata_links(
+        browser, 'mgr', ['Address book', 'Keywords', 'Users', 'Entities'])
 
-    def test_editor_sees_some_links_in_masterdata(self):
-        self.assert_masterdata_links('editor', ['Keywords', 'Users'])
 
-    def test_visitor_sees_some_links_in_masterdata(self):
-        self.assert_masterdata_links('visitor', ['Keywords', 'Users'])
+@pytest.mark.parametrize('username', ['editor', 'visitor'])
+def test_masterdata_security__2(address_book, browser, username):
+    """The editor sees some links on the master data page"""
+    assert_masterdata_links(browser, username, ['Keywords', 'Users'])

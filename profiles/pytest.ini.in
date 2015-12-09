@@ -1,7 +1,8 @@
 [pytest]
 addopts = {% for test_egg in parts.pytest_ini.test_eggs | split -%}
-			 {% for path in eggs.entries -%}
-			 	{% if '/' + test_egg + '-' in path or '/' + test_egg + '/' in path -%}
+             {% set test_egg = test_egg.replace('[test]', '').strip() -%}			 {% for path in eggs.entries -%}
+			 	{% if '/' + test_egg + '-' in path or
+                      '/' + test_egg + '/' in path -%}
 					{{path + ' '}}
 				{%- endif %}
 			 {%- endfor %}

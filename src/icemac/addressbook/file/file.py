@@ -20,11 +20,11 @@ class File(persistent.Persistent, zope.container.contained.Contained):
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 
-    def __init__(self, *args, **kw):
+    def __init__(self, data='', *args, **kw):
         super(File, self).__init__(*args, **kw)
         # initialize blob with no data
         self._data = ZODB.blob.Blob()
-        self.data = ''
+        self.data = data
 
     @property
     def size(self):

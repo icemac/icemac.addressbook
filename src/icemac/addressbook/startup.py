@@ -12,18 +12,30 @@ import zope.event
 IGNORED = None
 
 
-def application_factory(global_conf, conf='zope.conf', db=None):
-    """Application Factory, mainly copyied from
-       zope.app.wsgi.getWSGIApplication, but added the ability to do the set up
-       done in zope.conf from outside.
-
-    """
-    if db is None:
-        zope_conf = os.path.join(global_conf['here'], conf)
+def zope_application_factory(
+        global_conf=None, requestFactory=HTTPPublicationRequestFactory):
+    """Create a Zope application."""
+    if global_conf is None:
+        db = None
+    else:
+        zope_conf = os.path.join(global_conf['here'], 'zope.conf')
         db = zope.app.wsgi.config(zope_conf)
     application = zope.app.wsgi.WSGIPublisherApplication(
-        db, factory=HTTPPublicationRequestFactory, handle_errors=True)
-    application = fanstatic.make_fanstatic(application, IGNORED, bottom=True)
+        db, factory=requestFactory, handle_errors=True)
+    return application
+
+
+def application_factory(global_conf=None, zope_application=None):
+    """Create an address book application with all WSGI middle wares.
+
+    The concept and initial implementation came from
+    `zope.app.wsgi.getWSGIApplication`.
+
+    """
+    if zope_application is None:
+        zope_application = zope_application_factory(global_conf)
+    application = fanstatic.make_fanstatic(
+        zope_application, IGNORED, bottom=True)
 
     # Create the application, notify subscribers.
     zope.event.notify(

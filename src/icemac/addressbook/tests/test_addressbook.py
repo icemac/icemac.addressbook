@@ -1,86 +1,125 @@
-import icemac.addressbook.addressbook
-import icemac.addressbook.interfaces
+from icemac.addressbook.addressbook import AddressBook
+from icemac.addressbook.addressbook import create_address_book_infrastructure
+from icemac.addressbook.interfaces import IAddressBook, IKeywords, IEntities
+from icemac.addressbook.interfaces import IOrderStorage, ENTITIES
 import icemac.addressbook.testing
-import unittest
 import zope.authentication.interfaces
 import zope.catalog.interfaces
+import zope.component
+import zope.interface.verify
 import zope.intid.interfaces
 import zope.location.interfaces
 import zope.pluggableauth.interfaces
 
 
-class TestAddressbook(unittest.TestCase,
-                      icemac.addressbook.testing.InstallationAssertions):
-
-    layer = icemac.addressbook.testing.ZODB_LAYER
-
-    def check_addressbook(self, ab):
-        self.assertTrue(zope.location.interfaces.ISite.providedBy(ab))
-        self.assertAttribute(
-            ab, 'keywords', icemac.addressbook.interfaces.IKeywords)
-        self.assertAttribute(
-            ab, 'principals',
-            zope.pluggableauth.interfaces.IAuthenticatorPlugin,
-            name=u'icemac.addressbook.principals')
-        self.assertAttribute(
-            ab, 'entities',
-            icemac.addressbook.interfaces.IEntities)
-        self.assertAttribute(
-            ab, 'orders',
-            icemac.addressbook.interfaces.IOrderStorage)
-        self.assertLocalUtility(ab, zope.intid.interfaces.IIntIds)
-        self.assertLocalUtility(ab, zope.catalog.interfaces.ICatalog)
-        self.assertLocalUtility(
-            ab, zope.authentication.interfaces.IAuthentication)
-
-    def setUp(self):
-        super(TestAddressbook, self).setUp()
-        self.ab = self.layer['addressbook']
-
-    def test_create(self):
-        self.check_addressbook(self.ab)
-
-    def test_recall_create_infrastructure(self):
-        icemac.addressbook.addressbook.create_address_book_infrastructure(
-            self.ab)
-        self.check_addressbook(self.ab)
-
-    def test___repr___no___name__(self):
-        self.assertEqual("<AddressBook None (None)>",
-                         repr(icemac.addressbook.addressbook.AddressBook()))
-
-    def test___repr___no_title(self):
-        self.assertEqual("<AddressBook u'ab' (None)>", repr(self.ab))
-
-    def test___repr__(self):
-        self.ab.title = u'My address book'
-        self.assertEqual("<AddressBook u'ab' (u'My address book')>",
-                         repr(self.ab))
-
-    def test_entity_order_is_created_initially(self):
-        from icemac.addressbook.interfaces import ENTITIES
-        self.assertEqual(
-            ['IcemacAddressbookAddressbookAddressbook',
-             'IcemacAddressbookPersonPerson',
-             'IcemacAddressbookPersonPersondefaults',
-             'IcemacAddressbookAddressPostaladdress',
-             'IcemacAddressbookAddressPhonenumber',
-             'IcemacAddressbookAddressEmailaddress',
-             'IcemacAddressbookAddressHomepageaddress',
-             'IcemacAddressbookFileFileFile',
-             'IcemacAddressbookKeywordKeyword'],
-            self.ab.orders.byNamespace(ENTITIES))
-
-    def test_only_entity_order_is_created_initially(self):
-        from icemac.addressbook.interfaces import ENTITIES
-        self.assertEqual([ENTITIES], list(self.ab.orders.namespaces()))
+def test_addressbook__add_more_addressbook_infrastructure__1(
+        address_book, PersonFactory):
+    """`add_more_addressbook_infrastructure` installs an IntId utility."""
+    # Persons added to the address book are added to the IntID utility of the
+    # address book. (The int id changes with every run so we can only show,
+    # that there is an int id registered for the person):
+    person = PersonFactory(address_book, u'Kohn')
+    intids = zope.component.getUtility(zope.intid.interfaces.IIntIds)
+    assert None is not intids.queryId(person)
+    assert isinstance(intids.queryId(person), int)
+    assert person is intids.queryObject(intids.queryId(person))
+    assert None is intids.queryId(object())
 
 
-class GetAddressBookTests(unittest.TestCase):
-    """Testing ..addressbook.get_address_book."""
+def test_addressbook__add_more_addressbook_infrastructure__2(
+        address_book, PersonFactory):
+    """`add_more_addressbook_infrastructure` creates an index for keywords."""
+    # The keywords on persons are indexed.
+    person = PersonFactory(
+        address_book, u'Kohn', keywords=[u'church', u'friends'])
+    # The index should now contain two words (the titles of the keywords.),
+    # so we can search for them:
+    catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
+    assert 2 == catalog.get('keywords').wordCount.value
+    results = catalog.searchResults(keywords={'any_of': ('friends', )})
+    assert 1 == len(results)
+    assert person is list(results)[0]
 
-    layer = icemac.addressbook.testing.ZODB_LAYER
 
-    def test_returns_current_addressbook(self):
-        from icemac.addressbook.interfaces import IAddressBook
-        self.assertEqual(self.layer['addressbook'], IAddressBook(42))
+def test_addressbook__add_more_addressbook_infrastructure__3(
+        address_book, PersonFactory):
+    """`add_more_addressbook_infrastructure` creates an index for names."""
+    # The first name and last name of the persons are indexed to be used in
+    # quick search:
+    person = PersonFactory(address_book, u'Kohn', first_name=u'Ernst')
+    catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
+    assert 1 == len(catalog.searchResults(name='K??n'))
+    assert person is list(catalog.searchResults(name='K??n'))[0]
+    assert 1 == len(catalog.searchResults(name='Erns*'))
+    assert 0 == len(catalog.searchResults(name='Erns'))
+
+
+def check_addressbook(assert_address_book):
+    """Check the validity and completeness of the address book."""
+    assert zope.location.interfaces.ISite.providedBy(
+        assert_address_book.address_book)
+    assert_address_book.has_attribute('keywords', IKeywords)
+    assert_address_book.has_attribute(
+        'principals', zope.pluggableauth.interfaces.IAuthenticatorPlugin,
+        name=u'icemac.addressbook.principals')
+    assert_address_book.has_attribute('entities', IEntities)
+    assert_address_book.has_attribute('orders', IOrderStorage)
+    assert_address_book.has_local_utility(zope.intid.interfaces.IIntIds)
+    assert_address_book.has_local_utility(zope.catalog.interfaces.ICatalog)
+    assert_address_book.has_local_utility(
+        zope.authentication.interfaces.IAuthentication)
+
+
+def test_addressbook__create_address_book_infrastructure__1(
+        assert_address_book):
+    """The address_book created within the fixture is valid."""
+    check_addressbook(assert_address_book)
+
+
+def test_addressbook__create_address_book_infrastructure__2(
+        assert_address_book):
+    """Calling `create_address_book_infrastructure` again does not break."""
+    create_address_book_infrastructure(assert_address_book.address_book)
+    check_addressbook(assert_address_book)
+
+
+def test_addressbook__create_address_book_infrastructure__3(address_book):
+    """`create_address_book_infrastructure` creates default entity order."""
+    assert ([
+        'IcemacAddressbookAddressbookAddressbook',
+        'IcemacAddressbookPersonPerson',
+        'IcemacAddressbookPersonPersondefaults',
+        'IcemacAddressbookAddressPostaladdress',
+        'IcemacAddressbookAddressPhonenumber',
+        'IcemacAddressbookAddressEmailaddress',
+        'IcemacAddressbookAddressHomepageaddress',
+        'IcemacAddressbookFileFileFile',
+        'IcemacAddressbookKeywordKeyword'] ==
+        address_book.orders.byNamespace(ENTITIES))
+
+
+def test_addressbook__create_address_book_infrastructure__4(address_book):
+    """`create_address_book_infrastructure` creates only the entity order."""
+    assert [ENTITIES] == list(address_book.orders.namespaces())
+
+
+def test_addressbook__AddressBook__1():
+    """`AddressBook` fulfills the `IAddressBook` interface."""
+    zope.interface.verify.verifyObject(IAddressBook, AddressBook())
+
+
+def test_addressbook__AddressBook____repr____1(address_book):
+    """`__repr__()` renders name and title."""
+    address_book.title = u'My address book'
+    assert "<AddressBook u'ab' (u'My address book')>" == repr(address_book)
+
+
+def test_addressbook__AddressBook____repr____2():
+    """`__repr__()` does not break on missing name and title."""
+    assert "<AddressBook None (None)>" == repr(AddressBook())
+
+
+def test_addressbook__get_address_book__1(address_book):
+    """Any object can be adated to IAddressBook to get the current one."""
+    assert address_book == IAddressBook(42)
+    assert address_book == IAddressBook(None)

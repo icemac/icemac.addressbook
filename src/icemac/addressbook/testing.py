@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import functools
+import collections
+import datetime
 import gocept.jslint
 import gocept.selenium.wsgi
 import icemac.addressbook.address
@@ -12,14 +13,13 @@ import icemac.addressbook.principals.principals
 import icemac.addressbook.principals.sources
 import icemac.addressbook.startup
 import icemac.addressbook.utils
-import inspect
 import lxml.etree
 import os
 import os.path
 import plone.testing
 import plone.testing.zca
 import plone.testing.zodb
-import re
+import pytz
 import tempfile
 import transaction
 import unittest
@@ -32,6 +32,7 @@ import zope.app.wsgi.testlayer
 import zope.browserpage.metaconfigure
 import zope.component
 import zope.component.hooks
+import zope.dublincore.interfaces
 import zope.event
 import zope.lifecycleevent
 import zope.principalregistry.principalregistry
@@ -43,14 +44,9 @@ import zope.testing.cleanup
 import zope.testing.renormalizing
 
 
-if os.environ.get('ZOPETESTINGDOCTEST'):  # pragma: no cover
-    from zope.testing import doctest
-else:
-    import doctest
-
-
 class _AddressBookUnitTests(plone.testing.Layer):
     """Layer for gathering addressbook unit tests."""
+
     defaultBases = (plone.testing.zca.LAYER_CLEANUP,)
 
     def setUp(self):
@@ -92,13 +88,16 @@ def setUpStackedDemoStorage(self, name):
         self['zodbDB'], name=name)
 
 
+ZODBConnection = collections.namedtuple(
+    'ZODBConnection', ['connection', 'rootFolder', 'zodb'])
+
+
 def createZODBConnection(zodbDB):
     """Create an open ZODB connection."""
     connection = zodbDB.open()
-    zodbRoot = connection.root()
-    rootFolder = zodbRoot[
+    rootFolder = connection.root()[
         zope.app.publication.zopepublication.ZopePublication.root_name]
-    return connection, zodbRoot, rootFolder
+    return ZODBConnection(connection, rootFolder, zodbDB)
 
 
 def setUpZODBConnection(self):
@@ -135,7 +134,7 @@ class _ZODBIsolatedTestLayer(plone.testing.Layer):
 
 def setUpAddressBook(self):
     conn, rootObj, rootFolder = createZODBConnection(self['zodbDB'])
-    addressbook = create_addressbook(parent=rootFolder)
+    addressbook = create_addressbook(rootFolder, 'ab')
     zope.component.hooks.setSite(addressbook)
     transaction.commit()
     # conn.close()
@@ -206,20 +205,6 @@ class _WSGITestBrowserLayer(plone.testing.Layer):
         del self['wsgi_app']
 
 
-class _GoceptSeleniumPloneTestingIntegrationLayer(gocept.selenium.wsgi.Layer,
-                                                  plone.testing.Layer):
-    """Layer which integrates gocept.selenium with plone.testing."""
-
-    def __init__(self, *args, **kw):
-        # WSGI application is set up in base layers so we cannot access it
-        # here yet:
-        gocept.selenium.wsgi.Layer.__init__(self, application=None)
-        plone.testing.Layer.__init__(self, *args, **kw)
-
-    def setup_wsgi_stack(self, app):
-        return self['wsgi_app']
-
-
 class _AbstractDataLayer(plone.testing.Layer):
     """Base for layers creating data in the address book."""
 
@@ -282,19 +267,12 @@ def TestBrowserLayer(name, zodb_layer):
         bases=[wsgi_layer], name='%sTestBrowserLayer' % name)
 
 
-def SeleniumLayer(name, zodb_layer):
-    """Factory to create a new Selenium layer based on WSGI."""
-    wsgi_layer = _WSGILayer(bases=[zodb_layer], name='%sWSGILayer' % name)
-    return _GoceptSeleniumPloneTestingIntegrationLayer(
-        bases=[wsgi_layer], name='%sSeleniumLayer' % name)
-
-
 # Predefined layers:
 ADDRESS_BOOK_UNITTESTS = _AddressBookUnitTests(name='AddressBookUnitTests')
 ZCML_LAYER = ZCMLLayer('AddressBook', __name__, icemac.addressbook)
 ZODB_LAYER = ZODBLayer('AddressBook', ZCML_LAYER)
 TEST_BROWSER_LAYER = TestBrowserLayer('AddressBook', ZODB_LAYER)
-SELENIUM_LAYER = SeleniumLayer('AddressBook', ZODB_LAYER)
+
 
 # Test layers including `locales` packages:
 TRANSLATION_ZCML_LAYER = ZCMLLayer(
@@ -340,7 +318,7 @@ class BrowserMixIn(object):
 # Test cases
 class SeleniumTestCase(gocept.selenium.wsgi.TestCase):
     """Base test class for selenium tests."""
-    layer = SELENIUM_LAYER
+    layer = ZCML_LAYER
     level = 2
 
     def login(self, username='mgr', password='mgrpw'):
@@ -364,7 +342,7 @@ class BrowserTestCase(unittest.TestCase,
 class JSLintTest(gocept.jslint.TestCase):
     """Base test class for JS lint tests."""
 
-    jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/true')
+    jshint_command = os.environ.get('JSHINT_COMMAND', '/bin/false')
     options = (gocept.jslint.TestCase.options + (
                'evil',
                'eqnull',
@@ -375,35 +353,6 @@ class JSLintTest(gocept.jslint.TestCase):
                'jquery',
                'devel'
                ))
-
-
-def DocFileSuite(*paths, **kw):
-    """Project specific DocFileSuite."""
-    kw['optionflags'] = (kw.get('optionflags', 0) |
-                         doctest.ELLIPSIS |
-                         doctest.NORMALIZE_WHITESPACE)
-    layer = kw.pop('layer')
-    globs = kw.setdefault('globs', {})
-    globs['layer'] = layer
-    globs['get_browser'] = functools.partial(get_browser, layer)
-    if 'checker' not in kw:
-        kw['checker'] = zope.testing.renormalizing.RENormalizing([
-            (re.compile(r'[0-9]{2}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}'),
-             '<DATETIME>')
-        ])
-    suite = doctest.DocFileSuite(*paths, **kw)
-    suite.layer = layer
-    return suite
-
-
-def FunctionalDocFileSuite(*paths, **kw):
-    """DocFileSuite on FUNCTIONAL_LAYER."""
-    return DocFileSuite(layer=ZODB_LAYER, *paths, **kw)
-
-
-def TestBrowserDocFileSuite(*paths, **kw):
-    """DocFileSuite on TEST_BROWSER_LAYER."""
-    return DocFileSuite(layer=TEST_BROWSER_LAYER, *paths, **kw)
 
 
 # XXX see https://bitbucket.org/icemac/icemac.addressbook/issue/1
@@ -424,13 +373,26 @@ def _get_control_names(interface, browser=None, form=None):
     return sorted(names)
 
 
-def get_submit_control_names(browser=None, form=None):
+def get_submit_control_names(browser=None, form=None, all_forms=False):
     """Get a list of the names of the submit controls in the form.
 
     Whether the browser was given as argument the form of the browser is used.
     """
-    return _get_control_names(
-        zope.testbrowser.interfaces.ISubmitControl, browser, form)
+    if all_forms and browser:
+        forms = [browser.getForm(index=x)
+                 for x in range(len(list(browser.mech_browser.forms())))]
+        browser = None
+    else:
+        forms = [form]
+
+    names = [_get_control_names(
+        zope.testbrowser.interfaces.ISubmitControl, browser, x)
+        for x in forms]
+    if not all_forms:
+        # If we do not want to see all forms, do not nest the result into a
+        # list:
+        names = names[0]
+    return names
 
 
 def get_all_control_names(browser=None, form=None):
@@ -440,17 +402,6 @@ def get_all_control_names(browser=None, form=None):
     """
     return _get_control_names(
         zope.testbrowser.interfaces.IControl, browser, form)
-
-
-def get_messages(browser):
-    """Return the info messages displayed in browser.
-
-    Returns string when there is exactly one message, list otherwise."""
-    if not isinstance(browser, z3c.etestbrowser.wsgi.ExtendedTestBrowser):
-        raise ValueError(
-            'browser must be z3c.etestbrowser.wsgi.ExtendedTestBrowser')
-    return [x.text
-            for x in browser.etree.xpath('//div[@id="info-messages"]/ul/li')]
 
 
 def in_out_widget_select(browser, control_name, select_controls):
@@ -485,11 +436,125 @@ USERNAME_PASSWORD_MAP = dict(mgr='mgrpw')
 class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     """Customized browser which provides login."""
 
-    def login(self, username):
+    ROOT_URL = 'http://localhost'
+    # The login URL starts with this string:
+    LOGIN_BASE_URL = 'http://localhost/ab/@@loginForm.html?camefrom=http'
+
+    ADDRESS_BOOK_DEFAULT_URL = 'http://localhost/ab'
+    ADDRESS_BOOK_WELCOME_URL = 'http://localhost/ab/@@welcome.html'
+    ADDRESS_BOOK_EDIT_URL = 'http://localhost/ab/@@edit-address_book.html'
+    ADDRESS_BOOK_DELETE_PERSONS_URL = (
+        'http://localhost/ab/@@delete-address_book-content.html')
+    ADDRESS_BOOK_DELETE_URL = 'http://localhost/ab/@@delete-address_book.html'
+
+    MASTER_DATA_URL = 'http://localhost/ab/@@masterdata.html'
+
+    ENTITIES_EDIT_URL = 'http://localhost/ab/++attribute++entities'
+    ENTITY_PERSON_LIST_FIELDS_URL = (
+        'http://localhost/ab/++attribute++entities/'
+        'icemac.addressbook.person.Person')
+    ENTITY_PERSON_ADD_FIELD_URL = (
+        'http://localhost/ab/++attribute++entities/'
+        'icemac.addressbook.person.Person/@@addField.html')
+    ENTITIY_PERSON_EDIT_FIELD_URL = (
+        'http://localhost/ab/++attribute++entities/'
+        'icemac.addressbook.person.Person/Field-1')
+    ENTITIY_PERSON_DELETE_FIELD_URL = (
+        'http://localhost/ab/++attribute++entities/'
+        'icemac.addressbook.person.Person/Field-1/@@delete.html')
+
+    KEYWORDS_LIST_URL = 'http://localhost/ab/++attribute++keywords'
+    KEYWORD_ADD_URL = (
+        'http://localhost/ab/++attribute++keywords/@@addKeyword.html')
+    KEYWORD_EDIT_URL = 'http://localhost/ab/++attribute++keywords/Keyword'
+    KEYWORD_DELETE_URL = (
+        'http://localhost/ab/++attribute++keywords/Keyword/@@delete.html')
+
+    PERSON_ADD_URL = 'http://localhost/ab/@@addPerson.html'
+    PERSON_CLONE_URL = 'http://localhost/ab/Person/@@clone.html'
+    PERSON_EDIT_URL = 'http://localhost/ab/Person'
+    PERSONS_LIST_URL = 'http://localhost/ab/@@person-list.html'
+    PERSON_DELETE_URL = 'http://localhost/ab/Person/@@delete_person.html'
+    PERSON_DELETE_ENTRY_URL = (
+        'http://localhost/ab/Person/@@delete_entry.html')
+    PERSON_EXPORT_URL = 'http://localhost/ab/Person/@@export.html'
+
+    POSTAL_ADDRESS_DELETE_URL = (
+        'http://localhost/ab/Person/PostalAddress-2/@@delete.html')
+    PHONE_NUMBER_DELETE_URL = (
+        'http://localhost/ab/Person/PhoneNumber-2/@@delete.html')
+    EMAIL_ADDRESS_DELETE_URL = (
+        'http://localhost/ab/Person/EMailAddress-2/@@delete.html')
+    HOMEPAGE_ADDRESS_DELETE_URL = (
+        'http://localhost/ab/Person/HomePageAddress-2/@@delete.html')
+
+    FILE_ADD_URL = 'http://localhost/ab/Person/@@addFile.html'
+    FILE_DELETE_URL = 'http://localhost/ab/Person/File/@@delete.html'
+    FILE_DOWNLOAD_URL = 'http://localhost/ab/Person/File/download.html'
+
+    PRINCIPALS_LIST_URL = 'http://localhost/ab/++attribute++principals'
+    PRINCIPAL_ADD_URL = (
+        'http://localhost/ab/++attribute++principals/@@addPrincipal.html')
+    PRINCIPAL_EDIT_URL = 'http://localhost/ab/++attribute++principals/2'
+    PRINCIPAL_EDIT_URL_1 = 'http://localhost/ab/++attribute++principals/1'
+    PRINCIPAL_DELETE_URL = (
+        'http://localhost/ab/++attribute++principals/2/@@delete_user.html')
+    PRINCIPAL_DELETE_URL_1 = (
+        'http://localhost/ab/++attribute++principals/1/@@delete_user.html')
+
+    SEARCH_URL = 'http://localhost/ab/@@search.html'
+    SEARCH_BY_NAME_URL = 'http://localhost/ab/@@name_search.html'
+    SEARCH_BY_KEYWORD_URL = 'http://localhost/ab/@@multi_keyword.html'
+    SEARCH_MULTI_UPDATE_URL = 'http://localhost/ab/@@multi-update'
+    SEARCH_MULTI_UPDATE_CHOOSE_FIELD_URL = (
+        'http://localhost/ab/multi-update/chooseField')
+    SEARCH_MULTI_UPDATE_ENTER_VALUE_URL = (
+        'http://localhost/ab/multi-update/enterValue')
+    SEARCH_MULTI_UPDATE_CHECK_RESULT_URL = (
+        'http://localhost/ab/multi-update/checkResult')
+    SEARCH_MULTI_UPDATE_COMPLETE_URL = (
+        'http://localhost/ab/@@multi-update-completed')
+    SEARCH_DELETE_URL = 'http://localhost/ab/@@delete_persons.html'
+
+    PREFS_URL = 'http://localhost/ab/++preferences++/ab'
+    PREFS_TIMEZONE_URL = (
+        'http://localhost/ab/++preferences++/ab.timeZone/@@index.html')
+
+    def login(self, username, password=None):
         """Login a user using basic auth."""
+        if password is None:
+            password = USERNAME_PASSWORD_MAP.get(username, username)
         self.addHeader(
-            'Authorization', 'Basic %s:%s' %
-            (username, USERNAME_PASSWORD_MAP.get(username, username)))
+            'Authorization', 'Basic {username}:{password}'.format(
+                username=username, password=password))
+        return self
+
+    def formlogin(self, username, password, use_current_url=False):
+        """Login using the login form."""
+        if not use_current_url:
+            self.open(self.ADDRESS_BOOK_DEFAULT_URL)
+        self.getControl('User Name').value = username
+        self.getControl('Password').value = password
+        self.getControl('Log in').click()
+        assert 'You have been logged-in successfully.' == self.message
+        return self
+
+    def lang(self, lang):
+        """Set the language for the browser."""
+        self.addHeader('Accept-Language', lang)
+
+    def logout(self):
+        self.getLink('Logout').click()
+        assert 'sfdgh' == self.message
+
+    def open(self, url):
+        super(Browser, self).open(url)
+        return self
+
+    @property
+    def contents_without_whitespace(self):
+        """Browser contents but with removed whitespace."""
+        return self.contents.replace(' ', '').replace('\n', '')
 
     def etree_to_list(self, etree):
         """"Convert an etree into a list (lines without leading whitespace.)"""
@@ -497,15 +562,74 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
                 for x in lxml.etree.tostring(etree).split('\n')
                 if x.strip()]
 
-    get_messages = get_messages
-    get_all_control_names = get_all_control_names
-    get_submit_control_names = get_submit_control_names
+    @property
+    def message(self):
+        """Return the info messages displayed in browser.
+
+        Returns string when there is exactly one message, list otherwise.
+
+        """
+        messages = [x.text
+                    for x in self.etree.xpath(
+                        '//div[@id="info-messages"]/ul/li')]
+        if len(messages) == 1:
+            return messages[0]
+        return messages
+
+    def keyword_search(self, keyword, apply=None):
+        """Search for a keyword via keyword-search.
+
+        If `apply` is not `None` select the value from the dropdown and submit
+        the search result handler.
+
+        """
+        self.open(self.SEARCH_BY_KEYWORD_URL)
+        self.getControl('keywords').displayValue = [keyword]
+        self.getControl('Search').click()
+        if apply:
+            self.getControl('Apply on selected persons').displayValue = [apply]
+            self.getControl(name='form.buttons.apply').click()
+
+    @property
+    def submit_control_names(self):
+        """List of the names of the submit controls in the form."""
+        return get_submit_control_names(self)
+
+    @property
+    def all_control_names(self):
+        """List of the names of all controls in the form."""
+        return get_all_control_names(self)
+
     in_out_widget_select = in_out_widget_select
+
+    # XXX deprecated, use submit_control_names property
+    get_submit_control_names = get_submit_control_names
+    # XXX deprecated, use all_control_names
+    get_all_control_names = get_all_control_names
+
+
+class Webdriver(object):
+    """Wrapper around Selenese."""
+
+    def __init__(self, selenium):
+        self.selenium = selenium
+
+    def login(self, username):
+        transaction.commit()
+        sel = self.selenium
+        sel.open("http://{username}:{password}@{server}/".format(
+                 username=username, server=self.selenium.server,
+                 password=USERNAME_PASSWORD_MAP.get(username, username)))
+        return sel
+
+    @property
+    def message(self):
+        return self.selenium.getText('css=#info-messages')
 
 
 # Helper functions to create objects in the database
 
-def create_addressbook(name='ab', title=None, parent=None):
+def create_addressbook(parent, name, title=None):
     """Create an address book.
 
     When parent is `None`, it gets created in the root folder of the data base.
@@ -515,12 +639,6 @@ def create_addressbook(name='ab', title=None, parent=None):
         icemac.addressbook.addressbook.AddressBook)
     if title is not None:
         ab.title = title
-    if parent is None:
-        frame = inspect.currentframe()
-        try:
-            parent = frame.f_back.f_globals['layer']['rootFolder']
-        finally:
-            del frame
     parent[name] = ab
     return ab
 
@@ -619,15 +737,13 @@ def create_file(person, return_obj=True, **kw):
 
 
 @icemac.addressbook.utils.set_site
-def create(parent, entity_name, return_obj=False, set_as_default=False,
-           *args, **kw):
+def create(parent, interface, set_as_default=False, *args, **kw):
     """Create an object using an entity.
 
-    entity_name ... IEntity.class_name
+    interface ... interface of the object which should be created.
 
     """
-    entity = zope.component.getUtility(
-        icemac.addressbook.interfaces.IEntity, name=entity_name)
+    entity = icemac.addressbook.interfaces.IEntity(interface)
     name = icemac.addressbook.utils.create_and_add(
         parent, entity.getClass(), *args)
     obj = parent[name]
@@ -639,34 +755,15 @@ def create(parent, entity_name, return_obj=False, set_as_default=False,
         field = icemac.addressbook.person.get_default_field(entity.interface)
         field.set(parent, obj)
     zope.lifecycleevent.modified(obj)
-    if return_obj:
-        return obj
-
-
-@icemac.addressbook.utils.set_site
-def create_user(ab, first_name, last_name, email, password, roles, **kw):
-    person = create_person(
-        ab, ab, last_name, first_name=first_name, **kw)
-    create_email_address(ab, person, email=email)
-
-    role_factory = icemac.addressbook.principals.sources.role_source.factory
-    role_values = role_factory.getValues()
-    selected_roles = []
-    for role_title in roles:
-        for candidate in role_values:
-            if role_factory.getTitle(candidate) == role_title:
-                selected_roles.append(candidate)
-                break
-    icemac.addressbook.utils.create_and_add(
-        ab.principals, icemac.addressbook.principals.principals.Principal,
-        person=person, password=password, roles=selected_roles)
+    return obj
 
 
 @icemac.addressbook.utils.set_site
 def create_field(entity_name_or_interface, type, title, **kw):
     """Create a user defined field for an entity.
 
-    entity_name ... Name used to register the entity as utility
+    entity_name_or_interface ... Name used to register the entity as utility or
+                                 or interface of the entity
     type ... see values of .sources.FieldTypeSource
 
     Returns the name of the created field.
@@ -696,3 +793,20 @@ class InstallationAssertions(object):
     def assertAttribute(self, ab, attribute, iface, name=''):
         self.assertTrue(iface.providedBy(getattr(ab, attribute)))
         self.assertLocalUtility(ab, iface, name)
+
+
+def set_modified(obj, *args):
+    """Set the modification date of an object."""
+    dt = datetime.datetime(*args, tzinfo=pytz.utc)
+    zope.dublincore.interfaces.IZopeDublinCore(obj).modified = dt
+    return dt
+
+
+def delete_field(browser, field_name):
+    """Delete a user defined field."""
+    manager = browser.login('mgr')
+    manager.open(
+        browser.ENTITY_PERSON_LIST_FIELDS_URL +
+        '/{}/@@delete.html'.format(field_name))
+    manager.getControl('Yes').click()
+    assert manager.message.endswith('" deleted.')

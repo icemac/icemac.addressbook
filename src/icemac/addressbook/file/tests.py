@@ -1,81 +1,69 @@
-import icemac.addressbook.file.file
+from icemac.addressbook.file.file import File
 import icemac.addressbook.file.interfaces
-import icemac.addressbook.testing
-import os
-import os.path
-import tempfile
 import transaction
-import unittest
 import zope.interface.verify
 
 
-class Base(unittest.TestCase):
-
-    fd = None
-    filename = None
-
-    def setUp(self):
-        self.file = icemac.addressbook.file.file.File()
-
-    def tearDown(self):
-        if self.filename and os.path.exists(self.filename):
-            os.unlink(self.filename)
-        self.filename = None
-        if self.fd is not None:
-            self.fd.close()
-            self.fd = None
+def test_file__File__1():
+    """`File` conforms to `IFile`."""
+    assert zope.interface.verify.verifyObject(
+        icemac.addressbook.file.interfaces.IFile, File())
 
 
-class TestFile(Base):
-    """Unittests for file."""
-
-    def test_ifile_interface(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.file.interfaces.IFile,
-            self.file)
-
-    def test_size_empty_file(self):
-        self.assertEqual(0, self.file.size)
-
-    def test_size_file(self):
-        self.file.data = '1234567\n90'
-        self.assertEqual(10, self.file.size)
-
-    def test_open(self):
-        self.fd = self.file.open('w')
-        self.fd.write('qwertz.123')
-        self.fd.close()
-        self.fd = self.file.open('r')
-        self.assertEqual('qwertz.123', self.fd.read())
-
-    def test_data_getter(self):
-        self.file.data = 'data'
-        # the getter of file.data always returns '' to trick z3c.form
-        self.assertEqual('', self.file.data)
+def test_file__File__size__1():
+    """An empty file has the length of zero."""
+    assert 0 == File().size
 
 
-class FTestFile(Base):
-    """Tests for methods which need functional setup."""
+def test_file__File__size__2():
+    """`size` counts the length of the file.."""
+    assert 10 == File('1234567\n90').size
 
-    layer = icemac.addressbook.testing.ZODB_LAYER
 
-    def test_openDetached(self):
-        # need to assign to tree, so commit works
-        self.layer['rootFolder']['f'] = self.file
-        self.file.data = 'data\n\nfoobar'
-        # commit as openDetached expects a committed blob
-        transaction.commit()
-        self.fd = self.file.openDetached()
-        self.assertEqual('data\n\nfoobar', self.fd.read())
+def test_file__File__open__1():
+    """`open()` allows to read and write the underlying file."""
+    f = File()
+    fd = f.open('w')
+    fd.write('qwertz.123')
+    fd.close()
+    try:
+        fd = f.open('r')
+        assert 'qwertz.123' == fd.read()
+    finally:
+        fd.close()
 
-    def test_replace(self):
-        # need to assign to tree, so commit works
-        self.layer['rootFolder']['f2'] = self.file
-        self.file.data = '1234'
-        fd, self.filename = tempfile.mkstemp()
-        os.write(fd, '6789\n0123')
-        os.close(fd)
-        self.file.replace(self.filename)
-        transaction.commit()
-        self.fd = self.file.openDetached()
-        self.assertEqual('6789\n0123', self.fd.read())
+
+def test_file__File__data__1():
+    """`data` always returns '' to trick z3c.form."""
+    f = File()
+    f.data = 'data'
+    assert '' == f.data
+
+
+def test_file__File__openDetached__1(empty_zodb):
+    """`openDetached` returns file data disconnected from db connection."""
+    # need to assign to tree, so commit works
+    empty_zodb.rootFolder['f'] = f = File('data\n\nfoobar')
+    # commit as openDetached expects a committed blob
+    transaction.commit()
+    try:
+        fd = f.openDetached()
+        assert 'data\n\nfoobar' == fd.read()
+    finally:
+        fd.close()
+
+
+def test_file__File__replace__1(empty_zodb, tmpdir):
+    """`replace` allows to replace a file by another using its filename."""
+    # need to assign to tree, so commit works
+    empty_zodb.rootFolder['f2'] = f = File('1234')
+    fdw = tmpdir.join('other.file')
+    fdw.write('6789\n0123')
+    filename = str(fdw)
+    f.replace(filename)
+    transaction.commit()
+    try:
+        fdr = f.openDetached()
+        assert '6789\n0123' == fdr.read()
+    finally:
+        fdr.close()

@@ -1,74 +1,92 @@
+import icemac.addressbook.conftest
+import icemac.addressbook.interfaces
 import icemac.addressbook.testing
 import mock
-import unittest
+import pytest
+import transaction
+import zope.component
+import zope.component.hooks
 
 
-class MailToLayer(icemac.addressbook.testing._AbstractDataLayer):
+# Fixtures to set-up infrastructure which are usable in tests:
 
-    defaultBases = [icemac.addressbook.testing.TEST_BROWSER_LAYER]
-
-    def createData(self, ab):
-        from icemac.addressbook.testing import (
-            create_person, create_full_person, create_email_address)
-        kw = set([icemac.addressbook.testing.create_keyword(ab, u'mail-me')])
-        # No EMailAddress object
-        self['p0'] = create_person(ab, ab, u'No Mail', keywords=kw)
-        self['p1'] = create_person(ab, ab, u'Mail', keywords=kw)
-        create_email_address(ab, self['p1'], email=u'icemac@example.net')
-        self['p2'] = create_person(ab, ab, u'Mail Too', keywords=kw)
-        create_email_address(ab, self['p2'], email=u'mail@example.com')
-        self['p3'] = create_person(ab, ab, u'Double Mail', keywords=kw)
-        # Dulicate email address
-        create_email_address(ab, self['p3'], email=u'mail@example.com')
-        self['p4'] = create_full_person(ab, ab, u'Other Mail', keywords=kw)
-        # default email address is None
-        create_email_address(
-            ab, self['p4'], email=u'other@example.com', set_as_default=False)
-
-    def removeData(self):
-        del self['p0']
-        del self['p1']
-        del self['p2']
-        del self['p3']
-        del self['p4']
-
-MAILTO_LAYER = MailToLayer()
+@pytest.yield_fixture(scope='function')
+def mailto_data(mailtoDataS):
+    """Make a stacked demo storage on search data."""
+    mailToConnectionS, persons = mailtoDataS
+    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+            mailToConnectionS.zodb, 'MailToFunction'):
+        yield persons
 
 
-class MailToTest(unittest.TestCase):
-    """Testing .mailto.MailTo."""
+# Infrastructure fixtures
 
-    layer = MAILTO_LAYER
-    maxDiff = None
 
-    def get_view(self):
-        from .mailto import MailTo
-        view = MailTo()
-        view.request = mock.Mock()
-        return view
+@pytest.yield_fixture(scope='session')
+def mailtoDataS(addressBookS, KeywordFactory, PersonFactory,
+                EMailAddressFactory, FullPersonFactory):
+    """Create data used in mail-to tests."""
+    kws = [u'mail-me']
+    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+            addressBookS, 'MailToSession'):
+        for address_book in icemac.addressbook.conftest.site(connection):
+            persons = {}
+            # No EMailAddress object
+            persons['p0'] = PersonFactory(
+                address_book, u'No Mail', keywords=kws)
+            persons['p1'] = PersonFactory(address_book, u'Mail', keywords=kws)
+            EMailAddressFactory(
+                persons['p1'], u'icemac@example.net', set_as_default=True)
+            persons['p2'] = PersonFactory(
+                address_book, u'Mail Too', keywords=kws)
+            EMailAddressFactory(
+                persons['p2'], u'mail@example.com', set_as_default=True)
+            persons['p3'] = PersonFactory(
+                address_book, u'Double Mail', keywords=kws)
+            # Dulicate email address
+            EMailAddressFactory(
+                persons['p3'], u'mail@example.com', set_as_default=True)
+            persons['p4'] = FullPersonFactory(
+                address_book, u'Other Mail', keywords=kws)
+            # default email address is None
+            EMailAddressFactory(
+                persons['p4'], u'other@example.com', set_as_default=False)
+            transaction.commit()
+            yield connection, persons
 
-    def test_unique_mail_addresses_returns_sorted_unique_email_addresses(
-            self):
-        from gocept.testing.mock import Property
-        persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
-                   'mailto.MailTo.persons')
-        with mock.patch(persons, Property()) as persons:
-            persons.return_value = [
-                self.layer[x] for x in 'p0 p1 p2 p3 p4'.split()]
-            self.assertEqual([u'icemac@example.net', u'mail@example.com'],
-                             self.get_view().unique_mail_addresses)
 
-    def test_view_displays_mail_adresses_of_selected_persons_as_link(self):
-        from icemac.addressbook.browser.testing import (
-            search_for_persons_with_keyword_search_using_browser)
-        browser = search_for_persons_with_keyword_search_using_browser(
-            self.layer, 'mail-me', 'visitor')
-        browser.getControl('Apply on selected persons').displayValue = [
-            'E-Mail']
-        browser.getControl(name='form.buttons.apply').click()
-        self.assertEqual(
-            [['<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
-              'Click here to open your e-mail client</a>'],
-             ['<a href="javascript:history.go(-1)">Go back</a>']],
-            [browser.etree_to_list(x)
-             for x in browser.etree.xpath('//div[@id="mailto"]//a')])
+# Tests
+
+def test_mailto__MailTo__unique_mail_addresses__1(mailto_data):
+    """MailTo.unique_mail_addresses is a sorted list of unique email addrs."""
+    from .mailto import MailTo
+    from gocept.testing.mock import Property
+    view = MailTo()
+    view.request = mock.Mock()
+    persons = ('icemac.addressbook.browser.search.result.handler.mailto.'
+               'mailto.MailTo.persons')
+    with mock.patch(persons, Property()) as persons,\
+            zope.component.hooks.site(mailto_data['p0'].__parent__):
+        persons.return_value = [mailto_data[x]
+                                for x in 'p0 p1 p2 p3 p4'.split()]
+        assert [u'icemac@example.net',
+                u'mail@example.com'] == view.unique_mail_addresses
+
+
+def test__mailto__MailTo___link__1(mailto_data, browser):
+    """The view displays the e-mail adresses of the persons as a link."""
+    browser.login('visitor')
+    browser.keyword_search('mail-me', apply='E-Mail')
+    assert [['<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
+             'Click here to open your e-mail client</a>'],
+            ['<a href="javascript:history.go(-1)">Go back</a>']] == [
+        browser.etree_to_list(x)
+        for x in browser.etree.xpath('//div[@id="mailto"]//a')]
+
+
+# Helper functions
+
+def _get_keywords_by_title(keywords):
+    """Get the keywords for a list of titles."""
+    kws = zope.component.getUtility(icemac.addressbook.interfaces.IKeywords)
+    return [kws.get_keyword_by_title(x) for x in keywords]

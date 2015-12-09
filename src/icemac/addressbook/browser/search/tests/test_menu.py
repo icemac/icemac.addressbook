@@ -1,29 +1,35 @@
 from __future__ import unicode_literals
-import icemac.addressbook.browser.testing
+import pytest
 
 
-class SearchSelectedCheckerTests(
-        icemac.addressbook.browser.testing.SiteMenuTestCase):
-    """Testing ..menu.SearchSelectedChecker"""
+@pytest.fixture(scope='function')
+def search_menu(address_book, browser, sitemenu):
+    """Fixture to test the search menu."""
+    browser.login('mgr')  # needed for `test__menu_search_menu__5`.
+    return sitemenu(browser, 1, 'Search', browser.SEARCH_URL)
 
-    menu_item_index = 1
-    menu_item_title = 'Search'
-    menu_item_URL = 'http://localhost/ab/@@search.html'
-    login_as = 'mgr'
 
-    def test_search_tab_is_selected_on_search_overview(self):
-        self.browser.open(self.menu_item_URL)
-        self.assertIsSelected()
+def test__menu_search_menu__1(search_menu):
+    """Asserting that the menu with the index 1 is `Search`."""
+    search_menu.assert_correct_menu_item_is_tested()
 
-    def test_search_tab_is_not_selected_on_person_list(self):
-        self.browser.open('http://localhost/ab/@@person-list.html')
-        self.assertIsNotSelected()
 
-    def test_search_tab_is_selected_on_search_view(self):
-        self.browser.open('http://localhost/ab/@@multi_keyword.html')
-        self.assertIsSelected()
+def test__menu_search_menu__2(search_menu):
+    """The search menu item is selected on the search overview."""
+    assert search_menu.item_selected(search_menu.menu_item_URL)
 
-    def test_search_tab_is_selected_on_search_result_handler_view(self):
-        browser = self.browser
-        browser.open('http://localhost/ab/@@multi-update')
-        self.assertIsSelected()
+
+def test__menu_search_menu__3(search_menu):
+    """The search menu is not selected on the person list."""
+    assert not search_menu.item_selected(search_menu.browser.PERSONS_LIST_URL)
+
+
+def test__menu_search_menu__4(search_menu):
+    """The search menu is selected on the search view."""
+    assert search_menu.item_selected(
+        'http://localhost/ab/@@multi_keyword.html')
+
+
+def test__menu_search_menu__5(search_menu):
+    """The search menu is selected on the search result handler view."""
+    assert search_menu.item_selected('http://localhost/ab/@@multi-update')

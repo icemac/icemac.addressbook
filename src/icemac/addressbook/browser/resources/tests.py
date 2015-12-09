@@ -1,15 +1,4 @@
-import icemac.addressbook.testing
-import unittest
-
-
-class ResourcesTests(unittest.TestCase,
-                     icemac.addressbook.testing.BrowserMixIn):
-    """Testing resources."""
-
-    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
-
-    def test_image_resources_can_be_delivered(self):
-        browser = self.get_browser()
-        browser.open(
-            'http://localhost/++resource++img/Symbol-Information.png')
-        self.assertEqual('200 Ok', browser.headers['status'])
+def test_resources__1(address_book, browser):
+    """Image resources can be delivered to the browser."""
+    browser.open('http://localhost/++resource++img/Symbol-Information.png')
+    assert '200 Ok' == browser.headers['status']

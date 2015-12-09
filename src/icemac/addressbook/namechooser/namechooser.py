@@ -56,22 +56,31 @@ class DontReuseNames(zope.container.contained.NameChooser):
         if not name:
             name = unicode(obj.__class__.__name__)
 
-        dot = name.rfind('.')
-        if dot >= 0:
-            extension = name[dot:]
-            name = name[:dot]
+        prefix, dot, extension = name.rpartition('.')
+        if prefix:
+            extension = dot + extension
         else:
-            extension = ''
+            # There is no dot in the name, so
+            prefix = extension
+            extension = u''
 
-        name_suffix = icemac.addressbook.namechooser.interfaces.INameSuffix(
-            container)
+        name_suffix = self.name_suffix
         while True:
             name_suffix += 1
-            n = name + u'-' + unicode(name_suffix) + extension
-            if n not in container:
+            chosen_name = u'{prefix}-{suffix}{extension}'.format(
+                prefix=prefix, suffix=name_suffix, extension=extension)
+            if not self.name_in_use(chosen_name):
                 break
 
         # Make sure the name is valid.  We may have started with something bad.
-        self.checkName(n, object)
+        self.checkName(chosen_name, obj)
 
-        return n
+        return chosen_name
+
+    def name_in_use(self, name):
+        return name in self.context
+
+    @property
+    def name_suffix(self):
+        return icemac.addressbook.namechooser.interfaces.INameSuffix(
+            self.context)

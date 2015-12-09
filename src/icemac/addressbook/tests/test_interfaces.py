@@ -1,111 +1,62 @@
-# -*- coding: latin-1 -*-
-
-import gocept.reference.verify
-import icemac.addressbook.address
-import icemac.addressbook.addressbook
-import icemac.addressbook.entities
-import icemac.addressbook.interfaces
-import icemac.addressbook.keyword
-import icemac.addressbook.orderstorage
-import icemac.addressbook.person
-import unittest
-import zope.component.testing
-import zope.interface
-import zope.interface.verify
+# -*- coding: utf-8 -*-
+import pytest
+from icemac.addressbook.address import EMailAddress, HomePageAddress
+from zope.schema.interfaces import ConstraintNotSatisfied, InvalidURI
 
 
-class TestInterfaces(unittest.TestCase):
+@pytest.mark.parametrize('candidate', [
+    u'asdfg',
+    u'ich@',
+    u'ich@goo@le.de',
+    u'ich@local',
+    u'ich@local..de',
+    u'ich@local.de.'], ids=lambda x: str(x))
+def test_interfaces__IEMailAddress__email__1(candidate):
+    """The constraint on `email` refuses non-valid email addresses."""
+    email_address = EMailAddress()
+    with pytest.raises(ConstraintNotSatisfied):
+        email_address.email = candidate
 
-    def tearDown(self):
-        zope.component.testing.tearDown()
 
-    def test_person(self):
-        person = icemac.addressbook.person.Person()
-        gocept.reference.verify.verifyObject(
-            icemac.addressbook.interfaces.IPerson, person)
+@pytest.mark.parametrize('candidate', [
+    u'ich@example.org',
+    u'ich+du@example.org',
+    u'ich=du@example.org',
+    u'ich_du@example.org',
+    u'ich-du@example.org',
+    u'ich+du@a.b.c.d.example.org',
+    u'ich+du@example.museum',
+    u'ich@ex-ample.de',
+    u'ich@ex_ample.de',
+    # Some examples from RFC 3696 (Note: not all examples from this RFC are
+    # supported!):
+    u'user+mailbox@example.com',
+    u'customer/department=shipping@example.com',
+    u'$A12345@example.com',
+    u'!def!xyz%abc@example.com',
+    u'_somename@example.com'], ids=lambda x: str(x))
+def test_interfaces__IEMailAddress__email__2(candidate):
+    """The constraint on `email` allows valid email addresses."""
+    email_address = EMailAddress()
+    email_address.email = candidate
 
-        gocept.reference.verify.verifyObject(
-            icemac.addressbook.interfaces.IPersonDefaults, person)
 
-    def test_address_book(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IAddressBook,
-            icemac.addressbook.addressbook.AddressBook())
+@pytest.mark.parametrize('candidate', [
+    'asdfg',
+    'www.example.com'])
+def test_interfaces__IHomePageAddress__url__1(candidate):
+    """The constraint on `url` refuses non-valid URIs."""
+    home_page_address = HomePageAddress()
+    with pytest.raises(InvalidURI):
+        home_page_address.url = candidate
 
-    def test_postal_address(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IPostalAddress,
-            icemac.addressbook.address.PostalAddress())
 
-    def test_email_address(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEMailAddress,
-            icemac.addressbook.address.EMailAddress())
-
-    def test_home_page_address(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IHomePageAddress,
-            icemac.addressbook.address.HomePageAddress())
-
-    def test_phone_number(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IPhoneNumber,
-            icemac.addressbook.address.PhoneNumber())
-
-    def test_keywords(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IKeywords,
-            icemac.addressbook.keyword.KeywordContainer())
-
-    def test_keyword(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IKeyword,
-            icemac.addressbook.keyword.Keyword())
-
-    def test_keywordtitles(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IKeywordTitles,
-            icemac.addressbook.person.Keywords(None))
-
-    def test_entities(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntities,
-            icemac.addressbook.entities.Entities())
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntities,
-            icemac.addressbook.entities.PersistentEntities())
-
-    def test_entityorder(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntityOrder,
-            icemac.addressbook.entities.EntityOrder())
-
-    def test_entity(self):
-        class IE(zope.interface.Interface):
-            pass
-        entity = icemac.addressbook.entities.Entity(
-            u'E', IE, 'icemac.addressbook.TestInterfaces')
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntityRead, entity)
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IEntityWrite, entity)
-
-    def test_field(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IField,
-            icemac.addressbook.entities.Field())
-
-    def test_orderstorage_read(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IOrderStorageRead,
-            icemac.addressbook.orderstorage.OrderStorage())
-
-    def test_orderstorage_write(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IOrderStorageWrite,
-            icemac.addressbook.orderstorage.OrderStorage())
-
-    def test_orderstorage_rw(self):
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.interfaces.IOrderStorage,
-            icemac.addressbook.orderstorage.OrderStorage())
+@pytest.mark.parametrize('candidate', [
+    'http://www.example.org',
+    'http://www2.example.org',
+    'http://a.b.c.d.example.org',
+    'http://example.museum'])
+def test_interfaces__IHomePageAddress__url__2(candidate):
+    """The constraint on `url` allows valid URIs."""
+    home_page_address = HomePageAddress()
+    home_page_address.url = candidate

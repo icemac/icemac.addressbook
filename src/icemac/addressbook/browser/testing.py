@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.testing import (
     create_person, create_full_person, create_keyword)
+import plone.testing
 import datetime
 import icemac.addressbook.testing
 
@@ -40,10 +41,11 @@ class _SearchLayer(icemac.addressbook.testing._AbstractDataLayer):
 _SEARCH_LAYER = _SearchLayer(name='SearchLayer')
 WSGI_SEARCH_LAYER = icemac.addressbook.testing.TestBrowserLayer(
     'WSGISearch', _SEARCH_LAYER)
-SELENIUM_SEARCH_LAYER = icemac.addressbook.testing.SeleniumLayer(
-    'SeleniumSearch', _SEARCH_LAYER)
+SELENIUM_SEARCH_LAYER = plone.testing.Layer(
+    name='SeleniumSearch', bases=[_SEARCH_LAYER])
 
 
+# XXX DEPRECATED
 def search_for_persons_with_keyword_search_using_browser(
         layer, keyword, login='mgr'):
     """Searches for all persons with the given keyword.
