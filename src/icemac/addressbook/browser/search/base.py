@@ -17,6 +17,7 @@ class BaseView(zope.publisher.browser.BrowserView):
     to provide IBrowserView).
 
     """
+
     form_explanation = u''  # description of the search form displayed below it
 
     search_params = None
@@ -34,6 +35,7 @@ class BaseView(zope.publisher.browser.BrowserView):
 
 
 class BaseSearchForm(z3c.formui.form.Form):
+    """Base class for the search form."""
 
     interface = NotImplemented  # to be set in child class
 

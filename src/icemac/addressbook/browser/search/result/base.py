@@ -51,7 +51,7 @@ class BaseSearchResultForm(icemac.addressbook.browser.base._AbstractEditForm):
 
 
 class BasePersonTable(icemac.addressbook.browser.table.Table):
-    "Base result table displaying at least a checkbox column (using ZCML)."
+    """Base result table displaying at least a checkbox column (using ZCML)."""
 
     def update(self):
         self.result = self.context.result

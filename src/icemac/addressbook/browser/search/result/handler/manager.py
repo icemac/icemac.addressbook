@@ -28,7 +28,7 @@ class SearchResultHandler(z3c.menu.ready2go.item.SiteMenuItem):
     """Specialized menu item to be used in SearchResultHandlerManager."""
 
     def __eq__(self, other):
-        "Each handler has a unique viewName, useable for comparison."
+        """Each handler has a unique viewName, usable for comparison."""
         if not isinstance(other, SearchResultHandler):
             return False
         return self.viewName == other.viewName

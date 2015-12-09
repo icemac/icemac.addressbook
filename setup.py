@@ -3,6 +3,7 @@ import setuptools
 
 
 def read(filename):
+    """Read a file in the current directory."""
     return file(filename).read()
 
 

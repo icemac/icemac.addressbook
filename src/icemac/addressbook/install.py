@@ -8,7 +8,7 @@ import sys
 
 
 def not_matched_prerequisites():
-    "Check whether icemac.addressbook can be installed."
+    """Check whether icemac.addressbook can be installed."""
     if os.path.exists('buildout.cfg'):
         return (
             "ERROR: buildout.cfg already exists.\n"

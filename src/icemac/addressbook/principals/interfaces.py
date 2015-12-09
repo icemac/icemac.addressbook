@@ -44,7 +44,7 @@ class IPrincipal(zope.interface.Interface):
 
 
 class IRoles(zope.interface.Interface):
-    "Roles"
+    """Roles"""
 
     roles = zope.schema.Tuple(
         title=_(u'roles'), required=False,

@@ -94,6 +94,7 @@ def setUpStackedDemoStorage(self, name):
 
 
 def createZODBConnection(zodbDB):
+    """Create an open ZODB connection."""
     connection = zodbDB.open()
     zodbRoot = connection.root()
     rootFolder = zodbRoot[
