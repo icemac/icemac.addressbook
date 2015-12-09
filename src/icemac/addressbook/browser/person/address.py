@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import zope.traversing.api
+from icemac.addressbook.i18n import _
 import icemac.addressbook.address
 import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
-from icemac.addressbook.i18n import MessageFactory as _
+import zope.traversing.api
 
 
 class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
