@@ -1,100 +1,103 @@
-import unittest
+import zope.component
+from icemac.addressbook.person import Person, Keywords
+from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
+from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
+from icemac.addressbook.interfaces import IEntityOrder
+import gocept.reference.verify
 
 
-class MockEntitiesAndOrder(object):
-    """Mock wich implements parts of IEntities and IEntityOrder."""
-
-    def __init__(self):
-        import icemac.addressbook.address
-        self.order = {
-            icemac.addressbook.address.postal_address_entity: 0,
-            icemac.addressbook.address.phone_number_entity: 10,
-            icemac.addressbook.address.e_mail_address_entity: 20,
-            icemac.addressbook.address.home_page_address_entity: 30,
-            }
-
-    def get(self, entity):
-        return self.order[entity]
-
-    def getEntities(self, **kw):
-        return self.order.keys()
+def test_person__Person__1():
+    """It fulfills the `IPerson` interface."""
+    gocept.reference.verify.verifyObject(IPerson, Person())
 
 
-class PersonDefaultsEntityTest(unittest.TestCase):
-
-    def setUp(self):
-        import icemac.addressbook.interfaces
-        import zope.component.testing
-
-        zope.component.testing.setUp()
-        mock = MockEntitiesAndOrder()
-        zope.component.provideUtility(
-            mock, icemac.addressbook.interfaces.IEntityOrder)
-        zope.component.provideUtility(
-            mock, icemac.addressbook.interfaces.IEntities)
-
-    def tearDown(self):
-        import zope.component.testing
-        zope.component.testing.tearDown()
-
-    def change_sortorder(self):
-        import icemac.addressbook.address
-        import icemac.addressbook.interfaces
-        import zope.component
-
-        # Switching first two entries:
-        entity_order = zope.component.getUtility(
-            icemac.addressbook.interfaces.IEntityOrder)
-        entity_order.order[
-            icemac.addressbook.address.postal_address_entity] = 15
-
-    def callFUT(self, sorted=True):
-        import icemac.addressbook.person
-        pde = icemac.addressbook.person.PersonDefaultsEntity(
-            None, icemac.addressbook.interfaces.IPersonDefaults, None)
-        return [x[0] for x in pde.getRawFields(sorted=sorted)]
-
-    def test_default_sortorder(self):
-        self.assertEqual(
-            ['default_postal_address', 'default_phone_number',
-             'default_email_address', 'default_home_page_address'],
-            self.callFUT())
-
-    def test_changed_sortorder(self):
-        self.change_sortorder()
-        self.assertEqual(
-            ['default_phone_number', 'default_postal_address',
-             'default_email_address', 'default_home_page_address'],
-            self.callFUT())
-
-    def test_changed_sortorder_not_sorted(self):
-        self.change_sortorder()
-        self.assertEqual(
-            ['default_postal_address', 'default_phone_number',
-             'default_email_address', 'default_home_page_address'],
-            self.callFUT(sorted=False))
+def test_person__Person__2():
+    """It fulfills the `IPersonDefaults` interface."""
+    gocept.reference.verify.verifyObject(IPersonDefaults, Person())
 
 
-class Person_get_name_Tests(unittest.TestCase):
-    """Testing ..person.Person.get_name()."""
+def test_person__Keywords__1():
+    """It fulfills the `IKeywordTitles` interface."""
+    gocept.reference.verify.verifyObject(IKeywordTitles, Keywords(None))
 
-    def callMUT(self, first_name=None, last_name=None):
-        import icemac.addressbook.person
-        person = icemac.addressbook.person.Person()
-        if first_name:
-            person.first_name = first_name
-        if last_name:
-            person.last_name = last_name
-        return person.get_name()
 
-    def test_returns_last_name_and_first_name_when_existing(self):
-        self.assertEqual(u'Bernd Tester', self.callMUT(u'Bernd', u'Tester'))
+def test_person__PersonDefaultsEntity__getRawFields__1(address_book):
+    """It returns the fields in default sort order if no order is defined."""
+    entity = IEntity(IPersonDefaults)
+    assert ([
+        'default_postal_address',
+        'default_phone_number',
+        'default_email_address',
+        'default_home_page_address',
+    ] == [x[0] for x in entity.getRawFields()])
 
-    def test_returns_last_name_when_first_name_not_existing(self):
-        self.assertEqual(u'Tester', self.callMUT(last_name=u'Tester'))
 
-    def test_returns_first_name_when_last_name_not_existing(self):
-        self.assertEqual(u'Berns', self.callMUT(first_name=u'Berns'))
+def test_person__PersonDefaultsEntity__getRawFields__2(address_book):
+    """It returns the fields in the entity sort order."""
+    entity = IEntity(IPersonDefaults)
+    zope.component.getUtility(IEntityOrder).up(IEntity(IPhoneNumber))
+    assert ([
+        'default_phone_number',
+        'default_postal_address',
+        'default_email_address',
+        'default_home_page_address',
+    ] == [x[0] for x in entity.getRawFields()])
 
-    def test_returns_empty_string_when_no_name_exists(self):
-        self.assertEqual(u'', self.callMUT())
+
+def test_person__PersonDefaultsEntity__getRawFields__3(address_book):
+    """It returns the fields in default order if called whih `sorted=False`."""
+    entity = IEntity(IPersonDefaults)
+    zope.component.getUtility(IEntityOrder).up(IEntity(IPhoneNumber))
+    assert ([
+        'default_postal_address',
+        'default_phone_number',
+        'default_email_address',
+        'default_home_page_address',
+    ] == [x[0] for x in entity.getRawFields(sorted=False)])
+
+
+def test_person__Person__get_name__1():
+    """It returns last name and first name if both are set."""
+    person = Person()
+    person.first_name = u'Bernd'
+    person.last_name = u'Tester'
+    assert u'Bernd Tester' == person.get_name()
+
+
+def test_person__Person__get_name__2():
+    """It returns the last name if the first name is not set."""
+    person = Person()
+    person.last_name = u'Tester'
+    assert u'Tester' == person.get_name()
+
+
+def test_person__Person__get_name__3():
+    """It returns the first name if the last name is not set."""
+    person = Person()
+    person.first_name = u'Berns'
+    assert u'Berns' == person.get_name()
+
+
+def test_person__Person__get_name__4():
+    """It returns '' if neither first name nor last name is set."""
+    assert u'' == Person().get_name()
+
+
+def test_person__title__1(zcmlS):
+    """The title of a person without a name is a fix string."""
+    assert u'<no name>' == ITitle(Person())
+
+
+def test_person__title__2(zcmlS):
+    """`title()` returns the last name if the first name is empty."""
+    person = Person()
+    person.last_name = u'Tester'
+    assert u'Tester' == ITitle(person)
+
+
+def test_person__title__3(zcmlS):
+    """`title()` returns the last name and first name comma separated."""
+    person = Person()
+    person.first_name = u'Hans'
+    person.last_name = u'Tester'
+    assert u'Tester, Hans' == ITitle(person)

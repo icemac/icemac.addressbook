@@ -1,39 +1,45 @@
 from __future__ import unicode_literals
-import icemac.addressbook.browser.testing
+import pytest
 
 
-class MasterDataSelectedCheckerTests(
-        icemac.addressbook.browser.testing.SiteMenuTestCase):
-    """Testing ..menu.MasterDataSelectedChecker"""
+@pytest.fixture(scope='function')
+def md_menu(address_book, browser, sitemenu):
+    """Fixture to test the master data menu."""
+    browser.login('mgr')
+    return sitemenu(
+        browser, 3, 'Master data', browser.MASTER_DATA_URL)
 
-    menu_item_index = 3
-    menu_item_title = 'Master data'
-    menu_item_URL = 'http://localhost/ab/@@masterdata.html'
-    login_as = 'mgr'
 
-    def test_master_data_tab_is_selected_on_master_data_overview(self):
-        self.browser.open(self.menu_item_URL)
-        self.assertIsSelected()
+def test_menu__master_data_menu__1(md_menu):
+    """Asserting that the menu with the index 3 is `Master Data`."""
+    md_menu.assert_correct_menu_item_is_tested()
 
-    def test_master_data_tab_is_not_selected_on_person_list(self):
-        self.browser.open('http://localhost/ab/@@person-list.html')
-        self.assertIsNotSelected()
 
-    def test_master_data_tab_is_selected_on_address_book_edit(self):
-        self.browser.open('http://localhost/ab/@@edit-address_book.html')
-        self.assertIsSelected()
+def test_menu__master_data_menu__2(md_menu):
+    """The master data menu item is selected on the master data overview."""
+    assert md_menu.item_selected(md_menu.menu_item_URL)
 
-    def test_master_data_tab_is_selected_on_keywords_add(self):
-        self.browser.open(
-            'http://localhost/ab/++attribute++keywords/@@addKeyword.html')
-        self.assertIsSelected()
 
-    def test_master_data_tab_is_selected_on_principals_list(self):
-        self.browser.open('http://localhost/ab/++attribute++principals')
-        self.assertIsSelected()
+def test_menu__master_data_menu__3(md_menu):
+    """The master data menu item is not selected on the person list."""
+    assert not md_menu.item_selected(md_menu.browser.PERSONS_LIST_URL)
 
-    def test_master_data_tab_is_selected_on_user_field_add(self):
-        self.browser.open(
-            'http://localhost/ab/++attribute++entities/'
-            'icemac.addressbook.person.Person/@@addField.html')
-        self.assertIsSelected()
+
+def test_menu__master_data_menu__4(md_menu):
+    """The master data menu item is selected on address book edit."""
+    assert md_menu.item_selected(md_menu.browser.ADDRESS_BOOK_EDIT_URL)
+
+
+def test_menu__master_data_menu__5(md_menu):
+    """The master data menu item is selected on the keywords add form."""
+    assert md_menu.item_selected(md_menu.browser.KEYWORD_ADD_URL)
+
+
+def test_menu__master_data_menu__6(md_menu):
+    """The master data menu item is selected on the principals list."""
+    assert md_menu.item_selected(md_menu.browser.PRINCIPALS_LIST_URL)
+
+
+def test_menu__master_data_menu__7(md_menu):
+    """The master data menu item is selected on user field add form."""
+    assert md_menu.item_selected(md_menu.browser.ENTITY_PERSON_ADD_FIELD_URL)

@@ -28,8 +28,12 @@ class Configurator(object):
                     Might be None, so no user values are used.
     """
 
-    def __init__(self, user_config=None):
+    def __init__(self, user_config=None, stdin=None):
         self.user_config = user_config
+        if stdin is not None:
+            self.stdin = stdin
+        else:
+            self.stdin = sys.stdin
 
     def __call__(self):
         self.load()
@@ -61,7 +65,7 @@ class Configurator(object):
                 default = global_default
         while True:
             print ' %s: [%s] ' % (question, default),
-            got = sys.stdin.readline().strip()
+            got = self.stdin.readline().strip()
             print
             if not got:
                 got = default

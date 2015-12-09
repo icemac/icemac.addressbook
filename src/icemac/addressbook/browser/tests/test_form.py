@@ -1,154 +1,113 @@
+from ..form import zope_i18n_pattern_to_jquery_pattern
+from datetime import datetime
+from icemac.addressbook.interfaces import IKeyword
 from mock import patch, Mock
+from pytz import utc, timezone
+import gocept.testing.mock
+import icemac.addressbook.browser.form
 import icemac.addressbook.testing
-import unittest
+import pytest
+import zope.publisher.browser
 
 
-class DatetimeDataConverterTests(unittest.TestCase):
+@pytest.fixture(scope='function')
+def DatetimeDataConverter(mockTimeZone):
+    """Set up a `DatetimeDataConverter` object for tests."""
+    widget = Mock()
+    widget.request = zope.publisher.browser.TestRequest()
+    field = Mock()
+    field.missing_value = None
+    return icemac.addressbook.browser.form.DatetimeDataConverter(field, widget)
 
-    """Testing ..form.DatetimeDataConverter."""
 
-    def setUp(self):
-        from gocept.testing.mock import Property
-        from pytz import timezone
-        super(DatetimeDataConverterTests, self).setUp()
-        time_zone = ('icemac.addressbook.browser.form.'
-                     'DatetimeDataConverter.time_zone')
-        patcher = patch(time_zone, Property())
-        time_zone = patcher.start()
+@pytest.yield_fixture(scope='module')
+def mockTimeZone():
+    """Mock the timezone set in preferences to 'Etc/GMT-4'."""
+    time_zone = ('icemac.addressbook.browser.form.'
+                 'DatetimeDataConverter.time_zone')
+    with patch(time_zone, gocept.testing.mock.Property()) as time_zone:
         time_zone.return_value = timezone('Etc/GMT-4')
-        self.addCleanup(patcher.stop)
-
-    def make_one(self):
-        from zope.publisher.browser import TestRequest
-        from ..form import DatetimeDataConverter
-        widget = Mock()
-        widget.request = TestRequest()
-        field = Mock()
-        field.missing_value = None
-        return DatetimeDataConverter(field, widget)
-
-    def test_toWidgetValue_renders_datetime_with_tz_localized(self):
-        from datetime import datetime
-        from pytz import utc
-        self.assertEqual(
-            u'13/02/01 21:20',
-            self.make_one().toWidgetValue(
-                datetime(2013, 2, 1, 17, 20, tzinfo=utc)))
-
-    def test_toWidgetValue_renders_native_datetime_unchanged(self):
-        from datetime import datetime
-        self.assertEqual(
-            u'13/02/01 17:20',
-            self.make_one().toWidgetValue(datetime(2013, 2, 1, 17, 20)))
-
-    def test_toWidgetValue_renders_missing_value_as_empty_string(self):
-        self.assertEqual(u'', self.make_one().toWidgetValue(None))
-
-    def test_toFieldValue_adds_tzinfo(self):
-        from datetime import datetime
-        from pytz import timezone
-        self.assertEqual(
-            datetime(2013, 2, 1, 21, 20, tzinfo=timezone('Etc/GMT-4')),
-            self.make_one().toFieldValue(u'13/02/01 21:20'))
-
-    def test_toFieldValue_leaves_empty_value_alone(self):
-        self.assertIsNone(self.make_one().toFieldValue(u''))
+        yield
 
 
-class ZopeI18nPatternToJqueryPatternTests(unittest.TestCase):
-
-    """Testing ..form.zope_i18n_pattern_to_jquery_pattern()."""
-
-    def callFUT(self, kind, pattern):
-        from ..form import zope_i18n_pattern_to_jquery_pattern
-        return zope_i18n_pattern_to_jquery_pattern(kind, pattern)
-
-    def test_converts_German_datetime_format_correctly(self):
-        self.assertEqual(
-            'dd.mm.y HH:mm', self.callFUT('datetime', 'dd.MM.yy HH:mm'))
-
-    def test_converts_American_datetime_format_correctly(self):
-        self.assertEqual(
-            'm/d/y hh:mm TT', self.callFUT('datetime', 'M/d/yy h:mm a'))
-
-    def test_converts_American_time_format_correctly(self):
-        self.assertEqual(
-            'h:mm TT', self.callFUT('time', 'h:mm a'))
+def test_form__DatetimeDataConverter__toWidgetValue__1(DatetimeDataConverter):
+    """`toWidgetValue` renders datetime with timezone localized."""
+    assert u'13/02/01 21:20' == DatetimeDataConverter.toWidgetValue(
+        datetime(2013, 2, 1, 17, 20, tzinfo=utc))
 
 
-class DatetimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
-
-    """Selenium testing ..form.DatetimeWidget."""
-
-    def setUp(self):
-        from icemac.addressbook.testing import create_field, create_keyword
-        super(DatetimeWidgetTests, self).setUp()
-        ab = self.layer['addressbook']
-        keyword_entity_name = 'icemac.addressbook.keyword.Keyword'
-        create_field(ab, keyword_entity_name, 'Datetime', u'datetime')
-        self.kw = create_keyword(ab, u'foobar')
-
-    def test_datetime_widget_renders_javascript_calendar(self):
-        self.login('editor', 'editor')
-        s = self.selenium
-        s.open('/ab/++attribute++keywords/%s' % self.kw.__name__)
-        # Activate the datetime field which opens the JavaScript calendar
-        s.click('id=form-widgets-Field-1')
-        # Click the `now` button:
-        s.click("//button[@type='button']")
-        # And the `done` button:
-        s.click("xpath=(//button[@type='button'])[2]")
-        # Save the form:
-        s.clickAndWait("id=form-buttons-apply")
-        # Successful apply leads back to keyword overview
-        s.assertLocation('http://%s/ab/++attribute++keywords' % s.server)
+def test_form__DatetimeDataConverter__toWidgetValue__2(DatetimeDataConverter):
+    """`toWidgetValue` renders naive datetime unchanged."""
+    assert u'13/02/01 17:20' == DatetimeDataConverter.toWidgetValue(
+        datetime(2013, 2, 1, 17, 20))
 
 
-class DateWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
-
-    """Selenium testing ..form.DateWidget."""
-
-    def test_date_widget_renders_javascript_calendar(self):
-        self.login('editor', 'editor')
-        s = self.selenium
-        s.open('/ab/@@addPerson.html')
-        # Activate the date field which opens the JavaScript calendar
-        s.click('id=IcemacAddressbookPersonPerson-widgets-'
-                'IcemacAddressbookPersonPerson-birth_date')
-        # Click the first of the first month:
-        s.click("link=1")
-        # Fill in required fiels:
-        s.type('id=IcemacAddressbookPersonPerson-widgets-'
-               'IcemacAddressbookPersonPerson-last_name', 'Tester')
-        # Save the form:
-        s.clickAndWait("id=form-buttons-add")
-        # Successful apply leads back to keyword overview
-        s.assertLocation('http://%s/ab/@@person-list.html' % s.server)
+def test_form__DatetimeDataConverter__toWidgetValue__3(DatetimeDataConverter):
+    """`toWidgetValue` renders `missing_value` as empty string."""
+    assert u'' == DatetimeDataConverter.toWidgetValue(None)
 
 
-class TimeWidgetTests(icemac.addressbook.testing.SeleniumTestCase):
+def test_form__DatetimeDataConverter__toFieldValue__1(DatetimeDataConverter):
+    """`toFieldValue` adds tzinfo."""
+    assert (datetime(2013, 2, 1, 21, 20, tzinfo=timezone('Etc/GMT-4')) ==
+            DatetimeDataConverter.toFieldValue(u'13/02/01 21:20'))
 
-    """Selenium testing ..form.TimeWidget."""
 
-    def setUp(self):
-        from icemac.addressbook.testing import create_field, create_keyword
-        super(TimeWidgetTests, self).setUp()
-        ab = self.layer['addressbook']
-        keyword_entity_name = 'icemac.addressbook.keyword.Keyword'
-        create_field(ab, keyword_entity_name, 'Time', u'time')
-        self.kw = create_keyword(ab, u'foobar')
+def test_form__DatetimeDataConverter__toFieldValue__2(DatetimeDataConverter):
+    """`toFieldValue` leaves an empty value alone."""
+    assert None is DatetimeDataConverter.toFieldValue(u'')
 
-    def test_time_widget_renders_javascript_calendar(self):
-        self.login('editor', 'editor')
-        s = self.selenium
-        s.open('/ab/++attribute++keywords/%s' % self.kw.__name__)
-        # Activate the time field which opens the JavaScript calendar
-        s.click('id=form-widgets-Field-1')
-        # Click the `now` button:
-        s.click("//button[@type='button']")
-        # And the `done` button:
-        s.click("xpath=(//button[@type='button'])[2]")
-        # Save the form:
-        s.clickAndWait("id=form-buttons-apply")
-        # Successful apply leads back to keyword overview
-        s.assertLocation('http://%s/ab/++attribute++keywords' % s.server)
+
+def test_form__zope_i18n_pattern_to_jquery_pattern__1():
+    """Function converts German datetime format correctly."""
+    assert ('dd.mm.y HH:mm' ==
+            zope_i18n_pattern_to_jquery_pattern('datetime', 'dd.MM.yy HH:mm'))
+
+
+def test_form__zope_i18n_pattern_to_jquery_pattern__2():
+    """Function converts American datetime format correctly."""
+    assert ('m/d/y hh:mm TT' ==
+            zope_i18n_pattern_to_jquery_pattern('datetime', 'M/d/yy h:mm a'))
+
+
+def test_form__zope_i18n_pattern_to_jquery_pattern__3():
+    """Function converts American time format correctly."""
+    assert ('h:mm TT' == zope_i18n_pattern_to_jquery_pattern('time', 'h:mm a'))
+
+
+@pytest.mark.parametrize('datatype', ['Datetime', 'Time'])
+def test_form__Widget__1(
+        address_book, FieldFactory, KeywordFactory, datatype, webdriver):
+    """`DatetimeWidget` renders a JavaScript calendar."""
+    FieldFactory(address_book, IKeyword, datatype, u'my-field')
+    kw = KeywordFactory(address_book, u'foobar')
+    s = webdriver.login('editor')
+    s.open('/ab/++attribute++keywords/%s' % kw.__name__)
+    # Activate the datetime field which opens the JavaScript calendar
+    s.click('id=form-widgets-Field-1')
+    # Click the `now` button:
+    s.click("//button[@type='button']")
+    # And the `done` button:
+    s.click("xpath=(//button[@type='button'])[2]")
+    # Save the form:
+    s.clickAndWait("id=form-buttons-apply")
+    # Successful apply leads back to keyword overview:
+    assert s.getLocation().endswith('/ab/++attribute++keywords')
+
+
+def test_form__DateWidget__1(address_book, webdriver):
+    """`DateWidget` renders a JavaScript calendar."""
+    s = webdriver.login('editor')
+    s.open('/ab/@@addPerson.html')
+    # Activate the date field which opens the JavaScript calendar
+    s.click('id=IcemacAddressbookPersonPerson-widgets-'
+            'IcemacAddressbookPersonPerson-birth_date')
+    # Click the first of the first month:
+    s.click("link=1")
+    # Fill in required fiels:
+    s.type('id=IcemacAddressbookPersonPerson-widgets-'
+           'IcemacAddressbookPersonPerson-last_name', 'Tester')
+    # Save the form:
+    s.clickAndWait("id=form-buttons-add")
+    # Successful apply leads back to keyword overview
+    assert s.getLocation().endswith('/ab/@@person-list.html')

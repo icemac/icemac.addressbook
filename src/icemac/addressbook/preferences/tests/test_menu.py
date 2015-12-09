@@ -1,24 +1,29 @@
 from __future__ import unicode_literals
-import icemac.addressbook.browser.testing
+import pytest
 
 
-class PreferencesSelectedCheckerTests(
-        icemac.addressbook.browser.testing.SiteMenuTestCase):
-    """Testing ..menu.PreferencesSelectedChecker"""
+@pytest.fixture(scope='function')
+def prefs_menu(address_book, browser, sitemenu):
+    """Fixture to test the preferences menu."""
+    browser.login('visitor')
+    return sitemenu(browser, 2, 'Preferences', browser.PREFS_URL)
 
-    menu_item_index = 2
-    menu_item_title = 'Preferences'
-    menu_item_URL = 'http://localhost/ab/++preferences++/ab'
-    login_as = 'visitor'
 
-    def test_preferences_tab_is_selected_on_preferences_overview(self):
-        self.browser.open(self.menu_item_URL)
-        self.assertIsSelected()
+def test_menu__preferences_menu__1(prefs_menu):
+    """Asserting that the menu with the index 2 is `Preferences`."""
+    prefs_menu.assert_correct_menu_item_is_tested()
 
-    def test_preferences_tab_is_not_selected_on_person_list(self):
-        self.browser.open('http://localhost/ab/@@person-list.html')
-        self.assertIsNotSelected()
 
-    def test_preferences_tab_is_selected_on_sub_preferences_view(self):
-        self.browser.open('http://localhost/ab/++preferences++/ab.timeZone')
-        self.assertIsSelected()
+def test_menu__preferences_menu__2(prefs_menu):
+    """The preferences menu item is selected on the preferences page."""
+    assert prefs_menu.item_selected(prefs_menu.menu_item_URL)
+
+
+def test_menu__preferences_menu__3(prefs_menu):
+    """The preferences menu item is not selected on the person list."""
+    assert not prefs_menu.item_selected(prefs_menu.browser.PERSONS_LIST_URL)
+
+
+def test_menu__preferences_menu__4(prefs_menu):
+    """The preferences menu item is selected on a sub preferences view."""
+    assert prefs_menu.item_selected(prefs_menu.browser.PREFS_TIMEZONE_URL)

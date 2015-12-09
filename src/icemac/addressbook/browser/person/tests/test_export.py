@@ -1,19 +1,12 @@
-import icemac.addressbook.browser.testing
-import icemac.addressbook.testing
+def test_export__ExportList__1(search_data, browser):
+    """..export.ExportList() renders an advice if there are no exporters.
 
-
-class ExportTests(icemac.addressbook.testing.BrowserTestCase):
-    """Testing ..export.ExportList.
-
-    Actual exporters are tested in their modules.
+    The actual exporters are tested in their modules.
 
     """
-    layer = icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
-
-    def test_renders_advice_if_there_are_no_exporters(self):
-        browser = self.get_browser('visitor')
-        browser.open('http://localhost/ab/@@person-list.html')
-        browser.getLink('Hohmuth').click()
-        browser.getControl('Export').click()
-        self.assertIn('You did not enter enough data of the person, '
-                      'so no export is possible.', browser.contents)
+    browser.login('visitor')
+    browser.open(browser.PERSONS_LIST_URL)
+    browser.getLink('Hohmuth').click()
+    browser.getControl('Export').click()
+    assert ('You did not enter enough data of the person, '
+            'so no export is possible.' in browser.contents)

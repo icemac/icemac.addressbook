@@ -30,6 +30,10 @@ Other
 
 - Lint JavaScript files.
 
+- Rewrite tests to use py.test.
+
+- Update Selenium tests to Webdriver.
+
 2.5.2 (2014-12-18)
 ==================
 

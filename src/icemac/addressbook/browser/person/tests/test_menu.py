@@ -1,31 +1,36 @@
 from __future__ import unicode_literals
-import icemac.addressbook.browser.testing
+import pytest
 
 
-class PersonListSelectedCheckerTests(
-        icemac.addressbook.browser.testing.SiteMenuTestCase):
-    """Tesing ..menu.PersonListSelectedChecker"""
+@pytest.fixture(scope='function')
+def pl_menu(address_book, browser, sitemenu):
+    """Fixture to test the master data menu."""
+    browser.login('editor')
+    return sitemenu(
+        browser, 0, 'Person list', browser.PERSONS_LIST_URL)
 
-    menu_item_index = 0
-    menu_item_title = 'Person list'
-    menu_item_URL = 'http://localhost/ab/@@person-list.html'
-    login_as = 'editor'
 
-    def test_person_tab_is_selected_on_person_list(self):
-        self.browser.open(self.menu_item_URL)
-        self.assertIsSelected()
+def test_menu__person_list_menu__1(pl_menu):
+    """Asserting that the menu with the index 0 is `Person list`."""
+    pl_menu.assert_correct_menu_item_is_tested()
 
-    def test_person_tab_is_selected_on_persons_view(self):
-        ab = self.layer['addressbook']
-        tester = icemac.addressbook.testing.create_person(ab, ab, 'Tester')
-        self.browser.open(
-            'http://localhost/ab/%s/@@export.html' % tester.__name__)
-        self.assertIsSelected()
 
-    def test_person_tab_is_not_selected_on_search(self):
-        self.browser.open('http://localhost/ab/search.html')
-        self.assertIsNotSelected()
+def test_menu__person_list_menu__2(pl_menu):
+    """The person list menu item is selected on the person list."""
+    assert pl_menu.item_selected(pl_menu.menu_item_URL)
 
-    def test_person_tab_is_selected_on_person_add(self):
-        self.browser.open('http://localhost/ab/@@addPerson.html')
-        self.assertIsSelected()
+
+def test_menu__person_list_menu__3(address_book, pl_menu, PersonFactory):
+    """The person list menu item is selected on the person export view."""
+    PersonFactory(address_book, 'Tester')
+    assert pl_menu.item_selected(pl_menu.browser.PERSON_EXPORT_URL)
+
+
+def test_menu__person_list_menu__4(pl_menu):
+    """The person list menu item is not selected on the search view."""
+    assert not pl_menu.item_selected(pl_menu.browser.SEARCH_URL)
+
+
+def test_menu__person_list_menu__5(pl_menu):
+    """The person list menu item is selected on the person add form."""
+    assert pl_menu.item_selected(pl_menu.browser.PERSON_ADD_URL)

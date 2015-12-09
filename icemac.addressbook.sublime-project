@@ -48,7 +48,6 @@
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
-                "pytest.ini",
                 ]
     },
     {

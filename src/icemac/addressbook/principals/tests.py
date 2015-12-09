@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
-
-import gocept.reference.verify
-import icemac.addressbook.principals.interfaces
-import icemac.addressbook.principals.principals
-import icemac.addressbook.testing
-import unittest
-import zope.interface.verify
+from icemac.addressbook.principals.interfaces import IPasswordFields
+from icemac.addressbook.principals.interfaces import IPrincipal, IRoles
+from icemac.addressbook.principals.principals import Principal, created
+from zope.interface.verify import verifyObject
 
 
-class TestInterfaces(unittest.TestCase):
-    layer = icemac.addressbook.testing.ADDRESS_BOOK_UNITTESTS
+def test_principals__Principal__1(zcmlS):
+    """It fulfills the `IPrincipal` interface."""
+    principal = Principal()
+    # We need to call the created event handler here, because the person
+    # attribute is a descriptor wrapping the object verifyObject expects.
+    created(principal, None)
+    assert verifyObject(IPrincipal, principal)
 
-    def test_principal(self):
-        principal = icemac.addressbook.principals.principals.Principal()
-        # need to call created event handler here, because person
-        # attribute is a descriptor wrapping the one verifyObject
-        # expects.
-        icemac.addressbook.principals.principals.created(principal, None)
-        gocept.reference.verify.verifyObject(
-            icemac.addressbook.principals.interfaces.IPrincipal, principal)
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.principals.interfaces.IPasswordFields,
-            principal)
-        zope.interface.verify.verifyObject(
-            icemac.addressbook.principals.interfaces.IRoles, principal)
+
+def test_principals__Principal__2(zcmlS):
+    """It fulfills the `IPasswordFields` interface."""
+    principal = Principal()
+    assert verifyObject(IPasswordFields, principal)
+
+
+def test_principals__Principal__3(zcmlS):
+    """It fulfills the `IRoles` interface."""
+    principal = Principal()
+    assert verifyObject(IRoles, principal)

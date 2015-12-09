@@ -1,242 +1,262 @@
 # -*- coding: utf-8 -*-
+from icemac.addressbook.interfaces import IPerson, IPostalAddress
 import decimal
-import icemac.addressbook.browser.testing
-import icemac.addressbook.testing
-import unittest
-
-
-class TestEmptyNewValue(unittest.TestCase):
-    """Testing handler for edge case that user enters empty new value."""
-
-    layer = icemac.addressbook.browser.testing.WSGI_SEARCH_LAYER
-
-    def test_adding_an_empty_new_value_does_not_change_the_updated_value(self):
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(self.layer, 'family')
-        browser.getControl('field').displayValue = ['person -- last name']
-        browser.getControl('Next').click()
-        browser.getControl('new value', index=0).value = ''
-        browser.getControl('operation').displayValue = [
-            'append new value to existing one']
-        browser.getControl('Next').click()
-        # The last name column is displayed as a link column it contains the
-        # unchanged last name:
-        self.assertIn(
-            '<td><a href="http://localhost/ab/Person-2">Koch</a></td>',
-            browser.contents)
+import pytest
 
 
 KEYWORD = u'keyword for test'
 
 
-class TestUserDefinedFields(unittest.TestCase):
-    """Testing update of user defined fields."""
+# Fixtures to create objects:
 
-    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
+@pytest.fixture(scope='function')
+def UpdateablePersonFactory(FullPersonFactory):
+    """Return a callable which creates a person object that can be updated.
 
-    def setUp(self):
-        self.ab = self.layer['addressbook']
+    Supports user defined fields and sets a default keyword if `keywords` is
+    not in the parameters of the call.
 
-    def create_updateable_person(self, **kw):
-        from icemac.addressbook.interfaces import IEntity, IPerson
-        keywords = set(
-            icemac.addressbook.testing.create_keyword(self.ab, keyword)
-            for keyword in kw.pop('keywords', [KEYWORD]))
-        data = {'last_name': u'Tester', 'keywords': keywords,
-                'return_obj': True}
-        data.update(kw)
-        return icemac.addressbook.testing.create(
-            self.ab, self.ab, IEntity(IPerson).class_name, **data)
+    """
+    def create_updateable_person(address_book, **kw):
+        kw.setdefault('keywords', [KEYWORD])
+        kw.setdefault('last_name', u'Tester')
+        return FullPersonFactory(address_book, **kw)
+    return create_updateable_person
 
-    def test_bool_field_can_be_updated(self):
-        from icemac.addressbook.interfaces import IEntity, IPerson
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        field_name = icemac.addressbook.testing.create_field(
-            self.ab, IEntity(IPerson).class_name, 'Bool', u'Ever met')
-        self.create_updateable_person(**{field_name: False})
-        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
 
-        browser.getControl('field').displayValue = ['person -- Ever met']
-        browser.getControl('Next').click()
-        browser.getControl('yes').click()
-        browser.getControl('operation').displayValue = [
-            'replace existing value with new one']
-        browser.getControl('Next').click()
-        # Update sets the value to 'yes':
-        self.assertIn('<td>Tester</td><td>yes</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
-
-    def test_choice_field_can_be_updated(self):
-        from icemac.addressbook.interfaces import IEntity, IPostalAddress
-        address_class_name = IEntity(IPostalAddress).class_name
-        field_name = icemac.addressbook.testing.create_field(
-            self.ab, address_class_name, 'Choice', u'distance',
-            values=[u'< 50 km', u'>= 50 km'])
-        person = self.create_updateable_person()
-        icemac.addressbook.testing.create(
-            self.ab, person, address_class_name,
-            **{field_name: '>= 50 km', 'set_as_default': True})
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
-
-        browser.getControl('field').displayValue = [
-            'postal address -- distance']
-        browser.getControl('Next').click()
-        self.assertEqual(['No value', '< 50 km', '>= 50 km'],
-                         browser.getControl('new value').displayOptions)
-        browser.getControl('new value').displayValue = ['< 50 km']
-        browser.getControl('operation').displayValue = [
-            'replace existing value with new one']
-        browser.getControl('Next').click()
-        # Update sets the value to '< 50 km':
-        self.assertIn('<td>Tester</td><td><50km</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
-
-    def test_keywords_field_can_be_updated(self):
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        self.create_updateable_person(keywords=[KEYWORD, u'second kw'])
-        browser = select_persons_with_keyword_for_update(
-            self.layer, u'second kw')
-
-        browser.getControl('field').displayValue = ['person -- keywords']
-        browser.getControl('Next').click()
-        self.assertEqual([KEYWORD, 'second kw'],
-                         browser.getControl('new value').displayOptions)
-        browser.getControl('new value').displayValue = ['second kw']
-        browser.getControl('operation').displayValue = [
-            'remove selected keywords from existing ones']
-        browser.getControl('Next').click()
-        self.assertIn('<td>Tester</td><td>keywordfortest</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
-        browser.getControl('Complete').click()
-        # After removing the keyword from the person no person can be found:
-        from icemac.addressbook.browser.testing import (
-            search_for_persons_with_keyword_search_using_browser)
-        browser = search_for_persons_with_keyword_search_using_browser(
-            self.layer, 'second kw')
-        self.assertIn('No person found.', browser.contents)
-
-    def _create_user_defined_field(self, field_type, field_class):
+@pytest.fixture(scope='function')
+def AddressWithUserdefinedFieldFactory(
+        FieldFactory, UpdateablePersonFactory, PostalAddressFactory):
+    """Callable to create an address on a person with a user defined field."""
+    def _create_user_defined_field(address_book, field_type, field_value):
         """Create a user defined field."""
-        from icemac.addressbook.interfaces import IEntity, IPostalAddress
-        address_class_name = IEntity(IPostalAddress).class_name
-        field_name = icemac.addressbook.testing.create_field(
-            self.ab, address_class_name, field_type, u'distance')
-        person = self.create_updateable_person()
-        icemac.addressbook.testing.create(
-            self.ab, person, address_class_name,
-            **{field_name: field_class(50), 'set_as_default': True})
+        field_name = FieldFactory(
+            address_book, IPostalAddress, field_type, u'distance').__name__
+        return PostalAddressFactory(
+            UpdateablePersonFactory(address_book),
+            **{field_name: field_value, 'set_as_default': True})
+    return _create_user_defined_field
 
-    def _update_field_value(self, field_name, operator, value):
-        """Update a number field."""
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
 
-        browser.getControl('field').displayValue = [field_name]
-        browser.getControl('Next').click()
-        self.assertEqual('', browser.getControl('new value', index=0).value)
-        browser.getControl('new value', index=0).value = value
-        browser.getControl('operation').displayValue = [operator]
-        browser.getControl('Next').click()
-        return browser
+# Helper functions
 
-    def _assert_number_field_can_be_updated(
-            self, field_type, field_class, operator='add', value='5'):
-        """Assert that a number field can be updated as expected."""
-        self._create_user_defined_field(field_type, field_class)
-        browser = self._update_field_value(
-            'postal address -- distance', operator, value)
-        # Update sets the value to 55:
-        self.assertIn('<td>Tester</td><td>55</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
+def _update_field_value(browser, field_name, operator, value):
+    """Update a field using the update search result handler."""
+    browser.login('mgr')
+    browser.keyword_search(KEYWORD, apply='Update')
+    browser.getControl('field').displayValue = [field_name]
+    browser.getControl('Next').click()
+    assert '' == browser.getControl('new value', index=0).value
+    browser.getControl('new value', index=0).value = value
+    browser.getControl('operation').displayValue = [operator]
+    browser.getControl('Next').click()
 
-    def test_int_field_can_be_updated(self):
-        self._assert_number_field_can_be_updated('Int', int)
 
-    def test_decimal_field_can_be_updated(self):
-        self._assert_number_field_can_be_updated('Decimal', decimal.Decimal)
+# Tests
 
-    def test_validation_errors_show_up_in_result_table(self):
-        from icemac.addressbook.interfaces import IEntity, IEMailAddress
-        person = self.create_updateable_person()
-        icemac.addressbook.testing.create(
-            self.ab, person,
-            IEntity(IEMailAddress).class_name, set_as_default=True)
-        browser = self._update_field_value(
-            'e-mail address -- e-mail address', 'append', 'foo')
-        self.assertIn(
-            '<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>',
-            browser.contents.replace(' ', '').replace('\n', ''))
-        # Complete button is not shown:
-        self.assertEqual(
-            ['form.buttons.back'],
-            icemac.addressbook.testing.get_submit_control_names(browser))
+def test_update__endtoend__1(search_data, browser):
+    """Testing updating selected persons end to end.
 
-    def test_division_by_zero_is_handled_like_a_validation_error(self):
-        self._create_user_defined_field('Int', int)
-        browser = self._update_field_value(
-            'postal address -- distance', 'div', '0')
-        self.assertIn('<td>Tester</td><td>50</td><td>Divisionbyzero</td>',
-                      browser.contents.replace(' ', '').replace('\n', ''))
-        # Complete button is not shown:
-        self.assertEqual(
-            ['form.buttons.back'],
-            icemac.addressbook.testing.get_submit_control_names(browser))
+    The `update` search result handler allows to update a single field on each
+    selected person.
 
-    def test_datatype_of_field_for_change_can_be_changed(self):
-        self.create_updateable_person()
-        browser = self._update_field_value(
-            'person -- first name', 'append', 'foo')
-        browser.getControl('Back').click()
-        browser.getControl('Back').click()
-        browser.getControl('field').displayValue = ['person -- birth date']
-        browser.getControl('Next').click()
-        # Another field is used to avoid conflicts on data types:
-        self.assertEqual('', browser.getControl('new value').value)
+    """
+    # The `searchDataS` fixture defines some persons. When user searches for
+    # them all persons are selected by default so he only has to select the
+    # `update` search handler to perform a multi-update:
+    browser.login('mgr')
+    browser.keyword_search('family', apply='Update')
 
-    def test_not_hitting_complete_button_does_not_persist_any_changes(self):
-        self.create_updateable_person()
-        browser = self._update_field_value(
-            'person -- last name', 'append', 'foo')
-        browser.getLink('Person list').click()
-        # The last name of person 'Tester' is unchanged:
-        self.assertIn('<a href="http://localhost/ab/Person">Tester</a>',
-                      browser.contents)
+    # The user is guided through the update using a wizard.
+    # 1st) Choose a field for update:
+    assert ['person -- first name', 'person -- last name',
+            'person -- birth date'] == browser.getControl(
+                'field').displayOptions[:3]
+    browser.getControl('field').displayValue = ['person -- notes']
+    browser.getControl('Next').click()
 
-    def test_if_user_selects_a_step_with_data_missing_he_gets_redirected_back(
-            self):
-        self.create_updateable_person()
-        from icemac.addressbook.browser.search.result.handler.update.testing \
-            import select_persons_with_keyword_for_update
-        browser = select_persons_with_keyword_for_update(self.layer, KEYWORD)
-        self.assertEqual('http://localhost/ab/@@multi-update', browser.url)
-        browser.getLink('New value').click()
-        # 'chooseField' is the first step, so we get redirected there
-        self.assertEqual(
-            'http://localhost/ab/multi-update/chooseField', browser.url)
-        browser.getLink('Check result').click()
-        self.assertEqual(
-            'http://localhost/ab/multi-update/chooseField', browser.url)
-        browser.getControl('field').displayValue = ['person -- first name']
-        browser.getControl('Next').click()
+    # 2nd) Enter a new value for the selected field and choose an operation
+    # which defaults to 'append':
+    assert ['append new value to existing one'] == browser.getControl(
+        'operation').displayValue
+    browser.getControl('new value', index=0).value = '\tfoobar'
+    browser.getControl('Next').click()
 
-        self.assertEqual(
-            'http://localhost/ab/multi-update/enterValue', browser.url)
-        browser.getLink('Choose field').click()
-        self.assertEqual(
-            'http://localhost/ab/multi-update/chooseField', browser.url)
-        browser.getLink('Check result').click()
-        # After selecting the field 'enterValue' is complete, as the only
-        # required field has a default value
-        self.assertEqual(
-            'http://localhost/ab/multi-update/checkResult', browser.url)
-        # There is no 'complete' button as the user did not enter data in step
-        # 'enterValue':
-        self.assertEqual(
-            ['form.buttons.back'],
-            icemac.addressbook.testing.get_submit_control_names(browser))
+    # 3rd) Check result:
+    assert 2 == browser.contents.count('\tfoobar')
+
+    # 4th) Hitting `Complete` persists the change and redirects to the person
+    # list, displaying a message:
+    browser.getControl('Complete').click()
+    assert browser.PERSONS_LIST_URL == browser.url
+    assert 'Data successfully updated.' == browser.message
+
+    # The fields got changed as promised in the message:
+    browser.getLink('Person list').click()
+    browser.getLink('Koch').click()
+    assert 'father-in-law\tfoobar' == browser.getControl('notes').value
+
+
+def test_update__endtoend__2(search_data, browser):
+    """Adding an empty new value does not change the updated value.
+
+    This is an edge case test.
+
+    """
+    browser.login('mgr')
+    browser.keyword_search('family', apply='Update')
+    browser.getControl('field').displayValue = ['person -- last name']
+    browser.getControl('Next').click()
+    browser.getControl('new value', index=0).value = ''
+    browser.getControl('operation').displayValue = [
+        'append new value to existing one']
+    browser.getControl('Next').click()
+    # The last name column is displayed as a link column it contains the
+    # unchanged last name:
+    assert ('<td><a href="http://localhost/ab/Person-2">Koch</a></td>' in
+            browser.contents)
+
+
+def test_update__endtoend__3(
+        address_book, FieldFactory, UpdateablePersonFactory, browser):
+    """A user defined boolean field can be updated."""
+    field_name = FieldFactory(
+        address_book, IPerson, 'Bool', u'Ever met').__name__
+    UpdateablePersonFactory(address_book, **{field_name: False})
+    browser.login('mgr')
+    browser.keyword_search(KEYWORD, apply='Update')
+    browser.getControl('field').displayValue = ['person -- Ever met']
+    browser.getControl('Next').click()
+    browser.getControl('yes').click()
+    browser.getControl('operation').displayValue = [
+        'replace existing value with new one']
+    browser.getControl('Next').click()
+    # Update sets the value to 'yes':
+    assert '<td>Tester</td><td>yes</td>' in browser.contents_without_whitespace
+
+
+def test_update__endtoend__4(
+        address_book, FieldFactory, UpdateablePersonFactory,
+        PostalAddressFactory, browser):
+    """A user defined choice field can be updated."""
+    field_name = FieldFactory(
+        address_book, IPostalAddress, 'Choice', u'distance',
+        values=[u'< 50 km', u'>= 50 km']).__name__
+    PostalAddressFactory(UpdateablePersonFactory(address_book),
+                         **{field_name: '>= 50 km', 'set_as_default': True})
+
+    browser.login('mgr')
+    browser.keyword_search(KEYWORD, apply='Update')
+    browser.getControl('field').displayValue = ['postal address -- distance']
+    browser.getControl('Next').click()
+    assert ['No value', '< 50 km', '>= 50 km'] == browser.getControl(
+        'new value').displayOptions
+    browser.getControl('new value').displayValue = ['< 50 km']
+    browser.getControl('operation').displayValue = [
+        'replace existing value with new one']
+    browser.getControl('Next').click()
+    # Update sets the value to '< 50 km':
+    assert ('<td>Tester</td><td><50km</td>' in
+            browser.contents_without_whitespace)
+
+
+def test_update__endtoend__5(address_book, UpdateablePersonFactory, browser):
+    """The keywords field can be updated."""
+    UpdateablePersonFactory(address_book, keywords=[KEYWORD, u'second kw'])
+    browser.login('mgr')
+    browser.keyword_search('second kw', apply='Update')
+    browser.getControl('field').displayValue = ['person -- keywords']
+    browser.getControl('Next').click()
+    assert [KEYWORD, 'second kw'] == browser.getControl(
+        'new value').displayOptions
+    browser.getControl('new value').displayValue = ['second kw']
+    browser.getControl('operation').displayValue = [
+        'remove selected keywords from existing ones']
+    browser.getControl('Next').click()
+    assert ('<td>Tester</td><td>keywordfortest</td>' in
+            browser.contents_without_whitespace)
+    browser.getControl('Complete').click()
+    # After removing the keyword from the person no person can be found:
+    browser.keyword_search(u'second kw')
+    assert 'No person found.' in browser.contents
+
+
+@pytest.mark.parametrize("datatype", (int, decimal.Decimal))
+def test_update__endtoend__6(
+        address_book, AddressWithUserdefinedFieldFactory, browser, datatype):
+    """A user defined integer field can be updated."""
+    AddressWithUserdefinedFieldFactory(address_book, 'Int', datatype(50))
+    _update_field_value(browser, 'postal address -- distance', 'add', '5')
+    assert '<td>Tester</td><td>55</td>' in browser.contents_without_whitespace
+
+
+def test_update__endtoend__7(
+        address_book, UpdateablePersonFactory, EMailAddressFactory, browser):
+    """Validation errors show up in the result table."""
+    EMailAddressFactory(
+        UpdateablePersonFactory(address_book), set_as_default=True)
+    _update_field_value(
+        browser, 'e-mail address -- e-mail address', 'append', 'foo')
+    assert ('<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>' in
+            browser.contents_without_whitespace)
+    # Complete button is not shown:
+    assert ['form.buttons.back'] == browser.submit_control_names
+
+
+def test_update__endtoend__8(
+        address_book, AddressWithUserdefinedFieldFactory, browser):
+    """Division by zero is handled like a validation error."""
+    AddressWithUserdefinedFieldFactory(address_book, 'Int', 50)
+    _update_field_value(browser, 'postal address -- distance', 'div', '0')
+    assert ('<td>Tester</td><td>50</td><td>Divisionbyzero</td>' in
+            browser.contents_without_whitespace)
+    # Complete button is not shown:
+    assert ['form.buttons.back'] == browser.submit_control_names
+
+
+def test_update__endtoend__9(address_book, UpdateablePersonFactory, browser):
+    """Field selected for change can be changed."""
+    UpdateablePersonFactory(address_book)
+    _update_field_value(browser, 'person -- first name', 'append', 'foo')
+    browser.getControl('Back').click()
+    browser.getControl('Back').click()
+    browser.getControl('field').displayValue = ['person -- birth date']
+    browser.getControl('Next').click()
+    # The newly selected field for update might have a data types which does
+    # not match the previous selected on, so the value is deleted
+    assert '' == browser.getControl('new value').value
+
+
+def test_update__endtoend__10(address_book, UpdateablePersonFactory, browser):
+    """Not hitting the `complete button` does not persist any changes."""
+    UpdateablePersonFactory(address_book)
+    _update_field_value(browser, 'person -- last name', 'append', 'foo')
+    browser.getLink('Person list').click()
+    # The last name of person 'Tester' is unchanged:
+    assert ('<a href="{0.PERSON_EDIT_URL}">Tester</a>'.format(browser) in
+            browser.contents)
+
+
+def test_update__endtoend__11(address_book, UpdateablePersonFactory, browser):
+    """If the user selects a step with data missing he gets redirected back."""
+    UpdateablePersonFactory(address_book)
+    browser.login('mgr')
+    browser.keyword_search(KEYWORD, apply='Update')
+    assert browser.SEARCH_MULTI_UPDATE_URL == browser.url
+    browser.getLink('New value').click()
+    # 'chooseField' is the first step, so we get redirected there
+    assert browser.SEARCH_MULTI_UPDATE_CHOOSE_FIELD_URL == browser.url
+    browser.getLink('Check result').click()
+    assert browser.SEARCH_MULTI_UPDATE_CHOOSE_FIELD_URL == browser.url
+    browser.getControl('field').displayValue = ['person -- first name']
+    browser.getControl('Next').click()
+    assert browser.SEARCH_MULTI_UPDATE_ENTER_VALUE_URL == browser.url
+    browser.getLink('Choose field').click()
+    assert browser.SEARCH_MULTI_UPDATE_CHOOSE_FIELD_URL == browser.url
+    browser.getLink('Check result').click()
+    # After selecting the field 'enterValue' is complete, as the only
+    # required field has a default value
+    assert browser.SEARCH_MULTI_UPDATE_CHECK_RESULT_URL == browser.url
+    # There is no 'complete' button as the user did not enter data in step
+    # 'enterValue':
+    assert ['form.buttons.back'] == browser.submit_control_names

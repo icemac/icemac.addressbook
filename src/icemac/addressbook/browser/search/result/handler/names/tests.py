@@ -1,29 +1,23 @@
+import pytest
 from mock import patch
-import icemac.addressbook.testing
-import unittest
 
 
-class NamesTests(unittest.TestCase,
-                 icemac.addressbook.testing.BrowserMixIn):
-    """Testing .Names."""
+@pytest.fixture(scope='function')
+def names_data(address_book, PersonFactory):
+    """Create the data for the `Names` tests."""
+    return [PersonFactory(address_book, u'Vrozzek', first_name=u'Paul'),
+            PersonFactory(address_book, u'Vranzz', first_name=u'Peter')]
 
-    layer = icemac.addressbook.testing.TEST_BROWSER_LAYER
 
-    def setUp(self):
-        from icemac.addressbook.testing import create_person
-        super(NamesTests, self).setUp()
-        ab = self.layer['addressbook']
-        self.p1 = create_person(ab, ab, u'Vrozzek', first_name=u'Paul')
-        self.p2 = create_person(ab, ab, u'Vranzz', first_name=u'Peter')
-
-    def test_returns_comma_separated_list_of_names_and_count(self):
-        from gocept.testing.mock import Property
-        browser = self.get_browser('visitor')
-        persons = (
-            'icemac.addressbook.browser.search.result.handler.names.Names.'
-            'persons')
-        with patch(persons, Property()) as persons:
-            persons.return_value = [self.p1, self.p2]
-            browser.open('http://localhost/ab/@@person-names.html')
-            self.assertIn('Paul Vrozzek, Peter Vranzz', browser.contents)
-            self.assertIn('Number of persons: 2', browser.contents)
+def test_names__Names__1(names_data, browser):
+    """`Names` returns a comma separated list of names and a count."""
+    from gocept.testing.mock import Property
+    browser.login('visitor')
+    persons = (
+        'icemac.addressbook.browser.search.result.handler.names.Names.'
+        'persons')
+    with patch(persons, Property()) as persons:
+        persons.return_value = names_data
+        browser.open('http://localhost/ab/@@person-names.html')
+        assert 'Paul Vrozzek, Peter Vranzz' in browser.contents
+        assert 'Number of persons: 2' in browser.contents

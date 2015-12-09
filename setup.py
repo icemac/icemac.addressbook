@@ -122,7 +122,7 @@ setuptools.setup(
     ],
     extras_require=dict(
         test=[
-            'gocept.selenium',
+            'gocept.selenium >= 2.5',
             'gocept.testing',
             'mock',
             'gocept.jslint',

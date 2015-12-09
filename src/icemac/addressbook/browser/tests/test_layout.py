@@ -1,62 +1,61 @@
-import icemac.addressbook.testing
+from mechanize import HTTPError
+import pytest
 
 
-class LayoutTests(icemac.addressbook.testing.BrowserTestCase):
-    """Testing ../layout.pt."""
+def test__layout_pt__1(address_book, browser):
+    """layout.pt renders title of the address book in the title tag and h1."""
+    address_book.title = u'My addresses'
+    browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+    assert 'My addresses' == browser.title
+    assert ['My addresses'] == browser.etree.xpath('//h1/span/text()')
 
-    def test_renders_addressbook_title_in_title_tag_and_h1(self):
-        self.layer['addressbook'].title = u'My addresses'
-        browser = self.get_browser()
-        browser.open('http://localhost/ab')
-        self.assertEqual('My addresses', browser.title)
-        self.assertEqual(
-            'My addresses', browser.etree.xpath('//h1/span')[0].text)
 
-    def test_falls_back_to_default_title_if_no_title_set(self):
-        browser = self.get_browser()
-        browser.open('http://localhost/ab')
-        self.assertEqual('icemac.addressbook', browser.title)
-        self.assertEqual(
-            'icemac.addressbook', browser.etree.xpath('//h1/span')[0].text)
+def test__layout_pt__2(address_book, browser):
+    """layout.pt falls back to the default title if no title is set."""
+    address_book.title = u''
+    browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+    assert 'icemac.addressbook' == browser.title
+    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/span/text()')
 
-    def test_renders_default_title_on_root_page(self):
-        browser = self.get_browser('mgr')  # need to log in to avoid HTTP-401
-        browser.open('http://localhost')
-        self.assertEqual('icemac.addressbook', browser.title)
-        self.assertEqual(
-            'icemac.addressbook', browser.etree.xpath('//h1/span')[0].text)
 
-    def test_renders_default_favicon_on_root_page(self):
-        browser = self.get_browser('mgr')  # need to log in to avoid HTTP-401
-        browser.open('http://localhost')
-        self.assertIn('href="/++resource++img/favicon-red.ico"',
-                      browser.contents)
+def test__layout_pt__3(address_book, browser):
+    """layout.pt renders the default title on the root page."""
+    browser.login('mgr')  # need to log in to avoid HTTP-401
+    browser.open(browser.ROOT_URL)
+    assert 'icemac.addressbook' == browser.title
+    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/span/text()')
 
-    def test_renders_selected_favicon_inside_address_book(self):
-        self.layer['addressbook'].favicon = (
-            u'/++resource++img/favicon-green.ico')
-        browser = self.get_browser()
-        browser.open('http://localhost/ab')
-        self.assertIn('href="/++resource++img/favicon-green.ico"',
-                      browser.contents)
 
-    def test_renders_NotFound_page_nicely(self):
-        from mechanize import HTTPError
-        browser = self.get_browser()
-        with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/I-do-not-exist')
-        self.assertEqual('HTTP Error 404: Not Found', str(err.exception))
-        # If this test fails there was an exception during rendering the
-        # errror page:
-        self.assertIn('The page you are trying to access is not available',
-                      browser.contents)
+def test__layout_pt__4(address_book, browser):
+    """layout.pt renders the default FavIcon on the root page."""
+    browser.login('mgr')  # need to log in to avoid HTTP-401
+    browser.open(browser.ROOT_URL)
+    assert 'href="/++resource++img/favicon-red.ico"' in browser.contents
 
-    def test_renders_Unauthorized_page_nicely(self):
-        from mechanize import HTTPError
-        browser = self.get_browser()
-        with self.assertRaises(HTTPError) as err:
-            browser.open('http://localhost/')
-        self.assertEqual('HTTP Error 401: Unauthorized', str(err.exception))
-        # If this test fails there was an exception during rendering the
-        # errror page:
-        self.assertIn('You are not authorized.', browser.contents)
+
+def test__layout_pt__5(address_book, browser):
+    """layout.pt renders the selected FavIcon inside the address book."""
+    address_book.favicon = u'/++resource++img/favicon-green.ico'
+    browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+    assert 'href="/++resource++img/favicon-green.ico"' in browser.contents
+
+
+def test__layout_pt__6(address_book, browser):
+    """layout.pt renders the NotFound page nicely."""
+    with pytest.raises(HTTPError) as err:
+        browser.open('http://localhost/I-do-not-exist')
+    assert 'HTTP Error 404: Not Found' == str(err.value)
+    # If this test fails there was an exception during rendering the error
+    # page:
+    assert ('The page you are trying to access is not available' in
+            browser.contents)
+
+
+def test__layout_pt__7(address_book, browser):
+    """layout.pt renders the Unauthorized page nicely."""
+    with pytest.raises(HTTPError) as err:
+        browser.open(browser.ROOT_URL)
+    assert 'HTTP Error 401: Unauthorized' == str(err.value)
+    # If this test fails there was an exception during rendering the error
+    # page:
+    assert 'You are not authorized.' in browser.contents
