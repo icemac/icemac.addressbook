@@ -251,7 +251,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
     """Datamanager which converts the internal InstrumentedSet into a
-    set to be compareable with selected values."""
+    set to be comparable with selected values."""
 
     def get(self):
         return set(x for x in super(KeywordDataManager, self).get())
