@@ -1,3 +1,4 @@
+# Starting point of data serialization for full text index, not complete, yet
 
 
 def FieldSerializer(field, obj):
