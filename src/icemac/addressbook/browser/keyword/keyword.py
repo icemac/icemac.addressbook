@@ -30,8 +30,7 @@ def can_delete_keyword(form):
         icemac.addressbook.browser.base.can_access('delete.html')(form)
         and
         not gocept.reference.interfaces.IReferenceTarget(
-            form.context).is_referenced()
-        )
+            form.context).is_referenced())
 
 
 @zope.interface.implementer(

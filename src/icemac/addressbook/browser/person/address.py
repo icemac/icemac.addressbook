@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import zope.traversing.api
-
 import icemac.addressbook.address
 import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
-
 from icemac.addressbook.i18n import MessageFactory as _
 
 

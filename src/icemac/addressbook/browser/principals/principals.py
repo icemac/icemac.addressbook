@@ -43,7 +43,7 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
                 self, icemac.addressbook.browser.table.TruncatedContentColumn,
                 'notes', weight=4,
                 header=_(u'notes'), attrName='description', length=50),
-            ]
+        ]
 
     @property
     def values(self):
@@ -90,7 +90,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
                 *icemac.addressbook.interfaces.IEntity(
                     self.interface).getFieldValues()).omit(
                 'login', 'person')
-            )
+        )
 
     def add(self, obj):
         try:
