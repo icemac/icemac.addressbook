@@ -186,7 +186,7 @@ class IPersonName(zope.interface.Interface):
     def get_name():
         """Return first name and last name of the person.
 
-        Names are sepatated by a space.
+        Names are separated by a space.
         """
 
 

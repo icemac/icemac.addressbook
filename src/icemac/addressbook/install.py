@@ -78,7 +78,7 @@ class Configurator(object):
         return self._conf.get(section, key)
 
     def load(self):
-        """Load the configutation from file.
+        """Load the configuration from file.
 
         Default configuration is always read and user configuration is
         read when `user_config` is set on instance.
