@@ -21,7 +21,7 @@ SearchResultHandlerManager = zope.viewlet.manager.ViewletManager(
 
 source = icemac.addressbook.sources.SiteMenuSource(
     icemac.addressbook.browser.search.base.BaseView, SearchResultHandlerManager
-    )
+)
 
 
 class SearchResultHandler(z3c.menu.ready2go.item.SiteMenuItem):
