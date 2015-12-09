@@ -17,12 +17,12 @@ def evolve_addressbooks(func):
             root, icemac.addressbook.interfaces.IAddressBook)
         for addressbook in addressbooks:
             logger.info('evolving %r' % addressbook)
-            old_site = zope.site.hooks.getSite()
+            old_site = zope.component.hooks.getSite()
             try:
-                zope.site.hooks.setSite(addressbook)
+                zope.component.hooks.setSite(addressbook)
                 func(addressbook)
             finally:
-                zope.site.hooks.setSite(old_site)
+                zope.component.hooks.setSite(old_site)
     return decorated
 
 

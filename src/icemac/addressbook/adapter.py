@@ -5,7 +5,7 @@
 
 import zope.interface
 import zope.schema.interfaces
-import zope.site.hooks
+import zope.component.hooks
 
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
@@ -44,4 +44,4 @@ def default_title(obj):
 @zope.component.adapter(zope.interface.Interface)
 @zope.interface.implementer(icemac.addressbook.principals.interfaces.IRoot)
 def principal_root(principal):
-    return zope.site.hooks.getSite()
+    return zope.component.hooks.getSite()
