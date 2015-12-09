@@ -3,6 +3,7 @@ import unittest
 
 
 class SerializableObject(object):
+    """Test object for serialization tests."""
 
     text = u'asdf'
     number1 = 2411

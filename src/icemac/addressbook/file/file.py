@@ -14,7 +14,7 @@ import zope.interface
 
 
 class File(persistent.Persistent, zope.container.contained.Contained):
-    "A file."
+    """A file."""
 
     zope.interface.implements(icemac.addressbook.file.interfaces.IFile)
     zope.schema.fieldproperty.createFieldProperties(
@@ -48,7 +48,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
             fp.close()
 
     def replace(self, filename):
-        "Replace with anoher file."
+        """Replace with anoher file."""
         self._data.consumeFile(filename)
 
     def openDetached(self, mode='r'):

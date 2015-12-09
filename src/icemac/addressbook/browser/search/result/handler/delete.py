@@ -10,7 +10,8 @@ import zope.schema
 
 
 class ISelectionCount(zope.interface.Interface):
-    "Number of persons in selection."
+    """Number of persons in selection."""
+
     # Copied from IPersonCount as inheriting from it leads to usage of wrong
     # adapter as the interface where the fields where initially defined on
     # is stored on the fields.
@@ -25,7 +26,7 @@ def get_selected_person_ids(request):
 
 
 class SelectionCount(object):
-    "Adapter to count persons in selection."
+    """Adapter to count persons in selection."""
 
     zope.interface.implements(ISelectionCount)
     zope.component.adapts(icemac.addressbook.interfaces.IAddressBook)
@@ -42,7 +43,7 @@ class SelectionCount(object):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    "Delete selected persons."
+    """Delete selected persons."""
 
     label = _(u'Do you really want to delete the selected persons?')
     interface = ISelectionCount

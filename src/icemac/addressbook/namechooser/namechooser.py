@@ -11,7 +11,7 @@ import zope.interface
 
 
 class NameSuffix(persistent.Persistent, zope.container.contained.Contained):
-    "Storage for name suffix."
+    """Storage for name suffix."""
 
     zope.interface.implements(
         icemac.addressbook.namechooser.interfaces.INameSuffix)
@@ -34,18 +34,27 @@ name_suffix = zope.annotation.factory(
 
 
 class DontReuseNames(zope.container.contained.NameChooser):
+    """NameChooser assuring that the chosen names are unique forever.
+
+    It assures this by storing the last chosen suffix in an annotation on
+    the container object.
+
+    When a containers provides
+    ``icemac.addressbook.namechooser.interfaces.IDontReuseNames`` this name
+    chooser is used. (It also needs to provide
+    ``zope.annotation.interfaces.IAttributeAnnotatable`` as the information
+    gets stored in an annotation.)
+    """
 
     zope.component.adapts(
         icemac.addressbook.namechooser.interfaces.IDontReuseNames)
 
-    def chooseName(self, name, object):
-        container = self.context
-
+    def chooseName(self, name, obj):
         # remove characters that checkName does not allow
         name = unicode(name.replace('/', '-').lstrip('+@'))
 
         if not name:
-            name = unicode(object.__class__.__name__)
+            name = unicode(obj.__class__.__name__)
 
         dot = name.rfind('.')
         if dot >= 0:

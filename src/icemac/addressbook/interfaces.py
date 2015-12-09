@@ -131,7 +131,7 @@ class IKeywords(zope.interface.Interface):
         """Get an iterable of the keywords in the collection."""
 
     def get_keyword_by_title(title, default=None):
-        "Get the keyword with the given title or `default`."
+        """Get the keyword with the given title or `default`."""
 
 
 class IKeywordTitles(zope.interface.Interface):
@@ -148,7 +148,7 @@ class IKeyword(zope.interface.Interface):
 
 
 class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
-    "Source of all keywords in the address book."
+    """Source of all keywords in the address book."""
 
     def getValues(self):
         keywords = zope.component.getUtility(IKeywords)
@@ -162,7 +162,7 @@ keyword_source = KeywordSource()
 
 class ContextByInterfaceSource(
         zc.sourcefactory.contextual.BasicContextualSourceFactory):
-    "Source to select objects from context container by a given interface."
+    """Source to select objects from context container by a given interface."""
 
     def __init__(self, interface):
         super(ContextByInterfaceSource, self).__init__()
@@ -179,6 +179,7 @@ class ContextByInterfaceSource(
 
 class IPersonName(zope.interface.Interface):
     """Name of a person."""
+
     first_name = zope.schema.TextLine(title=_(u'first name'), required=False)
     last_name = zope.schema.TextLine(title=_(u'last name'))
 

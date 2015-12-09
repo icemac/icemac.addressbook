@@ -50,7 +50,7 @@ class TruncatedContentColumn(icemac.addressbook.browser.table.BaseColumn):
 
 
 class BoolColumn(icemac.addressbook.browser.table.BaseColumn):
-    "AdaptedGetAttrColumn for displaying bool values."
+    """AdaptedGetAttrColumn for displaying bool values."""
 
     def renderCell(self, item):
         value = self.getRawValue(item)
@@ -69,7 +69,7 @@ class TranslatedTiteledColumn(icemac.addressbook.browser.table.BaseColumn):
     """Column which returns the translated ITitle of the value."""
 
     def renderCell(self, obj):
-        "Get the title of the value."
+        """Get the title of the value."""
         value = self.getRawValue(obj)
         translated = self.defaultValue
         if value:
@@ -80,7 +80,7 @@ class TranslatedTiteledColumn(icemac.addressbook.browser.table.BaseColumn):
 
 class EMailColumn(icemac.addressbook.browser.table.BaseColumn,
                   z3c.table.column.EMailColumn):
-    "Column which renders the cell contents as mailto-link."
+    """Column which renders the cell contents as mailto-link."""
 
     renderCell = z3c.table.column.EMailColumn.renderCell
 
@@ -144,8 +144,8 @@ class BasePersonList(object):
 
     Either extend `icemac.addressbook.browser.table.PageletTable`
     or `icemac.addressbook.browser.table.Table`.
-
     """
+
     @property
     def prefs(self):
         """User defined preferences for person list."""
@@ -161,7 +161,7 @@ class BasePersonList(object):
         super(BasePersonList, self).update()
 
     def _set_up_columns(self):
-        """Creates the columns of the table."""
+        """Create the columns of the table."""
         zcml_columns = super(BasePersonList, self).setUpColumns()
         zcml_columns_before = len(
             [x for x in zcml_columns if z3c.table.table.getWeight(x) < 0])
@@ -170,7 +170,7 @@ class BasePersonList(object):
         return zcml_columns + python_columns
 
     def _set_up_user_selected_columns_and_sort_on(self, columns_before):
-        """Creates the columns selected by the user in the preferences and
+        """Create the columns selected by the user in the preferences and
         computes the sort order."""
         order_by = self.prefs.personLists.order_by
         columns = []
