@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2011-2014 Michael Howitz
-# See also LICENSE.txt
 import decimal
 import icemac.addressbook.browser.testing
 import icemac.addressbook.testing

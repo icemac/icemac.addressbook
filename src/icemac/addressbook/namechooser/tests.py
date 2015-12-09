@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 
 import doctest
 import icemac.addressbook.namechooser.namechooser

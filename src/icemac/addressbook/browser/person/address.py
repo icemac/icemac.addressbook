@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 import zope.traversing.api
 
 import icemac.addressbook.address
