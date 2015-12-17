@@ -1,9 +1,8 @@
 from mock import patch
 from z3c.flashmessage.interfaces import IMessageSource
-from zope.authentication.interfaces import IAuthentication
-import contextlib
 import pytest
 import zope.component
+import zope.publisher.testing
 import zope.security.management
 import zope.security.testing
 
@@ -16,20 +15,9 @@ def fake_session(empty_zodb):
         yield
 
 
-@contextlib.contextmanager
-def fake_interaction(loginname):
-    """Fake an interaction for a user."""
-    auth = zope.component.getUtility(IAuthentication)
-    principal = auth.getPrincipalByLogin(loginname)
-    participation = zope.security.testing.Participation(principal)
-    zope.security.management.newInteraction(participation)
-    yield
-    zope.security.management.endInteraction()
-
-
 def send_msg(msg):
     """Send a flash message."""
-    with fake_interaction('mgr'):
+    with zope.publisher.testing.interaction('zope.mgr'):
         zope.component.getUtility(IMessageSource).send(msg)
 
 
