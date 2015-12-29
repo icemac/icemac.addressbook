@@ -92,10 +92,6 @@ class Add(icemac.addressbook.browser.base.BaseAddForm):
     def create(self, data):
         file = super(Add, self).create(data)
         update_blob(self.widgets['data'], file)
-        if hasattr(self.context, 'file_marker_interface'):
-            zope.interface.directlyProvides(
-                file, zope.security.proxy.removeSecurityProxy(
-                    self.context.file_marker_interface))
         return file
 
 

@@ -34,6 +34,8 @@ Other
 
 - Update Selenium tests to Webdriver.
 
+- Move some functionality only needed in `icemac.ab.importer` there.
+
 2.5.2 (2014-12-18)
 ==================
 
