@@ -75,7 +75,7 @@ def update_blob(widget, file):
 
 
 class Add(icemac.addressbook.browser.base.BaseAddForm):
-    "Add a file."
+    """Add a file."""
 
     label = _(u'Add new file')
     class_ = icemac.addressbook.file.file.File
@@ -108,7 +108,7 @@ IFile_data_not_required = z3c.form.widget.StaticWidgetAttribute(
 
 
 class Edit(icemac.addressbook.browser.base.BaseEditForm):
-    "Edit a file."
+    """Edit a file."""
 
     interface = icemac.addressbook.file.interfaces.IFile
     next_url = 'parent'
@@ -121,7 +121,7 @@ class Edit(icemac.addressbook.browser.base.BaseEditForm):
 
 
 class DeleteFileForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    "Are you sure question for deleting a file."
+    """Are you sure question for deleting a file."""
 
     next_url = 'parent'
     label = _(u'Do you really want to delete this file?')

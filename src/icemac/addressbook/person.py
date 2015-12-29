@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import gocept.reference
 import icemac.addressbook.address
@@ -55,7 +53,7 @@ def title(person):
 
 
 def get_default_field(interface):
-    "Find the field of a default value attribute on person."
+    """Find the field of a default value attribute on person."""
     # XXX use IEntity(interface).taggedValues['default_attrib'] here:
     names_descrs = (
         icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
@@ -65,7 +63,7 @@ def get_default_field(interface):
 
 
 def sorted_person_defaults(name_field_tuples):
-    """Sorts the `name_field_tuples` as defined in entity order."""
+    """Sort the `name_field_tuples` as defined in entity order."""
     entity_order = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntityOrder)
     return sorted(
@@ -75,7 +73,7 @@ def sorted_person_defaults(name_field_tuples):
 
 
 class PersonDefaultsEntity(icemac.addressbook.entities.Entity):
-    "Entity which sorts the fields in IPersonDefaults alike entity order."
+    """Entity which sorts the fields in IPersonDefaults alike entity order."""
 
     def getRawFields(self, sorted=True):
         name_fields = super(
