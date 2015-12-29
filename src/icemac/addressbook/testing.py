@@ -20,7 +20,6 @@ import plone.testing
 import plone.testing.zca
 import plone.testing.zodb
 import pytz
-import tempfile
 import transaction
 import unittest
 import z3c.etestbrowser.wsgi
@@ -419,14 +418,6 @@ def in_out_widget_select(browser, control_name, select_controls):
             type='hidden',
             name='%s:list' % control_name,
             attrs=dict(value=control.optionValue))
-
-
-def write_temp_file(content, suffix):
-    "Write `content` to a temporary file and return file handle and file name."
-    fd, filename = tempfile.mkstemp(suffix=suffix)
-    os.write(fd, content)
-    os.close(fd)
-    return file(filename, 'r'), os.path.basename(filename)
 
 
 # List of users those passwords are not equal to the login name:
