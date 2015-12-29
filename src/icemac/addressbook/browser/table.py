@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
 import datetime
+import icemac.addressbook.browser.base
 import icemac.addressbook.interfaces
 import icemac.truncatetext
 import z3c.pagelet.browser
