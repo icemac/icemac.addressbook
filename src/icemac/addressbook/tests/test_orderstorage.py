@@ -50,8 +50,8 @@ def test_orderstorage__Orderstorage__add__2():
     storage = OrderStorage()
     storage.add('foo', 'bar')
     storage.add('foo', 'bar')
-    assert (['bar'], list(storage.namespaces()))
-    assert (['foo'], storage.byNamespace('bar'))
+    assert ['bar'] == list(storage.namespaces())
+    assert ['foo'] == storage.byNamespace('bar')
 
 
 def test_orderstorage__Orderstorage__add__3():

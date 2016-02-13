@@ -141,8 +141,7 @@ def test_entities__getEntities__1(stubSortOrder, stubEntities):
     The sort order is defined in the sort order storage.
     """
     e = stubEntities
-    assert([e.cat, e.kwack, e.duck],
-           e.entities.getEntities())
+    assert [e.cat, e.kwack, e.duck] == e.entities.getEntities()
 
 
 def test_entities__getEntities__2(stubEntities):
@@ -156,8 +155,7 @@ def test_entities__getEntities__3(stubSortOrder, stubEntities):
     """`(Persistent)Entities.getEntities()` respects changes in sort order."""
     e = stubEntities
     stubSortOrder.up(e.duck)
-    assert([e.cat, e.duck, e.kwack],
-           e.entities.getEntities())
+    assert [e.cat, e.duck, e.kwack] == e.entities.getEntities()
 
 
 def test_entities__PersistentEntities__getMainEntities__1(address_book):
