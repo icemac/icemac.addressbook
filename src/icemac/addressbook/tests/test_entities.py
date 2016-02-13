@@ -195,7 +195,7 @@ def test_entities__EntityOrder__get__3(entityOrder, minimalEntity):
 
 
 def test_entities__EntityOrder__get__4(entityOrder, AddressBookFactory):
-    """EntityOrder accesses the address book in `zope.component.hooks.site`."""
+    """It accesses the address book in `zope.component.hooks.site`."""
     other_address_book = AddressBookFactory('other_address_book')
     # Changes in an address book ...
     person = IEntity(IPerson)
@@ -260,7 +260,7 @@ def test_entities__EntityOrder__isLast__4(entityOrder, minimalEntity):
 
 
 def test_entities__EntityOrder____iter____1(entityOrder):
-    """EntityOrder is iterable, returning entity names."""
+    """It is iterable, returning entity names."""
     assert ([
         'IcemacAddressbookAddressbookAddressbook',
         'IcemacAddressbookPersonPerson',
