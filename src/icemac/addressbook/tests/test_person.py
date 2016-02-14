@@ -8,17 +8,17 @@ import gocept.reference.verify
 
 def test_person__Person__1():
     """It fulfills the `IPerson` interface."""
-    gocept.reference.verify.verifyObject(IPerson, Person())
+    assert gocept.reference.verify.verifyObject(IPerson, Person())
 
 
 def test_person__Person__2():
     """It fulfills the `IPersonDefaults` interface."""
-    gocept.reference.verify.verifyObject(IPersonDefaults, Person())
+    assert gocept.reference.verify.verifyObject(IPersonDefaults, Person())
 
 
 def test_person__Keywords__1():
     """It fulfills the `IKeywordTitles` interface."""
-    gocept.reference.verify.verifyObject(IKeywordTitles, Keywords(None))
+    assert gocept.reference.verify.verifyObject(IKeywordTitles, Keywords(None))
 
 
 def test_person__PersonDefaultsEntity__getRawFields__1(address_book):
