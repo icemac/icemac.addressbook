@@ -102,7 +102,10 @@ def webdriver(webdriverS, httpServerS):
     # Allow any language setting in the Webdriver browser by falling back to
     # interpolation instead of translation:
     translate = 'zope.i18n.translationdomain.TranslationDomain.translate'
-    with mock.patch(translate, new=interpolate_insted_of_translate):
+    getPreferredLanguages = (
+        'zope.publisher.browser.BrowserLanguages.getPreferredLanguages')
+    with mock.patch(translate, new=interpolate_insted_of_translate), \
+            mock.patch(getPreferredLanguages, return_value=['en-us', 'en']):
         yield webdriver
 
 
