@@ -17,7 +17,7 @@ def site(site):
 
 
 def set_site(func):
-    "Decorator which does the set-site-dance."
+    """Decorator which does the set-site-dance."""
     def decorated(site_obj, *args, **kw):
         with site(site_obj):
             return func(*args, **kw)
