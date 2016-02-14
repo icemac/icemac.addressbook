@@ -181,13 +181,13 @@ def test_orderstorage__Orderstorage__up__2(storage):
 
 
 def test_orderstorage__Orderstorage__up__3(storage):
-    """It can move the given item `delta` positions up."""
+    """It moves the given item `delta` positions up."""
     storage.up('foo3', 'bar', 2)
     assert ['foo3', 'foo1', 'foo2', 'foo4'] == storage.byNamespace('bar')
 
 
 def test_orderstorage__Orderstorage__up__4(storage):
-    """Moving am element up too much leads to a `ValueError`."""
+    """It raises a `ValueError` when moving an element up too much."""
     with pytest.raises(ValueError):
         storage.up('foo2', 'bar', 2)
 
