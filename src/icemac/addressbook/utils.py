@@ -1,25 +1,13 @@
-import contextlib
 import zope.container.interfaces
 import zope.event
 import zope.lifecycleevent
 import zope.traversing.api
 
 
-@contextlib.contextmanager
-def site(site):
-    """Context manager to set site in zope.component.hooks."""
-    old_site = zope.component.hooks.getSite()
-    zope.component.hooks.setSite(site)
-    try:
-        yield site
-    finally:
-        zope.component.hooks.setSite(old_site)
-
-
 def set_site(func):
     """Decorator which does the set-site-dance."""
     def decorated(site_obj, *args, **kw):
-        with site(site_obj):
+        with zope.component.hooks.site(site_obj):
             return func(*args, **kw)
     return decorated
 
