@@ -294,7 +294,7 @@ class _BaseConfirmForm(_AbstractEditForm):
 
     requiredInfo = None  # do never display requiredInfo
     mode = z3c.form.interfaces.DISPLAY_MODE
-    next_url = 'object'
+    next_url_after_cancel = 'object'
 
     def update(self):
         icemac.addressbook.browser.resource.no_max_content_css.need()
@@ -309,7 +309,7 @@ class _BaseConfirmForm(_AbstractEditForm):
 
     @z3c.form.button.buttonAndHandler(_(u'No, cancel'), name='cancel')
     def handleCancel(self, action):
-        self.redirect_to_next_url(self.next_url)
+        self.redirect_to_next_url(self.next_url_after_cancel)
         self.status = self.cancel_status_message
 
     @z3c.form.button.buttonAndHandler(_(u'Yes'), name='action')
@@ -325,18 +325,22 @@ class BaseDeleteForm(_BaseConfirmForm):
 
     label = _(u'Do you really want to delete this entry?')
     next_view_after_delete = None  # None --> default view
+    next_url_after_delete = 'parent'
     cancel_status_message = _('Deletion canceled.')
 
     def _handle_action(self):
-        self.redirect_to_next_url('parent', self.next_view_after_delete)
-        self.status = _(
-            '"${title}" deleted.',
-            mapping=dict(
-                title=icemac.addressbook.interfaces.ITitle(self.context)))
+        self.redirect_to_next_url(self.next_url_after_delete,
+                                  self.next_view_after_delete)
+        self.status = _('"${title}" deleted.',
+                        mapping={'title': self.status_title})
         self._do_delete()
 
     def _do_delete(self):
         icemac.addressbook.utils.delete(self.context)
+
+    @property
+    def status_title(self):
+        return icemac.addressbook.interfaces.ITitle(self.getContent())
 
 
 def delete_persons(address_book, ids):
