@@ -45,7 +45,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    "Delete whole address book."
+    """Delete whole address book."""
 
     label = _(u'Do you really want to delete this whole address book?')
     interface = icemac.addressbook.interfaces.IAddressBook
@@ -61,7 +61,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 
 class PersonCount(object):
-    "Adapter to count persons in address book."
+    """Adapter to count persons in address book."""
 
     zope.interface.implements(
         icemac.addressbook.browser.interfaces.IPersonCount)
@@ -78,7 +78,7 @@ class PersonCount(object):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    "Delete address book contents (aka persons)."
+    """Delete address book contents (aka persons)."""
 
     label = _(
         u'Do you really want to delete all persons in this address book?')

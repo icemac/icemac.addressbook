@@ -245,7 +245,6 @@ class BaseEditForm(_AbstractEditForm):
 
 class EditActions(z3c.form.button.ButtonActions,
                   grokcore.component.MultiAdapter):
-
     """Custom edit actions to add a cancel button on each edit form."""
 
     grokcore.component.adapts(BaseEditForm,
@@ -261,7 +260,6 @@ class EditActions(z3c.form.button.ButtonActions,
 
 class EditActionHandler(z3c.form.button.ButtonActionHandler,
                         grokcore.component.MultiAdapter):
-
     """Edit action handler which is able to handle the cancel action."""
 
     grokcore.component.adapts(BaseEditForm,
@@ -323,7 +321,6 @@ class _BaseConfirmForm(_AbstractEditForm):
 
 
 class BaseDeleteForm(_BaseConfirmForm):
-
     """Display a deletion confirmation dialog."""
 
     label = _(u'Do you really want to delete this entry?')
