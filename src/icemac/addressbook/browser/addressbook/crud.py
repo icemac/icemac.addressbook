@@ -50,7 +50,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     label = _(u'Do you really want to delete this whole address book?')
     interface = icemac.addressbook.interfaces.IAddressBook
     field_names = ('title', )
-    next_url = 'parent'
+    next_url_after_cancel = 'parent'
 
     def _do_delete(self):
         # delete users first

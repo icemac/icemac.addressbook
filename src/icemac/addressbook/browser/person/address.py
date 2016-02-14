@@ -8,7 +8,7 @@ import zope.traversing.api
 
 class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
-    next_url = 'parent'
+    next_url_after_cancel = 'parent'
 
     def _do_delete(self):
         parent = zope.traversing.api.getParent(self.context)
