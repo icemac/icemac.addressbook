@@ -6,7 +6,8 @@
 
   <include package="grokcore.component" file="meta.zcml"/>
   <grok:grok package="."
-             exclude="generations" />
+             exclude="generations
+                      conftest" />
 
   <exclude package="z3c.form" file="file.zcml" />
 
