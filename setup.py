@@ -72,7 +72,7 @@ setuptools.setup(
         'gocept.country',
         'gocept.pagelet',
         'gocept.reference',
-        'grokcore.component',
+        'grokcore.component >= 2.7.dev1',
         'icalendar',
         'icemac.ab.locales [compile] >= 2.7',
         'icemac.truncatetext',
