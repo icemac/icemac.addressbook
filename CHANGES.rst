@@ -36,6 +36,8 @@ Other
 
 - Move some functionality only needed in `icemac.ab.importer` there.
 
+- Drop `.utils.site()` in favour of `zope.component.hooks.site()`.
+
 2.5.2 (2014-12-18)
 ==================
 
