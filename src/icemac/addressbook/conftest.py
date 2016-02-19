@@ -223,10 +223,12 @@ def FieldFactory():
     To create values for a Choice field use: values=<list of values>
     """
     def create(address_book, iface, type, title, **kw):
-        field_name = icemac.addressbook.testing.create_field(
-            address_book, iface, type, title, **kw)
-        entity = icemac.addressbook.interfaces.IEntity(iface)
-        return entity.getRawField(field_name)
+        with zope.component.hooks.site(address_book):
+            field = icemac.addressbook.utils.create_obj(
+                icemac.addressbook.entities.Field, type=type, title=title,
+                **kw)
+            entity = icemac.addressbook.interfaces.IEntity(iface)
+            return entity.getRawField(entity.addField(field))
     return create
 
 

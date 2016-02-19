@@ -1,6 +1,3 @@
-from icemac.addressbook.testing import get_submit_control_names
-
-
 def test_personlist__PersonTable__1(search_data, webdriver):
     """The `checkall` checkbox deselects and reselects all persons."""
     s = webdriver.login('visitor')
@@ -23,8 +20,7 @@ def test_personlist__ExportForm__1(address_book, browser):
     """The submit button of `ExportForm`' is not shown before searching."""
     browser.login('visitor')
     browser.open(browser.SEARCH_BY_KEYWORD_URL)
-    assert [['form.buttons.search']] == get_submit_control_names(
-        browser, all_forms=True)
+    assert [['form.buttons.search']] == browser.submit_control_names_all_forms
 
 
 def test_personlist__ExportForm__2(address_book, KeywordFactory, browser):
@@ -32,8 +28,7 @@ def test_personlist__ExportForm__2(address_book, KeywordFactory, browser):
     KeywordFactory(address_book, u'example')
     browser.login('visitor')
     browser.keyword_search('example')
-    assert [['form.buttons.search']] == get_submit_control_names(
-        browser, all_forms=True)
+    assert [['form.buttons.search']] == browser.submit_control_names_all_forms
 
 
 def test_personlist__ExportForm__3(search_data, browser):
@@ -41,4 +36,4 @@ def test_personlist__ExportForm__3(search_data, browser):
     browser.login('visitor')
     browser.keyword_search('church')
     assert ([['form.buttons.search'], ['form.buttons.apply']] ==
-            get_submit_control_names(browser, all_forms=True))
+            browser.submit_control_names_all_forms)
