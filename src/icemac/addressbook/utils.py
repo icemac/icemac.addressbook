@@ -21,9 +21,6 @@ def create_obj(class_, *args, **kw):
     return obj
 
 
-create_obj_with_set_site = set_site(create_obj)
-
-
 def add(parent, obj):
     nc = zope.container.interfaces.INameChooser(parent)
     name = nc.chooseName('', obj)
