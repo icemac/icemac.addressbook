@@ -436,7 +436,7 @@ def wsgiAppS():
 
 
 def getRootFolder():
-    """TransactionMiddleware expects a callable to get the root folder."""
+    """`TransactionMiddleware` expects a callable to get the root folder."""
     return CURRENT_CONNECTION.rootFolder
 
 
@@ -517,7 +517,7 @@ def pyTestAddressBookFixture(zodb, name):
     """
     for connection in pyTestStackDemoStorage(zodb, name):
         icemac.addressbook.testing.create_addressbook(
-            name='ab', title=u'test addressbook', parent=connection.rootFolder)
+            connection.rootFolder, name='ab', title=u'test addressbook')
         transaction.commit()
         yield connection.zodb
 
@@ -547,6 +547,7 @@ class NonCachingPublicationCache(object):
         return None
 
     def __setitem__(self, key, value):
+        """Do not cache!"""
         pass
 
 
