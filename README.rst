@@ -7,7 +7,7 @@ Purpose:
 Status:
     stable version, used in production; some features might be added in future
 
-Copyright (c) 2008-2015 Michael Howitz
+Copyright (c) 2008-2016 Michael Howitz
 
 All Rights Reserved.
 
