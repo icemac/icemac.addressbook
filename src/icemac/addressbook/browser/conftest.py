@@ -2,7 +2,6 @@
 from icemac.addressbook.interfaces import IPerson
 import datetime
 import icemac.addressbook.conftest
-import icemac.addressbook.testing
 import pytest
 import transaction
 import zope.component.hooks

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import grokcore.component as grok
-import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.menus.menu
 import z3c.menu.ready2go.checker
 import z3c.menu.ready2go.item
-import z3c.preference.browser
 import zope.interface
 import zope.preference.interfaces
 

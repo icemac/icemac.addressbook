@@ -2,44 +2,22 @@
 import collections
 import datetime
 import gocept.jslint
-import gocept.selenium.wsgi
-import icemac.addressbook.address
 import icemac.addressbook.addressbook
-import icemac.addressbook.file.file
 import icemac.addressbook.interfaces
-import icemac.addressbook.keyword
 import icemac.addressbook.person
-import icemac.addressbook.principals.principals
-import icemac.addressbook.principals.sources
-import icemac.addressbook.startup
 import icemac.addressbook.utils
 import lxml.etree
 import os
-import os.path
 import plone.testing
 import plone.testing.zca
-import plone.testing.zodb
 import pytz
 import transaction
 import z3c.etestbrowser.wsgi
-import zope.annotation.attribute
-import zope.app.publication.httpfactory
 import zope.app.publication.zopepublication
-import zope.app.wsgi
-import zope.app.wsgi.testlayer
-import zope.browserpage.metaconfigure
 import zope.component
 import zope.component.hooks
-import zope.dublincore.interfaces
-import zope.event
-import zope.lifecycleevent
-import zope.principalregistry.principalregistry
-import zope.processlifetime
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
-import zope.testbrowser.wsgi
-import zope.testing.cleanup
-import zope.testing.renormalizing
 
 
 ZODBConnection = collections.namedtuple(

@@ -3,8 +3,6 @@ from z3c.flashmessage.interfaces import IMessageSource
 import pytest
 import zope.component
 import zope.publisher.testing
-import zope.security.management
-import zope.security.testing
 
 
 @pytest.yield_fixture('function')
