@@ -1,11 +1,4 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
-__docformat__ = "reStructuredText"
-
-
 import icemac.addressbook.generations.utils
 import icemac.addressbook.utils
 import zope.annotation.interfaces

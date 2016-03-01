@@ -60,8 +60,9 @@ def test_delete__DeleteForm__3(search_data, browser, role):
          'phone numbers.)',
          'E-Mail (Creates a link to send e-mails.)',
          'Names (Comma separated list of person names.)',
-         "iCalendar export birthday (Export person's birthdays as .ics file.)"]
-        == browser.getControl('Apply on selected persons').displayOptions)
+         "iCalendar export birthday (Export person's birthdays as "
+         ".ics file.)"] ==
+        browser.getControl('Apply on selected persons').displayOptions)
     with pytest.raises(HTTPError) as err:
         browser.open(browser.SEARCH_DELETE_URL)
     assert 'HTTP Error 403: Forbidden' == str(err.value)
