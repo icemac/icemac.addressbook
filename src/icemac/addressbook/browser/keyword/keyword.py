@@ -27,8 +27,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 def can_delete_keyword(form):
     """Button condition telling if the displayed keyword is deleteable."""
     return (
-        icemac.addressbook.browser.base.can_access('delete.html')(form)
-        and
+        icemac.addressbook.browser.base.can_access('delete.html')(form) and
         not gocept.reference.interfaces.IReferenceTarget(
             form.context).is_referenced())
 

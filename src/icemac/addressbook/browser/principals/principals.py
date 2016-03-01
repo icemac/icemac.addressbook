@@ -78,14 +78,11 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
         return (
             z3c.form.field.Fields(
                 icemac.addressbook.principals.interfaces.IPrincipal).select(
-                'person')
-            +
+                'person') +
             z3c.form.field.Fields(
-                icemac.addressbook.principals.interfaces.IPasswordFields)
-            +
+                icemac.addressbook.principals.interfaces.IPasswordFields) +
             z3c.form.field.Fields(
-                icemac.addressbook.principals.interfaces.IRoles)
-            +
+                icemac.addressbook.principals.interfaces.IRoles) +
             z3c.form.field.Fields(
                 *icemac.addressbook.interfaces.IEntity(
                     self.interface).getFieldValues()).omit(
@@ -123,19 +120,15 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         return (
             z3c.form.field.Fields(
                 icemac.addressbook.principals.interfaces.IPrincipal).select(
-                'person', 'login')
-            +
+                'person', 'login') +
             z3c.form.field.Fields(
-                icemac.addressbook.principals.interfaces.IPasswordFields)
-            +
+                icemac.addressbook.principals.interfaces.IPasswordFields) +
             z3c.form.field.Fields(
-                icemac.addressbook.principals.interfaces.IRoles)
-            +
+                icemac.addressbook.principals.interfaces.IRoles) +
             z3c.form.field.Fields(
                 *icemac.addressbook.interfaces.IEntity(
                     self.interface).getFieldValues()).omit(
-                'person', 'login')
-            )
+                'person', 'login'))
 
     @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):

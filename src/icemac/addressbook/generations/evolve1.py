@@ -1,12 +1,5 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
-__docformat__ = "reStructuredText"
-
 import zope.generations.utility
-
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
 import icemac.addressbook.generations.utils
@@ -22,7 +15,6 @@ def evolve(context):
 
     Defines references on persons.
     """
-
     root = zope.generations.utility.getRootFolder(context)
     # persons need gocept.reference which needs a local utility stored in root
 

@@ -1,10 +1,4 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
-__docformat__ = "reStructuredText"
-
 import icemac.addressbook.interfaces
 import zope.generations.utility
 import zope.catalog.interfaces
@@ -18,7 +12,6 @@ def evolve(context):
     """icemac.addressbook.interfaces.IKeywords.get_titles has been split into
     IKeywordTitles interface.
     """
-
     root = zope.generations.utility.getRootFolder(context)
     addressbooks = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IAddressBook)

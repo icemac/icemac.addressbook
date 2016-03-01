@@ -67,15 +67,15 @@ def test_keyword__KeywordContainer__get_keyword_by_title__1():
 
 def test_keyword__KeywordContainer__get_keyword_by_title__2():
     """It returns `None` if the container is empty."""
-    assert None == KeywordContainer().get_keyword_by_title(u'asdf')
+    assert None is KeywordContainer().get_keyword_by_title(u'asdf')
 
 
 def test_keyword__KeywordContainer__get_keyword_by_title__3():
     """It returns `None` if no matching keyword can be found."""
     kc = KeywordContainer()
     kc['1'] = Keyword(u'asdf')
-    assert None == kc.get_keyword_by_title(u'foo')
-    assert None == kc.get_keyword_by_title(u'bar')
+    assert None is kc.get_keyword_by_title(u'foo')
+    assert None is kc.get_keyword_by_title(u'bar')
 
 
 def test_keyword__KeywordContainer__get_keyword_by_title__4():

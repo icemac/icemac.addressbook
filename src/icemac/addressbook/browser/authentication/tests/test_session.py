@@ -13,8 +13,8 @@ def test_session__FlashedSessionCredentialsPlugin__1(address_book, browser):
         'To log-in enter your username and password and submit the form.' ==
         browser.message)
     assert (
-        browser.LOGIN_BASE_URL + '%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
-        == browser.url)
+        browser.LOGIN_BASE_URL +
+        '%3A%2F%2Flocalhost%2Fab%2F%40%40index.html' == browser.url)
 
 
 @pytest.mark.parametrize('username, password',
@@ -33,8 +33,8 @@ def test_session__FlashedSessionCredentialsLoginForm__1(
             browser.message)
     assert 'Please provide Login Information' in browser.contents
     assert (
-        browser.LOGIN_BASE_URL + '%3A%2F%2Flocalhost%2Fab%2F%40%40index.html'
-        == browser.url)
+        browser.LOGIN_BASE_URL +
+        '%3A%2F%2Flocalhost%2Fab%2F%40%40index.html' == browser.url)
     # User name and password are not re-displayed if there was an error:
     assert '' == browser.getControl('User Name').value
     assert '' == browser.getControl('Password').value
@@ -76,8 +76,8 @@ def test_session__FlashedSessionCredentialsLoginForm__3(
          'To log-in enter your username and password and submit the form.'] ==
         browser.message)
     assert (
-        browser.LOGIN_BASE_URL + '%3A%2F%2Flocalhost%2Fab%2F%40%40welcome.html'
-        == browser.url)
+        browser.LOGIN_BASE_URL +
+        '%3A%2F%2Flocalhost%2Fab%2F%40%40welcome.html' == browser.url)
 
 
 def test_session__FlashedSessionCredentialsLoginForm__4(

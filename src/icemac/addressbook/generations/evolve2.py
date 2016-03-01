@@ -1,14 +1,7 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
-__docformat__ = "reStructuredText"
-
-import zope.generations.utility
-import zope.catalog.interfaces
-
 import icemac.addressbook.interfaces
+import zope.catalog.interfaces
+import zope.generations.utility
 
 
 generation = 2
