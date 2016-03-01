@@ -1,6 +1,5 @@
 import icemac.addressbook.conftest
 import icemac.addressbook.interfaces
-import icemac.addressbook.testing
 import mock
 import pytest
 import transaction

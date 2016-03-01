@@ -5,7 +5,6 @@ from mock import patch, Mock
 from pytz import utc, timezone
 import gocept.testing.mock
 import icemac.addressbook.browser.form
-import icemac.addressbook.testing
 import pytest
 import zope.publisher.browser
 

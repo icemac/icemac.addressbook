@@ -2,7 +2,6 @@ from icemac.addressbook.addressbook import AddressBook
 from icemac.addressbook.addressbook import create_address_book_infrastructure
 from icemac.addressbook.interfaces import IAddressBook, IKeywords, IEntities
 from icemac.addressbook.interfaces import IOrderStorage, ENTITIES
-import icemac.addressbook.testing
 import zope.authentication.interfaces
 import zope.catalog.interfaces
 import zope.component

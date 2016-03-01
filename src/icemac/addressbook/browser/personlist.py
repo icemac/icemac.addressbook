@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import icemac.addressbook.browser.table
-import icemac.addressbook.entities
 import icemac.addressbook.fieldsource
 import icemac.addressbook.interfaces
 import icemac.truncatetext

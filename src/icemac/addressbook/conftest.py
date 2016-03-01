@@ -6,7 +6,6 @@ import gocept.selenium.wd_selenese
 import icemac.addressbook
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
-import icemac.addressbook.principals.interfaces
 import icemac.addressbook.principals.principals
 import icemac.addressbook.startup
 import icemac.addressbook.testing
@@ -14,7 +13,6 @@ import icemac.addressbook.utils
 import mock
 import os
 import os.path
-import plone.testing.zca
 import plone.testing.zodb
 import pytest
 import tempfile
