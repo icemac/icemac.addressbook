@@ -13,7 +13,7 @@ MAX_DEPTH = 10
 
 @icemac.addressbook.utils.set_site
 def principal_id_to_title(id, context):
-    "Convert a principal id into its title."
+    """Convert a principal id into its title."""
     auth = zope.component.getUtility(
         zope.authentication.interfaces.IAuthentication)
     try:
@@ -25,7 +25,7 @@ def principal_id_to_title(id, context):
 
 
 def update_object(obj, context):
-    "Update one object."
+    """Update one object."""
     creators = zope.dublincore.interfaces.IZopeDublinCore(obj).creators
     if not len(creators):
         return
@@ -35,7 +35,7 @@ def update_object(obj, context):
 
 
 def update_recursively(object, context, depth):
-    "Do the metadata update for an object and its children."
+    """Do the metadata update for an object and its children."""
     depth += 1
     if depth > MAX_DEPTH:
         return
@@ -59,6 +59,5 @@ def update_recursively(object, context, depth):
 
 @icemac.addressbook.generations.utils.evolve_addressbooks
 def evolve(addressbook):
-    """Update additional metadata from existing dublincore metadata.
-    """
+    """Update additional metadata from existing dublincore metadata."""
     update_recursively(addressbook, addressbook, 0)
