@@ -6,7 +6,6 @@ generation = 9
 
 
 def evolve(context):
-    """Install orders utility.
-    """
+    """Install the orders utility."""
     icemac.addressbook.generations.utils.update_address_book_infrastructure(
         context)

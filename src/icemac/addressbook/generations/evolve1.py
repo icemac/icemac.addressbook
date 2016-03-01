@@ -11,7 +11,7 @@ person_created_with_set_site = icemac.addressbook.utils.set_site(
 
 
 def evolve(context):
-    """Installs the necessary components for address books.
+    """Install the necessary components for address books.
 
     Defines references on persons.
     """

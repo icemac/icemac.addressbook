@@ -57,7 +57,7 @@ def mailtoDataS(addressBookS, KeywordFactory, PersonFactory,
 # Tests
 
 def test_mailto__MailTo__unique_mail_addresses__1(mailto_data):
-    """MailTo.unique_mail_addresses is a sorted list of unique email addrs."""
+    """It is a sorted list of unique email addresses."""
     from .mailto import MailTo
     from gocept.testing.mock import Property
     view = MailTo()
