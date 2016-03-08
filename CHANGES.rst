@@ -5,7 +5,8 @@ Change log
 2.7 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix backup and restore scripts which where broken due to updating to ZODB
+  4.x.
 
 
 2.6 (2016-03-05)
