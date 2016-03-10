@@ -193,7 +193,8 @@ div.status ul.errors li {
     list-style-type: none;
 }
 
-div.error div.error {
+div.error div.error,
+div.multi-widget div.error {
     color: red;
 }
 
