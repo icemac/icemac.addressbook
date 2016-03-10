@@ -5,7 +5,7 @@ Change log
 2.7 (unreleased)
 ================
 
-- Nothing changed yet.
+- Render more form error messages in red.
 
 
 2.6.1 (2016-03-08)
