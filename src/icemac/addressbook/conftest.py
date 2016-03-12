@@ -376,8 +376,8 @@ def UserFactory(FullPersonFactory):
             else:
                 raise LookupError(
                     'Role title {!r} unknown.'.format(role_title))
-        # Cannot use icemac.addressbook.testing() here because `Principal` is
-        # not an entity.
+        # Cannot use icemac.addressbook.testing.create() here because
+        # `Principal` is not an entity.
         name = icemac.addressbook.utils.create_and_add(
             address_book.principals,
             icemac.addressbook.principals.principals.Principal,
