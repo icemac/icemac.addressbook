@@ -355,7 +355,10 @@ def FileFactory():
 
 @pytest.fixture(scope='session')
 def UserFactory(FullPersonFactory):
-    """Create a user in the address book."""
+    """Create a user in the address book.
+
+    roles ... list of role titles (!)
+    """
     def create_user(
             address_book, first_name, last_name, email, password, roles,
             keywords=[], **kw):
@@ -370,6 +373,9 @@ def UserFactory(FullPersonFactory):
                 if role_factory.getTitle(candidate) == role_title:
                     selected_roles.append(candidate)
                     break
+            else:
+                raise LookupError(
+                    'Role title {!r} unknown.'.format(role_title))
         # Cannot use icemac.addressbook.testing() here because `Principal` is
         # not an entity.
         name = icemac.addressbook.utils.create_and_add(
