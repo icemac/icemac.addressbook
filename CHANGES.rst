@@ -2,8 +2,8 @@
 Change log
 ==========
 
-2.7 (unreleased)
-================
+2.6.2 (2016-03-12)
+==================
 
 - Render more form error messages in red.
 
