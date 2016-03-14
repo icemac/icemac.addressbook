@@ -12,6 +12,7 @@ omit = */interfaces.py
        */startup.py
        */tests/*
        */tests.py
+       */conftest.py
 
 [html]
 directory = htmlcov
