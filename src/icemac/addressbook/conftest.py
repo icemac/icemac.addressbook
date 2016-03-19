@@ -18,9 +18,11 @@ import pytest
 import tempfile
 import transaction
 import zope.app.wsgi.testlayer
+import zope.browserpage.metaconfigure
 import zope.component.hooks
 import zope.event
 import zope.i18n
+import zope.principalregistry.principalregistry
 import zope.processlifetime
 import zope.testbrowser.wsgi
 
@@ -396,6 +398,9 @@ def zcmlS():
     layer.setUp()
     yield layer
     layer.tearDown()
+    # Needed so another ZCML layer can be run.
+    zope.browserpage.metaconfigure.clear()
+    zope.principalregistry.principalregistry.principalRegistry._clear()
 
 
 @pytest.yield_fixture(scope='session')
