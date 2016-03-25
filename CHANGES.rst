@@ -5,7 +5,7 @@ Change log
 2.6.3 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update most libraries needed for address book to newest versions.
 
 
 2.6.2 (2016-03-12)
