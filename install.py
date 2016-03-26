@@ -85,7 +85,7 @@ if __name__ == '__main__':
     icemac.addressbook.install.Configurator(*conf_args)()
 
     run_process('running %s bootstrap.py' % python, python, 'bootstrap.py',
-                '--setuptools-version=8.2.1', '--version=2.3.1')
+                '--setuptools-version=20.3.1', '--buildout-version=2.5.0')
     run_process('running bin/buildout', 'bin/buildout')
     migrate()
 
