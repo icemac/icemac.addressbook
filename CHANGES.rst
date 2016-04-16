@@ -2,18 +2,16 @@
 Change log
 ==========
 
-2.6.5 (unreleased)
-==================
+2.7 (unreleased)
+================
 
-- Nothing changed yet.
-
+- Update most libraries needed for address book to newest versions.
 
 2.6.4 (2016-04-16)
 ==================
 
 - Enable versioning in `fanstatic` so the no force-reload is needed to get the
   new CSS file versions.
-
 
 2.6.3 (2016-04-16)
 ==================

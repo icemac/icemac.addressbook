@@ -20,7 +20,6 @@
                 "*.conf",
                 "*.ini",
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -44,7 +43,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -68,7 +66,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -92,7 +89,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -117,7 +113,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -141,7 +136,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
@@ -166,7 +160,6 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
-                ".coveragerc",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",

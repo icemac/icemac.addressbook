@@ -18,9 +18,11 @@ import pytest
 import tempfile
 import transaction
 import zope.app.wsgi.testlayer
+import zope.browserpage.metaconfigure
 import zope.component.hooks
 import zope.event
 import zope.i18n
+import zope.principalregistry.principalregistry
 import zope.processlifetime
 import zope.testbrowser.wsgi
 
@@ -376,8 +378,8 @@ def UserFactory(FullPersonFactory):
             else:
                 raise LookupError(
                     'Role title {!r} unknown.'.format(role_title))
-        # Cannot use icemac.addressbook.testing() here because `Principal` is
-        # not an entity.
+        # Cannot use icemac.addressbook.testing.create() here because
+        # `Principal` is not an entity.
         name = icemac.addressbook.utils.create_and_add(
             address_book.principals,
             icemac.addressbook.principals.principals.Principal,
@@ -396,6 +398,9 @@ def zcmlS():
     layer.setUp()
     yield layer
     layer.tearDown()
+    # Needed so another ZCML layer can be run.
+    zope.browserpage.metaconfigure.clear()
+    zope.principalregistry.principalregistry.principalRegistry._clear()
 
 
 @pytest.yield_fixture(scope='session')

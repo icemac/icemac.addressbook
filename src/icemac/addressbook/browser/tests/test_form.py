@@ -81,6 +81,7 @@ def test_form__Widget__1(
     FieldFactory(address_book, IKeyword, datatype, u'my-field')
     kw = KeywordFactory(address_book, u'foobar')
     s = webdriver.login('editor')
+    s.windowMaximize()
     s.open('/ab/++attribute++keywords/%s' % kw.__name__)
     # Activate the datetime field which opens the JavaScript calendar
     s.click('id=form-widgets-Field-1')
@@ -97,6 +98,7 @@ def test_form__Widget__1(
 def test_form__DateWidget__1(address_book, webdriver):
     """`DateWidget` renders a JavaScript calendar."""
     s = webdriver.login('editor')
+    s.windowMaximize()
     s.open('/ab/@@addPerson.html')
     # Activate the date field which opens the JavaScript calendar
     s.click('id=IcemacAddressbookPersonPerson-widgets-'
