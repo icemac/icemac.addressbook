@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.6.3 (unreleased)
+2.6.3 (2016-04-16)
 ==================
 
 - Allow to run `icemac.ab.calendar` 1.8 with this address book version.
