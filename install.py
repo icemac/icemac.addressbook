@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
+import ConfigParser
+import os.path
+import shutil
+import subprocess
 import sys
+
 sys.path[0:0] = ['src']
 
-
-import ConfigParser
-import icemac.addressbook.install
-import os.path
-import subprocess
-import shutil
+import icemac.addressbook.install  # noqa
 
 
 USER_INI = 'install.user.ini'
 
 
 def run_process(text, *args):
+    """Run a script in a subprocess."""
     print '%s ...' % text
     res = subprocess.call(args)
     if res:
@@ -24,7 +22,7 @@ def run_process(text, *args):
 
 
 def bool_get(config, key):
-    "Read value from config."
+    """Read value from config."""
     value = config.get('migration', key)
     return value == 'yes'
 
@@ -40,6 +38,7 @@ def copy_dir(src_base, dest_base, *path_parts):
 
 
 def migrate():
+    """Migrate an old address book instance."""
     # Read the ini file the configurator just created to get the
     # migration options.
     config = ConfigParser.SafeConfigParser()
@@ -86,7 +85,7 @@ if __name__ == '__main__':
     icemac.addressbook.install.Configurator(*conf_args)()
 
     run_process('running %s bootstrap.py' % python, python, 'bootstrap.py',
-                '--setuptools-version=8.2.1', '--version=2.3.1')
+                '--setuptools-version=20.3.1', '--buildout-version=2.5.0')
     run_process('running bin/buildout', 'bin/buildout')
     migrate()
 

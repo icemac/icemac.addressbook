@@ -25,6 +25,7 @@ class DatetimeDataConverter(z3c.form.converter.DatetimeDataConverter):
     Converts datetimes from form to store with time zone of request.
 
     """
+
     @property
     def time_zone(self):
         """User selected time zone."""
@@ -208,6 +209,7 @@ def TimeFieldWidget(field, request):
 
 class DateDataConverter(z3c.form.converter.DateDataConverter):
     """Special date converter which does not have a year 2k problem."""
+
     length = 'medium'
 
 
@@ -228,5 +230,5 @@ class ImageSelectWidget(z3c.form.browser.select.SelectWidget):
               icemac.addressbook.browser.interfaces.IAddressBookLayer)
 @grok.implementer(z3c.form.interfaces.IFieldWidget)
 def SelectFieldWidget(field, source, request):
-    """IFieldWidget factory for SelectWidget."""
+    """`IFieldWidget` factory for SelectWidget."""
     return z3c.form.widget.FieldWidget(field, ImageSelectWidget(request))
