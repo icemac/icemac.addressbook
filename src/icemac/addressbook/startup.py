@@ -35,7 +35,8 @@ def application_factory(global_conf=None, zope_application=None):
     if zope_application is None:
         zope_application = zope_application_factory(global_conf)
     application = fanstatic.make_fanstatic(
-        zope_application, IGNORED, bottom=True)
+        zope_application, IGNORED, bottom=True, versioning=True,
+        recompute_hashes=False)
 
     # Create the application, notify subscribers.
     zope.event.notify(
