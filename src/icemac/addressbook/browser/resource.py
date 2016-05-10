@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
 import fanstatic
 import js.jquery
 import js.jqueryui
@@ -25,7 +23,7 @@ css = fanstatic.Group([
     prefs_css,
     table_css,
     wizard_css,
-    ])
+])
 
 # not rendered on every page
 no_max_content_css = fanstatic.Resource(
@@ -51,7 +49,7 @@ js = fanstatic.Group([
     masterdata_fields,
     prefs,
     table,
-    ])
+])
 
 
 class DefaultResources(zope.viewlet.viewlet.ViewletBase):
