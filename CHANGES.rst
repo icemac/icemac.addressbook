@@ -5,6 +5,9 @@ Change log
 2.7 (unreleased)
 ================
 
+- Render field descriptions (resp. notes of user defined fields) as hint text
+  below the widget in the form.
+
 - Update most libraries needed for address book to newest versions.
 
 2.6.4 (2016-04-16)

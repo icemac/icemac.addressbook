@@ -1,4 +1,4 @@
-from ..form import zope_i18n_pattern_to_jquery_pattern
+from ..form import zope_i18n_pattern_to_jquery_pattern, FieldDescriptionAsHint
 from datetime import datetime
 from icemac.addressbook.interfaces import IKeyword
 from mock import patch, Mock
@@ -6,6 +6,7 @@ from pytz import utc, timezone
 import gocept.testing.mock
 import icemac.addressbook.browser.form
 import pytest
+import zope.i18nmessageid
 import zope.publisher.browser
 
 
@@ -112,3 +113,14 @@ def test_form__DateWidget__1(address_book, webdriver):
     s.clickAndWait("id=form-buttons-add")
     # Successful apply leads back to keyword overview
     assert s.getLocation().endswith('/ab/@@person-list.html')
+
+
+def test_form__FieldDescriptionAsHint__get__1(zcmlS):
+    """It returns the ComputedWidgetAttribute `hint` if it is registered."""
+    obj = FieldDescriptionAsHint(
+        field=zope.dublincore.interfaces.IDCTimes['modified'],
+        context=None, request=None, form=None, widget=None)
+    result = obj.get()
+    assert ('The date and time that the object was last modified '
+            'converted to the displayed time zone.' == result)
+    assert isinstance(result, zope.i18nmessageid.Message)

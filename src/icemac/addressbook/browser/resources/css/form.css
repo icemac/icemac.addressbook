@@ -14,6 +14,12 @@
     margin-left: 1em;
 }
 
+#content form .hint {
+    font-size: small;
+    color: #777;
+    margin-left: 3px;
+}
+
 #content fieldset {
     background-color: #f0f0d0;
     opacity: 0.92;

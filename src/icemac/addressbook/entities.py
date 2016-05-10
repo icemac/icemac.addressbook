@@ -170,11 +170,11 @@ def user_field_to_schema_field(field):
     """Convert a user defined field (IField) into a zope.schema field."""
     if field.type == 'Choice':
         schema_field = zope.schema.Choice(
-            title=field.title, required=False,
+            title=field.title, description=field.notes, required=False,
             source=ChoiceFieldValuesSource(field.values))
     else:
         schema_field = getattr(zope.schema, field.type)(
-            title=field.title, required=False)
+            title=field.title, description=field.notes, required=False)
     schema_field.__name__ = str(field.__name__)
     schema_field.interface = (
         icemac.addressbook.interfaces.IUserFieldStorage)

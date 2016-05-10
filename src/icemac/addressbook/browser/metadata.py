@@ -57,8 +57,18 @@ ModifiedLabel = z3c.form.widget.ComputedWidgetAttribute(
     timezone_messageid_factory(_(u'Modification Date (${timezone})')),
     field=zope.dublincore.interfaces.IDCTimes['modified'])
 
+ModifiedHint = z3c.form.widget.StaticWidgetAttribute(
+    _(u'The date and time that the object was last modified converted to '
+      u'the displayed time zone.'),
+    field=zope.dublincore.interfaces.IDCTimes['modified'])
+
 CreatedLabel = z3c.form.widget.ComputedWidgetAttribute(
     timezone_messageid_factory(_(u'Creation Date (${timezone})')),
+    field=zope.dublincore.interfaces.IDCTimes['created'])
+
+CreatedHint = z3c.form.widget.StaticWidgetAttribute(
+    _(u'The date and time that the object was created converted to '
+      u'the displayed time zone.'),
     field=zope.dublincore.interfaces.IDCTimes['created'])
 
 MetadataGroupFieldsNotRequired = z3c.form.widget.StaticWidgetAttribute(

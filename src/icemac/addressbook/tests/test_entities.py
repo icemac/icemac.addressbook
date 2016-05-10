@@ -652,10 +652,12 @@ def test_entities__get_bound_schema_field__4(
         address_book, FullPersonFactory, FieldFactory):
     """It returns a user defined field as a `zope.schema` field."""
     person = FullPersonFactory(address_book, u'Koch')
-    FieldFactory(address_book, IPhoneNumber, 'Datetime', u'last call')
+    FieldFactory(address_book, IPhoneNumber, 'Datetime', u'last call',
+                 notes=u'using a phone')
     field = get_bound_schema_field(
         person, phone_number_entity,
         phone_number_entity.getRawField('Field-1'))
     assert IUserFieldStorage(person.default_phone_number) == field.context
     assert 'Field-1' == field.__name__
+    assert 'using a phone' == field.description
     assert isinstance(field, zope.schema.Datetime)

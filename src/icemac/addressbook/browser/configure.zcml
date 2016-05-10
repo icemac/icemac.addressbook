@@ -75,8 +75,16 @@
       name="label" />
 
   <adapter
+      factory=".metadata.ModifiedHint"
+      name="hint" />
+
+  <adapter
       factory=".metadata.CreatedLabel"
       name="label" />
+
+  <adapter
+      factory=".metadata.CreatedHint"
+      name="hint" />
 
   <adapter
       factory=".metadata.MetadataGroupFieldsNotRequired"
@@ -235,6 +243,10 @@
        for="*"
        provides="icemac.addressbook.interfaces.IFaviconData"
        factory=".favicon.black" />
+
+  <adapter
+       factory=".form.FieldDescriptionAsHint"
+       name="title" />
 
   <include package=".about" />
   <include package=".addressbook" />
