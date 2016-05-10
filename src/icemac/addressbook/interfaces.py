@@ -1,6 +1,4 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import collections
 import gocept.country
@@ -50,7 +48,8 @@ class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     """Source containing possbile favicons."""
 
     class source_class(zc.sourcefactory.source.FactoredSource):
-        # We need the interface to register a widget for it:
+        """We need the interface to register a widget for it."""
+
         zope.interface.implements(IImageSource)
 
     @property
