@@ -11,7 +11,7 @@
             return;
         }
         widget.append('<div class="hint">' + text + '</div>');
-    };
+    }
 
     // Put focus on first input field of form:
     $("form div.widget:first input").focus();
