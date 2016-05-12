@@ -47,6 +47,7 @@ class AddressBook(zope.container.btree.BTreeContainer,
     orders = None
 
     def __repr__(self):
+        """Nice representation of the address book."""
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
 address_book_entity = icemac.addressbook.entities.create_entity(
@@ -84,8 +85,11 @@ def add_entity_to_order(orders, iface):
     icemac.addressbook.interfaces.IAddressBook,
     zope.container.interfaces.IObjectAddedEvent)
 def create_address_book_infrastructure(addressbook, event=None):
-    """Create initial infrastructure or update existing infrastructure to
-    current requirements (using generation)."""
+    """Create the initial infrastructure ...
+
+    ... or update the existing one to the current requirements when using a
+    generation.
+    """
     # add site manager
     if not zope.location.interfaces.ISite.providedBy(addressbook):
         site_manager = zope.site.site.LocalSiteManager(addressbook)
@@ -129,7 +133,7 @@ def create_address_book_infrastructure(addressbook, event=None):
 
 
 class AddressBookCreated(object):
-    """Event which signales that an address book has been created.
+    """Event which signals that an address book has been created.
 
     Subscribers can expect that the new address book is a site (but not set
     as such).
