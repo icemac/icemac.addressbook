@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
-import collections
 import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
-import pytz
 import zope.interface
 import zope.schema
 
@@ -32,13 +30,8 @@ class IPersonListTab(zope.interface.Interface):
     batch_size = zope.schema.Int(title=_('batch size'), min=1)
 
 
-class TimeZones(icemac.addressbook.sources.TitleMappingSource):
-    """Source of all available time zones."""
-
-    _mapping = collections.OrderedDict(((x, x) for x in pytz.common_timezones))
-
-
 class ITimeZone(zope.interface.Interface):
     """Preferred time zone."""
 
-    time_zone = zope.schema.Choice(title=_('Time zone'), source=TimeZones())
+    time_zone = zope.schema.Choice(
+        title=_('Time zone'), source=icemac.addressbook.interfaces.time_zones)

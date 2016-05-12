@@ -50,6 +50,23 @@ class AddressBook(zope.container.btree.BTreeContainer,
         """Nice representation of the address book."""
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
+    @property
+    def time_zone(self):
+        return self._timezone_preference_group.time_zone
+
+    @time_zone.setter
+    def time_zone(self, value):
+        self._timezone_preference_group.time_zone = value
+
+    # private
+
+    @property
+    def _timezone_preference_group(self):
+        default_prefs = zope.component.getUtility(
+            zope.preference.interfaces.IDefaultPreferenceProvider)
+        return default_prefs.getDefaultPreferenceGroup('ab.timeZone')
+
+
 address_book_entity = icemac.addressbook.entities.create_entity(
     _(u'address book'),
     icemac.addressbook.interfaces.IAddressBook, AddressBook)

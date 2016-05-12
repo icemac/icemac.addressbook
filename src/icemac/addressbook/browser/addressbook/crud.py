@@ -19,6 +19,15 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     class_ = icemac.addressbook.addressbook.AddressBook
     next_url = 'object'
 
+    def create(self, data):
+        self.selected_time_zone = data.pop('time_zone')
+        return super(AddForm, self).create(data)
+
+    def add(self, obj):
+        super(AddForm, self).add(obj)
+        with zope.component.hooks.site(obj):
+            obj.time_zone = self.selected_time_zone
+
 
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)

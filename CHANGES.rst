@@ -11,6 +11,10 @@ Features
 - Render field descriptions (resp. notes of user defined fields) as hint text
   below the widget in the form.
 
+- Allow to select a default time zone in the address book's edit form. It is
+  used for all users who do not have set their own time zone in the
+  preferences.
+
 Other
 -----
 

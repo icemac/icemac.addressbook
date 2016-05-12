@@ -15,6 +15,8 @@ def test_crud__AddForm__1(address_book, webdriver):
         'css=.ui-selected '
         'img[src="/++resource++img/favicon-red-preview.png"]', 1)
     sel.clickAt('form-widgets-favicon-1', '20,20')
+    # Default time zone can be selected:
+    sel.select("id=form-widgets-time_zone", "label=Europe/Berlin")
     sel.clickAndWait('form-buttons-add')
     assert webdriver.message == '"test book" added.'
     sel.assertLocation('http://%s/AddressBook/@@welcome.html' % sel.server)
@@ -25,6 +27,7 @@ def test_crud__AddForm__1(address_book, webdriver):
     # The add form actually stored the values:
     sel.assertValue('id=form-widgets-title', 'test book')
     sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)
+    sel.assertSelectedLabel("id=form-widgets-time_zone", "Europe/Berlin")
     # The edit form is able to change the data:
     sel.clear('id=form-widgets-title')
     sel.type('id=form-widgets-title', 'ftest book')
@@ -34,6 +37,11 @@ def test_crud__AddForm__1(address_book, webdriver):
     # The edit form submits to itself and shows the stored data:
     sel.assertValue('id=form-widgets-title', 'ftest book')
     sel.assertCssCount('css=#form-widgets-favicon-0.ui-selected', 1)
+    # The selected time zone shows up in user's preferences:
+    sel.clickAndWait("link=Preferences")
+    sel.click("css=fieldset.timeZone")
+    sel.waitForElementPresent("id=form-widgets-time_zone")
+    sel.assertSelectedLabel("id=form-widgets-time_zone", "Europe/Berlin")
 
 
 def test_crud__EditForm__2(address_book, browser):
