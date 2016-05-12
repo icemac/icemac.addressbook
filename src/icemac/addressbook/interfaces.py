@@ -5,6 +5,7 @@ import gocept.country
 import gocept.country.db
 import gocept.reference.field
 import icemac.addressbook.sources
+import pytz
 import re
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
@@ -97,6 +98,14 @@ class StartpageSource(icemac.addressbook.sources.TitleMappingSource):
 startpage_source = StartpageSource()
 
 
+class TimeZones(icemac.addressbook.sources.TitleMappingSource):
+    """Source of all available time zones."""
+
+    _mapping = collections.OrderedDict(((x, x) for x in pytz.common_timezones))
+
+time_zones = TimeZones()
+
+
 class IAddressBook(zope.interface.Interface):
     """An address book."""
 
@@ -121,6 +130,12 @@ class IAddressBook(zope.interface.Interface):
         title=_('start page after log-in'),
         source=startpage_source,
         default=DEFAULT_STARTPAGE_DATA)
+
+    time_zone = zope.schema.Choice(
+        title=_('Time zone'),
+        description=_('Fallback in case a user has not set up his personal '
+                      'time zone in the preferences.'),
+        source=time_zones, default='UTC')
 
 
 class IKeywords(zope.interface.Interface):
