@@ -218,7 +218,7 @@
       permission="zope.Public" />
 
   <browser:page
-      for="zope.security.interfaces.IUnauthorized"
+      for="Exception"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="favicon-url"
       class=".favicon.RootFavIconURL"
