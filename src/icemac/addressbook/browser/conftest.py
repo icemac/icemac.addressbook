@@ -37,10 +37,8 @@ def searchDataS(
         for address_book in icemac.addressbook.conftest.site(connection):
             KeywordFactory(address_book, u'work')
             KeywordFactory(address_book, u'anyone else')
-            # person objects are not stored at layer as ZODBIsolatedTestLayer
-            # puts a DemoStorage on the storage the persons are created in, so
-            # changes on the persons are not visible on the persons stored at
-            # the layer.
+            # person objects are not returned as addressBookConnectionF
+            # puts a DemoStorage around the storage.
             FullPersonFactory(address_book, u'Hohmuth', keywords=[u'friends'])
             FullPersonFactory(
                 address_book, u'Koch', keywords=[u'family', u'church'],
