@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
-
 import z3c.form.browser.orderedselect
 import z3c.form.widget
 
 
 def sort_key(value):
-    "Sort key for widget."
+    """Sort key for widget."""
     return value['content'].lower()
 
 
 class SortedSelectWidget(z3c.form.browser.orderedselect.OrderedSelectWidget):
-    "OrderedSelectWidget which sorts the selected values itself."
+    """"OrderedSelectWidget which sorts the selected values itself."""
 
     def update(self):
         super(SortedSelectWidget, self).update()

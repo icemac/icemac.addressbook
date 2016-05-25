@@ -50,7 +50,7 @@ concat_mapping = {'and': 'all_of',
 
 
 class Search(icemac.addressbook.browser.search.base.BaseSearch):
-    """Search for a muliple keyword."""
+    """Search for a multiple keywords."""
 
     zope.component.adapts(SearchView)
 
