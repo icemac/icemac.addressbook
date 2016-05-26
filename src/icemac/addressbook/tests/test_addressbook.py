@@ -102,9 +102,9 @@ def test_addressbook__create_address_book_infrastructure__4(address_book):
     assert [ENTITIES] == list(address_book.orders.namespaces())
 
 
-def test_addressbook__AddressBook__1():
+def test_addressbook__AddressBook__1(address_book):
     """`AddressBook` fulfills the `IAddressBook` interface."""
-    zope.interface.verify.verifyObject(IAddressBook, AddressBook())
+    zope.interface.verify.verifyObject(IAddressBook, address_book)
 
 
 def test_addressbook__AddressBook____repr____1(address_book):
