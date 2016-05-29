@@ -27,18 +27,16 @@
                         onchange view/onchange;
                         multiple view/multiple;
                         size view/size">
-<tal:block repeat="item view/items"
-  ><option id="" value="" selected="selected"
-         tal:condition="python:item['value'] in view.value"
-         tal:attributes="id item/id;
-                         value item/value"
-         tal:content="item/content">label</option
-  ><option id="" value=""
-         tal:condition="python:item['value'] not in view.value"
-         tal:attributes="id item/id;
-                         value item/value"
-         tal:content="item/content">label</option
-></tal:block>
+  <option id="" value="" selected="selected"
+          tal:repeat="item view/selectedItems"
+          tal:attributes="id item/id;
+                          value item/value"
+          tal:content="item/content">label</option>
+  <option id="" value=""
+          tal:repeat="item view/notselectedItems"
+          tal:attributes="id item/id;
+                          value item/value"
+          tal:content="item/content">label</option>
 </select>
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />

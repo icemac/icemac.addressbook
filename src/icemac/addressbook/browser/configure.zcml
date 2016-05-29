@@ -98,6 +98,10 @@
      provides="z3c.form.interfaces.IFieldWidget"
      factory=".widget.SortedSelectFieldWidget" />
 
+  <class class=".widget.SortedSelectWidget">
+      <require permission="zope.Public"
+               interface="z3c.form.interfaces.IOrderedSelectWidget" />
+  </class>
 
   <!-- z3c.form -->
   <adapter factory=".datamanager.AnnotationField" />
