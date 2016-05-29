@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2011-2014 Michael Howitz
-# See also LICENSE.txt
 from .base import SessionStorageStep, get_fieldname_in_session
 from icemac.addressbook.i18n import _
 import collections
@@ -18,7 +16,7 @@ import zope.schema.interfaces
 
 
 class IOperatorsSource(zc.sourcefactory.interfaces.IFactoredSource):
-    "Marker interface for a source defining possible operators on a field."
+    """Marker interface for a source defining possible operators on a field."""
 
 
 class BaseOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
@@ -73,7 +71,7 @@ class KeywordOperatorsSource(BaseOperatorsSource):
         ('symmetric_difference', _(
             'symmetric difference (i. e. keywords which are either in '
             'selected keywords or existing ones but not both)')),
-        ))
+    ))
 
 
 class IntOperatorsSource(BaseOperatorsSource):
@@ -130,7 +128,7 @@ class Value(SessionStorageStep):
         if zope.schema.interfaces.IDecimal.providedBy(selected_field):
             max_decimal = decimal.Decimal(sys.maxint)
             # The default value needs to be the same object as missing_value
-            # as otherwise z3c.form displayes the default value instead of
+            # as otherwise z3c.form displays the default value instead of
             # an empty field:
             parameters.update(dict(min=-max_decimal, max=max_decimal,
                                    default=missing_value))
