@@ -18,5 +18,5 @@ class SortedSelectWidget(z3c.form.browser.orderedselect.OrderedSelectWidget):
 
 
 def SortedSelectFieldWidget(field, request):
-    """IFieldWidget factory for SortedSelectWidget."""
+    """`IFieldWidget` factory for SortedSelectWidget."""
     return z3c.form.widget.FieldWidget(field, SortedSelectWidget(request))
