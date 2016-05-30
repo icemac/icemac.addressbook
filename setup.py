@@ -83,7 +83,7 @@ setuptools.setup(
         'xlwt',
         'z3c.authviewlet',
         'z3c.flashmessage',
-        'z3c.form >= 2.2',
+        'z3c.form >= 3.3.1.dev0',
         'z3c.formui',
         'z3c.layer.pagelet',
         'z3c.locales [compile] >= 0.3.0',

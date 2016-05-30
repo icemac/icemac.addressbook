@@ -15,6 +15,9 @@ Features
   used for all users who do not have set their own time zone in the
   preferences.
 
+- Whitespace gets stripped from both ends of entered text values. Excluded are
+  only the text fields in the `update` search result handler.
+
 Other
 -----
 

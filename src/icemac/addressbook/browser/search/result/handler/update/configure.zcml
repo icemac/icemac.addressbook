@@ -90,6 +90,7 @@
   <adapter factory=".enter.KeywordOperatorsSource" />
   <adapter factory=".enter.IntOperatorsSource" />
   <adapter factory=".enter.DecimalOperatorsSource" />
+  <adapter factory=".enter.NotStrippingTextConverter" />
 
   <subscriber
      for="*"

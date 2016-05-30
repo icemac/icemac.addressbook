@@ -8,11 +8,29 @@ import icemac.addressbook.fieldsource
 import icemac.addressbook.sources
 import sys
 import z3c.form.field
+import z3c.form.interfaces
 import zc.sourcefactory.interfaces
 import zope.component
 import zope.interface
 import zope.schema
 import zope.schema.interfaces
+
+
+class IWillNotGetStripped(zope.schema.interfaces.IText):
+    """Suppress stripping of the field value in z3c.form."""
+
+
+class NotStrippingTextConverter(z3c.form.converter.BaseDataConverter):
+    """Since version 3.2.1 of z3c.form text values are stripped.
+
+    This new feature is not wanted here. E. g. we want to be able to add text
+    to a field prefixed with a newline.
+    """
+
+    zope.component.adapts(IWillNotGetStripped,
+                          z3c.form.interfaces.IWidget)
+
+    _strip_value = False
 
 
 class IOperatorsSource(zc.sourcefactory.interfaces.IFactoredSource):
@@ -134,6 +152,8 @@ class Value(SessionStorageStep):
                                    default=missing_value))
         new_value_field = selected_field.__class__(**parameters)
         new_value_field.__name__ = get_fieldname_in_session(session['field'])
+        if zope.schema.interfaces.IText.providedBy(new_value_field):
+            zope.interface.alsoProvides(new_value_field, IWillNotGetStripped)
         fields.append(new_value_field)
         operation_field = zope.schema.Choice(
             title=_('operation'), source=source,
