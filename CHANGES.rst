@@ -21,7 +21,7 @@ Features
 Other
 -----
 
-- Update most libraries needed for address book to newest versions.
+- Update most libraries needed for the address book to their newest versions.
 
 2.6.4 (2016-04-16)
 ==================
