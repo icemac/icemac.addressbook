@@ -18,7 +18,6 @@
                 ],
       "file_exclude_patterns": [
                 "*.conf",
-                "*.ini",
                 ".coverage",
                 ".hgtags",
                 ".installed.cfg",
