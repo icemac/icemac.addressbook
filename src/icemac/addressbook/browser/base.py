@@ -1,7 +1,4 @@
 # -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import grokcore.component
@@ -30,7 +27,6 @@ import zope.traversing.publicationtraverse
 
 
 class display_title(object):
-
     """ITitle adapter for PageTemplate.
 
     Call it using: ``obj/@@display_title``.
@@ -61,7 +57,6 @@ def all_(*constraints):
 
 
 class FlashView(object):
-
     """Base class to send flash messages."""
 
     def send_flash(self, message):
@@ -70,7 +65,6 @@ class FlashView(object):
 
 
 class BaseView(FlashView):
-
     """Base for view classes."""
 
     __PACKAGE_ID__ = icemac.addressbook.interfaces.PACKAGE_ID
@@ -92,7 +86,6 @@ class BaseView(FlashView):
 
 
 class BaseForm(BaseView):
-
     """Base for all forms."""
 
     interface = None  # interface for form
@@ -134,7 +127,6 @@ class BaseForm(BaseView):
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
-
     """Simple base add form."""
 
     class_ = None  # create object from this class
@@ -196,7 +188,6 @@ def update_with_redirect(class_, self):
 
 
 class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
-
     """Abstract base class for edit forms.
 
     CAUTION: Not to be used as direct base class of forms, use one of its
@@ -235,7 +226,6 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
 
 
 class BaseEditForm(_AbstractEditForm):
-
     """Base edit form.
 
     It has a cancel button registered on it.
@@ -274,7 +264,6 @@ class EditActionHandler(z3c.form.button.ButtonActionHandler,
 
 
 class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
-
     """EditForm (with cancel) as group form."""
 
     # This is needed here as GroupForm does not do a super-call.
@@ -283,7 +272,6 @@ class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
 
 
 class _BaseConfirmForm(_AbstractEditForm):
-
     """Display a confirmation dialog before the action."""
 
     label = NotImplemented
@@ -359,7 +347,6 @@ def delete_persons(address_book, ids):
 
 
 class PrefixGroup(z3c.form.group.Group):
-
     """Group which sets a prefix."""
 
     prefix = None  # to be set in subclass
@@ -373,7 +360,6 @@ class PrefixGroup(z3c.form.group.Group):
 
 
 class BaseCloneForm(_BaseConfirmForm):
-
     """Display a cloning confirmation dialog."""
 
     label = _(u'Do you really want to clone this entry?')
