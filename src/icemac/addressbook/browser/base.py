@@ -3,7 +3,6 @@
 # See also LICENSE.txt
 
 from icemac.addressbook.i18n import _
-import classproperty
 import gocept.reference.interfaces
 import grokcore.component
 import icemac.addressbook.browser.interfaces
@@ -120,18 +119,18 @@ class BaseForm(BaseView):
             raise ValueError('fields is already set')
         self._fields = fields
 
-    class status(classproperty.classproperty):
-        def __get__(self):
-            return self._status
+    @property
+    def status(self):
+        return self._status
 
-        def __set__(self, message):
-            if message != z3c.form.form.Form.formErrorsMessage:
-                # Non-error messages must be handled by z3c.flashmessage,
-                # too, as they must be displayed on the next page after the
-                # redirect. But we need them to determine whether a redirect
-                # is necessary, too.
-                self.send_flash(message)
-            self._status = message
+    @status.setter
+    def status(self, message):
+        if message != z3c.form.form.Form.formErrorsMessage:
+            # Non-error messages must be handled by z3c.flashmessage, too, as
+            # they must be displayed on the next page after the redirect. But
+            # we need them to determine whether a redirect is necessary, too.
+            self.send_flash(message)
+        self._status = message
 
 
 class BaseAddForm(BaseForm, z3c.formui.form.AddForm):

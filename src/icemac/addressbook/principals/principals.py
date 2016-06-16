@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .roles import has_editor_role, has_visitor_role
 from icemac.addressbook.i18n import _
-import classproperty
 import gocept.reference
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
@@ -42,68 +41,72 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
         # needed by principal folder
         return icemac.addressbook.interfaces.ITitle(self.person)
 
-    class person(classproperty.classproperty):
-        def __get__(self):
-            return self._person
+    @property
+    def person(self):
+        return self._person
 
-        def __set__(self, person):
-            if self._person is not None:
-                # it's not possible to change the person
-                return
-            self._person = person
-            self.login = person.default_email_address.email
+    @person.setter
+    def person(self, person):
+        if self._person is not None:
+            # it's not possible to change the person
+            return
+        self._person = person
+        self.login = person.default_email_address.email
 
-    class password(classproperty.classproperty):
-        def __get__(self):
-            return self._password
+    @property
+    def password(self):
+        return self._password
 
-        def __set__(self, password):
-            if password is not None:
-                zope.pluggableauth.plugins.principalfolder.InternalPrincipal.\
-                    setPassword(self, password)
+    @password.setter
+    def password(self, password):
+        if password is not None:
+            zope.pluggableauth.plugins.principalfolder.InternalPrincipal.\
+                setPassword(self, password)
 
-    class password_repetition(classproperty.classproperty):
-        def __get__(self):
-            pass  # password_repetition is not stored
+    @property
+    def password_repetition(self):
+        pass  # password_repetition is not stored
 
-        def __set__(self, password):
-            pass  # password_repetition is not stored
+    @password_repetition.setter
+    def password_repetition(self, password):
+        pass  # password_repetition is not stored
 
-    class roles(classproperty.classproperty):
-        def __get__(self):
-            return self._roles
+    @property
+    def roles(self):
+        return self._roles
 
-        def __set__(self, roles):
-            old_roles = self._roles
-            self._roles = roles
-            addressbook = icemac.addressbook.principals.interfaces.IRoot(self)
-            # Update role map on addressbook
-            role_manager = (
-                zope.securitypolicy.interfaces.IPrincipalRoleManager(
-                    addressbook))
-            for role in old_roles:
-                role_manager.unsetRoleForPrincipal(role, self.__name__)
-            for role in roles:
-                role_manager.assignRoleToPrincipal(role, self.__name__)
+    @roles.setter
+    def roles(self, roles):
+        old_roles = self._roles
+        self._roles = roles
+        addressbook = icemac.addressbook.principals.interfaces.IRoot(self)
+        # Update role map on addressbook
+        role_manager = (
+            zope.securitypolicy.interfaces.IPrincipalRoleManager(
+                addressbook))
+        for role in old_roles:
+            role_manager.unsetRoleForPrincipal(role, self.__name__)
+        for role in roles:
+            role_manager.assignRoleToPrincipal(role, self.__name__)
 
-            # Update permission map on user
-            permission_manager = (
-                zope.securitypolicy.interfaces.IPrincipalPermissionManager(
-                    self))
+        # Update permission map on user
+        permission_manager = (
+            zope.securitypolicy.interfaces.IPrincipalPermissionManager(
+                self))
 
-            for permission in EDITOR_VISITOR_PERMS + ONLY_EDITOR_PERMS:
-                permission_manager.unsetPermissionForPrincipal(
+        for permission in EDITOR_VISITOR_PERMS + ONLY_EDITOR_PERMS:
+            permission_manager.unsetPermissionForPrincipal(
+                permission, self.__name__)
+        editor_role = has_editor_role(roles)
+        visitor_role = has_visitor_role(roles)
+        if editor_role or visitor_role:
+            for permission in EDITOR_VISITOR_PERMS:
+                permission_manager.grantPermissionToPrincipal(
                     permission, self.__name__)
-            editor_role = has_editor_role(roles)
-            visitor_role = has_visitor_role(roles)
-            if editor_role or visitor_role:
-                for permission in EDITOR_VISITOR_PERMS:
-                    permission_manager.grantPermissionToPrincipal(
-                        permission, self.__name__)
-            if editor_role:
-                for permission in ONLY_EDITOR_PERMS:
-                    permission_manager.grantPermissionToPrincipal(
-                        permission, self.__name__)
+        if editor_role:
+            for permission in ONLY_EDITOR_PERMS:
+                permission_manager.grantPermissionToPrincipal(
+                    permission, self.__name__)
 
 
 @zope.component.adapter(
