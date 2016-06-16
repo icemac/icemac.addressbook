@@ -4,7 +4,6 @@
 
 from icemac.addressbook.i18n import MessageFactory as _
 import ZODB.blob
-import classproperty
 import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
@@ -34,18 +33,18 @@ class File(persistent.Persistent, zope.container.contained.Contained):
         reader.close()
         return size
 
-    class data(classproperty.classproperty):
-        def __get__(self):
-            # This method can't be used to read the data, use
-            # openDetached instead. This is necessary because of the
-            # stupidity of z3c.form which reads the whole file when
-            # rendering a form.
-            return ''
+    @property
+    def data(self):
+        # This method can't be used to read the data, use openDetached instead.
+        # This is necessary because of the stupidity of z3c.form which reads
+        # the whole file when rendering a form.
+        return ''
 
-        def __set__(self, data):
-            fp = self.open('w')
-            fp.write(data)
-            fp.close()
+    @data.setter
+    def data(self, data):
+        fp = self.open('w')
+        fp.write(data)
+        fp.close()
 
     def replace(self, filename):
         """Replace with anoher file."""

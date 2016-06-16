@@ -23,6 +23,8 @@ Other
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Get rid of dependency on ``classproperty``.
+
 2.6.4 (2016-04-16)
 ==================
 

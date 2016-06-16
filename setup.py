@@ -67,7 +67,6 @@ setuptools.setup(
     install_requires=[
         'ZConfig',
         'ZODB3',
-        'classproperty',
         'fanstatic',
         'gocept.country',
         'gocept.pagelet',
