@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import ZODB.blob
 import icemac.addressbook.entities
 import icemac.addressbook.file.interfaces
@@ -47,7 +44,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
         fp.close()
 
     def replace(self, filename):
-        """Replace with anoher file."""
+        """Replace with another file."""
         self._data.consumeFile(filename)
 
     def openDetached(self, mode='r'):
