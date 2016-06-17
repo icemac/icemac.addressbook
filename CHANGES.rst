@@ -125,41 +125,6 @@ Other
 .. _`Zope Toolkit 1.1.6`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.6.html
 
 
-
-2.4.1 (2014-03-08)
-==================
-
-Fixes
------
-
-- Fix brown bag release 2.4.0: The migration of the ZODB from a previous
-  version was broken.
-
-- No longer require `rsync` to be installed for migrations.
-
-- No longer copy the whole backup history when migrating but make a fresh
-  backup.
-
-
-2.4.0 (2014-03-07)
-==================
-
-Features
---------
-
-- Added search result handler which exports birthdates als iCalendar file.
-
-- Added export ability for a single person currently only exporting person's
-  birthdate as iCalendar file.
-
-
-Other
------
-
-- Updated most other packages (outside ZTK) needed for address book to
-  newest versions.
-
-
 Previous Versions
 =================
 
