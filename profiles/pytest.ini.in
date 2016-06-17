@@ -6,5 +6,5 @@ addopts = {% for test_egg in parts.pytest_ini.test_eggs | split -%}
 					{{path + ' '}}
 				{%- endif %}
 			 {%- endfor %}
-		  {%- endfor %}
+		  {%- endfor %} --flake8
 python_files = test[s|_]*.py
