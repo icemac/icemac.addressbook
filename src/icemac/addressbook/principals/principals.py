@@ -5,10 +5,10 @@ import gocept.reference
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
 import zope.annotation.interfaces
-import zope.pluggableauth.plugins.principalfolder
 import zope.container.interfaces
 import zope.interface
 import zope.lifecycleevent
+import zope.pluggableauth.plugins.principalfolder
 import zope.securitypolicy.interfaces
 
 
