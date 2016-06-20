@@ -84,7 +84,7 @@ def test_session__FlashedSessionCredentialsLoginForm__4(
         address_book, AddressBookFactory, UserFactory, browser):
     """Log-in to another address book not possible.
 
-    It is not possible to log in into another addressbook besides the one
+    It is not possible to log in into another address book besides the one
     the user was created in (password does not get accepted).
 
     """

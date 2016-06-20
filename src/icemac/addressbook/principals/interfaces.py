@@ -25,8 +25,10 @@ class IPasswordFields(zope.interface.Interface):
 
 
 class IPrincipal(zope.interface.Interface):
-    """Derived from
-    zope.pluggableauth.plugins.principalfolder.IInternalPrincipal."""
+    """Derived from ...
+
+    ... zope.pluggableauth.plugins.principalfolder.IInternalPrincipal.
+    """
 
     person = zope.schema.Choice(
         title=_(u'person'), readonly=True,
