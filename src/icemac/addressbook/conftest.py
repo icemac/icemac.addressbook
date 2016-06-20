@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.principals.sources import role_source
+import datetime
 import gocept.httpserverlayer.wsgi
 import gocept.selenium
 import gocept.selenium.wd_selenese
@@ -15,6 +16,7 @@ import os
 import os.path
 import plone.testing.zodb
 import pytest
+import pytz
 import tempfile
 import transaction
 import zope.app.wsgi.testlayer
@@ -388,6 +390,34 @@ def UserFactory(FullPersonFactory):
     return create_user
 
 
+# generally usable helper fixtures:
+
+
+@pytest.fixture(scope='session')
+def DateTime():
+    """Fixture to ease handling of datetime objects."""
+    return DateTimeClass()
+
+
+@pytest.yield_fixture('function')
+def TimeZonePrefFactory():
+    """Factory to set the time zone in the preferences.
+
+    Usage example:  TimeZonePrefFactory('Europe/Berlin')
+    """
+    patchers = []
+
+    def set_time_zone_pref(time_zone_name):
+        patcher = mock.patch(
+            'icemac.addressbook.preferences.utils.get_time_zone_name',
+            return_value=time_zone_name)
+        patcher.start()
+        patchers.append(patcher)
+    yield set_time_zone_pref
+    while patchers:
+        patchers.pop().stop()
+
+
 # Infrastructure fixtures
 
 @pytest.yield_fixture(scope='session')
@@ -610,3 +640,26 @@ def _create_person(
     EMailAddressFactory(person, email=u'pt@rst.example.edu')
     HomepageAddressFactory(person, url='http://www.rst.example.edu')
     transaction.commit()
+
+
+class DateTimeClass(object):
+    """Helper class to create and format datetime objects."""
+
+    @property
+    def now(self):
+        return pytz.utc.localize(datetime.datetime.utcnow())
+
+    def format(self, dt, force_date=False):
+        """Format a datetime to the format needed in testbrowser."""
+        if isinstance(dt, datetime.datetime) and not force_date:
+            return dt.strftime('%y/%m/%d %H:%M')
+        else:
+            return self.format_date(dt)
+
+    def format_date(self, dt):
+        return "{0.year} {0.month} {0.day} ".format(dt)
+
+    @staticmethod
+    def add(dt, days=0, seconds=0):
+        """Add some days and/or seconds to `dt`."""
+        return dt + datetime.timedelta(days=days, seconds=seconds)

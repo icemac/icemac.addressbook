@@ -1,5 +1,7 @@
 from icemac.addressbook.i18n import _
+import datetime
 import icemac.addressbook.browser.base
+import pytz
 import z3c.authviewlet.session
 import zope.pluggableauth.plugins.session
 
@@ -28,6 +30,12 @@ class FlashedSessionCredentialsLoginForm(
         super(FlashedSessionCredentialsLoginForm, self).update()
         if str(self.request.response.getStatus()).startswith('3'):
             self.send_flash(_('You have been logged-in successfully.'))
+            principals = zope.component.getUtility(
+                zope.pluggableauth.interfaces.IAuthenticatorPlugin,
+                name=u'icemac.addressbook.principals')
+            principal = principals.get(self.request.principal.id)
+            principal.last_login = pytz.utc.localize(
+                datetime.datetime.utcnow())
         elif 'SUBMIT' in self.request:
             self.send_flash(
                 _('Login failed. Username and/or password might be wrong.'))
