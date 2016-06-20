@@ -2,6 +2,8 @@
 Change log
 ==========
 
+- Store timestamp of last log-in and render it in the principals list.
+
 2.7 (unreleased)
 ================
 

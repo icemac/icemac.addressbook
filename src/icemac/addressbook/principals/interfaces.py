@@ -30,6 +30,8 @@ class IPrincipal(zope.interface.Interface):
     ... zope.pluggableauth.plugins.principalfolder.IInternalPrincipal.
     """
 
+    last_login = zope.interface.Attribute('Datetime of last login or `None`.')
+
     person = zope.schema.Choice(
         title=_(u'person'), readonly=True,
         source=icemac.addressbook.principals.sources.persons)
