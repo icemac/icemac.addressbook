@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.7 (unreleased)
+2.7 (2016-06-25)
 ================
 
 Features
