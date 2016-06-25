@@ -22,6 +22,19 @@ import zope.schema.interfaces
 import zope.security
 
 
+class LastLoginColumn(icemac.addressbook.browser.table.DateTimeColumn):
+
+    header = _(u'last login')
+    formatterLength = u'short'
+
+    def getRawValue(self, item):
+        value = item.last_login
+        if value:
+            tz = icemac.addressbook.preferences.utils.get_time_zone()
+            value = tz.normalize(value)
+        return value
+
+
 class Overview(icemac.addressbook.browser.table.PageletTable):
 
     no_rows_message = _(
@@ -40,8 +53,10 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
                 header=_(u'roles'), attrName='roles', source=role_source,
                 weight=3),
             z3c.table.column.addColumn(
+                self, LastLoginColumn, 'last_login', weight=4),
+            z3c.table.column.addColumn(
                 self, icemac.addressbook.browser.table.TruncatedContentColumn,
-                'notes', weight=4,
+                'notes', weight=5,
                 header=_(u'notes'), attrName='description', length=50),
         ]
 

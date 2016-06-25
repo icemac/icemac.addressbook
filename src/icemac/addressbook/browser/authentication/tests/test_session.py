@@ -22,9 +22,12 @@ def test_session__FlashedSessionCredentialsPlugin__1(address_book, browser):
                           ('username@example.com', 'wrong_123456789')))
 def test_session__FlashedSessionCredentialsLoginForm__1(
         address_book, UserFactory, browser, username, password):
-    """A wrong user name or password at login leads to an error message."""
-    UserFactory(address_book, u'Test', u'User', u'username@example.com',
-                u'123456789', ['Visitor'])
+    """A wrong user name or password at login leads to an error message.
+
+    No time-stamp of this attempt is stored.
+    """
+    user = UserFactory(address_book, u'Test', u'User', u'username@example.com',
+                       u'123456789', ['Visitor'])
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     browser.getControl('User Name').value = username
     browser.getControl('Password').value = password
@@ -35,6 +38,7 @@ def test_session__FlashedSessionCredentialsLoginForm__1(
     assert (
         browser.LOGIN_BASE_URL +
         '%3A%2F%2Flocalhost%2Fab%2F%40%40index.html' == browser.url)
+    assert user.last_login is None
     # User name and password are not re-displayed if there was an error:
     assert '' == browser.getControl('User Name').value
     assert '' == browser.getControl('Password').value
@@ -42,21 +46,29 @@ def test_session__FlashedSessionCredentialsLoginForm__1(
 
 @pytest.mark.parametrize('role', ('Visitor', 'Editor', 'Administrator'))
 def test_session__FlashedSessionCredentialsLoginForm__2(
-        address_book, UserFactory, browser, role):
-    """A user is able to log-in using the cookie login form."""
-    UserFactory(address_book, u'Test', u'User', u'username@example.com',
-                u'123456789', [role])
+        address_book, UserFactory, DateTime, browser, role):
+    """A user is able to log-in using the cookie login form.
+
+    His last log-in timestamp is stored.
+    """
+    user = UserFactory(address_book, u'Test', u'User', u'username@example.com',
+                       u'123456789', [role])
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     browser.getControl('User Name').value = 'username@example.com'
     browser.getControl('Password').value = '123456789'
     browser.getControl('Log in').click()
     assert 'You have been logged-in successfully.' == browser.message
     assert browser.ADDRESS_BOOK_WELCOME_URL == browser.url
+    assert user.last_login is not None
+    assert DateTime.add(DateTime.now, seconds=-5) < user.last_login
     browser.getLink('Master data').click()
     browser.getLink('Users').click()
-    # Role name is shown in user list:
-    assert ('<td>username@example.com</td><td>{}</td>'.format(role) in
-            browser.contents_without_whitespace)
+    # Role name and last log-in are shown in user list:
+    print browser.contents
+    assert (
+        '<td>username@example.com</td><td>{}</td><td>{}</td>'.format(
+            role, DateTime.format(user.last_login).replace(' ', '')) in
+        browser.contents_without_whitespace)
 
 
 @pytest.mark.parametrize('role', ('Visitor', 'Editor', 'Administrator'))
