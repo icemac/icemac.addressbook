@@ -49,6 +49,29 @@
     },
     {
       "follow_symlinks": true,
+      "path": "../icemac.ab.document",
+      "folder_exclude_patterns": [
+                "*.egg-info",
+                ".cache",
+                "__pycache__",
+                "bin",
+                "cache",
+                "coverage",
+                "develop-eggs",
+                "htmlcov",
+                "log",
+                "parts",
+                "var",
+                ],
+      "file_exclude_patterns": [
+                ".coverage",
+                ".hgtags",
+                ".installed.cfg",
+                ".mr.developer.cfg",
+                ]
+    },
+    {
+      "follow_symlinks": true,
       "path": "../icemac.recurrence",
       "folder_exclude_patterns": [
                 "*.egg-info",

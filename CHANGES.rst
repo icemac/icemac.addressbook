@@ -2,9 +2,16 @@
 Change log
 ==========
 
+
+2.8 (unreleased)
+================
+
+Features
+--------
+
 - Store timestamp of last log-in and render it in the principals list.
 
-2.7 (unreleased)
+2.7 (2016-06-25)
 ================
 
 Features
