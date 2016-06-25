@@ -32,6 +32,7 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     _password = None
     description = None
     _roles = ()
+    last_login = None
 
     def __init__(self):
         self._passwordManagerName = PASSWORD_MANAGER_NAME

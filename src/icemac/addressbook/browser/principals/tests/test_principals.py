@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from mechanize import HTTPError, LinkNotFoundError
+import datetime
 import pytest
+import pytz
 import zope.component.hooks
 
 
@@ -80,6 +82,20 @@ def test_principals__Overview__5(address_book, UserFactory, browser):
     browser.login('mgr')
     browser.open(browser.PRINCIPALS_LIST_URL)
     assert ([u'This is a new user created to show the truncation of …'] ==
+            browser.etree.xpath('//table/tbody/tr/td[5]/text()'))
+
+
+def test_principals__Overview__5_5(
+        address_book, UserFactory, TimeZonePrefFactory, browser):
+    """It renders the last login time in user's local time zone."""
+    user = UserFactory(
+        address_book, u'Ben', u'Utzer', u'ben.utzer@example.com', u'12345678',
+        ['Visitor'])
+    user.last_login = pytz.utc.localize(datetime.datetime(2016, 6, 20, 18, 13))
+    TimeZonePrefFactory('Europe/Berlin')
+    browser.login('mgr')
+    browser.open(browser.PRINCIPALS_LIST_URL)
+    assert (['16/06/20 20:13'] ==
             browser.etree.xpath('//table/tbody/tr/td[4]/text()'))
 
 
