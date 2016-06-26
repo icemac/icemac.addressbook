@@ -11,6 +11,13 @@ Features
 
 - Store timestamp of last log-in and render it in the principals list.
 
+2.7.1 (2016-06-26)
+==================
+
+- Update to an `icemac.ab.locales` version which has complete translations
+  for all address book and calendar features.
+
+
 2.7 (2016-06-25)
 ================
 
