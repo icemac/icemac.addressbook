@@ -2,7 +2,7 @@
 Change log
 ==========
 
-2.7.1 (unreleased)
+2.7.1 (2016-06-26)
 ==================
 
 - Update to an `icemac.ab.locales` version which has complete translations
