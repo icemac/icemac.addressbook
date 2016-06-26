@@ -5,7 +5,8 @@ Change log
 2.7.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update to an `icemac.ab.locales` version which has complete translations
+  for all address book and calendar features.
 
 
 2.7 (2016-06-25)
