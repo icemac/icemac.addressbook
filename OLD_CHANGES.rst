@@ -2,6 +2,45 @@
  Old changes
 =============
 
+2.5.2 (2014-12-18)
+==================
+
+- Fix multi selects broken in Internet Explorer 10 by updating to `z3c.form
+  3.2.1`.
+
+
+2.5.1 (2014-07-03)
+==================
+
+- Fix persistent view names containing ``@@`` which was doubled since 2.5.0.
+
+
+2.5.0 (2014-07-01)
+==================
+
+Features
+--------
+
+- Display roles in user list.
+
+Fixes
+-----
+
+- Fix highlighting in the main menu: tabs are highlighted even if moving on
+  to subviews.
+
+Other
+-----
+
+- Updated to run on `Zope Toolkit 1.1.6`_.
+
+- Add `py.test` to run the tests.
+
+- Automatically add ``@@`` in front of the view names.
+
+.. _`Zope Toolkit 1.1.6`: http://docs.zope.org/zopetoolkit/releases/overview-1.1.6.html
+
+
 2.4.1 (2014-03-08)
 ==================
 
