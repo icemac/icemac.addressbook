@@ -6,7 +6,7 @@ Change log
 2.9 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix configuration error which might prevent the start-up in 2.8.
 
 
 2.8 (2016-08-28)
