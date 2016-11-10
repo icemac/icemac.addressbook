@@ -7,7 +7,11 @@
      password_manager="Plain Text"
      password="cam" />
   <grant
-     role="zope.Manager"
+     role="icemac.addressbook.global.Administrator"
      principal="zope.manager" />
+  <grant
+      permission="zope.ManageContent"
+      principal="zope.manager" />
+
 
 </configure>

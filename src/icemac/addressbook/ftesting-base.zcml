@@ -11,14 +11,18 @@
   <include package="icemac.addressbook" />
   <include package="icemac.addressbook" file="base.zcml"/>
 
-  <!-- Principal that tests generally run as -->
+  <!-- Principal that has all permissions needed inside the address book -->
   <principal
       id="zope.mgr"
       title="Manager"
       login="mgr"
       password="mgrpw"
       />
-  <!-- Bootstrap principal used to make local grant to the principal above -->
+
+  <grant role="icemac.addressbook.global.Administrator"
+         principal="zope.mgr" />
+
+  <!-- Principal that has all permissions even outside the address book -->
   <principal
       id="zope.globalmgr"
       title="Manager"
@@ -26,10 +30,12 @@
       password="globalmgrpw"
       />
 
-  <grant role="zope.Manager" principal="zope.globalmgr" />
-  <grant role="zope.Manager" principal="zope.mgr" />
+  <grant role="icemac.addressbook.global.Administrator"
+         principal="zope.globalmgr" />
+  <grant permission="zope.ManageContent"
+         principal="zope.globalmgr" />
 
-  <!-- Principal the tests normally should run as -->
+  <!-- Principal that can edit in the address book. -->
   <principal
       id="icemac.addressbook.global.Editor"
       title="global editor"

@@ -205,7 +205,10 @@ class Configurator(object):
              '    password_manager="Plain Text"',
              '    password="%s" />' % self.admin_passwd,
              '  <grant',
-             '    role="zope.Manager"',
+             '    role="icemac.addressbook.global.Administrator"',
+             '    principal="icemac.addressbook.global.Administrator" />',
+             '  <grant',
+             '    permission="zope.ManageContent"',
              '    principal="icemac.addressbook.global.Administrator" />',
              '</configure>',
              )))

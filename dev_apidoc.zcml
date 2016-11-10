@@ -1,4 +1,4 @@
-<configure
+z<configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:zcml="http://namespaces.zope.org/zcml"
    xmlns:browser="http://namespaces.zope.org/browser">
@@ -23,10 +23,10 @@
   <grant
      zcml:condition="have devmode"
      permission="zope.app.apidoc.UseAPIDoc"
-     role="zope.Manager" />
+     role="icemac.addressbook.global.Administrator" />
 
   <grant
      permission="zope.ManageApplication"
-     role="zope.Manager" />
+     role="icemac.addressbook.global.Administrator" />
 
 </configure>

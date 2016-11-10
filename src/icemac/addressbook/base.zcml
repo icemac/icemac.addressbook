@@ -1,8 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            i18n_domain="icemac.addressbook">
 
-  <include file="roles.zcml" />
-
   <securityPolicy
      component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
 
@@ -15,12 +13,8 @@
   <everybodyGroup id="zope.Everybody"
                   title="All Users" />
 
-  <grant permission="zope.View"
-         principal="zope.Anybody" />
-  <grant permission="zope.dublincore.view"
-         principal="zope.Anybody" />
-
-  <role id="zope.Manager" title="Site Manager" />
-  <grantAll role="zope.Manager" />
+  <grant principal="zope.Anybody"
+         permissions="zope.View
+                      zope.dublincore.view" />
 
 </configure>
