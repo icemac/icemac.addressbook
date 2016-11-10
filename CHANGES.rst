@@ -8,6 +8,12 @@ Change log
 
 - Fix configuration error which might prevent the start-up in 2.8.
 
+Other
+-----
+
+- Rework roles management for administrators to allow in future permissions
+  which administrators do not get by default.
+
 
 2.8 (2016-08-28)
 ================

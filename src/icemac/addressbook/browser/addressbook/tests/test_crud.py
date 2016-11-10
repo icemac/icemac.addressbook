@@ -5,7 +5,7 @@ import pytest
 def test_crud__AddForm__1(address_book, webdriver):
     """A new address book can be added and edited."""
     # Only managers are allowed to create address books:
-    sel = webdriver.login('mgr')
+    sel = webdriver.login('globalmgr')
     # On the start page there is a link to add an address book:
     sel.clickAndWait('link=address book')
     sel.type('id=form-widgets-title', 'test book')
@@ -136,7 +136,7 @@ def test_crud__DeleteForm__1(address_book, UserFactory, browser):
     # deleted as well:
     UserFactory(address_book, u'B.', u'Ude', u'b@u.de', u'asdf', ['Visitor'])
     UserFactory(address_book, u'B.', u'Uch', u'b@u.ch', u'asdf', ['Editor'])
-    browser.login('mgr')
+    browser.login('globalmgr')
     browser.open(browser.ROOT_URL)
     browser.getLink('Delete').click()
     assert browser.ADDRESS_BOOK_DELETE_URL == browser.url

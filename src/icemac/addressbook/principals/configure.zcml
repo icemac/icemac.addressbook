@@ -36,6 +36,18 @@
      title="ViewPrincipal"
      />
 
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     permissions="
+        icemac.addressbook.ViewSomePrincipals
+        icemac.addressbook.EditAllPrincipals
+        icemac.addressbook.AddPrincipal
+        icemac.addressbook.EditPrincipal
+        icemac.addressbook.EditPrincipalRoles
+        icemac.addressbook.EditPrincipalPassword
+        icemac.addressbook.ViewPrincipal
+     " />
+
   <!-- Principal -->
   <class class=".principals.Principal">
     <implements

@@ -115,7 +115,7 @@ setuptools.setup(
         'zope.principalannotation',
         'zope.principalregistry',
         'zope.publisher',
-        'zope.securitypolicy',
+        'zope.securitypolicy >= 4.1',
         'zope.session',
         'zope.traversing',
     ],

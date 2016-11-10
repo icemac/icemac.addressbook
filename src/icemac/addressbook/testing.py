@@ -61,7 +61,10 @@ class JSLintTest(gocept.jslint.TestCase):
 
 
 # List of users those passwords are not equal to the login name:
-USERNAME_PASSWORD_MAP = dict(mgr='mgrpw')
+USERNAME_PASSWORD_MAP = dict(
+    mgr='mgrpw',
+    globalmgr='globalmgrpw'
+)
 
 
 class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):

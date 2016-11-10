@@ -87,6 +87,10 @@
       zcml:condition="installed z3c.ptcompat"
       package="z3c.ptcompat" />
 
+  <include file="permissions.zcml" />
+  <include file="roles.zcml" />
+  <include file="classes.zcml" />
+
   <include package=".browser" />
   <include package=".file" />
   <include package=".generations" />
@@ -94,9 +98,6 @@
   <include package=".namechooser" />
   <include package=".preferences" />
   <include package=".principals" />
-
-  <include file="permissions.zcml" />
-  <include file="classes.zcml" />
 
   <subscriber handler=".addressbook.create_address_book_infrastructure" />
   <subscriber handler=".person.person_created" />

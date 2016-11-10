@@ -10,167 +10,42 @@
 
   <grant
      role="icemac.addressbook.global.Editor"
-     permission="zope.dublincore.view"
-     />
+     permissions="
+        icemac.addressbook.AddEMailAddress
+        icemac.addressbook.AddFile
+        icemac.addressbook.AddHomePageAddress
+        icemac.addressbook.AddKeyword
+        icemac.addressbook.AddPerson
+        icemac.addressbook.AddPhoneNumber
+        icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ClonePerson
+        icemac.addressbook.EditAddressBookContents
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.EditEMailAddress
+        icemac.addressbook.EditFile
+        icemac.addressbook.EditHomePageAddress
+        icemac.addressbook.EditKeyword
+        icemac.addressbook.EditKeywordContainer
+        icemac.addressbook.EditPerson
+        icemac.addressbook.EditPersonContents
+        icemac.addressbook.EditPhoneNumber
+        icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
 
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="zope.View"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewAddressBook"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditAddressBookContents"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewSomePrincipals"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddPerson"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ClonePerson"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditPerson"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditPersonContents"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewPersonName"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewPerson"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddPostalAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditPostalAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewPostalAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddEMailAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditEMailAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewEMailAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddHomePageAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditHomePageAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewHomePageAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddPhoneNumber"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditPhoneNumber"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewPhoneNumber"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditKeywordContainer"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewKeywordContainer"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddKeyword"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditKeyword"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewKeyword"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.AddFile"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditFile"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.ViewFile"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="z3c.preference.EditPreference"
-     />
-  <grant
-     role="icemac.addressbook.global.Editor"
-     permission="icemac.addressbook.EditAllPreferences"
-     />
 
   <!-- Visitor -->
   <role id="icemac.addressbook.global.Visitor"
@@ -180,78 +55,23 @@
 
   <grant
      role="icemac.addressbook.global.Visitor"
-     permission="zope.dublincore.view"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="zope.View"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewAddressBook"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewSomePrincipals"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewPersonName"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewPerson"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewPostalAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewEMailAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewHomePageAddress"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewPhoneNumber"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewKeywordContainer"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewKeyword"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.ViewFile"
-     />
-
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="z3c.preference.EditPreference"
-     />
-  <grant
-     role="icemac.addressbook.global.Visitor"
-     permission="icemac.addressbook.EditAllPreferences"
-     />
-
+     permissions="
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
 
   <!-- Administrator -->
   <role
@@ -260,6 +80,47 @@
      description="Administrator for the Addressbook"
      />
 
-  <grantAll role="icemac.addressbook.global.Administrator" />
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     permissions="
+        icemac.addressbook.AddAddressBook
+        icemac.addressbook.AddEMailAddress
+        icemac.addressbook.AddFile
+        icemac.addressbook.AddHomePageAddress
+        icemac.addressbook.AddKeyword
+        icemac.addressbook.AddKeywordContainer
+        icemac.addressbook.AddPerson
+        icemac.addressbook.AddPhoneNumber
+        icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ClonePerson
+        icemac.addressbook.EditAddressBook
+        icemac.addressbook.EditAddressBookContents
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.EditEMailAddress
+        icemac.addressbook.EditEntities
+        icemac.addressbook.EditFile
+        icemac.addressbook.EditHomePageAddress
+        icemac.addressbook.EditKeyword
+        icemac.addressbook.EditKeywordContainer
+        icemac.addressbook.EditPerson
+        icemac.addressbook.EditPersonContents
+        icemac.addressbook.EditPhoneNumber
+        icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+
 
 </configure>

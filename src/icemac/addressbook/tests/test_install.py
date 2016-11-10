@@ -77,7 +77,14 @@ def test_install__not_matched_prerequisites__1(tmpdir):
 
 
 def test_install__not_matched_prerequisites__2(tmpdir):
-    """It returns `False` if no `buildout.cfg` exists in `cwd`."""
+    """It returns `False`:
+
+    * if no `buildout.cfg` exists in `cwd` and
+    * if the right python version is used.
+
+    We expect that the version of the python which runs the tests matches the
+    requirement.
+    """
     tmpdir.chdir()
     assert False is not_matched_prerequisites()
 
@@ -102,15 +109,6 @@ def test_install__not_matched_prerequisites__4(monkeypatch):
             not_matched_prerequisites())
 
 
-def test_install__not_matched_prerequisites__5(address_book):
-    """It returns `False` on right python version.
-
-    We expect that the version of the python which runs the tests matches the
-    requirement, so `False` is returned.
-    """
-    assert False is not_matched_prerequisites()
-
-
 def test_install__Configurator__1(config):
     """It reads the default values from `install.default.ini`.
 
@@ -126,6 +124,12 @@ def test_install__Configurator__2(config):
     assert '' == config.get('migration', 'old_instance')
 
 
+def test_install__Configurator__3():
+    """It uses `sys.stdin` if it is not explicitly set."""
+    config = Configurator()
+    assert sys.stdin == config.stdin
+
+
 def test_install__Configurator__ask_user__1(config, capsys):
     """It asks for input from the user.
 
@@ -138,10 +142,6 @@ def test_install__Configurator__ask_user__1(config, capsys):
         config.ask_user('Server port', 'server', 'port')
     assert (u' Server port: [13090] \n', u'') == capsys.readouterr()
     assert '13090' == config.get('server', 'port')
-
-
-def test_install__Configurator__ask_user__2(config, capsys):
-    """When the user enters a value, it is stored."""
 
 
 def test_install__Configurator__ask_user__3(config, capsys):
@@ -429,7 +429,10 @@ def test_install__Configurator__create_admin_zcml__1(config, capsys, tmpdir):
         '    password_manager="Plain Text"',
         '    password="keins" />',
         '  <grant',
-        '    role="zope.Manager"',
+        '    role="icemac.addressbook.global.Administrator"',
+        '    principal="icemac.addressbook.global.Administrator" />',
+        '  <grant',
+        '    permission="zope.ManageContent"',
         '    principal="icemac.addressbook.global.Administrator" />',
         '</configure>',
     ] == tmpdir.join('admin.zcml').read().splitlines()
@@ -658,7 +661,10 @@ def test_install__Configurator____call____1(config, capsys, tmpdir):
         '    password_manager="Plain Text"',
         '    password="secret" />',
         '  <grant',
-        '    role="zope.Manager"',
+        '    role="icemac.addressbook.global.Administrator"',
+        '    principal="icemac.addressbook.global.Administrator" />',
+        '  <grant',
+        '    permission="zope.ManageContent"',
         '    principal="icemac.addressbook.global.Administrator" />',
         '</configure>',
     ] == tmpdir.join('admin.zcml').read().splitlines()
