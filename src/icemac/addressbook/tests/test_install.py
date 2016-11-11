@@ -3,6 +3,7 @@ from StringIO import StringIO
 from icemac.addressbook.install import not_matched_prerequisites, Configurator
 import contextlib
 import pytest
+import sys
 
 
 # Fixtures
