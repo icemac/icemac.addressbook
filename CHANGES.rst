@@ -6,6 +6,16 @@ Change log
 2.9 (unreleased)
 ================
 
+Features
+--------
+
+- Add view `@@inspector` to see internals of the rendered view or object. This
+  view can only be accessed as global administrator (the one who is able to
+  create new address books).
+
+Bugs
+----
+
 - Fix configuration error which might prevent the start-up in 2.8.
 
 Other

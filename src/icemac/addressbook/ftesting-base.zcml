@@ -32,7 +32,8 @@
 
   <grant role="icemac.addressbook.global.Administrator"
          principal="zope.globalmgr" />
-  <grant permission="zope.ManageContent"
+  <grant permissions="zope.ManageContent
+                      icemac.addressbook.DevelopAddressBook"
          principal="zope.globalmgr" />
 
   <!-- Principal that can edit in the address book. -->

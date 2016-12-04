@@ -156,6 +156,10 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     PREFS_TIMEZONE_URL = (
         'http://localhost/ab/++preferences++/ab.timeZone/@@index.html')
 
+    INSPECTOR_VIEW_URL = PERSONS_LIST_URL + '/@@inspector'
+    INSPECTOR_OBJECT_URL = KEYWORDS_LIST_URL + '/@@inspector'
+    INSPECTOR_ROOT_OBJECT_URL = ROOT_URL + '/@@inspector'
+
     def login(self, username, password=None):
         """Login a user using basic auth."""
         password = USERNAME_PASSWORD_MAP.get(username, username)
@@ -285,6 +289,16 @@ class Webdriver(object):
     @property
     def message(self):
         return self.selenium.getText('css=#info-messages')
+
+
+# assertion helper functions
+
+def assert_forbidden(browser, username, url):
+    """Assert accessing a URL is forbidden for a user."""
+    browser.login(username)
+    with pytest.raises(mechanize.HTTPError) as err:
+        browser.open(url)
+    assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
 # Helper functions to create objects in the database
