@@ -7,7 +7,7 @@
      name="name"
      for="icemac.addressbook.browser.search.base.BaseView
           icemac.addressbook.browser.interfaces.IAddressBookLayer
-          .simple.PersonTable"
+          .simple.SimplePersonTable"
      provides="z3c.table.interfaces.IColumn"
      factory="icemac.addressbook.browser.table.TitleLinkColumn"
      />

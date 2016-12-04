@@ -67,10 +67,6 @@
   <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
 
   <adapter
-     factory=".base.display_title"
-     name="display_title" />
-
-  <adapter
       factory=".metadata.ModifiedLabel"
       name="label" />
 

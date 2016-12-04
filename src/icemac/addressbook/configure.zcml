@@ -120,7 +120,6 @@
            for="gocept.country.interfaces.ICountry"/>
   <adapter factory=".adapter.gocept_country_title"
            for="gocept.country.db.Subdivision"/>
-  <adapter factory=".adapter.title_for_choice_value" />
   <adapter factory=".adapter.default_title" />
   <adapter factory=".adapter.principal_root" />
 

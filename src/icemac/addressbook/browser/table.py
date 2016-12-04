@@ -82,16 +82,10 @@ class DateColumn(DateTimeColumn):
 
 class LinkColumn(icemac.addressbook.browser.base.BaseView,
                  z3c.table.column.LinkColumn):
-    defaultValue = u''  # value which is rendered when there is no URL
     """LinkColumn which uses address book's URL computation method."""
 
     def getLinkURL(self, item):
         return self.url(item, self.linkName)
-
-    def renderCell(self, item):
-        if not self.getLinkURL(item):
-            return self.defaultValue
-        return super(LinkColumn, self).renderCell(item)
 
 
 class TitleLinkColumn(LinkColumn):
@@ -145,11 +139,6 @@ class SourceColumn(z3c.table.column.GetAttrColumn):
 
     def getValue(self, obj):
         values = super(SourceColumn, self).getValue(obj)
-        if not hasattr(values, '__iter__'):
-            if values is None:
-                values = []
-            else:
-                values = [values]
         titles = [zope.i18n.translate(self.source.factory.getTitle(x),
                                       context=self.request)
                   for x in values]

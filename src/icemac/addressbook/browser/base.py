@@ -26,24 +26,6 @@ import zope.traversing.browser
 import zope.traversing.publicationtraverse
 
 
-class display_title(object):
-    """ITitle adapter for PageTemplate.
-
-    Call it using: ``obj/@@display_title``.
-    """
-
-    zope.component.adapts(
-        zope.interface.Interface,
-        icemac.addressbook.browser.interfaces.IAddressBookLayer)
-    zope.interface.implements(icemac.addressbook.interfaces.ITitle)
-
-    def __init__(self, context, request):
-        self.context = context
-
-    def __call__(self):
-        return icemac.addressbook.interfaces.ITitle(self.context)
-
-
 def create(form, class_, data):
     """Create an object from a class and assign values."""
     obj = icemac.addressbook.utils.create_obj(class_)

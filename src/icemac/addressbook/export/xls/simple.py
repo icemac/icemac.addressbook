@@ -102,8 +102,6 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
         self.col = max_col
 
     def write_obj(self, row, col, interface, obj):
-        if obj is None:
-            return col
         idx = 0
         names_fields = icemac.addressbook.interfaces.IEntity(
             interface).getFields()
@@ -172,9 +170,6 @@ class CompleteExport(XLSExport):
                 num_blocks = 1
                 blocks_with_header = 1
             col = self.write_obj(row, start_col, iface, default_obj)
-            if col == start_col:
-                # nothing written because there was no obj
-                continue
             # write other objs after default obj
             objs = [obj
                     for obj in icemac.addressbook.utils.iter_by_interface(

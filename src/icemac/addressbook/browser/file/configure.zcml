@@ -46,14 +46,6 @@
      class=".file.DeleteFileForm"
      />
 
-  <z3c:pagelet
-     name="index.html"
-     for="icemac.addressbook.file.interfaces.IFile"
-     permission="icemac.addressbook.EditFile"
-     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     class=".file.Edit"
-     />
-
   <class class=".download.DownloadResult">
     <allow interface="zope.publisher.http.IResult"/>
   </class>

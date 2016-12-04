@@ -4,8 +4,7 @@
     <ul>
       <li i18n:translate="Add-menu-Add">Add</li>
     </ul>
-    <ul id="add-menu-content"
-        tal:condition="view/have_viewlets">
+    <ul id="add-menu-content">
       <li tal:repeat="viewlet options/viewlets"
           tal:replace="structure viewlet/render" />
     </ul>
