@@ -4,14 +4,6 @@ import zope.lifecycleevent
 import zope.traversing.api
 
 
-def set_site(func):
-    """Decorator which does the set-site-dance."""
-    def decorated(site_obj, *args, **kw):
-        with zope.component.hooks.site(site_obj):
-            return func(*args, **kw)
-    return decorated
-
-
 def create_obj(class_, *args, **kw):
     """Create an object of class and fire created event."""
     obj = class_(*args)

@@ -17,15 +17,6 @@ def gocept_country_title(obj):
     return obj.name
 
 
-@zope.component.adapter(zope.schema.interfaces.IChoice,
-                        zope.interface.Interface)
-@zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
-def title_for_choice_value(field, value):
-    "Get the title for a value of a field which is a Choice."
-    factory = field.source.factory
-    return factory.getTitle(value)
-
-
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def obj_dot_title(obj):
     """Title for an `obj` where the title is stored on `title` attribute."""

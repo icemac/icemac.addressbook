@@ -105,19 +105,6 @@ IFile_data_not_required = z3c.form.widget.StaticWidgetAttribute(
     field=icemac.addressbook.file.interfaces.IFile['data'], widget=None)
 
 
-class Edit(icemac.addressbook.browser.base.BaseEditForm):
-    """Edit a file."""
-
-    interface = icemac.addressbook.file.interfaces.IFile
-    next_url = 'parent'
-    label = _('Edit file')
-
-    def applyChanges(self, data):
-        changes = super(Edit, self).applyChanges(data)
-        update_blob(self.widgets['data'], self.context)
-        return changes
-
-
 class DeleteFileForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Are you sure question for deleting a file."""
 

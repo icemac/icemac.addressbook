@@ -114,7 +114,7 @@ to handle this.)
 
 There are some pre-defined result viewlets:
 
-- `.result.simple.ExportForm` + `result/export.pt`: simple table
+- `.result.simple.ExportForm`: simple table
   containing names of persons, export abilities. Example to register
   viewlet::
 
@@ -123,12 +123,11 @@ There are some pre-defined result viewlets:
        view=".my_search.SearchView"
        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
        name="result_table"
-       class=".result.simple.ExportForm"
-       template="result/export.pt"
+       class=".result.simple.SimpleExportForm"
        permission="icemac.addressbook.ViewPerson"
       />
 
-- `.result.personlist.ExportForm` + `result/export.pt`: table containing the
+- `.result.personlist.ExportForm`: table containing the
   same columns like person list table (as defined in personal preferences of
   the user) + export abilities. Example to register viewlet::
 
@@ -138,12 +137,8 @@ There are some pre-defined result viewlets:
        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
        name="result_table"
        class=".result.personlist.ExportForm"
-       template="result/export.pt"
        permission="icemac.addressbook.ViewPerson"
       />
-
-- `result_person.pt`: (template)
-    simple list of found persons, no further actions possible
 
 Integration in address book
 ===========================
