@@ -114,6 +114,10 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     class_ = None  # create object from this class
     next_url = None  # target after creation, one of ('object', 'parent')
     next_view = None  # target view after creation, None --> default view
+    _next_url_map = {
+        'object': lambda self: self.context[self._name],
+        'parent': lambda self: self.context
+    }
 
     def createAndAdd(self, data):
         # overwriting method as otherwise object created event would
@@ -148,13 +152,8 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
         self.status = _('Addition canceled.')
 
     def nextURL(self):
-        if self.next_url == 'object':
-            context = self.context[self._name]
-        elif self.next_url == 'parent':
-            context = self.context
-        else:
-            raise ValueError("Don't know how to handle next_url %r.")
-        return self.url(context, self.next_view)
+        return self.url(self._next_url_map[self.next_url](self),
+                        self.next_view)
 
 
 def update_with_redirect(class_, self):
@@ -179,21 +178,18 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
     next_url = None  # target object after edit, one of ('object', 'parent')
     next_view = None  # target view after edit (None for default view)
     id = 'edit-form'
+    _next_url_map = {
+        'object': lambda self: self.context,
+        'parent': lambda self: zope.traversing.api.getParent(self.context),
+        'site': lambda self: zope.component.hooks.getSite()
+    }
 
     def update(self):
         update_with_redirect(_AbstractEditForm, self)
 
     def redirect_to_next_url(self, next_url=None, next_view=None):
-        if next_url is None:
-            next_url = self.next_url
-        if next_url == 'object':
-            target = self.context
-        elif next_url == 'parent':
-            target = zope.traversing.api.getParent(self.context)
-        elif next_url == 'site':
-            target = zope.component.hooks.getSite()
-        else:
-            raise ValueError('next_url %r unknown' % next_url)
+        target = self._next_url_map[
+            next_url if next_url else self.next_url](self)
 
         if next_view is None:
             next_view = self.next_view
