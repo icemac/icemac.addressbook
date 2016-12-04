@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.browser.search.result.base
 
 
@@ -15,6 +11,6 @@ class PersonTable(
 
 class ExportForm(
         icemac.addressbook.browser.search.result.base.BaseSearchResultForm):
-    "Export form showing a table containing the names of the found persons."
+    """Export form showing a table containing names of the found persons."""
 
     table_class = PersonTable

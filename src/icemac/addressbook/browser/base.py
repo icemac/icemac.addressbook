@@ -380,14 +380,10 @@ class BaseCloneForm(_BaseConfirmForm):
 
 
 def can_access_uri_part(context, request, uri_part):
-    """Tell if current user can to access a URI part relative to context.
-
-    If `uri_part` is `None` the default view of context is computed.
-
-    """
     if uri_part is None:
         uri_part = zope.publisher.defaultview.getDefaultViewName(
             context, request)
+    """Tell if current user can to access a URI part relative to context."""
     traverser = zope.traversing.publicationtraverse.PublicationTraverser()
     try:
         view = traverser.traverseRelativeURL(request, context, uri_part)

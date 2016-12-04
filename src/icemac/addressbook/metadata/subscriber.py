@@ -10,7 +10,7 @@ import zope.security.proxy
 
 
 def set_current_princial_id(object, attribute):
-    "Get the id of the current principal."
+    """Get the id of the current principal."""
     interaction = zope.security.management.queryInteraction()
     if interaction is None:
         return
@@ -33,10 +33,10 @@ def set_current_princial_id(object, attribute):
     zope.annotation.interfaces.IAttributeAnnotatable,
     zope.lifecycleevent.IObjectCreatedEvent)
 def CreatorAnnotator(object, event):
-    "Set creator on object."
+    """Set creator on object."""
     set_current_princial_id(object, 'creator')
 
 
 def LastModifierAnnotator(object, event):
-    "Set last modifier on object."
+    """Set last modifier on object."""
     set_current_princial_id(object, 'modifier')

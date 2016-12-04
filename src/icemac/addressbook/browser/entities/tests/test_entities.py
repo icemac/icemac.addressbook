@@ -29,7 +29,7 @@ def test_entities__1(address_book):
 
 
 def test_entities__MoveUp__1(address_book, browser):
-    """Seleting the `up` link moves the entity one position up in the list."""
+    """Selecting the `up` link moves the entity one position up in the list."""
     browser.login('mgr')
     browser.open(browser.ENTITIES_EDIT_URL)
     # Let's move the postal address one up:
@@ -42,7 +42,7 @@ def test_entities__MoveUp__1(address_book, browser):
 
 
 def test_entities__MoveDown__1(address_book, browser):
-    """Seleting the `down` link moves the entity one position down in list."""
+    """Selecting the `down` link moves the entity one position down in list."""
     browser.login('mgr')
     browser.open(browser.ENTITIES_EDIT_URL)
     # Let's move he address book one down:

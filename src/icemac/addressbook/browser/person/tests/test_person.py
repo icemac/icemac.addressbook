@@ -743,7 +743,7 @@ def test_person__DefaultSelectGroup__4(
 
 
 def test_person__DeleteSingleEntryForm__1(person_data, browser):
-    """`DeleteSingleEntryForm` allows to select an entry for delete."""
+    """It allows to select an entry for delete."""
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('Delete single entry').click()
@@ -766,7 +766,7 @@ def test_person__DeleteSingleEntryForm__1(person_data, browser):
 
 
 def test_person__DeleteSingleEntryForm__2(person_data, browser):
-    """`DeleteSingleEntryForm` cannot be accessed by a visitor."""
+    """It cannot be accessed by a visitor."""
     browser.login('visitor')
     with pytest.raises(HTTPError) as err:
         browser.open(browser.PERSON_DELETE_ENTRY_URL)

@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.file.file
 import icemac.addressbook.file.interfaces
@@ -15,6 +12,7 @@ import zope.security.proxy
 
 
 def cleanup_filename(filename):
+    """Clean the filename from a possibly existing path."""
     if filename is None:
         return _('<no name>')
     return filename.split('\\')[-1].split('/')[-1]

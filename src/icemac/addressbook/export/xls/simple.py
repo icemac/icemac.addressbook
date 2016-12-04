@@ -42,7 +42,7 @@ datetime_style.num_format_str = 'DD.MM.YY HH:MM:SS'
 value_style_mapping = {
     datetime.date: date_style,
     datetime.datetime: datetime_style,
-    }
+}
 
 
 class XLSExport(icemac.addressbook.export.base.BaseExporter):
@@ -188,7 +188,7 @@ class CompleteExport(XLSExport):
                     max_col, iface,
                     self.translate(
                         _(u'other ${address}', mapping=dict(address=title)))
-                    )
+                )
                 blocks_with_header += 1
             for obj in objs:
                 col = self.write_obj(row, col, iface, obj)

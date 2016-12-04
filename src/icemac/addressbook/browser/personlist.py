@@ -169,8 +169,10 @@ class BasePersonList(object):
         return zcml_columns + python_columns
 
     def _set_up_user_selected_columns_and_sort_on(self, columns_before):
-        """Create the columns selected by the user in the preferences and
-        computes the sort order."""
+        """Create the columns selected by the user in the preferences.
+
+        Additionally computes the sort order.
+        """
         order_by = self.prefs.personLists.order_by
         columns = []
         index = 0  # current column index

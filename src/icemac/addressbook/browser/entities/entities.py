@@ -14,7 +14,6 @@ import zope.traversing.browser.absoluteurl
 
 
 class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
-
     """Column displaying an `up` link."""
 
     header = _('move-up-table-header', default='move')
@@ -30,7 +29,6 @@ class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class DownLinkColumn(icemac.addressbook.browser.table.LinkColumn):
-
     """Column displaying an `down` link."""
 
     header = _('move-down-table-header', default='move')
@@ -46,7 +44,6 @@ class DownLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
-
     """LinkColumn only displaying a link for IMayHaveUserFields items."""
 
     linkContent = _(u'Edit fields')
@@ -59,7 +56,6 @@ class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 
 
 class List(icemac.addressbook.browser.table.Table):
-
     """List existing entities."""
 
     sortOn = None  # do not sort rows
@@ -85,7 +81,6 @@ class List(icemac.addressbook.browser.table.Table):
 
 
 class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
-
     """AbsoluteURL adapter for an entity."""
 
     zope.component.adapts(icemac.addressbook.interfaces.IEntity,
@@ -103,7 +98,6 @@ class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
 
 
 class EntitiesTraverser(zope.container.traversal.ItemTraverser):
-
     """Make entities located and traverable."""
 
     zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
@@ -119,7 +113,6 @@ class EntitiesTraverser(zope.container.traversal.ItemTraverser):
 
 
 class MoveBase(icemac.addressbook.browser.base.BaseView):
-
     """Base class for movement views."""
 
     direction = None  # set on sub-class
@@ -136,7 +129,6 @@ class MoveBase(icemac.addressbook.browser.base.BaseView):
 
 
 class MoveUp(MoveBase):
-
     """Move entity up in entity order."""
 
     direction = 'up'
@@ -144,7 +136,6 @@ class MoveUp(MoveBase):
 
 
 class MoveDown(MoveBase):
-
     """Move entity down in entity order."""
 
     direction = 'down'
