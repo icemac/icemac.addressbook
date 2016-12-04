@@ -236,14 +236,7 @@ class Configurator(object):
             # Argh, all other log handlers live in a subpackage
             b_log_handler = 'handlers.' + log_handler
         buildout_cfg.set('deploy.ini', 'log-handler', b_log_handler)
-        if log_handler == 'FileHandler':
-            log_args = "'a'"
-        elif log_handler == 'RotatingFileHandler':
-            log_args = ', '.join(("'a'", self.log_max_bytes, self.log_backups))
-        elif log_handler == 'TimedRotatingFileHandler':
-            log_when = "'%s'" % self.log_when
-            log_args = ', '.join(
-                (log_when, self.log_interval, self.log_backups))
+        log_args = getattr(self, '_log_args_{}'.format(log_handler))
         buildout_cfg.set('deploy.ini', 'log-handler-args', log_args)
 
         if self.packages:
@@ -270,3 +263,16 @@ class Configurator(object):
         print 'saving config ...'
         user_conf = file('install.user.ini', 'w')
         self._conf.write(user_conf)
+
+    @property
+    def _log_args_FileHandler(self):
+        return "'a'"
+
+    @property
+    def _log_args_RotatingFileHandler(self):
+        return ', '.join(("'a'", self.log_max_bytes, self.log_backups))
+
+    @property
+    def _log_args_TimedRotatingFileHandler(self):
+        log_when = "'%s'" % self.log_when
+        return ', '.join((log_when, self.log_interval, self.log_backups))

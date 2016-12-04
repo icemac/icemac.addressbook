@@ -31,15 +31,13 @@ def update_blob(widget, file):
 
     file.name = cleanup_filename(widget.filename)
 
-    # At first we should try to replace the blob file with the one
-    # uploaded, as this does not require reading and copying the file.
     # Zope stores the path to the file in the FileUpload in the `name`
-    # attribute, but in tests it is stored in `filename` attribute, so
-    # we have to differentiate.
+    # attribute only if the file is stored on disk, but not when it uses a
+    # StringIO for smaller files:
     widget_file = widget.value
-    file_name = getattr(widget_file, 'name', widget_file.filename)
+    file_name = getattr(widget_file, 'name', None)
 
-    if os.path.exists(file_name):
+    if file_name and os.path.exists(file_name):
         # If the file exists, use it.
         file.replace(file_name)
     else:
@@ -47,13 +45,7 @@ def update_blob(widget, file):
         # real file on hard disk) update the contents.
         widget_file.seek(0)
         file.data = widget_file.read()
-
-    try:
         widget_file.close()
-    except OSError:
-        # When the file was consumed (see file.replace) unlinking of the
-        # original file fails as the path is wrong then.
-        pass
 
     # get a sample of the file contents for fingerprinting
     fd = zope.security.proxy.removeSecurityProxy(file.open())

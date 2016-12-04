@@ -84,14 +84,30 @@ class EMailColumn(icemac.addressbook.browser.table.BaseColumn,
     renderCell = z3c.table.column.EMailColumn.renderCell
 
 
+USER_DEFINED_FIELD_TYPE__TO__COLUMN = {
+    u'Bool': BoolColumn,
+    u'URI': URLColumn,
+    u'Text': TruncatedContentColumn,
+    u'Date': icemac.addressbook.browser.table.DateColumn,
+    u'Datetime': icemac.addressbook.browser.table.DateTimeColumn,
+}
+
+
+FIELD_NAME__TO__COLUMN = {
+    'first_name': LinkColumn,
+    'last_name': LinkColumn,
+    'keywords': icemac.addressbook.browser.table.KeywordsColumn,
+    'country': TranslatedTiteledColumn,
+    'email': EMailColumn,
+    'url': URLColumn,
+}
+
+
 def getColumnClass(entity, field):
     """Get a column class to display the requested field of an entity."""
-    if field.__name__ in ('first_name', 'last_name'):
-        # Person's first name and last name should be links:
-        return LinkColumn
-    if field.__name__ == 'keywords':
-        # Keywords need a special column as they are an iterable:
-        return icemac.addressbook.browser.table.KeywordsColumn
+    column_class = FIELD_NAME__TO__COLUMN.get(field.__name__, None)
+    if column_class is not None:
+        return column_class
     if (zope.schema.interfaces.IText.providedBy(field) and
             not zope.schema.interfaces.ITextLine.providedBy(field)):
         # The content of text areas (but not text lines, which extend from
@@ -101,26 +117,10 @@ def getColumnClass(entity, field):
         # Date fields need a special column, as None values are not
         # compareable to date values:
         return icemac.addressbook.browser.table.DateColumn
-    if field.__name__ == 'country':
-        # Country is an object, so the translated title should be displayed:
-        return TranslatedTiteledColumn
-    if field.__name__ == 'email':
-        # The e-mail address should be a mailto-link:
-        return EMailColumn
-    if field.__name__ == 'url':
-        return URLColumn
     if icemac.addressbook.interfaces.IField.providedBy(field):
-        # User defined fields:
-        if field.type == u'Bool':
-            return BoolColumn
-        if field.type == u'URI':
-            return URLColumn
-        if field.type == u'Text':
-            return TruncatedContentColumn
-        if field.type == u'Date':
-            return icemac.addressbook.browser.table.DateColumn
-        if field.type == u'Datetime':
-            return icemac.addressbook.browser.table.DateTimeColumn
+        return USER_DEFINED_FIELD_TYPE__TO__COLUMN.get(
+            field.type, icemac.addressbook.browser.table.BaseColumn)
+    # Field is e. g. a TextLine
     return icemac.addressbook.browser.table.BaseColumn
 
 
