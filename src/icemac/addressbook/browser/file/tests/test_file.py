@@ -207,7 +207,7 @@ def test_file__Edit__5(address_book, FullPersonFactory, FileFactory, browser):
 
 def test_file__Add__Edit__Download__1(
         address_book, FullPersonFactory, FileFactory, browser, tmpfile):
-    """`Edit` allows to upload, change and download more than one file."""
+    """It allows to upload, change and download more than one file."""
     # Upload
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
                 data='boring text')

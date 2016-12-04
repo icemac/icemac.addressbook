@@ -2,7 +2,7 @@ ADD_MENU_CONTENTS = (
     '/descendant-or-self::ul[@id="add-menu-content"]/li/a/span/text()')
 
 
-def test_AddMenu__1(address_book, FullPersonFactory, browser):
+def test_menu__AddMenu__1(address_book, FullPersonFactory, browser):
     """The sort order in the add menu depends on the entity order."""
     FullPersonFactory(address_book, u'Tester')
     browser.login('mgr')

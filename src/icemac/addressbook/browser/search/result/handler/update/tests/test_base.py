@@ -6,7 +6,7 @@ import zope.i18n
 
 
 def test_base__update_persons__1(zcmlS):
-    """..base.update_persons() updates only the specified field."""
+    """It updates only the specified field."""
     person1 = Person()
     person1.notes = u'p1'
     person2 = Person()
@@ -22,7 +22,7 @@ def test_base__update_persons__1(zcmlS):
 
 
 def test_base__update_persons__2(zcmlS):
-    """update_persons() returns a ZeroDivision message if dividing by zero."""
+    """It returns a ZeroDivision message if dividing by zero."""
     person1 = Person()
     person1.__name__ = 'person1'
     call = ('icemac.addressbook.browser.search.result.handler.update.'
@@ -35,7 +35,7 @@ def test_base__update_persons__2(zcmlS):
 
 
 def test_base__update_persons__3(zcmlS):
-    """update_persons() returns an Exception if another exception occurred."""
+    """It returns an Exception if another exception occurred."""
     call = ('icemac.addressbook.browser.search.result.handler.update.'
             'operators.NoneAppend.__call__')
     person1 = Person()

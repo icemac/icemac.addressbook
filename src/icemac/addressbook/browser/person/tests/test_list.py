@@ -142,7 +142,6 @@ def test_list__PersonList__3(address_book, MockPersons_22, browser):
     """`PersonList` renders a pagination if number of persons > batch size."""
     browser.login('visitor')
     with batchSize(20):
-        browser.handleErrors = False
         browser.open(browser.PERSONS_LIST_URL)
     assert ([
         ('1', '/person-list.html?table-batchSize=20&table-batchStart=0'),

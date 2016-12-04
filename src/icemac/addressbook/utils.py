@@ -22,6 +22,7 @@ def create_obj(class_, *args, **kw):
 
 
 def add(parent, obj):
+    """Add `obj` to parent."""
     nc = zope.container.interfaces.INameChooser(parent)
     name = nc.chooseName('', obj)
     parent[name] = obj
@@ -29,6 +30,11 @@ def add(parent, obj):
 
 
 def create_and_add(parent, class_, *args, **kw):
+    """Create an instance of `class_`and add it to `parent`.
+
+    *args ... used as arguments of the constructor.
+    **kw ... set after creating the instance.
+    """
     obj = create_obj(class_, *args, **kw)
     return add(parent, obj)
 
@@ -41,16 +47,16 @@ def delete(obj):
 
 
 def iter_by_interface(container, interface):
-    "Iterate a container and return only objects providing a specified iface."
+    """Iterate a container and return only objects providing `interface`."""
     for obj in container.values():
         if interface.providedBy(obj):
             yield obj
 
 
 def unique_by_attr_factory(attr_name, error_message):
-    """Returns a function checking `attr_name` is unique on parent."""
+    """Return a function checking `attr_name` is unique on parent."""
     def unique(obj, event=None):
-        """Makes sure `attr_name` is unique on obj's parent.
+        """Make sure `attr_name` is unique on obj's parent.
 
         May be used as handler for object events.
 

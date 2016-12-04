@@ -114,9 +114,8 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     icemac.addressbook.principals.interfaces.IPrincipal,
     zope.lifecycleevent.IObjectCreatedEvent)
 def created(principal, event):
-    """Create initial infrastructure or update existing infrastructure to
-    current requirements (using generation)."""
-    # set default values for references as z3c.form accesses the
+    """Create initial infrastructure."""
+    # Set a default value here for the reference as z3c.form accesses the
     # attributes before a value is assigned and gets an AttributeError
     # otherwise
     if not hasattr(principal, '_person'):
@@ -137,5 +136,5 @@ def added(principal, event):
 def title(principal):
     if getattr(principal, 'person', None) is not None:
         return icemac.addressbook.interfaces.ITitle(principal.person)
-    # safty belt:
+    # safety belt:
     return _(u'<no person>')

@@ -19,7 +19,7 @@ import zope.interface
 
 
 class AddGroup(icemac.addressbook.browser.base.PrefixGroup):
-    "PrefixGroup for AddForm."
+    """PrefixGroup for AddForm."""
 
     def __init__(self, context, request, parent, interface, label, prefix):
         super(AddGroup, self).__init__(context, request, parent)
@@ -46,14 +46,14 @@ class PersonEditGroup(AddGroup):
 
 
 class AddressEditGroup(PersonEditGroup):
-    "PrefixGroup for addresses in EditForm."
+    """PrefixGroup for addresses in EditForm."""
 
     def getContent(self):
         return self.context[self.key]
 
 
 class FileEditGroup(AddressEditGroup):
-    "AddressEditGroup for icemac.addressbook.file.interfaces.IFile objects."
+    """EditGroup for icemac.addressbook.file.interfaces.IFile objects."""
 
 
 class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
@@ -69,6 +69,7 @@ class DefaultSelectGroup(icemac.addressbook.browser.base.PrefixGroup):
 class PersonAddForm(z3c.form.group.GroupForm,
                     icemac.addressbook.browser.base.BaseAddForm):
     """Add a person."""
+
     label = _(u'Add new person')
     next_url = 'parent'
     next_view = 'person-list.html'
@@ -115,7 +116,7 @@ class PersonAddForm(z3c.form.group.GroupForm,
 
 
 def person_deletable(form):
-    "Button display constraint which checks whether a person is deleteable."
+    """Button display constraint checking whether a person is deleteable."""
     person = form.context
     ref_target = gocept.reference.interfaces.IReferenceTarget(person)
     return not ref_target.is_referenced(recursive=False)
@@ -228,8 +229,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.redirect_to_next_url('object', 'export.html')
 
     def applyChanges(self, data):
-        """Special variant which sends ModifiedEvent for each modified
-        object. (not to be used universally!)"""
+        """Special variant which sends ModifiedEvent for each modified object.
+
+        (not to be used universally!)
+        """
         content = self.getContent()
         changed = {}
         mainChanged = z3c.form.form.applyChanges(self, content, data)
@@ -250,8 +253,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
 
 class KeywordDataManager(z3c.form.datamanager.AttributeField):
-    """Datamanager which converts the internal InstrumentedSet into a
-    set to be comparable with selected values."""
+    """Datamanager which converts the internal InstrumentedSet into a set.
+
+    This way it is comparable with selected values.
+    """
 
     def get(self):
         return set(x for x in super(KeywordDataManager, self).get())
@@ -283,7 +288,7 @@ class ClonePersonForm(icemac.addressbook.browser.base.BaseCloneForm):
 
 class PersonEntriesSource(
         zc.sourcefactory.contextual.BasicContextualSourceFactory):
-    "Source to select entries (addresses, files, ...) from a person."
+    """Source to select entries (addresses, files, ...) from a person."""
 
     def getValues(self, context):
         entities = zope.component.getUtility(

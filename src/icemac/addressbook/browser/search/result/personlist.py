@@ -18,6 +18,6 @@ class PersonTable(
 
 class ExportForm(
         icemac.addressbook.browser.search.result.base.BaseSearchResultForm):
-    "Export form showing a table of found results."
+    """Export form showing a table of found results."""
 
     table_class = PersonTable

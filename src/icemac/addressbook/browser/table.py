@@ -18,24 +18,28 @@ END_OF_DATETIME = datetime.datetime(datetime.MAXYEAR, 12, 31, 23, 59, 59)
 # Columns
 
 class BaseColumn(z3c.table.column.Column):
-    """Column which is able to get an object on an attribute of the item and
-    adapt it to specified interface."""
+    """Column knowing how to handle entities and fields in the address book.
 
-    # CAUTION: This column needs the following fields to be set!
+    It adapts the `item`  to the defined entity and gets the value from the
+    specified field.
+
+    """
+
+    # CAUTION: This column needs the following fields to be set:
 
     entity = NotImplemented  # referenced entity as object
     field = NotImplemented  # referenced field on entity as object
     defaultValue = u''  # Value for display when there is no value.
 
     def getRawValue(self, item):
-        "Compute the value, which can be None."
+        """Compute the value, which can be None."""
         schema_field = icemac.addressbook.entities.get_bound_schema_field(
             item, self.entity, self.field)
         # Returning the value of the bound object as it might differ from item:
         return schema_field.get(schema_field.context)
 
     def getValue(self, item):
-        "Compute the value, mostly ready for display."
+        """Compute the value, mostly ready for display."""
         obj = self.getRawValue(item)
         if obj is None:
             return self.defaultValue
@@ -70,7 +74,7 @@ class DateTimeColumn(z3c.table.column.FormatterColumn,
 
 
 class DateColumn(DateTimeColumn):
-    "DateColumn which is able to sort even `None` values."
+    """DateColumn which is able to sort even `None` values."""
 
     formatterCategory = 'date'
     maxValue = END_OF_DATE
@@ -78,12 +82,8 @@ class DateColumn(DateTimeColumn):
 
 class LinkColumn(icemac.addressbook.browser.base.BaseView,
                  z3c.table.column.LinkColumn):
-    """LinkColumn which does not display a link when the URL is `None`.
-
-    Also uses addressbook's URL computation method.
-
-    """
     defaultValue = u''  # value which is rendered when there is no URL
+    """LinkColumn which uses address book's URL computation method."""
 
     def getLinkURL(self, item):
         return self.url(item, self.linkName)
@@ -117,7 +117,7 @@ class DeleteLinkColumn(LinkColumn):
 
 
 class TruncatedContentColumn(z3c.table.column.GetAttrColumn):
-    "Column which truncates its content to `length` characters."
+    """Column which truncates its content to `length` characters."""
 
     length = 20  # number of characters to display
     attrName = None  # attribute to access
@@ -166,7 +166,7 @@ class KeywordsColumn(SourceColumn):
 # Tables
 
 class Table(z3c.table.table.Table):
-    "Table which supports a no-rows-found message."
+    """Table which supports a no-rows-found message."""
 
     cssClassEven = u'table-even-row'
     cssClassOdd = u'table-odd-row'

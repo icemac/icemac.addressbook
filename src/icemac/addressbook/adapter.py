@@ -28,14 +28,14 @@ def title_for_choice_value(field, value):
 
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def obj_dot_title(obj):
-    "ITitle adapter for objects those title is stored on the title attribute."
+    """Title for an `obj` where the title is stored on `title` attribute."""
     return obj.title
 
 
 @zope.component.adapter(zope.interface.Interface)
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def default_title(obj):
-    "Default title adapter which returns str represantation of obj."
+    """Default title adapter which returns `str` representation of `obj`."""
     if isinstance(obj, basestring):
         return obj
     return str(obj)
@@ -44,4 +44,5 @@ def default_title(obj):
 @zope.component.adapter(zope.interface.Interface)
 @zope.interface.implementer(icemac.addressbook.principals.interfaces.IRoot)
 def principal_root(principal):
+    """Return the site root."""
     return zope.component.hooks.getSite()
