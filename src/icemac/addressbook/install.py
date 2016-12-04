@@ -59,10 +59,8 @@ class Configurator(object):
         try:
             default = self.get(section, option)
         except ConfigParser.NoOptionError:
-            if global_default is None:
-                raise
-            else:
-                default = global_default
+            assert global_default is not None
+            default = global_default
         while True:
             print ' %s: [%s] ' % (question, default),
             got = self.stdin.readline().strip()

@@ -15,7 +15,6 @@ import z3c.form.group
 import z3c.formui.form
 import zope.component
 import zope.interface
-import zope.publisher.defaultview
 import zope.security
 import zope.security.interfaces
 import zope.security.proxy
@@ -281,9 +280,6 @@ class _BaseConfirmForm(_AbstractEditForm):
     def handleAction(self, action):
         self._handle_action()
 
-    def _handle_action(self):
-        raise NotImplementedError()
-
 
 class BaseDeleteForm(_BaseConfirmForm):
     """Display a deletion confirmation dialog."""
@@ -358,10 +354,8 @@ class BaseCloneForm(_BaseConfirmForm):
 
 
 def can_access_uri_part(context, request, uri_part):
-    if uri_part is None:
-        uri_part = zope.publisher.defaultview.getDefaultViewName(
-            context, request)
     """Tell if current user can to access a URI part relative to context."""
+    assert uri_part is not None
     traverser = zope.traversing.publicationtraverse.PublicationTraverser()
     try:
         view = traverser.traverseRelativeURL(request, context, uri_part)

@@ -28,6 +28,16 @@ def test_entities__1(address_book):
             u'postal address'] == get_entity_titles(address_book)[:4]
 
 
+def test_entities__EntitiesTraverser__publishTraverse__1(
+        address_book, browser):
+    """It raises a HTTP-404 for unknown entity names."""
+    browser.login('mgr')
+    with pytest.raises(HTTPError) as err:
+        browser.open(browser.ENTITIES_EDIT_URL + '/not.existing.entity')
+        file('response.html', 'w').write(browser.contents)
+    assert 'HTTP Error 404: Not Found' == str(err.value)
+
+
 def test_entities__MoveUp__1(address_book, browser):
     """Selecting the `up` link moves the entity one position up in the list."""
     browser.login('mgr')

@@ -14,6 +14,8 @@ Other
 - Rework roles management for administrators to allow in future permissions
   which administrators do not get by default.
 
+- Bring test coverage including branches to 100 %.
+
 
 2.8 (2016-08-28)
 ================

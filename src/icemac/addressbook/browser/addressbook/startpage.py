@@ -12,6 +12,7 @@ class StartpageData(object):
     zope.interface.implements(icemac.addressbook.interfaces.IStartpageData)
 
     def __init__(self, iface_name, view, title):
+        assert view is not None  # required by `can_access_uri_part`, see below
         self.iface_name = iface_name
         self.view = view
         self.title = title

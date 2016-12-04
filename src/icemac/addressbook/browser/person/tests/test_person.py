@@ -865,6 +865,17 @@ def test_person__DeleteSingleEntryForm__2(person_data, browser):
     assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
+def test_person__DeleteSingleEntryForm__3(person_data, browser):
+    """It shows an error message if no entry is selected."""
+    browser.login('editor')
+    browser.open(browser.PERSON_DELETE_ENTRY_URL)
+    browser.getControl('Entries').displayValue = []
+    browser.getControl('Delete entry').click()
+    assert 'There were some errors.' in browser.contents
+    assert 'Required input is missing.' in browser.contents
+    assert browser.PERSON_DELETE_ENTRY_URL == browser.url
+
+
 def test_person__DeletePersonForm__1(person_data, browser):
     """`DeletePersonForm` allows to delete a whole person."""
     browser.login('editor')

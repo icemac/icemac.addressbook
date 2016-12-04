@@ -54,6 +54,21 @@ def test_fields__security__6(address_book, FieldFactory, browser, username):
         browser, username, browser.ENTITIY_PERSON_DELETE_FIELD_URL)
 
 
+def test_fields__List__fields__1(address_book, browser):
+    """It omits fields which are tagged with `omit-from-field-list`."""
+    browser.login('mgr')
+    browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
+    # Initially the field is displayed:
+    assert 'birth date' in browser.contents
+    try:
+        IPerson['birth_date'].setTaggedValue('omit-from-field-list', True)
+        browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
+        # It is not displayed after setting `omit-from-field-list`:
+        assert 'birth date' not in browser.contents
+    finally:
+        IPerson['birth_date'].setTaggedValue('omit-from-field-list', False)
+
+
 def test_fields__AddForm__1(address_book, browser):
     """New fields can be added to entities.
 

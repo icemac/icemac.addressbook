@@ -54,9 +54,7 @@ class BasePersonTable(icemac.addressbook.browser.table.Table):
 
     def update(self):
         self.result = self.context.result
-        if self.result is not None:
-            # only render table when a search happend
-            super(BasePersonTable, self).update()
+        super(BasePersonTable, self).update()
 
     @property
     def values(self):
@@ -73,7 +71,5 @@ class CheckBoxColumn(z3c.table.column.CheckBoxColumn):
         return 'persons:list'
 
     def isSelected(self, item):
-        if self.request.get(self.getItemKey(item), None) is None:
-            # not in request, return default: selected
-            return True
-        return super(CheckBoxColumn, self).isSelected(item)
+        # The result is not persisted, so always use the default:
+        return True

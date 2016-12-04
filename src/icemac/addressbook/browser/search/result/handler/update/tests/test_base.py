@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from ..base import update_persons
+from ..base import update_persons, clean_update_data_session
 from icemac.addressbook.person import Person, person_entity
 import mock
 import zope.i18n
+import zope.publisher.browser
 
 
 def test_base__update_persons__1(zcmlS):
@@ -47,3 +48,9 @@ def test_base__update_persons__3(zcmlS):
     assert (
         {'person1': u'Unexpected error occurred: IOError: file not found'} ==
         {key: zope.i18n.translate(val) for key, val in result.items()})
+
+
+def test_base__clean_update_data_session__1(address_book):
+    """It does not break if `UPDATE_SESSION_KEY` is not in the session."""
+    request = zope.publisher.browser.TestRequest()
+    clean_update_data_session(request)

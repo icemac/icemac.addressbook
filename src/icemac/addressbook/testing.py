@@ -7,9 +7,11 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.person
 import icemac.addressbook.utils
 import lxml.etree
+import mechanize
 import os
 import plone.testing
 import plone.testing.zca
+import pytest
 import pytz
 import transaction
 import z3c.etestbrowser.wsgi
@@ -156,8 +158,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     def login(self, username, password=None):
         """Login a user using basic auth."""
-        if password is None:
-            password = USERNAME_PASSWORD_MAP.get(username, username)
+        password = USERNAME_PASSWORD_MAP.get(username, username)
         self.addHeader(
             'Authorization', 'Basic {username}:{password}'.format(
                 username=username, password=password))

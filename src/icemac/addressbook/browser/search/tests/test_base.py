@@ -1,3 +1,9 @@
+from ..base import BaseSearch
+from ..interfaces import ISearch
+from zope.interface.verify import verifyObject
+import pytest
+
+
 def test_base__Search__1(address_book, browser):
     """Global navigation provides a link to the search."""
     browser.login('visitor')
@@ -8,3 +14,15 @@ def test_base__Search__1(address_book, browser):
     # search types:
     assert (['Keyword search', 'Name search'] ==
             browser.etree.xpath('//ul[@class="bullet"]/li/a/span/text()'))
+
+
+def test_base__BaseSearch__1():
+    """It implements `ISearch`."""
+    assert verifyObject(ISearch, BaseSearch())
+
+
+def test_base__BaseSearch__search__1():
+    """It needs to be implemented by its subclasses."""
+    base_search = BaseSearch()
+    with pytest.raises(NotImplementedError):
+        base_search.search()

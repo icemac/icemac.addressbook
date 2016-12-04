@@ -37,3 +37,12 @@ def test_personlist__ExportForm__3(search_data, browser):
     browser.keyword_search('church')
     assert ([['form.buttons.search'], ['form.buttons.apply']] ==
             browser.submit_control_names_all_forms)
+
+
+def test_personlist__ExportForm__4(search_data, browser):
+    """It does not break if no handler is selected."""
+    browser.login('visitor')
+    browser.keyword_search('church')
+    browser.getControl('Apply on selected persons').displayValue = []
+    browser.getControl(name='form.buttons.apply').click()
+    assert '200 Ok' == browser.headers['status']

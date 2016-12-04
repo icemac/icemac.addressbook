@@ -17,9 +17,8 @@ MainMenu = zope.viewlet.manager.ViewletManager(
 
 def getWeight((name, viewlet)):
     view_name = viewlet.viewName
-    if view_name.startswith('@@'):
-        # remove starting @@
-        view_name = view_name[2:]
+    assert view_name.startswith('@@')
+    view_name = view_name[2:]
     view = zope.component.getMultiAdapter(
         (viewlet.context, viewlet.request), name=view_name)
     interface = getattr(view, 'interface', None)
@@ -50,9 +49,6 @@ class OrdersWeightMenuManager(z3c.menu.ready2go.manager.MenuManager):
 class EmptyViewlet(zope.viewlet.viewlet.ViewletBase):
     """Helper class for AlwaysRenderTemplateManager."""
 
-    def render(self):
-        return u''
-
 EMPTY_VIEWLET = EmptyViewlet(None, None, None, None)
 
 
@@ -63,7 +59,9 @@ class AlwaysRenderTemplateManager(OrdersWeightMenuManager):
         super(AlwaysRenderTemplateManager, self).update()
         self.have_viewlets = bool(self.viewlets)
         if not self.have_viewlets:
-            # Trick `render` method to render manager's template:
+            # Trick our `render` method to render manager's template which
+            # should check `self.have_viewlets` to not render the empty
+            # viewlet.
             self.viewlets.append(EMPTY_VIEWLET)
 
 

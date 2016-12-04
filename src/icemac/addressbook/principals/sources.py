@@ -38,20 +38,21 @@ class Persons(zc.sourcefactory.contextual.BasicContextualSourceFactory):
         # this person.
         if isinstance(insecured_context,  # XXX Use IPrincipal.providedBy?
                       icemac.addressbook.principals.principals.Principal):
-            yield context.person
-            return
+            values = [context.person]
+        else:
+            values = []
+            persons_of_existing_pricipals = frozenset(
+                [principal.person for principal in context.values()])
 
-        persons_of_existing_pricipals = frozenset(
-            [principal.person for principal in context.values()])
-
-        for person in root.values():
-            if getattr(person.default_email_address, 'email', None) is None:
-                # Show only persons which have an e-mail address:
-                continue
-            if person in persons_of_existing_pricipals:
-                # Show only persons which are not yet users:
-                continue
-            yield person
+            for person in root.values():
+                if not getattr(person.default_email_address, 'email', None):
+                    # Show only persons which have an e-mail address:
+                    continue
+                if person in persons_of_existing_pricipals:
+                    # Show only persons which are not yet users:
+                    continue
+                values.append(person)
+        return values
 
     def getTitle(self, context, value):
         return icemac.addressbook.interfaces.ITitle(value)

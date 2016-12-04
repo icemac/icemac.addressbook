@@ -50,7 +50,8 @@ class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     def person(self, person):
         if self._person is not None:
             # it's not possible to change the person
-            return
+            raise ValueError(
+                'It is not possible to change the person on a principal.')
         self._person = person
         self.login = person.default_email_address.email
 
@@ -117,9 +118,9 @@ def created(principal, event):
     """Create initial infrastructure."""
     # Set a default value here for the reference as z3c.form accesses the
     # attributes before a value is assigned and gets an AttributeError
-    # otherwise
-    if not hasattr(principal, '_person'):
-        principal._person = None
+    # otherwise:
+    assert not hasattr(principal, '_person')
+    principal._person = None
 
 
 @zope.component.adapter(

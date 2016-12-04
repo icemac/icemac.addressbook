@@ -33,10 +33,9 @@ class AnnotationField(z3c.form.datamanager.AttributeField):
     @property
     def adapted_context(self):
         context = self.context
-        if self.field.interface is not None:
-            if self.field.interface in self.no_security_proxy:
-                context = zope.security.proxy.getObject(context)
-            context = self.field.interface(context)
+        if self.field.interface in self.no_security_proxy:
+            context = zope.security.proxy.getObject(context)
+        context = self.field.interface(context)
         return context
 
     def canWrite(self):
