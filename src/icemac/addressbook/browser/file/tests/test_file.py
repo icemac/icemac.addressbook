@@ -116,10 +116,23 @@ def test_file__Add__5(address_book, FullPersonFactory, browser):
     assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
+def test_file__Add__6(address_book, FullPersonFactory, browser, tmpfile):
+    """It can handle larger files.
 
+    Small files are not written to disk but handled via a StringIO.
 
     """
+    FullPersonFactory(address_book, u'Tester')
     browser.login('editor')
+    browser.open(browser.FILE_ADD_URL)
+    fh, filename = tmpfile('File contents ' * 1024, '.txt')
+    browser.getControl('file').add_file(fh, 'text/plain', filename)
+    browser.getControl('Add').click()
+    assert '"%s" added.' % filename == browser.message
+    # A larger file can be downloaded successfully.
+    browser.getLink('Download file').click()
+    assert '14336' == browser.headers['content-length']
+    assert browser.contents.startswith('File contents File contents')
 
 
 def test_file__Add__Edit__Download__1(

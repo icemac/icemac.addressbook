@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from ..operators import IOperator
+from ..operators import IOperator, Operator
 from decimal import Decimal
 from gocept.reference.collection import InstrumentedSet
 from icemac.addressbook.utils import create_and_add
@@ -53,6 +53,13 @@ def _evaluate(value1, operator_name, value2):
 
 
 # Tests
+
+def test_operator__Operator____call____1():
+    """It raises an NotImplementedError."""
+    op = Operator(None)
+    with pytest.raises(NotImplementedError):
+        op(None)
+
 
 def test_operator__append__1(evaluate):
     """append() returns value2 if value1 is `None`."""

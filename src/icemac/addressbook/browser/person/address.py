@@ -14,13 +14,13 @@ class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
         parent = zope.traversing.api.getParent(self.context)
         entity = icemac.addressbook.interfaces.IEntity(self.context)
         default_attr = entity.tagged_values.get('default_attrib', None)
-        if default_attr is not None:
-            default_obj = getattr(parent, default_attr)
-            if self.context == default_obj:
-                replacement_obj = icemac.addressbook.utils.create_obj(
-                    entity.getClass())
-                icemac.addressbook.utils.add(parent, replacement_obj)
-                setattr(parent, default_attr, replacement_obj)
+        assert default_attr is not None
+        default_obj = getattr(parent, default_attr)
+        if self.context == default_obj:
+            replacement_obj = icemac.addressbook.utils.create_obj(
+                entity.getClass())
+            icemac.addressbook.utils.add(parent, replacement_obj)
+            setattr(parent, default_attr, replacement_obj)
         super(DefaultsDeleteForm, self)._do_delete()
 
 

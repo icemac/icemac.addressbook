@@ -309,6 +309,19 @@ def test_principals__EditForm__5(address_book, UserFactory, browser):
     assert browser.url.startswith(browser.PRINCIPALS_LIST_URL)  # +/index.html
 
 
+def test_principals__EditForm__5_5(address_book, UserFactory, browser):
+    """If a visitor does not change his password, he is not logged out."""
+    UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',
+                'u1u2u3u4', ['Visitor'])
+    browser.formlogin(u'uu@example.com', 'u1u2u3u4')
+    browser.open(browser.PRINCIPAL_EDIT_URL_1)
+    browser.getControl('Apply').click()
+    # Changing the password immediately asks the visitor for his new
+    # credentials:
+    assert 'Data successfully updated.' == browser.message
+    assert browser.PRINCIPALS_LIST_URL == browser.url
+
+
 def test_principals__EditForm__6(address_book, UserFactory, browser):
     """An editor can edit his own user data but not the roles."""
     user = UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',

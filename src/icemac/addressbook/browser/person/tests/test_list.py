@@ -319,11 +319,14 @@ def test_list__PersonList__11i(
             'person__birth_date': datetime.date(1977, 11, 24),
             'person__keywords': [u'Friend', u'church'],
             'postal__country': gocept.country.db.Country('JP'),
+            'phone__number': u'110',
             'homepage__url': 'http://www.mycompany.de',
             'email__email': u'tester@example.com',
         })
-    utzer = FullPersonFactory(address_book, u'Utzer')
-    # This e-main address will not show up in the list as only the default ones
+    # Country with no value is not displayed.
+    utzer = FullPersonFactory(
+        address_book, u'Utzer', postal__country=None)
+    # This e-mail address will not show up in the list as only the default ones
     # are displayed there:
     EMailAddressFactory(utzer, email=u'ben@utzer.org', set_as_default=False)
 
@@ -335,16 +338,17 @@ def test_list__PersonList__11i(
          '1977 11 24 ',
          'church, Friend',  # keywords: comma separated + lower case sorted
          'Japan',
+         '110',
          'http://www.mycompany.de',
          'tester@example.com',
-         'Utzer',
-         'Germany'],
+         'Utzer'],
         ((IPerson, 'first_name'),
          (IPerson, 'last_name'),
          (IPerson, 'notes'),
          (IPerson, 'birth_date'),
          (IPerson, 'keywords'),
          (IPostalAddress, 'country'),
+         (IPhoneNumber, 'number'),
          (IHomePageAddress, 'url'),
          (IEMailAddress, 'email')))
 

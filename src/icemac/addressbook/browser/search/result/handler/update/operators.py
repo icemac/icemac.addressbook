@@ -25,7 +25,7 @@ class Operator(grokcore.component.Adapter):
         self.operand1 = operand1
 
     def __call__(self, operand2):
-        raise NotImplementedError
+        raise NotImplementedError()
 
 
 class TextAppend(Operator):

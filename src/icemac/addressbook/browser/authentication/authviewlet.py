@@ -10,6 +10,5 @@ class FlashedHTTPAuthenticationLogout(
 
     def logout(self, nextURL=None):
         result = super(FlashedHTTPAuthenticationLogout, self).logout(nextURL)
-        if result:
-            self.send_flash(_('You have been logged out successfully.'))
+        self.send_flash(_('You have been logged out successfully.'))
         return result

@@ -14,19 +14,15 @@ def set_current_princial_id(object, attribute):
     interaction = zope.security.management.queryInteraction()
     if interaction is None:
         return
-    for participation in interaction.participations:
-        if participation.principal is not None:
-            # Need to unwrap the object otherwise we get:
-            # ForbiddenAttribute: ('__getitem__',
-            #                      <BTrees.OOBTree.OOBTree object...>)
-            # when trying to access the annotation key.
-            unsafe_object = zope.security.proxy.getObject(object)
-            metadata = icemac.addressbook.metadata.interfaces.IEditor(
-                unsafe_object)
-            setattr(
-                metadata, attribute, unicode(participation.principal.title))
-            # Seting the first participating principal is enough for now.
-            return
+    # Seting the first participating principal is enough for now.
+    participation = interaction.participations[0]
+    # Need to unwrap the object otherwise we get:
+    # ForbiddenAttribute: ('__getitem__',
+    #                      <BTrees.OOBTree.OOBTree object...>)
+    # when trying to access the annotation key.
+    unsafe_object = zope.security.proxy.getObject(object)
+    metadata = icemac.addressbook.metadata.interfaces.IEditor(unsafe_object)
+    setattr(metadata, attribute, unicode(participation.principal.title))
 
 
 @zope.component.adapter(

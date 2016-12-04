@@ -91,12 +91,11 @@ class PersonAddForm(z3c.form.group.GroupForm,
         person_entity = icemac.addressbook.interfaces.IEntity(
             icemac.addressbook.interfaces.IPerson)
         person_entity_name = person_entity.name
-        for group in self.groups:
-            if group.prefix == person_entity_name:
-                # found person group, now can create person object
-                person = icemac.addressbook.browser.base.create(
-                    group, person_entity.getClass(), data)
-                break
+        person_group = [group
+                        for group in self.groups
+                        if group.prefix == person_entity_name][0]
+        person = icemac.addressbook.browser.base.create(
+            person_group, person_entity.getClass(), data)
         self._name = icemac.addressbook.utils.add(self.context, person)
         for group in self.groups:
             if group.prefix == person_entity_name:
@@ -107,10 +106,8 @@ class PersonAddForm(z3c.form.group.GroupForm,
                 group, entity.getClass(), data)
             icemac.addressbook.utils.add(person, obj)
             # handling of default addresses: the first address is
-            # saved as default
-            default_attrib = entity.tagged_values['default_attrib']
-            if getattr(person, default_attrib, None) is None:
-                setattr(person, default_attrib, obj)
+            # saved as default:
+            setattr(person, entity.tagged_values['default_attrib'], obj)
         self.obj = person
         return person
 
@@ -235,9 +232,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         """
         content = self.getContent()
         changed = {}
-        mainChanged = z3c.form.form.applyChanges(self, content, data)
-        if mainChanged:
-            changed[content] = mainChanged
+        assert self.fields.items() == []  # Each field is in a group.
         for group in self.groups:
             groupChanged = group.applyChanges(data)
             if groupChanged:
@@ -294,8 +289,7 @@ class PersonEntriesSource(
         entities = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntities).getEntities()
         for entity in entities:
-            if entity.interface is None:
-                continue
+            assert entity.interface
             source = icemac.addressbook.interfaces.ContextByInterfaceSource(
                 entity.interface).factory.getValues(context)
             for value in source:

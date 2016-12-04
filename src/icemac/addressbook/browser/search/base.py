@@ -74,4 +74,4 @@ class BaseSearch(object):
         pass
 
     def search(self, **kw):
-        raise NotImplementedError
+        raise NotImplementedError()

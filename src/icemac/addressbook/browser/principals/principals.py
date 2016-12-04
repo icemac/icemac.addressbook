@@ -75,9 +75,7 @@ class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
         zope.schema.interfaces.IChoice)
 
     def set(self, value):
-        if self.context.person is not None:
-            # was already set --> get error message from parent class
-            super(PersonFieldDataManager, self).set(value)
+        # `person` is a read-only field, so we cannot use the super call:
         self.context.person = value
 
 
@@ -164,11 +162,11 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         current_login_name = None
         auth = zope.component.getUtility(
             zope.authentication.interfaces.IAuthentication)
-        for key, plugin in auth.getAuthenticatorPlugins():
-            principal_info = plugin.principalInfo(current_principal_id)
-            if principal_info is not None:
-                current_login_name = principal_info.login
-                break
+        current_login_names = [
+            getattr(plugin.principalInfo(current_principal_id), 'login', None)
+            for key, plugin in auth.getAuthenticatorPlugins()]
+        assert len(current_login_names) == 1
+        current_login_name = current_login_names[0]
 
         old_login_name = self.context.login
         editing_own_data = (old_login_name == current_login_name)

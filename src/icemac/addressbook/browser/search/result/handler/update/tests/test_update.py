@@ -181,11 +181,14 @@ def test_update__endtoend__5(address_book, UpdateablePersonFactory, browser):
     assert 'No person found.' in browser.contents
 
 
-@pytest.mark.parametrize("datatype", (int, decimal.Decimal))
+@pytest.mark.parametrize("type,factory", (
+    ['Int', int],
+    ['Decimal', decimal.Decimal]))
 def test_update__endtoend__6(
-        address_book, AddressWithUserdefinedFieldFactory, browser, datatype):
+        address_book, AddressWithUserdefinedFieldFactory, browser, type,
+        factory):
     """A user defined integer field can be updated."""
-    AddressWithUserdefinedFieldFactory(address_book, 'Int', datatype(50))
+    AddressWithUserdefinedFieldFactory(address_book, type, factory(50))
     _update_field_value(browser, 'postal address -- distance', 'add', '5')
     assert '<td>Tester</td><td>55</td>' in browser.contents_without_whitespace
 

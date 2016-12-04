@@ -54,12 +54,9 @@ def title(person):
 
 def get_default_field(interface):
     """Find the field of a default value attribute on person."""
-    # XXX use IEntity(interface).taggedValues['default_attrib'] here:
-    names_descrs = (
-        icemac.addressbook.interfaces.IPersonDefaults.namesAndDescriptions())
-    for name, descr in names_descrs:
-        if descr.source.factory.interface == interface:
-            return icemac.addressbook.interfaces.IPersonDefaults[name]
+    field_name = icemac.addressbook.interfaces.IEntity(
+        interface).tagged_values['default_attrib']
+    return icemac.addressbook.interfaces.IPersonDefaults[field_name]
 
 
 def sorted_person_defaults(name_field_tuples):
