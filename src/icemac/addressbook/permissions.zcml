@@ -2,6 +2,12 @@
   xmlns="http://namespaces.zope.org/zope"
   i18n_domain="icemac.addressbook">
 
+  <!-- Developer -->
+  <permission
+    id="icemac.addressbook.DevelopAddressBook"
+    title="Work as developer in the address book"
+    />
+
   <!-- Addressbook -->
   <permission
     id="icemac.addressbook.AddAddressBook"

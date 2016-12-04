@@ -2,6 +2,7 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
    i18n_domain="icemac.addressbook">
 
   <interface
@@ -218,6 +219,13 @@
       permission="zope.Public" />
 
   <browser:page
+      for="zope.browser.interfaces.IBrowserView"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
       for="Exception"
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="favicon-url"
@@ -247,6 +255,14 @@
   <adapter
        factory=".form.FieldDescriptionAsHint"
        name="title" />
+
+  <gocept:pagelet
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="inspector"
+      class=".inspector.Inspector"
+      template="inspector.pt"
+      permission="icemac.addressbook.DevelopAddressBook" />
 
   <include package=".about" />
   <include package=".addressbook" />

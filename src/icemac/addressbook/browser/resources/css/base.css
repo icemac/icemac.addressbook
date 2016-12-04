@@ -205,6 +205,11 @@ div#content h2 {
     font-weight: bold;
 }
 
+div#content h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /* tipps */
 p.hint {
     margin-top: 10px;

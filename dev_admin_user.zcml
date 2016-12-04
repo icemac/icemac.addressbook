@@ -10,8 +10,8 @@
      role="icemac.addressbook.global.Administrator"
      principal="zope.manager" />
   <grant
-      permission="zope.ManageContent"
+      permissions="zope.ManageContent
+                   icemac.addressbook.DevelopAddressBook"
       principal="zope.manager" />
-
 
 </configure>

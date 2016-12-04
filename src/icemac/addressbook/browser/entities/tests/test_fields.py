@@ -1,15 +1,8 @@
 from icemac.addressbook.interfaces import IPerson, IEntity
-from mechanize import LinkNotFoundError, HTTPError
+from icemac.addressbook.testing import assert_forbidden
+from mechanize import LinkNotFoundError
 import pytest
 import zope.component.hooks
-
-
-def assert_forbidden(browser, username, url):
-    """Assert accessing a URL is forbidden for a user."""
-    browser.login(username)
-    with pytest.raises(HTTPError) as err:
-        browser.open(url)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
