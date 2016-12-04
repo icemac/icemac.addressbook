@@ -116,93 +116,10 @@ def test_file__Add__5(address_book, FullPersonFactory, browser):
     assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
-def test_file__Edit__1(address_book, FullPersonFactory, FileFactory, browser):
-    """`Edit` allows to change the name and mimetype of the file."""
-    FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
-    browser.login('editor')
-    browser.open(browser.PERSON_EDIT_URL)
-    browser.getControl('name', index=2).value = 'my nice file.txt'
-    browser.getControl('Mime Type').value = 'text/example'
-    browser.getControl('Apply').click()
-    assert 'Data successfully updated.' == browser.message
-    assert browser.PERSONS_LIST_URL == browser.url
 
-
-def test_file__Edit__2(
-        address_book, FullPersonFactory, FileFactory, browser, tmpfile):
-    """`Edit` allows to upload a new file.
-
-    This changes the name and the mime type if necessary. When the browser does
-    not know the mime type and sends ``application/octet-stream``, the mime
-    type is guessed using the file extension and file contents.
 
     """
-    FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
     browser.login('editor')
-    browser.open(browser.PERSON_EDIT_URL)
-    fh, filename = tmpfile('special data, blah', '.js')
-    browser.getControl('file', index=1).add_file(
-        fh, 'application/octet-stream', filename)
-    browser.getControl('Apply').click()
-    assert 'Data successfully updated.' == browser.message
-    assert browser.PERSONS_LIST_URL == browser.url
-    # The downloaded file behaves accordingly:
-    browser.open(browser.PERSON_EDIT_URL)
-    assert browser.getControl('file name').value == filename
-    assert 'application/javascript' == browser.getControl('Mime Type').value
-
-
-def test_file__Edit__3(
-        address_book, FullPersonFactory, FileFactory, browser, tmpfile):
-    """`Edit` correctly handles a missing mime-type.
-
-    The mime type is optional, if the browser of the client does not send
-    a content type and zope.mimetype can't determine the mime type from
-    the filename or file content, it is set to ``application/octet-stream``.
-
-    """
-    FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
-    browser.login('editor')
-    browser.open(browser.PERSON_EDIT_URL)
-    fh, filename = tmpfile('Ä, no content type, huh', '')
-    browser.getControl('file', index=1).add_file(fh, '', filename)
-    browser.getControl('Apply').click()
-    assert 'Data successfully updated.' == browser.message
-    assert browser.PERSONS_LIST_URL == browser.url
-    browser.open(browser.PERSON_EDIT_URL)
-    assert 'application/octet-stream' == browser.getControl('Mime Type').value
-
-
-def test_file__Edit__4(
-        address_book, FieldFactory, FullPersonFactory, FileFactory, browser):
-    """The data in the user defined field on a file can be edited."""
-    field_name = FieldFactory(address_book, IFile, 'Text', u'mynotes').__name__
-    person = FullPersonFactory(address_book, u'Tester')
-    FileFactory(person, **{'filename': u'foo.txt', field_name: 'first letter'})
-    browser.login('editor')
-    browser.open(browser.PERSON_EDIT_URL)
-    assert 'first letter' == browser.getControl('mynotes').value
-    browser.getControl('mynotes').value = 'second letter'
-    browser.getControl('Apply').click()
-    assert 'Data successfully updated.' == browser.message
-    assert browser.PERSONS_LIST_URL == browser.url
-    browser.getLink('Tester').click()
-    assert 'second letter' == browser.getControl('mynotes').value
-
-
-def test_file__Edit__5(address_book, FullPersonFactory, FileFactory, browser):
-    """A visitor is not able to edit a file."""
-    FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
-    browser.login('visitor')
-    browser.open(browser.PERSON_EDIT_URL)
-    # There are neither any input widgets nor a delete button:
-    assert ['form.buttons.apply',
-            'form.buttons.cancel',
-            'form.buttons.export'] == browser.all_control_names
 
 
 def test_file__Add__Edit__Download__1(
