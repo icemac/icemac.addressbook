@@ -187,6 +187,28 @@
                 ".mr.developer.cfg",
                 "pytest.ini",
                 ]
-    }
+    },
+    {
+      "follow_symlinks": true,
+      "path": "../icemac.update.addressbook",
+      "folder_exclude_patterns": [
+                "*.egg-info",
+                ".cache",
+                "__pycache__",
+                "bin",
+                "coverage",
+                "develop-eggs",
+                "htmlcov",
+                "log",
+                "parts",
+                "var",
+                ],
+      "file_exclude_patterns": [
+                ".coverage",
+                ".hgtags",
+                ".installed.cfg",
+                ".mr.developer.cfg",
+                ]
+    },
   ]
 }
