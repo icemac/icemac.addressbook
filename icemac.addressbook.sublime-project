@@ -85,12 +85,16 @@
                 "log",
                 "parts",
                 "var",
+                "lib",
+                "include",
                 ],
       "file_exclude_patterns": [
                 ".coverage",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
+                ".Python",
+                "pip-selfcheck.json",
                 ]
     },
     {
@@ -161,7 +165,6 @@
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
-                "pytest.ini",
                 ]
     },
     {
