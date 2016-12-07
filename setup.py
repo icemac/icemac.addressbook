@@ -23,7 +23,7 @@ setuptools.setup(
              'phone number e-mail email home page homepage wsgi',
     author='Michael Howitz',
     author_email='icemac@gmx.net',
-    download_url='http://pypi.python.org/pypi/icemac.addressbook',
+    download_url='https://pypi.org/project/icemac.addressbook',
     url='https://bitbucket.org/icemac/icemac.addressbook',
     license='ZPL 2.1',
     classifiers=[
