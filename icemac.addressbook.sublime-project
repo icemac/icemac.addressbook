@@ -2,6 +2,23 @@
   "folders":
   [
     {
+      "follow_symlinks": true,
+      "path": "../addressbook-wiki",
+      "folder_exclude_patterns": [
+                ],
+      "file_exclude_patterns": [
+                ]
+    },
+    {
+      "follow_symlinks": true,
+      "path": "../addressbook-website",
+      "folder_exclude_patterns": [
+                ".hgcheck",
+                ],
+      "file_exclude_patterns": [
+                ]
+    },
+    {
       "path": ".",
       "follow_symlinks": true,
       "folder_exclude_patterns": [
@@ -193,7 +210,7 @@
     },
     {
       "follow_symlinks": true,
-      "path": "../icemac.update.addressbook",
+      "path": "../icemac.install.addressbook",
       "folder_exclude_patterns": [
                 "*.egg-info",
                 ".cache",
@@ -201,6 +218,7 @@
                 "bin",
                 "coverage",
                 "develop-eggs",
+                "coverage-report",
                 "htmlcov",
                 "log",
                 "parts",
