@@ -12,20 +12,25 @@ exclude .coveragerc
 include *.sublime-project
 exclude *.sublime-project
 
-include .travis.cfg
-exclude .travis.cfg
-
 exclude *.zcml
 include default_skin.zcml
 
 exclude *.ini
 include install.default.ini
 
-exclude *.cfg
-exclude *.yml
-exclude MANIFEST.in
-exclude .hgignore
+include .travis.cfg
+exclude .travis.cfg
+
+include .travis.yml
+exclude .travis.yml
+
+include .hgtags
 exclude .hgtags
+
+include .hgignore
+exclude .hgignore
+
+exclude MANIFEST.in
 
 recursive-include log *.txt
 recursive-include profiles *.cfg
