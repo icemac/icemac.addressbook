@@ -6,7 +6,10 @@ Change log
 2.10 (unreleased)
 =================
 
-- Nothing changed yet.
+Other
+-----
+
+- Update most libraries needed for the address book to their newest versions.
 
 
 2.9 (2017-01-06)
