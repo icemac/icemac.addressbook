@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-2.9.1 (unreleased)
+2.9.1 (2017-01-08)
 ==================
 
 - Pack the ZODB during update to a newer address book version.
