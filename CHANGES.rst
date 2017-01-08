@@ -10,6 +10,7 @@ Other
 -----
 
 - Update most libraries needed for the address book to their newest versions.
+- Pack the ZODB during update to a newer address book version.
 
 
 2.9 (2017-01-06)
