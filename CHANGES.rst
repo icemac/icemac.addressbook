@@ -6,6 +6,12 @@ Change log
 2.10 (unreleased)
 =================
 
+Features
+--------
+
+- Add a search result handler which renders a list of the selected persons with
+  a check-box in front.
+
 Other
 -----
 

@@ -215,3 +215,11 @@ p.hint {
     margin-top: 10px;
     color: #555555;
 }
+
+.checklist-headline {
+    background-color: transparent;
+    border: 0 none;
+    font-size: 24px;
+    width: 100%;
+    cursor: text;
+}
