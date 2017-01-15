@@ -15,6 +15,7 @@ def test_update__security__1(search_data, browser, username):
             'resp. phone numbers.)',
             'E-Mail (Creates a link to send e-mails.)',
             'Names (Comma separated list of person names.)',
+            'Checklist (List of person names with check-boxes.)',
             "iCalendar export birthday (Export person's birthdays as .ics "
             "file.)"] == browser.getControl(
                 'Apply on selected persons').displayOptions

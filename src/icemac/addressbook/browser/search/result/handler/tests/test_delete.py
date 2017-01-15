@@ -60,6 +60,7 @@ def test_delete__DeleteForm__3(search_data, browser, role):
          'phone numbers.)',
          'E-Mail (Creates a link to send e-mails.)',
          'Names (Comma separated list of person names.)',
+         'Checklist (List of person names with check-boxes.)',
          "iCalendar export birthday (Export person's birthdays as "
          ".ics file.)"] ==
         browser.getControl('Apply on selected persons').displayOptions)
