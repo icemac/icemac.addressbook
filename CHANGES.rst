@@ -14,6 +14,8 @@ Features
 
 - Style text input fields better.
 
+- Style the print output properly.
+
 Other
 -----
 

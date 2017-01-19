@@ -176,3 +176,16 @@ form .widget .ui-selectable li img {
     margin-left: auto;
     margin-right: auto;
 }
+
+@media only print {
+    #content fieldset,
+    #content legend,
+    #content fieldset fieldset,
+    #content fieldset fieldset div.row {
+        background-color: #fff;
+    }
+    #content label span.required,
+    .required-info {
+        display: none;
+    }
+}

@@ -23,5 +23,6 @@
   </dl>
   <p>&#xA0;</p>
   <a href="javascript:history.go(-1)"
+     class="no-print"
      i18n:translate="">Go back</a>
 </tal:i18n>

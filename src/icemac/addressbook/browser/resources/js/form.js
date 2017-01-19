@@ -10,7 +10,7 @@
         if (!text) {
             return;
         }
-        widget.append('<div class="hint">' + text + '</div>');
+        widget.append('<div class="hint no-print">' + text + '</div>');
     }
 
     // Put focus on first input field of form:
