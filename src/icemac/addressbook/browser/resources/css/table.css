@@ -47,3 +47,9 @@ div.batch a.current {
     border: solid #666 2px;
 }
 
+@media only print {
+    .table-even-row,
+    .table-odd-row {
+        background-color: #fff;
+    }
+}

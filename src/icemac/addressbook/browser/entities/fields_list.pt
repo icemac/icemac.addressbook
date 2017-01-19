@@ -24,7 +24,8 @@
     </tbody>
   </table>
 
-  <p class="hint" i18n:translate="">You can reorder the fields using
+  <p class="hint no-print"
+     i18n:translate="">You can reorder the fields using
      drag'n'drop. To store a changed order use the `Save sortorder` button
      below.</p>
 

@@ -9,7 +9,7 @@ def test_name__Search__1(address_book, browser):
         ['You may use wildcards in this search: Use ? for a single character '
          'or * for multiple characters.'] ==
         browser.etree.xpath(
-            '//div[@id="content"]/div[@class="row"][1]/text()'))
+            '//div[@id="content"]/div[@class="row no-print"]/text()'))
 
 
 def test_name__Search__2(address_book, browser):

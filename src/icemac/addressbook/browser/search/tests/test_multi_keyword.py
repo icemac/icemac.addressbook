@@ -9,7 +9,7 @@ def test_multi_keyword__Search__1(search_data, browser):
         ['The keywords you want to search for have to be in the right box. '
          'Use the arrow buttons to move them.'] ==
         browser.etree.xpath(
-            '//div[@id="content"]/div[@class="row"][1]/text()'))
+            '//div[@id="content"]/div[@class="row no-print"]/text()'))
 
 
 def test_multi_keyword__Search__2(address_book, browser):

@@ -78,7 +78,8 @@ def test__mailto__MailTo___link__1(mailto_data, browser):
     browser.keyword_search('mail-me', apply='E-Mail')
     assert [['<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
              'Click here to open your e-mail client</a>'],
-            ['<a href="javascript:history.go(-1)">Go back</a>']] == [
+            ['<a href="javascript:history.go(-1)" '
+             'class="no-print">Go back</a>']] == [
         browser.etree_to_list(x)
         for x in browser.etree.xpath('//div[@id="mailto"]//a')]
 

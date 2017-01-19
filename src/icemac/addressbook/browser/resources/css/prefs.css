@@ -28,3 +28,10 @@
 #prefs-category-edit-form fieldset div.group p {
     color: #666;
 }
+
+
+@media only print {
+    #prefs-category-edit-form .viewspace p {
+        display: none;
+    }
+}

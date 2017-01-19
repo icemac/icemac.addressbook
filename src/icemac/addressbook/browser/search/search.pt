@@ -3,7 +3,7 @@
       i18n:translate="">Please choose a search.</h2>
   <ul tal:replace="structure provider:search-menu">Search menu</ul>
   <div tal:content="structure provider:search-form">Form</div>
-  <div class="row"
+  <div class="row no-print"
        tal:condition="view/form_explanation"
        tal:content="view/form_explanation" />
   <div class="row"
