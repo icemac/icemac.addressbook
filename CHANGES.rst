@@ -12,10 +12,13 @@ Features
 - Add a search result handler which renders a list of the selected persons with
   a check-box in front.
 
+- Style text input fields better.
+
 Other
 -----
 
 - Update most libraries needed for the address book to their newest versions.
+
 - Pack the ZODB during update to a newer address book version.
 
 
