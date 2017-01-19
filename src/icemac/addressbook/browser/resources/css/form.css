@@ -1,3 +1,8 @@
+.group input[type="text"],
+.group input[type="password"] {
+    width: 35em;
+}
+
 #content label span.required {
     color: red;
 }
@@ -68,8 +73,8 @@ select.set-field {
 
 #content textarea {
     height: 15ex;
-    width: 100%;
-    font-size: 11px;
+    width: 40em;
+    font-size: 14px;
 }
 
 #content form div.multi-widget-checkbox {
