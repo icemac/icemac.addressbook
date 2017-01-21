@@ -2,6 +2,8 @@
  Old changes
 =============
 
+Changelog of releases more than 2 major versions behind current version.
+
 2.7.1 (2016-06-26)
 ==================
 
