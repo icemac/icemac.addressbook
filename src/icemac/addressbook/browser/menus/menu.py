@@ -49,6 +49,7 @@ class OrdersWeightMenuManager(z3c.menu.ready2go.manager.MenuManager):
 class EmptyViewlet(zope.viewlet.viewlet.ViewletBase):
     """Helper class for AlwaysRenderTemplateManager."""
 
+
 EMPTY_VIEWLET = EmptyViewlet(None, None, None, None)
 
 
