@@ -10,7 +10,6 @@ addopts = {% for test_egg in parts.pytest_ini.test_eggs | split -%}
 		  {%- endfor %}
           --cov=src
           --cov-report=html
-          --cov-report=term-missing
           --no-cov-on-fail
           --cov-fail-under=100
           --flake8
