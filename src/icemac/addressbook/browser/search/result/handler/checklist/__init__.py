@@ -16,5 +16,6 @@ class Checklist(icemac.addressbook.browser.search.result.handler.base.Base,
     def person_count(self):
         return len(self.persons)
 
+
 checklist = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
     'person-checklist.html')

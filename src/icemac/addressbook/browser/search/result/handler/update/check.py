@@ -56,7 +56,7 @@ class ReviewTable(icemac.addressbook.browser.table.Table,
                 self, entity, field, 2),
             z3c.table.column.addColumn(
                 self, ErrorColumn, 'errors', weight=3, header=_('errors')),
-            ]
+        ]
 
     @property
     def values(self):

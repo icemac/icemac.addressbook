@@ -25,7 +25,7 @@ renames = {
     zacs + "LocalSiteManager": "zope.site.site LocalSiteManager",
     zacs + "SiteManagementFolder": "zope.site.site SiteManagementFolder",
     zacs + "_LocalAdapterRegistry": "zope.site.site _LocalAdapterRegistry",
-    }
+}
 
 
 def evolve(context):

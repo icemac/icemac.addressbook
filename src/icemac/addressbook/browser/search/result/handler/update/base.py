@@ -25,7 +25,7 @@ class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):
             z3c.wizard.step.addStep(self, 'chooseField', weight=1),
             z3c.wizard.step.addStep(self, 'enterValue', weight=2),
             z3c.wizard.step.addStep(self, 'checkResult', weight=3),
-            ]
+        ]
 
 
 UPDATE_SESSION_KEY = 'search_result_handler:update'

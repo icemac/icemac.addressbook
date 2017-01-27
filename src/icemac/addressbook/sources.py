@@ -31,6 +31,7 @@ class YesNoSource(TitleMappingSource):
         ((True, _(u'yes')),
          (False, _(u'no'))))
 
+
 yes_no_source = YesNoSource()
 
 
@@ -38,6 +39,7 @@ class AscDescSource(TitleMappingSource):
     _mapping = collections.OrderedDict(
         (('ascending', _(u'ascending (A-->Z)')),
          ('descending', _(u'descending (Z-->A)'))))
+
 
 asc_desc_source = AscDescSource()
 

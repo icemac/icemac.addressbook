@@ -53,6 +53,7 @@ def timezone_messageid_factory(message_id):
         return _(message_id, mapping=dict(timezone=prefs.time_zone))
     return factory
 
+
 ModifiedLabel = z3c.form.widget.ComputedWidgetAttribute(
     timezone_messageid_factory(_(u'Modification Date (${timezone})')),
     field=zope.dublincore.interfaces.IDCTimes['modified'])

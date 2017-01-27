@@ -63,6 +63,7 @@ class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
             data = [(DEFAULT_FAVICON, DEFAULT_FAVICON)]
         return collections.OrderedDict(sorted(data))
 
+
 favicon_source = FaviconSource()
 
 
@@ -95,6 +96,7 @@ class StartpageSource(icemac.addressbook.sources.TitleMappingSource):
     def getToken(self, value):
         return str(value)
 
+
 startpage_source = StartpageSource()
 
 
@@ -102,6 +104,7 @@ class TimeZones(icemac.addressbook.sources.TitleMappingSource):
     """Source of all available time zones."""
 
     _mapping = collections.OrderedDict(((x, x) for x in pytz.common_timezones))
+
 
 time_zones = TimeZones()
 
@@ -170,6 +173,7 @@ class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
 
     def getTitle(self, value):
         return value.title
+
 
 keyword_source = KeywordSource()
 

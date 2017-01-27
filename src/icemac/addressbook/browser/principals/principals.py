@@ -110,6 +110,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
             raise z3c.form.interfaces.ActionExecutionError(
                 zope.interface.Invalid(_(e.args[0])))
 
+
 # in the Add form the password fields are required ...
 password_required = z3c.form.widget.StaticWidgetAttribute(
     True, context=None, request=None, view=AddForm, field=zope.schema.Password,

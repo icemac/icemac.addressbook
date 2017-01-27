@@ -53,9 +53,8 @@ def interactive_debug_prompt(zope_conf='zope.conf'):
               "The 'root' variable contains the ZODB root folder.\n"
               "The 'app' variable contains the Debugger, 'app.publish(path)' "
               "simulates a request.")
-    code.interact(banner=banner, local={'debugger': debugger,
-                                        'app':      debugger,
-                                        'root':     debugger.root()})
+    code.interact(banner=banner, local={
+        'debugger': debugger, 'app': debugger, 'root': debugger.root()})
 
 
 class ControllerCommands(zdaemon.zdctl.ZDCmd):

@@ -24,6 +24,7 @@ class RoleSource(zc.sourcefactory.basic.BasicSourceFactory):
             zope.securitypolicy.interfaces.IRole, name=value)
         return role.title
 
+
 role_source = RoleSource()
 
 
@@ -56,5 +57,6 @@ class Persons(zc.sourcefactory.contextual.BasicContextualSourceFactory):
 
     def getTitle(self, context, value):
         return icemac.addressbook.interfaces.ITitle(value)
+
 
 persons = Persons()
