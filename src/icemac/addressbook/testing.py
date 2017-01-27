@@ -5,23 +5,28 @@ import gocept.jslint
 import icemac.addressbook.addressbook
 import icemac.addressbook.interfaces
 import icemac.addressbook.person
+import icemac.addressbook.startup
 import icemac.addressbook.utils
 import lxml.etree
 import mechanize
 import os
 import plone.testing
 import plone.testing.zca
+import plone.testing.zodb
 import pytest
 import pytz
 import transaction
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
+import zope.app.wsgi.testlayer
 import zope.component
 import zope.component.hooks
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
+import zope.testbrowser.wsgi
 
 
+CURRENT_CONNECTION = None
 ZODBConnection = collections.namedtuple(
     'ZODBConnection', ['connection', 'rootFolder', 'zodb'])
 
@@ -34,10 +39,76 @@ def createZODBConnection(zodbDB):
     return ZODBConnection(connection, rootFolder, zodbDB)
 
 
+def pyTestEmptyZodbFixture():
+    """Create an empty ZODB prepared to create an address book inside.
+
+    Yields the zodb object.
+
+    Prepared to be usable with a ``pytest.yield_fixture()``.
+
+    """
+    layer = plone.testing.zodb.EmptyZODB()
+    layer.setUp()
+    zodb = layer['zodbDB']
+    zope.event.notify(zope.processlifetime.DatabaseOpened(zodb))
+    transaction.commit()
+    yield zodb
+    layer.tearDown()
+
+
+def pyTestAddressBookFixture(zodb, name):
+    """Create an address book in the ZODB.
+
+    Expects an empty ZODB as created by pyTestEmptyZodbFixture() and a name
+    for the demo storage layer.
+
+    Yields the zodb object.
+
+    Prepared to be usable with a ``pytest.yield_fixture()``.
+
+    """
+    for connection in pyTestStackDemoStorage(zodb, name):
+        icemac.addressbook.testing.create_addressbook(
+            connection.rootFolder, name='ab', title=u'test addressbook')
+        transaction.commit()
+        yield connection.zodb
+
+
+def pyTestStackDemoStorage(zodb, name):
+    """Put a demo storage on top of ``zodb`` and yield the connection tuple.
+
+    Prepared to be usable with a ``pytest.yield_fixture()``.
+
+    """
+    global CURRENT_CONNECTION
+    storage = plone.testing.zodb.stackDemoStorage(zodb, name=name)
+    connection = icemac.addressbook.testing.createZODBConnection(storage)
+    transaction.begin()
+    CURRENT_CONNECTION = connection
+    yield connection
+    storage.close()
+    transaction.abort()
+    connection.connection.close()
+    CURRENT_CONNECTION = None
+
+
+def site(connection):
+    """Get the address book from the connection and set it as site.
+
+    Usable in a `yield_fixture`.
+    Resets the site to its previous value at exit.
+
+    """
+    addressbook = connection.rootFolder['ab']
+    with zope.component.hooks.site(addressbook):
+        yield addressbook
+
+
 # Layer factories
 
 
-def SecondaryZCMLLayer(name, module, package, bases, filename="ftesting.zcml"):
+def SecondaryZCMLLayer(
+        name, module, package, bases=(), filename="ftesting.zcml"):
     """Factory to create a new ZCML test layer above an existing one."""
     return plone.testing.zca.ZCMLSandbox(
         name="%sZCML" % name, bases=bases, filename=filename,
@@ -291,7 +362,7 @@ class Webdriver(object):
         return self.selenium.getText('css=#info-messages')
 
 
-# assertion helper functions
+# assertion helper functions and helper classes
 
 def assert_forbidden(browser, username, url):
     """Assert accessing a URL is forbidden for a user."""
@@ -299,6 +370,82 @@ def assert_forbidden(browser, username, url):
     with pytest.raises(mechanize.HTTPError) as err:
         browser.open(url)
     assert 'HTTP Error 403: Forbidden' == str(err.value)
+
+
+class SiteMenu(object):
+    """Helper class to test selections in the site menu."""
+
+    def __init__(self, browser, menu_item_index, menu_item_title,
+                 menu_item_URL):
+        """Parameters:
+
+        browser ... return value of the ``browser`` fixture.
+        menu_item_index ... zero-based index of the position of the item in
+                             the menu
+        menu_item_title ... title of the menu item
+        menu_item_URL ... URL the menu item should point to
+
+        """
+        self.browser = browser
+        self.menu_item_index = menu_item_index
+        self.menu_item_title = menu_item_title
+        self.menu_item_URL = menu_item_URL
+
+    def item_selected(self, url):
+        self.browser.open(url)
+        return bool(
+            self.browser.etree.xpath(self._xpath)[0].attrib.get('class'))
+
+    def assert_correct_menu_item_is_tested(self):
+        self.browser.open(self.menu_item_URL)
+        assert self.menu_item_title == self.browser.etree.xpath(
+            '%s/a/span' % self._xpath)[0].text
+
+    @property
+    def _xpath(self):
+        # xpath is one based!
+        return '//ul[@id="main-menu"]/li[%s]' % (self.menu_item_index + 1)
+
+
+class AddressBookAssertions:
+    """Assertions helpful to check automatic installation routines."""
+
+    def __init__(self, address_book):
+        self.address_book = address_book
+
+    def has_local_utility(self, iface, name=''):
+        """Assert that there is a local utility for the given interface."""
+        util = zope.component.queryUtility(
+            iface, context=self.address_book, name=name)
+        assert util is not None
+
+    def has_attribute(self, attribute, iface, name=''):
+        """Assert the address book has an attribute provided as utility."""
+        assert iface.providedBy(getattr(self.address_book, attribute))
+        self.has_local_utility(iface, name)
+
+
+class DateTimeClass(object):
+    """Helper class to create and format datetime objects."""
+
+    @property
+    def now(self):
+        return pytz.utc.localize(datetime.datetime.utcnow())
+
+    def format(self, dt, force_date=False):
+        """Format a datetime to the format needed in testbrowser."""
+        if isinstance(dt, datetime.datetime) and not force_date:
+            return dt.strftime('%y/%m/%d %H:%M')
+        else:
+            return self.format_date(dt)
+
+    def format_date(self, dt):
+        return "{0.year} {0.month} {0.day} ".format(dt)
+
+    @staticmethod
+    def add(dt, days=0, seconds=0):
+        """Add some days and/or seconds to `dt`."""
+        return dt + datetime.timedelta(days=days, seconds=seconds)
 
 
 # Helper functions to create objects in the database
@@ -350,3 +497,39 @@ def delete_field(browser, field_name):
         '/{}/@@delete.html'.format(field_name))
     manager.getControl('Yes').click()
     assert manager.message.endswith('" deleted.')
+
+
+# Helper functions and classes
+
+
+class NonCachingPublicationCache(object):
+    """Replacement to prevent caching of ZODB connections."""
+
+    def get(self, key):
+        return None
+
+    def __setitem__(self, key, value):
+        """Do not cache!"""
+        pass
+
+
+class TestHTTPPublicationRequestFactory(
+        zope.app.publication.httpfactory.HTTPPublicationRequestFactory):
+    """RequestFactory which uses the global `CURRENT_CONNECTION`."""
+
+    def __init__(self):
+        super(TestHTTPPublicationRequestFactory, self).__init__(None)
+        self._publication_cache = NonCachingPublicationCache()
+
+    @property
+    def _db(self):
+        return CURRENT_CONNECTION.zodb
+
+    @_db.setter
+    def _db(self, value):
+        """Ignoring `value` because the global one should always be used."""
+
+
+def getRootFolder():
+    """`TransactionMiddleware` expects a callable to get the root folder."""
+    return CURRENT_CONNECTION.rootFolder
