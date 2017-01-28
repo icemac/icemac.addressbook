@@ -10,6 +10,7 @@ addopts = {% for test_egg in parts.pytest_ini.test_eggs | split -%}
 		  {%- endfor %}
           --cov=src
           --cov-report=html
+          --cov-report=term-missing
           --cov-fail-under=100
           --flake8
 python_files = test[s|_]*.py
