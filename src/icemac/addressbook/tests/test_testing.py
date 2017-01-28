@@ -1,5 +1,6 @@
 from mock import patch
 from z3c.flashmessage.interfaces import IMessageSource
+import datetime
 import pytest
 import zope.component
 import zope.publisher.testing
@@ -42,3 +43,8 @@ def test_testing__Browser__message__3(fake_session, browser):
     browser.login('mgr')
     browser.open('http://localhost')
     assert ['foo', 'blah'] == browser.message
+
+
+def test_testing__DateTimeClass__format__1(DateTime):
+    """It formats a date as zope.testbrowser expects it."""
+    assert '2017 1 27 ' == DateTime.format(datetime.date(2017, 1, 27))
