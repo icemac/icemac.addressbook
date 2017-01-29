@@ -21,6 +21,7 @@ import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
 import zope.component
 import zope.component.hooks
+import zope.i18n
 import zope.testbrowser.browser
 import zope.testbrowser.interfaces
 import zope.testbrowser.wsgi
@@ -533,3 +534,8 @@ class TestHTTPPublicationRequestFactory(
 def getRootFolder():
     """`TransactionMiddleware` expects a callable to get the root folder."""
     return CURRENT_CONNECTION.rootFolder
+
+
+def interpolate_insted_of_translate(self, msgid, mapping=None, *args, **kw):
+    """Use interpolation instead of translation."""
+    return zope.i18n.interpolate(msgid, mapping)

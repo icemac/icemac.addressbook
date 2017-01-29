@@ -12,7 +12,6 @@ import icemac.addressbook.principals.principals
 import icemac.addressbook.startup
 import icemac.addressbook.testing
 import icemac.addressbook.utils
-import mock
 import os
 import os.path
 import pytest
@@ -22,7 +21,6 @@ import zope.app.wsgi.testlayer
 import zope.browserpage.metaconfigure
 import zope.component.hooks
 import zope.event
-import zope.i18n
 import zope.principalregistry.principalregistry
 import zope.processlifetime
 import zope.testbrowser.wsgi
@@ -83,30 +81,6 @@ def browser2(browserWsgiAppS):
 def browser3(browserWsgiAppS):
     """Fixture for testing with a third zope.testbrowser."""
     return icemac.addressbook.testing.Browser(wsgi_app=browserWsgiAppS)
-
-
-def interpolate_insted_of_translate(self, msgid, mapping=None, *args, **kw):
-    """Use interpolation instead of translation."""
-    return zope.i18n.interpolate(msgid, mapping)
-
-
-@pytest.yield_fixture(scope='function')
-def webdriver(webdriverS, httpServerS):
-    """Fixture to run tests using Webdriver."""
-    assert icemac.addressbook.testing.CURRENT_CONNECTION is not None, \
-        "The `webdriver` fixture needs a database fixture like `address_book`."
-    timeout = int(os.environ.get('GOCEPT_SELENIUM_TIMEOUT', 10))
-    webdriver = icemac.addressbook.testing.Webdriver(
-        gocept.selenium.wd_selenese.Selenese(
-            webdriverS, httpServerS, timeout))
-    # Allow any language setting in the Webdriver browser by falling back to
-    # interpolation instead of translation:
-    translate = 'zope.i18n.translationdomain.TranslationDomain.translate'
-    getPreferredLanguages = (
-        'zope.publisher.browser.BrowserLanguages.getPreferredLanguages')
-    with mock.patch(translate, new=interpolate_insted_of_translate), \
-            mock.patch(getPreferredLanguages, return_value=['en-us', 'en']):
-        yield webdriver
 
 
 @pytest.yield_fixture(scope='function')

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 from icemac.addressbook.principals.sources import role_source
 from icemac.addressbook.testing import TestHTTPPublicationRequestFactory
 from icemac.addressbook.testing import getRootFolder
+from icemac.addressbook.testing import interpolate_insted_of_translate
 import gocept.httpserverlayer.wsgi
 import gocept.selenium
 import gocept.selenium.wd_selenese
@@ -26,6 +28,28 @@ import zope.testbrowser.wsgi
 # Integrate these fixtures using:
 # pytest_plugins = 'icemac.addressbook.fixtures'
 # in your `conftest.py`
+
+
+# Fixtures ready to use in tests:
+
+
+@pytest.yield_fixture(scope='function')
+def webdriver(webdriverS, httpServerS):
+    """Fixture to run tests using Webdriver."""
+    assert icemac.addressbook.testing.CURRENT_CONNECTION is not None, \
+        "The `webdriver` fixture needs a database fixture like `address_book`."
+    timeout = int(os.environ.get('GOCEPT_SELENIUM_TIMEOUT', 10))
+    webdriver = icemac.addressbook.testing.Webdriver(
+        gocept.selenium.wd_selenese.Selenese(
+            webdriverS, httpServerS, timeout))
+    # Allow any language setting in the Webdriver browser by falling back to
+    # interpolation instead of translation:
+    translate = 'zope.i18n.translationdomain.TranslationDomain.translate'
+    getPreferredLanguages = (
+        'zope.publisher.browser.BrowserLanguages.getPreferredLanguages')
+    with mock.patch(translate, new=interpolate_insted_of_translate), \
+            mock.patch(getPreferredLanguages, return_value=['en-us', 'en']):
+        yield webdriver
 
 
 # Factory fixtures to create objects:
