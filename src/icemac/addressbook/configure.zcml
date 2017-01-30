@@ -8,6 +8,7 @@
   <grok:grok package="."
              exclude="generations
                       conftest
+                      fixtures
                       test_*" />
 
   <exclude package="z3c.form" file="file.zcml" />
