@@ -15,10 +15,9 @@ Backward incompatible changes
   e. g. depend the `zcmlS` fixture but have to provide there own full blown
   ZCML fixture. The fixtures which can be reused where moved to
   ``icemac.addressbook.fixtures``. ``icemac.addressbook.conftest`` should no
-  longer be used as it leads to problems with the new py.test version.
-  You should no longer use or import ``icemac.addressbook.conftest`` in a
-  package depending on `icemac.addressbook`. The reusable helper functions
-  have been moved to ``icemac.addressbook.testing``.
+  longer be used or imported from foreign packages as this leads to problems
+  with the new py.test version. The reusable helper functions have been moved
+  to ``icemac.addressbook.testing``.
 
 
 Other
