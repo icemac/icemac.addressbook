@@ -34,7 +34,6 @@ def test_entities__EntitiesTraverser__publishTraverse__1(
     browser.login('mgr')
     with pytest.raises(HTTPError) as err:
         browser.open(browser.ENTITIES_EDIT_URL + '/not.existing.entity')
-        file('response.html', 'w').write(browser.contents)
     assert 'HTTP Error 404: Not Found' == str(err.value)
 
 
