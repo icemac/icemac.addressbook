@@ -123,6 +123,7 @@ setuptools.setup(
         test=[
             'gocept.selenium >= 2.5',
             'gocept.testing',
+            'mechanize',
             'mock',
             'gocept.jslint',
             'plone.testing',
