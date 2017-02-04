@@ -2,7 +2,17 @@
  Old changes
 =============
 
-Changelog of releases more than 2 major versions behind current version.
+Change log of releases more than 2 minor versions behind current version.
+
+
+2.8 (2016-08-28)
+================
+
+Features
+--------
+
+- Store timestamp of last log-in and render it in the principals list.
+
 
 2.7.1 (2016-06-26)
 ==================

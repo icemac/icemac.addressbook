@@ -71,15 +71,6 @@ Other
 - Bring test coverage including branches to 100 %.
 
 
-2.8 (2016-08-28)
-================
-
-Features
---------
-
-- Store timestamp of last log-in and render it in the principals list.
-
-
 Previous Versions
 =================
 
