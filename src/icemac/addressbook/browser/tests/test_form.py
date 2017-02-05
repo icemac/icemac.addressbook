@@ -75,6 +75,7 @@ def test_form__zope_i18n_pattern_to_jquery_pattern__3():
     assert ('h:mm TT' == zope_i18n_pattern_to_jquery_pattern('time', 'h:mm a'))
 
 
+@pytest.mark.webdriver
 @pytest.mark.parametrize('datatype', ['Datetime', 'Time'])
 def test_form__Widget__1(
         address_book, FieldFactory, KeywordFactory, datatype, webdriver):
@@ -96,6 +97,7 @@ def test_form__Widget__1(
     assert s.getLocation().endswith('/ab/++attribute++keywords')
 
 
+@pytest.mark.webdriver
 def test_form__DateWidget__1(address_book, webdriver):
     """`DateWidget` renders a JavaScript calendar."""
     s = webdriver.login('editor')

@@ -2,6 +2,7 @@ from mechanize import HTTPError
 import pytest
 
 
+@pytest.mark.webdriver
 def test_crud__AddForm__1(address_book, webdriver):
     """A new address book can be added and edited."""
     # Only managers are allowed to create address books:

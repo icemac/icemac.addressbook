@@ -1,3 +1,7 @@
+import pytest
+
+
+@pytest.mark.webdriver
 def test_personlist__PersonTable__1(search_data, webdriver):
     """The `checkall` checkbox deselects and reselects all persons."""
     s = webdriver.login('visitor')
