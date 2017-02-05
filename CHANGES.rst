@@ -6,7 +6,10 @@ Change log
 3.1 (unreleased)
 ================
 
-- Nothing changed yet.
+Other
+-----
+
+- Update the tests to `zope.testbrowser >= 5.x`.
 
 
 3.0 (2017-02-04)

@@ -1,4 +1,4 @@
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError, LinkNotFoundError
 import pytest
 
 
@@ -63,7 +63,6 @@ def test_crud__EditForm__2(address_book, browser):
 @pytest.mark.parametrize("loginname", ('editor', 'visitor'))
 def test_crud__EditForm__3(address_book, browser, loginname):
     """Some roles are not allowed to edit address book's data."""
-    from mechanize import LinkNotFoundError, HTTPError
     # There is no link to edit the address book's data (title) because
     # the user is not allowed to do so:
     browser.login(loginname)

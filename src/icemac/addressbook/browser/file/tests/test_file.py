@@ -2,7 +2,7 @@
 from StringIO import StringIO
 from icemac.addressbook.browser.file.file import cleanup_filename
 from icemac.addressbook.file.interfaces import IFile
-from mechanize import HTTPError, LinkNotFoundError
+from zope.testbrowser.browser import HTTPError, LinkNotFoundError
 import pytest
 
 
@@ -81,7 +81,7 @@ def test_file__Add__3(address_book, FullPersonFactory, browser):
     assert browser.PERSON_EDIT_URL == browser.url
     with pytest.raises(LookupError) as err:
         browser.getControl('file')
-    assert str(err.value).startswith("label 'file'")
+    assert unicode(err.value).startswith("label 'file'")
 
 
 def test_file__Add__4(address_book, FieldFactory, FullPersonFactory, browser):

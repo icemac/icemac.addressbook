@@ -5,7 +5,9 @@
            value="Checklist of selected persons"
            i18n:attributes="value" />
     <p tal:repeat="person view/person_list">
-      <input tal:attributes="id person/id" type="checkbox" />
+      <input type="checkbox"
+             name="person"
+             tal:attributes="id person/id" />
       <label tal:content="person/name"
              tal:attributes="for person/id" />
     </p>

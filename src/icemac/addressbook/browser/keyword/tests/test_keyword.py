@@ -1,4 +1,4 @@
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError
 import pytest
 
 
@@ -113,7 +113,7 @@ def test_keyword__EditForm__3(
     assert not browser.getControl('Kirche').selected
     with pytest.raises(LookupError) as err:
         browser.getControl('church')
-    assert str(err.value).startswith("label 'church'")
+    assert unicode(err.value).startswith("label 'church'")
 
 
 def test_keyword__EditForm__4(

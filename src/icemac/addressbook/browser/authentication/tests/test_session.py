@@ -83,6 +83,7 @@ def test_session__FlashedSessionCredentialsLoginForm__3(
     browser.getControl('Log in').click()
     # Logout:
     browser.getLink('Logout').click()
+    browser.html_redirect()
     assert (
         ['You have been logged out successfully.',
          'To log-in enter your username and password and submit the form.'] ==

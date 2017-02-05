@@ -3,11 +3,12 @@ from icemac.addressbook.file.interfaces import IFile
 from icemac.addressbook.interfaces import IEntityOrder, IEntity
 from icemac.addressbook.interfaces import IPerson, IPostalAddress
 from icemac.addressbook.testing import set_modified, delete_field
-from mechanize import HTTPError
 from zope.dublincore.interfaces import IZopeDublinCore
+from zope.testbrowser.browser import HTTPError
 import gocept.country.db
 import pytest
 import zope.component.hooks
+import zope.testbrowser.interfaces
 
 
 def form_fields_names(browser):
@@ -15,8 +16,9 @@ def form_fields_names(browser):
     fields = ['.'.join(x.replace('IcemacAddressbookPerson', '')
                        .replace('IcemacAddressbookAddress', '')
                        for x in x.name.split('.')[-2:])
-              for x in browser.getForm().mech_form.controls]
-    # Omit empty marker hidden fields as they are to technical:
+              for x in browser.getForm().controls
+              if not zope.testbrowser.interfaces.IItemControl.providedBy(x)]
+    # Omit empty marker hidden fields as they are too technical:
     return [x for x in fields if not x.endswith('-empty-marker')]
 
 
@@ -207,7 +209,7 @@ def test_person__PersonAddForm__10(translated_address_book, browser):
     browser.getControl('Land').displayValue = ['Schweiz']
     browser.getControl('Ort').value = 'Thun'
     browser.getControl('Familienname').value = 'Deutsch'
-    browser.getControl('Hinzufügen').click()
+    browser.getControl(u'Hinzufügen').click()
     assert u'„Deutsch“ hinzugefügt.' == browser.message
 
 
@@ -217,7 +219,7 @@ def test_person__PersonAddForm__11(translated_address_book, browser):
     browser.login('editor')
     browser.lang('de-DE')
     browser.open(browser.PERSON_ADD_URL)
-    browser.getControl('Hinzufügen').click()
+    browser.getControl(u'Hinzufügen').click()
     assert ['Erforderliche Eingabe fehlt.'] == browser.etree.xpath(
         '//ul[@class="errors"]/li/div/text()')
 

@@ -5,6 +5,7 @@ def test_authviewlet__FlashedHTTPAuthenticationLogout__logout__1(
                 '1234567890', ['Visitor'])
     browser.formlogin('tester@example.com', '1234567890')
     browser.getLink('Logout').click()
+    browser.html_redirect()
     assert (
         ['You have been logged out successfully.',
          'To log-in enter your username and password and submit the form.'] ==

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from mechanize import HTTPError, LinkNotFoundError
+from zope.testbrowser.browser import HTTPError, LinkNotFoundError
 import datetime
 import pytest
 import pytz
@@ -301,6 +301,7 @@ def test_principals__EditForm__5(address_book, UserFactory, browser):
     browser.formlogin(u'uu@example.com', 'new_password', use_current_url=True)
     # The new password can also be used to "normally" log-in:
     browser.getLink('Logout').click()
+    browser.html_redirect()
     assert (
         ['You have been logged out successfully.',
          'To log-in enter your username and password and submit the form.'] ==
@@ -364,6 +365,7 @@ def test_principals__EditForm__6(address_book, UserFactory, browser):
     assert 'The big HANS' == browser.getControl('notes').value
     # The new log-in name an password can also be used to "normally" log-in:
     browser.getLink('Logout').click()
+    browser.html_redirect()
     assert (
         ['You have been logged out successfully.',
          'To log-in enter your username and password and submit the form.'] ==
@@ -401,6 +403,7 @@ def test_principals__EditForm__8(
     browser = browser2.formlogin(u'uu@example.com', 'u1u2u3u4')
     # When the administrator removes all roles from a user ...
     browser.reload()
+    url = browser.url
     localadmin.open(localadmin.PRINCIPAL_EDIT_URL)
     localadmin.getControl('roles').displayValue = []
     localadmin.getControl('Apply').click()
@@ -408,7 +411,7 @@ def test_principals__EditForm__8(
     assert localadmin.PRINCIPALS_LIST_URL == localadmin.url
     # ... he gets an exception that he is forbidden to see the page:
     with pytest.raises(HTTPError) as err:
-        browser.reload()
+        browser.open(url)
     assert 'HTTP Error 403: Forbidden' == str(err.value)
     # When he logs in again he gets an error message telling him that he has
     # not enough permissions to see anything:

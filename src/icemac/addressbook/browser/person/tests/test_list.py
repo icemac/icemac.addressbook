@@ -131,7 +131,7 @@ def test_list__PersonList__1(address_book, browser):
 
 def test_list__PersonList__2(address_book, browser):
     """A user with the role `visitor` is not allowed to add new persons."""
-    from mechanize import LinkNotFoundError
+    from zope.testbrowser.browser import LinkNotFoundError
     browser.login('visitor')
     browser.open(browser.PERSONS_LIST_URL)
     with pytest.raises(LinkNotFoundError):

@@ -121,16 +121,17 @@ setuptools.setup(
     ],
     extras_require=dict(
         test=[
+            'WebTest >= 2.0.25.dev0'
+            'beautifulsoup4',
             'gocept.selenium >= 2.5',
             'gocept.testing',
-            'mechanize',
             'mock',
             'gocept.jslint',
             'plone.testing',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.testbrowser[wsgi]>=4.0',
+            'zope.testbrowser >= 5.2.dev0',
             'zope.testing >= 3.8',
         ],
     ),
