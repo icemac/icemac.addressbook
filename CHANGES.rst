@@ -3,13 +3,16 @@ Change log
 ==========
 
 
-3.1 (unreleased)
+4.0 (unreleased)
 ================
 
-Other
------
+Backward incompatible changes
+-----------------------------
 
-- Update the tests to `zope.testbrowser >= 5.x`.
+- Update the tests and test infrastructure to `zope.testbrowser >= 5.x`.
+  This version is no longer built on `mechanize` but on `WebTest`. This
+  requires some changes as the underlying framework is not completely
+  abstracted in `zope.testbrowser`.
 
 
 3.0 (2017-02-04)
