@@ -3,6 +3,7 @@ from icemac.addressbook.interfaces import IKeyword
 import pytest
 
 
+@pytest.mark.webdriver
 @pytest.mark.flaky(reruns=3)
 def test_FieldOrder__1(address_book, webdriver):
     """The fields of the entity can be sorted."""

@@ -1,4 +1,5 @@
 from mock import patch
+import pytest
 
 
 def test_startpage__Dispatch__1(address_book, browser):
@@ -8,6 +9,7 @@ def test_startpage__Dispatch__1(address_book, browser):
     assert browser.ADDRESS_BOOK_WELCOME_URL == browser.url
 
 
+@pytest.mark.webdriver
 def test_startpage__Dispatch__2(address_book, webdriver):
     """Dispatch() redirects to the page selected on the address book."""
     sel = webdriver.login('mgr')
@@ -19,6 +21,7 @@ def test_startpage__Dispatch__2(address_book, webdriver):
     assert sel.getLocation().endswith('/ab/@@search.html')
 
 
+@pytest.mark.webdriver
 def test_startpage__Dispatch__3(address_book, webdriver):
     """If accessing the selected page is not allowed Dispatch() redirects.
 
