@@ -121,7 +121,7 @@ setuptools.setup(
     ],
     extras_require=dict(
         test=[
-            'WebTest >= 2.0.25.dev0'
+            'WebTest >= 2.0.25.dev0',
             'beautifulsoup4',
             'gocept.selenium >= 2.5',
             'gocept.testing',
