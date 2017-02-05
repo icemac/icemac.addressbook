@@ -1,5 +1,5 @@
 from icemac.addressbook.interfaces import IEntities
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError
 import pytest
 import zope.component
 import zope.component.hooks

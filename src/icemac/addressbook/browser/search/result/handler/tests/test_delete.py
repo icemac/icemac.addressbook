@@ -1,4 +1,4 @@
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError
 import pytest
 
 

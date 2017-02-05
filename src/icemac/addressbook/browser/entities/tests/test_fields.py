@@ -1,6 +1,6 @@
 from icemac.addressbook.interfaces import IPerson, IEntity
 from icemac.addressbook.testing import assert_forbidden
-from mechanize import LinkNotFoundError
+from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 import zope.component.hooks
 

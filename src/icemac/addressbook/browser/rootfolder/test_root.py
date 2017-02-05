@@ -1,4 +1,4 @@
-from mechanize import HTTPError
+from zope.testbrowser.browser import HTTPError
 
 
 def test_root__FrontPage__1(empty_zodb, browser):

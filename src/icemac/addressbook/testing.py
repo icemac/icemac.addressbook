@@ -8,7 +8,6 @@ import icemac.addressbook.person
 import icemac.addressbook.startup
 import icemac.addressbook.utils
 import lxml.etree
-import mechanize
 import os
 import plone.testing
 import plone.testing.zca
@@ -16,6 +15,7 @@ import plone.testing.zodb
 import pytest
 import pytz
 import transaction
+import webtest.forms
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
@@ -305,8 +305,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     @property
     def submit_control_names_all_forms(self):
         """List of the names of the submit controls in all forms."""
-        forms = [self.getForm(index=x)
-                 for x in range(len(list(self.mech_browser.forms())))]
+        forms = [self.getForm(index=index)
+                 for index, _ in enumerate(self._getAllResponseForms())]
         names = [
             self._get_control_names(
                 zope.testbrowser.interfaces.ISubmitControl, x)
@@ -329,19 +329,30 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         """
         form = self.getForm()
         for control in select_controls:
-            form.mech_form.new_control(
-                type='hidden',
-                name='%s:list' % control_name,
-                attrs=dict(value=control.optionValue))
+            webtest_form = form._form
+            name = '%s:list' % control_name
+            field = webtest.forms.Hidden(
+                webtest_form, tag='input', name=name, pos=999,
+                value=control.optionValue)
+            webtest_form.fields.setdefault(name, []).append(field)
+            webtest_form.field_order.append((name, field))
+
+    def html_redirect(self):
+        """Redirect as requested by ``<meta http-equiv="refresh" ... />``."""
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(self.contents, "lxml")
+        meta = soup.find('meta')
+        assert meta is not None, 'No <meta> tag found.'
+        assert meta.get('http-equiv') == 'refresh', \
+            '<meta http-equiv != "refresh"'
+        url = meta.get('content').partition(';url=')[2]
+        self.open(url)
 
     def _get_control_names(self, interface, form):
         """Get a sorted list of names of controls providing `interface`."""
-        names = []
-        for ctrl in form.mech_form.controls:
-            control = zope.testbrowser.browser.controlFactory(ctrl, form, self)
-            if interface.providedBy(control):
-                names.append(control.name)
-        return sorted(names)
+        return sorted([control.name
+                       for control in form.controls
+                       if interface.providedBy(control)])
 
 
 class Webdriver(object):
@@ -368,7 +379,7 @@ class Webdriver(object):
 def assert_forbidden(browser, username, url):
     """Assert accessing a URL is forbidden for a user."""
     browser.login(username)
-    with pytest.raises(mechanize.HTTPError) as err:
+    with pytest.raises(zope.testbrowser.browser.HTTPError) as err:
         browser.open(url)
     assert 'HTTP Error 403: Forbidden' == str(err.value)
 
