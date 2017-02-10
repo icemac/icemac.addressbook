@@ -1,6 +1,6 @@
 <runner>
-  program bin/paster serve %(ini-file)s
+  program bin/paster serve ${ini-file}
   daemon on
   socket-name var/zdaemonsock
-  %(user)s
+  ${user}
 </runner>
