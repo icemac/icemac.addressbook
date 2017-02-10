@@ -23,7 +23,6 @@ install.user.ini
 log/*
 my-buildout.cfg
 parts
-pytest.ini
 site.zcml
 var/*
 var/chameleon-cache/*
