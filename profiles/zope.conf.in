@@ -25,4 +25,4 @@ site-definition site.zcml
 </eventlog>
 
 # developer mode
-devmode %(devmode)s
+devmode ${devmode}
