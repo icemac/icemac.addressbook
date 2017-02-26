@@ -355,23 +355,173 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
                        if interface.providedBy(control)])
 
 
-class Webdriver(object):
-    """Wrapper around Selenese."""
+class WebdriverBase(object):
+    """Base for all Webdriver classes."""
 
     def __init__(self, selenium):
-        self.selenium = selenium
+        self._selenium = selenium
 
-    def login(self, username):
+
+class Webdriver(WebdriverBase):
+    """Wrapper around Selenese."""
+
+    _to_attach = []
+
+    @classmethod
+    def attach(cls, factory, attrib_name):
+        """Attach a page object to an attribute of the instance."""
+        cls._to_attach.append((factory, attrib_name))
+
+    @classmethod
+    def detach(cls, factory, attrib_name):
+        """Detach a page object from an attribute of the instance."""
+        if (factory, attrib_name) in cls._to_attach:
+            cls._to_attach.remove((factory, attrib_name))
+
+    def __init__(self, selenium):
+        super(Webdriver, self).__init__(selenium)
+        for factory, attrib_name in self._to_attach:
+            setattr(self, attrib_name, factory(selenium))
+
+    def login(self, username, path='/'):
         transaction.commit()
-        sel = self.selenium
-        sel.open("http://{username}:{password}@{server}/".format(
-                 username=username, server=self.selenium.server,
+        sel = self._selenium
+        sel.open("http://{username}:{password}@{server}".format(
+                 username=username, server=sel.server,
                  password=USERNAME_PASSWORD_MAP.get(username, username)))
-        return sel
+        if path != '/':
+            sel.open(path)
+
+    def open(self, path):
+        self._selenium.open(path)
 
     @property
     def message(self):
-        return self.selenium.getText('css=#info-messages')
+        return self._selenium.getText('css=#info-messages')
+
+    @property
+    def path(self):
+        """Return the path of the current URL."""
+        return self._selenium.getLocation().replace(
+            'http://{}'.format(self._selenium.server), '')
+
+    def windowMaximize(self):
+        self._selenium.windowMaximize()
+
+
+class WebdriverPageObjectBase(WebdriverBase):
+    """Base for page object classes to used with to ``Webdriver.attach()``."""
+
+    browser = Browser  # Browser class to get URLs from
+    paths = []  # URL attributes on `browser` to be converted to local paths
+
+    def __init__(self, selenium):
+        super(WebdriverPageObjectBase, self).__init__(selenium)
+        for name in self.paths:
+            url = getattr(self.browser, name)
+            path = url.replace('http://localhost', '')
+            assert getattr(self, name, None) is None, \
+                'duplicate name {}'.format(name)
+            setattr(self, name, path)
+
+
+class TimeZoneMixIn(object):
+    """Mix-in for page objects to handle time zones."""
+
+    @property
+    def timezone(self):
+        return self._selenium.getSelectedLabel("id=form-widgets-time_zone")
+
+    @timezone.setter
+    def timezone(self, value):
+        # Default time zone can be selected:
+        self._selenium.select(
+            "id=form-widgets-time_zone", "label={}".format(value))
+
+
+class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
+    """Webdriver page object for the address book itself."""
+
+    paths = [
+        'ADDRESS_BOOK_DEFAULT_URL',
+        'ADDRESS_BOOK_EDIT_URL',
+        'ADDRESS_BOOK_WELCOME_URL',
+        'SEARCH_URL',
+    ]
+
+    def create(self):
+        # On the start page there is a link to add an address book:
+        self._selenium.click('link=address book')
+
+    @property
+    def title(self):
+        return self._selenium.getValue('id=form-widgets-title')
+
+    @title.setter
+    def title(self, title):
+        self._selenium.clear('id=form-widgets-title')
+        self._selenium.type('id=form-widgets-title', title)
+
+    @property
+    def startpage(self):
+        pass
+
+    @startpage.setter
+    def startpage(self, value):
+        self._selenium.select(
+            'id=form-widgets-startpage', 'label={}'.format(value))
+
+    def assert_default_favicon_selected(self):
+        # Default value of favicon is pre-selected:
+        self._selenium.assertCssCount(
+            'css=.ui-selected '
+            'img[src="/++resource++img/favicon-red-preview.png"]', 1)
+
+    def select_favicon(self, index):
+        self._selenium.clickAt(
+            'form-widgets-favicon-{}'.format(index), '20,20')
+
+    def assert_favicon_selected(self, index):
+        self._selenium.assertCssCount(
+            'css=#form-widgets-favicon-{}.ui-selected'.format(index), 1)
+
+    def submit(self, name):
+        self._selenium.click('form-buttons-{}'.format(name))
+
+
+Webdriver.attach(POAddressBook, 'address_book')
+
+
+class POPreferences(WebdriverPageObjectBase, TimeZoneMixIn):
+    """Webdriver page object for the preferences page."""
+
+    paths = [
+        'PREFS_URL',
+    ]
+
+    def open_time_zone_element(self):
+        self._selenium.click("css=fieldset.timeZone")
+        self._selenium.waitForElementPresent("id=form-widgets-time_zone")
+
+    def wait_for_fields_visible(self, visible):
+        if visible:
+            attrib_name = 'waitForVisible'
+        else:
+            attrib_name = 'waitForNotVisible'
+        return getattr(self._selenium, attrib_name)(
+            "css=#form-widgets-columns-row")
+
+    def toggle_group(self, css_class):
+        self._selenium.click(
+            "//fieldset[@class='{}']/legend".format(css_class))
+
+    def select_column(self, label):
+        self._selenium.addSelection(
+            "id=form-widgets-columns-from", "label={}".format(label))
+        self._selenium.click("name=from2toButton")
+
+
+Webdriver.attach(POPreferences, 'prefs')
 
 
 # assertion helper functions and helper classes

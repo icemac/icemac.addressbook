@@ -1,23 +1,46 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.interfaces import IKeyword
+from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 import pytest
+
+
+class POEntities(WebdriverPageObjectBase):
+    """Webdriver page object for the entities page."""
+
+    paths = [
+        'ENTITY_PERSON_LIST_FIELDS_URL',
+    ]
+
+    _ENTITY_SELECTOR = "//tr[{}]/td[1]"
+
+    def get_pos(self, pos):
+        return self._selenium.getText(self._ENTITY_SELECTOR.format(pos))
+
+    def move_to(self, pos, target):
+        self._selenium.dragAndDropToObject(
+            self._ENTITY_SELECTOR.format(pos),
+            self._ENTITY_SELECTOR.format(target))
+
+    def save(self):
+        self._selenium.click("entity-fields-save")
+
+
+Webdriver.attach(POEntities, 'entities')
 
 
 @pytest.mark.webdriver
 @pytest.mark.flaky(reruns=3)
 def test_FieldOrder__1(address_book, webdriver):
     """The fields of the entity can be sorted."""
-    sel = webdriver.login('mgr')
-    sel.open('/ab/++attribute++entities/icemac.addressbook.person.Person')
-    # The Keywords-Field is the 4th in the list. It has a language depenend
-    # title, we store it here for the assertion of the movement later on:
-    fieldtitle = sel.getText("//tr[4]/td[1]")
-    # Move it to the first position:
-    sel.dragAndDropToObject("//tr[4]/td[1]", "//tr[1]/td[1]")
+    entities = webdriver.entities
+    webdriver.login('mgr', entities.ENTITY_PERSON_LIST_FIELDS_URL)
+    assert 'first name' == entities.get_pos(1)
+    assert 'keywords' == entities.get_pos(4)
+    entities.move_to(4, 1)
     # After saving the field is still on the first position:
-    sel.clickAndWait("entity-fields-save")
+    entities.save()
     assert 'Saved sortorder.' == webdriver.message
-    assert fieldtitle == sel.getText("//tr[1]/td[1]")
+    assert 'keywords' == entities.get_pos(1)
 
 
 def test_FieldOrder__2(address_book, browser):

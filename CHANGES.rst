@@ -14,6 +14,14 @@ Backward incompatible changes
   requires some changes as the underlying framework is not completely
   abstracted in `zope.testbrowser`.
 
+- Refactor ``.testing.Webdriver`` to be able to implement the
+  `Page Object Design Pattern`_. ``.testing.Webdriver.login()`` no longer
+  returns a `selenium` object. Page objects have to be registered using
+  ``.testing.Webdriver.attach()``.
+
+
+.. _`Page Object Design Pattern` : http://www.seleniumhq.org/docs/06_test_design_considerations.jsp#page-object-design-pattern
+
 
 3.0 (2017-02-04)
 ================

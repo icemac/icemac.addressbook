@@ -1,6 +1,7 @@
 from ..form import zope_i18n_pattern_to_jquery_pattern, FieldDescriptionAsHint
 from datetime import datetime
 from icemac.addressbook.interfaces import IKeyword
+from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 from mock import patch, Mock
 from pytz import utc, timezone
 import gocept.testing.mock
@@ -75,46 +76,84 @@ def test_form__zope_i18n_pattern_to_jquery_pattern__3():
     assert ('h:mm TT' == zope_i18n_pattern_to_jquery_pattern('time', 'h:mm a'))
 
 
+@pytest.fixture('function')
+def po_datetime():
+    """Webdriver page object for the datetime widget."""
+    class PODatetime(WebdriverPageObjectBase):
+        paths = [
+            'KEYWORD_EDIT_URL',
+            'KEYWORDS_LIST_URL'
+        ]
+
+        def datetime_now(self):
+            s = self._selenium
+            # Activate the datetime field which opens the JavaScript calendar
+            s.click('id=form-widgets-Field-1')
+            # Click the `now` button:
+            s.click("//button[@type='button']")
+            # And the `done` button:
+            s.click("xpath=(//button[@type='button'])[2]")
+
+        def save(self):
+            self._selenium.click("id=form-buttons-apply")
+
+    Webdriver.attach(PODatetime, 'dt')
+    yield
+    Webdriver.detach(PODatetime, 'dt')
+
+
 @pytest.mark.webdriver
 @pytest.mark.parametrize('datatype', ['Datetime', 'Time'])
 def test_form__Widget__1(
-        address_book, FieldFactory, KeywordFactory, datatype, webdriver):
+        address_book, FieldFactory, KeywordFactory, datatype, po_datetime,
+        webdriver):
     """`DatetimeWidget` renders a JavaScript calendar."""
     FieldFactory(address_book, IKeyword, datatype, u'my-field')
-    kw = KeywordFactory(address_book, u'foobar')
-    s = webdriver.login('editor')
-    s.windowMaximize()
-    s.open('/ab/++attribute++keywords/%s' % kw.__name__)
-    # Activate the datetime field which opens the JavaScript calendar
-    s.click('id=form-widgets-Field-1')
-    # Click the `now` button:
-    s.click("//button[@type='button']")
-    # And the `done` button:
-    s.click("xpath=(//button[@type='button'])[2]")
-    # Save the form:
-    s.clickAndWait("id=form-buttons-apply")
+    KeywordFactory(address_book, u'foobar')
+    dt = webdriver.dt
+    webdriver.login('editor', dt.KEYWORD_EDIT_URL)
+    webdriver.windowMaximize()
+    dt.datetime_now()
+    dt.save()
     # Successful apply leads back to keyword overview:
-    assert s.getLocation().endswith('/ab/++attribute++keywords')
+    assert dt.KEYWORDS_LIST_URL == webdriver.path
+
+
+@pytest.fixture('function')
+def po_date():
+    """Webdriver page object for the date widget."""
+    class PODate(WebdriverPageObjectBase):
+        paths = [
+            'PERSON_ADD_URL',
+            'PERSONS_LIST_URL',
+        ]
+
+        def select_first_of_month(self):
+            self._selenium.click('css=.date-field')
+            self._selenium.click("link=1")
+
+        def save(self):
+            # Fill in required fields:
+            self._selenium.type(
+                'id=IcemacAddressbookPersonPerson-widgets-'
+                'IcemacAddressbookPersonPerson-last_name', 'Tester')
+            self._selenium.click("id=form-buttons-add")
+
+    Webdriver.attach(PODate, 'date')
+    yield
+    Webdriver.detach(PODate, 'date')
 
 
 @pytest.mark.webdriver
-def test_form__DateWidget__1(address_book, webdriver):
+def test_form__DateWidget__1(address_book, po_date, webdriver):
     """`DateWidget` renders a JavaScript calendar."""
-    s = webdriver.login('editor')
-    s.windowMaximize()
-    s.open('/ab/@@addPerson.html')
-    # Activate the date field which opens the JavaScript calendar
-    s.click('id=IcemacAddressbookPersonPerson-widgets-'
-            'IcemacAddressbookPersonPerson-birth_date')
-    # Click the first of the first month:
-    s.click("link=1")
-    # Fill in required fiels:
-    s.type('id=IcemacAddressbookPersonPerson-widgets-'
-           'IcemacAddressbookPersonPerson-last_name', 'Tester')
-    # Save the form:
-    s.clickAndWait("id=form-buttons-add")
+    date = webdriver.date
+    webdriver.login('editor', date.PERSON_ADD_URL)
+    webdriver.windowMaximize()
+    date.select_first_of_month()
+    date.save()
     # Successful apply leads back to keyword overview
-    assert s.getLocation().endswith('/ab/@@person-list.html')
+    assert date.PERSONS_LIST_URL == webdriver.path
 
 
 def test_form__FieldDescriptionAsHint__get__1(zcmlS):

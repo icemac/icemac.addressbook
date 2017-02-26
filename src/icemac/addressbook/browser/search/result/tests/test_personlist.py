@@ -1,23 +1,49 @@
+from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 import pytest
+
+
+class POKeywordSearch(WebdriverPageObjectBase):
+    """Webdriver page object for the keyword search page."""
+
+    paths = [
+        'SEARCH_BY_KEYWORD_URL',
+    ]
+
+    def search(self, keyword):
+        self._selenium.addSelection(
+            'id=form-widgets-keywords', 'label={}'.format(keyword))
+        self._selenium.click('id=form-buttons-search')
+
+    @property
+    def num_results(self):
+        return self._selenium.getCssCount('name=persons:list')
+
+    @property
+    def is_checked(self):
+        return self._selenium.isChecked('name=persons:list')
+
+    def hit_checkall(self):
+        self._selenium.click('css=input.checkall')
+
+
+Webdriver.attach(POKeywordSearch, 'keyword_search')
 
 
 @pytest.mark.webdriver
 def test_personlist__PersonTable__1(search_data, webdriver):
     """The `checkall` checkbox deselects and reselects all persons."""
-    s = webdriver.login('visitor')
-    s.open('/ab/@@multi_keyword.html')
-    s.addSelection('id=form-widgets-keywords', 'label=family')
-    s.clickAndWait('id=form-buttons-search')
+    keyword_search = webdriver.keyword_search
+    webdriver.login('visitor', keyword_search.SEARCH_BY_KEYWORD_URL)
+    keyword_search.search('family')
     # There are two lines of search results:
-    s.assertCssCount('name=persons:list', 2)
-    # Checked by default:
-    s.assertChecked('name=persons:list')
-    # Deselect all with a single click:
-    s.click('css=input.checkall')
-    s.assertNotChecked('name=persons:list')
+    assert 2 == keyword_search.num_results
+    # The results are checked by default:
+    assert keyword_search.is_checked
+    keyword_search.hit_checkall()
+    assert not keyword_search.is_checked
     # Select again:
-    s.click('css=input.checkall')
-    s.assertChecked('name=persons:list')
+    keyword_search.hit_checkall()
+    assert keyword_search.is_checked
 
 
 def test_personlist__ExportForm__1(address_book, browser):
