@@ -5,44 +5,37 @@ import pytest
 @pytest.mark.webdriver
 def test_crud__AddForm__1(address_book, webdriver):
     """A new address book can be added and edited."""
+    ab = webdriver.address_book
     # Only managers are allowed to create address books:
-    sel = webdriver.login('globalmgr')
-    # On the start page there is a link to add an address book:
-    sel.clickAndWait('link=address book')
-    sel.type('id=form-widgets-title', 'test book')
-
-    # Default value of favicon is pre-selected:
-    sel.assertCssCount(
-        'css=.ui-selected '
-        'img[src="/++resource++img/favicon-red-preview.png"]', 1)
-    sel.clickAt('form-widgets-favicon-1', '20,20')
-    # Default time zone can be selected:
-    sel.select("id=form-widgets-time_zone", "label=Europe/Berlin")
-    sel.clickAndWait('form-buttons-add')
+    webdriver.login('globalmgr')
+    ab.create()
+    ab.title = 'test book'
+    ab.assert_default_favicon_selected()
+    ab.select_favicon(1)
+    ab.timezone = 'Europe/Berlin'
+    ab.submit('add')
     assert webdriver.message == '"test book" added.'
-    sel.assertLocation('http://%s/AddressBook/@@welcome.html' % sel.server)
+    assert ab.ADDRESS_BOOK_WELCOME_URL.replace(
+        '/ab', '/AddressBook') == webdriver.path
     # Editing is done in master data section:
-    sel.clickAndWait('link=Master data')
-    sel.clickAndWait('link=Address book')
-    assert sel.getLocation().endswith('/AddressBook/@@edit-address_book.html')
+    webdriver.open(ab.ADDRESS_BOOK_EDIT_URL.replace('/ab', '/AddressBook'))
     # The add form actually stored the values:
-    sel.assertValue('id=form-widgets-title', 'test book')
-    sel.assertCssCount('css=#form-widgets-favicon-1.ui-selected', 1)
-    sel.assertSelectedLabel("id=form-widgets-time_zone", "Europe/Berlin")
+    assert 'test book' == ab.title
+    ab.assert_favicon_selected(1)
+    assert "Europe/Berlin" == ab.timezone
     # The edit form is able to change the data:
-    sel.clear('id=form-widgets-title')
-    sel.type('id=form-widgets-title', 'ftest book')
-    sel.clickAt('form-widgets-favicon-0', '20,20')
-    sel.clickAndWait('form-buttons-apply')
+    ab.title = 'ftest book'
+    ab.select_favicon(0)
+    ab.submit('apply')
     assert 'Data successfully updated.' == webdriver.message
     # The edit form submits to itself and shows the stored data:
-    sel.assertValue('id=form-widgets-title', 'ftest book')
-    sel.assertCssCount('css=#form-widgets-favicon-0.ui-selected', 1)
+    assert ab.title == 'ftest book'
+    ab.assert_favicon_selected(0)
     # The selected time zone shows up in user's preferences:
-    sel.clickAndWait("link=Preferences")
-    sel.click("css=fieldset.timeZone")
-    sel.waitForElementPresent("id=form-widgets-time_zone")
-    sel.assertSelectedLabel("id=form-widgets-time_zone", "Europe/Berlin")
+    prefs = webdriver.prefs
+    webdriver.open(prefs.PREFS_URL.replace('/ab', '/AddressBook', 1))
+    prefs.open_time_zone_element()
+    assert "Europe/Berlin" == prefs.timezone
 
 
 def test_crud__EditForm__2(address_book, browser):
