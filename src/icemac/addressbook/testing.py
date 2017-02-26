@@ -375,8 +375,7 @@ class Webdriver(WebdriverBase):
     @classmethod
     def detach(cls, factory, attrib_name):
         """Detach a page object from an attribute of the instance."""
-        if (factory, attrib_name) in cls._to_attach:
-            cls._to_attach.remove((factory, attrib_name))
+        cls._to_attach.remove((factory, attrib_name))
 
     def __init__(self, selenium):
         super(Webdriver, self).__init__(selenium)
@@ -462,14 +461,11 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
         self._selenium.clear('id=form-widgets-title')
         self._selenium.type('id=form-widgets-title', title)
 
-    @property
-    def startpage(self):
-        pass
-
-    @startpage.setter
     def startpage(self, value):
         self._selenium.select(
             'id=form-widgets-startpage', 'label={}'.format(value))
+
+    startpage = property(None, startpage)
 
     def assert_default_favicon_selected(self):
         # Default value of favicon is pre-selected:
