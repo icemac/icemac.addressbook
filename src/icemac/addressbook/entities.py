@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from icemac.addressbook.utils import dotted_name
 import grokcore.component
 import icemac.addressbook.interfaces
 import persistent
@@ -383,8 +384,7 @@ class EditableEntity(Entity):
 
 def create_entity(title, interface, class_, **kw):
     """Factory to create an editable entity and to the ZCA set up."""
-    class_name = '%s.%s' % (class_.__module__, class_.__name__)
-    entity = EditableEntity(title, interface, class_name, **kw)
+    entity = EditableEntity(title, interface, dotted_name(class_), **kw)
     zope.interface.classImplements(
         class_, icemac.addressbook.interfaces.IMayHaveUserFields)
     return entity
