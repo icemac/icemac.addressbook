@@ -59,3 +59,8 @@ def unique_by_attr_factory(attr_name, error_message):
         if len(values) != len(set(values)):
             raise zope.interface.Invalid(error_message)
     return unique
+
+
+def dotted_name(cls):
+    """Return the dotted name of a class."""
+    return "{0.__module__}.{0.__name__}".format(cls)
