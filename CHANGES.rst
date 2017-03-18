@@ -22,6 +22,11 @@ Backward incompatible changes
 
 .. _`Page Object Design Pattern` : http://www.seleniumhq.org/docs/06_test_design_considerations.jsp#page-object-design-pattern
 
+Features
+--------
+
+- The view `@@inspector` now also displays the interfaces of its context.
+
 
 3.0 (2017-02-04)
 ================

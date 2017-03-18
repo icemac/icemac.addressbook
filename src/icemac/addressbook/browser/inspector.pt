@@ -7,3 +7,10 @@
         <dd tal:content="nocall:line/value" />
     </tal:dl>
 </dl>
+
+<br />
+<h3>Interfaces</h3>
+<ul>
+    <li tal:repeat="interface view/context_interfaces"
+        tal:content="interface" />
+</ul>
