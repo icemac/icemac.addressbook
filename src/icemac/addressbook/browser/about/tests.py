@@ -28,7 +28,7 @@ def test_about__About__1(address_book, browser):
 def test_about__About__2(address_book, browser):
     """The about dialog is displayed on login screen."""
     # The login screen can be accessed by anonymous users:
-    browser.open('http://localhost/ab')
+    browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     # There is a link on the login view pointing to the about dialog:
     browser.getLink(id="about-view").click()
     assert ABOUT_URL == browser.url

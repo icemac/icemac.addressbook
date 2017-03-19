@@ -83,6 +83,6 @@
      factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
      />
 
-    <browser:defaultSkin name="AddressBook" />
+  <browser:defaultSkin name="AddressBook" />
 
 </configure>
