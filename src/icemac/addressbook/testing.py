@@ -461,6 +461,7 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
         self._selenium.clear('id=form-widgets-title')
         self._selenium.type('id=form-widgets-title', title)
 
+    # setter property!
     def startpage(self, value):
         self._selenium.select(
             'id=form-widgets-startpage', 'label={}'.format(value))
