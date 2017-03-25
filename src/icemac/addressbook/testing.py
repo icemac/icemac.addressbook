@@ -15,6 +15,7 @@ import plone.testing.zodb
 import pytest
 import pytz
 import transaction
+import urlparse
 import webtest.forms
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
@@ -144,9 +145,11 @@ USERNAME_PASSWORD_MAP = dict(
 class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     """Enriched test browser."""
 
-    ROOT_URL = 'http://localhost'
+    ROOT_URL_WITHOUT_SLASH = 'http://localhost'
+    ROOT_URL = 'http://localhost/'
     # The login URL starts with this string:
     LOGIN_BASE_URL = 'http://localhost/ab/@@loginForm.html?camefrom=http'
+    SELENIUM_LOGIN_URL = 'http://localhost/selenium-login'
 
     ADDRESS_BOOK_DEFAULT_URL = 'http://localhost/ab'
     ADDRESS_BOOK_WELCOME_URL = 'http://localhost/ab/@@welcome.html'
@@ -382,14 +385,14 @@ class Webdriver(WebdriverBase):
         for factory, attrib_name in self._to_attach:
             setattr(self, attrib_name, factory(selenium))
 
-    def login(self, username, path='/'):
+    def login(self, username, target_path):
         transaction.commit()
-        sel = self._selenium
-        sel.open("http://{username}:{password}@{server}".format(
-                 username=username, server=sel.server,
-                 password=USERNAME_PASSWORD_MAP.get(username, username)))
-        if path != '/':
-            sel.open(path)
+        (_, _, path, _, _) = urlparse.urlsplit(Browser.SELENIUM_LOGIN_URL)
+        server = self._selenium.server
+        password = USERNAME_PASSWORD_MAP.get(username, username)
+        url = "http://{username}:{password}@{server}{path}".format(**locals())
+        self.open(url)
+        self.open(target_path)
 
     def open(self, path):
         self._selenium.open(path)
@@ -445,6 +448,7 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
         'ADDRESS_BOOK_DEFAULT_URL',
         'ADDRESS_BOOK_EDIT_URL',
         'ADDRESS_BOOK_WELCOME_URL',
+        'ROOT_URL',
         'SEARCH_URL',
     ]
 
@@ -697,3 +701,15 @@ def getRootFolder():
 def interpolate_insted_of_translate(self, msgid, mapping=None, *args, **kw):
     """Use interpolation instead of translation."""
     return zope.i18n.interpolate(msgid, mapping)
+
+
+# Helper views
+
+class SeleniumLogin(object):
+    """Allow basic auth log-in of global users.
+
+    It prevents rendering an Unauthorized page.
+    """
+
+    def __call__(self):
+        return 'Selenium login succeeded.'
