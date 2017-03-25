@@ -83,6 +83,14 @@
      factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
      />
 
+  <browser:view
+    for="zope.site.interfaces.IFolder"
+    layer=".browser.interfaces.IAddressBookLayer"
+    name="selenium-login"
+    class=".testing.SeleniumLogin"
+    permission="icemac.addressbook.ViewAddressBook"
+    />
+
   <browser:defaultSkin name="AddressBook" />
 
 </configure>

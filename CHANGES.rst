@@ -19,6 +19,9 @@ Backward incompatible changes
   returns a `selenium` object. Page objects have to be registered using
   ``.testing.Webdriver.attach()``.
 
+- Require the second argument (``path``) of ``.testing.Webdriver.login()`` to
+  reduce the overhead of the selenium login.
+
 
 .. _`Page Object Design Pattern` : http://www.seleniumhq.org/docs/06_test_design_considerations.jsp#page-object-design-pattern
 

@@ -7,7 +7,7 @@ def test_crud__AddForm__1(address_book, webdriver):
     """A new address book can be added and edited."""
     ab = webdriver.address_book
     # Only managers are allowed to create address books:
-    webdriver.login('globalmgr')
+    webdriver.login('globalmgr', ab.ROOT_URL)
     ab.create()
     ab.title = 'test book'
     ab.assert_default_favicon_selected()
@@ -135,7 +135,7 @@ def test_crud__DeleteForm__1(address_book, UserFactory, browser):
     assert browser.ADDRESS_BOOK_DELETE_URL == browser.url
     browser.getControl('Yes').click()
     assert '"test addressbook" deleted.' == browser.message
-    assert browser.ROOT_URL == browser.url
+    assert browser.ROOT_URL_WITHOUT_SLASH == browser.url
     assert 'There are no address books' in browser.contents
 
 
@@ -145,7 +145,7 @@ def test_crud__DeleteForm__2(address_book, UserFactory, browser):
     browser.open(browser.ADDRESS_BOOK_DELETE_URL)
     browser.getControl('No, cancel').click()
     assert 'Deletion canceled.' == browser.message
-    assert browser.ROOT_URL == browser.url
+    assert browser.ROOT_URL_WITHOUT_SLASH == browser.url
 
 
 @pytest.mark.parametrize('user', ['visitor', 'editor'])

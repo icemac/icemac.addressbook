@@ -48,3 +48,10 @@ def test_testing__Browser__message__3(fake_session, browser):
 def test_testing__DateTimeClass__format__1(DateTime):
     """It formats a date as zope.testbrowser expects it."""
     assert '2017 1 27 ' == DateTime.format(datetime.date(2017, 1, 27))
+
+
+def test_testing__SeleniumLogin__1(address_book, browser):
+    """It cannot be accessed by an anonymous user."""
+    with pytest.raises(zope.testbrowser.browser.HTTPError) as err:
+        browser.open(browser.SELENIUM_LOGIN_URL)
+    assert 'HTTP Error 401: Unauthorized' == str(err.value)
