@@ -1,8 +1,6 @@
 [run]
 branch = True
 source = icemac.addressbook
-         icemac.ab.importer
-         icemac.ab.importxls
 
 [report]
 precision = 2
