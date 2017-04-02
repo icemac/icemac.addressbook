@@ -30,6 +30,12 @@ Features
 
 - The view `@@inspector` now also displays the interfaces of its context.
 
+Other changes
+-------------
+
+- Bring test coverage to 100 % including tests themselves but without webdriver
+  tests.
+
 
 3.0 (2017-02-04)
 ================
