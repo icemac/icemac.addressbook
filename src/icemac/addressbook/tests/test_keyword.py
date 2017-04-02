@@ -35,6 +35,28 @@ def test_keyword__changed__1(address_book, PersonFactory, KeywordFactory):
     assert list(results)[0] is person
 
 
+def test_keyword__changed__2(address_book, PersonFactory, KeywordFactory):
+    """It doesn't update the keyword index if keyword title wasn't changed."""
+    friends = KeywordFactory(address_book, u'friends')
+    person = PersonFactory(
+        address_book, u'Kohn', keywords=[u'church', friends])
+
+    catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
+    results = catalog.searchResults(keywords={'any_of': ('friends', )})
+    assert 1 == len(results)
+    assert list(results)[0] is person
+
+    # When the title of a keyword has not changed the index gets not updated at
+    # the modified event:
+    attributes = zope.lifecycleevent.Attributes(
+        icemac.addressbook.interfaces.IKeyword, 'descr')
+    event = zope.lifecycleevent.ObjectModifiedEvent(friends, attributes)
+    zope.event.notify(event)
+    results = catalog.searchResults(keywords={'any_of': ('friends', )})
+    assert 1 == len(results)
+    assert list(results)[0] is person
+
+
 def test_keyword__KeywordContainer__1():
     """`KeywordContainer` fulfills the `IKeywords` interface."""
     zope.interface.verify.verifyObject(IKeywords, KeywordContainer())

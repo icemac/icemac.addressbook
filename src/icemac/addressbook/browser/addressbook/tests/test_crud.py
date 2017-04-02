@@ -37,6 +37,29 @@ def test_crud__AddForm__1_webdriver(address_book, webdriver):
     assert "Europe/Berlin" == prefs.timezone
 
 
+def test_crud__AddForm__2(address_book, browser):
+    """A new address book can be added."""
+    browser.login('globalmgr')
+    browser.open(browser.ROOT_URL)
+    browser.getLink('address book').click()
+    assert browser.ADDRESS_BOOK_ADD_URL == browser.url
+    browser.getControl('title').value = 'test 2'
+    browser.select_favicon()
+    browser.getControl('Time zone').displayValue = ['Africa/Juba']
+    browser.getControl('Add').click()
+    assert '"test 2" added.' == browser.message
+    assert browser.ADDRESS_BOOK_2_WELCOME_URL == browser.url
+
+
+def test_crud__EditForm__1(address_book, browser):
+    """An address book can be edited."""
+    browser.login('mgr')
+    browser.open(browser.ADDRESS_BOOK_EDIT_URL)
+    browser.select_favicon()
+    browser.getControl('Apply').click()
+    assert 'Data successfully updated.' == browser.message
+
+
 def test_crud__EditForm__2(address_book, browser):
     """Editing the addressbook can be canceled."""
     address_book.title = u'ftest-ab'
