@@ -117,6 +117,16 @@ def test_form__Widget__1_webdriver(address_book, FieldFactory, KeywordFactory, d
     assert dt.KEYWORDS_LIST_URL == webdriver.path
 
 
+def test_form__TimeWidget__2(
+        address_book, FieldFactory, KeywordFactory, browser):
+    """It renders a JavaScript calendar. (test for coverage)"""
+    FieldFactory(address_book, IKeyword, 'Time', u'my-field')
+    KeywordFactory(address_book, u'foobar')
+    browser.login('editor')
+    browser.open(browser.KEYWORD_EDIT_URL)
+    assert '"timeFormat": "HH:mm",' in browser.contents
+
+
 @pytest.fixture('function')
 def po_date_webdriver():
     """Webdriver page object for the date widget."""
@@ -152,6 +162,13 @@ def test_form__DateWidget__1_webdriver(address_book, po_date_webdriver, webdrive
     date.save()
     # Successful apply leads back to keyword overview
     assert date.PERSONS_LIST_URL == webdriver.path
+
+
+def test_form__DateWidget__2(address_book, browser):
+    """It renders a JavaScript calendar. (test for coverage)"""
+    browser.login('editor')
+    browser.open(browser.PERSON_ADD_URL)
+    assert '"dateFormat": "yy M d "' in browser.contents
 
 
 def test_form__FieldDescriptionAsHint__get__1(zcmlS):

@@ -152,6 +152,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     SELENIUM_LOGIN_URL = 'http://localhost/selenium-login'
 
     ADDRESS_BOOK_DEFAULT_URL = 'http://localhost/ab'
+    ADDRESS_BOOK_ADD_URL = 'http://localhost/@@addAddressBook.html'
     ADDRESS_BOOK_WELCOME_URL = 'http://localhost/ab/@@welcome.html'
     ADDRESS_BOOK_2_WELCOME_URL = 'http://localhost/AddressBook/@@welcome.html'
     ADDRESS_BOOK_EDIT_URL = 'http://localhost/ab/@@edit-address_book.html'
@@ -351,6 +352,12 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
             '<meta http-equiv != "refresh"'
         url = meta.get('content').partition(';url=')[2]
         self.open(url)
+
+    def select_favicon(self):
+        """Select the first favicon."""
+        icon = self.etree.xpath(
+            '//li[@id="form-widgets-favicon-0"]')[0].attrib['data-value']
+        self.getControl(name='form.widgets.favicon:list').value = icon
 
     def _get_control_names(self, interface, form):
         """Get a sorted list of names of controls providing `interface`."""
