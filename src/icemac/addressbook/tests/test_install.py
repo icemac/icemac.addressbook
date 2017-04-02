@@ -2,6 +2,7 @@
 from StringIO import StringIO
 from icemac.addressbook.install import not_matched_prerequisites, Configurator
 import contextlib
+import os
 import pytest
 import sys
 
@@ -9,11 +10,19 @@ import sys
 # Fixtures
 
 
-@pytest.fixture(scope='function')
-def install_default_ini(tmpdir):
-    """Create an `install.default.ini` for `Configurator`."""
+@pytest.fixture('function')
+def basedir(tmpdir):
+    """Create a base directory for the tests and chdir to it."""
+    cwd = os.getcwd()
     tmpdir.chdir()
-    install_default_ini = tmpdir.join('install.default.ini')
+    yield tmpdir
+    os.chdir(cwd)
+
+
+@pytest.fixture(scope='function')
+def install_default_ini(basedir):
+    """Create an `install.default.ini` for `Configurator`."""
+    install_default_ini = basedir.join('install.default.ini')
     install_default_ini.write("""\
 [install]
 eggs_dir = py-eggs
@@ -67,17 +76,16 @@ def user_input(input, config):
     yield
 
 
-def test_install__not_matched_prerequisites__1(tmpdir):
+def test_install__not_matched_prerequisites__1(basedir):
     """It returns an error text if `buildout.cfg` already exists in `cwd`."""
-    buildout_cfg = tmpdir.join('buildout.cfg')
+    buildout_cfg = basedir.join('buildout.cfg')
     buildout_cfg.write('[buildout]')
-    tmpdir.chdir()
     assert ('ERROR: buildout.cfg already exists.\n'
             '       Please (re-)move the existing one and restart install.' ==
             not_matched_prerequisites())
 
 
-def test_install__not_matched_prerequisites__2(tmpdir):
+def test_install__not_matched_prerequisites__2(basedir):
     """It returns `False`:
 
     * if no `buildout.cfg` exists in `cwd` and
@@ -86,11 +94,10 @@ def test_install__not_matched_prerequisites__2(tmpdir):
     We expect that the version of the python which runs the tests matches the
     requirement.
     """
-    tmpdir.chdir()
     assert False is not_matched_prerequisites()
 
 
-def test_install__not_matched_prerequisites__3(monkeypatch):
+def test_install__not_matched_prerequisites__3(monkeypatch, basedir):
     """It returns an error text for a too old python version.
 
     `icemac.addressbook` currently only runs with some Python versions. If
@@ -102,7 +109,7 @@ def test_install__not_matched_prerequisites__3(monkeypatch):
             not_matched_prerequisites())
 
 
-def test_install__not_matched_prerequisites__4(monkeypatch):
+def test_install__not_matched_prerequisites__4(monkeypatch, basedir):
     """It returns an error text for a too new python version."""
     monkeypatch.setattr("sys.version_info", (3, 0, 0, 'final', 0))
     assert ('ERROR: icemac.addressbook currently supports only Python 2.7.'
@@ -192,21 +199,21 @@ def test_install__Configurator__load__2(config):
     assert "'i-do-not-exist.ini' does not exist." == str(err.value)
 
 
-def test_install__Configurator__load__3(config, tmpdir):
+def test_install__Configurator__load__3(config, basedir):
     """It assures that user configuration takes precedence over default."""
     assert 'py-eggs' == config.get('install', 'eggs_dir')
-    user_ini = tmpdir.mkdir('prev_version').join('install.user.ini')
+    user_ini = basedir.mkdir('prev_version').join('install.user.ini')
     user_ini.write("[install]\neggs_dir = my-eggs")
     config.user_config = str(user_ini)
     config.load()
     assert 'my-eggs' == config.get('install', 'eggs_dir')
-    assert (str(tmpdir.join('prev_version')) ==
+    assert (str(basedir.join('prev_version')) ==
             config.get('migration', 'old_instance'))
 
 
-def test_install__Configurator__load__4(config, tmpdir):
+def test_install__Configurator__load__4(config, basedir):
     """Resetting the user_config to `None` clears `old_instance` path."""
-    user_ini = tmpdir.mkdir('prev_version').join('install.user.ini')
+    user_ini = basedir.mkdir('prev_version').join('install.user.ini')
     user_ini.write('')
 
     config.user_config = str(user_ini)
@@ -412,7 +419,7 @@ def test_install__Configurator__get_migration_options__2(config, capsys):
     assert 'yes' == config.get('migration', 'start_server')
 
 
-def test_install__Configurator__create_admin_zcml__1(config, capsys, tmpdir):
+def test_install__Configurator__create_admin_zcml__1(config, capsys, basedir):
     """It creates the `admin.zcml` file.
 
     This file which contains the password of the global administrator.
@@ -436,10 +443,11 @@ def test_install__Configurator__create_admin_zcml__1(config, capsys, tmpdir):
         '    permission="zope.ManageContent"',
         '    principal="icemac.addressbook.global.Administrator" />',
         '</configure>',
-    ] == tmpdir.join('admin.zcml').read().splitlines()
+    ] == basedir.join('admin.zcml').read().splitlines()
 
 
-def test_install__Configurator__create_buildout_cfg__1(config, capsys, tmpdir):
+def test_install__Configurator__create_buildout_cfg__1(
+        config, capsys, basedir):
     """It creates the `buildout.cfg` file.
 
     This file contains the user configurations for the server. The contents of
@@ -478,10 +486,11 @@ def test_install__Configurator__create_buildout_cfg__1(config, capsys, tmpdir):
         'eggs += icemac.ab.reporting',
         '      icemac.ab.relations',
         ''
-    ] == tmpdir.join('buildout.cfg').read().splitlines()
+    ] == basedir.join('buildout.cfg').read().splitlines()
 
 
-def test_install__Configurator__create_buildout_cfg__2(config, capsys, tmpdir):
+def test_install__Configurator__create_buildout_cfg__2(
+        config, capsys, basedir):
     """It creates the `buildout.cfg` file.
 
     Using different log handler results in different ``log-handler-args``.
@@ -497,10 +506,11 @@ def test_install__Configurator__create_buildout_cfg__2(config, capsys, tmpdir):
     config.create_buildout_cfg()
     assert 'creating buildout.cfg ...\n' == capsys.readouterr()[0]
     assert ("log-handler-args = 'a', 200000, 10" in
-            tmpdir.join('buildout.cfg').read())
+            basedir.join('buildout.cfg').read())
 
 
-def test_install__Configurator__create_buildout_cfg__3(config, capsys, tmpdir):
+def test_install__Configurator__create_buildout_cfg__3(
+        config, capsys, basedir):
     """It creates the `buildout.cfg` file.
 
     Using `TimedRotatingFileHandler` results in different ``log-handler-args``.
@@ -516,10 +526,12 @@ def test_install__Configurator__create_buildout_cfg__3(config, capsys, tmpdir):
     config.packages = []
     config.create_buildout_cfg()
     assert 'creating buildout.cfg ...\n' == capsys.readouterr()[0]
-    assert "log-handler-args = 'W', 2, 1" in tmpdir.join('buildout.cfg').read()
+    assert "log-handler-args = 'W', 2, 1" in basedir.join(
+        'buildout.cfg').read()
 
 
-def test_install__Configurator__create_buildout_cfg__4(config, capsys, tmpdir):
+def test_install__Configurator__create_buildout_cfg__4(
+        config, capsys, basedir):
     """It creates the `buildout.cfg` file.
 
     When the username is not empty a zdaemon.conf section is added.
@@ -533,10 +545,10 @@ def test_install__Configurator__create_buildout_cfg__4(config, capsys, tmpdir):
     config.create_buildout_cfg()
     assert 'creating buildout.cfg ...\n' == capsys.readouterr()[0]
     assert ("[zdaemon.conf]\nuser = user mac" in
-            tmpdir.join('buildout.cfg').read())
+            basedir.join('buildout.cfg').read())
 
 
-def test_install__Configurator__store__1(config, capsys, tmpdir):
+def test_install__Configurator__store__1(config, capsys, basedir):
     """It stores the configuration values in a file named `install.user.ini`"""
     config.store()
     assert 'saving config ...\n' == capsys.readouterr()[0]
@@ -568,10 +580,10 @@ def test_install__Configurator__store__1(config, capsys, tmpdir):
         'start_server = no',
         'old_instance = ',
         '',
-    ] == tmpdir.join('install.user.ini').read().splitlines()
+    ] == basedir.join('install.user.ini').read().splitlines()
 
 
-def test_install__Configurator____call____1(config, capsys, tmpdir):
+def test_install__Configurator____call____1(config, capsys, basedir):
     """It runs the complete configuration.
 
     To ease testing changes we use only default values.
@@ -622,7 +634,7 @@ def test_install__Configurator____call____1(config, capsys, tmpdir):
         'log-handler = FileHandler',
         "log-handler-args = 'a'",
         '',
-    ] == tmpdir.join('buildout.cfg').read().splitlines()
+    ] == basedir.join('buildout.cfg').read().splitlines()
     assert [
         '[install]',
         'eggs_dir = py-eggs',
@@ -652,7 +664,7 @@ def test_install__Configurator____call____1(config, capsys, tmpdir):
         'start_server = no',
         'old_instance = ',
         '',
-    ] == tmpdir.join('install.user.ini').read().splitlines()
+    ] == basedir.join('install.user.ini').read().splitlines()
     assert [
         '<configure xmlns="http://namespaces.zope.org/zope">',
         '  <principal',
@@ -668,4 +680,4 @@ def test_install__Configurator____call____1(config, capsys, tmpdir):
         '    permission="zope.ManageContent"',
         '    principal="icemac.addressbook.global.Administrator" />',
         '</configure>',
-    ] == tmpdir.join('admin.zcml').read().splitlines()
+    ] == basedir.join('admin.zcml').read().splitlines()
