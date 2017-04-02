@@ -4,6 +4,6 @@ pipelines:
   default:
     - step:
         script:
-          - python bootstrap.py
-          - bin/buildout -n buildout:eggs-directory=../eggs
+          - python bootstrap.py -c bitbucket-pipelines.cfg
+          - bin/buildout -n buildout:eggs-directory=../eggs -c bitbucket-pipelines.cfg
           - bin/py.test -k "not webdriver"
