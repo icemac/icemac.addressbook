@@ -82,11 +82,3 @@ def test__mailto__MailTo___link__1(mailto_data, browser):
              'class="no-print">Go back</a>']] == [
         browser.etree_to_list(x)
         for x in browser.etree.xpath('//div[@id="mailto"]//a')]
-
-
-# Helper functions
-
-def _get_keywords_by_title(keywords):
-    """Get the keywords for a list of titles."""
-    kws = zope.component.getUtility(icemac.addressbook.interfaces.IKeywords)
-    return [kws.get_keyword_by_title(x) for x in keywords]

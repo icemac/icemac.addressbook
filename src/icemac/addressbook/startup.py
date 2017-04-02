@@ -17,7 +17,7 @@ def zope_application_factory(
     """Create a Zope application."""
     if global_conf is None:
         db = None
-    else:
+    else:  # pragma: no cover (not testable)
         zope_conf = os.path.join(global_conf['here'], 'zope.conf')
         db = zope.app.wsgi.config(zope_conf)
     application = zope.app.wsgi.WSGIPublisherApplication(
@@ -32,7 +32,7 @@ def application_factory(global_conf=None, zope_application=None):
     `zope.app.wsgi.getWSGIApplication`.
 
     """
-    if zope_application is None:
+    if zope_application is None:  # pragma: no cover (not testable)
         zope_application = zope_application_factory(global_conf)
     application = fanstatic.make_fanstatic(
         zope_application, IGNORED, bottom=True, versioning=True,
@@ -45,7 +45,7 @@ def application_factory(global_conf=None, zope_application=None):
     return application
 
 
-def interactive_debug_prompt(zope_conf='zope.conf'):
+def interactive_debug_prompt(zope_conf='zope.conf'):  # pragma: no cover
     db = zope.app.wsgi.config(zope_conf)
     debugger = zope.app.debug.Debugger.fromDatabase(db)
     # Invoke an interactive interpreter shell
@@ -57,7 +57,7 @@ def interactive_debug_prompt(zope_conf='zope.conf'):
         'debugger': debugger, 'app': debugger, 'root': debugger.root()})
 
 
-class ControllerCommands(zdaemon.zdctl.ZDCmd):
+class ControllerCommands(zdaemon.zdctl.ZDCmd):  # pragma: no cover
 
     def do_debug(self, rest):
         interactive_debug_prompt()
@@ -67,14 +67,14 @@ class ControllerCommands(zdaemon.zdctl.ZDCmd):
         print "         object at an interactive Python prompt."
 
 
-def zdaemon_controller(zdaemon_conf='zdaemon.conf'):
+def zdaemon_controller(zdaemon_conf='zdaemon.conf'):  # pragma: no cover
     args = ['-C', zdaemon_conf] + sys.argv[1:]
     zdaemon.zdctl.main(args, options=None, cmdclass=ControllerCommands)
 
 
-def zdaemon_controller_debug_ajax():
+def zdaemon_controller_debug_ajax():  # pragma: no cover (not testable)
     zdaemon_controller('zdaemon-debug-ajax.conf')
 
 
-def zdaemon_controller_debug_pdb():
+def zdaemon_controller_debug_pdb():  # pragma: no cover (not testable)
     zdaemon_controller('zdaemon-debug-pdb.conf')

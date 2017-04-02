@@ -79,12 +79,10 @@ def zopeComponentTestingF():
 
     Using an empty registry.
     """
-    if plone.testing.zca._REGISTRIES:
-        new = zope.component.globalregistry.BaseGlobalComponents(
-            name='zopeComponentTestingF',
-            bases=(plone.testing.zca._REGISTRIES[0],))
-    else:
-        new = None
+    assert plone.testing.zca._REGISTRIES
+    new = zope.component.globalregistry.BaseGlobalComponents(
+        name='zopeComponentTestingF',
+        bases=(plone.testing.zca._REGISTRIES[0],))
     plone.testing.zca.pushGlobalRegistry(new)
     yield
     current = plone.testing.zca._REGISTRIES[-1]
