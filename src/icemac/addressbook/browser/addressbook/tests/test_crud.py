@@ -15,8 +15,7 @@ def test_crud__AddForm__1_webdriver(address_book, webdriver):
     ab.timezone = 'Europe/Berlin'
     ab.submit('add')
     assert webdriver.message == '"test book" added.'
-    assert ab.ADDRESS_BOOK_WELCOME_URL.replace(
-        '/ab', '/AddressBook') == webdriver.path
+    assert ab.ADDRESS_BOOK_2_WELCOME_URL == webdriver.path
     # Editing is done in master data section:
     webdriver.open(ab.ADDRESS_BOOK_EDIT_URL.replace('/ab', '/AddressBook'))
     # The add form actually stored the values:
