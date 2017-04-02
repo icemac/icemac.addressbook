@@ -2,7 +2,7 @@ from mock import patch
 
 
 def test_startpage__Dispatch__1(address_book, browser):
-    """Dispatch() by default redirects to the welcome page."""
+    """It redirects by default to the welcome page."""
     browser.login('visitor')
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     assert browser.ADDRESS_BOOK_WELCOME_URL == browser.url
