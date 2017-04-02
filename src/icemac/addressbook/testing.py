@@ -358,14 +358,14 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
                        if interface.providedBy(control)])
 
 
-class WebdriverBase(object):
+class WebdriverBase(object):  # pragma: no cover (webdriver)
     """Base for all Webdriver classes."""
 
     def __init__(self, selenium):
         self._selenium = selenium
 
 
-class Webdriver(WebdriverBase):
+class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
     """Wrapper around Selenese."""
 
     _to_attach = []
@@ -411,7 +411,7 @@ class Webdriver(WebdriverBase):
         self._selenium.windowMaximize()
 
 
-class WebdriverPageObjectBase(WebdriverBase):
+class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
     """Base for page object classes to used with to ``Webdriver.attach()``."""
 
     browser = Browser  # Browser class to get URLs from
@@ -427,7 +427,7 @@ class WebdriverPageObjectBase(WebdriverBase):
             setattr(self, name, path)
 
 
-class TimeZoneMixIn(object):
+class TimeZoneMixIn(object):  # pragma: no cover (webdriver)
     """Mix-in for page objects to handle time zones."""
 
     @property
@@ -698,14 +698,15 @@ def getRootFolder():
     return CURRENT_CONNECTION.rootFolder
 
 
-def interpolate_insted_of_translate(self, msgid, mapping=None, *args, **kw):
+def interpolate_insted_of_translate(
+        self, msgid, mapping=None, *args, **kw):  # pragma: no cover webdriver
     """Use interpolation instead of translation."""
     return zope.i18n.interpolate(msgid, mapping)
 
 
 # Helper views
 
-class SeleniumLogin(object):
+class SeleniumLogin(object):  # pragma: no cover (webdriver)
     """Allow basic auth log-in of global users.
 
     It prevents rendering an Unauthorized page.

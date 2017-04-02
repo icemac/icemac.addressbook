@@ -30,7 +30,7 @@ Webdriver.attach(POEntities, 'entities')
 
 @pytest.mark.webdriver
 @pytest.mark.flaky(reruns=3)
-def test_FieldOrder__1(address_book, webdriver):
+def test_FieldOrder__1_webdriver(address_book, webdriver):
     """The fields of the entity can be sorted."""
     entities = webdriver.entities
     webdriver.login('mgr', entities.ENTITY_PERSON_LIST_FIELDS_URL)

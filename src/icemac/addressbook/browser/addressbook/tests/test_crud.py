@@ -3,7 +3,7 @@ import pytest
 
 
 @pytest.mark.webdriver
-def test_crud__AddForm__1(address_book, webdriver):
+def test_crud__AddForm__1_webdriver(address_book, webdriver):
     """A new address book can be added and edited."""
     ab = webdriver.address_book
     # Only managers are allowed to create address books:

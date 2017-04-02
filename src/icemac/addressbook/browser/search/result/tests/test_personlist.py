@@ -30,7 +30,7 @@ Webdriver.attach(POKeywordSearch, 'keyword_search')
 
 
 @pytest.mark.webdriver
-def test_personlist__PersonTable__1(search_data, webdriver):
+def test_personlist__PersonTable__1_webdriver(search_data, webdriver):
     """The `checkall` checkbox deselects and reselects all persons."""
     keyword_search = webdriver.keyword_search
     webdriver.login('visitor', keyword_search.SEARCH_BY_KEYWORD_URL)

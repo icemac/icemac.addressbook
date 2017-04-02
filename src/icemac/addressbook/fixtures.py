@@ -34,7 +34,7 @@ import zope.testbrowser.wsgi
 
 
 @pytest.yield_fixture(scope='function')
-def webdriver(webdriverS, httpServerS):
+def webdriver(webdriverS, httpServerS):  # pragma: no cover (webdriver)
     """Fixture to run tests using Webdriver."""
     assert icemac.addressbook.testing.CURRENT_CONNECTION is not None, \
         "The `webdriver` fixture needs a database fixture like `address_book`."
@@ -272,7 +272,7 @@ def browserWsgiAppS(wsgiAppS):
 
 
 @pytest.yield_fixture(scope='session')
-def httpServerS(wsgiAppS):
+def httpServerS(wsgiAppS):  # pragma: no cover (webriver)
     """Create a HTTPServer for the WSGI app."""
     server = gocept.httpserverlayer.wsgi.Layer()
     server.wsgi_app = wsgiAppS
@@ -283,7 +283,7 @@ def httpServerS(wsgiAppS):
 
 
 @pytest.yield_fixture(scope='session')
-def webdriverS(httpServerS):
+def webdriverS(httpServerS):  # pragma: no cover (webdriver)
     """Open a browser for webriver tests."""
     layer = gocept.selenium.WebdriverLayer(name='WebdriverLayer')
     layer['http_address'] = httpServerS
