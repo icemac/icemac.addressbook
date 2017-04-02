@@ -14,6 +14,9 @@ omit = */generations/*
 exclude_lines =
     pragma: no cover
     class I[A-Z]\w+\((zope\.interface\.Interface|.*I[A-Z].*)\):
+    def test_.+[0-9]_webdriver\(
+    def po_.*_webdriver\(\):
+    class PO\w+\(WebdriverPageObjectBase
 
 [html]
 directory = htmlcov

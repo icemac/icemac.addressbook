@@ -23,8 +23,7 @@ Webdriver.attach(POPerson, 'person')
 
 
 @pytest.mark.webdriver
-def test_resources__form_js__render_field_hint__1(
-        address_book, FullPersonFactory, webdriver):
+def test_resources__form_js__render_field_hint__1_webdriver(address_book, FullPersonFactory, webdriver):  # noqa
     """It renders the titles of the fields as separate hint."""
     FullPersonFactory(address_book, u'Tester')
     person_page = webdriver.person

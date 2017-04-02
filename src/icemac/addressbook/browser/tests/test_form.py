@@ -77,7 +77,7 @@ def test_form__zope_i18n_pattern_to_jquery_pattern__3():
 
 
 @pytest.fixture('function')
-def po_datetime():
+def po_datetime_webdriver():
     """Webdriver page object for the datetime widget."""
     class PODatetime(WebdriverPageObjectBase):
         paths = [
@@ -104,9 +104,7 @@ def po_datetime():
 
 @pytest.mark.webdriver
 @pytest.mark.parametrize('datatype', ['Datetime', 'Time'])
-def test_form__Widget__1(
-        address_book, FieldFactory, KeywordFactory, datatype, po_datetime,
-        webdriver):
+def test_form__Widget__1_webdriver(address_book, FieldFactory, KeywordFactory, datatype, po_datetime_webdriver, webdriver):  # noqa
     """`DatetimeWidget` renders a JavaScript calendar."""
     FieldFactory(address_book, IKeyword, datatype, u'my-field')
     KeywordFactory(address_book, u'foobar')
@@ -120,7 +118,7 @@ def test_form__Widget__1(
 
 
 @pytest.fixture('function')
-def po_date():
+def po_date_webdriver():
     """Webdriver page object for the date widget."""
     class PODate(WebdriverPageObjectBase):
         paths = [
@@ -145,8 +143,8 @@ def po_date():
 
 
 @pytest.mark.webdriver
-def test_form__DateWidget__1(address_book, po_date, webdriver):
-    """`DateWidget` renders a JavaScript calendar."""
+def test_form__DateWidget__1_webdriver(address_book, po_date_webdriver, webdriver):  # noqa
+    """It renders a JavaScript calendar."""
     date = webdriver.date
     webdriver.login('editor', date.PERSON_ADD_URL)
     webdriver.windowMaximize()

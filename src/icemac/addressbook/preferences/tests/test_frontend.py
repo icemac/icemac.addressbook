@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.mark.webdriver
-def test_preferences__1(address_book, webdriver):
+def test_preferences__1_webdriver(address_book, webdriver):
     """Testing JS funtions of preferences frontend."""
     prefs = webdriver.prefs
     webdriver.login('mgr', prefs.PREFS_URL)
