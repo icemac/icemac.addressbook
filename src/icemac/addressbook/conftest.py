@@ -91,21 +91,20 @@ def tmpfile():
     and file name.
 
     """
-    filename = None
-    fhr = None
+    data = {'filename': None, 'fhr': None}
 
-    def tmpfile(content, suffix):
+    def tmpfile(content, suffix, _data=data):
         fd, filename = tempfile.mkstemp(suffix=suffix)
         # It does not seem to be possible to use os.fdopen with 'rw' -- it
         # leads to "[Errno 9] Bad file descriptor"
         with os.fdopen(fd, 'w') as fhw:
             fhw.write(content)
-        fhr = file(filename, 'r')
-        return fhr, os.path.basename(filename)
+        data['fhr'] = file(filename, 'r')
+        data['filename'] = filename
+        return data['fhr'], os.path.basename(filename)
     yield tmpfile
-    if fhr is not None:
-        fhr.close()
-        os.unlink(filename)
+    data['fhr'].close()
+    os.unlink(data['filename'])
 
 
 # Fixtures to help asserting

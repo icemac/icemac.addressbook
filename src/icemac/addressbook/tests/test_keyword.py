@@ -74,8 +74,8 @@ def test_keyword__KeywordContainer__get_keywords__2():
     kc['2'] = Keyword(u'asd')
     kc['3'] = Keyword(u'dfg')
     kc['4'] = Keyword(u'bgr')
-    assert (['asd', 'bgr', 'dfg', 'qwe'] ==
-            sorted(x.title for x in kc.get_keywords()))
+    keyword_titles = sorted(x.title for x in kc.get_keywords())
+    assert ['asd', 'bgr', 'dfg', 'qwe'] == keyword_titles
 
 
 def test_keyword__KeywordContainer__get_keyword_by_title__1():

@@ -7,10 +7,6 @@ source = icemac.addressbook
 [report]
 precision = 2
 omit = */generations/*
-       */startup.py
-       */tests/*
-       */tests.py
-       */conftest.py
 exclude_lines =
     pragma: no cover
     class I[A-Z]\w+\((zope\.interface\.Interface|.*I[A-Z].*)\):

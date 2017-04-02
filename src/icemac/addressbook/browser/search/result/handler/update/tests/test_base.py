@@ -45,9 +45,10 @@ def test_base__update_persons__3(zcmlS):
         result = update_persons(
             [person1], person_entity,
             person_entity.getRawField('notes'), 'append', u'bar')
+    errors = {key: zope.i18n.translate(val) for key, val in result.items()}
     assert (
         {'person1': u'Unexpected error occurred: IOError: file not found'} ==
-        {key: zope.i18n.translate(val) for key, val in result.items()})
+        errors)
 
 
 def test_base__clean_update_data_session__1(address_book):
