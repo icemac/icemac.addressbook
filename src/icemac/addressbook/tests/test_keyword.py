@@ -12,7 +12,7 @@ def test_keyword__Keyword__1():
 
 
 def test_keyword__changed__1(address_book, PersonFactory, KeywordFactory):
-    """`changed()` updates the keyword index if a keyword title was changed."""
+    """It updates the keyword index if a keyword title was changed."""
     friends = KeywordFactory(address_book, u'friends')
     person = PersonFactory(
         address_book, u'Kohn', keywords=[u'church', friends])
