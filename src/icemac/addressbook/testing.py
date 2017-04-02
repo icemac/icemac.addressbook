@@ -153,6 +153,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     ADDRESS_BOOK_DEFAULT_URL = 'http://localhost/ab'
     ADDRESS_BOOK_WELCOME_URL = 'http://localhost/ab/@@welcome.html'
+    ADDRESS_BOOK_2_WELCOME_URL = 'http://localhost/AddressBook/@@welcome.html'
     ADDRESS_BOOK_EDIT_URL = 'http://localhost/ab/@@edit-address_book.html'
     ADDRESS_BOOK_DELETE_PERSONS_URL = (
         'http://localhost/ab/@@delete-address_book-content.html')
@@ -447,7 +448,7 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
     paths = [
         'ADDRESS_BOOK_DEFAULT_URL',
         'ADDRESS_BOOK_EDIT_URL',
-        'ADDRESS_BOOK_WELCOME_URL',
+        'ADDRESS_BOOK_2_WELCOME_URL',
         'ROOT_URL',
         'SEARCH_URL',
     ]
