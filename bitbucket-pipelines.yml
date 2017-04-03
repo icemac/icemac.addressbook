@@ -5,5 +5,5 @@ pipelines:
     - step:
         script:
           - pip install setuptools==34.3.0 zc.buildout
-          - bin/buildout -n buildout:eggs-directory=../eggs -c bitbucket-pipelines.cfg
+          - buildout -n buildout:eggs-directory=../eggs -c bitbucket-pipelines.cfg
           - bin/py.test -k "not webdriver"
