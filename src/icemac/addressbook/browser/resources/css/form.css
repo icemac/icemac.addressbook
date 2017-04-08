@@ -89,6 +89,7 @@ select.set-field {
 
 #content form div.multi-widget-input {
     clear: none;
+    float: left;
 }
 
 /* buttons */
