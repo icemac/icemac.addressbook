@@ -30,6 +30,12 @@ Features
 
 - The view `@@inspector` now also displays the interfaces of its context.
 
+Fixes
+-----
+
+- Fix styling issue in forms having lists with multiple entries (e. g. possible
+  values of choice field on user defined field of entity).
+
 Other changes
 -------------
 
