@@ -87,30 +87,6 @@ Other
 - Pack the ZODB during update to a newer address book version.
 
 
-2.9 (2017-01-06)
-================
-
-Features
---------
-
-- Add view `@@inspector` to see internals of the rendered view or object. This
-  view can only be accessed as global administrator (the one who is able to
-  create new address books).
-
-Bugs
-----
-
-- Fix configuration error which might prevent the start-up in 2.8.
-
-Other
------
-
-- Rework roles management for administrators to allow in future permissions
-  which administrators do not get by default.
-
-- Bring test coverage including branches to 100 %.
-
-
 Previous Versions
 =================
 
