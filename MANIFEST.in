@@ -9,6 +9,9 @@ include profiles/versions.cfg
 include .coveragerc
 exclude .coveragerc
 
+include bitbucket-pipelines.*
+exclude bitbucket-pipelines.*
+
 include *.sublime-project
 exclude *.sublime-project
 
