@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-4.0 (unreleased)
+4.0 (2017-04-08)
 ================
 
 Backward incompatible changes
