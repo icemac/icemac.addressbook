@@ -7,7 +7,7 @@ def read(filename):
     return file(filename).read()
 
 
-version = '4.1.dev0'
+version = '4.0.1'
 
 
 setuptools.setup(

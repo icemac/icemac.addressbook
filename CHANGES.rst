@@ -3,8 +3,8 @@ Change log
 ==========
 
 
-4.1 (unreleased)
-================
+4.0.1 (2017-04-11)
+==================
 
 - Update to a version of `icemac.recurrence` which fixed a bug in the
   computation of monthly recurring events on DST borders.
