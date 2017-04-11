@@ -9,6 +9,8 @@ Change log
 - Update to a version of `icemac.recurrence` which fixed a bug in the
   computation of monthly recurring events on DST borders.
 
+- Update most libraries needed for the address book to their newest versions.
+
 
 4.0 (2017-04-08)
 ================
