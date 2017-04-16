@@ -42,33 +42,53 @@ body {
     -moz-border-radius-bottomright: 8px;
 }
 
-#main-menu {
+#main-menu,
+#secondary-menu {
     float: left;
 }
 
-#main-menu li {
+#secondary-menu {
+    margin-top: -4px;
+    margin-left: -5px;
+}
+
+#main-menu li,
+#secondary-menu li {
     float: left;
     list-style-type: none;
     margin-right: 0.5em;
 }
 
-#main-menu li a:hover {
+#main-menu li a:hover,
+#secondary-menu li a:hover {
     background-color:#996633;
     color:White;
 }
 
-#main-menu a {
+#main-menu a,
+#secondary-menu a {
     border:1px solid #996633;
     text-decoration: none;
     padding:0.1em 0.5em;
     color: Black;
+}
+
+#main-menu a {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     -moz-border-radius-topleft: 8px;
     -moz-border-radius-topright: 8px;
 }
 
-#main-menu li.selected a {
+#secondary-menu a {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+}
+
+#main-menu li.selected a,
+#secondary-menu li.selected a {
     background:#996633 none repeat scroll 0 0;
     color:White;
 }

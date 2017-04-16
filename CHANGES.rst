@@ -6,6 +6,11 @@ Change log
 4.1 (unreleased)
 ================
 
+Other changes
+-------------
+
+- Style a secondary menu alike the main menu.
+
 - Update to a version of `icemac.recurrence` which fixed a bug in the
   computation of monthly recurring events on DST borders.
 
