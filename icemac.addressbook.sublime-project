@@ -34,7 +34,6 @@
                 "var",
                 ],
       "file_exclude_patterns": [
-                "*.conf",
                 ".coverage",
                 ".hgtags",
                 ".installed.cfg",
