@@ -6,6 +6,12 @@ Change log
 4.1 (unreleased)
 ================
 
+Features
+--------
+
+- Render the name of the logged-in user as a link to the edit form of his
+  personal data.
+
 Other changes
 -------------
 
