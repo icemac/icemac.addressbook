@@ -19,7 +19,7 @@ def folders(addressBookConnectionF):
         """Create `quantity` folders needed for keyword tests."""
         root = addressBookConnectionF.rootFolder
         names = []
-        for i in range(quantity):
+        for _ in range(quantity):
             names.append(create_and_add(root, Folder))
         return tuple(root[name] for name in names)
     return create_folders
