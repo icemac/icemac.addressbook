@@ -84,7 +84,7 @@ class OrderStorage(persistent.Persistent,
     def up(self, obj, namespace, delta=1):
         """Move the object one position up in the list."""
         storage = self.byNamespace(namespace)
-        for i in xrange(delta):
+        for _ in range(delta):
             index = storage.index(obj)
             if index == 0:
                 raise ValueError(
