@@ -36,7 +36,7 @@ class ErrorColumn(z3c.table.column.Column):
 
 
 def get_chosen_entity_and_field(request):
-    """Returns entity and field objects for chosen field."""
+    """Return entity and field objects for chosen field."""
     field_token = get_update_data_session(request)['field']
     return icemac.addressbook.fieldsource.untokenize(field_token)
 
@@ -76,7 +76,7 @@ class Result(SessionStorageStep,
         return get_update_data_session(self.request)
 
     def _completeable(self):
-        """Tells whether this step is completeable."""
+        """Tell whether this step can be completed."""
         update_data = self.update_data
         return 'field' in update_data and 'operation' in update_data
 
