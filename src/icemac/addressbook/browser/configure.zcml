@@ -27,6 +27,16 @@
       permission="zope.Public"
   />
 
+  <browser:viewlet
+     manager="z3c.authviewlet.auth.ILoginLogoutViewletManager"
+     layer=".interfaces.IAddressBookLayer"
+     name="logged-in-user"
+     class=".layout.LoggedInUserViewlet"
+     permission="zope.Public"
+     weight="1"
+     />
+
+
   <browser:viewletManager
       provides=".interfaces.IFanstaticViewletManager"
       layer=".interfaces.IAddressBookLayer"

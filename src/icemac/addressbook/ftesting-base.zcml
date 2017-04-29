@@ -49,7 +49,7 @@
   <!-- Principal with only display permissions -->
   <principal
       id="icemac.addressbook.global.Visitor"
-      title="global vistor"
+      title="global visitor"
       login="visitor"
       password="visitor"
       />

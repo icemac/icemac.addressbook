@@ -59,3 +59,36 @@ def test__layout_pt__7(address_book, browser):
     # If this test fails there was an exception during rendering the error
     # page:
     assert 'You are not authorized.' in browser.contents
+
+
+def test_layout__LoggedInUserViewlet__render__1(
+        address_book, UserFactory, browser):
+    """It renders a link to the edit form of the personal data of the user."""
+    user = UserFactory(address_book, u'Hans', u'Tester', u'th@example.com',
+                       u'12345678', ['Visitor'])
+    assert '1' == user.__name__
+    browser.formlogin('th@example.com', '12345678')
+    assert browser.ADDRESS_BOOK_WELCOME_URL == browser.url
+    assert 'logged in as' in browser.contents
+    browser.getLink('th@example.com').click()
+    assert browser.PRINCIPAL_EDIT_URL_1 + '/@@index.html' == browser.url
+
+
+def test_layout__LoggedInUserViewlet__render__2(address_book, browser):
+    """It renders only the name if a global user is logged-in."""
+    browser.login('visitor')
+    browser.open(browser.ADDRESS_BOOK_WELCOME_URL)
+    assert 'logged in as "global visitor"' in browser.contents
+
+
+def test_layout__LoggedInUserViewlet__render__3(address_book, browser):
+    """It does not break outside the address book context."""
+    browser.login('mgr')
+    browser.open(browser.ROOT_URL)
+    assert 'logged in as "Manager"' in browser.contents
+
+
+def test_layout__LoggedInUserViewlet__render__4(address_book, browser):
+    """It does not render if no user is logged-in.."""
+    browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+    assert 'logged in as ' not in browser.contents
