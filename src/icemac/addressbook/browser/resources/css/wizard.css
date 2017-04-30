@@ -1,10 +1,4 @@
-/*
-# Copyright (c) 2010 Michael Howitz
-# See also LICENSE.txt
-
-CSS for importer.
-
-*/
+/* CSS for importer. */
 
 div.wizard div.wizardMenu ol li {
     list-style-type: decimal;

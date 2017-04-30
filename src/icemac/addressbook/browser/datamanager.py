@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-
 import icemac.addressbook.interfaces
 import icemac.addressbook.metadata.interfaces
 import z3c.form.datamanager

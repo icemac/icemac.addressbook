@@ -1,5 +1,3 @@
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 import z3c.menu.ready2go
 import zope.interface
 

@@ -1,7 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-
 import icemac.addressbook.generations.utils
 import icemac.addressbook.interfaces
 import zope.component

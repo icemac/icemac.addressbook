@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
 import icemac.addressbook.browser.interfaces
 import z3c.flashmessage.receiver
 import zope.component

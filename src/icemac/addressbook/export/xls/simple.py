@@ -1,8 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 from icemac.addressbook.i18n import MessageFactory as _
 import cStringIO
 import datetime

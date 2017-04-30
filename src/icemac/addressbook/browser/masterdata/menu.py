@@ -1,5 +1,3 @@
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
 from .interfaces import IMasterData, IMasterDataMenuItemOn
 import grokcore.component as grok
 import icemac.addressbook.browser.interfaces

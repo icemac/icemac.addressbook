@@ -1,6 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import icemac.addressbook.browser.base

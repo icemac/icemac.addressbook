@@ -1,5 +1,3 @@
-# Copyright (c) 2011-2014 Michael Howitz
-# See also LICENSE.txt
 """Base classes and functions for wizards."""
 
 import z3c.form.field

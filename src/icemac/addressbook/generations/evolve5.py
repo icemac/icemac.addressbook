@@ -1,8 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2009-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 __docformat__ = "reStructuredText"
 
 

@@ -1,5 +1,3 @@
-# Copyright (c) 2014 Michael Howitz
-# See also LICENSE.txt
 import icemac.addressbook.generations.utils
 
 
