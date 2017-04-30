@@ -70,7 +70,7 @@ class Table(icemac.addressbook.browser.table.Table):
     no_rows_message = _(u'No keywords defined yet.')
 
     def setUpColumns(self):
-        "Return the previously computed columns."
+        """Return the previously computed columns."""
         return [z3c.table.column.addColumn(
             self, icemac.addressbook.browser.table.TitleLinkColumn, 'keyword',
             header=_(u'keyword')),
@@ -78,7 +78,7 @@ class Table(icemac.addressbook.browser.table.Table):
 
     @property
     def values(self):
-        "The values are stored on the context."
+        """The values are stored on the context."""
         return self.context.get_keywords()
 
 

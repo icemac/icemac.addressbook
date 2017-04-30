@@ -20,7 +20,6 @@ def email_constraint_not_satisfield(field, exc):
 
 def render_error(entity, field_name, exc):
     """Render the error text using the error render adapters."""
-
     # A queryMultiAdapter call with name=None behaves strange: it seems to
     # delete all adapters matching object and interface, so make sure that
     # the name is not None:

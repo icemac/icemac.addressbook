@@ -11,7 +11,7 @@ import zope.interface
 
 class PostalAddress(persistent.Persistent,
                     zope.container.contained.Contained):
-    "A postal address."
+    """A postal address."""
 
     zope.interface.implements(icemac.addressbook.interfaces.IPostalAddress)
     zope.schema.fieldproperty.createFieldProperties(
@@ -150,7 +150,7 @@ def normalize_phone_number(number, country_code):
 
 
 def default_attrib_name_to_entity(default_attrib_name):
-    "Convert the name of a default attrib to the entity where it is defined on"
+    """Convert name of a default attrib to the entity where it is defined on"""
     entities = zope.component.getUtility(
         icemac.addressbook.interfaces.IEntities).getEntities(sorted=False)
     for candidate in entities:

@@ -12,7 +12,7 @@ class INameSuffix(zope.interface.Interface):
     """Suffix to make name in container unique."""
 
     def __iadd__(value):
-        "Increment the suffix by `value`."
+        """Increment the suffix by `value`."""
 
     def __unicode__():
-        "Convert suffix to unicode."
+        """Convert suffix to unicode."""

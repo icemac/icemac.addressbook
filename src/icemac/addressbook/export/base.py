@@ -3,7 +3,7 @@ import icemac.addressbook.export.interfaces
 
 
 class BaseExporter(object):
-    "Abstract base class for exporters which defines some convenience methods."
+    """Abstract base for exporters which defines some convenience methods."""
 
     zope.interface.implements(icemac.addressbook.export.interfaces.IExporter)
 

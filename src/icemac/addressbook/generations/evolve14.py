@@ -5,7 +5,7 @@ import zope.component
 
 @icemac.addressbook.generations.utils.evolve_addressbooks
 def evolve(addressbook):
-    "Create person defaults entity and add it to sort order."
+    """Create person defaults entity and add it to sort order."""
     person_defaults = icemac.addressbook.interfaces.IEntity(
         icemac.addressbook.interfaces.IPersonDefaults)
     order_storage = zope.component.getUtility(

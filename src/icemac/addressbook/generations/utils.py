@@ -8,7 +8,7 @@ logger = logging.getLogger('evolve')
 
 
 def evolve_addressbooks(func):
-    "Decorator which evolves address books."
+    """Decorator which evolves address books."""
     def decorated(context):
         root = zope.generations.utility.getRootFolder(context)
         addressbooks = zope.generations.utility.findObjectsProviding(
@@ -26,6 +26,6 @@ def evolve_addressbooks(func):
 
 @evolve_addressbooks
 def update_address_book_infrastructure(addressbook):
-    "Update the address book infrastructure (e. g. install new utilities)."
+    """Update the address book infrastructure (e. g. install new utilities)."""
     icemac.addressbook.addressbook.create_address_book_infrastructure(
         addressbook)

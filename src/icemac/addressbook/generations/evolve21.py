@@ -5,8 +5,9 @@ import zope.generations.utility
 
 
 def evolve(context):
-    """Remove global principal annotations utility after migrating data in
-    previous generation.
+    """Remove global principal annotations utility.
+
+    Data was migrated in the previous generation.
 
     """
     root_folder = zope.generations.utility.getRootFolder(context)

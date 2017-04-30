@@ -25,8 +25,9 @@ renames = {
 
 
 def evolve(context):
-    """Update instances made from classes of from zope.app.* packages to their
-    zope.* equivalents.
+    """Update instances made from classes of from zope.app.* packages to ...
+
+    ... their zope.* equivalents.
 
     """
     storage = context.connection._storage

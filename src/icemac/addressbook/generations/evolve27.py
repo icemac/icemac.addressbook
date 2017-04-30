@@ -8,9 +8,7 @@ import zope.location
 
 @icemac.addressbook.generations.utils.evolve_addressbooks
 def evolve(ab):
-    """Update order storage to make it metadata aware.
-
-    """
+    """Update order storage to make it metadata aware."""
     os = zope.component.getUtility(
         icemac.addressbook.interfaces.IOrderStorage)
     for ns in os.namespaces():

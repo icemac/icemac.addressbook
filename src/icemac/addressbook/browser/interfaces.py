@@ -19,7 +19,7 @@ class IAddressBookBrowserSkin(z3c.formui.interfaces.IDivFormLayer,
 
 
 class IPersonCount(zope.interface.Interface):
-    "Number of persons for deletion."
+    """Number of persons for deletion."""
 
     count = zope.schema.Int(title=_(u'number of persons'), required=False)
     notes = zope.schema.TextLine(title=_(u'notes'), required=False)
@@ -29,7 +29,7 @@ class IErrorMessage(zope.interface.Interface):
     """Render error message human readable."""
 
     def __unicode__():
-        """Returns the translateable error text."""
+        """Return the translateable error text."""
 
 
 class IDateWidget(z3c.form.interfaces.ITextWidget):
@@ -49,7 +49,7 @@ class IImageSelectWidget(z3c.form.interfaces.ISelectWidget):
 
 
 class IFanstaticViewletManager(zope.viewlet.interfaces.IViewletManager):
-    "Register viewlets for this manager which `need()` fanstatic resources."
+    """Manager those viewlets which `need()` fanstatic resources."""
 
 
 class IAttributeTraversalHook(zope.interface.Interface):

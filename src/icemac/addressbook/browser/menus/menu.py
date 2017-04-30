@@ -37,7 +37,7 @@ def getWeight((name, viewlet)):
 
 
 class OrdersWeightMenuManager(z3c.menu.ready2go.manager.MenuManager):
-    "Menu manager which uses address_book.orders as weight."
+    """Menu manager which uses address_book.orders as weight."""
 
     def sort(self, viewlets):
         return sorted(viewlets, key=getWeight)
@@ -69,8 +69,10 @@ AddMenu = zope.viewlet.manager.ViewletManager(
 
 
 class SelectMenuItemOn(object):
-    """Subscription adapter factory returning interfaces or names of views
-    for which a specific menu item in the main menu should be selected.
+    """Subscription adapter factory
+
+    Returns interfaces or names of views for which a specific menu item in the
+    main menu should be selected.
 
     Expects view names without `@@`.
     Example usage::
@@ -81,8 +83,8 @@ class SelectMenuItemOn(object):
          for="*"
          provides=".interfaces.ISearchMenuItemOn"
          factory=".my_search_views" />
-
     """
+
     def __init__(self, *items):
         self.items = items
 
@@ -102,8 +104,8 @@ class SubscriberSelectedChecker(
                     zope.interface.Interface,
                     icemac.addressbook.browser.menus.menu.MainMenu,
                     <concrete menu item class>)
-
     """
+
     subscriber_interface = NotImplemented
     grok.baseclass()
 

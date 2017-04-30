@@ -6,13 +6,13 @@ import zope.proxy
 
 
 def evolve(context):
-    """Update persistent INameSuffix adapter for python 2.6: Provide
-    ILocation interface, so zope.annotation.factory does not return a
+    """Update persistent INameSuffix adapter for python 2.6:
+
+    Provide ILocation interface, so zope.annotation.factory does not return a
     location proxy, where unicode function is not able to find __unicode__
     method any more.
 
     """
-
     root = zope.generations.utility.getRootFolder(context)
     addressbooks = zope.generations.utility.findObjectsProviding(
         root, icemac.addressbook.interfaces.IAddressBook)
