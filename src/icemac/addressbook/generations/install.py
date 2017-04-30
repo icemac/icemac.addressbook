@@ -1,6 +1,2 @@
-"""Initial generation."""
-
-
 def evolve(context):
-    # nothing to install initially
-    pass
+    """Initial generation: nothing to install initially."""
