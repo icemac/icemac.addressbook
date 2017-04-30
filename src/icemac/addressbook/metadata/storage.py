@@ -1,5 +1,3 @@
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
 import icemac.addressbook.metadata.interfaces
 import zope.schema.fieldproperty
 import persistent

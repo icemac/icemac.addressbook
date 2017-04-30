@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.search.result.base
 

@@ -1,5 +1,3 @@
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 from icemac.addressbook.i18n import _
 import z3c.form.interfaces
 import z3c.formui.interfaces

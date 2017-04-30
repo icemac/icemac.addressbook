@@ -1,6 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 import grokcore.component as grok
 import icemac.addressbook.browser.menus.interfaces
 import itertools

@@ -1,7 +1,3 @@
-# Copyright (c) 2010-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 import icemac.addressbook.generations.utils
 import icemac.addressbook.interfaces
 import zope.component

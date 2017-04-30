@@ -1,6 +1,3 @@
-# -*- coding: latin-1 -*-
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
 """Module containing sources which are independen from interfaces.
 
 Other sources are defined in interfaces.py to avoid circular references.

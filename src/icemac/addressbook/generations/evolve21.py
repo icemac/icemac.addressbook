@@ -1,7 +1,3 @@
-# Copyright (c) 2008-2014 Michael Howitz
-# See also LICENSE.txt
-# $Id$
-
 from zope.principalannotation.interfaces import IPrincipalAnnotationUtility
 import zope.component
 import zope.component.hooks
