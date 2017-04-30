@@ -11,7 +11,7 @@ import zope.schema.interfaces
 
 
 class FileWidget(z3c.form.browser.file.FileWidget):
-    "FileWidget for use with icemac.addressbook.file.interfaces.IFile['data']."
+    """FileWidget for use with ..file.interfaces.IFile['data']."""
 
     download_template = ViewPageTemplateFile('widget_download.pt')
 
@@ -37,7 +37,7 @@ class FileWidget(z3c.form.browser.file.FileWidget):
     icemac.addressbook.browser.interfaces.IAddressBookLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def FileFieldWidget(field, request):
-    """IFieldWidget factory for FileWidget."""
+    """Adapt IBytes to FileWidget."""
     return z3c.form.widget.FieldWidget(field, FileWidget(request))
 
 

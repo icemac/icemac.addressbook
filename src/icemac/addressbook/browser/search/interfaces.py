@@ -19,9 +19,15 @@ class ISearch(zope.interface.Interface):
     """A search."""
 
     def search(**kw):
-        "Search for given keyword arguments and return iterable of results."
+        """Search for given keyword arguments.
+
+        Returns iterable of results.
+        """
 
 
 class ISearchMenuItemOn(zope.interface.Interface):
-    """List of view names for which the search menu item in the main navigation
-       should be highlighted."""
+    """List of view names.
+
+    For theses names the search menu item in the main navigation should be
+    highlighted.
+    """

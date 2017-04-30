@@ -8,7 +8,6 @@ a = zope.app.authentication
 
 
 def evolve(context):
-    """Updates the authentication utility.
-    """
+    """Update the authentication utility."""
     icemac.addressbook.generations.utils.update_address_book_infrastructure(
         context)

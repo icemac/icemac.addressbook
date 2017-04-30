@@ -6,8 +6,8 @@ class BaseExport(icemac.addressbook.browser.search.result.handler.base.Base):
 
     Subclasses only have to set the `exporter_class` which should implement
     the interface `icemac.addressbook.export.interfaces.IExporter`.
-
     """
+
     exporter_class = NotImplemented
 
     def __call__(self):

@@ -7,5 +7,8 @@ class IMasterData(z3c.menu.ready2go.ISiteMenu):
 
 
 class IMasterDataMenuItemOn(zope.interface.Interface):
-    """List of view names for which the master data menu item in the main
-       navigation should be highlighted."""
+    """List of view names.
+
+    For these names the master data menu item in the main navigation should be
+    highlighted.
+    """

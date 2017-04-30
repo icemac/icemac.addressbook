@@ -12,7 +12,7 @@ import zope.globalrequest
 
 
 class TitleMappingSource(zc.sourcefactory.basic.BasicSourceFactory):
-    "Abstract base class for sources using a mapping between value and title."
+    """Abstract base for sources using a mapping between value and title."""
 
     _mapping = None  # collections.OrderedDict, to be set in child class
 

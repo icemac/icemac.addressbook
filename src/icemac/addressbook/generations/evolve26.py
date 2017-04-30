@@ -5,8 +5,9 @@ import zope.component
 
 @icemac.addressbook.generations.utils.evolve_addressbooks
 def evolve(ab):
-    """Update user generated fields to gain information about the entity
-    interface they belong to.
+    """Update user generated fields.
+
+    They get the information about the entity interface they belong to.
 
     """
     entities = zope.component.getUtility(
