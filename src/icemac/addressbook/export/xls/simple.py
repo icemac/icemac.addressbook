@@ -1,4 +1,4 @@
-from icemac.addressbook.i18n import MessageFactory as _
+from icemac.addressbook.i18n import _
 import cStringIO
 import datetime
 import decimal
