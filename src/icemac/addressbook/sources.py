@@ -1,4 +1,4 @@
-"""Module containing sources which are independen from interfaces.
+"""Module containing sources which are independent from interfaces.
 
 Other sources are defined in interfaces.py to avoid circular references.
 
