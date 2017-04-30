@@ -1,6 +1,3 @@
-"""I18n message factory for icemac.addressbook. """
-
-
 import zope.i18nmessageid
 
 
