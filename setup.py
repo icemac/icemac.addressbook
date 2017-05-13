@@ -4,7 +4,8 @@ import setuptools
 
 def read(filename):
     """Read a file in the current directory."""
-    return file(filename).read()
+    with open(filename) as f:
+        return f.read()
 
 
 version = '4.1.dev0'
