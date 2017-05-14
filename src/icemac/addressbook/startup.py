@@ -1,3 +1,4 @@
+from __future__ import print_function
 from zope.app.publication.httpfactory import HTTPPublicationRequestFactory
 import code
 import fanstatic
@@ -63,8 +64,8 @@ class ControllerCommands(zdaemon.zdctl.ZDCmd):  # pragma: no cover
         interactive_debug_prompt()
 
     def help_debug(self):
-        print "debug -- Initialize the application, providing a debugger"
-        print "         object at an interactive Python prompt."
+        print("debug -- Initialize the application, providing a debugger")
+        print("         object at an interactive Python prompt.")
 
 
 def zdaemon_controller(zdaemon_conf='zdaemon.conf'):  # pragma: no cover
