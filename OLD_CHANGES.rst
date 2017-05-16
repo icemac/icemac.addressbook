@@ -5,6 +5,27 @@
 Change log of releases more than 2 minor versions behind current version.
 
 
+2.10 (2017-01-20)
+=================
+
+Features
+--------
+
+- Add a search result handler which renders a list of the selected persons with
+  a check-box in front.
+
+- Style text input fields better.
+
+- Style the print output properly.
+
+Other
+-----
+
+- Update most libraries needed for the address book to their newest versions.
+
+- Pack the ZODB during update to a newer address book version.
+
+
 2.9 (2017-01-06)
 ================
 
