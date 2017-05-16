@@ -86,27 +86,6 @@ Other
 - Update most libraries needed for the address book to their newest versions.
 
 
-2.10 (2017-01-20)
-=================
-
-Features
---------
-
-- Add a search result handler which renders a list of the selected persons with
-  a check-box in front.
-
-- Style text input fields better.
-
-- Style the print output properly.
-
-Other
------
-
-- Update most libraries needed for the address book to their newest versions.
-
-- Pack the ZODB during update to a newer address book version.
-
-
 Previous Versions
 =================
 
