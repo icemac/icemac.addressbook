@@ -180,3 +180,20 @@ def test_form__FieldDescriptionAsHint__get__1(zcmlS):
     assert ('The date and time that the object was last modified '
             'converted to the displayed time zone.' == result)
     assert isinstance(result, zope.i18nmessageid.Message)
+
+
+def test_form__FieldDescriptionAsHint__get__2(address_book, FieldFactory):
+    """It returns the description of a user defined field.
+
+    It replaces newlines by spaces as the description is put into a TextLine
+    field later on.
+    """
+    field = FieldFactory(
+        address_book, icemac.addressbook.interfaces.IKeyword, u'Bool',
+        u'usable?', notes=u'Is\nthis\rkeyword\r\nusable?')
+    obj = FieldDescriptionAsHint(
+        field=zope.schema.interfaces.IField(field),
+        context=None, request=None, form=None, widget=None)
+    result = obj.get()
+    assert ('Is this keyword  usable?' == result)
+    assert isinstance(result, unicode)
