@@ -3,8 +3,8 @@ Change log
 ==========
 
 
-4.2 (unreleased)
-================
+4.1.1 (2017-05-18)
+==================
 
 - Fix broken forms when using newlines in the description of user defined
   fields.
