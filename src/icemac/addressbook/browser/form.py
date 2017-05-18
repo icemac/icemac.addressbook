@@ -243,6 +243,8 @@ class FieldDescriptionAsHint(z3c.form.hint.FieldDescriptionAsHint):
             name='hint')
         if computed_value is None:
             desc = super(FieldDescriptionAsHint, self).get()
+            if desc and set(desc).intersection(set('\r\n')):
+                desc = desc.replace('\r', ' ').replace('\n', ' ')
         else:
             desc = computed_value.get()
         return desc

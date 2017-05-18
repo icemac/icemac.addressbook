@@ -6,7 +6,8 @@ Change log
 4.2 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix broken forms when using newlines in the description of user defined
+  fields.
 
 
 4.1 (2017-05-16)
