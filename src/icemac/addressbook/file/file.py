@@ -39,9 +39,8 @@ class File(persistent.Persistent, zope.container.contained.Contained):
 
     @data.setter
     def data(self, data):
-        fp = self.open('w')
-        fp.write(data)
-        fp.close()
+        with self.open('w') as fp:
+            fp.write(data)
 
     def replace(self, filename):
         """Replace with another file."""
