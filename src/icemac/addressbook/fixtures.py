@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 from icemac.addressbook.principals.sources import role_source
 from icemac.addressbook.testing import TestHTTPPublicationRequestFactory
 from icemac.addressbook.testing import getRootFolder
@@ -15,7 +14,10 @@ import icemac.addressbook.startup
 import icemac.addressbook.testing
 import icemac.addressbook.utils
 import mock
+import os
+import os.path
 import pytest
+import tempfile
 import zope.app.wsgi.testlayer
 import zope.browserpage.metaconfigure
 import zope.component.hooks
@@ -249,6 +251,30 @@ def TimeZonePrefFactory():
     yield set_time_zone_pref
     while patchers:
         patchers.pop().stop()
+
+
+@pytest.yield_fixture(scope='function')
+def tmpfile():
+    """Fixture to create a temporary file with a defined content and suffix.
+
+    Returns a callable to create the file which returns a tuple of file handle
+    and file name.
+
+    """
+    data = {'filename': None, 'fhr': None}
+
+    def tmpfile(content, suffix, _data=data):
+        fd, filename = tempfile.mkstemp(suffix=suffix)
+        # It does not seem to be possible to use os.fdopen with 'rw' -- it
+        # leads to "[Errno 9] Bad file descriptor"
+        with os.fdopen(fd, 'w') as fhw:
+            fhw.write(content)
+        data['fhr'] = file(filename, 'r')
+        data['filename'] = filename
+        return data['fhr'], os.path.basename(filename)
+    yield tmpfile
+    data['fhr'].close()
+    os.unlink(data['filename'])
 
 
 # Infrastructure fixtures
