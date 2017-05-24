@@ -6,7 +6,10 @@ Change log
 4.2 (unreleased)
 ================
 
-- Nothing changed yet.
+Internal
+--------
+
+- Move `.conftest.tmpfile()` to `.fixtures.tmpfile()` for reuse.
 
 
 4.1.1 (2017-05-18)
