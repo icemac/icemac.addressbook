@@ -79,7 +79,7 @@ setuptools.setup(
         'z3c.pagelet[chameleon]',
         'z3c.preference >= 0.2',
         'z3c.ptcompat',
-        'z3c.table',
+        'z3c.table >= 2',
         'z3c.wizard',
         'zc.catalog',
         'zc.sourcefactory',

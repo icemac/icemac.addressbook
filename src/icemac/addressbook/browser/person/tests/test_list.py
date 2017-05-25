@@ -446,7 +446,7 @@ def test_list__PersonList__18i(some_persons, browser):
         xpath=xpath)
     browser.getLink('first name').click()
     assert ('http://localhost/ab/@@person-list.html?'
-            'table-sortOrder=ascending&table-sortOn=table-first_name-1' ==
+            'table-sortOn=table-first_name-1&table-sortOrder=ascending' ==
             browser.url)
     assert (['Utzer', 'Streber', 'Gunter', 'Tester', 'Hans'] ==
             browser.etree.xpath(xpath))
@@ -468,7 +468,7 @@ def test_list__PersonList__19i(some_persons, browser):
         xpath=xpath)
     browser.getLink('last name').click()
     assert ('http://localhost/ab/@@person-list.html?'
-            'table-sortOrder=ascending&table-sortOn=table-last_name-0' ==
+            'table-sortOn=table-last_name-0&table-sortOrder=ascending' ==
             browser.url)
     assert (['Streber', 'Gunter', 'Tester', 'Hans', 'Utzer'] ==
             browser.etree.xpath(xpath))
