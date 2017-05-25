@@ -6,8 +6,10 @@ Change log
 4.2 (unreleased)
 ================
 
-Internal
---------
+Other
+-----
+
+- Update most libraries needed for the address book to their newest versions.
 
 - Move `.conftest.tmpfile()` to `.fixtures.tmpfile()` for reuse.
 
