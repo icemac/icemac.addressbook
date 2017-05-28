@@ -18,11 +18,10 @@ class OrderStorageList(persistent.list.PersistentList):
     """
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IOrderStorage)
 class OrderStorage(persistent.Persistent,
                    zope.container.contained.Contained):
     """Storage of orders of objects."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IOrderStorage)
 
     def __init__(self, *args, **kw):
         self._storage = icemac.addressbook.utils.create_obj(

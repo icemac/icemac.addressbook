@@ -33,10 +33,9 @@ def sorted_entities(entities):
     return sorted(entities, key=lambda x: order.index(x.name))
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntities)
 class Entities(object):
     """Predefined entities in the address book universe."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IEntities)
 
     def getEntities(self, sorted=True):
         """Get an iterable of all known entities."""
@@ -100,10 +99,9 @@ def entity_by_obj(obj):
     raise ValueError("Unknown obj: %r" % obj)
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntityOrder)
 class EntityOrder(object):
     """Global entity order utility."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IEntityOrder)
 
     @property
     def order_storage(self):
@@ -210,6 +208,7 @@ class FakeObject(object):
     """Provider for an interface for the `getAdapters` call."""
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 class Entity(object):
     """An entity int the address book universe."""
 
@@ -217,7 +216,6 @@ class Entity(object):
     # Caution: This class is only a base class, in most cases you will use
     #          EditableEntity (see below).
 
-    zope.interface.implements(icemac.addressbook.interfaces.IEntity)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IEntityRead)
 
@@ -374,14 +372,12 @@ class Entity(object):
             yield str(field.__name__), field
 
 
+@zope.interface.implementer_only(icemac.addressbook.interfaces.IEditableEntity)
 class EditableEntity(Entity):
     """Special entity which is editable.
 
     This means that new fields can be added and the fields can be sorted.
     """
-
-    zope.interface.implementsOnly(
-        icemac.addressbook.interfaces.IEditableEntity)
 
 
 def create_entity(title, interface, class_, **kw):
@@ -392,10 +388,10 @@ def create_entity(title, interface, class_, **kw):
     return entity
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IField)
 class Field(persistent.Persistent, zope.container.contained.Contained):
     """User defined field."""
 
-    zope.interface.implements(icemac.addressbook.interfaces.IField)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IField)
     interface = None
@@ -411,13 +407,10 @@ class FieldAdapterFactory(persistent.Persistent):
         return self._field
 
 
+@zope.component.adapter(icemac.addressbook.interfaces.IMayHaveUserFields)
+@zope.interface.implementer(icemac.addressbook.interfaces.IUserFieldStorage)
 class FieldStorage(persistent.Persistent):
     """Storage for field values in annotations."""
-
-    zope.component.adapts(
-        icemac.addressbook.interfaces.IMayHaveUserFields)
-    zope.interface.implements(
-        icemac.addressbook.interfaces.IUserFieldStorage)
 
     def __getattr__(self, attrib):
         # We have no default values on the class nor we might know them.

@@ -69,12 +69,10 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
         super(DeleteForm, self)._do_delete()
 
 
+@zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
+@zope.interface.implementer(icemac.addressbook.browser.interfaces.IPersonCount)
 class PersonCount(object):
     """Adapter to count persons in address book."""
-
-    zope.interface.implements(
-        icemac.addressbook.browser.interfaces.IPersonCount)
-    zope.component.adapts(icemac.addressbook.interfaces.IAddressBook)
 
     def __init__(self, address_book):
         basic_unit, self.count = zope.size.interfaces.ISized(

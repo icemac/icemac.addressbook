@@ -10,12 +10,12 @@ import zope.interface
 import zope.lifecycleevent
 
 
+@zope.interface.implementer(
+    icemac.addressbook.interfaces.IPerson,
+    icemac.addressbook.interfaces.IPersonDefaults,
+    zope.annotation.interfaces.IAttributeAnnotatable)
 class Person(zope.container.btree.BTreeContainer):
     """A person."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IPerson,
-                              icemac.addressbook.interfaces.IPersonDefaults,
-                              zope.annotation.interfaces.IAttributeAnnotatable)
 
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IPerson, omit=['keywords'])
@@ -103,10 +103,9 @@ def person_created(person, event):
             setattr(person, attrib, None)
 
 
+@zope.component.adapter(icemac.addressbook.interfaces.IPerson)
+@zope.interface.implementer(icemac.addressbook.interfaces.IKeywordTitles)
 class Keywords(object):
-
-    zope.interface.implements(icemac.addressbook.interfaces.IKeywordTitles)
-    zope.component.adapts(icemac.addressbook.interfaces.IPerson)
 
     def __init__(self, context):
         self.context = context

@@ -213,11 +213,10 @@ class DateDataConverter(z3c.form.converter.DateDataConverter):
     length = 'medium'
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.interfaces.IImageSelectWidget)
 class ImageSelectWidget(z3c.form.browser.select.SelectWidget):
     """Select widget displays images as selectables."""
-
-    zope.interface.implements(
-        icemac.addressbook.browser.interfaces.IImageSelectWidget)
 
     def update(self):
         super(ImageSelectWidget, self).update()

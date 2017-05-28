@@ -7,13 +7,12 @@ import zope.container.contained
 import zope.interface
 
 
+@zope.component.adapter(
+    icemac.addressbook.namechooser.interfaces.IDontReuseNames)
+@zope.interface.implementer(
+    icemac.addressbook.namechooser.interfaces.INameSuffix)
 class NameSuffix(persistent.Persistent, zope.container.contained.Contained):
     """Storage for name suffix."""
-
-    zope.interface.implements(
-        icemac.addressbook.namechooser.interfaces.INameSuffix)
-    zope.component.adapts(
-        icemac.addressbook.namechooser.interfaces.IDontReuseNames)
 
     def __init__(self):
         self._suffix = BTrees.Length.Length(0)
@@ -30,6 +29,8 @@ name_suffix = zope.annotation.factory(
     NameSuffix, key='icemac.namechooser.DontReuseNames.NameSuffix')
 
 
+@zope.component.adapter(
+    icemac.addressbook.namechooser.interfaces.IDontReuseNames)
 class DontReuseNames(zope.container.contained.NameChooser):
     """NameChooser assuring that the chosen names are unique forever.
 
@@ -42,9 +43,6 @@ class DontReuseNames(zope.container.contained.NameChooser):
     ``zope.annotation.interfaces.IAttributeAnnotatable`` as the information
     gets stored in an annotation.)
     """
-
-    zope.component.adapts(
-        icemac.addressbook.namechooser.interfaces.IDontReuseNames)
 
     def chooseName(self, name, obj):
         # remove characters that checkName does not allow

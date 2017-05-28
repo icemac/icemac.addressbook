@@ -32,11 +32,11 @@ import zope.pluggableauth.plugins.principalfolder
 import zope.site.site
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IAddressBook)
 class AddressBook(zope.container.btree.BTreeContainer,
                   zope.site.site.SiteManagerContainer):
     """An address book."""
 
-    zope.interface.implements(icemac.addressbook.interfaces.IAddressBook)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IAddressBook)
 

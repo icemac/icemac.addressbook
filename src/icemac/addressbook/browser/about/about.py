@@ -24,9 +24,9 @@ class CopyrightContentProvider(
         return icemac.addressbook.copyright
 
 
+@zope.interface.implementer(IIconProviderInfo)
 class IconProviderInfo(object):
     """Infos about copyrights of icons used in the address book."""
-    zope.interface.implements(IIconProviderInfo)
 
     name = NotImplemented
     url = NotImplemented

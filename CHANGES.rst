@@ -17,6 +17,9 @@ Other
   (No checks for future-absolute-imports as relative imports are not used
    here.)
 
+- Change `zope.interface.implements[Only]` and `zope.component.adapts` to
+  class decorators.
+
 
 4.1.1 (2017-05-18)
 ==================

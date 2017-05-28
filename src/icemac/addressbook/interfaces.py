@@ -48,10 +48,9 @@ class IFaviconData(zope.interface.Interface):
 class FaviconSource(icemac.addressbook.sources.TitleMappingSource):
     """Source containing possbile favicons."""
 
+    @zope.interface.implementer(IImageSource)
     class source_class(zc.sourcefactory.source.FactoredSource):
         """We need the interface to register a widget for it."""
-
-        zope.interface.implements(IImageSource)
 
     @property
     def _mapping(self):

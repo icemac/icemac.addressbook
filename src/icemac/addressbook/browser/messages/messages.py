@@ -5,15 +5,14 @@ import zope.contentprovider.provider
 import zope.interface
 
 
+@zope.component.adapter(
+    zope.interface.Interface,
+    icemac.addressbook.browser.interfaces.IAddressBookLayer,
+    zope.interface.Interface)
 class MessagesContentProvider(
         zope.contentprovider.provider.ContentProviderBase,
         z3c.flashmessage.receiver.GlobalMessageReceiver):
     """Content provider displaying flash messages."""
-
-    zope.component.adapts(
-        zope.interface.Interface,
-        icemac.addressbook.browser.interfaces.IAddressBookLayer,
-        zope.interface.Interface)
 
     template = zope.browserpage.viewpagetemplatefile.ViewPageTemplateFile(
         'messages.pt')

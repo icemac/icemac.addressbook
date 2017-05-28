@@ -6,10 +6,9 @@ import zope.dottedname.resolve
 import zope.interface
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IStartpageData)
 class StartpageData(object):
     """Data of a startpage."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IStartpageData)
 
     def __init__(self, iface_name, view, title):
         assert view is not None  # required by `can_access_uri_part`, see below

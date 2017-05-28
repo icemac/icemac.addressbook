@@ -92,10 +92,9 @@ class IDummy(zope.interface.Interface):
     dummy2 = zope.schema.Text(title=u'dummy2')
 
 
+@zope.interface.implementer(IDummy)
 class Dummy(object):
     """Test entity."""
-
-    zope.interface.implements(IDummy)
 
 
 # Helper functions

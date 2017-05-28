@@ -5,11 +5,11 @@ import zope.component
 import zope.interface
 
 
+@zope.component.adapter(zope.interface.Interface)
+@zope.interface.implementer(icemac.addressbook.metadata.interfaces.IEditor)
 class EditorMetadataStorage(persistent.Persistent):
     """Storage for editor metadata in annotations."""
 
-    zope.component.adapts(zope.interface.Interface)
-    zope.interface.implements(icemac.addressbook.metadata.interfaces.IEditor)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.metadata.interfaces.IEditor)
 
