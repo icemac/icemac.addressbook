@@ -4,6 +4,7 @@ import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import zope.schema.fieldproperty
 import persistent
+import six
 import zope.container.contained
 import zope.globalrequest
 import zope.interface
@@ -100,7 +101,7 @@ def home_page_address_title(hp):
     """Title of a home page address."""
     title = _('none')
     if hp.url:
-        title = unicode(hp.url)
+        title = six.text_type(hp.url)
     return title
 
 

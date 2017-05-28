@@ -1,3 +1,4 @@
+import six
 import zope.interface
 import zope.schema.interfaces
 import zope.component.hooks
@@ -22,7 +23,7 @@ def obj_dot_title(obj):
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def default_title(obj):
     """Default title adapter which returns `str` representation of `obj`."""
-    if isinstance(obj, basestring):
+    if isinstance(obj, six.string_types):
         return obj
     return str(obj)
 

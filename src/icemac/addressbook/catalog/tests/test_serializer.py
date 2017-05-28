@@ -2,6 +2,7 @@ import pytest
 from icemac.addressbook.catalog.serializer import FieldNoSerializer
 from icemac.addressbook.catalog.serializer import FieldSerializer
 import gocept.country.db
+import six
 import zope.schema
 
 
@@ -19,7 +20,7 @@ def callSerializer(field_class_name, field_name, serializer):
     field = getattr(zope.schema, field_class_name)(title=u'')
     field.__name__ = field_name
     result = serializer(field, SerializableObject())
-    assert isinstance(result, unicode)
+    assert isinstance(result, six.text_type)
     return result
 
 

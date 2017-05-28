@@ -2,6 +2,7 @@
 import decimal
 import gocept.reference.collection
 import grokcore.component
+import six
 import zope.interface
 
 
@@ -31,7 +32,7 @@ class Operator(grokcore.component.Adapter):
 class TextAppend(Operator):
     """Append to text."""
 
-    grokcore.component.context(unicode)
+    grokcore.component.context(six.text_type)
     grokcore.component.name('append')
 
     def __call__(self, operand2):
@@ -57,7 +58,7 @@ class NoneAppend(Replace):
 class TextPrepend(Operator):
     """Prepend to text."""
 
-    grokcore.component.context(unicode)
+    grokcore.component.context(six.text_type)
     grokcore.component.name('prepend')
 
     def __call__(self, operand2):
@@ -73,7 +74,7 @@ class NonePrepend(Replace):
 class RemoveAll(Operator):
     """Remove all occurrences of operand2 from operand1."""
 
-    grokcore.component.context(unicode)
+    grokcore.component.context(six.text_type)
     grokcore.component.name('remove-all')
 
     def __call__(self, operand2):
@@ -93,7 +94,7 @@ class NoneRemoveAll(Operator):
 class RemoveFirst(Operator):
     """Remove left-most occurrence of operand2 from operand1."""
 
-    grokcore.component.context(unicode)
+    grokcore.component.context(six.text_type)
     grokcore.component.name('remove-first')
 
     def __call__(self, operand2):
@@ -109,7 +110,7 @@ class NoneRemoveFirst(NoneRemoveAll):
 class RemoveLast(Operator):
     """Remove right-most occurrence of operand2 from operand1."""
 
-    grokcore.component.context(unicode)
+    grokcore.component.context(six.text_type)
     grokcore.component.name('remove-last')
 
     def __call__(self, operand2):
@@ -256,7 +257,7 @@ class IntDiv(Operator):
     grokcore.component.name('div')
 
     def __call__(self, operand2):
-        return self.operand1 / operand2
+        return self.operand1 // operand2
 
 
 class DecimalDiv(IntDiv):

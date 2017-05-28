@@ -269,7 +269,7 @@ def tmpfile():
         # leads to "[Errno 9] Bad file descriptor"
         with os.fdopen(fd, 'w') as fhw:
             fhw.write(content)
-        data['fhr'] = file(filename, 'r')
+        data['fhr'] = open(filename, 'r')
         data['filename'] = filename
         return data['fhr'], os.path.basename(filename)
     yield tmpfile

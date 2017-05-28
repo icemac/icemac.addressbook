@@ -1,4 +1,5 @@
 import icemac.addressbook.metadata.interfaces
+import six
 import zope.component
 import zope.lifecycleevent
 import zope.security.management
@@ -18,7 +19,7 @@ def set_current_princial_id(object, attribute):
     # when trying to access the annotation key.
     unsafe_object = zope.security.proxy.getObject(object)
     metadata = icemac.addressbook.metadata.interfaces.IEditor(unsafe_object)
-    setattr(metadata, attribute, unicode(participation.principal.title))
+    setattr(metadata, attribute, six.text_type(participation.principal.title))
 
 
 @zope.component.adapter(

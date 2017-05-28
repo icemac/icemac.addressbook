@@ -142,9 +142,10 @@ class Value(SessionStorageStep):
         # If an IOrderable field has a missing_value which is not None,
         # min, max, and default have to be non-None values, too *sigh*:
         if zope.schema.interfaces.IInt.providedBy(selected_field):
-            parameters.update(dict(min=-sys.maxint, max=sys.maxint, default=0))
+            parameters.update(dict(
+                min=-sys.maxsize, max=sys.maxsize, default=0))
         if zope.schema.interfaces.IDecimal.providedBy(selected_field):
-            max_decimal = decimal.Decimal(sys.maxint)
+            max_decimal = decimal.Decimal(sys.maxsize)
             # The default value needs to be the same object as missing_value
             # as otherwise z3c.form displays the default value instead of
             # an empty field:

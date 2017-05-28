@@ -1,6 +1,7 @@
 import BTrees.Length
 import icemac.addressbook.namechooser.interfaces
 import persistent
+import six
 import zope.component
 import zope.container.contained
 import zope.interface
@@ -22,7 +23,7 @@ class NameSuffix(persistent.Persistent, zope.container.contained.Contained):
         return self
 
     def __unicode__(self):
-        return unicode(self._suffix.value)
+        return six.text_type(self._suffix.value)
 
 
 name_suffix = zope.annotation.factory(
@@ -47,10 +48,10 @@ class DontReuseNames(zope.container.contained.NameChooser):
 
     def chooseName(self, name, obj):
         # remove characters that checkName does not allow
-        name = unicode(name.replace('/', '-').lstrip('+@'))
+        name = six.text_type(name.replace('/', '-').lstrip('+@'))
 
         if not name:
-            name = unicode(obj.__class__.__name__)
+            name = six.text_type(obj.__class__.__name__)
 
         prefix, dot, extension = name.rpartition('.')
         if prefix:

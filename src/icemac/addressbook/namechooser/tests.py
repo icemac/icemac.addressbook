@@ -5,6 +5,7 @@ from icemac.addressbook.namechooser.namechooser import NameSuffix
 from zope.interface.verify import verifyObject
 import mock
 import pytest
+import six
 import zope.annotation.interfaces
 import zope.container.sample
 import zope.interface
@@ -36,7 +37,7 @@ def test_namechooser__NameSuffix__1():
 
 def test_namechooser__NameSuffix__2():
     """`NameSuffix` starts with a value of zero."""
-    assert u'0' == unicode(NameSuffix())
+    assert u'0' == six.text_type(NameSuffix())
 
 
 def test_namechooser__NameSuffix__3():
@@ -44,7 +45,7 @@ def test_namechooser__NameSuffix__3():
     name_suffix = NameSuffix()
     name_suffix += 3
     name_suffix += 2
-    assert u'5' == unicode(name_suffix)
+    assert u'5' == six.text_type(name_suffix)
 
 
 def test_namechooser__DontReuseNames__chooseName__1(NameChooserFactory):

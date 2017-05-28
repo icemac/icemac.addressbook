@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from six.moves.urllib_parse import urlsplit
 import collections
 import datetime
 import gocept.jslint
@@ -15,7 +15,6 @@ import plone.testing.zodb
 import pytest
 import pytz
 import transaction
-import urlparse
 import webtest.forms
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
@@ -395,7 +394,7 @@ class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
 
     def login(self, username, target_path):
         transaction.commit()
-        (_, _, path, _, _) = urlparse.urlsplit(Browser.SELENIUM_LOGIN_URL)
+        (_, _, path, _, _) = urlsplit(Browser.SELENIUM_LOGIN_URL)
         server = self._selenium.server
         password = USERNAME_PASSWORD_MAP.get(username, username)
         url = "http://{username}:{password}@{server}{path}".format(**locals())

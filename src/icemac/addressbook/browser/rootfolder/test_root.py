@@ -5,7 +5,6 @@ def test_root__FrontPage__1(empty_zodb, browser):
     """`FrontPage` shows a message if there is no address book created, yet."""
     browser.login('mgr')
     browser.open(browser.ROOT_URL)
-    print browser.contents
     assert ('There are no address books created yet, click on "Add address '
             'book" to create one' in browser.contents)
 

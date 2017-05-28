@@ -47,7 +47,7 @@ class File(persistent.Persistent, zope.container.contained.Contained):
         self._data.consumeFile(filename)
 
     def openDetached(self, mode='r'):
-        return file(self._data.committed(), 'rb')
+        return open(self._data.committed(), 'rb')
 
     def open(self, mode='r'):
         return self._data.open(mode)

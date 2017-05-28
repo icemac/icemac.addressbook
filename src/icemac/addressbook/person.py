@@ -65,8 +65,9 @@ def sorted_person_defaults(name_field_tuples):
         icemac.addressbook.interfaces.IEntityOrder)
     return sorted(
         name_field_tuples,
-        key=lambda (name, field): entity_order.get(
-            icemac.addressbook.address.default_attrib_name_to_entity(name)))
+        key=lambda value: entity_order.get(
+            icemac.addressbook.address.default_attrib_name_to_entity(
+                value[0])))
 
 
 class PersonDefaultsEntity(icemac.addressbook.entities.Entity):

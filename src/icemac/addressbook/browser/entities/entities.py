@@ -4,6 +4,7 @@ import icemac.addressbook.browser.base
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
+import six
 import z3c.flashmessage.interfaces
 import z3c.table.column
 import zope.container.traversal
@@ -122,7 +123,7 @@ class MoveBase(icemac.addressbook.browser.base.BaseView):
             icemac.addressbook.interfaces.IEntityOrder)
         getattr(order, self.direction)(self.context)
         self.request.response.redirect(self.url(self.context.__parent__))
-        message = _(unicode(self.message),
+        message = _(six.text_type(self.message),
                     mapping=dict(entity=self.context.title))
         zope.component.getUtility(
             z3c.flashmessage.interfaces.IMessageSource).send(message)

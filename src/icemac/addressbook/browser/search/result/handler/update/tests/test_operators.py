@@ -188,5 +188,5 @@ def test_operator__div__1(evaluate):
 @pytest.mark.parametrize("datatype", (int, Decimal))
 def test_operator__div__2(evaluate, datatype):
     """div() returns the quotient depending on the data type of the values."""
-    assert datatype(10) / datatype(3) == evaluate(
+    assert datatype(10) // datatype(3) == evaluate(
         datatype(10), 'div', datatype(3))

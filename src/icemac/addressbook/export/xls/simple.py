@@ -1,9 +1,10 @@
 from icemac.addressbook.i18n import _
-import cStringIO
+from io import BytesIO
 import datetime
 import decimal
 import icemac.addressbook.export.base
 import icemac.addressbook.interfaces
+import six
 import xlwt
 import zope.i18n
 import zope.i18nmessageid
@@ -45,13 +46,14 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
 
     file_extension = 'xls'
     mime_type = 'application/vnd.ms-excel'
+    base_types = six.string_types + (
+        float, int, bool, datetime.date, datetime.datetime, decimal.Decimal)
 
     def convert_value(self, value):
         """Convert the value for xls export."""
         if value is None:
             return value
-        if value.__class__ in (str, unicode, float, int, bool, datetime.date,
-                               datetime.datetime, decimal.Decimal):
+        if isinstance(value, self.base_types):
             return self.translate(value)
         if hasattr(value, '__iter__'):
             return ', '.join(self.convert_value(v) for v in value)
@@ -70,7 +72,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
 
         self._export()
 
-        io = cStringIO.StringIO()
+        io = BytesIO()
         self.workbook.save(io)
         return io.getvalue()
 

@@ -13,6 +13,10 @@ Other
 
 - Move `.conftest.tmpfile()` to `.fixtures.tmpfile()` for reuse.
 
+- Make some Python 3 preparations as suggested by `pylint --py3k -d W1618`.
+  (No checks for future-absolute-imports as relative imports are not used
+   here.)
+
 
 4.1.1 (2017-05-18)
 ==================

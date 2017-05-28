@@ -28,3 +28,6 @@ class SearchResultHandler(z3c.menu.ready2go.item.SiteMenuItem):
         if not isinstance(other, SearchResultHandler):
             return False
         return self.viewName == other.viewName
+
+    def __hash__(self):
+        return hash(self)
