@@ -1,7 +1,7 @@
-import pytest
 from icemac.addressbook.catalog.serializer import FieldNoSerializer
 from icemac.addressbook.catalog.serializer import FieldSerializer
 import gocept.country.db
+import pytest
 import six
 import zope.schema
 
