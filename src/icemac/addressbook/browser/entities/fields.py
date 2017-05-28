@@ -19,7 +19,6 @@ import zope.traversing.browser
 @zope.interface.implementer_only(zope.publisher.interfaces.IPublishTraverse)
 class FieldsTraverser(
         zope.app.publication.traversers.SimpleComponentTraverser):
-
     """Make fields traversable."""
 
     def publishTraverse(self, request, name):
@@ -44,7 +43,6 @@ def get_field_URL(entity, field, request, view=None):
 
 
 class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
-
     """Form to only render metadata."""
 
     id = 'standalone-metadata-form'
@@ -52,7 +50,6 @@ class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
 
 
 class List(object):
-
     """List fields of an entity."""
 
     def _values(self):
@@ -95,7 +92,6 @@ class List(object):
 
 
 class SaveSortorder(icemac.addressbook.browser.base.BaseView):
-
     """Save the field sort order as defined by user."""
 
     def __call__(self, f):
@@ -105,7 +101,6 @@ class SaveSortorder(icemac.addressbook.browser.base.BaseView):
 
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
-
     """Add a new user defined field to an entity."""
 
     label = _(u'Add new field')
@@ -118,7 +113,6 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
 
 class BaseForm(object):
-
     """Mix-in class redirecting back to the entity."""
 
     def redirect_to_next_url(self, *args):
@@ -127,7 +121,6 @@ class BaseForm(object):
 
 
 class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
-
     """Edit a user defined field on an entity."""
 
     label = _(u'Edit field')
@@ -136,7 +129,6 @@ class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
 
 
 class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
-
     """Delete a user defined field from an entity."""
 
     label = _(

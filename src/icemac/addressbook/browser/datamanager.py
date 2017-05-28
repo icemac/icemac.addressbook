@@ -17,7 +17,6 @@ class AnnotationField(z3c.form.datamanager.AttributeField):
     code is a copy of z3c.form.datamanager.AttributeField but when the
     interface on the field is in ``self.no_security_proxy`` the
     security proxy gets removed.
-
     """
 
     no_security_proxy = (
