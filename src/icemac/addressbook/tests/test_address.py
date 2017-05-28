@@ -5,6 +5,7 @@ from icemac.addressbook.address import normalize_phone_number
 from icemac.addressbook.interfaces import IEMailAddress, IPostalAddress, ITitle
 from icemac.addressbook.interfaces import IHomePageAddress, IPhoneNumber
 import pytest
+import six
 import zope.interface.verify
 
 
@@ -144,7 +145,7 @@ def test_address__home_page_address_title__2(zcmlS):
     hp = HomePageAddress()
     hp.url = 'http://www.example.org'
     assert u'http://www.example.org' == ITitle(hp)
-    assert isinstance(ITitle(hp), unicode)
+    assert isinstance(ITitle(hp), six.text_type)
 
 
 def test_address__phone_number_title__1(zcmlS):

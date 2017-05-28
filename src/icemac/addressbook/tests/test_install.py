@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-from StringIO import StringIO
 from icemac.addressbook.install import not_matched_prerequisites, Configurator
+from io import BytesIO
 import contextlib
 import os
 import pytest
+import six
 import sys
 
 
@@ -55,7 +55,7 @@ start_server = no
 @pytest.fixture(scope='function')
 def config(install_default_ini):
     """Return a `Configurator` instance running on `install.default.ini`."""
-    config = Configurator(stdin=StringIO())
+    config = Configurator(stdin=BytesIO())
     config.load()
     return config
 
@@ -69,7 +69,7 @@ def user_input(input, config):
     # Remove possibly existing previous input:
     config.stdin.seek(0)
     config.stdin.truncate()
-    if not isinstance(input, basestring):
+    if not isinstance(input, six.string_types):
         input = '\n'.join(input)
     config.stdin.write(input)
     config.stdin.seek(0)
@@ -232,7 +232,7 @@ def test_install__Configurator__print_intro__1(config, capsys):
         u'Welcome to icemac.addressbook installation',
         u'',
         u'Hint: to use the default value (the one in [brackets]), '
-        u' enter no value.',
+        u'enter no value.',
         u''] == capsys.readouterr()[0].splitlines())
 
 
@@ -593,7 +593,7 @@ def test_install__Configurator____call____1(config, capsys, basedir):
     assert [
         'Welcome to icemac.addressbook installation',
         '',
-        'Hint: to use the default value (the one in [brackets]),  enter no '
+        'Hint: to use the default value (the one in [brackets]), enter no '
         'value.',
         '',
         ' Directory to store python eggs: [py-eggs] ',

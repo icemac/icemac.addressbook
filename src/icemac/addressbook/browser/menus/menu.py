@@ -1,6 +1,7 @@
 import grokcore.component as grok
 import icemac.addressbook.browser.menus.interfaces
 import itertools
+import six
 import z3c.menu.ready2go.checker
 import z3c.menu.ready2go.manager
 import zope.viewlet.manager
@@ -12,7 +13,8 @@ MainMenu = zope.viewlet.manager.ViewletManager(
     bases=(z3c.menu.ready2go.manager.MenuManager,))
 
 
-def getWeight((name, viewlet)):
+def getWeight(arg):
+    name, viewlet = arg
     view_name = viewlet.viewName
     assert view_name.startswith('@@')
     view_name = view_name[2:]
@@ -117,7 +119,7 @@ class SubscriberSelectedChecker(
         context = self.context
         items = zope.component.subscribers((self,), self.subscriber_interface)
         for item in itertools.chain(*items):
-            if isinstance(item, basestring):
+            if isinstance(item, six.string_types):
                 if view_name == item:
                     return True
             # If item is no view name it has to be an interface:

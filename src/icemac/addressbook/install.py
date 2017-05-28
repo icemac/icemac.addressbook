@@ -1,4 +1,6 @@
-import ConfigParser
+from __future__ import absolute_import, print_function
+
+from six.moves import configparser
 import collections
 import os.path
 import sys
@@ -55,20 +57,21 @@ class Configurator(object):
         """
         try:
             default = self.get(section, option)
-        except ConfigParser.NoOptionError:
+        except configparser.NoOptionError:
             assert global_default is not None
             default = global_default
         while True:
-            print ' %s: [%s] ' % (question, default),
+            print(' {question}: [{default}] '.format(
+                question=question, default=default), end='')
             got = self.stdin.readline().strip()
-            print
+            print()
             if not got:
                 got = default
             if not values or got in values:
                 break
             else:
-                print 'ERROR: %r is not in %r.' % (got, values)
-                print 'Please choose a value out of the list.'
+                print('ERROR: %r is not in %r.' % (got, values))
+                print('Please choose a value out of the list.')
 
         self._conf.set(section, option, got)
         return got
@@ -92,7 +95,7 @@ class Configurator(object):
             to_read.append(self.user_config)
 
         # create config
-        self._conf = ConfigParser.SafeConfigParser(
+        self._conf = configparser.SafeConfigParser(
             dict_type=collections.OrderedDict)
         self._conf.read(to_read)
         if self.user_config is not None:
@@ -102,11 +105,11 @@ class Configurator(object):
             self._conf.set('migration', 'old_instance', '')
 
     def print_intro(self):
-        print 'Welcome to icemac.addressbook installation'
-        print
-        print 'Hint: to use the default value (the one in [brackets]), ',
-        print 'enter no value.'
-        print
+        print('Welcome to icemac.addressbook installation')
+        print()
+        print('Hint: to use the default value (the one in [brackets]), '
+              'enter no value.')
+        print()
 
     def get_global_options(self):
         self.eggs_dir = self.ask_user(
@@ -124,9 +127,9 @@ class Configurator(object):
             'emtpy', 'server', 'username')
 
     def get_log_options(self):
-        print ' Please choose Log-Handler:'
-        print '    Details see',
-        print 'http://docs.python.org/library/logging.html#handler-objects'
+        print(' Please choose Log-Handler:')
+        print('    Details see '
+              'http://docs.python.org/library/logging.html#handler-objects')
         handlers = (
             'FileHandler', 'RotatingFileHandler', 'TimedRotatingFileHandler')
         log_handler = None
@@ -150,13 +153,14 @@ class Configurator(object):
         self.log_handler = log_handler
 
     def print_additional_packages_intro(self):
-        print ' When you need additional packages (e. g. import readers)'
-        print ' enter the package names here separated by a newline.'
-        print ' When you are done enter an empty line.'
-        print ' Known packages:'
-        print '   icemac.ab.importer -- Import of CSV files'
-        print '   icemac.ab.importxls -- Import of XLS (Excel) files'
-        print '   icemac.ab.calendar -- Calendar using persons in address book'
+        print(' When you need additional packages (e. g. import readers)')
+        print(' enter the package names here separated by a newline.')
+        print(' When you are done enter an empty line.')
+        print(' Known packages:')
+        print('   icemac.ab.importer -- Import of CSV files')
+        print('   icemac.ab.importxls -- Import of XLS (Excel) files')
+        print(
+            '   icemac.ab.calendar -- Calendar using persons in address book')
 
     def get_additional_packages(self):
         packages = []
@@ -178,9 +182,9 @@ class Configurator(object):
             'do_migration', values=yes_no)
         if self.do_migration == 'no':
             return
-        print 'The old address book instance must not run during migration.'
-        print 'When it runs as demon process the migration script can stop it',
-        print 'otherwise you have to stop it manually.'
+        print('The old address book instance must not run during migration.')
+        print('When it runs as demon process the migration script can stop it '
+              'otherwise you have to stop it manually.')
         self.stop_server = self.ask_user(
             'Old instance is running as a demon process', 'migration',
             'stop_server', values=yes_no)
@@ -189,29 +193,28 @@ class Configurator(object):
             'migration', 'migration', 'start_server', values=yes_no)
 
     def create_admin_zcml(self):
-        print 'creating admin.zcml ...'
-        admin_zcml = file('admin.zcml', 'w')
-        admin_zcml.write('\n'.join(
-            ('<configure xmlns="http://namespaces.zope.org/zope">',
-             '  <principal',
-             '    id="icemac.addressbook.global.Administrator"',
-             '    title="global administrator"',
-             '    login="%s"' % self.admin_login,
-             '    password_manager="Plain Text"',
-             '    password="%s" />' % self.admin_passwd,
-             '  <grant',
-             '    role="icemac.addressbook.global.Administrator"',
-             '    principal="icemac.addressbook.global.Administrator" />',
-             '  <grant',
-             '    permission="zope.ManageContent"',
-             '    principal="icemac.addressbook.global.Administrator" />',
-             '</configure>',
-             )))
-        admin_zcml.close()
+        print('creating admin.zcml ...')
+        with open('admin.zcml', 'w') as admin_zcml:
+            admin_zcml.write('\n'.join(
+                ('<configure xmlns="http://namespaces.zope.org/zope">',
+                 '  <principal',
+                 '    id="icemac.addressbook.global.Administrator"',
+                 '    title="global administrator"',
+                 '    login="%s"' % self.admin_login,
+                 '    password_manager="Plain Text"',
+                 '    password="%s" />' % self.admin_passwd,
+                 '  <grant',
+                 '    role="icemac.addressbook.global.Administrator"',
+                 '    principal="icemac.addressbook.global.Administrator" />',
+                 '  <grant',
+                 '    permission="zope.ManageContent"',
+                 '    principal="icemac.addressbook.global.Administrator" />',
+                 '</configure>',
+                 )))
 
     def create_buildout_cfg(self):
-        print 'creating buildout.cfg ...'
-        buildout_cfg = ConfigParser.SafeConfigParser(
+        print('creating buildout.cfg ...')
+        buildout_cfg = configparser.SafeConfigParser(
             dict_type=collections.OrderedDict)
         buildout_cfg.add_section('buildout')
         buildout_cfg.set('buildout', 'extends', 'profiles/prod.cfg')
@@ -242,22 +245,20 @@ class Configurator(object):
                 '" />')
             buildout_cfg.set('site.zcml', 'permissions_zcml', permissions_zcml)
 
-        buildout_cfg_file = file('buildout.cfg', 'w')
-        buildout_cfg.write(buildout_cfg_file)
-        if self.packages:
-            # ConfigParser can't write '+=' instead of '='
-            eggs = 'eggs += %s\n\n' % '\n      '.join(self.packages)
-            buildout_cfg_file.write('[app]\n')
-            buildout_cfg_file.write(eggs)
-            buildout_cfg_file.write('[test]\n')
-            buildout_cfg_file.write(eggs)
-
-        buildout_cfg_file.close()
+        with open('buildout.cfg', 'w') as buildout_cfg_file:
+            buildout_cfg.write(buildout_cfg_file)
+            if self.packages:
+                # configparser can't write '+=' instead of '='
+                eggs = 'eggs += %s\n\n' % '\n      '.join(self.packages)
+                buildout_cfg_file.write('[app]\n')
+                buildout_cfg_file.write(eggs)
+                buildout_cfg_file.write('[test]\n')
+                buildout_cfg_file.write(eggs)
 
     def store(self):
-        print 'saving config ...'
-        user_conf = file('install.user.ini', 'w')
-        self._conf.write(user_conf)
+        print('saving config ...')
+        with open('install.user.ini', 'w') as user_conf:
+            self._conf.write(user_conf)
 
     @property
     def _log_args_FileHandler(self):

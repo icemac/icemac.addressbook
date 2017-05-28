@@ -67,6 +67,7 @@ setuptools.setup(
         'js.jquery_timepicker_addon',
         'js.jqueryui',
         'setuptools',
+        'six',
         'xlwt',
         'z3c.authviewlet',
         'z3c.flashmessage',

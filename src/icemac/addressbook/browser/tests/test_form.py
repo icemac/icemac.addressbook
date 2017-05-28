@@ -7,6 +7,7 @@ from pytz import utc, timezone
 import gocept.testing.mock
 import icemac.addressbook.browser.form
 import pytest
+import six
 import zope.i18nmessageid
 import zope.publisher.browser
 
@@ -196,4 +197,4 @@ def test_form__FieldDescriptionAsHint__get__2(address_book, FieldFactory):
         context=None, request=None, form=None, widget=None)
     result = obj.get()
     assert ('Is this keyword  usable?' == result)
-    assert isinstance(result, unicode)
+    assert isinstance(result, six.text_type)

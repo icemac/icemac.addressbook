@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 import pytest
-import urllib2
-from icemac.addressbook.testing import Browser
+from icemac.addressbook.testing import Browser, assert_forbidden
 
 
 @pytest.mark.parametrize('username', ('visitor', 'editor'))
@@ -34,7 +32,4 @@ def test_update__security__2(search_data, browser, url, username):
     This is even right when he knows the URLs.
 
     """
-    browser.login(username)
-    with pytest.raises(urllib2.HTTPError) as err:
-        browser.open(url)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    assert_forbidden(browser, username, url)

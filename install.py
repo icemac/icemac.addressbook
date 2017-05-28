@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import ConfigParser
+from __future__ import absolute_import, print_function
+
+from six.moves import configparser
 import os.path
 import shutil
 import subprocess
@@ -15,7 +17,7 @@ USER_INI = 'install.user.ini'
 
 def run_process(text, *args):
     """Run a script in a subprocess."""
-    print '%s ...' % text
+    print('{} ...'.format(text))
     res = subprocess.call(args)
     if res:
         sys.exit(res)
@@ -41,7 +43,7 @@ def migrate():
     """Migrate an old address book instance."""
     # Read the ini file the configurator just created to get the
     # migration options.
-    config = ConfigParser.SafeConfigParser()
+    config = configparser.SafeConfigParser()
     config.read(USER_INI)
 
     if not bool_get(config, 'do_migration'):
@@ -50,8 +52,8 @@ def migrate():
     old_instance = config.get('migration', 'old_instance')
     if not (old_instance and
             os.path.exists(os.path.join(old_instance, USER_INI))):
-        print 'ERROR: You did not provide a path to the old instance.'
-        print '       So I can not migrate the old content.'
+        print('ERROR: You did not provide a path to the old instance.')
+        print('       So I can not migrate the old content.')
         sys.exit(-1)
     cwd = os.getcwd()
     try:
@@ -64,9 +66,9 @@ def migrate():
                     os.path.join('var', 'Data.fs'))
         run_process('Creating backup of old instance',
                     os.path.join('bin', 'snapshotbackup'))
-        print 'Copying data backups to new instance ...'
+        print('Copying data backups to new instance ...')
         copy_dir(old_instance, cwd, 'var', 'snapshotbackups')
-        print 'Copying blob backups to new instance ...'
+        print('Copying blob backups to new instance ...')
         copy_dir(old_instance, cwd, 'var', 'blobstoragesnapshots')
     finally:
         os.chdir(cwd)
@@ -80,7 +82,7 @@ def migrate():
 if __name__ == '__main__':
     python = sys.executable
     if icemac.addressbook.install.not_matched_prerequisites():
-        print icemac.addressbook.install.not_matched_prerequisites()
+        print(icemac.addressbook.install.not_matched_prerequisites())
         sys.exit(-1)
     conf_args = []
     if len(sys.argv) > 1:
@@ -92,4 +94,4 @@ if __name__ == '__main__':
     run_process('running bin/buildout', 'bin/buildout')
     migrate()
 
-    print 'Installation complete.'
+    print('Installation complete.')

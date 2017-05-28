@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+from six.moves.urllib_parse import urlsplit
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-import urlparse
 import z3c.form.group
 import z3c.formui.form
 import zope.app.publication.traversers
@@ -149,7 +149,7 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
     def _do_delete(self):
         # We need the name of the entity from the url here to
         # unregister the adapter.
-        path = urlparse.urlsplit(self.request.getURL()).path
+        path = urlsplit(self.request.getURL()).path
         entity_name = path.split('/')[-3]
         entity = zope.component.getUtility(
             icemac.addressbook.interfaces.IEntity, name=entity_name)

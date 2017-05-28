@@ -4,6 +4,7 @@ import grokcore.component
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
+import six
 import zc.sourcefactory.basic
 import zope.container.contained
 import zope.dottedname.resolve
@@ -61,7 +62,7 @@ class PersistentEntities(Entities, zope.container.btree.BTreeContainer):
     """Predefined entities and user defined fields in the address book."""
 
 
-@zope.component.adapter(basestring)
+@zope.component.adapter(six.string_types[0])
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntity)
 def entity_by_name(name):
     """Adapt Entity.name (not Entity.class_name!) to entity."""
@@ -182,12 +183,17 @@ def user_field_to_schema_field(field):
     return schema_field
 
 
-def index(key, list, default):
-    """Index of `key` in `list` but `default` when it is not in `list`."""
-    try:
-        return list.index(key)
-    except ValueError:
-        return default
+def fields_sort_key_factory(fields, field_order):
+    """Return a function to sort `fields` by the `field_order`."""
+    raw_field_order = [x[0] for x in fields]
+
+    def key(key):
+        name, field = key
+        try:
+            return field_order.index(name)
+        except ValueError:
+            return 100000 + raw_field_order.index(name)
+    return key
 
 
 def sorted_fields(fields, field_order):
@@ -197,11 +203,7 @@ def sorted_fields(fields, field_order):
     accordingly to their position in the `fields` list.
 
     """
-    raw_field_order = [x[0] for x in fields]
-    return sorted(
-        fields,
-        key=lambda (name, field): index(
-            name, field_order, 100000 + raw_field_order.index(name)))
+    return sorted(fields, key=fields_sort_key_factory(fields, field_order))
 
 
 class FakeObject(object):
