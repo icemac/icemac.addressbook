@@ -1,10 +1,9 @@
-import six
-import zope.interface
-import zope.schema.interfaces
-import zope.component.hooks
-
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.interfaces
+import six
+import zope.component.hooks
+import zope.interface
+import zope.schema.interfaces
 
 
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)

@@ -2,12 +2,12 @@ from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
-import zope.schema.fieldproperty
 import persistent
 import six
 import zope.container.contained
 import zope.globalrequest
 import zope.interface
+import zope.schema.fieldproperty
 
 
 class PostalAddress(persistent.Persistent,
