@@ -206,7 +206,7 @@ class EditForm_password_Validator(z3c.form.validator.SimpleFieldValidator):
     def validate(self, value):
         if not value:
             # use a dummy value for validation, so passwords needn't
-            # be entered everytime the edit form is saved
+            # be entered every time the edit form is saved
             value = u'asdfasdf'
         return super(EditForm_password_Validator, self).validate(value)
 
