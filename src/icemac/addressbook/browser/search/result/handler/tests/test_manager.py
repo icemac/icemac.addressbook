@@ -9,18 +9,18 @@ def makeSRHandler(viewName):
     return handler
 
 
-def test_manager__SearchResultHandler___eq___1():
-    """SearchResultHandler instances are equal when `viewName` is equal."""
+def test_manager__SearchResultHandler____eq____1():
+    """It is equal when `viewName` is equal."""
     assert makeSRHandler('@@asdf.html') == makeSRHandler('@@asdf.html')
 
 
-def test_manager__SearchResultHandler___eq___2():
-    """SearchResultHandler instances are not equal with unequal `viewName`."""
+def test_manager__SearchResultHandler____eq____2():
+    """It is not equal with unequal `viewName`."""
     # There is no __neq__ implemented!
     assert not(makeSRHandler('@@foo.html') == makeSRHandler('@@bar.html'))
 
 
-def test_manager__SearchResultHandler___eq___3():
-    """A SearchResultHandler instance is not equal to anything else."""
+def test_manager__SearchResultHandler____eq____3():
+    """It is not equal to anything else."""
     # There is no __neq__ implemented!
     assert not(makeSRHandler(None) == object())
