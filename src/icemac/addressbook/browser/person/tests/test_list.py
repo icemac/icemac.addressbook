@@ -110,10 +110,9 @@ def somePersonsS(addressBookS, FullPersonFactory):
         yield connection
 
 
+@zope.interface.implementer(IPerson)
 class DummyPerson(object):
     """Light weight dummy IPerson object."""
-
-    zope.interface.implements(IPerson)
 
     def __init__(self, **kw):
         self.__dict__.update(kw)

@@ -20,15 +20,15 @@ class IWillNotGetStripped(zope.schema.interfaces.IText):
     """Suppress stripping of the field value in z3c.form."""
 
 
+@zope.component.adapter(
+    IWillNotGetStripped,
+    z3c.form.interfaces.IWidget)
 class NotStrippingTextConverter(z3c.form.converter.BaseDataConverter):
     """Since version 3.2.1 of z3c.form text values are stripped.
 
     This new feature is not wanted here. E. g. we want to be able to add text
     to a field prefixed with a newline.
     """
-
-    zope.component.adapts(IWillNotGetStripped,
-                          z3c.form.interfaces.IWidget)
 
     _strip_value = False
 
@@ -37,17 +37,15 @@ class IOperatorsSource(zc.sourcefactory.interfaces.IFactoredSource):
     """Marker interface for a source defining possible operators on a field."""
 
 
+# grokcore.component does not work here, don't know why
+@zope.interface.implementer_only(IOperatorsSource)
 class BaseOperatorsSource(icemac.addressbook.sources.TitleMappingSource):
     """Base class for operator sources."""
 
-    # grokcore.component does not work hier, don't know why
-    zope.interface.implementsOnly(IOperatorsSource)
 
-
+@zope.component.adapter(zope.schema.interfaces.IText)
 class TextOperatorsSource(BaseOperatorsSource):
     """Operators for Text and TextLine fields."""
-
-    zope.component.adapts(zope.schema.interfaces.IText)
 
     _default_value = 'append'
     _missing_value = u''
@@ -73,10 +71,9 @@ class ReplaceableOperatorsSource(BaseOperatorsSource):
         (('replace', _('replace existing value with new one')),))
 
 
+@zope.component.adapter(gocept.reference.field.Set)
 class KeywordOperatorsSource(BaseOperatorsSource):
     """Operators for keywords."""
-
-    zope.component.adapts(gocept.reference.field.Set)
 
     _default_value = 'union'
     _missing_value = set()
@@ -92,10 +89,9 @@ class KeywordOperatorsSource(BaseOperatorsSource):
     ))
 
 
+@zope.component.adapter(zope.schema.interfaces.IInt)
 class IntOperatorsSource(BaseOperatorsSource):
     """Operators for Int fields."""
-
-    zope.component.adapts(zope.schema.interfaces.IInt)
 
     _default_value = 'add'
     _missing_value = 0
@@ -108,10 +104,10 @@ class IntOperatorsSource(BaseOperatorsSource):
          ))
 
 
+@zope.component.adapter(zope.schema.interfaces.IDecimal)
 class DecimalOperatorsSource(IntOperatorsSource):
     """Operators for Decimal fields."""
 
-    zope.component.adapts(zope.schema.interfaces.IDecimal)
     _missing_value = decimal.Decimal(0)
 
 

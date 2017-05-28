@@ -11,10 +11,9 @@ import icemac.addressbook.icalendar
 ONE_DAY = timedelta(days=1)
 
 
+@zope.interface.implementer(IBirthDate)
 class iCalendar(icemac.addressbook.browser.base.BaseView):
     """Render the person's birthdate as iCal file."""
-
-    zope.interface.implements(IBirthDate)
 
     def __init__(self, context, request):
         # We need this contructor because this class is registered both as

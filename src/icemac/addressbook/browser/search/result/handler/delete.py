@@ -25,11 +25,10 @@ def get_selected_person_ids(request):
     return session.get('person_ids', [])
 
 
+@zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
+@zope.interface.implementer(ISelectionCount)
 class SelectionCount(object):
     """Adapter to count persons in selection."""
-
-    zope.interface.implements(ISelectionCount)
-    zope.component.adapts(icemac.addressbook.interfaces.IAddressBook)
 
     def __init__(self, address_book):
         request = zope.globalrequest.getRequest()

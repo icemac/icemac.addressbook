@@ -13,14 +13,14 @@ import zope.security.proxy
 import zope.traversing.browser
 
 
+@zope.component.adapter(
+    icemac.addressbook.interfaces.IEntity,
+    zope.publisher.interfaces.http.IHTTPRequest)
+@zope.interface.implementer_only(zope.publisher.interfaces.IPublishTraverse)
 class FieldsTraverser(
         zope.app.publication.traversers.SimpleComponentTraverser):
 
     """Make fields traversable."""
-
-    zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
-    zope.component.adapts(icemac.addressbook.interfaces.IEntity,
-                          zope.publisher.interfaces.http.IHTTPRequest)
 
     def publishTraverse(self, request, name):
         entities = zope.component.queryUtility(

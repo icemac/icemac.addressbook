@@ -7,6 +7,9 @@ import zope.schema.interfaces
 import zope.security.checker
 
 
+@zope.component.adapter(
+    zope.annotation.interfaces.IAttributeAnnotatable,
+    zope.schema.interfaces.IField)
 class AnnotationField(z3c.form.datamanager.AttributeField):
     """Datamanager for data stored in annotations.
 
@@ -16,10 +19,6 @@ class AnnotationField(z3c.form.datamanager.AttributeField):
     security proxy gets removed.
 
     """
-
-    zope.component.adapts(
-        zope.annotation.interfaces.IAttributeAnnotatable,
-        zope.schema.interfaces.IField)
 
     no_security_proxy = (
         # interfaces those values are stored in annotations

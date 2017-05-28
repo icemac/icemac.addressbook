@@ -17,10 +17,9 @@ class AddressBookFavIconURL(object):
         return address_book.favicon
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IFaviconData)
 class FavIconData(object):
     """Data of a FavIcon."""
-
-    zope.interface.implements(icemac.addressbook.interfaces.IFaviconData)
 
     def __init__(self, path, preview_path):
         self.path = path

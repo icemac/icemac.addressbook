@@ -96,30 +96,27 @@ class IDuck(zope.interface.Interface):
     """A duck."""
 
 
+@zope.interface.implementer(IDuck)
 class Duck(object):
     """Duck."""
-
-    zope.interface.implements(IDuck)
 
 
 class ICat(zope.interface.Interface):
     """A cat."""
 
 
+@zope.interface.implementer(ICat)
 class Cat(object):
     """Cat."""
-
-    zope.interface.implements(ICat)
 
 
 class IKwack(zope.interface.Interface):
     """A Kwack."""
 
 
+@zope.interface.implementer(IKwack)
 class Kwack(persistent.Persistent):
     """Kwack."""
-
-    zope.interface.implements(IKwack)
 
 
 class IDog(zope.interface.Interface):

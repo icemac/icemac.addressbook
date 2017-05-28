@@ -64,11 +64,10 @@ class BaseSearchForm(z3c.formui.form.Form):
         self.__parent__.search_params = data
 
 
+@zope.interface.implementer(
+    icemac.addressbook.browser.search.interfaces.ISearch)
 class BaseSearch(object):
     """Base class for search adapter."""
-
-    zope.interface.implements(
-        icemac.addressbook.browser.search.interfaces.ISearch)
 
     def __init__(self, *args):
         pass

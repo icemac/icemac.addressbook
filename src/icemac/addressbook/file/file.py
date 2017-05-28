@@ -9,10 +9,10 @@ import zope.container.contained
 import zope.interface
 
 
+@zope.interface.implementer(icemac.addressbook.file.interfaces.IFile)
 class File(persistent.Persistent, zope.container.contained.Contained):
     """A file."""
 
-    zope.interface.implements(icemac.addressbook.file.interfaces.IFile)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 

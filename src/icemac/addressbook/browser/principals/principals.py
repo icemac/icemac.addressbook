@@ -64,12 +64,11 @@ class Overview(icemac.addressbook.browser.table.PageletTable):
                 yield principal
 
 
+@zope.component.adapter(
+    icemac.addressbook.principals.interfaces.IPrincipal,
+    zope.schema.interfaces.IChoice)
 class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
     """Person is a readonly field which should be written once."""
-
-    zope.component.adapts(
-        icemac.addressbook.principals.interfaces.IPrincipal,
-        zope.schema.interfaces.IChoice)
 
     def set(self, value):
         # `person` is a read-only field, so we cannot use the super call:
@@ -195,12 +194,14 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         return changes
 
 
+@zope.component.adapter(
+    icemac.addressbook.principals.interfaces.IPrincipal,
+    None,
+    EditForm,
+    zope.schema.Password,
+    None)
 class EditForm_password_Validator(z3c.form.validator.SimpleFieldValidator):
     """Validator for data field in add form."""
-
-    zope.component.adapts(
-        icemac.addressbook.principals.interfaces.IPrincipal, None, EditForm,
-        zope.schema.Password, None)
 
     def validate(self, value):
         if not value:

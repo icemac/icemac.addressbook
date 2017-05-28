@@ -30,10 +30,9 @@ class SearchForm(icemac.addressbook.browser.search.base.BaseSearchForm):
     interface = ISearchFields
 
 
+@zope.component.adapter(SearchView)
 class Search(icemac.addressbook.browser.search.base.BaseSearch):
     """The actual search."""
-
-    zope.component.adapts(SearchView)
 
     def search(self, search_term):
         catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)

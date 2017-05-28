@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .roles import has_editor_role, has_visitor_role
 from icemac.addressbook.i18n import _
 import gocept.reference
@@ -18,14 +17,13 @@ EDITOR_VISITOR_PERMS = ('icemac.addressbook.EditPrincipalPassword',
 ONLY_EDITOR_PERMS = ('icemac.addressbook.EditPrincipal', )
 
 
+@zope.interface.implementer(
+    icemac.addressbook.principals.interfaces.IPrincipal,
+    icemac.addressbook.principals.interfaces.IPasswordFields,
+    icemac.addressbook.principals.interfaces.IRoles,
+    zope.annotation.interfaces.IAttributeAnnotatable)
 class Principal(zope.pluggableauth.plugins.principalfolder.InternalPrincipal):
     """Principal where the password manager cannot be specified."""
-
-    zope.interface.implements(
-        icemac.addressbook.principals.interfaces.IPrincipal,
-        icemac.addressbook.principals.interfaces.IPasswordFields,
-        icemac.addressbook.principals.interfaces.IRoles,
-        zope.annotation.interfaces.IAttributeAnnotatable)
 
     _person = gocept.reference.Reference('_person', ensure_integrity=True)
     _login = None

@@ -2,10 +2,9 @@ import zope.interface
 import icemac.addressbook.export.interfaces
 
 
+@zope.interface.implementer(icemac.addressbook.export.interfaces.IExporter)
 class BaseExporter(object):
     """Abstract base for exporters which defines some convenience methods."""
-
-    zope.interface.implements(icemac.addressbook.export.interfaces.IExporter)
 
     # to be set in subclass
     file_extension = NotImplemented

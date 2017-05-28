@@ -81,11 +81,11 @@ class List(icemac.addressbook.browser.table.Table):
             yield zope.security.proxy.getObject(x)
 
 
+@zope.component.adapter(
+    icemac.addressbook.interfaces.IEntity,
+    zope.publisher.interfaces.http.IHTTPRequest)
 class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
     """AbsoluteURL adapter for an entity."""
-
-    zope.component.adapts(icemac.addressbook.interfaces.IEntity,
-                          zope.publisher.interfaces.http.IHTTPRequest)
 
     def __str__(self):
         # parent is the entities utility and name is the class name
@@ -98,12 +98,12 @@ class EntityAbsoluteURL(zope.traversing.browser.absoluteurl.AbsoluteURL):
         return url
 
 
+@zope.component.adapter(
+    icemac.addressbook.interfaces.IEntities,
+    zope.publisher.interfaces.http.IHTTPRequest)
+@zope.interface.implementer_only(zope.publisher.interfaces.IPublishTraverse)
 class EntitiesTraverser(zope.container.traversal.ItemTraverser):
     """Make entities located and traverable."""
-
-    zope.interface.implementsOnly(zope.publisher.interfaces.IPublishTraverse)
-    zope.component.adapts(icemac.addressbook.interfaces.IEntities,
-                          zope.publisher.interfaces.http.IHTTPRequest)
 
     def publishTraverse(self, request, name):
         entity = zope.component.queryUtility(

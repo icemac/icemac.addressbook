@@ -11,9 +11,9 @@ import zope.interface
 import zope.lifecycleevent
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IKeywords)
 class KeywordContainer(zope.container.btree.BTreeContainer):
     "A container for keywords."
-    zope.interface.implements(icemac.addressbook.interfaces.IKeywords)
 
     def get_keywords(self):
         # sorting will be done in presentation layer
@@ -26,9 +26,9 @@ class KeywordContainer(zope.container.btree.BTreeContainer):
         return default
 
 
+@zope.interface.implementer(icemac.addressbook.interfaces.IKeyword)
 class Keyword(persistent.Persistent, zope.container.contained.Contained):
     "A keyword."
-    zope.interface.implements(icemac.addressbook.interfaces.IKeyword)
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IKeyword)
 

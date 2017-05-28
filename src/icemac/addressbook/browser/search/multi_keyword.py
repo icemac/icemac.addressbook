@@ -47,10 +47,9 @@ concat_mapping = {'and': 'all_of',
                   'or': 'any_of'}
 
 
+@zope.component.adapter(SearchView)
 class Search(icemac.addressbook.browser.search.base.BaseSearch):
     """Search for a multiple keywords."""
-
-    zope.component.adapts(SearchView)
 
     def search(self, concat, keywords):
         concat = concat_mapping[concat]
