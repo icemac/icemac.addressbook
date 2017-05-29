@@ -30,4 +30,4 @@ class SearchResultHandler(z3c.menu.ready2go.item.SiteMenuItem):
         return self.viewName == other.viewName
 
     def __hash__(self):
-        return hash(self)
+        return hash(self.viewName)

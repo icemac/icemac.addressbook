@@ -32,4 +32,4 @@ def test_manager__SearchResultHandler____hash____1():
     It is only needed for Python 3 where classes having an __eq__ method do
     not have a __hash__ method.
     """
-    assert hash(SearchResultHandler())
+    assert hash(makeSRHandler(None)) is not None
