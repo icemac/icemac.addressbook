@@ -131,7 +131,7 @@ class BaseAddForm(BaseForm, z3c.formui.form.AddForm):
     def add(self, obj):
         try:
             self._name = icemac.addressbook.utils.add(self.context, obj)
-        except zope.interface.Invalid, e:
+        except zope.interface.Invalid as e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(e)
 
@@ -197,7 +197,7 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
     def applyChanges(self, data):
         try:
             return super(_AbstractEditForm, self).applyChanges(data)
-        except zope.interface.Invalid, e:
+        except zope.interface.Invalid as e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(e)
 

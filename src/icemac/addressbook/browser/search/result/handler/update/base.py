@@ -67,14 +67,14 @@ def update_persons(persons, entity, field, operator_name, update_value):
             IOperator, name=operator_name)
         try:
             new_value = operator(update_value)
-        except Exception, e:
+        except Exception as e:
             errors[person.__name__] = (
                 icemac.addressbook.browser.errormessage.render_error(
                     entity, schema_field.__name__, e))
         else:
             try:
                 schema_field.set(schema_field.context, new_value)
-            except zope.interface.Invalid, e:
+            except zope.interface.Invalid as e:
                 errors[person.__name__] = (
                     icemac.addressbook.browser.errormessage.render_error(
                         entity, schema_field.__name__, e))

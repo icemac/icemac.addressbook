@@ -101,7 +101,7 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     def add(self, obj):
         try:
             return super(AddForm, self).add(obj)
-        except zope.container.interfaces.DuplicateIDError, e:
+        except zope.container.interfaces.DuplicateIDError as e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(
                 zope.interface.Invalid(_(e.args[0])))
@@ -169,7 +169,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         editing_own_data = (old_login_name == current_login_name)
         try:
             changes = super(EditForm, self).applyChanges(data)
-        except ValueError, e:
+        except ValueError as e:
             transaction.doom()
             raise z3c.form.interfaces.ActionExecutionError(
                 zope.interface.Invalid(_(e.args[0])))
