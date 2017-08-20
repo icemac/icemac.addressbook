@@ -1,8 +1,7 @@
 from __future__ import absolute_import
 
-from .base import (
-    SessionStorageStep, get_update_data_session, update_persons,
-    clean_update_data_session, get_fieldname_in_session)
+from .base import SessionStorageStep, get_update_data_session, update_persons
+from .base import clean_update_data_session, get_fieldname_in_session
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.search.result.handler.base

@@ -381,48 +381,48 @@ def test_entities__entity_by_obj__2(stubEntities, entityAdapters):
 
 
 def test_entities__Entity__addField__1(entities, entity, field):
-    """`addField` adds a field to an entity."""
+    """It adds a field to an entity."""
     entity.addField(field)
     assert ['Field-1'] == list(entities.keys())
     assert field is entities[u'Field-1']
 
 
 def test_entities__Entity__addField__2(entities, entity, field):
-    """`addField` stores interface of the entity on the field."""
+    """It stores the interface of the entity on the field."""
     entity.addField(field)
     assert IDummy == entities[u'Field-1'].interface
 
 
-def test_entities__Entity__addField__3(entities, entity, field):
-    """`addField` registers the field as an adapter."""
-    entity.addField(field)
-    field_adapter = zope.component.getMultiAdapter(
-        (entity, Dummy()), IField, name=u'Field-1')
-    assert field is field_adapter
+def test_entities__Entity__addField__3(address_book, field):
+    """It registers an adapter for the field."""
+    address_book_entity.addField(field)
+    adapted_entity = zope.component.getMultiAdapter(
+        (address_book_entity, address_book), IField, name=u'Field-1')
+    assert field is adapted_entity
 
 
 def test_entities__Entity__removeField__1(entities, entity_with_field, field):
-    """`removeField`  removes a field from an entity."""
+    """It removes a field from an entity."""
     assert field in entities.values()
     entity_with_field.removeField(field)
     assert field not in entities.values()
 
 
 def test_entities__Entity__removeField__2(entity_with_field, field):
-    """`removeField` removes the interface of the entity from the field."""
+    """It removes the interface of the entity from the field."""
     entity_with_field.removeField(field)
     assert field.interface is None
 
 
 def test_entities__Entity__removeField__3(entity_with_field, field):
-    """`removeField` removes the adapter registration of the field."""
+    """It removes the adapter registrations for the field."""
     entity_with_field.removeField(field)
     assert None is zope.component.queryMultiAdapter(
         (entity, Dummy()), IField, name=u'Field')
 
 
 def test_entities__Entity__setFieldOrder__1(entity_with_field, field):
-    """`setFieldOrder` changes the initial (empty) order."""
+    """It changes the initial (empty) order."""
     assert [] == entity_with_field.getFieldOrder()
     entity_with_field.setFieldOrder(['dummy2', field.__name__, 'dummy'])
     assert (['dummy2', field.__name__, 'dummy'] ==
@@ -430,7 +430,7 @@ def test_entities__Entity__setFieldOrder__1(entity_with_field, field):
 
 
 def test_entities__Entity__setFieldOrder__2(entity_with_field):
-    """`setFieldOrder` ignores unknown field names and does not store them."""
+    """It ignores unknown field names and does not store them."""
     entity = entity_with_field
     entity.setFieldOrder(['dummy2', 'I-do-not-exist', 'dummy'])
     assert ['dummy2', 'dummy'] == entity.getFieldOrder()
@@ -441,19 +441,19 @@ def test_entities__Entity__setFieldOrder__2(entity_with_field):
 
 
 def test_entities__Entity__getFieldOrder__1(entity):
-    """`getFieldOrder` returns the initially emtpy field order."""
+    """It returns the initially emtpy field order."""
     assert [] == entity.getFieldOrder()
 
 
 def test_entities__Entity__getFieldOrder__2(entity_with_field, field):
-    """`getFieldOrder` only contains the values set by `setFieldOrder`."""
+    """It only contains the values set by `setFieldOrder`."""
     entity = entity_with_field
     entity.setFieldOrder([field.__name__, 'dummy'])
     assert [field.__name__, 'dummy'] == entity.getFieldOrder()
 
 
 def test_entities__Entity__getFieldOrder__3(address_book):
-    """`getFieldOrder` returns `[]` if the namespace cannot be computed."""
+    """It returns `[]` if the namespace cannot be computed."""
     # The namespace in the order utility depends on the name of the
     # entity which itself depends on the class_name stored on the
     # entity. But this class name is optional, so the name might not be

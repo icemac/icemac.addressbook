@@ -132,9 +132,9 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete a user defined field from an entity."""
 
     label = _(
-        u'Caution: When you delete this field, possibly data will get lost. '
-        u'Namely the data which was entered into this field when it was '
-        u'displayed in a form of an object.')
+        'Caution: When you delete this field, possibly data will get lost. '
+        'Namely the data which was entered into this field when it was '
+        'displayed in a form of an object.')
     interface = icemac.addressbook.interfaces.IField
     field_names = ('type', 'title', 'notes')
 
