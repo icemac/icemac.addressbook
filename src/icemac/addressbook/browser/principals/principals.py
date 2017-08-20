@@ -212,7 +212,8 @@ class EditForm_password_Validator(z3c.form.validator.SimpleFieldValidator):
 
 
 class DeleteUserForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    label = _(u'Do you really want to delete this user?')
+    """Delete a user after are-you-sure question."""
+    label = _('Do you really want to delete this user?')
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     field_names = ('person', 'login')
 

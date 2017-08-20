@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.utils import dotted_name
-import grokcore.component
+import grokcore.component as grok
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
@@ -164,8 +164,8 @@ class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):
         return value
 
 
-@grokcore.component.adapter(icemac.addressbook.interfaces.IField)
-@grokcore.component.implementer(zope.schema.interfaces.IField)
+@grok.adapter(icemac.addressbook.interfaces.IField)
+@grok.implementer(zope.schema.interfaces.IField)
 def user_field_to_schema_field(field):
     """Convert a user defined field (IField) into a zope.schema field."""
     if field.type == 'Choice':
@@ -263,9 +263,9 @@ class Entity(object):
 
         """
         raw_fields = self._get_raw_fields_unordered()
-        if not sorted:
-            return raw_fields
-        return sorted_fields(list(raw_fields), self.getFieldOrder())
+        if sorted:
+            raw_fields = sorted_fields(list(raw_fields), self.getFieldOrder())
+        return raw_fields
 
     def getFields(self, sorted=True):
         """Get (name, field) tuples of the schema fields on the entity.

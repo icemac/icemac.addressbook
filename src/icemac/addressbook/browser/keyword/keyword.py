@@ -57,7 +57,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
-    label = _(u'Do you really want to delete this keyword?')
+    label = _('Do you really want to delete this keyword?')
     interface = icemac.addressbook.interfaces.IKeyword
     field_names = ('title', )
 
