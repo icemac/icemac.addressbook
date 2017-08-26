@@ -1,4 +1,5 @@
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.errormessage
 import icemac.addressbook.browser.interfaces
@@ -14,7 +15,7 @@ import zope.lifecycleevent
 
 class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):
 
-    label = _(u'Update Wizard')
+    title = _(u'Update Wizard')
     confirmationPageName = '@@multi-update-completed'
 
     def setUpSteps(self):
@@ -23,6 +24,21 @@ class UpdateWizard(icemac.addressbook.browser.wizard.Wizard):
             z3c.wizard.step.addStep(self, 'enterValue', weight=2),
             z3c.wizard.step.addStep(self, 'checkResult', weight=3),
         ]
+
+
+class UpdateWizardBreadcrumb(
+        icemac.addressbook.browser.breadcrumb.ModelBreadcrumb):
+    """Breadcrumb for the UpdateWizard."""
+
+    grok.adapts(
+        UpdateWizard,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    @property
+    def parent(self):
+        return zope.component.getMultiAdapter(
+            (icemac.addressbook.interfaces.IAddressBook(self.context),
+             self.request), name='search.html')
 
 
 UPDATE_SESSION_KEY = 'search_result_handler:update'

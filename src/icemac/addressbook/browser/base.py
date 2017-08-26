@@ -40,6 +40,8 @@ def all_(*constraints):
 class FlashView(object):
     """Base class to send flash messages."""
 
+    title = None  # used by the breadrumbs
+
     def send_flash(self, message):
         zope.component.getUtility(
             z3c.flashmessage.interfaces.IMessageSource).send(message)

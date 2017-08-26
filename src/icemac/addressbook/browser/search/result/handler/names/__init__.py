@@ -1,3 +1,4 @@
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.result.handler.base
@@ -6,6 +7,8 @@ import icemac.addressbook.browser.search.result.handler.base
 class Names(icemac.addressbook.browser.search.result.handler.base.Base,
             icemac.addressbook.browser.base.BaseView):
     """Comma separed list of person names."""
+
+    title = _('Name list')
 
     def person_list(self):
         return ', '.join(

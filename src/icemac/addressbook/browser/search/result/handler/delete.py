@@ -40,10 +40,12 @@ class SelectionCount(object):
 
 
 @zope.interface.implementer(
-    icemac.addressbook.browser.interfaces.IAddressBookBackground)
+    icemac.addressbook.browser.interfaces.IAddressBookBackground,
+    icemac.addressbook.browser.search.result.handler.base.ISearchResultHandler)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete selected persons."""
 
+    title = _('Delete persons')
     label = _(u'Do you really want to delete the selected persons?')
     interface = ISelectionCount
     next_url = 'object'

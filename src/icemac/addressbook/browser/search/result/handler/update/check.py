@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from .base import SessionStorageStep, get_update_data_session, update_persons
 from .base import clean_update_data_session, get_fieldname_in_session
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.personlist
 import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.browser.table
@@ -63,7 +65,7 @@ class Result(SessionStorageStep,
              icemac.addressbook.browser.search.result.handler.base.Base):
     """Step where the user can check the result."""
 
-    label = _(u'Check result')
+    title = label = _(u'Check result')
     fields = z3c.form.field.Fields()
     handleApplyOnComplete = False
 
@@ -118,3 +120,20 @@ class Result(SessionStorageStep,
         self._update_persons()
         clean_update_data_session(self.request)
         return super(Result, self).doComplete(action)
+
+
+class ResultBreadcrumb(icemac.addressbook.browser.breadcrumb.ViewBreadcrumb):
+    """Breadcrumb for the result view.
+
+    With the default one the Wizard parent is missing.
+    """
+
+    grok.adapts(
+        Result,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    @property
+    def parent(self):
+        return zope.component.getMultiAdapter(
+            (icemac.addressbook.interfaces.IAddressBook(self.context),
+             self.request), name='multi-update')

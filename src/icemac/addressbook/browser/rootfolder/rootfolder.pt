@@ -1,7 +1,5 @@
 <div tal:define="addressbooks view/getAddressBooks"
      i18n:domain="icemac.addressbook">
-  <h2 i18n:translate="">Address books</h2>
-
   <ul class="bullet"
       tal:condition="addressbooks">
     <li tal:repeat="addressbook addressbooks">

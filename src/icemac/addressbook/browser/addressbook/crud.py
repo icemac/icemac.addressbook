@@ -1,6 +1,8 @@
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.addressbook.addressbook
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
@@ -14,7 +16,7 @@ import zope.size.interfaces
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add new address book')
+    title = _(u'Add new address book')
     interface = icemac.addressbook.interfaces.IAddressBook
     class_ = icemac.addressbook.addressbook.AddressBook
     next_url = 'object'
@@ -33,7 +35,6 @@ class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
-    label = _(u'Edit address book data')
     interface = icemac.addressbook.interfaces.IAddressBook
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     next_url = 'object'
@@ -51,11 +52,24 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
         self.redirect_to_next_url('object', 'delete-address_book-content.html')
 
 
+class AddressbookEditBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.MasterdataChildBreadcrumb):
+    """Breadcrumb for the edit view of the address book."""
+
+    grok.adapts(
+        EditForm,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _(u'Edit address book data')
+    target_url = None
+
+
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete whole address book."""
 
+    title = _('Delete address book')
     label = _(u'Do you really want to delete this whole address book?')
     interface = icemac.addressbook.interfaces.IAddressBook
     field_names = ('title', )
@@ -87,6 +101,7 @@ class PersonCount(object):
 class DeleteContentForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete address book contents (aka persons)."""
 
+    title = _('Delete all persons')
     label = _(
         u'Do you really want to delete all persons in this address book?')
     interface = icemac.addressbook.browser.interfaces.IPersonCount

@@ -7,6 +7,8 @@ import zope.component
 class ExportList(icemac.addressbook.browser.base.BaseView):
     """List available export formats."""
 
+    title = _('Export person data')
+
     def exporters(self):
         """Iterable of exporters having enough data so export something."""
         # XXX: This has no API, the exporters should be subscription adapters

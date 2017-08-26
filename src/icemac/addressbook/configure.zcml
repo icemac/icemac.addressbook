@@ -140,6 +140,9 @@
       for=".interfaces.IField"
       factory=".adapter.obj_dot_title" />
   <adapter
+      for=".interfaces.IEntity"
+      factory=".adapter.obj_dot_title" />
+  <adapter
       for=".interfaces.IAddressBook"
       factory=".adapter.obj_dot_title" />
 

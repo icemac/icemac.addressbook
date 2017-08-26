@@ -24,6 +24,14 @@
      class=".base.Search"
      />
 
+  <adapter
+      for=".base.Search"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <adapter
+      for=".base.BaseView"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
   <configure package="icemac.addressbook.browser">
     <browser:viewletManager
         name="search-menu"

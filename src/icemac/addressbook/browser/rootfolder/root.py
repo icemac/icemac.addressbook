@@ -1,3 +1,4 @@
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
@@ -11,6 +12,8 @@ import zope.size.interfaces
 class FrontPage(z3c.pagelet.browser.BrowserPagelet,
                 icemac.addressbook.browser.base.BaseView):
     """Pagelet for the front page."""
+
+    title = _('Address books')
 
     def getAddressBooks(self):
         result = []

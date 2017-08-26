@@ -194,6 +194,14 @@
 
   <!-- z3c.wizard -->
 
+  <adapter
+      for=".wizard.Wizard"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <adapter
+      for=".wizard.Step"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
   <z3c:template
      template="wizard-step.pt"
      for=".wizard.Step"

@@ -1,6 +1,5 @@
 <div i18n:domain="icemac.addressbook"
      tal:define="exporters python:list(view.exporters())">
-  <h2 i18n:translate="">Export person data</h2>
 
   <p tal:condition="not:exporters"
      i18n:translate="">

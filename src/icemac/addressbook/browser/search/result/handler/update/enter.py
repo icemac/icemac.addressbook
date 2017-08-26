@@ -114,7 +114,7 @@ class DecimalOperatorsSource(IntOperatorsSource):
 class Value(SessionStorageStep):
     """Step where the user enters the new value."""
 
-    label = _(u'New value')
+    title = label = _(u'New value')
     fields = z3c.form.field.Fields()
 
     def _create_fields(self, session):

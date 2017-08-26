@@ -1,6 +1,8 @@
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
+import grokcore.component as grok
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
@@ -15,7 +17,7 @@ import zope.interface
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add new keyword')
+    title = _(u'Add new keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     class_ = icemac.addressbook.keyword.Keyword
     next_url = 'parent'
@@ -33,8 +35,8 @@ def can_delete_keyword(form):
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
+    title = _(u'Edit keyword')
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
-    label = _(u'Edit keyword')
     interface = icemac.addressbook.interfaces.IKeyword
     next_url = 'parent'
     z3c.form.form.extends(icemac.addressbook.browser.base.GroupEditForm,
@@ -57,9 +59,23 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
+    """Delete a keyword after are-you-sure question."""
+
+    title = _('Delete keyword')
     label = _('Do you really want to delete this keyword?')
     interface = icemac.addressbook.interfaces.IKeyword
     field_names = ('title', )
+
+
+class KeywordContainerBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.MasterdataChildBreadcrumb):
+    """Breadcrumb for keywords container."""
+
+    grok.adapts(
+        icemac.addressbook.interfaces.IKeywords,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Keywords')
 
 
 @zope.interface.implementer(
@@ -67,6 +83,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 class Table(icemac.addressbook.browser.table.Table):
     """List keywords in address book."""
 
+    title = icemac.addressbook.browser.breadcrumb.DO_NOT_SHOW
     no_rows_message = _(u'No keywords defined yet.')
 
     def setUpColumns(self):
