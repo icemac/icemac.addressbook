@@ -10,14 +10,14 @@ import zope.interface
 
 
 @zope.interface.implementer(icemac.addressbook.file.interfaces.IFile)
-class File(persistent.Persistent, zope.container.contained.Contained):
-    """A file."""
+class BaseFile(persistent.Persistent, zope.container.contained.Contained):
+    """Base class for a file."""
 
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 
     def __init__(self, data='', *args, **kw):
-        super(File, self).__init__(*args, **kw)
+        super(BaseFile, self).__init__(*args, **kw)
         # initialize blob with no data
         self._data = ZODB.blob.Blob()
         self.data = data
@@ -51,6 +51,11 @@ class File(persistent.Persistent, zope.container.contained.Contained):
 
     def open(self, mode='r'):
         return self._data.open(mode)
+
+
+@zope.interface.implementer(icemac.addressbook.interfaces.IPersonEntity)
+class File(BaseFile):
+    """A file."""
 
 
 file_entity = icemac.addressbook.entities.create_entity(
