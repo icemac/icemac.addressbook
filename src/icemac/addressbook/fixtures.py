@@ -273,6 +273,8 @@ def tmpfile():
         data['filename'] = filename
         return data['fhr'], os.path.basename(filename)
     yield tmpfile
+    assert data['fhr'] is not None, \
+        "You required this fixture but the test failed before using it."
     data['fhr'].close()
     os.unlink(data['filename'])
 
