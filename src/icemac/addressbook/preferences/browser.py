@@ -14,7 +14,12 @@ class CategoryEditForm(icemac.addressbook.browser.base.BaseEditForm,
     id = 'prefs-category-edit-form'
     next_url = 'site'
     next_view = 'person-list.html'
-    __init__ = z3c.preference.browser.CategoryEditForm.__init__
+
+    def __init__(self, *args, **kw):
+        z3c.preference.browser.CategoryEditForm.__init__(self, *args, **kw)
+        self.title = self.label
+        # Reset label to omit it from rendering:
+        self.label = u''
 
 
 # Not implementing IAddressBookBackground here as this view is used in
@@ -23,7 +28,11 @@ class PrefGroupEditForm(icemac.addressbook.browser.base.BaseEditForm,
                         z3c.preference.browser.EditForm):
     """Preference group EditForm which uses CSS of address book."""
 
-    __init__ = z3c.preference.browser.EditForm.__init__
+    def __init__(self, *args, **kw):
+        z3c.preference.browser.EditForm.__init__(self, *args, **kw)
+        self.title = self.label
+        # Reset label to omit it from rendering:
+        self.label = u''
 
     def redirect_to_next_url(self):
         # Stay on form but reload the values from database in case of

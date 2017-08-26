@@ -1,6 +1,8 @@
 from icemac.addressbook.i18n import _
 from icemac.addressbook.principals.sources import role_source
+import grokcore.component as grok
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.browser.table
@@ -32,8 +34,20 @@ class LastLoginColumn(icemac.addressbook.browser.table.DateTimeColumn):
         return value
 
 
+class PrincipalFolderBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.MasterdataChildBreadcrumb):
+    """Breadcrumb for the principal folder."""
+
+    grok.adapts(
+        zope.pluggableauth.plugins.principalfolder.IInternalPrincipalContainer,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Users')
+
+
 class Overview(icemac.addressbook.browser.table.PageletTable):
 
+    title = icemac.addressbook.browser.breadcrumb.DO_NOT_SHOW
     no_rows_message = _(
         u'No users defined yet or you are not allowed to access any.')
 
@@ -77,7 +91,7 @@ class PersonFieldDataManager(z3c.form.datamanager.AttributeField):
 
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add new user')
+    title = _(u'Add new user')
     class_ = icemac.addressbook.principals.principals.Principal
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     next_url = 'parent'
@@ -120,7 +134,7 @@ password_not_required = z3c.form.widget.StaticWidgetAttribute(
 
 class EditForm(icemac.addressbook.browser.base.GroupEditForm):
 
-    label = _(u'Edit user')
+    title = _(u'Edit user')
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     next_url = 'parent'
@@ -213,6 +227,8 @@ class EditForm_password_Validator(z3c.form.validator.SimpleFieldValidator):
 
 class DeleteUserForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete a user after are-you-sure question."""
+
+    title = _('Delete user')
     label = _('Do you really want to delete this user?')
     interface = icemac.addressbook.principals.interfaces.IPrincipal
     field_names = ('person', 'login')

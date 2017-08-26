@@ -15,7 +15,7 @@ def gocept_country_title(obj):
 @zope.interface.implementer(icemac.addressbook.interfaces.ITitle)
 def obj_dot_title(obj):
     """Title for an `obj` where the title is stored on `title` attribute."""
-    return obj.title
+    return obj.title or u''
 
 
 @zope.component.adapter(zope.interface.Interface)

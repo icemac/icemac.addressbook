@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.table
 import icemac.addressbook.interfaces
@@ -12,6 +14,17 @@ import zope.location
 import zope.publisher.interfaces.http
 import zope.security.proxy
 import zope.traversing.browser.absoluteurl
+
+
+class EntitiesBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.MasterdataChildBreadcrumb):
+    """Breadcrumb for the entities."""
+
+    grok.adapts(
+        icemac.addressbook.interfaces.IEntities,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Entities')
 
 
 class UpLinkColumn(icemac.addressbook.browser.table.LinkColumn):
@@ -59,6 +72,7 @@ class EditFieldsLinkColumn(icemac.addressbook.browser.table.LinkColumn):
 class List(icemac.addressbook.browser.table.Table):
     """List existing entities."""
 
+    title = icemac.addressbook.browser.breadcrumb.DO_NOT_SHOW
     sortOn = None  # do not sort rows
 
     def setUpColumns(self):

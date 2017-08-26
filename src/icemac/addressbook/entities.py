@@ -99,6 +99,13 @@ def entity_by_obj(obj):
     raise ValueError("Unknown obj: %r" % obj)
 
 
+@grok.adapter(icemac.addressbook.interfaces.IField)
+@grok.implementer(icemac.addressbook.interfaces.IEntity)
+def entity_for_field(field):
+    """Adapt a field to its entity."""
+    return icemac.addressbook.interfaces.IEntity(field.interface, None)
+
+
 @zope.interface.implementer(icemac.addressbook.interfaces.IEntityOrder)
 class EntityOrder(object):
     """Global entity order utility."""

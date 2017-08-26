@@ -13,6 +13,7 @@ class PersonList(
         icemac.addressbook.browser.table.PageletTable):
     """List persons in address book."""
 
+    title = _('Person list')
     no_rows_message = _(
         u'There are no persons entered yet, click on "Add person" to create '
         u'one.')

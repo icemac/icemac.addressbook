@@ -67,7 +67,7 @@ class PersonAddForm(z3c.form.group.GroupForm,
                     icemac.addressbook.browser.base.BaseAddForm):
     """Add a person."""
 
-    label = _(u'Add new person')
+    title = _(u'Add new person')
     next_url = 'parent'
     next_view = 'person-list.html'
     interface_for_menu = icemac.addressbook.interfaces.IPerson
@@ -118,7 +118,7 @@ def person_deletable(form):
 
 class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
-    label = _(u'Edit person data')
+    title = _(u'Edit person data')
     next_url = 'parent'
     next_view = 'person-list.html'
     interface_for_menu = icemac.addressbook.interfaces.IPerson
@@ -255,6 +255,8 @@ class KeywordDataManager(z3c.form.datamanager.AttributeField):
 
 
 class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
+
+    title = _('Delete person')
     label = _(u'Do you really want to delete this person?')
     interface = icemac.addressbook.interfaces.IPerson
     field_names = ('first_name', 'last_name')
@@ -273,6 +275,8 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 
 class ClonePersonForm(icemac.addressbook.browser.base.BaseCloneForm):
+
+    title = _('Clone person')
     label = _(u'Do you really want to clone this person?')
     interface = icemac.addressbook.interfaces.IPerson
     field_names = ('first_name', 'last_name')
@@ -311,6 +315,7 @@ class IPersonEntries(zope.interface.Interface):
 class DeleteSingleEntryForm(icemac.addressbook.browser.base.BaseEditForm):
     """Form to choose entry for deletion."""
 
+    title = _('Delete single entry')
     label = _(u'Please choose an entry for deletion:')
     interface = IPersonEntries
     ignoreContext = True

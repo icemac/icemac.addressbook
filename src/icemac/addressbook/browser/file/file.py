@@ -67,7 +67,7 @@ def update_blob(widget, file):
 class Add(icemac.addressbook.browser.base.BaseAddForm):
     """Add a file."""
 
-    label = _(u'Add new file')
+    title = _(u'Add new file')
     class_ = icemac.addressbook.file.file.File
     interface = icemac.addressbook.file.interfaces.IFile
     next_url = 'parent'

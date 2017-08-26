@@ -19,4 +19,4 @@ class Field(SessionStorageStep):
     """Step where the user choosed the field he likes to update."""
 
     interface = IFieldChooser
-    label = _(u'Choose field')
+    title = label = _(u'Choose field')

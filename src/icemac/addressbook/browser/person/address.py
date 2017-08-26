@@ -26,7 +26,7 @@ class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 class AddPhoneNumberForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add phone number')
+    title = _(u'Add phone number')
     interface = icemac.addressbook.interfaces.IPhoneNumber
     class_ = icemac.addressbook.address.PhoneNumber
     next_url = 'parent'
@@ -34,13 +34,14 @@ class AddPhoneNumberForm(icemac.addressbook.browser.base.BaseAddForm):
 
 class DeletePhoneNumberForm(DefaultsDeleteForm):
 
+    title = _('Delete phone number')
     label = _(u'Do you really want to delete this phone number?')
     interface = icemac.addressbook.interfaces.IPhoneNumber
 
 
 class AddPostalAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add postal address')
+    title = _(u'Add postal address')
     interface = icemac.addressbook.interfaces.IPostalAddress
     class_ = icemac.addressbook.address.PostalAddress
     next_url = 'parent'
@@ -48,13 +49,14 @@ class AddPostalAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
 class DeletePostalAddressForm(DefaultsDeleteForm):
 
+    title = _('Delete postal address')
     label = _(u'Do you really want to delete this postal address?')
     interface = icemac.addressbook.interfaces.IPostalAddress
 
 
 class AddEMailAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add e-mail address')
+    title = _(u'Add e-mail address')
     interface = icemac.addressbook.interfaces.IEMailAddress
     class_ = icemac.addressbook.address.EMailAddress
     next_url = 'parent'
@@ -62,13 +64,14 @@ class AddEMailAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
 class DeleteEMailAddressForm(DefaultsDeleteForm):
 
+    title = _('Delete e-mail address')
     label = _(u'Do you really want to delete this e-mail address?')
     interface = icemac.addressbook.interfaces.IEMailAddress
 
 
 class AddHomePageAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
-    label = _(u'Add home page address')
+    title = _(u'Add home page address')
     interface = icemac.addressbook.interfaces.IHomePageAddress
     class_ = icemac.addressbook.address.HomePageAddress
     next_url = 'parent'
@@ -76,5 +79,6 @@ class AddHomePageAddressForm(icemac.addressbook.browser.base.BaseAddForm):
 
 class DeleteHomePageAddressForm(DefaultsDeleteForm):
 
+    title = _('Delete home page address')
     label = _(u'Do you really want to delete this home page address?')
     interface = icemac.addressbook.interfaces.IHomePageAddress

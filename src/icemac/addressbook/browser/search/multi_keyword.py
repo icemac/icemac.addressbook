@@ -12,6 +12,7 @@ import zope.schema
 class SearchView(icemac.addressbook.browser.search.base.BaseView):
     """View representing multi-keyword search."""
 
+    title = _('Keyword search')
     form_explanation = _(
         'The keywords you want to search for have to be in the right box. '
         'Use the arrow buttons to move them.')

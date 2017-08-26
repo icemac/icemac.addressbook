@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.search.interfaces
@@ -12,6 +13,7 @@ import zope.interface
 class Search(object):
     """View to select a search."""
 
+    title = _('Search')
     show_headline = True
     form_explanation = u''
 
@@ -27,6 +29,7 @@ class BaseView(zope.publisher.browser.BrowserView):
 
     """
 
+    title = u'👉 set `title` in the subclass'
     form_explanation = u''  # description of the search form displayed below it
 
     search_params = None

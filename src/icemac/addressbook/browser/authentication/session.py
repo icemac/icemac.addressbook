@@ -25,6 +25,8 @@ class FlashedSessionCredentialsLoginForm(
         icemac.addressbook.browser.base.FlashView):
     """SessionCredentialsLoginForm with flash messages."""
 
+    title = _('Login')
+
     def update(self):
         super(FlashedSessionCredentialsLoginForm, self).update()
         if str(self.request.response.getStatus()).startswith('3'):

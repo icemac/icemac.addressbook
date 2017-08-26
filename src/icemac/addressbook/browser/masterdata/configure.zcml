@@ -22,6 +22,7 @@
      for="...interfaces.IAddressBook"
      permission="icemac.addressbook.ViewAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".MasterData"
      template="masterdata.pt"
      />
 

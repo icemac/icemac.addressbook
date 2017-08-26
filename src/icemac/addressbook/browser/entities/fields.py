@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
 from six.moves.urllib_parse import urlsplit
+import grokcore.component as grok
+import icemac.addressbook.browser.breadcrumb
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
@@ -11,6 +13,19 @@ import zope.publisher.interfaces
 import zope.publisher.interfaces.http
 import zope.security.proxy
 import zope.traversing.browser
+
+
+class FieldBreadCrumb(
+        icemac.addressbook.browser.breadcrumb.Breadcrumb):
+    """Breadcrumb for a user defined Field."""
+
+    grok.adapts(
+        icemac.addressbook.interfaces.IField,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    @property
+    def parent(self):
+        return icemac.addressbook.interfaces.IEntity(self.context)
 
 
 @zope.component.adapter(
@@ -49,8 +64,10 @@ class MetadataForm(z3c.form.group.GroupForm, z3c.formui.form.Form):
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
 
-class List(object):
+class List(icemac.addressbook.browser.base.FlashView):
     """List fields of an entity."""
+
+    title = _('Edit fields')
 
     def _values(self):
         # zope.schema fields are no content classes, so they have no
@@ -103,7 +120,7 @@ class SaveSortorder(icemac.addressbook.browser.base.BaseView):
 class AddForm(icemac.addressbook.browser.base.BaseAddForm):
     """Add a new user defined field to an entity."""
 
-    label = _(u'Add new field')
+    title = _(u'Add new field')
     class_ = icemac.addressbook.entities.Field
     interface = icemac.addressbook.interfaces.IField
     next_url = 'parent'
@@ -123,7 +140,7 @@ class BaseForm(object):
 class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
     """Edit a user defined field on an entity."""
 
-    label = _(u'Edit field')
+    title = _(u'Edit field')
     interface = icemac.addressbook.interfaces.IField
     groups = (icemac.addressbook.browser.metadata.MetadataGroup,)
 
@@ -131,6 +148,7 @@ class EditForm(BaseForm, icemac.addressbook.browser.base.GroupEditForm):
 class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete a user defined field from an entity."""
 
+    title = _('Delete field')
     label = _(
         'Caution: When you delete this field, possibly data will get lost. '
         'Namely the data which was entered into this field when it was '

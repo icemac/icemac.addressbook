@@ -157,6 +157,7 @@ class KeywordsColumn(SourceColumn):
 class Table(z3c.table.table.Table):
     """Table which supports a no-rows-found message."""
 
+    title = None  # used by the breadrumbs
     cssClassEven = u'table-even-row'
     cssClassOdd = u'table-odd-row'
     startBatchingAt = 1000000

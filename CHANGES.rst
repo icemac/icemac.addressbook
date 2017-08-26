@@ -6,6 +6,11 @@ Change log
 4.2 (unreleased)
 ================
 
+Features
+--------
+
+- Render breadcrumbs to be able to access the parent object.
+
 Other
 -----
 

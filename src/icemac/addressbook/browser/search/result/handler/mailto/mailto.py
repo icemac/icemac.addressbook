@@ -1,3 +1,4 @@
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.interfaces
@@ -5,6 +6,8 @@ import icemac.addressbook.interfaces
 
 class MailTo(icemac.addressbook.browser.search.result.handler.base.Base):
     """Create a mailto link for all persons in selection."""
+
+    title = _('Send an e-mail')
 
     @property
     def unique_mail_addresses(self):

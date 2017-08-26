@@ -93,14 +93,43 @@ body {
     color:White;
 }
 
-#add-menu {
-    clear: left;
+
+#menu-bar {
     background-color: #996633;
+    clear: both;
+    display: flow-root;
     width: 100%;
-    height: 20px;
-    color: White;
     border-top-right-radius: 8px;
     -moz-border-radius-topright: 8px;
+}
+
+#breadcrumbs {
+    clear: left;
+}
+
+#breadcrumbs li {
+    background-color: #996633;
+    color: #ffffff;
+    float: left;
+    padding: 5px 0 5px 8px;
+}
+
+#breadcrumbs li:after {
+    content: "➤";
+    padding-left: 8px;
+}
+
+#breadcrumbs li:last-child:after {
+    content: "";
+}
+
+#breadcrumbs li a {
+    color: #ffffff;
+}
+
+#add-menu {
+    height: 30px;
+    color: white;
 }
 
 #add-menu a {
@@ -108,6 +137,8 @@ body {
 }
 
 #add-menu div {
+    background-color: #996633;
+    display: inline-block;
     float: right;
 }
 
@@ -117,7 +148,7 @@ body {
 
 #add-menu li {
     list-style-type: none;
-    padding: 0.1em 0.5em 0.1em 0.5em;
+    padding: 5px 8px;
 }
 
 #add-menu-content li {
@@ -127,7 +158,7 @@ body {
 }
 
 #add-menu-content li span {
-    padding: 0 2px 0 2px;
+    padding: 0 2px;
 }
 
 #add-menu-content li a:hover {

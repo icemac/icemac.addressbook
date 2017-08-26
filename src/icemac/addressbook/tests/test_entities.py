@@ -401,6 +401,14 @@ def test_entities__Entity__addField__3(address_book, field):
     assert field is adapted_entity
 
 
+def test_entities__entity_for_field__1(address_book, field):
+    """It adapts a field to its entity."""
+    address_book_entity.addField(field)
+
+    adapted_field = IEntity(field)
+    assert address_book_entity == adapted_field
+
+
 def test_entities__Entity__removeField__1(entities, entity_with_field, field):
     """It removes a field from an entity."""
     assert field in entities.values()
@@ -419,6 +427,7 @@ def test_entities__Entity__removeField__3(entity_with_field, field):
     entity_with_field.removeField(field)
     assert None is zope.component.queryMultiAdapter(
         (entity, Dummy()), IField, name=u'Field')
+    assert None is IEntity(field, None)
 
 
 def test_entities__Entity__setFieldOrder__1(entity_with_field, field):

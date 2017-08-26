@@ -32,7 +32,11 @@
     <div id="body">
       <ul id="main-menu"
           tal:content="structure provider:main-menu">Main menu</ul>
-      <ul tal:replace="structure provider:add-menu">Add menu</ul>
+      <div id="menu-bar">
+        <ul id="breadcrumbs"
+            tal:content="structure provider:breadcrumbs">Breadcrumbs</ul>
+        <ul tal:replace="structure provider:add-menu">Add menu</ul>
+      </div>
       <div tal:replace="structure provider:messages" />
       <div id="content"
            tal:content="structure provider:pagelet">Page Content</div>
