@@ -3,10 +3,9 @@ from icemac.addressbook.i18n import _
 import zope.interface
 import zope.schema
 import zope.mimetype.interfaces
-import icemac.addressbook.interfaces
 
 
-class IFile(icemac.addressbook.interfaces.IPersonEntity):
+class IFile(zope.interface.Interface):
     """A file uploaded from harddisk to addressbook."""
 
     name = zope.schema.TextLine(
