@@ -225,7 +225,6 @@ class BreadcrumbContentProvider(
     @property
     def rendered_breadcrumbs(self):
         for bc in reversed(list(self.reversed_breadcrumbs)):
-            # print bc
             yield bc.render()
 
     @property
