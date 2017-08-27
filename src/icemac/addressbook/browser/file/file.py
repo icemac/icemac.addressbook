@@ -100,7 +100,8 @@ IFile_data_not_required = z3c.form.widget.StaticWidgetAttribute(
 class DeleteFileForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Are you sure question for deleting a file."""
 
-    next_url = 'parent'
+    title = _('Delete file')
     label = _(u'Do you really want to delete this file?')
+    next_url = 'parent'
     interface = icemac.addressbook.file.interfaces.IFile
     field_names = ('name', )
