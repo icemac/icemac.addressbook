@@ -50,6 +50,10 @@ class AddressBook(zope.container.btree.BTreeContainer,
         """Nice representation of the address book."""
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
+    def __nonzero__(self):
+        """Make sure an empty address book does not evaluate to `False`."""
+        return True
+
     @property
     def time_zone(self):
         return self._timezone_preference_group.time_zone

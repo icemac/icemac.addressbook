@@ -118,6 +118,11 @@ def test_addressbook__AddressBook____repr____2():
     assert "<AddressBook None (None)>" == repr(AddressBook())
 
 
+def test_addressbook__AddressBook____nonzero____1(address_book):
+    """It is `True` even for an empty address book."""
+    assert bool(address_book)
+
+
 def test_addressbook__get_address_book__1(address_book):
     """Any object can be adated to IAddressBook to get the current one."""
     assert address_book == IAddressBook(42)
