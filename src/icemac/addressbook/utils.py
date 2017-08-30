@@ -53,7 +53,8 @@ def unique_by_attr_factory(attr_name, error_message):
         May be used as handler for object events.
 
         """
-        assert getattr(obj, '__parent__', None)
+        assert getattr(obj, '__parent__', None), \
+            '%r has no true-ish __parent__.' % obj
         container = obj.__parent__
         values = [getattr(x, attr_name) for x in container.values()]
         if len(values) != len(set(values)):
