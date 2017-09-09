@@ -73,7 +73,7 @@ class IStartpageData(zope.interface.Interface):
         'Dotted name to an interface to get the object those URL should '
         'be computed.')
     view = zope.interface.Attribute(
-        'View to be displayed on object, might be `None`.')
+        'Name of the view to be displayed on the object.')
     title = zope.interface.Attribute('i18n message id for display in UI')
 
 
