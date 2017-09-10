@@ -213,14 +213,18 @@ def UserFactory(FullPersonFactory):
         role_factory = role_source.factory
         role_values = role_factory.getValues()
         selected_roles = []
+        known_roles = []
         for role_title in roles:
             for candidate in role_values:
-                if role_factory.getTitle(candidate) == role_title:
+                known_role = role_factory.getTitle(candidate)
+                known_roles.append(known_role)
+                if known_role == role_title:
                     selected_roles.append(candidate)
                     break
             else:
                 raise LookupError(
-                    'Role title {!r} unknown.'.format(role_title))
+                    'Role title {!r} unknown. Known ones: {!r}'.format(
+                        role_title, known_roles))
         # Cannot use icemac.addressbook.testing.create() here because
         # `Principal` is not an entity.
         name = icemac.addressbook.utils.create_and_add(
