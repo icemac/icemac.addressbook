@@ -50,6 +50,7 @@
      for="...interfaces.IAddressBook"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      name="welcome.html"
+     class=".startpage.Welcome"
      template="welcome.pt"
      permission="icemac.addressbook.ViewAddressBook"
      />

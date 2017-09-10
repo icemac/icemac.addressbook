@@ -1,6 +1,9 @@
 from ..base import can_access_uri_part
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.breadcrumb
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
 import zope.dottedname.resolve
 import zope.interface
@@ -49,3 +52,17 @@ class Dispatch(icemac.addressbook.browser.base.BaseView):
         target_url = self.url(context, view_name)
         self.request.response.redirect(target_url)
         return ''
+
+
+class Welcome(object):
+    """Welcome page."""
+
+
+class WelcomeBreadcrumb(icemac.addressbook.browser.breadcrumb.Breadcrumb):
+    """Do not render a breadcrumb on the welcome page."""
+
+    grok.adapts(
+        Welcome,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    show = False
