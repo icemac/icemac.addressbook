@@ -5,6 +5,7 @@ import grokcore.component as grok
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.table
+import z3c.layer.pagelet.interfaces
 import zope.browser.interfaces
 import zope.contentprovider.interfaces
 import zope.contentprovider.provider
@@ -192,6 +193,20 @@ class SystemErrorViewBreadcrumb(Breadcrumb):
 
     target_url = None
     title = 'SystemError'
+
+
+class UnauthorizedPageletBreadcrumb(Breadcrumb):
+    """Default breadcrumb implementation for views."""
+
+    grok.adapts(
+        z3c.layer.pagelet.interfaces.IUnauthorizedPagelet,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    show = False
+
+    @property
+    def parent(self):
+        return icemac.addressbook.interfaces.IAddressBook(self.context)
 
 
 class EntityBreadcrumb(Breadcrumb):
