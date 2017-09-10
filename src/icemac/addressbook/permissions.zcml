@@ -52,7 +52,7 @@
 
   <permission
     id="icemac.addressbook.ViewPersonName"
-    title="XXX"
+    title="View the name of the person belonging to the current user."
     />
 
   <permission
