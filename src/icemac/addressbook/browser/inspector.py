@@ -1,4 +1,5 @@
 from icemac.addressbook.utils import dotted_name
+import icemac.addressbook.browser.base
 import zope.interface
 
 
@@ -13,8 +14,10 @@ def get_interfaces_flat(context):
             context).flattened()]))
 
 
-class Inspector(object):
+class Inspector(icemac.addressbook.browser.base.FlashView):
     """Inspect the current view or object."""
+
+    title = u'Inspector'
 
     def show_context(self):
         yield {'key': 'context',
