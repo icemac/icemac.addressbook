@@ -6,4 +6,5 @@ def test_fixtures__UserFactory__1(address_book, UserFactory):
     with pytest.raises(LookupError) as err:
         UserFactory(address_book, u'first_name', u'last_name',
                     u'email@example.com', u'password', [u'unknown-role'])
-    assert "Role title u'unknown-role' unknown." == str(err.value)
+    assert ("Role title u'unknown-role' unknown. Known ones:"
+            " [u'Administrator', u'Editor', u'Visitor']" == str(err.value))
