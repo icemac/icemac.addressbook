@@ -254,6 +254,12 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         assert 'You have been logged-in successfully.' == self.message
         return self
 
+    def logout(self):
+        """Logout from the address book."""
+        self.getLink('Logout').click()
+        self.html_redirect()
+        assert 'You have been logged out successfully.' in self.message
+
     def lang(self, lang):
         """Set the language for the browser."""
         self.addHeader('Accept-Language', lang)

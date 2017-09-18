@@ -300,12 +300,7 @@ def test_principals__EditForm__5(address_book, UserFactory, browser):
     assert browser.url.startswith(browser.LOGIN_BASE_URL)
     browser.formlogin(u'uu@example.com', 'new_password', use_current_url=True)
     # The new password can also be used to "normally" log-in:
-    browser.getLink('Logout').click()
-    browser.html_redirect()
-    assert (
-        ['You have been logged out successfully.',
-         'To log-in enter your username and password and submit the form.'] ==
-        browser.message)
+    browser.logout()
     browser.formlogin('uu@example.com', 'new_password', use_current_url=True)
     assert browser.url.startswith(browser.PRINCIPALS_LIST_URL)  # +/index.html
 
@@ -364,12 +359,7 @@ def test_principals__EditForm__6(address_book, UserFactory, browser):
     assert '' == browser.getControl('password', index=0).value
     assert 'The big HANS' == browser.getControl('notes').value
     # The new log-in name an password can also be used to "normally" log-in:
-    browser.getLink('Logout').click()
-    browser.html_redirect()
-    assert (
-        ['You have been logged out successfully.',
-         'To log-in enter your username and password and submit the form.'] ==
-        browser.message)
+    browser.logout()
     browser.formlogin('hans.tester', 'testtest', use_current_url=True)
     assert browser.url.startswith(browser.PRINCIPAL_EDIT_URL_1)  # +/index.html
 
