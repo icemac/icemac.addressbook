@@ -2,6 +2,7 @@
 from icemac.addressbook.interfaces import IPerson
 import datetime
 import icemac.addressbook.conftest
+import icemac.addressbook.testing
 import pytest
 import transaction
 import zope.component.hooks
@@ -12,16 +13,16 @@ import zope.component.hooks
 @pytest.yield_fixture(scope='function')
 def search_data(searchDataS):
     """Provide predefined search data, see `searchDataS`."""
-    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+    for connection in icemac.addressbook.testing.pyTestStackDemoStorage(
             searchDataS.zodb, 'search_data'):
-        for address_book in icemac.addressbook.conftest.site(connection):
+        for address_book in icemac.addressbook.testing.site(connection):
             yield address_book
 
 
 @pytest.yield_fixture(scope='function')
 def person_with_field_data(personWithFieldDataS):
     """Provide predefined person data, see `personWithFieldDataS`."""
-    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+    for connection in icemac.addressbook.testing.pyTestStackDemoStorage(
             personWithFieldDataS.zodb, 'PersonWithFieldFunction'):
         yield connection
 
@@ -32,9 +33,9 @@ def person_with_field_data(personWithFieldDataS):
 def searchDataS(
         addressBookS, KeywordFactory, PersonFactory, FullPersonFactory):
     """Create base data used in search tests."""
-    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+    for connection in icemac.addressbook.testing.pyTestStackDemoStorage(
             addressBookS, 'SearchSession'):
-        for address_book in icemac.addressbook.conftest.site(connection):
+        for address_book in icemac.addressbook.testing.site(connection):
             KeywordFactory(address_book, u'work')
             KeywordFactory(address_book, u'anyone else')
             # person objects are not returned as addressBookConnectionF
@@ -60,7 +61,7 @@ def personWithFieldDataS(
         PhoneNumberFactory, EMailAddressFactory, HomepageAddressFactory,
         FieldFactory):
     """Create base data used in person tests."""
-    for connection in icemac.addressbook.conftest.pyTestStackDemoStorage(
+    for connection in icemac.addressbook.testing.pyTestStackDemoStorage(
             addressBookS, 'SearchSession'):
         address_book = connection.rootFolder['ab']
         with zope.component.hooks.site(address_book):
