@@ -11,6 +11,8 @@ Features
 
 - Render breadcrumbs to be able to access the parent object.
 
+- Use select2 JavaScript library to render multi select fields.
+
 Other
 -----
 

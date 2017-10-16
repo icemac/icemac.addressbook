@@ -17,5 +17,8 @@
     $("form div.widget:first input").focus();
     // Render field descriptions as hints.
     $.each($('form .widget'), render_field_hint);
+    $('form select.set-field, form select.tuple-field').select2({
+        width: "35em"
+    })
 
 })(jQuery);

@@ -66,23 +66,6 @@
       template="browser/sorted_select_input_test.pt"
       />
 
-  <!-- The ordered select widget for tuples uses JavaScript but
-       zope.testbrowser does not interpret JavaScript, so we have use a
-       JavaScript-less widget. -->
-  <adapter
-     for="zope.schema.interfaces.ITuple
-          icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     provides="z3c.form.interfaces.IFieldWidget"
-     factory="z3c.form.browser.select.CollectionSelectFieldWidget"
-     />
-  <adapter
-     for="zope.schema.interfaces.ITuple
-          zope.schema.interfaces.IChoice
-          icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     provides="z3c.form.interfaces.IFieldWidget"
-     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
-     />
-
   <browser:view
     for="zope.site.interfaces.IFolder"
     layer=".browser.interfaces.IAddressBookLayer"

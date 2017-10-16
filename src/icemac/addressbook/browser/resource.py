@@ -2,6 +2,7 @@
 import fanstatic
 import js.jquery
 import js.jqueryui
+import js.select2
 import os.path
 import zope.viewlet.viewlet
 
@@ -43,7 +44,8 @@ table = fanstatic.Resource(
 prefs = fanstatic.Resource(
     js_lib, 'prefs.js', bottom=True, depends=[js.jqueryui.effects_fade])
 form = fanstatic.Resource(
-    js_lib, 'form.js', bottom=True, depends=[js.jquery.jquery])
+    js_lib, 'form.js', bottom=True,
+    depends=[js.jquery.jquery, js.select2.select2])
 
 
 js = fanstatic.Group([

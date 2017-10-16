@@ -17,6 +17,35 @@
      template="layout.pt"
      />
 
+  <!-- Use a plain select widgets for collection.
+       They are styled via a JavaScript library in the browser. -->
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget"
+     />
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
+     />
+  <adapter
+     for="zope.schema.interfaces.ISet
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget" />
+  <adapter
+     for="zope.schema.interfaces.ISet
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
+     />
+
+
   <adapter
       for="*
            icemac.addressbook.browser.interfaces.IAddressBookLayer
@@ -96,19 +125,6 @@
   <adapter
       factory=".metadata.MetadataGroupFieldsNotRequired"
       name="required" />
-
-  <!-- CAUTION: This adapter ensures that the sorted select widget is
-                used for all ISet schema elements. -->
-  <adapter
-     for="zope.schema.interfaces.ISet
-          icemac.addressbook.browser.interfaces.IAddressBookLayer"
-     provides="z3c.form.interfaces.IFieldWidget"
-     factory=".widget.SortedSelectFieldWidget" />
-
-  <class class=".widget.SortedSelectWidget">
-      <require permission="zope.Public"
-               interface="z3c.form.interfaces.IOrderedSelectWidget" />
-  </class>
 
   <!-- z3c.form -->
   <adapter factory=".datamanager.AnnotationField" />
