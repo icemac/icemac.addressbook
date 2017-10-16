@@ -11,6 +11,7 @@ import zope.schema
 class SearchView(icemac.addressbook.browser.search.base.BaseView):
     """View which represents the name search."""
 
+    title = _('Name search')
     form_explanation = _(
         'You may use wildcards in this search: Use ? for a single character '
         'or * for multiple characters.')
