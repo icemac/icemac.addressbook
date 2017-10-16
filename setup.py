@@ -66,6 +66,7 @@ setuptools.setup(
         'js.jquery',
         'js.jquery_timepicker_addon',
         'js.jqueryui',
+        'js.select2',
         'setuptools',
         'six',
         'xlwt',

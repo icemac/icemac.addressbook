@@ -14,8 +14,8 @@ class SearchView(icemac.addressbook.browser.search.base.BaseView):
 
     title = _('Keyword search')
     form_explanation = _(
-        'The keywords you want to search for have to be in the right box. '
-        'Use the arrow buttons to move them.')
+        'Select requested keywords from the list popping up when selecting'
+        ' the keywords control.')
 
 
 class SearchTermConcatenationSource(

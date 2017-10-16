@@ -178,6 +178,11 @@ form .widget .ui-selectable li img {
     margin-right: auto;
 }
 
+/* Select2 */
+form .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    float: none;
+}
+
 @media only print {
     #content fieldset,
     #content legend,
