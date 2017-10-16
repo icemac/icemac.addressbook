@@ -120,7 +120,7 @@ setuptools.setup(
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
-            'zope.testbrowser >= 5.2.dev0',
+            'zope.testbrowser >= 5.2.3.dev0',
             'zope.testing >= 3.8',
         ],
     ),

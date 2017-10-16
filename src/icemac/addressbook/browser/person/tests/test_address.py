@@ -135,8 +135,8 @@ def test_address__DeletePostalAddressForm__3(person_data, browser):
     """Deleting the main address creates a new, empty address."""
     browser.login('editor')
     browser.open(browser.PERSON_DELETE_ENTRY_URL)
-    browser.getControl('Demoweg').click()  # deselects default selection
-    browser.getControl('Demoweg').click()
+    browser.getControl('Entries').displayValue = [
+        'postal address -- c/o Mama, Demoweg 23, 88888, Testhausen, Austria']
     browser.getControl('Delete entry').click()
     browser.getControl('Yes').click()
     assert ('"c/o Mama, Demoweg 23, 88888, Testhausen, Austria" deleted.' ==
