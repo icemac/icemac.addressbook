@@ -56,16 +56,6 @@
   <grant role="icemac.addressbook.global.Visitor"
          principal="icemac.addressbook.global.Visitor" />
 
-  <!-- As we use the sorted select widget for sets in the application
-       but zope.testbrowser does not interpret JavaScript, we have
-       set the widget template to a JS-less variant here. -->
-  <z3c:widgetTemplate
-      mode="input"
-      widget="icemac.addressbook.browser.widget.SortedSelectWidget"
-      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
-      template="browser/sorted_select_input_test.pt"
-      />
-
   <browser:view
     for="zope.site.interfaces.IFolder"
     layer=".browser.interfaces.IAddressBookLayer"
