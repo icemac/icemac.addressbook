@@ -39,6 +39,7 @@
       </div>
       <div tal:replace="structure provider:messages" />
       <div id="content"
+           tal:attributes="lang request/locale/id/language"
            tal:content="structure provider:pagelet">Page Content</div>
     </div>
 
