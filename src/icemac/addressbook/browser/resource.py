@@ -48,7 +48,7 @@ form = fanstatic.Resource(
     depends=[js.jquery.jquery, js.select2.select2])
 
 
-js = fanstatic.Group([
+js_group = fanstatic.Group([
     form,
     masterdata_fields,
     prefs,
@@ -61,7 +61,13 @@ class DefaultResources(zope.viewlet.viewlet.ViewletBase):
 
     def update(self):
         css.need()
-        js.need()
+        js_group.need()
+        lang = self.request.locale.id.language
+        if not lang:
+            lang = 'en'
+        # Besides that need select2 expects that a lang attribute is set on any
+        # HTML container of the select element.
+        js.select2.locales[lang].need()
 
     def render(self):
         return u''
