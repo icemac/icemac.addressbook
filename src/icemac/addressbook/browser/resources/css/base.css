@@ -120,7 +120,7 @@ body {
 }
 
 #breadcrumbs li:last-child:after {
-    content: "";
+    content: "​ ";
 }
 
 #breadcrumbs li a {
