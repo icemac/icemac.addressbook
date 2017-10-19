@@ -6,8 +6,8 @@ def test_multi_keyword__Search__1(search_data, browser):
     assert browser.SEARCH_BY_KEYWORD_URL == browser.url
     # An explanation text is displayed:
     assert (
-        ['The keywords you want to search for have to be in the right box. '
-         'Use the arrow buttons to move them.'] ==
+        ['Select requested keywords from the list popping up when selecting'
+         ' the keywords control.'] ==
         browser.etree.xpath(
             '//div[@id="content"]/div[@class="row no-print"]/text()'))
 
