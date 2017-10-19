@@ -36,6 +36,7 @@ class POPerson(WebdriverPageObjectBase):
     def submit(self):
         self._selenium.click("id=form-buttons-apply")
 
+
 Webdriver.attach(POPerson, 'person')
 
 
