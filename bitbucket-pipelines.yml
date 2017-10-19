@@ -4,7 +4,9 @@ pipelines:
   default:
     - step:
         caches:
-          - buildout
+          - pip
+          - buildout-eggs
+          - buildout-parts
         script:
           - pip install setuptools==`grep 'setuptools' profiles/versions.cfg | cut -d"=" -f2 | tr -d '[:blank:]'`
           - pip install six==`grep 'six' profiles/versions.cfg | cut -d"=" -f2 | tr -d '[:blank:]'`
@@ -14,5 +16,6 @@ pipelines:
 
 definitions:
   caches:
-    buildout: ../eggs
+    buildout-eggs: ../eggs
+    buildout-parts: parts
 
