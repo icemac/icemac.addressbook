@@ -126,18 +126,21 @@ def test_browser__CategoryEditForm__6(address_book, browser):
     """`CategoryEditForm` stores selected columns."""
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
-    browser.in_out_widget_select(
-        'form.widgets.columns',
-        [browser.getControl('person -- birth date', index=0),
-         browser.getControl('person -- first name', index=0),
-         browser.getControl('person -- last name', index=0)])
+    browser.getControl('columns').displayValue = [
+        'person -- birth date',
+        'person -- first name',
+        'person -- last name',
+    ]
     browser.getControl('Apply').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PREFS_URL)
-    assert (['person -- birth date',
-             'person -- first name',
-             'person -- last name'] ==
-            browser.getControl(name='form.widgets.columns.to').displayOptions)
+    # The non-JS wigdet variant cannot store the items in the selected order.
+    # This is an HTML issue.
+    assert ([
+        'person -- first name',
+        'person -- last name',
+        'person -- birth date',
+    ] == browser.getControl('columns').displayValue)
 
 
 def test_browser__CategoryEditForm__7(address_book, browser):
@@ -183,6 +186,8 @@ def test_browser__CategoryEditForm__10(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     assert ([
+        'person -- first name',
+        'person -- last name',
         'person -- birth date',
         'person -- keywords',
         'person -- notes',
@@ -193,8 +198,8 @@ def test_browser__CategoryEditForm__10(address_book, browser):
         'postal address -- country',
         'phone number -- number',
         'e-mail address -- e-mail address',
-        'home page address -- URL'] ==
-        browser.getControl(name='form.widgets.columns.from').displayOptions)
+        'home page address -- URL',
+    ] == browser.getControl('columns').displayOptions)
 
 
 def test_browser__CategoryEditForm__11(address_book, browser):
@@ -207,6 +212,8 @@ def test_browser__CategoryEditForm__11(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     assert ([
+        'person -- first name',
+        'person -- last name',
         'person -- birth date',
         'person -- keywords',
         'person -- notes',
@@ -217,8 +224,8 @@ def test_browser__CategoryEditForm__11(address_book, browser):
         'postal address -- zip',
         'postal address -- country',
         'e-mail address -- e-mail address',
-        'home page address -- URL'] ==
-        browser.getControl(name='form.widgets.columns.from').displayOptions)
+        'home page address -- URL',
+    ] == browser.getControl('columns').displayOptions)
 
 
 def test_browser__CategoryEditForm__12(address_book, browser):

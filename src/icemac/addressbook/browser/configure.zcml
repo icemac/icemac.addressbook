@@ -45,6 +45,20 @@
      factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
      />
 
+  <!-- Render list of choice using a custom widget: -->
+  <adapter
+     for="zope.schema.interfaces.IList
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory=".widget.Select2ListChoiceFieldWidgetFactory" />
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".widget.Select2ListFieldWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      template="list_select2_input.pt"
+      />
+
 
   <adapter
       for="*

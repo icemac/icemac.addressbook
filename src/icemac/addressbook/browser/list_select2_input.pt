@@ -1,0 +1,40 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">
+  <select
+     multiple="multiple"
+     tal:attributes="
+      id view/id;
+      name string:${view/name}:list;
+      class view/klass;
+      style view/style;
+      title view/title;
+      lang view/lang;
+      onclick view/onclick;
+      ondblclick view/ondblclick;
+      onmousedown view/onmousedown;
+      onmouseup view/onmouseup;
+      onmouseover view/onmouseover;
+      onmousemove view/onmousemove;
+      onmouseout view/onmouseout;
+      onkeypress view/onkeypress;
+      onkeydown view/onkeydown;
+      onkeyup view/onkeyup;
+      disabled view/disabled;
+      tabindex view/tabindex;
+      onfocus view/onfocus;
+      onblur view/onblur;
+      onchange view/onchange
+    ">
+    <option tal:repeat="o view/items"
+            tal:attributes="id o/id;
+                            value o/value;
+                            selected o/selected"
+            tal:content="o/content" />
+  </select>
+  <input type="hidden"
+         value="1"
+         tal:attributes="name string:${view/name}-empty-marker" />
+  <script type="text/javascript"
+          tal:content="structure view/javascript"></script>
+</div>

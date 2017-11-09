@@ -27,10 +27,10 @@ def test_default__add__4i(address_book, browser):
     """By default two columns are displayed in the person lists."""
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
-    # Two columns are displayed by default. As the widget is a
-    # JavaScript-In-Out-Widget, we have to access the second list here:
-    assert (['person -- last name', 'person -- first name'] ==
-            browser.getControl(name='form.widgets.columns.to').displayOptions)
+    assert ([
+        'person -- first name',
+        'person -- last name',
+    ] == browser.getControl('columns').displayValue)
 
 
 def test_default__add__5i(address_book, browser):
