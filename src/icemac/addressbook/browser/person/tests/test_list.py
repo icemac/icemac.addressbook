@@ -295,14 +295,14 @@ def test_list__PersonList__10i(address_book, PersonFactory, browser):
     PersonFactory(address_book, u'Tester', notes=u'my notes')
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
-    browser.in_out_widget_select(
-        'form.widgets.columns',
-        [browser.getControl('person -- notes', index=0),
-         browser.getControl('person -- last name', index=0)])
+    browser.getControl('columns').displayValue = [
+        'person -- last name',
+        'person -- notes',
+    ]
     browser.getControl('Apply').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSONS_LIST_URL)
-    assert (['my notes', 'Tester'] ==
+    assert (['Tester', 'my notes'] ==
             browser.etree.xpath('//td/text() | //td/a/text()'))
 
 

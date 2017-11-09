@@ -15,7 +15,6 @@ import plone.testing.zodb
 import pytest
 import pytz
 import transaction
-import webtest.forms
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
@@ -329,24 +328,6 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         return self._get_control_names(
             zope.testbrowser.interfaces.IControl, self.getForm())
 
-    def in_out_widget_select(self, control_name, select_controls):
-        """Add a selection to an in-out-widget.
-
-        control_name ... name of the in-out-control, something like
-                         'form.widgets.columns'
-        select_controls ... list of control instances (item controls of in or
-                             out list) which should be selected
-        """
-        form = self.getForm()
-        for control in select_controls:
-            webtest_form = form._form
-            name = '%s:list' % control_name
-            field = webtest.forms.Hidden(
-                webtest_form, tag='input', name=name, pos=999,
-                value=control.optionValue)
-            webtest_form.fields.setdefault(name, []).append(field)
-            webtest_form.field_order.append((name, field))
-
     def html_redirect(self):
         """Redirect as requested by ``<meta http-equiv="refresh" ... />``."""
         from bs4 import BeautifulSoup
@@ -506,6 +487,24 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
 Webdriver.attach(POAddressBook, 'address_book')
 
 
+class POPersonList(WebdriverPageObjectBase):
+    """Webdriver page object for the person list page."""
+
+    paths = []
+
+    @property
+    def column_headlines(self):
+        """Get the headlines of the columns displayed on the person list."""
+        # XXX leaking abstraction:  there is no way in gocept.selenium to get
+        #     a list of multiple elements *sigh*
+        elements = self._selenium.selenium.find_elements_by_xpath(
+            '//div[@id="content"]/table/thead/tr/th/a')
+        return [x.text for x in elements]
+
+
+Webdriver.attach(POPersonList, 'personlist')
+
+
 class POPreferences(WebdriverPageObjectBase, TimeZoneMixIn):
     """Webdriver page object for the preferences page."""
 
@@ -529,10 +528,27 @@ class POPreferences(WebdriverPageObjectBase, TimeZoneMixIn):
         self._selenium.click(
             "//fieldset[@class='{}']/legend".format(css_class))
 
-    def select_column(self, label):
-        self._selenium.addSelection(
-            "id=form-widgets-columns-from", "label={}".format(label))
-        self._selenium.click("name=from2toButton")
+    def remove_first_column_selected_for_person_list(self):
+        self._selenium.click("css=span.select2-selection__choice__remove")
+        # deselect column drop down
+        self._selenium.click("css=ul.select2-selection__rendered")
+
+    def select_column_for_person_list(self, title):
+        self._selenium.click("css=ul.select2-selection__rendered")
+        self._selenium.click('xpath=//li[text()="{}"]'.format(title))
+
+    @property
+    def selected_columns_for_person_list(self):
+        # XXX leaking abstraction:  there is no way in gocept.selenium to get
+        #     a list of multiple elements *sigh*
+        selection = self._selenium.selenium.find_elements_by_xpath(
+            '//div[@id="form-widgets-columns-row"]/div/span/span/span/ul/li')
+        return [x.text.replace(u'\xd7', '')  # remove x used for delete link
+                for x in selection
+                if x.text]
+
+    def submit(self):
+        self._selenium.click("id=form-buttons-apply")
 
 
 Webdriver.attach(POPreferences, 'prefs')
