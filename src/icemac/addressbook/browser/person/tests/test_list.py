@@ -169,7 +169,7 @@ def test_list__PersonList__5(address_book, MockPersons_22, browser):
         if x.strip()]
 
 
-@pytest.mark.parametrize('batch_size, batch_number', ((20, 2), (8, 3)))
+@pytest.mark.parametrize('batch_size, batch_number', ((19, 2), (8, 3)))
 def test_list__PersonList__6i(
         address_book, MockPersons_22, browser, batch_size, batch_number):
     """`PersonList` respects the batch size set in the preferences."""

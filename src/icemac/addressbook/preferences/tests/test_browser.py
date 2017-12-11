@@ -137,8 +137,8 @@ def test_browser__CategoryEditForm__6(address_book, browser):
     # The non-JS wigdet variant cannot store the items in the selected order.
     # This is an HTML issue.
     assert ([
-        'person -- first name',
         'person -- last name',
+        'person -- first name',
         'person -- birth date',
     ] == browser.getControl('columns').displayValue)
 
@@ -186,8 +186,8 @@ def test_browser__CategoryEditForm__10(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     assert ([
-        'person -- first name',
         'person -- last name',
+        'person -- first name',
         'person -- birth date',
         'person -- keywords',
         'person -- notes',
@@ -212,8 +212,8 @@ def test_browser__CategoryEditForm__11(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     assert ([
-        'person -- first name',
         'person -- last name',
+        'person -- first name',
         'person -- birth date',
         'person -- keywords',
         'person -- notes',
