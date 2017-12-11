@@ -23,9 +23,6 @@ class Select2ListFieldWidget(z3c.form.browser.select.SelectWidget):
     klass = u'select2-ordered-multi-select'
     multiple = 'multiple'
 
-    # def extract(self, default=z3c.form.interfaces.NO_VALUE):
-    #     return super(Select2ListFieldWidget, self).extract(default=default)
-
     @property
     def items(self):
         items = super(Select2ListFieldWidget, self).items
