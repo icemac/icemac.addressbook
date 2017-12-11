@@ -28,8 +28,8 @@ def test_default__add__4i(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     assert ([
-        'person -- first name',
         'person -- last name',
+        'person -- first name',
     ] == browser.getControl('columns').displayValue)
 
 
