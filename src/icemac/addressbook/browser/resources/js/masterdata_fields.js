@@ -1,4 +1,6 @@
 (function($) {
+    "use strict";
+
     // Return a helper with preserved width of cells
     var fixHelper = function(e, ui) {
 	    ui.children().each(function() {
