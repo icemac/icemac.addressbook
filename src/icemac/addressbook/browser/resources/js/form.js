@@ -1,4 +1,5 @@
 (function($) {
+    "use strict";
 
     function render_field_hint(index, widget) {
         /* Render the title attribute of a form field as hint.

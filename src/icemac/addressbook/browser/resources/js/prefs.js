@@ -1,4 +1,6 @@
 (function($) {
+    "use strict";
+
     $("#prefs-category-edit-form fieldset").click(function(ev) {
         ev.stopPropagation();
         ev.preventDefault();
