@@ -2,6 +2,7 @@
 from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
+import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.interfaces
 import zope.globalrequest
 import zope.i18n
