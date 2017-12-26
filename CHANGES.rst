@@ -21,11 +21,11 @@ Other
 
 - Update most libraries needed for the address book to their newest versions.
 
-- Move `.conftest.tmpfile()` to `.fixtures.tmpfile()` for reuse.
+- Move ``.conftest.tmpfile()`` to ``.fixtures.tmpfile()`` for reuse.
 
 - Make some Python 3 preparations as suggested by `pylint --py3k -d W1618`.
   (No checks for future-absolute-imports as relative imports are not used
-   here.)
+  here.)
 
 - Change `zope.interface.implements[Only]` and `zope.component.adapts` to
   class decorators.
@@ -98,29 +98,6 @@ Other changes
 
 - Bring test coverage to 100 % including tests themselves but without webdriver
   tests.
-
-
-3.0 (2017-02-04)
-================
-
-Backward incompatible changes
------------------------------
-
-- Update to `py.test >= 2.8`. This version no longer allows a fixture to depend
-  on an equally named fixture in another package. This requires a restructuring
-  of the fixtures: Packages depending on `icemac.addressbook` can no longer
-  e. g. depend the `zcmlS` fixture but have to provide there own full blown
-  ZCML fixture. The fixtures which can be reused where moved to
-  ``icemac.addressbook.fixtures``. ``icemac.addressbook.conftest`` should no
-  longer be used or imported from foreign packages as this leads to problems
-  with the new py.test version. The reusable helper functions have been moved
-  to ``icemac.addressbook.testing``.
-
-
-Other
------
-
-- Update most libraries needed for the address book to their newest versions.
 
 
 Previous Versions
