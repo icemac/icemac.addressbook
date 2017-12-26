@@ -35,6 +35,7 @@
                 ],
       "file_exclude_patterns": [
                 ".coverage",
+                ".coverage.*",
                 ".hgtags",
                 ".installed.cfg",
                 ".mr.developer.cfg",
