@@ -3,8 +3,8 @@ Change log
 ==========
 
 
-5.1 (unreleased)
-================
+5.0.2 (2017-12-27)
+==================
 
 - The install process seems to have to access PyPI using HTTPS nowadays.
 
