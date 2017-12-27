@@ -3,8 +3,8 @@ Change log
 ==========
 
 
-5.1 (unreleased)
-================
+5.0.1 (2017-12-27)
+==================
 
 - Fix the install scripts to only depend on the standard library.
 
