@@ -6,7 +6,7 @@ Change log
 5.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix the install scripts to only depend on the standard library.
 
 
 5.0 (2017-12-26)

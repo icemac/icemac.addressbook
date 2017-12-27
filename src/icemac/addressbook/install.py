@@ -1,9 +1,15 @@
 from __future__ import absolute_import, print_function
-
-from six.moves import configparser
 import collections
 import os.path
 import sys
+
+
+# We cannot depend here on something besides the standard library as we are the
+# installer of the dependencies!
+try:
+    import configparser
+except ImportError:  # Python 2
+    import ConfigParser as configparser
 
 
 def not_matched_prerequisites():
