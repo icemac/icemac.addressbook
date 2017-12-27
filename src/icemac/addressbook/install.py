@@ -12,6 +12,9 @@ except ImportError:  # Python 2
     import ConfigParser as configparser
 
 
+INDEX_URL = "https://pypi.python.org/simple"
+
+
 def not_matched_prerequisites():
     """Check whether icemac.addressbook can be installed."""
     if os.path.exists('buildout.cfg'):
@@ -227,6 +230,7 @@ class Configurator(object):
         buildout_cfg.set('buildout', 'newest', 'true')
         buildout_cfg.set('buildout', 'allow-picked-versions', 'true')
         buildout_cfg.set('buildout', 'eggs-directory', self.eggs_dir)
+        buildout_cfg.set('buildout', 'index', INDEX_URL)
         buildout_cfg.add_section('deploy.ini')
         buildout_cfg.set('deploy.ini', 'host', self.host)
         buildout_cfg.set('deploy.ini', 'port', self.port)
