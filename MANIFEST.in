@@ -6,9 +6,6 @@ include profiles/prod.cfg
 include profiles/base.cfg
 include profiles/versions.cfg
 
-include .coveragerc
-exclude .coveragerc
-
 include bitbucket-pipelines.*
 exclude bitbucket-pipelines.*
 
