@@ -6,7 +6,7 @@ Change log
 5.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
 
 
 5.0.2 (2017-12-27)
