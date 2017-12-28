@@ -2,12 +2,16 @@
 # Copyright (c) 2013-2014 Michael Howitz
 from ..interfaces import IIconProviderInfo
 import icemac.addressbook
+from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.base
 import pkg_resources
 import zope.contentprovider.provider
 
 
-class About(object):
+class About(icemac.addressbook.browser.base.FlashView):
     """View class for the about screen."""
+
+    title = _('About icemac.addressbook')
 
     def version(self):
         return pkg_resources.get_distribution('icemac.addressbook').version
