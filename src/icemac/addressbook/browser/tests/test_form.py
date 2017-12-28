@@ -103,6 +103,7 @@ def po_datetime_webdriver():
     Webdriver.detach(PODatetime, 'dt')
 
 
+@pytest.mark.flaky(reruns=3)
 @pytest.mark.webdriver
 @pytest.mark.parametrize('datatype', ['Datetime', 'Time'])
 def test_form__Widget__1_webdriver(address_book, FieldFactory, KeywordFactory, datatype, po_datetime_webdriver, webdriver):  # noqa
