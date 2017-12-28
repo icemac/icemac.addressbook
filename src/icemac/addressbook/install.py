@@ -2,14 +2,9 @@ from __future__ import absolute_import, print_function
 import collections
 import os.path
 import sys
-
-
-# We cannot depend here on something besides the standard library as we are the
-# installer of the dependencies!
-try:
-    import configparser
-except ImportError:  # Python 2
-    import ConfigParser as configparser
+# We cannot depend here on something besides the standard library and this
+# compat module as we are the installer of the dependencies!
+from icemac.addressbook._compat import configparser
 
 
 INDEX_URL = "https://pypi.python.org/simple"

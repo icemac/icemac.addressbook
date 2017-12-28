@@ -7,13 +7,7 @@ import sys
 
 sys.path[0:0] = ['src']
 import icemac.addressbook.install  # noqa: E402
-
-# We cannot depend here on something besides the standard library as we are the
-# installer of the dependencies!
-try:
-    import configparser
-except ImportError:  # Python 2
-    import ConfigParser as configparser
+from icemac.addressbook._compat import configparser  # noqa: E402
 
 
 USER_INI = 'install.user.ini'
