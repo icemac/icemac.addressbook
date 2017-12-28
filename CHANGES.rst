@@ -6,6 +6,14 @@ Change log
 5.1 (unreleased)
 ================
 
+Bug fixes
+---------
+
+- Fix breadcrumbs on the about page.
+
+Other
+-----
+
 - Update most libraries needed for the address book to their newest versions.
 
 
