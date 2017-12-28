@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2013-2014 Michael Howitz
 from ..interfaces import IIconProviderInfo
 import icemac.addressbook
 from icemac.addressbook.i18n import _
@@ -40,11 +39,15 @@ class IconProviderInfo(object):
 
 
 class DialogIcons(IconProviderInfo):
+    """Copyright information of the icons used in the dialogs."""
+
     name = u'VistaICO.com'
     url = (u'http://www.vistaico.com')
 
 
 class AddressBookIcon(IconProviderInfo):
+    """Copyright information of the icon used for the address book."""
+
     name = u'Martin Šnajdr'
     url = (u'http://psd.tutsplus.com/tutorials/designing-tutorials/'
            u'create-a-custom-mac-osx-style-ring-binder-address-book-icon')
