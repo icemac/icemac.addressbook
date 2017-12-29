@@ -30,7 +30,7 @@ FOR A PARTICULAR PURPOSE.
 
 .. _Features : https://bitbucket.org/icemac/icemac.addressbook/wiki/Features
 .. _Screenshots : https://bitbucket.org/icemac/icemac.addressbook/wiki/Screenshots
-.. _Download : https://pypi.org/project/icemac.addressbook#download
+.. _Download : https://pypi.org/project/icemac.addressbook#files
 .. _Installation : https://bitbucket.org/icemac/icemac.addressbook/wiki/Installation
 .. _`User management` : https://bitbucket.org/icemac/icemac.addressbook/wiki/User%20management
 .. _`Update` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Update
