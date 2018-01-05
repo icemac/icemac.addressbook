@@ -24,6 +24,7 @@
 			[
 				"*.egg-info",
 				".cache",
+        ".tox",
 				"__pycache__",
 				"bin",
 				"coverage",
@@ -47,7 +48,6 @@
 			[
         "*.egg-info",
         ".cache",
-        ".tox",
         "__pycache__",
         "bin",
         "cache",
