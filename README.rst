@@ -28,12 +28,12 @@ FOR A PARTICULAR PURPOSE.
 * `User management`_
 * `To do`_
 
-.. _Features : https://bitbucket.org/icemac/icemac.addressbook/wiki/Features
-.. _Screenshots : https://bitbucket.org/icemac/icemac.addressbook/wiki/Screenshots
+.. _Features : https://icemacaddressbook.readthedocs.io/en/latest/features.html
+.. _Screenshots : https://icemacaddressbook.readthedocs.io/en/latest/screenshots.html
 .. _Download : https://pypi.org/project/icemac.addressbook#files
-.. _Installation : https://bitbucket.org/icemac/icemac.addressbook/wiki/Installation
-.. _`User management` : https://bitbucket.org/icemac/icemac.addressbook/wiki/User%20management
-.. _`Update` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Update
-.. _`Run the tests`: https://bitbucket.org/icemac/icemac.addressbook/wiki/Run_the_tests
-.. _`Run the application` : https://bitbucket.org/icemac/icemac.addressbook/wiki/Run_the_application
-.. _`To do` : https://bitbucket.org/icemac/icemac.addressbook/wiki/To%20do
+.. _Installation : https://icemacaddressbook.readthedocs.io/en/latest/installation.html
+.. _`User management` : https://icemacaddressbook.readthedocs.io/en/latest/usermanagement.html
+.. _`Update` : https://icemacaddressbook.readthedocs.io/en/latest/update.html
+.. _`Run the tests`: https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html
+.. _`Run the application` : https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html
+.. _`To do` : https://icemacaddressbook.readthedocs.io/en/latest/todo.html
