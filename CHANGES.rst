@@ -9,7 +9,7 @@ Change log
 Bug fixes
 ---------
 
-- Fix breadcrumbs on the about page.
+- Fix the breadcrumbs on the about page and the logout page.
 
 Other
 -----

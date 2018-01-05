@@ -29,4 +29,20 @@
       permission="zope.Public"
       />
 
+  <z3c:pagelet
+     for="z3c.authviewlet.auth.HTTPAuthenticationLogout"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="redirect.html"
+     class=".authviewlet.LogoutRedirectPagelet"
+     permission="zope.Public"
+     />
+
+  <z3c:pagelet
+     for="z3c.authviewlet.auth.HTTPAuthenticationLogout"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="logout_success.html"
+     class=".authviewlet.LogoutSuccessPagelet"
+     permission="zope.Public"
+     />
+
 </configure>
