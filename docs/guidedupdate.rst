@@ -6,13 +6,13 @@ This steps can be applied if you installed via :ref:`package-installation`.
 
 1. Update the installer package using::
 
-    bin/pip install -U icemac.install.addressbook
+    $ bin/pip install -U icemac.install.addressbook
 
 2. Start the update
 
    * using::
 
-      bin/install-addressbook VERSION_NUMBER
+      $ bin/install-addressbook VERSION_NUMBER
 
    * ``VERSION_NUMBER`` can be omitted to install the latest version.
 
@@ -26,7 +26,7 @@ This steps can be applied if you installed via :ref:`package-installation`.
 
    * by calling::
 
-      bin/archive-addressbook VERSION_NUMBER
+      $ bin/archive-addressbook VERSION_NUMBER
 
    * Where ``VERSION_NUMBER`` is the version number of the previous version.
 
