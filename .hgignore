@@ -8,6 +8,7 @@ syntax: glob
 .coverage
 .installed.cfg
 .mr.developer.cfg
+.tox/
 DE_TODO.txt
 admin.zcml
 bin
@@ -17,6 +18,7 @@ debug-ajax.ini
 debug-pdb.ini
 deploy.ini
 develop-eggs
+docs/_build
 eggs
 htmlcov
 install.user.ini
