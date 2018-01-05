@@ -14,6 +14,10 @@ Bug fixes
 Other
 -----
 
+- Move the documentation from
+  https://bitbucket.org/icemac/icemac.addressbook/wiki/ to
+  https://icemacaddressbook.readthedocs.io
+
 - Update most libraries needed for the address book to their newest versions.
 
 
@@ -132,7 +136,3 @@ Previous Versions
 See `OLD_CHANGES.rst`_.
 
 .. _`OLD_CHANGES.rst` : https://bitbucket.org/icemac/icemac.addressbook/src/tip/OLD_CHANGES.rst
-
-==========
- Download
-==========

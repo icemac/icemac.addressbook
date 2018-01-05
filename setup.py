@@ -124,6 +124,10 @@ setuptools.setup(
             'zope.testbrowser >= 5.2.3.dev0',
             'zope.testing >= 3.8',
         ],
+        docs=[
+            'Sphinx',
+            'recommonmark',
+        ]
     ),
     entry_points="""
       [console_scripts]
