@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from six.moves.urllib_parse import urlsplit
 import collections
 import datetime
@@ -330,7 +331,6 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 
     def html_redirect(self):
         """Redirect as requested by ``<meta http-equiv="refresh" ... />``."""
-        from bs4 import BeautifulSoup
         soup = BeautifulSoup(self.contents, "lxml")
         meta = soup.find('meta')
         assert meta is not None, 'No <meta> tag found.'
