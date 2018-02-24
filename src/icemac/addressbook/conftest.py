@@ -98,16 +98,6 @@ def assert_address_book(address_book):
     return icemac.addressbook.testing.AddressBookAssertions(address_book)
 
 
-# Factory fixtures to create objects:
-
-@pytest.fixture(scope='function')
-def AddressBookFactory(addressBookConnectionF):
-    """Create an address book in the root folder."""
-    def create_addressbook(name, title=None):
-        return icemac.addressbook.testing.create_addressbook(
-            addressBookConnectionF.rootFolder, name, title)
-    return create_addressbook
-
 # generally usable helper fixtures:
 
 
