@@ -43,6 +43,7 @@
        permission="icemac.addressbook.ViewPerson"
        interface=".interfaces.IPersonData
                   .interfaces.IPersonDefaults
+                  .interfaces.ISchemaProvider
                   zope.container.interfaces.IReadContainer"
        attributes="__annotations__"
        />
