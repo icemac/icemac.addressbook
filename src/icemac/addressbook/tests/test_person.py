@@ -3,6 +3,7 @@ from icemac.addressbook.person import Person, Keywords
 from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
 from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
 from icemac.addressbook.interfaces import IEntityOrder
+from icemac.addressbook.interfaces import ISchemaName
 import gocept.reference.verify
 
 
@@ -14,6 +15,11 @@ def test_person__Person__1():
 def test_person__Person__2():
     """It fulfills the `IPersonDefaults` interface."""
     assert gocept.reference.verify.verifyObject(IPersonDefaults, Person())
+
+
+def test_person__Person__schema__1(zcmlS):
+    """It can be adapted to ``ISchemaName``."""
+    assert 'IPerson' == ISchemaName(Person()).schema_name
 
 
 def test_person__Keywords__1():

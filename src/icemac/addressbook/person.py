@@ -10,12 +10,19 @@ import zope.interface
 import zope.lifecycleevent
 
 
+person_schema = icemac.addressbook.interfaces.IPerson
+
+
 @zope.interface.implementer(
-    icemac.addressbook.interfaces.IPerson,
+    person_schema,
     icemac.addressbook.interfaces.IPersonDefaults,
-    zope.annotation.interfaces.IAttributeAnnotatable)
+    icemac.addressbook.interfaces.ISchemaProvider,
+    zope.annotation.interfaces.IAttributeAnnotatable,
+)
 class Person(zope.container.btree.BTreeContainer):
     """A person."""
+
+    schema = person_schema
 
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.interfaces.IPerson, omit=['keywords'])

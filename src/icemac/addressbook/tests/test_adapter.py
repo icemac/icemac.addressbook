@@ -1,4 +1,6 @@
 from icemac.addressbook.interfaces import ITitle
+import icemac.addressbook.interfaces
+import zope.interface
 
 
 def test_adapter__default_title__1(zcmlS):
@@ -14,3 +16,21 @@ def test_adapter__default_title__2(zcmlS):
 def test_adapter__default_title__3(zcmlS):
     """`default_title` returns a the string representation of other objects."""
     assert ITitle(object()).startswith('<object object at 0x')
+
+
+def test_adapter__SchemaProvider_SchemaName__schema_name__1(zcmlS):
+    """It is the name of the interface of the schema provider."""
+    @zope.interface.implementer(icemac.addressbook.interfaces.ISchemaProvider)
+    class Foo(object):
+        schema = ITitle
+
+    schema_name = icemac.addressbook.interfaces.ISchemaName(Foo()).schema_name
+    assert 'ITitle' == schema_name
+    assert isinstance(schema_name, unicode)
+
+
+def test_adapter__Interface__schema_name__1(zcmlS):
+    """It is the name of the interface."""
+    schema_name = icemac.addressbook.interfaces.ISchemaName(ITitle).schema_name
+    assert 'ITitle' == schema_name
+    assert isinstance(schema_name, unicode)

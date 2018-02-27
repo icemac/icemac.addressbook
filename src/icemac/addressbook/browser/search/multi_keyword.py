@@ -1,4 +1,6 @@
 from icemac.addressbook.i18n import _
+from icemac.addressbook.interfaces import IPerson
+from icemac.addressbook.interfaces import ISchemaName
 import collections
 import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.base
@@ -56,7 +58,10 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
         concat = concat_mapping[concat]
         keywords = tuple(x.title for x in keywords)
         catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
-        result_set = catalog.searchResults(keywords={concat: keywords})
+        result_set = catalog.searchResults(
+            keywords={concat: keywords},
+            schema_name={'any_of': [ISchemaName(IPerson).schema_name]},
+        )
         return result_set
 
 

@@ -186,6 +186,9 @@ def add_more_addressbook_infrastructure(event):
                 zope.catalog.interfaces.ICatalog)
 
         # indexes
+        if 'schema_name' not in catalog:
+            catalog['schema_name'] = zc.catalog.catalogindex.ValueIndex(
+                'schema_name', icemac.addressbook.interfaces.ISchemaName)
         if 'keywords' not in catalog:
             catalog['keywords'] = zc.catalog.catalogindex.SetIndex(
                 'get_titles', icemac.addressbook.interfaces.IKeywordTitles,

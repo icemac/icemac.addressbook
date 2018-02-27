@@ -177,6 +177,18 @@ class KeywordSource(zc.sourcefactory.basic.BasicSourceFactory):
 keyword_source = KeywordSource()
 
 
+class ISchemaProvider(zope.interface.Interface):
+    """Object provides a schema."""
+
+    schema = zope.interface.Attribute('Interface provided by the object.')
+
+
+class ISchemaName(zope.interface.Interface):
+    """Schema name of an entity to be added to the catalog."""
+
+    schema_name = zope.interface.Attribute('Unicode value of the schema name.')
+
+
 class ContextByInterfaceSource(
         zc.sourcefactory.contextual.BasicContextualSourceFactory):
     """Source to select objects from context container by a given interface."""

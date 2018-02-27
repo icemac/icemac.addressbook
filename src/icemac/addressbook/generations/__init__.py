@@ -3,7 +3,7 @@
 import zope.generations.generations
 
 
-GENERATION = 28
+GENERATION = 29
 
 
 manager = zope.generations.generations.SchemaManager(
