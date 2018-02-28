@@ -3,8 +3,13 @@ Change log
 ==========
 
 
-5.1 (unreleased)
+6.0 (unreleased)
 ================
+
+Backward incompatible changes
+-----------------------------
+
+- Add a `schema_name` index to distinguish between entities in the catalog.
 
 Bug fixes
 ---------
