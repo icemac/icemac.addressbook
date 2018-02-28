@@ -30,6 +30,13 @@ def default_title(obj):
     return str(obj)
 
 
+@grok.adapter(Exception)
+@grok.implementer(icemac.addressbook.interfaces.ITitle)
+def exception_title(exc):
+    """Special exception title to prevent lengthy Chameleon output."""
+    return u"<{0.__class__.__name__}{0.args}>".format(exc)
+
+
 @zope.component.adapter(zope.interface.Interface)
 @zope.interface.implementer(icemac.addressbook.principals.interfaces.IRoot)
 def principal_root(principal):
