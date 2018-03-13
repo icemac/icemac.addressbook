@@ -176,7 +176,7 @@ class PreferenceCategoryBreadcrumb(Breadcrumb):
 
 
 class PreferenceGroupBreadcrumb(PreferenceCategoryBreadcrumb):
-    """Breadcrumb for /++preferences++/ --> hidde."""
+    """Breadcrumb for /++preferences++/ --> hide."""
 
     grok.adapts(
         zope.preference.interfaces.IPreferenceGroup,
@@ -186,7 +186,7 @@ class PreferenceGroupBreadcrumb(PreferenceCategoryBreadcrumb):
 
 
 class SystemErrorViewBreadcrumb(Breadcrumb):
-    """Default breadcrumb implementation for views."""
+    """Breadcrumb to render a title for system error views."""
 
     grok.adapts(
         zope.browser.interfaces.ISystemErrorView,
@@ -197,7 +197,7 @@ class SystemErrorViewBreadcrumb(Breadcrumb):
 
 
 class UnauthorizedPageletBreadcrumb(Breadcrumb):
-    """Default breadcrumb implementation for views."""
+    """Do not render a breadcrumb for the unauthorized pagelet."""
 
     grok.adapts(
         z3c.layer.pagelet.interfaces.IUnauthorizedPagelet,
