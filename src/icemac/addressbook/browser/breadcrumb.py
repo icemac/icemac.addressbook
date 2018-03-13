@@ -12,6 +12,7 @@ import zope.contentprovider.provider
 import zope.interface
 import zope.location.interfaces
 import zope.preference.interfaces
+import zope.publisher.interfaces
 import zope.schema
 import zope.traversing.api
 
@@ -207,6 +208,27 @@ class UnauthorizedPageletBreadcrumb(Breadcrumb):
     @property
     def parent(self):
         return icemac.addressbook.interfaces.IAddressBook(self.context)
+
+
+class NotFoundPageletBreadcrumb(Breadcrumb):
+    """Do not render a breadcrumb for the not found pagelet."""
+
+    grok.adapts(
+        z3c.layer.pagelet.interfaces.INotFoundPagelet,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    show = False
+
+
+class NotFoundBreadcrumb(Breadcrumb):
+    """Breadcrumb to render a title for the NotFound exception."""
+
+    grok.adapts(
+        zope.publisher.interfaces.INotFound,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    target_url = None
+    title = _('Not Found')
 
 
 class EntityBreadcrumb(Breadcrumb):
