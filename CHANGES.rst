@@ -27,10 +27,15 @@ Other
 
 - Deprecate the `Manual package installation`_ variant to install this
   package. It will be no longer supported in the next major version.
+  Switch to `Guided package installation`_ now as described in
+  `Upgrade installation`_.
 
 - Update most libraries needed for the address book to their newest versions.
 
 .. _`Manual package installation` : https://icemacaddressbook.readthedocs.io/en/latest/manualinstallation.html
+.. _`Guided package installation` : https://icemacaddressbook.readthedocs.io/en/latest/guidedinstallation.html
+.. _`Upgrade installation` : https://icemacaddressbook.readthedocs.io/en/latest/upgrade-installation-manual-to-guided.html
+
 
 5.0.2 (2017-12-27)
 ==================
