@@ -113,10 +113,10 @@ setuptools.setup(
         test=[
             'WebTest >= 2.0.25.dev0',
             'beautifulsoup4',
+            'gocept.jslint',
             'gocept.selenium >= 2.5',
             'gocept.testing',
             'mock',
-            'gocept.jslint',
             'plone.testing',
             'xlrd',
             'z3c.etestbrowser',
