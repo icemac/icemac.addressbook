@@ -25,8 +25,12 @@ Other
   https://bitbucket.org/icemac/icemac.addressbook/wiki/ to
   https://icemacaddressbook.readthedocs.io
 
+- Deprecate the `Manual package installation`_ variant to install this
+  package. It will be no longer supported in the next major version.
+
 - Update most libraries needed for the address book to their newest versions.
 
+.. _`Manual package installation` : https://icemacaddressbook.readthedocs.io/en/latest/manualinstallation.html
 
 5.0.2 (2017-12-27)
 ==================
