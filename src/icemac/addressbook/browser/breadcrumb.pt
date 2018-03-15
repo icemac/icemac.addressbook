@@ -2,5 +2,5 @@
   <a tal:define="url view/target_url"
       tal:omit-tag="not:url"
       tal:attributes="href url">
-    <span tal:content="view/title"></a>
+    <span tal:content="view/title" /></a>
 </li>
