@@ -118,6 +118,7 @@ setuptools.setup(
             'gocept.testing',
             'mock',
             'plone.testing',
+            'pytest',
             'xlrd',
             'z3c.etestbrowser',
             'zc.buildout',
