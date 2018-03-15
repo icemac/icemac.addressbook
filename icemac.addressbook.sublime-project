@@ -2,9 +2,6 @@
 	"folders":
 	[
 		{
-			"path": "/Users/mac/vcs/privat/addressbook-wiki"
-		},
-		{
 			"folder_exclude_patterns":
 			[
 				".hgcheck"
