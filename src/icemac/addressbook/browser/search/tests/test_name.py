@@ -42,3 +42,16 @@ def test_name__Search__4(search_data, browser):
     assert browser.getLink('Liebig').url.startswith(browser.PERSON_EDIT_URL)
     # The previously entered search string is still there:
     assert 'Lie*' == browser.getControl('Name').value
+
+
+def test_name__Search__5(search_data, browser):
+    """It does not break when searching for `*`.
+
+    But it does not return any results either.
+    """
+    browser.login('visitor')
+    browser.open(browser.SEARCH_BY_NAME_URL)
+    browser.getControl('Name').value = '*'
+    assert 'No person found.' not in browser.contents
+    browser.getControl('Search').click()
+    assert 'No person found.' in browser.contents
