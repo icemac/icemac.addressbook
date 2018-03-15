@@ -16,6 +16,8 @@ Bug fixes
 
 - Fix the breadcrumbs on the about page and the logout page.
 
+- Searching for `*` in name search no longer provokes an error.
+
 Other
 -----
 

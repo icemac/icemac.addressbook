@@ -6,6 +6,7 @@ import icemac.addressbook.browser.menus.menu
 import icemac.addressbook.browser.search.base
 import zope.catalog.interfaces
 import zope.component
+import zope.index.text.parsetree
 import zope.interface
 import zope.schema
 
@@ -39,10 +40,13 @@ class Search(icemac.addressbook.browser.search.base.BaseSearch):
 
     def search(self, search_term):
         catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
-        result_set = catalog.searchResults(
-            name=search_term,
-            schema_name={'any_of': [ISchemaName(IPerson).schema_name]}
-        )
+        try:
+            result_set = catalog.searchResults(
+                name=search_term,
+                schema_name={'any_of': [ISchemaName(IPerson).schema_name]}
+            )
+        except zope.index.text.parsetree.ParseError:
+            result_set = ()
         return result_set
 
 
