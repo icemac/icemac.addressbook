@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-6.0 (unreleased)
+6.0 (2018-03-16)
 ================
 
 Backward incompatible changes
