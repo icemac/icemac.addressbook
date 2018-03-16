@@ -6,29 +6,11 @@ include profiles/prod.cfg
 include profiles/base.cfg
 include profiles/versions.cfg
 
-include bitbucket-pipelines.*
-exclude bitbucket-pipelines.*
-
-include *.sublime-project
-exclude *.sublime-project
-
 exclude *.zcml
 include default_skin.zcml
 
 exclude *.ini
 include install.default.ini
-
-include .travis.cfg
-exclude .travis.cfg
-
-include .travis.yml
-exclude .travis.yml
-
-include .hgtags
-exclude .hgtags
-
-include .hgignore
-exclude .hgignore
 
 exclude MANIFEST.in
 
