@@ -4,6 +4,46 @@
 
 Change log of releases more than 2 minor versions behind current version.
 
+4.0 (2017-04-08)
+================
+
+Backward incompatible changes
+-----------------------------
+
+- Update the tests and test infrastructure to `zope.testbrowser >= 5.x`.
+  This version is no longer built on `mechanize` but on `WebTest`. This
+  requires some changes as the underlying framework is not completely
+  abstracted in `zope.testbrowser`.
+
+- Refactor ``.testing.Webdriver`` to be able to implement the
+  `Page Object Design Pattern`_. ``.testing.Webdriver.login()`` no longer
+  returns a `selenium` object. Page objects have to be registered using
+  ``.testing.Webdriver.attach()``.
+
+- Require the second argument (``path``) of ``.testing.Webdriver.login()`` to
+  reduce the overhead of the selenium login.
+
+
+.. _`Page Object Design Pattern` : http://www.seleniumhq.org/docs/06_test_design_considerations.jsp#page-object-design-pattern
+
+Features
+--------
+
+- The view `@@inspector` now also displays the interfaces of its context.
+
+Fixes
+-----
+
+- Fix styling issue in forms having lists with multiple entries (e. g. possible
+  values of choice field on user defined field of entity).
+
+Other changes
+-------------
+
+- Bring test coverage to 100 % including tests themselves but without webdriver
+  tests.
+
+
 3.0 (2017-02-04)
 ================
 
