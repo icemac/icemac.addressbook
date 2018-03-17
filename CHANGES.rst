@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-6.0.2 (unreleased)
+6.0.2 (2018-03-17)
 ==================
 
 - Fix update process to be again able to copy data from the old installation.
