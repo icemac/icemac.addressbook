@@ -6,7 +6,8 @@ Change log
 6.0.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix update process to be again able to copy data from the old installation.
+  This got broken in 6.0.
 
 
 6.0.1 (2018-03-17)
