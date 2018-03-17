@@ -22,6 +22,14 @@
      />
 
   <z3c:pagelet
+     name="archive_person.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.EditPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.ArchivePersonForm"
+     />
+
+  <z3c:pagelet
      name="delete_person.html"
      for="...interfaces.IPerson"
      permission="icemac.addressbook.EditPerson"
