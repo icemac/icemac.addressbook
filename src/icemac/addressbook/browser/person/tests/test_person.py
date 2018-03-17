@@ -435,6 +435,7 @@ def test_person__PersonEditForm__10(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -478,6 +479,7 @@ def test_person__PersonEditForm__11(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -491,6 +493,7 @@ def test_person__PersonEditForm__12(address_book, UserFactory, browser):
     browser.login('mgr')
     browser.open(browser.PERSON_EDIT_URL)
     assert ['form.buttons.apply',
+            'form.buttons.archive_person',
             'form.buttons.cancel',
             'form.buttons.clone_person',
             'form.buttons.delete_entry',
@@ -624,6 +627,7 @@ def test_person__PersonEditGroup__1(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -672,6 +676,30 @@ def test_person__PersonEditGroup__3(address_book, FullPersonFactory, browser):
     assert IZopeDublinCore(person['HomePageAddress']).modified == dt
     assert IZopeDublinCore(person['EMailAddress']).modified == dt
     assert IZopeDublinCore(person['PostalAddress']).modified == dt
+
+
+@pytest.mark.xfail
+def test_person__ArchivePersonForm__1(address_book, PersonFactory, browser):
+    """It archives a person."""
+    PersonFactory(address_book, u'Tester')
+    browser.login('editor')
+    browser.open(browser.PERSON_EDIT_URL)
+    browser.getControl('Archive person').click()
+    assert browser.PERSON_ARCHIVE_URL == browser.url
+    browser.getControl('Yes').click()
+    assert '"Tester" archived.' == browser.message
+    assert browser.ARCHIVE_URL == browser.url
+    assert 'Tester' in browser.contents
+
+
+def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
+    """It allows to abort archiving."""
+    PersonFactory(address_book, u'Tester')
+    browser.login('editor')
+    browser.open(browser.PERSON_ARCHIVE_URL)
+    browser.getControl('No, cancel').click()
+    assert browser.PERSON_EDIT_URL == browser.url
+    assert 'Tester' in browser.contents
 
 
 def test_person__ClonePersonForm__1(person_with_field_data, browser):
