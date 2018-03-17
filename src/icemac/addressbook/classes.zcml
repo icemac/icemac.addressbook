@@ -54,6 +54,10 @@
       set_attributes="__annotations__"
       />
     <require
+      permission="icemac.addressbook.EditPerson"
+      interface=".interfaces.IPersonArchiving"
+      />
+    <require
        permission="icemac.addressbook.EditPersonContents"
        interface="zope.container.interfaces.IWriteContainer"
        />

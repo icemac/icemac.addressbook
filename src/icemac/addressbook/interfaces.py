@@ -235,6 +235,13 @@ class IPerson(IPersonName, IPersonData):
     """A person."""
 
 
+class IPersonArchiving(zope.interface.Interface):
+    """Methods regarding archiving of a person."""
+
+    def archive():
+        """Move the person to the archive."""
+
+
 class IPersonEntity(zope.interface.Interface):
     """Entity of a person."""
 
