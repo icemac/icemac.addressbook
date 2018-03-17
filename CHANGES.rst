@@ -3,10 +3,11 @@ Change log
 ==========
 
 
-6.1 (unreleased)
-================
+6.0.1 (unreleased)
+==================
 
-- Nothing changed yet.
+- No longer build `lxml` via buildout recipe, as it might break and the
+  installation procedure of `lxml` should now be stable enough.
 
 
 6.0 (2018-03-16)
