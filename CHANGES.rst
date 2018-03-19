@@ -3,10 +3,10 @@ Change log
 ==========
 
 
-6.0.3 (unreleased)
-==================
+6.1 (unreleased)
+================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
 
 
 6.0.2 (2018-03-17)
