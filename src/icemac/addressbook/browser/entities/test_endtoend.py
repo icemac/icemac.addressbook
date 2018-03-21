@@ -16,10 +16,10 @@ class POEntities(WebdriverPageObjectBase):
     def get_pos(self, pos):
         return self._selenium.getText(self._ENTITY_SELECTOR.format(pos))
 
-    def move_to(self, pos, target):
-        self._selenium.dragAndDropToObject(
+    def move_by_y(self, pos, y_pos):
+        self._selenium.dragAndDrop(
             self._ENTITY_SELECTOR.format(pos),
-            self._ENTITY_SELECTOR.format(target))
+            "0,{}".format(y_pos))
 
     def save(self):
         self._selenium.click("entity-fields-save")
@@ -36,11 +36,12 @@ def test_FieldOrder__1_webdriver(address_book, webdriver):
     webdriver.login('mgr', entities.ENTITY_PERSON_LIST_FIELDS_URL)
     assert 'first name' == entities.get_pos(1)
     assert 'keywords' == entities.get_pos(4)
-    entities.move_to(4, 1)
+    entities.move_by_y(4, -70)  # -70 px is somewhat above pos 1
     # After saving the field is still on the first position:
     entities.save()
     assert 'Saved sortorder.' == webdriver.message
     assert 'keywords' == entities.get_pos(1)
+    assert 'first name' == entities.get_pos(2)
 
 
 def test_FieldOrder__2(address_book, browser):
