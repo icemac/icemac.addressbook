@@ -36,7 +36,7 @@ def test_FieldOrder__1_webdriver(address_book, webdriver):
     webdriver.login('mgr', entities.ENTITY_PERSON_LIST_FIELDS_URL)
     assert 'first name' == entities.get_pos(1)
     assert 'keywords' == entities.get_pos(4)
-    entities.move_by_y(4, -70)  # -70 px is somewhat above pos 1
+    entities.move_by_y(4, -74)  # -74 px is somewhat above pos 1
     # After saving the field is still on the first position:
     entities.save()
     assert 'Saved sortorder.' == webdriver.message
