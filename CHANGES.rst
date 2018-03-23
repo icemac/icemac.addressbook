@@ -6,7 +6,21 @@ Change log
 6.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
+
+
+6.0.2 (2018-03-17)
+==================
+
+- Fix update process to be again able to copy data from the old installation.
+  This got broken in 6.0.
+
+
+6.0.1 (2018-03-17)
+==================
+
+- No longer build `lxml` via buildout recipe, as it might break and the
+  installation procedure of `lxml` should now be stable enough.
 
 
 6.0 (2018-03-16)

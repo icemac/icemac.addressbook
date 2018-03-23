@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.interfaces import IKeyword
 from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 import pytest
 
 
@@ -16,10 +17,18 @@ class POEntities(WebdriverPageObjectBase):
     def get_pos(self, pos):
         return self._selenium.getText(self._ENTITY_SELECTOR.format(pos))
 
-    def move_to(self, pos, target):
-        self._selenium.dragAndDropToObject(
-            self._ENTITY_SELECTOR.format(pos),
-            self._ENTITY_SELECTOR.format(target))
+    def move_entity_on_pos_to_pos(self, start_pos, target_pos):
+        """Move the entity on position `start_pos`  to `target_pos`."""
+        chain = ActionChains(self._selenium.selenium)
+        chain.click_and_hold(
+            self._selenium._find(self._ENTITY_SELECTOR.format(start_pos)))
+        # We have to move the element some pixels away from the target element,
+        # so jQueryUI can detect the move:
+        chain.move_to_element_with_offset(
+            self._selenium._find(self._ENTITY_SELECTOR.format(target_pos)),
+            0, 2)
+        chain.release(None)
+        chain.perform()
 
     def save(self):
         self._selenium.click("entity-fields-save")
@@ -36,11 +45,12 @@ def test_FieldOrder__1_webdriver(address_book, webdriver):
     webdriver.login('mgr', entities.ENTITY_PERSON_LIST_FIELDS_URL)
     assert 'first name' == entities.get_pos(1)
     assert 'keywords' == entities.get_pos(4)
-    entities.move_to(4, 1)
+    entities.move_entity_on_pos_to_pos(4, 1)
     # After saving the field is still on the first position:
     entities.save()
     assert 'Saved sortorder.' == webdriver.message
     assert 'keywords' == entities.get_pos(1)
+    assert 'first name' == entities.get_pos(2)
 
 
 def test_FieldOrder__2(address_book, browser):
