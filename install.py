@@ -37,6 +37,16 @@ def copy_dir(src_base, dest_base, *path_parts):
     shutil.copytree(src_dir, dest_dir)
 
 
+def delete_dir_contents(*path_parts):
+    """Remove the contents of a directory, but keep the directory.
+
+    Currently it is deleted and recreated afterwards.
+    """
+    path = os.path.join(*path_parts)
+    shutil.rmtree(path)
+    os.mkdir(path)
+
+
 def migrate():
     """Migrate an old address book instance."""
     # Read the ini file the configurator just created to get the
@@ -73,6 +83,11 @@ def migrate():
 
     run_process('Restoring backup into new instance',
                 os.path.join('bin', 'snapshotrestore'), '--no-prompt')
+
+    # Backups are no longer needed after successful restore:
+    delete_dir_contents(cwd, 'var', 'blobstoragesnapshots')
+    delete_dir_contents(cwd, 'var', 'snapshotbackups')
+
     if bool_get(config, 'start_server'):
         run_process('Starting new instance', demon_path, 'start')
 
