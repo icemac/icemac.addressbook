@@ -3,8 +3,23 @@ Change log
 ==========
 
 
-6.1 (unreleased)
+7.0 (unreleased)
 ================
+
+Backward incompatible changes
+-----------------------------
+
+- Move function ``.testing.assert_forbidden()`` as a method to
+  ``.testing.Browser.assert_forbidden()`` and expect that the user is already
+  logged-in thus no longer requiring ``username`` as argument.
+
+Features
+--------
+
+- Add a `schema_name` index to distinguish between entities in the catalog.
+
+Other
+-----
 
 - Update most libraries needed for the address book to their newest versions.
 

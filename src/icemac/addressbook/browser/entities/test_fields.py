@@ -1,5 +1,4 @@
 from icemac.addressbook.interfaces import IPerson, IEntity
-from icemac.addressbook.testing import assert_forbidden
 from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 import zope.component.hooks
@@ -17,34 +16,38 @@ def test_fields__security__1(address_book, browser, username):
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
 def test_fields__security__2(address_book, browser, username):
     """A user with a non-admin role cannot access the view to edit entities."""
-    assert_forbidden(browser, username, browser.ENTITIES_EDIT_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITIES_EDIT_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
 def test_fields__security__3(address_book, browser, username):
     """A non-admin cannot access the view to edit fields of an entity."""
-    assert_forbidden(browser, username, browser.ENTITY_PERSON_LIST_FIELDS_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITY_PERSON_LIST_FIELDS_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
 def test_fields__security__4(address_book, browser, username):
     """A non-admin cannot add a new user defined field."""
-    assert_forbidden(browser, username, browser.ENTITY_PERSON_ADD_FIELD_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITY_PERSON_ADD_FIELD_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
 def test_fields__security__5(address_book, FieldFactory, browser, username):
     """A a non-admin cannot edit a user defined field."""
     FieldFactory(address_book, IPerson, 'TextLine', u'baz')
-    assert_forbidden(browser, username, browser.ENTITIY_PERSON_EDIT_FIELD_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITIY_PERSON_EDIT_FIELD_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
 def test_fields__security__6(address_book, FieldFactory, browser, username):
     """A a non-admin cannot delete a user defined field."""
     FieldFactory(address_book, IPerson, 'TextLine', u'baz')
-    assert_forbidden(
-        browser, username, browser.ENTITIY_PERSON_DELETE_FIELD_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITIY_PERSON_DELETE_FIELD_URL)
 
 
 def test_fields__List__fields__1(address_book, browser):

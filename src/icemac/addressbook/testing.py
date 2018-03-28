@@ -345,6 +345,12 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
             '//li[@id="form-widgets-favicon-0"]')[0].attrib['data-value']
         self.getControl(name='form.widgets.favicon:list').value = icon
 
+    def assert_forbidden(self, url):
+        """Assert accessing a URL is forbidden for the current user."""
+        with pytest.raises(zope.testbrowser.browser.HTTPError) as err:
+            self.open(url)
+        assert 'HTTP Error 403: Forbidden' == str(err.value)
+
     def _get_control_names(self, interface, form):
         """Get a sorted list of names of controls providing `interface`."""
         return sorted([control.name
@@ -555,13 +561,6 @@ Webdriver.attach(POPreferences, 'prefs')
 
 
 # assertion helper functions and helper classes
-
-def assert_forbidden(browser, username, url):
-    """Assert accessing a URL is forbidden for a user."""
-    browser.login(username)
-    with pytest.raises(zope.testbrowser.browser.HTTPError) as err:
-        browser.open(url)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
 
 
 class SiteMenu(object):

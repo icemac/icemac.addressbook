@@ -4,7 +4,6 @@ from icemac.addressbook.interfaces import IEntityOrder, IEntity
 from icemac.addressbook.interfaces import IPerson, IPostalAddress
 from icemac.addressbook.testing import set_modified, delete_field
 from zope.dublincore.interfaces import IZopeDublinCore
-from zope.testbrowser.browser import HTTPError
 import gocept.country.db
 import pytest
 import zope.component.hooks
@@ -57,9 +56,7 @@ def test_person__PersonAddForm__1(address_book, browser):
 def test_person__PersonAddForm__2(address_book, browser):
     """`PersonAddForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PERSON_ADD_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PERSON_ADD_URL)
 
 
 def test_person__PersonAddForm__3(address_book, browser):
@@ -740,9 +737,7 @@ def test_person__ClonePersonForm__2(address_book, FullPersonFactory, browser):
     """`ClonePersonForm` cannot be accessed by a visitor."""
     FullPersonFactory(address_book, u'Test')
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PERSON_CLONE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PERSON_CLONE_URL)
 
 
 def test_person__DefaultSelectGroup__1(person_data, browser):
@@ -862,9 +857,7 @@ def test_person__DeleteSingleEntryForm__1(person_data, browser):
 def test_person__DeleteSingleEntryForm__2(person_data, browser):
     """It cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PERSON_DELETE_ENTRY_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PERSON_DELETE_ENTRY_URL)
 
 
 def test_person__DeleteSingleEntryForm__3(person_data, browser):
@@ -903,9 +896,7 @@ def test_person__DeletePersonForm__2(person_data, browser):
 def test_person__DeletePersonForm__3(person_data, browser):
     """`DeletePersonForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PERSON_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PERSON_DELETE_URL)
 
 
 def test_person__DeletePersonForm__4(address_book, UserFactory, browser):

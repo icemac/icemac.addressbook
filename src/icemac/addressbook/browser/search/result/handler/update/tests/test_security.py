@@ -1,5 +1,5 @@
+from icemac.addressbook.testing import Browser
 import pytest
-from icemac.addressbook.testing import Browser, assert_forbidden
 
 
 @pytest.mark.parametrize('username', ('visitor', 'editor'))
@@ -32,4 +32,5 @@ def test_update__security__2(search_data, browser, url, username):
     This is even right when he knows the URLs.
 
     """
-    assert_forbidden(browser, username, url)
+    browser.login(username)
+    browser.assert_forbidden(url)

@@ -1,4 +1,3 @@
-from zope.testbrowser.browser import HTTPError
 import pytest
 
 
@@ -209,6 +208,4 @@ def test_keyword__DeleteForm__4(address_book, KeywordFactory, browser):
     """A visitor is not able to open the `DeleteForm` even he knows the URL."""
     KeywordFactory(address_book, u'work')
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.KEYWORD_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.KEYWORD_DELETE_URL)
