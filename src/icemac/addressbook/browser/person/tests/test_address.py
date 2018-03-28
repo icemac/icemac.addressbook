@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-from zope.testbrowser.browser import HTTPError
-import pytest
-
-
 def test_address__menu__1(person_data, browser):
     """The entries in the add menu have a specific sort order."""
     browser.login('editor')
@@ -153,9 +149,7 @@ def test_address__DeletePostalAddressForm__3(person_data, browser):
 def test_address__DeletePostalAddressForm__4(person_data, browser):
     """`DeletePostalAddressForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.POSTAL_ADDRESS_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.POSTAL_ADDRESS_DELETE_URL)
 
 
 def test_address__DeletePhoneNumberForm__1(person_data, browser):
@@ -175,9 +169,7 @@ def test_address__DeletePhoneNumberForm__1(person_data, browser):
 def test_address__DeletePhoneNumberForm__2(person_data, browser):
     """`DeletePhoneNumberForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PHONE_NUMBER_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PHONE_NUMBER_DELETE_URL)
 
 
 def test_address__DeleteEMailAddressForm__1(person_data, browser):
@@ -197,9 +189,7 @@ def test_address__DeleteEMailAddressForm__1(person_data, browser):
 def test_address__DeleteEMailAddressForm__2(person_data, browser):
     """`DeleteEMailAddressForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.EMAIL_ADDRESS_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.EMAIL_ADDRESS_DELETE_URL)
 
 
 def test_address__DeleteHomePageAddressForm__1(person_data, browser):
@@ -219,6 +209,4 @@ def test_address__DeleteHomePageAddressForm__1(person_data, browser):
 def test_address__DeleteHomePageAddressForm__2(person_data, browser):
     """`DeleteHomePageAddressForm` cannot be accessed by a visitor."""
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.HOMEPAGE_ADDRESS_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.HOMEPAGE_ADDRESS_DELETE_URL)

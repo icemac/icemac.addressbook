@@ -1,5 +1,4 @@
 import pytest
-from icemac.addressbook.testing import assert_forbidden
 
 
 def test_inspector__Inspector__show_context__1(address_book, browser):
@@ -44,16 +43,19 @@ def test_inspector__Inspector__show_context__3(address_book, browser):
 @pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
 def test_inspector__Inspector__1(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on a view."""
-    assert_forbidden(browser, username, browser.INSPECTOR_VIEW_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.INSPECTOR_VIEW_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
 def test_inspector__Inspector__2(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on an object."""
-    assert_forbidden(browser, username, browser.INSPECTOR_OBJECT_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.INSPECTOR_OBJECT_URL)
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
 def test_inspector__Inspector__3(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on the root object."""
-    assert_forbidden(browser, username, browser.INSPECTOR_ROOT_OBJECT_URL)
+    browser.login(username)
+    browser.assert_forbidden(browser.INSPECTOR_ROOT_OBJECT_URL)
