@@ -18,6 +18,8 @@ Features
 
 - Add a `schema_name` index to distinguish between entities in the catalog.
 
+- Add an archive user who is only to manage a future archive.
+
 Other
 -----
 

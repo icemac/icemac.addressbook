@@ -103,7 +103,7 @@ def test_file__Add__4(address_book, FieldFactory, FullPersonFactory, browser):
 
 
 def test_file__Add__5(address_book, FullPersonFactory, browser):
-    """`Add` cannot be accessed by a visitor."""
+    """It cannot be accessed by a visitor."""
     FullPersonFactory(address_book, u'Tester')
     browser.login('visitor')
     browser.open(browser.PERSON_EDIT_URL)
@@ -111,6 +111,13 @@ def test_file__Add__5(address_book, FullPersonFactory, browser):
     with pytest.raises(LinkNotFoundError):
         browser.getLink('file').click()
     # Direct access to the URL is forbidden:
+    browser.assert_forbidden(browser.FILE_ADD_URL)
+
+
+def test_file__Add__5_2(address_book, FullPersonFactory, browser):
+    """It cannot be accessed by an archivist."""
+    FullPersonFactory(address_book, u'Tester')
+    browser.login('archivist')
     browser.assert_forbidden(browser.FILE_ADD_URL)
 
 
@@ -207,10 +214,11 @@ def test_file__DeleteFileForm__1(
         "label 'file name'\nIndex 1 out of range, available choices are 0...0")
 
 
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
 def test_file__DeleteFileForm__2(
-        address_book, FullPersonFactory, FileFactory, browser):
-    """`DeleteFileForm` cannot be accessed by a visitor."""
+        address_book, FullPersonFactory, FileFactory, browser, loginname):
+    """`DeleteFileForm` cannot be accessed by some roles."""
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
                 data='boring text')
-    browser.login('visitor')
+    browser.login(loginname)
     browser.assert_forbidden(browser.FILE_DELETE_URL)

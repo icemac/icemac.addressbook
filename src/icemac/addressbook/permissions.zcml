@@ -60,6 +60,11 @@
     title="XXX"
     />
 
+  <permission
+    id="icemac.addressbook.ListPersons"
+    title="List the persons in the address book or search for them."
+    />
+
   <!-- PostalAddress -->
   <permission
     id="icemac.addressbook.AddPostalAddress"
