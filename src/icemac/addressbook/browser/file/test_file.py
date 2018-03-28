@@ -2,7 +2,7 @@
 from StringIO import StringIO
 from icemac.addressbook.browser.file.file import cleanup_filename
 from icemac.addressbook.file.interfaces import IFile
-from zope.testbrowser.browser import HTTPError, LinkNotFoundError
+from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 
 
@@ -108,12 +108,10 @@ def test_file__Add__5(address_book, FullPersonFactory, browser):
     browser.login('visitor')
     browser.open(browser.PERSON_EDIT_URL)
     # There is no add link
-    with pytest.raises(LinkNotFoundError) as err:
+    with pytest.raises(LinkNotFoundError):
         browser.getLink('file').click()
     # Direct access to the URL is forbidden:
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.FILE_ADD_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.FILE_ADD_URL)
 
 
 def test_file__Add__6(address_book, FullPersonFactory, browser, tmpfile):
@@ -215,6 +213,4 @@ def test_file__DeleteFileForm__2(
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
                 data='boring text')
     browser.login('visitor')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.FILE_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.FILE_DELETE_URL)

@@ -91,9 +91,5 @@ def test_entities__DownLinkColumn__1(address_book, browser):
 def test_entities__security__1(address_book, browser, username):
     """Non-admin users are not able to change the entity sort order."""
     browser.login(username)
-    with pytest.raises(HTTPError) as err:
-        browser.open(UP_LINK_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
-    with pytest.raises(HTTPError) as err:
-        browser.open(DOWN_LINK_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(UP_LINK_URL)
+    browser.assert_forbidden(DOWN_LINK_URL)
