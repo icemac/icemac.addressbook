@@ -195,9 +195,7 @@ def test_principals__AddForm__5(localadmin, address_book, FullPersonFactory):
 def test_principals__AddForm__6(address_book, browser, user):
     """`AddForm` cannot be accessed by a visitor or an editor."""
     browser.login(user)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PRINCIPAL_ADD_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PRINCIPAL_ADD_URL)
 
 
 def test_principals__AddForm__7(address_book, UserFactory, localadmin):
@@ -371,9 +369,7 @@ def test_principals__EditForm__7(
                 'u1u2u3u4', ['Visitor'])
     # As a visitor the user not able to create new persons:
     browser = browser2.formlogin(u'uu@example.com', 'u1u2u3u4')
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PERSON_ADD_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PERSON_ADD_URL)
     # When the administrator changes the roles of a user ...
     localadmin.open(localadmin.PRINCIPAL_EDIT_URL)
     localadmin.getControl('roles').displayValue = ['Editor']
@@ -400,12 +396,10 @@ def test_principals__EditForm__8(
     assert 'Data successfully updated.' == localadmin.message
     assert localadmin.PRINCIPALS_LIST_URL == localadmin.url
     # ... he gets an exception that he is forbidden to see the page:
-    with pytest.raises(HTTPError) as err:
-        browser.open(url)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(url)
     # When he logs in again he gets an error message telling him that he has
     # not enough permissions to see anything:
-    with pytest.raises(HTTPError) as err:
+    with pytest.raises(HTTPError):
         browser3.formlogin(u'uu@example.com', 'u1u2u3u4')
     assert 'You have been logged-in successfully.' == browser3.message
     assert 'You are not authorized.' in browser.contents
@@ -441,6 +435,4 @@ def test_principals__DeleteUserForm__3(
     UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',
                 'u1u2u3u4', ['Visitor'])
     browser.login(username)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.PRINCIPAL_DELETE_URL_1)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.PRINCIPAL_DELETE_URL_1)

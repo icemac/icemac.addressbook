@@ -1,4 +1,4 @@
-from zope.testbrowser.browser import HTTPError, LinkNotFoundError
+from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 
 
@@ -85,9 +85,7 @@ def test_crud__EditForm__3(address_book, browser, loginname):
     with pytest.raises(LinkNotFoundError):
         browser.getLink('Address book')
     # Even opening the URL is not possible:
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.ADDRESS_BOOK_EDIT_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.ADDRESS_BOOK_EDIT_URL)
 
 
 def test_crud__DeleteContentForm__1(
@@ -140,9 +138,7 @@ def test_crud__DeleteContentForm__2(address_book, PersonFactory, browser):
 def test_crud__DeleteContentForm__3(address_book, browser, loginname):
     """Some roles are not allowed to delete all persons in address book."""
     browser.login(loginname)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.ADDRESS_BOOK_DELETE_PERSONS_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.ADDRESS_BOOK_DELETE_PERSONS_URL)
 
 
 def test_crud__DeleteForm__1(address_book, UserFactory, browser):
@@ -174,9 +170,7 @@ def test_crud__DeleteForm__2(address_book, UserFactory, browser):
 def test_crud__DeleteForm__3(address_book, browser, user):
     """Non-admin users are not able to access `DeleteForm`."""
     browser.login(user)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.ADDRESS_BOOK_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.ADDRESS_BOOK_DELETE_URL)
 
 
 def test_crud__welcome_pt__1(address_book, browser):

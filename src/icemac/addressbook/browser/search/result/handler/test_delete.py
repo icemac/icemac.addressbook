@@ -1,4 +1,3 @@
-from zope.testbrowser.browser import HTTPError
 import pytest
 
 
@@ -64,6 +63,4 @@ def test_delete__DeleteForm__3(search_data, browser, role):
          "iCalendar export birthday (Export person's birthdays as "
          ".ics file.)"] ==
         browser.getControl('Apply on selected persons').displayOptions)
-    with pytest.raises(HTTPError) as err:
-        browser.open(browser.SEARCH_DELETE_URL)
-    assert 'HTTP Error 403: Forbidden' == str(err.value)
+    browser.assert_forbidden(browser.SEARCH_DELETE_URL)
