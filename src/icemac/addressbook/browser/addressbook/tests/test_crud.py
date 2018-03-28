@@ -75,7 +75,7 @@ def test_crud__EditForm__2(address_book, browser):
     assert 'ftest-ab' == browser.getControl('title').value
 
 
-@pytest.mark.parametrize("loginname", ('editor', 'visitor'))
+@pytest.mark.parametrize("loginname", ('editor', 'visitor', 'archivist'))
 def test_crud__EditForm__3(address_book, browser, loginname):
     """Some roles are not allowed to edit address book's data."""
     # There is no link to edit the address book's data (title) because
@@ -134,7 +134,7 @@ def test_crud__DeleteContentForm__2(address_book, PersonFactory, browser):
     assert browser.ADDRESS_BOOK_EDIT_URL == browser.url
 
 
-@pytest.mark.parametrize("loginname", ('editor', 'visitor'))
+@pytest.mark.parametrize("loginname", ('editor', 'visitor', 'archivist'))
 def test_crud__DeleteContentForm__3(address_book, browser, loginname):
     """Some roles are not allowed to delete all persons in address book."""
     browser.login(loginname)
@@ -166,7 +166,7 @@ def test_crud__DeleteForm__2(address_book, UserFactory, browser):
     assert browser.ROOT_URL_WITHOUT_SLASH == browser.url
 
 
-@pytest.mark.parametrize('user', ['visitor', 'editor'])
+@pytest.mark.parametrize('user', ['visitor', 'editor', 'archivist'])
 def test_crud__DeleteForm__3(address_book, browser, user):
     """Non-admin users are not able to access `DeleteForm`."""
     browser.login(user)

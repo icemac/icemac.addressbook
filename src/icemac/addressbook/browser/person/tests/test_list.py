@@ -471,3 +471,9 @@ def test_list__PersonList__19i(some_persons, browser):
             browser.url)
     assert (['Streber', 'Gunter', 'Tester', 'Hans', 'Utzer'] ==
             browser.etree.xpath(xpath))
+
+
+def test_list__PersonList__20(address_book, browser):
+    """It cannot be accessed by an archivist user."""
+    browser.login('archivist')
+    browser.assert_forbidden(browser.PERSONS_LIST_URL)

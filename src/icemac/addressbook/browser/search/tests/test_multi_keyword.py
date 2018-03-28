@@ -61,3 +61,9 @@ def test_multi_keyword__Search__6(search_data, browser):
     browser.getControl('Search').click()
     assert (['Hohmuth', 'Koch', 'Velleuer'] ==
             browser.etree.xpath('//table/tbody/tr/td/a/text()'))
+
+
+def test_multi_keyword__Search__7(address_book, browser):
+    """It cannot be accessed by an archivist."""
+    browser.login('archivist')
+    browser.assert_forbidden(browser.SEARCH_BY_KEYWORD_URL)
