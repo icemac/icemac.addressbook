@@ -23,6 +23,6 @@ def has_editor_role(roles):
 
 
 def has_visitor_role(roles):
-    """Tell whether an editor role is in `roles`."""
+    """Tell whether a visitor role is in `roles`."""
     return _has_role(
         roles, icemac.addressbook.principals.interfaces.IVisitorRole)
