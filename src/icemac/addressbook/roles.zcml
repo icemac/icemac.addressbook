@@ -86,6 +86,7 @@
      permissions="
         icemac.addressbook.EditAllPreferences
         icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewArchive
         icemac.addressbook.ViewSomePrincipals
         z3c.preference.EditPreference
         zope.View
@@ -127,6 +128,7 @@
         icemac.addressbook.EditPostalAddress
         icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewArchive
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress

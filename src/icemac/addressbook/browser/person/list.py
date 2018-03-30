@@ -14,6 +14,7 @@ class PersonList(
     """List persons in address book."""
 
     title = _('Person list')
+    listing_title = _('Persons')
     no_rows_message = _(
         u'There are no persons entered yet, click on "Add person" to create '
         u'one.')

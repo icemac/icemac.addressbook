@@ -173,4 +173,15 @@
     title="XXX"
     />
 
+  <!-- Archive of persons -->
+  <permission
+    id="icemac.addressbook.EditArchive"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewArchive"
+    title="XXX"
+    />
+
 </configure>
