@@ -8,12 +8,12 @@ import zope.component
 
 
 def test_person__Person__1():
-    """It fulfills the `IPerson` interface."""
+    """It fulfils the `IPerson` interface."""
     assert gocept.reference.verify.verifyObject(IPerson, Person())
 
 
 def test_person__Person__2():
-    """It fulfills the `IPersonDefaults` interface."""
+    """It fulfils the `IPersonDefaults` interface."""
     assert gocept.reference.verify.verifyObject(IPersonDefaults, Person())
 
 
