@@ -1,10 +1,10 @@
-import zope.component
-from icemac.addressbook.person import Person, Keywords
-from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
-from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
 from icemac.addressbook.interfaces import IEntityOrder
+from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
+from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
 from icemac.addressbook.interfaces import ISchemaName
+from icemac.addressbook.person import Person, Keywords
 import gocept.reference.verify
+import zope.component
 
 
 def test_person__Person__1():
