@@ -1,5 +1,5 @@
 <tal:i18n i18n:domain="icemac.addressbook">
-  <h2 i18n:translate="">Persons</h2>
+  <h2 tal:content="view/listing_title">Persons</h2>
   <div tal:replace="structure view/renderTable" />
   <div class="batch">
     <div tal:replace="structure view/renderBatch" />

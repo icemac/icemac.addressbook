@@ -1,6 +1,7 @@
 from icemac.addressbook.addressbook import AddressBook
 from icemac.addressbook.addressbook import create_address_book_infrastructure
 from icemac.addressbook.interfaces import IAddressBook, IKeywords, IEntities
+from icemac.addressbook.interfaces import IArchive
 from icemac.addressbook.interfaces import IOrderStorage, ENTITIES
 import zope.authentication.interfaces
 import zope.catalog.interfaces
@@ -127,3 +128,8 @@ def test_addressbook__get_address_book__1(address_book):
     """Any object can be adated to IAddressBook to get the current one."""
     assert address_book == IAddressBook(42)
     assert address_book == IAddressBook(None)
+
+
+def test_addressbook__Archive__1(address_book):
+    """It fulfils the `IArchive` interface."""
+    zope.interface.verify.verifyObject(IArchive, address_book.archive)

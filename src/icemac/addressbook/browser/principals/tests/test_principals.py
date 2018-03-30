@@ -191,7 +191,7 @@ def test_principals__AddForm__5(localadmin, address_book, FullPersonFactory):
             browser.etree.xpath('//div[@class="error"]/text()'))
 
 
-@pytest.mark.parametrize('user', ['visitor', 'editor'])
+@pytest.mark.parametrize('user', ['visitor', 'editor', 'archivist'])
 def test_principals__AddForm__6(address_book, browser, user):
     """`AddForm` cannot be accessed by a visitor or an editor."""
     browser.login(user)
@@ -428,7 +428,7 @@ def test_principals__DeleteUserForm__2(address_book, UserFactory, localadmin):
     assert browser.PRINCIPAL_EDIT_URL == browser.url
 
 
-@pytest.mark.parametrize('username', ['visitor', 'editor'])
+@pytest.mark.parametrize('username', ['visitor', 'editor', 'archivist'])
 def test_principals__DeleteUserForm__3(
         address_book, UserFactory, browser, username):
     """Non-Admin users cannot access `DeleteUserForm`."""

@@ -87,7 +87,7 @@ def test_entities__DownLinkColumn__1(address_book, browser):
         '//tbody/tr[last()]/td/a/text()')
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_entities__security__1(address_book, browser, username):
     """Non-admin users are not able to change the entity sort order."""
     browser.login(username)
