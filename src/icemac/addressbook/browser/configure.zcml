@@ -314,6 +314,7 @@
 
   <include package=".about" />
   <include package=".addressbook" />
+  <include package=".archive" />
   <include package=".authentication" />
   <include package=".entities" />
   <include package=".file" />

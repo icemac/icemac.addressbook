@@ -233,6 +233,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     PREFS_TIMEZONE_URL = (
         'http://localhost/ab/++preferences++/ab.timeZone/@@index.html')
 
+    ARCHIVE_URL = ADDRESS_BOOK_DEFAULT_URL + '/++attribute++archive'
+
     INSPECTOR_VIEW_URL = PERSONS_LIST_URL + '/@@inspector'
     INSPECTOR_OBJECT_URL = KEYWORDS_LIST_URL + '/@@inspector'
     INSPECTOR_ROOT_OBJECT_URL = ROOT_URL + '/@@inspector'
