@@ -13,28 +13,28 @@ def test_fields__security__1(address_book, browser, username):
         browser.getLink('Entities')
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_fields__security__2(address_book, browser, username):
     """A user with a non-admin role cannot access the view to edit entities."""
     browser.login(username)
     browser.assert_forbidden(browser.ENTITIES_EDIT_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_fields__security__3(address_book, browser, username):
     """A non-admin cannot access the view to edit fields of an entity."""
     browser.login(username)
     browser.assert_forbidden(browser.ENTITY_PERSON_LIST_FIELDS_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_fields__security__4(address_book, browser, username):
     """A non-admin cannot add a new user defined field."""
     browser.login(username)
     browser.assert_forbidden(browser.ENTITY_PERSON_ADD_FIELD_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_fields__security__5(address_book, FieldFactory, browser, username):
     """A a non-admin cannot edit a user defined field."""
     FieldFactory(address_book, IPerson, 'TextLine', u'baz')
@@ -42,7 +42,7 @@ def test_fields__security__5(address_book, FieldFactory, browser, username):
     browser.assert_forbidden(browser.ENTITIY_PERSON_EDIT_FIELD_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'archivist'))
 def test_fields__security__6(address_book, FieldFactory, browser, username):
     """A a non-admin cannot delete a user defined field."""
     FieldFactory(address_book, IPerson, 'TextLine', u'baz')

@@ -150,6 +150,11 @@ def create_address_book_infrastructure(addressbook, event=None):
     add_entity_to_order(orders, icemac.addressbook.file.interfaces.IFile)
     add_entity_to_order(orders, icemac.addressbook.interfaces.IKeyword)
 
+    # add person archive utility
+    create_and_register(
+        addressbook, 'archive', Archive,
+        icemac.addressbook.interfaces.IArchive)
+
     zope.event.notify(AddressBookCreated(addressbook))
 
 
@@ -221,3 +226,8 @@ def add_more_addressbook_infrastructure(event):
         icemac.addressbook.preferences.default.add(addressbook)
     finally:
         zope.component.hooks.setSite(old_site)
+
+
+@zope.interface.implementer(icemac.addressbook.interfaces.IArchive)
+class Archive(zope.container.btree.BTreeContainer):
+    """Archive container for persons."""
