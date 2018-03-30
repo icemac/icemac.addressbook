@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import transaction
 from ..list import PersonList
 from icemac.addressbook.fieldsource import tokenize
 from icemac.addressbook.interfaces import IEMailAddress
@@ -12,6 +11,7 @@ import gocept.country.db
 import icemac.addressbook.testing
 import pytest
 import pytz
+import transaction
 import zope.component.hooks
 import zope.interface
 
