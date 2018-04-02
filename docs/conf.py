@@ -140,7 +140,7 @@ html_favicon = "../src/icemac/addressbook/browser/resources/img/favicon-red.ico"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['static']
+# html_static_path = ['static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -279,3 +279,4 @@ intersphinx_mapping = {
 autodoc_default_flags = ['members', 'show-inheritance']
 autoclass_content = 'both'
 autodoc_member_order = 'bysource'
+smartquotes_locales = []
