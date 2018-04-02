@@ -56,6 +56,16 @@
   <grant role="icemac.addressbook.global.Visitor"
          principal="icemac.addressbook.global.Visitor" />
 
+  <!-- Principal who can manage the archive. -->
+  <principal
+      id="icemac.addressbook.global.Archivist"
+      title="global archivist"
+      login="archivist"
+      password="archivist"
+      />
+  <grant role="icemac.addressbook.global.Archivist"
+         principal="icemac.addressbook.global.Archivist" />
+
   <browser:view
     for="zope.site.interfaces.IFolder"
     layer=".browser.interfaces.IAddressBookLayer"
