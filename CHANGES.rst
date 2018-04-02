@@ -18,6 +18,9 @@ Features
 
 - Add a `schema_name` index to distinguish between entities in the catalog.
 
+- Add an ability disable `handle_errors` to debug all exception types.
+  See https://icemacaddressbook.readthedocs.io/en/latest/hacking.html
+
 Other
 -----
 
