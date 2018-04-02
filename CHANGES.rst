@@ -18,6 +18,8 @@ Features
 
 - Add a `schema_name` index to distinguish between entities in the catalog.
 
+- Add an archive and an archivist role who is only able to manage the archive.
+
 - Add an ability disable `handle_errors` to debug all exception types.
   See https://icemacaddressbook.readthedocs.io/en/latest/hacking.html
 

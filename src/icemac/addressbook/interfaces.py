@@ -111,6 +111,8 @@ time_zones = TimeZones()
 class IAddressBook(zope.interface.Interface):
     """An address book."""
 
+    archive = zope.interface.Attribute(
+        u'icemac.addressbook.interfaces.IArchive')
     keywords = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IKeywords')
     principals = zope.interface.Attribute(
@@ -233,6 +235,13 @@ class IPersonData(zope.interface.Interface):
 
 class IPerson(IPersonName, IPersonData):
     """A person."""
+
+
+class IPersonArchiving(zope.interface.Interface):
+    """Methods regarding archiving of a person."""
+
+    def archive():
+        """Move the person to the archive."""
 
 
 class IPersonEntity(zope.interface.Interface):
@@ -555,3 +564,7 @@ class IEntityOrder(zope.interface.Interface):
         When it would be moved beyond the end of the entity order a
         ValueError is raised.
         """
+
+
+class IArchive(zope.interface.Interface):
+    """Container of elements which are neither changeable nor searchable."""

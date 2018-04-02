@@ -64,3 +64,9 @@ def test_delete__DeleteForm__3(search_data, browser, role):
          ".ics file.)"] ==
         browser.getControl('Apply on selected persons').displayOptions)
     browser.assert_forbidden(browser.SEARCH_DELETE_URL)
+
+
+def test_delete__DeleteForm__4(address_book, browser):
+    """It cannot be accessed by an archivist."""
+    browser.login('archivist')
+    browser.assert_forbidden(browser.SEARCH_DELETE_URL)

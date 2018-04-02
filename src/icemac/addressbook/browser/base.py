@@ -294,9 +294,12 @@ class BaseDeleteForm(_BaseConfirmForm):
     def _handle_action(self):
         self.redirect_to_next_url(self.next_url_after_delete,
                                   self.next_view_after_delete)
+        self._set_status()
+        self._do_delete()
+
+    def _set_status(self):
         self.status = _('"${title}" deleted.',
                         mapping={'title': self.status_title})
-        self._do_delete()
 
     def _do_delete(self):
         icemac.addressbook.utils.delete(self.context)

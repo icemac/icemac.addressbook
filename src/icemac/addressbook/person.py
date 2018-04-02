@@ -16,6 +16,7 @@ person_schema = icemac.addressbook.interfaces.IPerson
 @zope.interface.implementer(
     person_schema,
     icemac.addressbook.interfaces.IPersonDefaults,
+    icemac.addressbook.interfaces.IPersonArchiving,
     icemac.addressbook.interfaces.ISchemaProvider,
     zope.annotation.interfaces.IAttributeAnnotatable,
 )
