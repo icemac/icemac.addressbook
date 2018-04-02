@@ -18,10 +18,10 @@ Run all tests
 
 These tests include some tests which require an actual browser to run.
 
-Prereqisites for the browser tests
+Prerequisites for the browser tests
 ----------------------------------
 
-These prereqisites are only needed to run some tests in an actual browser:
+These prerequisites are only needed to run some tests in an actual browser:
 
 * Selenium Server from SeleniumHQ_
 
