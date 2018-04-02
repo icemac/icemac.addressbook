@@ -11,6 +11,7 @@ import zope.app.wsgi.interfaces
 import zope.event
 
 IGNORED = None
+HANDLE_ERRORS = bool(int(os.environ.get('HANDLE_ERRORS', 1)))
 
 
 def zope_application_factory(
@@ -22,7 +23,7 @@ def zope_application_factory(
         zope_conf = os.path.join(global_conf['here'], 'zope.conf')
         db = zope.app.wsgi.config(zope_conf)
     application = zope.app.wsgi.WSGIPublisherApplication(
-        db, factory=requestFactory, handle_errors=True)
+        db, factory=requestFactory, handle_errors=HANDLE_ERRORS)
     return application
 
 
