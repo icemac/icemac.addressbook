@@ -134,6 +134,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
             icemac.addressbook.interfaces.IPersonDefaults)
         entities.extend([file_entity, defaults_entity])
 
+        IPersonDefaults = icemac.addressbook.interfaces.IPersonDefaults
         groups = []
         for entity in icemac.addressbook.entities.sorted_entities(entities):
             index = 0
@@ -148,7 +149,6 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
                 continue
 
             # Special handling for IPersonDefaults
-            IPersonDefaults = icemac.addressbook.interfaces.IPersonDefaults
             if entity.interface == IPersonDefaults:
                 groups.append(
                     DefaultSelectGroup(self.context, self.request, self))
