@@ -11,7 +11,8 @@ def prefs_menu(address_book, browser, sitemenu):
 
 def test_menu__preferences_menu__1(prefs_menu):
     """Asserting that the menu with the index 2 is `Preferences`."""
-    prefs_menu.assert_correct_menu_item_is_tested()
+    assert (prefs_menu.menu_item_title
+            == prefs_menu.get_menu_item_title_under_test())
 
 
 def test_menu__preferences_menu__2(prefs_menu):

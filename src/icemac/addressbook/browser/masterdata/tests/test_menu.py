@@ -12,7 +12,7 @@ def md_menu(address_book, browser, sitemenu):
 
 def test_menu__master_data_menu__1(md_menu):
     """Asserting that the menu with the index 3 is `Master Data`."""
-    md_menu.assert_correct_menu_item_is_tested()
+    assert md_menu.menu_item_title == md_menu.get_menu_item_title_under_test()
 
 
 def test_menu__master_data_menu__2(md_menu):
