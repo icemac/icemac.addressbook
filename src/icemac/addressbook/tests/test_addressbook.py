@@ -133,3 +133,8 @@ def test_addressbook__get_address_book__1(address_book):
 def test_addressbook__Archive__1(address_book):
     """It fulfils the `IArchive` interface."""
     zope.interface.verify.verifyObject(IArchive, address_book.archive)
+
+
+def test_addressbook__get_archive__1(address_book):
+    """It returns the archive of the current address book."""
+    assert address_book.archive == IArchive(None)

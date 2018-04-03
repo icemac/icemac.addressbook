@@ -28,4 +28,13 @@
         weight="25"
         />
 
+    <!-- archived person -->
+    <z3c:pagelet
+        name="index.html"
+        for="icemac.addressbook.interfaces.IArchivedPerson"
+        permission="icemac.addressbook.ViewPerson"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        class=".person.ArchivedPersonForm"
+        />
+
 </configure>

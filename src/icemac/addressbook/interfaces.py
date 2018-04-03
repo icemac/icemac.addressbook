@@ -244,6 +244,10 @@ class IPersonArchiving(zope.interface.Interface):
         """Move the person to the archive."""
 
 
+class IArchivedPerson(IPerson):
+    """A person which has been archived."""
+
+
 class IPersonEntity(zope.interface.Interface):
     """Entity of a person."""
 

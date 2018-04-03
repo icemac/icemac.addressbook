@@ -231,3 +231,10 @@ def add_more_addressbook_infrastructure(event):
 @zope.interface.implementer(icemac.addressbook.interfaces.IArchive)
 class Archive(zope.container.btree.BTreeContainer):
     """Archive container for persons."""
+
+
+@grok.adapter(None)
+@grok.implementer(icemac.addressbook.interfaces.IArchive)
+def get_archive(context):
+    """Get the archive of the current address book."""
+    return icemac.addressbook.interfaces.IAddressBook(None).archive
