@@ -6,9 +6,31 @@ import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import zope.annotation.interfaces
 import zope.container.btree
+import zope.copypastemove.interfaces
 import zope.interface
 import zope.lifecycleevent
 
+PERSON_VIEW_PERMS = (
+    'icemac.addressbook.ViewEMailAddress',
+    'icemac.addressbook.ViewHomePageAddress',
+    'icemac.addressbook.ViewPerson',
+    'icemac.addressbook.ViewPersonName',
+    'icemac.addressbook.ViewPhoneNumber',
+    'icemac.addressbook.ViewPostalAddress',
+)
+PERSON_EDIT_PERMS = (
+    'icemac.addressbook.ClonePerson',
+    'icemac.addressbook.EditEMailAddress',
+    'icemac.addressbook.EditHomePageAddress',
+    'icemac.addressbook.EditPerson',
+    'icemac.addressbook.EditPersonName',
+    'icemac.addressbook.EditPhoneNumber',
+    'icemac.addressbook.EditPostalAddress',
+)
+PERSON_EDIT_ROLES = (
+    'icemac.addressbook.global.Administrator',
+    'icemac.addressbook.global.Editor',
+)
 
 person_schema = icemac.addressbook.interfaces.IPerson
 
@@ -43,6 +65,30 @@ class Person(zope.container.btree.BTreeContainer):
         values = [self.first_name, self.last_name]
         result = [x for x in values if x]
         return ' '.join(result)
+
+    def archive(self):
+        """Move the person to the archive."""
+        # Remove references to sub-objects because with these references
+        # the person cannot be moved. They are restored after the move.
+        defaults = {}
+        for attrib in icemac.addressbook.interfaces.IPersonDefaults.names():
+            defaults[attrib] = getattr(self, attrib)
+            setattr(self, attrib, None)
+
+        zope.copypastemove.interfaces.IObjectMover(self).moveTo(
+            icemac.addressbook.interfaces.IArchive(None))
+        zope.interface.alsoProvides(
+            self, icemac.addressbook.interfaces.IArchivedPerson)
+
+        for attrib, value in defaults.items():
+            setattr(self, attrib, value)
+        rpm = zope.securitypolicy.interfaces.IRolePermissionManager(self)
+        for perm in PERSON_VIEW_PERMS:
+            rpm.grantPermissionToRole(
+                perm, 'icemac.addressbook.global.Archivist')
+        for role in PERSON_EDIT_ROLES:
+            for perm in PERSON_EDIT_PERMS:
+                rpm.denyPermissionToRole(perm, role)
 
 
 person_entity = icemac.addressbook.entities.create_entity(
