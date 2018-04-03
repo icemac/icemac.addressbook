@@ -12,7 +12,7 @@ def pl_menu(address_book, browser, sitemenu):
 
 def test_menu__person_list_menu__1(pl_menu):
     """Asserting that the menu with the index 0 is `Person list`."""
-    pl_menu.assert_correct_menu_item_is_tested()
+    assert pl_menu.menu_item_title == pl_menu.get_menu_item_title_under_test()
 
 
 def test_menu__person_list_menu__2(pl_menu):

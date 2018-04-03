@@ -13,6 +13,10 @@ Backward incompatible changes
   ``.testing.Browser.assert_forbidden()`` and expect that the user is already
   logged-in thus no longer requiring ``username`` as argument.
 
+- Drop ``.testing.SiteMenu.assert_correct_menu_item_is_tested()``. Use
+  ``.testing.SiteMenu.get_menu_item_title_under_test()`` instead and compare
+  its result with `menu_item_title`.
+
 Features
 --------
 

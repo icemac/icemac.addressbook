@@ -587,10 +587,9 @@ class SiteMenu(object):
         return bool(
             self.browser.etree.xpath(self._xpath)[0].attrib.get('class'))
 
-    def assert_correct_menu_item_is_tested(self):
+    def get_menu_item_title_under_test(self):
         self.browser.open(self.menu_item_URL)
-        assert self.menu_item_title == self.browser.etree.xpath(
-            '%s/a/span' % self._xpath)[0].text
+        return self.browser.etree.xpath('%s/a/span' % self._xpath)[0].text
 
     @property
     def _xpath(self):
