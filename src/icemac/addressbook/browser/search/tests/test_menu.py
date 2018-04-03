@@ -11,7 +11,8 @@ def search_menu(address_book, browser, sitemenu):
 
 def test__menu_search_menu__1(search_menu):
     """Asserting that the menu with the index 1 is `Search`."""
-    search_menu.assert_correct_menu_item_is_tested()
+    assert (search_menu.menu_item_title
+            == search_menu.get_menu_item_title_under_test())
 
 
 def test__menu_search_menu__2(search_menu):
