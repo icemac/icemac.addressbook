@@ -270,7 +270,7 @@ class ArchivePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
               u' neither be edited nor found using searches.')
     interface = icemac.addressbook.interfaces.IPerson
     field_names = ('first_name', 'last_name')
-    next_view_after_delete = 'archive.html'
+    next_view_after_delete = 'person-list.html'
 
     def _set_status(self):
         self.status = _('"${title}" archived.',
