@@ -25,6 +25,9 @@ Features
 - Add an archive, the ability to archive persons and an archivist role who is
   only able to manage the archive.
 
+  - Archived persons cannot be found using the search abilities of the
+    address book.
+
 - Add an ability disable `handle_errors` to debug all exception types.
   See https://icemacaddressbook.readthedocs.io/en/latest/hacking.html
 

@@ -10,6 +10,7 @@ import re
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
 import zc.sourcefactory.source
+import zope.catalog.interfaces
 import zope.component
 import zope.interface
 import zope.schema
@@ -244,7 +245,10 @@ class IPersonArchiving(zope.interface.Interface):
         """Move the person to the archive."""
 
 
-class IArchivedPerson(IPerson):
+class IArchivedPerson(
+        IPerson,
+        zope.catalog.interfaces.INoAutoIndex,
+        zope.catalog.interfaces.INoAutoReindex):
     """A person which has been archived."""
 
 
