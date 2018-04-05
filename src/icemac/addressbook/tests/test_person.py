@@ -8,6 +8,7 @@ from icemac.addressbook.interfaces import ISchemaName
 from icemac.addressbook.person import Person, Keywords
 import gocept.reference.interfaces
 import gocept.reference.verify
+import zope.catalog.interfaces
 import zope.component
 
 
@@ -111,6 +112,16 @@ def test_person__Person__archive__1(address_book, FullPersonFactory):
     assert address_book.archive == person.__parent__
     assert IArchivedPerson.providedBy(person)
     assert rt.is_referenced()
+
+
+def test_person__Person__archive__2(address_book, FullPersonFactory):
+    """It removes the person from the catalog."""
+    person = FullPersonFactory(address_book, u'Older')
+    catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
+    assert 1 == len(catalog.searchResults(name='Older'))
+
+    person.archive()
+    assert 0 == len(catalog.searchResults(name='Older'))
 
 
 def test_person__title__1(zcmlS):

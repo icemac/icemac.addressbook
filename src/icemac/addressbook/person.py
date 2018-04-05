@@ -5,10 +5,13 @@ import icemac.addressbook.address
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import zope.annotation.interfaces
+import zope.catalog.catalog
 import zope.container.btree
 import zope.copypastemove.interfaces
 import zope.interface
+import zope.intid.interfaces
 import zope.lifecycleevent
+
 
 PERSON_VIEW_PERMS = (
     'icemac.addressbook.ViewEMailAddress',
@@ -89,6 +92,9 @@ class Person(zope.container.btree.BTreeContainer):
         for role in PERSON_EDIT_ROLES:
             for perm in PERSON_EDIT_PERMS:
                 rpm.denyPermissionToRole(perm, role)
+        # uncatalog the person
+        event = zope.intid.interfaces.IntIdRemovedEvent(self, None)
+        zope.catalog.catalog.unindexDocSubscriber(event)
 
 
 person_entity = icemac.addressbook.entities.create_entity(
