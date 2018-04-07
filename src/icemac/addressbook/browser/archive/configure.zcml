@@ -23,7 +23,7 @@
         name="Archive"
         title="Archive"
         viewName="++attribute++archive"
-        class="z3c.menu.ready2go.item.SiteMenuItem"
+        class=".menu.ArchiveMenuItem"
         permission="icemac.addressbook.ViewArchive"
         weight="25"
         />
