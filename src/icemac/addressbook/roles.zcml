@@ -88,6 +88,7 @@
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewSomePrincipals
         z3c.preference.EditPreference
         zope.View
