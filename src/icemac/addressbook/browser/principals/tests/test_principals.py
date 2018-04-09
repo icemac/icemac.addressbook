@@ -315,6 +315,7 @@ def test_principals__EditForm__5_5(address_book, UserFactory, browser):
     assert 'Data successfully updated.' == browser.message
     assert browser.PRINCIPALS_LIST_URL == browser.url
 
+
 @pytest.mark.parametrize('role', ('Editor', 'Archivist'))
 def test_principals__EditForm__6(address_book, UserFactory, browser, role):
     """An editor can edit his own user data but not the roles."""
