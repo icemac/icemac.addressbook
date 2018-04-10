@@ -19,11 +19,13 @@ def test_person__ArchivedPersonForm__1(address_book, PersonFactory, browser):
     'editor_and_archivist',
 ])
 def test_person__ArchivedPersonForm__2(
-        address_book, FullPersonFactory, KeywordFactory, browser, loginname):
+        address_book, FullPersonFactory, KeywordFactory, FileFactory, browser,
+        loginname):
     """It renders a read-only form of person's data for all allowed users."""
     person = FullPersonFactory(
         address_book, 'Vregga', first_name='V.',
         keywords=set([KeywordFactory(address_book, 'friend')]))
+    FileFactory(person, 'cv.txt', data='boring text', mimeType=b'text/plain')
     person.archive()
 
     browser.login(loginname)
