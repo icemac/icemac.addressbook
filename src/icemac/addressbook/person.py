@@ -15,6 +15,7 @@ import zope.lifecycleevent
 
 PERSON_VIEW_PERMS = (
     'icemac.addressbook.ViewEMailAddress',
+    'icemac.addressbook.ViewFile',
     'icemac.addressbook.ViewHomePageAddress',
     'icemac.addressbook.ViewPerson',
     'icemac.addressbook.ViewPersonName',
@@ -24,6 +25,7 @@ PERSON_VIEW_PERMS = (
 PERSON_EDIT_PERMS = (
     'icemac.addressbook.ClonePerson',
     'icemac.addressbook.EditEMailAddress',
+    'icemac.addressbook.EditFile',
     'icemac.addressbook.EditHomePageAddress',
     'icemac.addressbook.EditPerson',
     'icemac.addressbook.EditPersonName',
