@@ -13,7 +13,7 @@ import zope.intid.interfaces
 import zope.lifecycleevent
 
 
-PERSON_VIEW_PERMS = (
+PERMS_NEEDED_IN_ARCHIVE = (
     'icemac.addressbook.ViewEMailAddress',
     'icemac.addressbook.ViewFile',
     'icemac.addressbook.ViewHomePageAddress',
@@ -22,7 +22,7 @@ PERSON_VIEW_PERMS = (
     'icemac.addressbook.ViewPhoneNumber',
     'icemac.addressbook.ViewPostalAddress',
 )
-PERSON_EDIT_PERMS = (
+PERMS_DENIED_IN_ARCHIVE = (
     'icemac.addressbook.ClonePerson',
     'icemac.addressbook.ExportPerson',
     'icemac.addressbook.EditEMailAddress',
@@ -33,7 +33,7 @@ PERSON_EDIT_PERMS = (
     'icemac.addressbook.EditPhoneNumber',
     'icemac.addressbook.EditPostalAddress',
 )
-PERSON_EDIT_ROLES = (
+ROLES_WHO_HAVE_EDIT_PERMISSIONS = (
     'icemac.addressbook.global.Administrator',
     'icemac.addressbook.global.Editor',
 )
@@ -89,11 +89,11 @@ class Person(zope.container.btree.BTreeContainer):
         for attrib, value in defaults.items():
             setattr(self, attrib, value)
         rpm = zope.securitypolicy.interfaces.IRolePermissionManager(self)
-        for perm in PERSON_VIEW_PERMS:
+        for perm in PERMS_NEEDED_IN_ARCHIVE:
             rpm.grantPermissionToRole(
                 perm, 'icemac.addressbook.global.Archivist')
-        for role in PERSON_EDIT_ROLES:
-            for perm in PERSON_EDIT_PERMS:
+        for role in ROLES_WHO_HAVE_EDIT_PERMISSIONS:
+            for perm in PERMS_DENIED_IN_ARCHIVE:
                 rpm.denyPermissionToRole(perm, role)
         # uncatalog the person
         event = zope.intid.interfaces.IntIdRemovedEvent(self, None)
