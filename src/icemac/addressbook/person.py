@@ -24,6 +24,7 @@ PERSON_VIEW_PERMS = (
 )
 PERSON_EDIT_PERMS = (
     'icemac.addressbook.ClonePerson',
+    'icemac.addressbook.ExportPerson',
     'icemac.addressbook.EditEMailAddress',
     'icemac.addressbook.EditFile',
     'icemac.addressbook.EditHomePageAddress',

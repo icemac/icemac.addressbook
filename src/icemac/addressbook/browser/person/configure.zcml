@@ -218,7 +218,7 @@
     name="export.html"
     template="export.pt"
     class=".export.ExportList"
-    permission="icemac.addressbook.ViewPerson"
+    permission="icemac.addressbook.ExportPerson"
     />
 
   <!-- ical export of birthdate -->

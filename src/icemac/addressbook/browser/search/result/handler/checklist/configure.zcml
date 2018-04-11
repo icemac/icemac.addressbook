@@ -9,7 +9,7 @@
       name="person-checklist.html"
       class=".Checklist"
       template="list.pt"
-      permission="icemac.addressbook.ViewAddressBook" />
+      permission="icemac.addressbook.ExportPerson" />
 
   <z3c:siteMenuItem
      manager="..manager.ISearchResultHandlers"
@@ -18,7 +18,7 @@
      title="Checklist (List of person names with check-boxes.)"
      viewName="person-checklist.html"
      class="..manager.SearchResultHandler"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ExportPerson"
      weight="45"
      />
 

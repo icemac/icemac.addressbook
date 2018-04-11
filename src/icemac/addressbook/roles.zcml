@@ -30,6 +30,7 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
@@ -58,6 +59,7 @@
      role="icemac.addressbook.global.Visitor"
      permissions="
         icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
@@ -128,6 +130,7 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
