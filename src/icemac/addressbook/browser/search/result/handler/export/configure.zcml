@@ -8,7 +8,7 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="defaults_export.html"
       class=".xls.DefaultsExport"
-      permission="icemac.addressbook.ViewAddressBook"
+      permission="icemac.addressbook.ExportPerson"
      />
 
   <z3c:siteMenuItem
@@ -18,7 +18,7 @@
      title="XLS export main (Exports person data and main addresses resp. phone numbers.)"
      viewName="defaults_export.html"
      class="..manager.SearchResultHandler"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ExportPerson"
      weight="10"
      />
 
@@ -27,7 +27,7 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="complete_export.html"
       class=".xls.CompleteExport"
-      permission="icemac.addressbook.ViewAddressBook"
+      permission="icemac.addressbook.ExportPerson"
       />
 
   <z3c:siteMenuItem
@@ -37,7 +37,7 @@
      title="XLS export complete (Exports person data and all addresses resp. phone numbers.)"
      class="..manager.SearchResultHandler"
      viewName="complete_export.html"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ExportPerson"
      weight="20"
      />
 

@@ -33,5 +33,4 @@ def test_person__ArchivedPersonForm__2(
     assert [
         'form.buttons.apply',
         'form.buttons.cancel',
-        'form.buttons.export',
     ] == browser.all_control_names

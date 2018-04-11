@@ -61,6 +61,11 @@
     />
 
   <permission
+    id="icemac.addressbook.ExportPerson"
+    title="Export a person and its data."
+    />
+
+  <permission
     id="icemac.addressbook.ListPersons"
     title="List the persons in the address book or search for them."
     />
