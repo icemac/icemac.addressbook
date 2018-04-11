@@ -34,3 +34,14 @@ def test_person__ArchivedPersonForm__2(
         'form.buttons.apply',
         'form.buttons.cancel',
     ] == browser.all_control_names
+
+
+@pytest.mark.parametrize('loginname', ['editor', 'visitor'])
+def test_person__ArchivedPersonForm__3(
+        address_book, PersonFactory, browser, loginname):
+    """It renders a read-only form of person's data for all allowed users."""
+    person = PersonFactory(address_book, 'Vregga')
+    person.archive()
+
+    browser.login(loginname)
+    browser.assert_forbidden(browser.ARCHIVE_PERSON_URL)
