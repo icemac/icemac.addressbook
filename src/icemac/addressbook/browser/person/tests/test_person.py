@@ -683,7 +683,6 @@ def test_person__PersonEditGroup__3(address_book, FullPersonFactory, browser):
     assert IZopeDublinCore(person['PostalAddress']).modified == dt
 
 
-@pytest.mark.xfail
 def test_person__ArchivePersonForm__1(address_book, PersonFactory, browser):
     """It archives a person."""
     PersonFactory(address_book, u'Tester')
@@ -692,9 +691,9 @@ def test_person__ArchivePersonForm__1(address_book, PersonFactory, browser):
     browser.getControl('Archive person').click()
     assert browser.PERSON_ARCHIVE_URL == browser.url
     browser.getControl('Yes').click()
-    # assert '"Tester" archived.' == browser.message
-    # assert browser.ARCHIVE_URL == browser.url
-    # assert 'Tester' in browser.contents
+    assert '"Tester" archived.' == browser.message
+    assert browser.PERSONS_LIST_URL == browser.url
+    assert 'There are no persons' in browser.contents
 
 
 def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
