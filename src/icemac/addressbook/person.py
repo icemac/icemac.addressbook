@@ -32,6 +32,11 @@ PERMS_DENIED_IN_ARCHIVE = (
     'icemac.addressbook.EditPersonName',
     'icemac.addressbook.EditPhoneNumber',
     'icemac.addressbook.EditPostalAddress',
+    'icemac.addressbook.AddEMailAddress',
+    'icemac.addressbook.AddFile',
+    'icemac.addressbook.AddHomePageAddress',
+    'icemac.addressbook.AddPhoneNumber',
+    'icemac.addressbook.AddPostalAddress',
 )
 ROLES_WHO_HAVE_EDIT_PERMISSIONS = (
     'icemac.addressbook.global.Administrator',
