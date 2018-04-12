@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 
 
@@ -21,7 +22,10 @@ def test_person__ArchivedPersonForm__1(address_book, PersonFactory, browser):
 def test_person__ArchivedPersonForm__2(
         address_book, FullPersonFactory, KeywordFactory, FileFactory, browser,
         loginname):
-    """It renders a read-only form of person's data for all allowed users."""
+    """It renders a read-only form of person's data for all allowed users.
+
+    There are no add links.
+    """
     person = FullPersonFactory(
         address_book, 'Vregga', first_name='V.',
         keywords=set([KeywordFactory(address_book, 'friend')]))
@@ -34,6 +38,10 @@ def test_person__ArchivedPersonForm__2(
         'form.buttons.apply',
         'form.buttons.cancel',
     ] == browser.all_control_names
+
+    assert '>Add<' not in browser.contents
+    with pytest.raises(LinkNotFoundError):
+        browser.getLink('postal address')
 
 
 @pytest.mark.parametrize('loginname', ['editor', 'visitor'])
