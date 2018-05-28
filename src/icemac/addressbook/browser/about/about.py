@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from ..interfaces import IIconProviderInfo
-import icemac.addressbook
 from icemac.addressbook.i18n import _
+import icemac.addressbook
 import icemac.addressbook.browser.base
 import pkg_resources
-import zope.contentprovider.provider
+import zope.component
+import zope.interface
 
 
 class About(icemac.addressbook.browser.base.FlashView):
@@ -17,14 +18,6 @@ class About(icemac.addressbook.browser.base.FlashView):
 
     def icons(self):
         return zope.component.subscribers([None], IIconProviderInfo)
-
-
-class CopyrightContentProvider(
-        zope.contentprovider.provider.ContentProviderBase):
-    """Content provider for the copyright string."""
-
-    def render(self):
-        return icemac.addressbook.copyright
 
 
 @zope.interface.implementer(IIconProviderInfo)

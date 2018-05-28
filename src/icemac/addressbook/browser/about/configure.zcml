@@ -17,7 +17,7 @@
            icemac.addressbook.browser.interfaces.IAddressBookLayer
            *"
       provides="zope.contentprovider.interfaces.IContentProvider"
-      factory=".about.CopyrightContentProvider"
+      factory=".footer.CopyrightContentProvider"
       name="copyright" />
 
   <subscriber
