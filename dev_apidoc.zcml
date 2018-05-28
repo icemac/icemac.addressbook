@@ -1,0 +1,32 @@
+z<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!-- apidoc -->
+
+  <include package="zope.app.zcmlfiles" file="meta.zcml" />
+  <include package="zope.app.zcmlfiles" />
+  <include package="zope.app.preference" file="meta.zcml" />
+  <include package="zope.app.apidoc" file="meta.zcml" />
+  <include package="zope.app.onlinehelp" file="meta.zcml" />
+  <include package="zope.browsermenu" file="meta.zcml" />
+  <include package="zope.browsermenu" />
+
+  <include package="zope.app.tree" />
+  <include package="zope.app.onlinehelp" />
+  <include package="zope.app.renderer" />
+  <include package="zope.app.preference" />
+  <include package="zope.app.apidoc" />
+  <include package="zope.applicationcontrol" />
+
+  <grant
+     zcml:condition="have devmode"
+     permission="zope.app.apidoc.UseAPIDoc"
+     role="icemac.addressbook.global.Administrator" />
+
+  <grant
+     permission="zope.ManageApplication"
+     role="icemac.addressbook.global.Administrator" />
+
+</configure>

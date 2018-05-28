@@ -1,0 +1,115 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <!-- entities -->
+
+  <adapter factory=".entities.EntitiesTraverser" />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.masterdata.interfaces.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Entities"
+     title="Entities"
+     permission="icemac.addressbook.EditEntities"
+     viewName="++attribute++entities"
+     weight="30"
+     />
+
+  <z3c:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IEntities"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".entities.List"
+      />
+
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".entities.entity_views" />
+
+
+  <!-- entity -->
+
+  <adapter factory=".fields.FieldsTraverser" />
+  <adapter
+     provides="zope.traversing.browser.interfaces.IAbsoluteURL"
+     factory=".entities.EntityAbsoluteURL"
+     />
+
+  <gocept:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IEditableEntity"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".fields.List"
+      template="fields_list.pt"
+      />
+
+  <z3c:pagelet
+     name="addField.html"
+     for="icemac.addressbook.interfaces.IEditableEntity"
+     permission="icemac.addressbook.EditEntities"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class="icemac.addressbook.browser.entities.fields.AddForm"
+     />
+
+  <browser:page
+      name="save-sortorder.html"
+      for="icemac.addressbook.interfaces.IEditableEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      permission="icemac.addressbook.EditEntities"
+      class=".fields.SaveSortorder"
+      />
+
+  <!-- field -->
+  <z3c:addMenuItem
+      manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+      for="icemac.addressbook.interfaces.IEditableEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="field"
+      title="field"
+      viewName="@@addField.html"
+      permission="icemac.addressbook.EditEntities"
+      weight="1"
+      />
+
+  <z3c:pagelet
+      name="index.html"
+      for="icemac.addressbook.interfaces.IField"
+      permission="icemac.addressbook.EditEntities"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".fields.EditForm"
+      />
+
+  <z3c:pagelet
+      for="icemac.addressbook.interfaces.IField"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="delete.html"
+      class=".fields.DeleteForm"
+      permission="icemac.addressbook.EditEntities"
+      />
+
+  <!-- move entity in entity sort order -->
+  <browser:page
+      for="icemac.addressbook.interfaces.IEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="up.html"
+      class=".entities.MoveUp"
+      permission="icemac.addressbook.EditEntities"
+      />
+
+  <browser:page
+      for="icemac.addressbook.interfaces.IEntity"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="down.html"
+      class=".entities.MoveDown"
+      permission="icemac.addressbook.EditEntities"
+      />
+
+
+</configure>

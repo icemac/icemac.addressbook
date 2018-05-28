@@ -1,0 +1,54 @@
+@media only print {
+    #head .LoginLogoutBox,
+    #about-view,
+    #main-menu,
+    #menu-bar,
+    #info-messages,
+    div#content h1,
+    div#content h2,
+    .buttons,
+    .batch,
+    .no-print,
+    #foot {
+        display: none;
+    }
+
+    .force-print {
+        display: block !important;
+    }
+
+    body {
+        width: unset;
+    }
+
+    #head h1 {
+        font-size: 24px;
+    }
+
+    #prefs-category-edit-form fieldset div.group {
+        display: block;
+    }
+
+    body #content {
+        background: none;
+    }
+
+    #content {
+        border: 0px;
+        padding: 0px;
+        min-height: inherit;
+        background-color: #fff;
+    }
+
+    a {
+        color: #000;
+    }
+
+    .checklist-headline {
+        background-color: transparent;
+        border: 0 none;
+        font-size: 18px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+}

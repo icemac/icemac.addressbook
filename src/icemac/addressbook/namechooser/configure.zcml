@@ -1,0 +1,6 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <adapter factory=".namechooser.name_suffix" />
+  <adapter factory=".namechooser.DontReuseNames" />
+
+</configure>

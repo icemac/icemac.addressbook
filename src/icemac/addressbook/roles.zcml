@@ -1,0 +1,126 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="icemac.addressbook">
+
+  <!-- Editor -->
+  <role id="icemac.addressbook.global.Editor"
+        title="Editor"
+        description="Role which allows global editing of data"
+        />
+
+  <grant
+     role="icemac.addressbook.global.Editor"
+     permissions="
+        icemac.addressbook.AddEMailAddress
+        icemac.addressbook.AddFile
+        icemac.addressbook.AddHomePageAddress
+        icemac.addressbook.AddKeyword
+        icemac.addressbook.AddPerson
+        icemac.addressbook.AddPhoneNumber
+        icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ClonePerson
+        icemac.addressbook.EditAddressBookContents
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.EditEMailAddress
+        icemac.addressbook.EditFile
+        icemac.addressbook.EditHomePageAddress
+        icemac.addressbook.EditKeyword
+        icemac.addressbook.EditKeywordContainer
+        icemac.addressbook.EditPerson
+        icemac.addressbook.EditPersonContents
+        icemac.addressbook.EditPhoneNumber
+        icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+
+  <!-- Visitor -->
+  <role id="icemac.addressbook.global.Visitor"
+        title="Visitor"
+        description="Role which allows global visiting of data"
+        />
+
+  <grant
+     role="icemac.addressbook.global.Visitor"
+     permissions="
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+  <!-- Administrator -->
+  <role
+     id="icemac.addressbook.global.Administrator"
+     title="Administrator"
+     description="Administrator for the Addressbook"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     permissions="
+        icemac.addressbook.AddAddressBook
+        icemac.addressbook.AddEMailAddress
+        icemac.addressbook.AddFile
+        icemac.addressbook.AddHomePageAddress
+        icemac.addressbook.AddKeyword
+        icemac.addressbook.AddKeywordContainer
+        icemac.addressbook.AddPerson
+        icemac.addressbook.AddPhoneNumber
+        icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ClonePerson
+        icemac.addressbook.EditAddressBook
+        icemac.addressbook.EditAddressBookContents
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.EditEMailAddress
+        icemac.addressbook.EditEntities
+        icemac.addressbook.EditFile
+        icemac.addressbook.EditHomePageAddress
+        icemac.addressbook.EditKeyword
+        icemac.addressbook.EditKeywordContainer
+        icemac.addressbook.EditPerson
+        icemac.addressbook.EditPersonContents
+        icemac.addressbook.EditPhoneNumber
+        icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewEMailAddress
+        icemac.addressbook.ViewFile
+        icemac.addressbook.ViewHomePageAddress
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewKeywordContainer
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewPhoneNumber
+        icemac.addressbook.ViewPostalAddress
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+
+
+</configure>

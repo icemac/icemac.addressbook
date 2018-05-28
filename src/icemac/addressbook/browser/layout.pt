@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      i18n:domain="icemac.addressbook"
+      tal:define="title provider:addressbook-title">
+  <head>
+    <tal:block replace="structure provider:login-logout-head" />
+    <tal:block replace="structure provider:fanstatic-viewlets" />
+    <title tal:content="title">icemac.addressbook</title>
+    <link rel="shortcut icon"
+          type="image/x-icon"
+          tal:attributes="href context/@@favicon-url" />
+  </head>
+  <body class="main">
+    <div id="head">
+      <h1>
+        <span tal:content="title">icemac.addressbook</span>
+        <a tal:attributes="href string:${request/URL/0}/@@about.html"
+           id="about-view"><img src="/++resource++img/Symbol-Information.png"
+               alt="info-i"
+               i18n:attributes="title; alt"
+               title="Information about icemac.addressbook" />
+        </a>
+      </h1>
+      <span class="LoginLogoutBox">
+        <tal:block replace="structure provider:login-logout" />
+      </span>
+    </div>
+
+    <div id="body">
+      <ul id="main-menu"
+          tal:content="structure provider:main-menu">Main menu</ul>
+      <div id="menu-bar">
+        <ul id="breadcrumbs"
+            tal:content="structure provider:breadcrumbs">Breadcrumbs</ul>
+        <ul tal:replace="structure provider:add-menu">Add menu</ul>
+      </div>
+      <div tal:replace="structure provider:messages" />
+      <div id="content"
+           tal:attributes="lang request/locale/id/language"
+           tal:content="structure provider:pagelet">Page Content</div>
+    </div>
+
+    <div id="foot">
+      <i tal:content="provider:copyright">(c) 2008 Michael Howitz</i>
+    </div>
+  </body>
+</html>

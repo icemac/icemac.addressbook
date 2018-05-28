@@ -1,0 +1,48 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    >
+
+  <browser:viewletManager
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="search-result-handlers"
+      class=".manager.SearchResultHandlerManager"
+      permission="zope.Public"
+      />
+
+  <adapter factory=".delete.SelectionCount" />
+
+  <z3c:pagelet
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="delete_persons.html"
+      permission="icemac.addressbook.EditAddressBook"
+      class=".delete.DeleteForm"
+      />
+
+  <z3c:siteMenuItem
+     manager=".manager.ISearchResultHandlers"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="delete"
+     title="Deletion (Deletes selected persons.)"
+     viewName="delete_persons.html"
+     class=".manager.SearchResultHandler"
+     permission="icemac.addressbook.EditAddressBook"
+     weight="200"
+     />
+
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".delete.delete_view" />
+
+
+  <include package=".checklist" />
+  <include package=".export" />
+  <include package=".mailto" />
+  <include package=".update" />
+  <include package=".names" />
+  <include package=".icalendar" />
+
+</configure>

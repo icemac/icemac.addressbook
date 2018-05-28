@@ -1,0 +1,100 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <include package="z3c.wizard" file="meta.zcml" />
+  <include package="z3c.wizard" />
+
+  <!-- This adapter is not registered by default in z3c.form for
+       safety reasons but we need it here to edit PersistentMappings
+       stored in the session. -->
+  <adapter
+     for="persistent.mapping.PersistentMapping
+          zope.schema.interfaces.IField"
+     factory="z3c.form.datamanager.DictionaryField" />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.search.result.handler.manager.ISearchResultHandlers"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="update"
+     title="Update (Allows you to choose a field for update on each selected person.)"
+     viewName="multi-update"
+     class="icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"
+     permission="icemac.addressbook.EditAddressBook"
+     weight="100"
+     />
+
+  <z3c:wizard
+     for="icemac.addressbook.interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="multi-update"
+     class=".base.UpdateWizard"
+     permission="icemac.addressbook.EditAddressBook"
+     />
+
+  <z3c:wizardStep
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     wizard=".base.UpdateWizard"
+     name="chooseField"
+     class=".choose.Field"
+     permission="icemac.addressbook.EditAddressBook"
+     />
+
+  <z3c:wizardStep
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     wizard=".base.UpdateWizard"
+     name="enterValue"
+     class=".enter.Value"
+     permission="icemac.addressbook.EditAddressBook"
+     />
+
+  <z3c:wizardStep
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     wizard=".base.UpdateWizard"
+     name="checkResult"
+     class=".check.Result"
+     permission="icemac.addressbook.EditAddressBook"
+     />
+
+  <z3c:template
+      template="check.pt"
+      for=".check.Result"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      />
+
+  <gocept:pagelet
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="multi-update-completed"
+      class=".complete.Redirect"
+      permission="icemac.addressbook.EditAddressBook"
+      />
+
+  <adapter factory=".enter.TextOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IBool"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IChoice"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IDate"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IDatetime"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter
+      for="zope.schema.interfaces.IURI"
+      factory=".enter.ReplaceableOperatorsSource" />
+  <adapter factory=".enter.KeywordOperatorsSource" />
+  <adapter factory=".enter.IntOperatorsSource" />
+  <adapter factory=".enter.DecimalOperatorsSource" />
+  <adapter factory=".enter.NotStrippingTextConverter" />
+
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".base.update_views" />
+
+</configure>

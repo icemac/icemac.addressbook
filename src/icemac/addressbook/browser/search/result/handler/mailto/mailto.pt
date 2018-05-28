@@ -1,0 +1,11 @@
+<div i18n:domain="icemac.addressbook" id="mailto">
+  <p>
+    <a tal:attributes="href view/mailto_link" i18n:translate="">
+      Click here to open your e-mail client
+    </a>
+  </p>
+  <br />
+  <a href="javascript:history.go(-1)"
+     class="no-print"
+     i18n:translate="">Go back</a>
+</div>

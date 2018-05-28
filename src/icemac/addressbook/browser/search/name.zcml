@@ -1,0 +1,52 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <gocept:pagelet
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="name_search.html"
+      class=".name.SearchView"
+      template="search.pt"
+      permission="icemac.addressbook.ViewPerson"
+      />
+
+  <z3c:contextMenuItem
+      manager="icemac.addressbook.browser.search.interfaces.ISearchMenu"
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="Name-Seach"
+      title="Name search"
+      viewName="@@name_search.html"
+      permission="icemac.addressbook.ViewPerson"
+      weight="20"
+      />
+
+  <browser:viewlet
+      manager="icemac.addressbook.browser.search.interfaces.ISearchForm"
+      view=".name.SearchView"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="form"
+      class=".name.SearchForm"
+      permission="icemac.addressbook.ViewPerson"
+      />
+
+  <adapter factory=".name.Search" />
+
+  <browser:viewlet
+      manager="icemac.addressbook.browser.search.interfaces.ISearchResult"
+      view=".name.SearchView"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="result_table"
+      class=".result.personlist.ExportForm"
+      permission="icemac.addressbook.ViewPerson"
+      />
+
+  <subscriber
+   for="*"
+   provides=".interfaces.ISearchMenuItemOn"
+   factory=".name.view" />
+
+</configure>

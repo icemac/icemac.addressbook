@@ -1,0 +1,9 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="icemac.addressbook">
+
+  <utility
+    name="icemac.addressbook"
+    provides="zope.generations.interfaces.ISchemaManager"
+    component=".manager" />
+
+</configure>

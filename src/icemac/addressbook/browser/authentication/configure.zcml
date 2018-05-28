@@ -1,0 +1,48 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <adapter factory="zope.authentication.logout.LogoutSupported" />
+
+  <utility
+      name="Flashed Session Credentials"
+      factory=".session.FlashedSessionCredentialsPlugin"
+      provides="zope.pluggableauth.interfaces.ICredentialsPlugin"
+      />
+
+  <browser:page
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="logout.html"
+      class=".authviewlet.FlashedHTTPAuthenticationLogout"
+      attribute="logout"
+      allowed_interface="zope.authentication.interfaces.ILogout"
+      permission="zope.Public"
+     />
+
+  <z3c:pagelet
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="loginForm.html"
+      class=".session.FlashedSessionCredentialsLoginForm"
+      permission="zope.Public"
+      />
+
+  <z3c:pagelet
+     for="z3c.authviewlet.auth.HTTPAuthenticationLogout"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="redirect.html"
+     class=".authviewlet.LogoutRedirectPagelet"
+     permission="zope.Public"
+     />
+
+  <z3c:pagelet
+     for="z3c.authviewlet.auth.HTTPAuthenticationLogout"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="logout_success.html"
+     class=".authviewlet.LogoutSuccessPagelet"
+     permission="zope.Public"
+     />
+
+</configure>

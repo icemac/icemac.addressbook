@@ -1,0 +1,16 @@
+<h2>Inspector</h2>
+
+<h3>Context</h3>
+<dl id="about">
+    <tal:dl repeat="line view/show_context">
+        <dt tal:content="line/key" />
+        <dd tal:content="nocall:line/value" />
+    </tal:dl>
+</dl>
+
+<br />
+<h3>Interfaces</h3>
+<ul>
+    <li tal:repeat="interface view/context_interfaces"
+        tal:content="interface" />
+</ul>

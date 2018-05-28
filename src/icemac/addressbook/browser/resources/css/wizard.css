@@ -1,0 +1,24 @@
+/* CSS for importer. */
+
+div.wizard div.wizardMenu ol li {
+    list-style-type: decimal;
+}
+
+div.wizard div.header {
+    font-size: 24px;
+}
+
+div.wizard .wizardMenu span,
+div.wizard .wizardMenu ol li,
+div.wizard .wizardMenu ol {
+    float:left;
+}
+
+div.wizard .wizardMenu ol li {
+    margin-left: 2em;
+}
+
+div.wizard div.currStep {
+    clear: both;
+    margin-bottom: 2ex;
+}

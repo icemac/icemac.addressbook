@@ -1,0 +1,37 @@
+#prefs-category-edit-form fieldset div.group {
+    display: none;
+}
+
+#prefs-category-edit-form fieldset div.visible {
+}
+
+#prefs-category-edit-form fieldset {
+    display: inline-block;
+    padding-bottom: 9px !important;
+    margin-bottom: 5px;
+    width: 98%;
+}
+
+#prefs-category-edit-form fieldset legend {
+    cursor: pointer;
+}
+
+#prefs-category-edit-form div.viewspace p,
+#prefs-category-edit-form fieldset div.group p {
+    font-size: 85%;
+}
+
+#prefs-category-edit-form div.viewspace p {
+    color: #555;
+}
+
+#prefs-category-edit-form fieldset div.group p {
+    color: #666;
+}
+
+
+@media only print {
+    #prefs-category-edit-form .viewspace p {
+        display: none;
+    }
+}

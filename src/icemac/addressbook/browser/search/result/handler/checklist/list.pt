@@ -1,0 +1,24 @@
+<div i18n:domain="icemac.addressbook">
+  <form>
+    <input type="text"
+           class="checklist-headline"
+           value="Checklist of selected persons"
+           i18n:attributes="value" />
+    <p tal:repeat="person view/person_list">
+      <input type="checkbox"
+             name="person"
+             tal:attributes="id person/id" />
+      <label tal:content="person/name"
+             tal:attributes="for person/id" />
+    </p>
+  </form>
+  <br />
+  <p i18n:translate="">
+    Number of persons: <span tal:replace="view/person_count"
+                             i18n:name="count" />
+  </p>
+  <br />
+  <a href="javascript:history.go(-1)"
+     class="no-print"
+     i18n:translate="">Go back</a>
+</div>

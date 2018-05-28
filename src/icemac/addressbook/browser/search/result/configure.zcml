@@ -1,0 +1,18 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <adapter
+     name="checkbox"
+     for="icemac.addressbook.browser.search.base.BaseView
+          icemac.addressbook.browser.interfaces.IAddressBookLayer
+          .base.BasePersonTable"
+     provides="z3c.table.interfaces.IColumn"
+     factory=".base.CheckBoxColumn"
+     />
+
+  <include file="simple.zcml" />
+  <include package=".handler" />
+
+</configure>

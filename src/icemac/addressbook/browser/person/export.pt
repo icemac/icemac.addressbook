@@ -1,0 +1,20 @@
+<div i18n:domain="icemac.addressbook"
+     tal:define="exporters python:list(view.exporters())">
+
+  <p tal:condition="not:exporters"
+     i18n:translate="">
+     You did not enter enough data of the person, so no export is possible.
+  </p>
+  <tal:export condition="exporters">
+    <p i18n:translate="">Select one of the following export formats:</p>
+    <ul>
+      <li tal:repeat="exporter exporters">
+        <a tal:attributes="href exporter/url"
+           tal:content="exporter/title" />
+        </li>
+      </ul>
+  </tal:export>
+  <br />
+  <a tal:attributes="href view/back_url"
+     i18n:translate="">Go back</a>
+</div>

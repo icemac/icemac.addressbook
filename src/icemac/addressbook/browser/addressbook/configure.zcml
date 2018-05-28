@@ -1,0 +1,110 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
+
+  <adapter factory=".crud.PersonCount" />
+
+  <browser:defaultView
+     name="index.html"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     for="*"
+     />
+
+  <!-- Root folder view -->
+  <z3c:pagelet
+     name="addAddressBook.html"
+     for="zope.site.interfaces.IRootFolder"
+     permission="zope.ManageContent"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".crud.AddForm"
+     />
+
+  <!-- Start page after login -->
+  <browser:page
+     for="...interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="index.html"
+     class=".startpage.Dispatch"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.welcome" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.person_list" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IStartpageData"
+       factory=".startpage.search" />
+
+
+  <!-- welcome page -->
+  <gocept:pagelet
+     for="...interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="welcome.html"
+     class=".startpage.Welcome"
+     template="welcome.pt"
+     permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <z3c:pagelet
+     name="edit-address_book.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.EditAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".crud.EditForm"
+     />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.masterdata.interfaces.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Address book"
+     title="Address book"
+     permission="icemac.addressbook.EditAddressBook"
+     viewName="@@edit-address_book.html"
+     weight="1"
+     />
+
+  <z3c:pagelet
+     name="delete-address_book.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.EditAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".crud.DeleteForm"
+     />
+
+  <z3c:pagelet
+     name="delete-address_book-content.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     permission="icemac.addressbook.EditAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".crud.DeleteContentForm"
+     />
+
+  <!-- Add menu -->
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="person"
+     title="person"
+     viewName="@@addPerson.html"
+     permission="icemac.addressbook.AddPerson"
+     weight="1"
+     />
+
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".crud.address_book_views" />
+
+</configure>

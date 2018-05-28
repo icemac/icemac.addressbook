@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           zcml:condition="installed z3c.profiler">
+
+  <include package="z3c.zrtresource" file="meta.zcml" />
+  <include package="z3c.profiler"/>
+
+</configure>

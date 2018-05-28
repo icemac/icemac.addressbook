@@ -1,0 +1,233 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <!-- person -->
+  <z3c:pagelet
+     name="addPerson.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.AddPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.PersonAddForm"
+     />
+
+  <z3c:pagelet
+     name="index.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.PersonEditForm"
+     />
+
+  <z3c:pagelet
+     name="delete_person.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.EditPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.DeletePersonForm"
+     />
+
+  <z3c:pagelet
+     name="delete_entry.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.EditPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.DeleteSingleEntryForm"
+     />
+
+
+  <z3c:pagelet
+     name="clone.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.ClonePerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.ClonePersonForm"
+     />
+
+  <adapter
+     for="icemac.addressbook.interfaces.IPerson
+          zope.schema.interfaces.ISet"
+     factory=".person.KeywordDataManager"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="postal address"
+     title="postal address"
+     viewName="@@addPostalAddress.html"
+     permission="icemac.addressbook.AddPostalAddress"
+     weight="40"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="phone number"
+     title="phone number"
+     viewName="@@addPhoneNumber.html"
+     permission="icemac.addressbook.AddPhoneNumber"
+     weight="30"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="e-mail address"
+     title="e-mail address"
+     viewName="@@addEMailAddress.html"
+     permission="icemac.addressbook.AddEMailAddress"
+     weight="20"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="home page"
+     title="home page"
+     viewName="@@addHomePageAddress.html"
+     permission="icemac.addressbook.AddHomePageAddress"
+     weight="10"
+     />
+
+  <!-- postal address -->
+  <z3c:pagelet
+     name="addPostalAddress.html"
+     for="icemac.addressbook.interfaces.IPerson"
+     permission="icemac.addressbook.AddPostalAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.AddPostalAddressForm"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.interfaces.IPostalAddress"
+     permission="icemac.addressbook.EditPostalAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.DeletePostalAddressForm"
+     />
+
+  <!-- phone number -->
+  <z3c:pagelet
+     name="addPhoneNumber.html"
+     for="icemac.addressbook.interfaces.IPerson"
+     permission="icemac.addressbook.AddPhoneNumber"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.AddPhoneNumberForm"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.interfaces.IPhoneNumber"
+     permission="icemac.addressbook.EditPhoneNumber"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.DeletePhoneNumberForm"
+     />
+
+  <!-- e-mail address -->
+  <z3c:pagelet
+     name="addEMailAddress.html"
+     for="icemac.addressbook.interfaces.IPerson"
+     permission="icemac.addressbook.AddEMailAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.AddEMailAddressForm"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.interfaces.IEMailAddress"
+     permission="icemac.addressbook.EditEMailAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.DeleteEMailAddressForm"
+     />
+
+  <!-- home page address -->
+  <z3c:pagelet
+     name="addHomePageAddress.html"
+     for="icemac.addressbook.interfaces.IPerson"
+     permission="icemac.addressbook.AddHomePageAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.AddHomePageAddressForm"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.interfaces.IHomePageAddress"
+     permission="icemac.addressbook.EditHomePageAddress"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".address.DeleteHomePageAddressForm"
+     />
+
+  <!-- XXX Caution: this adapter turns each choice field into a radio
+       button list! -->
+<!--   <adapter -->
+<!--      for="zope.schema.interfaces.IChoice -->
+<!--           ..interfaces.IAddressBookLayer" -->
+<!--      provides="z3c.form.interfaces.IFieldWidget" -->
+<!--      factory="z3c.form.browser.radio.RadioFieldWidget" /> -->
+
+  <!-- person list -->
+  <gocept:pagelet
+     name="person-list.html"
+     for="...interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".list.PersonList"
+     template="list.pt"
+     />
+
+  <adapter
+      for="icemac.addressbook.interfaces.IAddressBook
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           .list.PersonList
+           z3c.table.interfaces.IColumn"
+     provides="z3c.table.interfaces.IColumnHeader"
+     factory="z3c.table.header.SortingColumnHeader"
+     />
+
+  <z3c:siteMenuItem
+     for="*"
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Person list"
+     title="Person list"
+     viewName="@@person-list.html"
+     class=".menu.PersonListMenuItem"
+     permission="icemac.addressbook.ViewPerson"
+     weight="1"
+     />
+
+  <!-- export person data in different formats -->
+  <gocept:pagelet
+    for="...interfaces.IPerson"
+    layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+    name="export.html"
+    template="export.pt"
+    class=".export.ExportList"
+    permission="icemac.addressbook.ViewPerson"
+    />
+
+  <!-- ical export of birthdate -->
+  <browser:page
+     name="iCalendar"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".icalendar.iCalendar"
+     />
+
+  <adapter
+     for="...interfaces.IPerson
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     factory=".icalendar.iCalendar"
+     permission="icemac.addressbook.ViewPerson"
+     />
+
+
+</configure>

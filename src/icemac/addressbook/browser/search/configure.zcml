@@ -1,0 +1,65 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Search"
+     title="Search"
+     viewName="@@search.html"
+     class=".menu.SearchMenuItem"
+     permission="icemac.addressbook.ViewPerson"
+     weight="20"
+     />
+
+  <gocept:pagelet
+     name="search.html"
+     for="icemac.addressbook.interfaces.IAddressBook"
+     permission="icemac.addressbook.ViewPerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="search.pt"
+     class=".base.Search"
+     />
+
+  <adapter
+      for=".base.Search"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <adapter
+      for=".base.BaseView"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <configure package="icemac.addressbook.browser">
+    <browser:viewletManager
+        name="search-menu"
+        provides=".search.interfaces.ISearchMenu"
+        class=".search.menu.SearchMenu"
+        layer=".interfaces.IAddressBookLayer"
+        template="bullet-menu.pt"
+        permission="zope.Public"
+        />
+  </configure>
+
+
+  <browser:viewletManager
+     name="search-form"
+     provides=".interfaces.ISearchForm"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="search-result"
+     provides=".interfaces.ISearchResult"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <include file="multi_keyword.zcml" />
+  <include file="name.zcml" />
+  <include package=".result" />
+
+</configure>

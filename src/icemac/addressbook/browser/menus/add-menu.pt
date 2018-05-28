@@ -1,0 +1,12 @@
+<div id="add-menu"
+     i18n:domain="icemac.addressbook">
+  <div tal:condition="view/have_viewlets">
+    <ul>
+      <li i18n:translate="Add-menu-Add">Add</li>
+    </ul>
+    <ul id="add-menu-content">
+      <li tal:repeat="viewlet options/viewlets"
+          tal:replace="structure viewlet/render" />
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <principal
+     id="zope.manager"
+     title="Manager"
+     login="mac"
+     password_manager="Plain Text"
+     password="cam" />
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     principal="zope.manager" />
+  <grant
+      permissions="zope.ManageContent
+                   icemac.addressbook.DevelopAddressBook"
+      principal="zope.manager" />
+
+</configure>

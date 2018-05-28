@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <include package="icemac.ab.locales" />
+  <include package="z3c.locales" />
+  <include package="zope.app.locales" />
+  <include package="z3c.form" file="translation.zcml" />
+
+</configure>

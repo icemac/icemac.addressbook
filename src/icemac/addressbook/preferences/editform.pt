@@ -1,0 +1,18 @@
+<metal:form use-macro="macro:form">
+  <metal:description fill-slot="extra-info">
+    <metal:extra use-macro="macro:z3c-preferences-description" />
+  </metal:description>
+  <metal:main fill-slot="main">
+    <tal:comment condition="python:0">
+      <!-- Note: Only goups are displayed. Preferences outside a group are
+           rendered using another macro which is currently not used here as
+           all prefs are in groups.-->
+    </tal:comment>
+    <metal:main use-macro="macro:addressbook-form-groups">
+      <metal:group-header fill-slot="group-header">
+        <metal:description
+            use-macro="macro:z3c-preferences-group-description" />
+      </metal:group-header>
+    </metal:main>
+  </metal:main>
+</metal:form>

@@ -1,0 +1,276 @@
+* {
+    font-family: 'trebuchet ms',arial,sans-serif;
+}
+
+a {
+    color: #0000EE;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+body {
+    width: intrinsic;
+    width: -moz-max-content;
+    min-width: 99%;
+    padding: 0.5%;
+}
+
+#head h1 {
+    float: left;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#head h1 a img {
+    vertical-align: top;
+    margin-top: 3px;
+    border: none;
+}
+
+#content {
+    background: #eee;
+    border: 1px solid #999;
+    min-height: 495px;
+    padding: 5px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+}
+
+#main-menu,
+#secondary-menu {
+    float: left;
+}
+
+#secondary-menu {
+    margin-top: -4px;
+    margin-left: -5px;
+}
+
+#main-menu li,
+#secondary-menu li {
+    float: left;
+    list-style-type: none;
+    margin-right: 0.5em;
+}
+
+#main-menu li a:hover,
+#secondary-menu li a:hover {
+    background-color:#996633;
+    color:White;
+}
+
+#main-menu a,
+#secondary-menu a {
+    border:1px solid #996633;
+    text-decoration: none;
+    padding:0.1em 0.5em;
+    color: Black;
+}
+
+#main-menu a {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+}
+
+#secondary-menu a {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+}
+
+#main-menu li.selected a,
+#secondary-menu li.selected a {
+    background:#996633 none repeat scroll 0 0;
+    color:White;
+}
+
+
+#menu-bar {
+    background-color: #996633;
+    clear: both;
+    display: flow-root;
+    width: 100%;
+    border-top-right-radius: 8px;
+    -moz-border-radius-topright: 8px;
+}
+
+#breadcrumbs {
+    clear: left;
+}
+
+#breadcrumbs li {
+    background-color: #996633;
+    color: #ffffff;
+    float: left;
+    padding: 5px 0 5px 8px;
+}
+
+#breadcrumbs li:after {
+    content: "➤";
+    padding-left: 8px;
+}
+
+#breadcrumbs li:last-child:after {
+    content: "​ ";
+}
+
+#breadcrumbs li a {
+    color: #ffffff;
+}
+
+#add-menu {
+    height: 30px;
+    color: white;
+}
+
+#add-menu a {
+    color: White;
+}
+
+#add-menu div {
+    background-color: #996633;
+    display: inline-block;
+    float: right;
+}
+
+#add-menu ul {
+    float: left;
+}
+
+#add-menu li {
+    list-style-type: none;
+    padding: 5px 8px;
+}
+
+#add-menu-content li {
+    float: left;
+    padding-left: 0.5em;
+    border-left: 1px dashed white;
+}
+
+#add-menu-content li span {
+    padding: 0 2px;
+}
+
+#add-menu-content li a:hover {
+    background-color: White;
+    color: #996633;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+#add-menu-content a {
+    text-decoration: none;
+}
+
+#foot {
+    text-align:right;
+    padding-top: 7px;
+    margin-top: 3px;
+}
+
+.LoginLogoutBox {
+    float: right;
+}
+
+div#body {
+    clear: both;
+}
+
+/* Login page + forms */
+div#content div.row {
+    margin-top: 3px;
+}
+
+/* bulleted list */
+ul.bullet li {
+    list-style: disc inside none;
+}
+
+ul.bullet li.selected a {
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+/* Info messages */
+
+div#info-messages {
+    -moz-border-radius: 8px;
+    background-color: #FFCC66;
+    border-radius: 8px;
+    border: 5px ridge #996633;
+    padding: 2px;
+    position: absolute;
+    right: 100px;
+    top: 10px;
+    z-index: 1000;
+}
+
+div#info-messages ul li {
+    background: url(/++resource++img/Symbol-Check.png) no-repeat;
+    list-style-type: none;
+    padding-left: 36px;
+    padding-top: 6px;
+    height: 25px;
+}
+
+/* about page */
+dl#about dd {
+    text-indent: 3em;
+}
+
+/* error messages */
+div.status div.summary {
+    background: #FFCC66 url(/++resource++img/Symbol-Error.png) no-repeat 1px 1px;
+    padding-left: 36px;
+    padding-top: 7px;
+    height: 25px;
+    border: 5px ridge #996633;
+}
+
+div.status ul.errors li {
+    background: url(/++resource++img/Symbol-Error.png) no-repeat 5px 5px;
+    padding-left: 42px;
+    list-style-type: none;
+    padding-top: 7px;
+    height: 30px;
+}
+
+div.error div.error,
+div.multi-widget div.error {
+    color: red;
+}
+
+/* headlines */
+div#content h1,
+div#content h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+div#content h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* tipps */
+p.hint {
+    margin-top: 10px;
+    color: #555555;
+}
+
+.checklist-headline {
+    font-size: 24px;
+    width: 66%;
+    cursor: text;
+}

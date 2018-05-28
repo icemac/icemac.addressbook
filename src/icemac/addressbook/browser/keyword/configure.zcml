@@ -1,0 +1,70 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
+
+  <!-- keyword container -->
+  <z3c:pagelet
+     name="addKeyword.html"
+     for="icemac.addressbook.interfaces.IKeywords"
+     permission="icemac.addressbook.AddKeyword"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".keyword.AddForm"
+     />
+
+  <z3c:addMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IAddMenu"
+     for="icemac.addressbook.interfaces.IKeywords"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="keyword"
+     title="keyword"
+     viewName="@@addKeyword.html"
+     permission="icemac.addressbook.AddKeyword"
+     weight="1"
+     />
+
+  <gocept:pagelet
+     name="index.html"
+     for="icemac.addressbook.interfaces.IKeywords"
+     permission="icemac.addressbook.ViewKeywordContainer"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".keyword.Table"
+     />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.masterdata.interfaces.IMasterData"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Keywords"
+     title="Keywords"
+     permission="icemac.addressbook.ViewKeywordContainer"
+     viewName="++attribute++keywords"
+     weight="10"
+     />
+
+  <subscriber
+     for="*"
+     provides="
+        icemac.addressbook.browser.masterdata.interfaces.IMasterDataMenuItemOn"
+     factory=".keyword.keyword_views" />
+
+
+  <!-- Keyword -->
+  <z3c:pagelet
+     name="index.html"
+     for="icemac.addressbook.interfaces.IKeyword"
+     permission="icemac.addressbook.ViewKeyword"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".keyword.EditForm"
+     />
+
+  <z3c:pagelet
+     name="delete.html"
+     for="icemac.addressbook.interfaces.IKeyword"
+     permission="icemac.addressbook.EditKeyword"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".keyword.DeleteForm"
+     />
+
+</configure>

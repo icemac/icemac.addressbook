@@ -1,0 +1,31 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!-- Main menu -->
+  <browser:viewletManager
+     name="main-menu"
+     class=".menu.MainMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     permission="zope.Public"
+     />
+
+  <adapter
+     for="*
+          icemac.addressbook.browser.interfaces.IAddressBookLayer
+          *
+          .menu.MainMenu
+          z3c.menu.ready2go.interfaces.ISiteMenuItem"
+     factory="z3c.menu.ready2go.checker.ViewNameSelectedChecker"
+     />
+
+  <!-- Add menu -->
+  <browser:viewletManager
+     name="add-menu"
+     class=".menu.AddMenu"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="add-menu.pt"
+     permission="zope.Public"
+     />
+
+</configure>

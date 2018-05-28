@@ -1,0 +1,34 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
+
+  <gocept:pagelet
+      name="about.html"
+      for="*"
+      permission="zope.Public"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      class=".about.About"
+      template="about.pt"
+      />
+
+  <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           *"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".footer.CopyrightContentProvider"
+      name="copyright" />
+
+  <subscriber
+      for="*"
+      provides="..interfaces.IIconProviderInfo"
+      factory=".about.DialogIcons" />
+
+  <subscriber
+      for="*"
+      provides="..interfaces.IIconProviderInfo"
+      factory=".about.AddressBookIcon" />
+
+
+</configure>

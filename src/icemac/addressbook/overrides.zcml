@@ -1,0 +1,25 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="icemac.addressbook">
+
+  <class class="zope.pluggableauth.plugins.principalfolder.PrincipalFolder">
+
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+
+    <require
+        permission="icemac.addressbook.ViewSomePrincipals"
+        interface="zope.container.interfaces.IReadContainer"
+        />
+
+    <require
+        permission="icemac.addressbook.EditAllPrincipals"
+        interface="zope.container.interfaces.IWriteContainer"
+        />
+  </class>
+
+  <adapter factory=".browser.form.DatetimeDataConverter" />
+  <adapter factory=".browser.form.DateDataConverter" />
+
+</configure>

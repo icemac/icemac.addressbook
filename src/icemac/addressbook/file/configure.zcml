@@ -1,0 +1,42 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope">
+
+  <permission
+     id="icemac.addressbook.AddFile"
+     title="AddFile"
+     />
+
+  <permission
+     id="icemac.addressbook.EditFile"
+     title="EditFile"
+     />
+
+  <permission
+     id="icemac.addressbook.ViewFile"
+     title="ViewFile"
+     />
+
+  <!-- File -->
+  <class class=".file.File">
+    <implements
+       interface="zope.annotation.interfaces.IAttributeAnnotatable"
+       />
+    <require
+       permission="icemac.addressbook.ViewFile"
+       interface=".interfaces.IFile"
+       attributes="__annotations__"
+       />
+    <require
+       permission="icemac.addressbook.EditFile"
+       set_schema=".interfaces.IFile"
+       set_attributes="__annotations__"
+       />
+  </class>
+
+  <utility
+      component="icemac.addressbook.file.file.file_entity"
+      name="icemac.addressbook.file.file.File" />
+
+  <adapter factory=".file.title" />
+
+</configure>

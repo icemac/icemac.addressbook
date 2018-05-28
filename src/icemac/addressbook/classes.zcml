@@ -1,0 +1,257 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+ <!-- AddressBook -->
+  <class class=".addressbook.AddressBook">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="zope.Public"
+       interface=".interfaces.IAddressBook"
+       />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface="zope.container.interfaces.IReadContainer"
+       attributes="__annotations__
+                   getSiteManager"
+       />
+    <require
+      permission="icemac.addressbook.EditAddressBook"
+      set_schema=".interfaces.IAddressBook"
+      set_attributes="__annotations__"
+      />
+    <require
+       permission="icemac.addressbook.EditAddressBookContents"
+       interface="zope.container.interfaces.IWriteContainer"
+       />
+  </class>
+
+  <utility
+      component="icemac.addressbook.addressbook.address_book_entity"
+      name="icemac.addressbook.addressbook.AddressBook" />
+
+  <!-- Person -->
+  <class class=".person.Person">
+    <implements
+       interface="icemac.addressbook.file.interfaces.IFileContainer"
+       />
+    <require
+       permission="icemac.addressbook.ViewPersonName"
+       interface=".interfaces.IPersonName"
+       />
+    <require
+       permission="icemac.addressbook.ViewPerson"
+       interface=".interfaces.IPersonData
+                  .interfaces.IPersonDefaults
+                  .interfaces.ISchemaProvider
+                  zope.container.interfaces.IReadContainer"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditPerson"
+      set_schema=".interfaces.IPerson
+                  .interfaces.IPersonDefaults"
+      set_attributes="__annotations__"
+      />
+    <require
+       permission="icemac.addressbook.EditPersonContents"
+       interface="zope.container.interfaces.IWriteContainer"
+       />
+  </class>
+
+  <utility
+      component="icemac.addressbook.person.person_entity"
+      name="icemac.addressbook.person.Person" />
+
+  <!-- PostalAddress -->
+  <class class=".address.PostalAddress">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewPostalAddress"
+       interface=".interfaces.IPostalAddress"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditPostalAddress"
+      set_schema=".interfaces.IPostalAddress"
+      set_attributes="__annotations__"
+      />
+  </class>
+
+  <utility
+      component="icemac.addressbook.address.postal_address_entity"
+      name="icemac.addressbook.address.PostalAddress" />
+
+  <!-- EMailAddress -->
+  <class class=".address.EMailAddress">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewEMailAddress"
+       interface=".interfaces.IEMailAddress"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditEMailAddress"
+      set_schema=".interfaces.IEMailAddress"
+      set_attributes="__annotations__"
+      />
+  </class>
+
+  <utility
+      component="icemac.addressbook.address.e_mail_address_entity"
+      name="icemac.addressbook.address.EMailAddress" />
+
+  <!-- HomePageAddress -->
+  <class class=".address.HomePageAddress">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewHomePageAddress"
+       interface=".interfaces.IHomePageAddress"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditHomePageAddress"
+      set_schema=".interfaces.IHomePageAddress"
+      set_attributes="__annotations__"
+      />
+  </class>
+
+  <utility
+      component="icemac.addressbook.address.home_page_address_entity"
+      name="icemac.addressbook.address.HomePageAddress" />
+
+  <!-- PhoneNumber -->
+  <class class=".address.PhoneNumber">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewPhoneNumber"
+       interface=".interfaces.IPhoneNumber"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditPhoneNumber"
+      set_schema=".interfaces.IPhoneNumber"
+      set_attributes="__annotations__"
+      />
+  </class>
+
+  <utility
+      component="icemac.addressbook.address.phone_number_entity"
+      name="icemac.addressbook.address.PhoneNumber" />
+
+  <!-- KeywordContainer -->
+  <class class=".keyword.KeywordContainer">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewKeywordContainer"
+       interface=".interfaces.IKeywords
+                  zope.container.interfaces.IReadContainer"
+       attributes="__annotations__"
+       />
+    <require
+       permission="icemac.addressbook.EditKeywordContainer"
+       interface="zope.container.interfaces.IWriteContainer"
+       set_schema=".interfaces.IKeywords"
+       set_attributes="__annotations__"
+      />
+  </class>
+
+  <!-- Keyword -->
+  <class class=".keyword.Keyword">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewKeyword"
+       interface=".interfaces.IKeyword"
+       attributes="__annotations__"
+       />
+    <require
+      permission="icemac.addressbook.EditKeyword"
+      set_schema=".interfaces.IKeyword"
+      set_attributes="__annotations__"
+      />
+  </class>
+
+  <utility
+      component="icemac.addressbook.keyword.keyword_entity"
+      name="icemac.addressbook.keyword.Keyword" />
+
+  <!-- PersistentEntities -->
+  <class class=".entities.PersistentEntities">
+    <implements
+       interface="
+                  zope.annotation.interfaces.IAttributeAnnotatable
+                  icemac.addressbook.namechooser.interfaces.IDontReuseNames"
+       />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntities
+                  zope.container.interfaces.IReadContainer"
+       />
+   <require
+      permission="icemac.addressbook.EditEntities"
+      interface="zope.container.interfaces.IWriteContainer"
+      set_schema=".interfaces.IEntities"
+      />
+ </class>
+
+  <!-- Entity -->
+  <class class=".entities.EditableEntity">
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntityRead"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IEntityRead"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       interface=".interfaces.IEntityWrite"
+       />
+  </class>
+
+  <!-- PersonDefaultsEntity -->
+  <class class=".person.PersonDefaultsEntity">
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IEntity"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IEntity"
+       />
+  </class>
+
+  <utility
+      component=".person.person_defaults_entity"
+      name="icemac.addressbook.person.PersonDefaults" />
+
+  <!-- Field -->
+  <class class=".entities.Field">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewAddressBook"
+       interface=".interfaces.IField"
+       />
+    <require
+       permission="icemac.addressbook.EditEntities"
+       set_schema=".interfaces.IField"
+       set_attributes="__annotations__"
+       />
+  </class>
+
+</configure>

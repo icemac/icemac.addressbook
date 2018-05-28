@@ -1,0 +1,28 @@
+<tal:i18n i18n:domain="icemac.addressbook">
+  <dl id="about">
+    <dt i18n:translate="">Application:</dt>
+    <dd>icemac.addressbook</dd>
+    <dt i18n:translate="">Version:</dt>
+    <dd tal:content="view/version" />
+    <dt i18n:translate="">Built on:</dt>
+    <dd><a href="http://bluebream.zope.org/" target="_blank">BlueBream</a></dd>
+    <dt i18n:translate="">Optimized for:</dt>
+    <dd><a href="http://www.mozilla.com/firefox"
+           target="_blank">Firefox</a></dd>
+    <dd><a href="http://www.apple.com/safari" target="_blank">Safari</a></dd>
+    <dt i18n:translate="">Copyright:</dt>
+    <dd tal:content="provider:copyright">(c) Michael Howitz</dd>
+    <dt i18n:translate="">License:</dt>
+    <dd><a href="http://foundation.zope.org/agreements/ZPL_2.1.pdf" target="_blank">Zope Public License (ZPL) Version 2.1</a></dd>
+    <dt i18n:translate="">Icons from:</dt>
+    <dd tal:repeat="icon view/icons">
+      <a target="_blank"
+         tal:attributes="href icon/url"
+         tal:content="icon/name" />
+    </dd>
+  </dl>
+  <p>&#xA0;</p>
+  <a href="javascript:history.go(-1)"
+     class="no-print"
+     i18n:translate="">Go back</a>
+</tal:i18n>

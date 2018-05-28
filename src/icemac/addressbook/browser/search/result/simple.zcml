@@ -1,0 +1,15 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <adapter
+     name="name"
+     for="icemac.addressbook.browser.search.base.BaseView
+          icemac.addressbook.browser.interfaces.IAddressBookLayer
+          .simple.SimplePersonTable"
+     provides="z3c.table.interfaces.IColumn"
+     factory="icemac.addressbook.browser.table.TitleLinkColumn"
+     />
+
+</configure>

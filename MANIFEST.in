@@ -1,0 +1,29 @@
+include *.TXT
+include *.py
+include *.rst
+
+include profiles/prod.cfg
+include profiles/base.cfg
+include profiles/versions.cfg
+
+exclude *.zcml
+include default_skin.zcml
+
+exclude *.ini
+include install.default.ini
+
+exclude MANIFEST.in
+
+recursive-include log *.txt
+recursive-include profiles *.cfg
+recursive-include profiles *.in
+recursive-include src *.css
+recursive-include src *.ico
+recursive-include src *.jpg
+recursive-include src *.js
+recursive-include src *.png
+recursive-include src *.pt
+recursive-include src *.py
+recursive-include src *.txt
+recursive-include src *.zcml
+recursive-include var *.txt

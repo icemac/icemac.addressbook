@@ -1,0 +1,55 @@
+div#content table {
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+div#content td,
+div#content th {
+    padding: 0 2px;
+}
+
+.table-even-row {
+    background-color: #e0e0e0;
+}
+
+div#content td ul {
+    padding-left: 1em
+}
+
+.table-odd-row {
+    background-color: #d0d0d0;
+}
+
+.table-even-row ul.errors li,
+.table-odd-row ul.errors li {
+    color: #ff0000;
+}
+
+/* batching */
+
+div.batch {
+    clear: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: lightGrey;
+    opacity: 0.85;
+    padding: 5px 0 3px 25px;
+    width: 100%;
+}
+
+div.batch a {
+    padding: 0 2px;
+}
+
+
+div.batch a.current {
+    border: solid #666 2px;
+}
+
+@media only print {
+    .table-even-row,
+    .table-odd-row {
+        background-color: #fff;
+    }
+}

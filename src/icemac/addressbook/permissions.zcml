@@ -1,0 +1,171 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="icemac.addressbook">
+
+  <!-- Developer -->
+  <permission
+    id="icemac.addressbook.DevelopAddressBook"
+    title="Work as developer in the address book"
+    />
+
+  <!-- Addressbook -->
+  <permission
+    id="icemac.addressbook.AddAddressBook"
+    title="AddAddressBook"
+    />
+
+  <permission
+    id="icemac.addressbook.EditAddressBook"
+    title="EditAddressBook"
+    />
+
+  <permission
+    id="icemac.addressbook.EditAddressBookContents"
+    title="EditAddressBookContents"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewAddressBook"
+    title="ViewAddressBook"
+    />
+
+  <!-- Person -->
+  <permission
+    id="icemac.addressbook.AddPerson"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ClonePerson"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditPersonContents"
+    title="Edit person contents"
+    />
+
+  <permission
+    id="icemac.addressbook.EditPerson"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewPersonName"
+    title="View the name of the person belonging to the current user."
+    />
+
+  <permission
+    id="icemac.addressbook.ViewPerson"
+    title="XXX"
+    />
+
+  <!-- PostalAddress -->
+  <permission
+    id="icemac.addressbook.AddPostalAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditPostalAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewPostalAddress"
+    title="XXX"
+    />
+
+  <!-- EMailAddress -->
+  <permission
+    id="icemac.addressbook.AddEMailAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditEMailAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewEMailAddress"
+    title="XXX"
+    />
+
+  <!-- HomePageAddress -->
+  <permission
+    id="icemac.addressbook.AddHomePageAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditHomePageAddress"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewHomePageAddress"
+    title="XXX"
+    />
+
+  <!-- PhoneNumber -->
+  <permission
+    id="icemac.addressbook.AddPhoneNumber"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditPhoneNumber"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewPhoneNumber"
+    title="XXX"
+    />
+
+  <!-- KeywordContainer -->
+  <permission
+    id="icemac.addressbook.AddKeywordContainer"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditKeywordContainer"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewKeywordContainer"
+    title="XXX"
+    />
+
+  <!-- Keyword -->
+  <permission
+    id="icemac.addressbook.AddKeyword"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.EditKeyword"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewKeyword"
+    title="XXX"
+    />
+
+  <!-- edit the entities and their fields -->
+  <permission
+    id="icemac.addressbook.EditEntities"
+    title="XXX"
+    />
+
+  <!-- see the preferences tab and change prefs -->
+  <permission
+    id="icemac.addressbook.EditAllPreferences"
+    title="XXX"
+    />
+
+</configure>

@@ -1,0 +1,68 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="icemac.addressbook">
+
+  <preferenceGroup
+      id="ab"
+      title="Address Book Preferences"
+      description="Please select a preference category to edit it."
+      category="true"
+      />
+
+  <preferenceGroup
+      id="ab.personLists"
+      title="Person Lists"
+      description="Preferences for all person lists."
+      schema=".interfaces.IPersonLists"
+      />
+
+  <preferenceGroup
+      id="ab.personListTab"
+      title="Person List Tab"
+      description="Preferences only for the person list tab."
+      schema=".interfaces.IPersonListTab"
+      />
+
+  <preferenceGroup
+      id="ab.timeZone"
+      title="Time zone"
+      description="Datetimes get converted to the selected time zone."
+      schema=".interfaces.ITimeZone"
+      />
+
+  <z3c:siteMenuItem
+     manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+     for="*"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="Preferences"
+     title="Preferences"
+     viewName="++preferences++/ab"
+     class=".menu.PreferencesMenuItem"
+     permission="icemac.addressbook.EditAllPreferences"
+     weight="190"
+     />
+
+  <z3c:pagelet
+      for="zope.preference.interfaces.IPreferenceCategory"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="index.html"
+      permission="icemac.addressbook.EditAllPreferences"
+      class=".browser.CategoryEditForm"
+      />
+
+  <z3c:template
+      template="editform.pt"
+      for=".browser.CategoryEditForm"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer" />
+
+  <z3c:pagelet
+      for="zope.preference.interfaces.IPreferenceGroup"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="index.html"
+      permission="z3c.preference.EditPreference"
+      class=".browser.PrefGroupEditForm"
+      />
+
+</configure>

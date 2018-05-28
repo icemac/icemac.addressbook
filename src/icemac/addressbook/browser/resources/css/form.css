@@ -1,0 +1,197 @@
+.group input[type="text"],
+.group input[type="password"] {
+    width: 35em;
+}
+
+#content label span.required {
+    color: red;
+}
+
+.required-info {
+    font-size: small;
+}
+
+.required-info .required {
+    color: red;
+}
+
+#content form div.widget {
+    margin-left: 1em;
+}
+
+#content form .hint {
+    font-size: small;
+    color: #777;
+    margin-left: 3px;
+}
+
+#content fieldset {
+    background-color: #f0f0d0;
+    opacity: 0.92;
+    padding: 0 4px 6px 4px;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#content fieldset fieldset {
+    background-color: #f0f0e0;
+}
+
+#content legend {
+    background-color: #f0f0d0;
+    font-weight: bold;
+    padding: 0 2px;
+    margin-top: 3px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#content fieldset fieldset {
+    float: right;
+}
+
+#content fieldset fieldset div.row {
+    background-color: #f0f0e0;
+    font-weight: normal;
+    font-size: small;
+}
+
+#content fieldset fieldset legend {
+    font-size: small;
+}
+
+#content select {
+    opacity: 0.85;
+}
+
+select.tuple-field,
+select.list-field,
+select.set-field {
+    min-width: 200px;
+}
+
+#content textarea {
+    height: 15ex;
+    width: 40em;
+    font-size: 14px;
+}
+
+#content form div.multi-widget-checkbox {
+    float: left;
+    margin-right: 6px;
+    margin-top: 5px;
+}
+
+#content form div.multi-widget .buttons {
+    margin-top: 5px;
+}
+
+#content form div.multi-widget-input {
+    clear: none;
+    float: left;
+}
+
+/* buttons */
+form div.buttons,
+div.js-form div.buttons {
+    clear: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: lightGrey;
+    opacity: 0.85;
+    padding: 5px 0 3px 10px;
+    width: 100%;
+}
+
+form div.widget div.buttons {
+    clear: inherit;
+    position: inherit;
+    background-color: inherit;
+    opacity: inherit;
+    padding: inherit;
+    width: inherit;
+}
+
+#content form div {
+    clear: both;
+}
+
+form div.buttons input,
+div.js-form div.buttons button {
+    opacity: 1;
+}
+
+div.js-form div.buttons button {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+}
+
+/* for forms: (metadata top right) */
+
+form#edit-form div.group {
+    float: left;
+}
+
+form#edit-form div.group + fieldset,
+form#standalone-metadata-form {
+    float: right;
+}
+
+form div.group + fieldset + fieldset{
+    clear: left;
+}
+
+form#search-export-form div.buttons {
+    background-color: transparent;
+    left: 100px;
+}
+
+form#search-export-form div.buttons input#form-buttons-delete {
+    margin-left: 25px;
+}
+
+/* jQuery-UI selectable */
+form .widget .ui-selectable .ui-selected {
+    background: #F0F0D0;
+    color: white;
+}
+form .widget .ui-selectable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+form .widget .ui-selectable li {
+    width: 140px;
+    margin: 3px;
+    padding: 0.4em;
+    font-size: 1.4em;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+form .widget .ui-selectable li img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Select2 */
+form .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    float: none;
+}
+
+@media only print {
+    #content fieldset,
+    #content legend,
+    #content fieldset fieldset,
+    #content fieldset fieldset div.row {
+        background-color: #fff;
+    }
+    #content label span.required,
+    .required-info {
+        display: none;
+    }
+}

@@ -1,0 +1,90 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope">
+
+  <permission
+     id="icemac.addressbook.ViewSomePrincipals"
+     title="ViewSomePrincipals"
+     />
+
+  <permission
+     id="icemac.addressbook.EditAllPrincipals"
+     title="EditAllPrincipals"
+     />
+
+  <permission
+     id="icemac.addressbook.AddPrincipal"
+     title="AddPrincipal"
+     />
+
+  <permission
+     id="icemac.addressbook.EditPrincipal"
+     title="EditPrincipal"
+     />
+
+  <permission
+     id="icemac.addressbook.EditPrincipalRoles"
+     title="EditPrincipalRoles"
+     />
+
+  <permission
+     id="icemac.addressbook.EditPrincipalPassword"
+     title="EditPrincipalPassword"
+     />
+
+  <permission
+     id="icemac.addressbook.ViewPrincipal"
+     title="ViewPrincipal"
+     />
+
+  <grant
+     role="icemac.addressbook.global.Administrator"
+     permissions="
+        icemac.addressbook.ViewSomePrincipals
+        icemac.addressbook.EditAllPrincipals
+        icemac.addressbook.AddPrincipal
+        icemac.addressbook.EditPrincipal
+        icemac.addressbook.EditPrincipalRoles
+        icemac.addressbook.EditPrincipalPassword
+        icemac.addressbook.ViewPrincipal
+     " />
+
+  <!-- Principal -->
+  <class class=".principals.Principal">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewPrincipal"
+       interface=".interfaces.IPrincipal
+                  .interfaces.IRoles
+                  .interfaces.IPasswordFields"
+       />
+    <require
+       permission="icemac.addressbook.EditPrincipal"
+       set_schema=".interfaces.IPrincipal"
+       />
+    <require
+       permission="icemac.addressbook.EditPrincipalRoles"
+       set_schema=".interfaces.IRoles"
+       />
+    <require
+       permission="icemac.addressbook.EditPrincipalPassword"
+       set_schema=".interfaces.IPasswordFields"
+       set_attributes="__annotations__"
+       />
+  </class>
+
+  <subscriber handler=".principals.created" />
+  <subscriber handler=".principals.added" />
+  <adapter factory=".principals.title" />
+
+  <subscriber
+    for="*"
+    provides=".interfaces.IEditorRole"
+    factory=".roles.editor_role" />
+  <subscriber
+    for="*"
+    provides=".interfaces.IVisitorRole"
+    factory=".roles.visitor_role" />
+
+</configure>

@@ -1,0 +1,44 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+  <browser:page
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="defaults_export.html"
+      class=".xls.DefaultsExport"
+      permission="icemac.addressbook.ViewAddressBook"
+     />
+
+  <z3c:siteMenuItem
+     manager="..manager.ISearchResultHandlers"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="XLS-Defaults Export"
+     title="XLS export main (Exports person data and main addresses resp. phone numbers.)"
+     viewName="defaults_export.html"
+     class="..manager.SearchResultHandler"
+     permission="icemac.addressbook.ViewAddressBook"
+     weight="10"
+     />
+
+  <browser:page
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="complete_export.html"
+      class=".xls.CompleteExport"
+      permission="icemac.addressbook.ViewAddressBook"
+      />
+
+  <z3c:siteMenuItem
+     manager="..manager.ISearchResultHandlers"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="XLS-Complete Export"
+     title="XLS export complete (Exports person data and all addresses resp. phone numbers.)"
+     class="..manager.SearchResultHandler"
+     viewName="complete_export.html"
+     permission="icemac.addressbook.ViewAddressBook"
+     weight="20"
+     />
+
+</configure>

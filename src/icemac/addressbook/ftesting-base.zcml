@@ -1,0 +1,69 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="icemac.addressbook">
+
+  <!-- Turn on the devmode -->
+  <meta:provides feature="devmode" />
+
+  <include package="icemac.addressbook" />
+  <include package="icemac.addressbook" file="base.zcml"/>
+
+  <!-- Principal that has all permissions needed inside the address book -->
+  <principal
+      id="zope.mgr"
+      title="Manager"
+      login="mgr"
+      password="mgrpw"
+      />
+
+  <grant role="icemac.addressbook.global.Administrator"
+         principal="zope.mgr" />
+
+  <!-- Principal that has all permissions even outside the address book -->
+  <principal
+      id="zope.globalmgr"
+      title="Manager"
+      login="globalmgr"
+      password="globalmgrpw"
+      />
+
+  <grant role="icemac.addressbook.global.Administrator"
+         principal="zope.globalmgr" />
+  <grant permissions="zope.ManageContent
+                      icemac.addressbook.DevelopAddressBook"
+         principal="zope.globalmgr" />
+
+  <!-- Principal that can edit in the address book. -->
+  <principal
+      id="icemac.addressbook.global.Editor"
+      title="global editor"
+      login="editor"
+      password="editor"
+      />
+  <grant role="icemac.addressbook.global.Editor"
+         principal="icemac.addressbook.global.Editor" />
+
+  <!-- Principal with only display permissions -->
+  <principal
+      id="icemac.addressbook.global.Visitor"
+      title="global visitor"
+      login="visitor"
+      password="visitor"
+      />
+  <grant role="icemac.addressbook.global.Visitor"
+         principal="icemac.addressbook.global.Visitor" />
+
+  <browser:view
+    for="zope.site.interfaces.IFolder"
+    layer=".browser.interfaces.IAddressBookLayer"
+    name="selenium-login"
+    class=".testing.SeleniumLogin"
+    permission="icemac.addressbook.ViewAddressBook"
+    />
+
+  <browser:defaultSkin name="AddressBook" />
+
+</configure>

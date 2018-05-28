@@ -1,0 +1,61 @@
+${main}
+
+[server:main]
+use = egg:Paste#http
+host = ${host}
+port = ${port}
+
+
+# Logging configuration, see http://pylonshq.com/docs/en/0.9.7/logging
+
+# Logs page access using logger `wsgi`, see below for configuration of this
+# logger:
+[filter:translogger]
+use = egg:Paste#translogger
+setup_console_handler = False
+
+# Configuration to be read by logging.config.fileConfig()
+[loggers]
+keys = root, wsgi
+
+[logger_root]
+level = DEBUG
+handlers = console, eventlog
+
+[logger_wsgi]
+level = INFO
+handlers = accesslog
+qualname = wsgi
+propagate = 0
+
+[handlers]
+keys = console, accesslog, eventlog
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[handler_accesslog]
+class = ${log-handler}
+args = ('log/access.log', ${log-handler-args})
+level = INFO
+formatter = accesslog
+
+[handler_eventlog]
+class = ${log-handler}
+args = ('log/event.log', ${log-handler-args})
+level = INFO
+formatter = generic
+
+[formatters]
+keys = generic, accesslog
+
+[formatter_accesslog]
+format = %(message)s
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
+datefmt = %Y-%m-%dT%H:%M:%S
+class = zope.exceptions.log.Formatter

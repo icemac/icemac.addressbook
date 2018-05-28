@@ -1,0 +1,20 @@
+<div tal:define="addressbooks view/getAddressBooks"
+     i18n:domain="icemac.addressbook">
+  <ul class="bullet"
+      tal:condition="addressbooks">
+    <li tal:repeat="addressbook addressbooks">
+      <a tal:attributes="href addressbook/url"
+         tal:content="addressbook/title" />
+      (<tal:entries tal:replace="addressbook/count" />)
+      <a tal:attributes="href addressbook/delete_url"
+         i18n:translate="">Delete</a>
+    </li>
+  </ul>
+
+  <p tal:condition="not:addressbooks"
+     i18n:translate="">
+    There are no address books created yet, click on "Add address
+    book" to create one.
+  </p>
+
+</div>

@@ -1,0 +1,10 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="icemac.addressbook">
+
+  <adapter
+      factory=".messages.MessagesContentProvider"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      name="messages" />
+
+</configure>

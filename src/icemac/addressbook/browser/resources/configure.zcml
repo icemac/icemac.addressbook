@@ -1,0 +1,13 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="icemac.addressbook">
+
+  <browser:resourceDirectory
+      name="img"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      directory="img"
+      permission="zope.Public"
+      />
+
+</configure>

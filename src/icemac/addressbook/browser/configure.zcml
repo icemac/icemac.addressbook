@@ -1,0 +1,330 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   i18n_domain="icemac.addressbook">
+
+  <interface
+     interface=".interfaces.IAddressBookBrowserSkin"
+     type="zope.publisher.interfaces.browser.IBrowserSkinType"
+     name="AddressBook"
+     />
+
+  <z3c:layout
+     for="*"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="layout.pt"
+     />
+
+  <!-- Use a plain select widgets for collection.
+       They are styled via a JavaScript library in the browser. -->
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget"
+     />
+  <adapter
+     for="zope.schema.interfaces.ITuple
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
+     />
+  <adapter
+     for="zope.schema.interfaces.ISet
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionSelectFieldWidget" />
+  <adapter
+     for="zope.schema.interfaces.ISet
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory="z3c.form.browser.select.CollectionChoiceSelectFieldWidget"
+     />
+
+  <!-- Render list of choice using a custom widget: -->
+  <adapter
+     for="zope.schema.interfaces.IList
+          zope.schema.interfaces.IChoice
+          icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     provides="z3c.form.interfaces.IFieldWidget"
+     factory=".widget.Select2ListChoiceFieldWidgetFactory" />
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".widget.Select2ListFieldWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      template="list_select2_input.pt"
+      />
+
+
+  <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           *"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".layout.AddressBookTitle"
+      name="addressbook-title"
+      permission="zope.Public"
+  />
+
+  <browser:viewlet
+     manager="z3c.authviewlet.auth.ILoginLogoutViewletManager"
+     layer=".interfaces.IAddressBookLayer"
+     name="logged-in-user"
+     class=".layout.LoggedInUserViewlet"
+     permission="zope.Public"
+     weight="1"
+     />
+
+
+  <browser:viewletManager
+      provides=".interfaces.IFanstaticViewletManager"
+      layer=".interfaces.IAddressBookLayer"
+      name="fanstatic-viewlets"
+      permission="zope.Public"
+      />
+
+  <browser:viewlet
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="DefaultResources"
+      class=".resource.DefaultResources"
+      permission="zope.Public" />
+
+  <browser:viewlet
+      for="..interfaces.IPerson"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
+  <browser:viewlet
+      for="..interfaces.IPersonEntity"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
+  <browser:viewlet
+      view=".interfaces.IAddressBookBackground"
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="AddressBookResources"
+      class=".resource.AddressBookResources"
+      permission="zope.Public" />
+
+  <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
+
+  <adapter
+      factory=".metadata.ModifiedLabel"
+      name="label" />
+
+  <adapter
+      factory=".metadata.ModifiedHint"
+      name="hint" />
+
+  <adapter
+      factory=".metadata.CreatedLabel"
+      name="label" />
+
+  <adapter
+      factory=".metadata.CreatedHint"
+      name="hint" />
+
+  <adapter
+      factory=".metadata.MetadataGroupFieldsNotRequired"
+      name="required" />
+
+  <!-- z3c.form -->
+  <adapter factory=".datamanager.AnnotationField" />
+
+  <z3c:template
+      layer="icemac.addressbook.browser.interfaces.IAddressBookBrowserSkin"
+      for="z3c.form.interfaces.IInputForm"
+      template="form.pt"
+      />
+
+  <z3c:macro
+     name="addressbook-form"
+     macro="addressbook-form"
+     template="form.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:macro
+     name="addressbook-form-groups"
+     macro="groups"
+     template="form.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <class class=".form.DatetimeWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDatetimeWidget"
+        />
+  </class>
+
+  <class class=".form.DateWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDateWidget"
+        />
+  </class>
+
+  <class class=".form.ImageSelectWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.ISelectWidget"
+        />
+  </class>
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IDatetimeWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="datetime_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IDateWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="datetime_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ITimeWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="datetime_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IImageSelectWidget"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      mode="input"
+      template="imageselect_input.pt"
+      />
+
+
+  <!-- z3c.table -->
+  <adapter
+      for="*
+           icemac.addressbook.browser.interfaces.IAddressBookLayer
+           icemac.addressbook.browser.table.Table"
+      name="batch"
+      factory="icemac.addressbook.browser.table.NiceBatchProvider"
+      />
+
+  <!-- z3c.wizard -->
+
+  <adapter
+      for=".wizard.Wizard"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <adapter
+      for=".wizard.Step"
+      factory="icemac.addressbook.adapter.obj_dot_title" />
+
+  <z3c:template
+     template="wizard-step.pt"
+     for=".wizard.Step"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <z3c:macro
+     name="addressbook-wizard"
+     template="wizard-step.pt"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     />
+
+  <view
+      for="*"
+      type="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="attribute"
+      provides="zope.traversing.interfaces.ITraversable"
+      factory=".namespace.attr"
+      />
+
+  <browser:page
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.AddressBookFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="zope.site.interfaces.IFolder"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="zope.browser.interfaces.IBrowserView"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="Exception"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <browser:page
+      for="zope.publisher.interfaces.INotFound"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="favicon-url"
+      class=".favicon.RootFavIconURL"
+      permission="zope.Public" />
+
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.red" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.green" />
+  <subscriber
+       for="*"
+       provides="icemac.addressbook.interfaces.IFaviconData"
+       factory=".favicon.black" />
+
+  <adapter
+       factory=".form.FieldDescriptionAsHint"
+       name="title" />
+
+  <gocept:pagelet
+      for="*"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="inspector"
+      class=".inspector.Inspector"
+      template="inspector.pt"
+      permission="icemac.addressbook.DevelopAddressBook" />
+
+  <include package=".about" />
+  <include package=".addressbook" />
+  <include package=".authentication" />
+  <include package=".entities" />
+  <include package=".file" />
+  <include package=".keyword" />
+  <include package=".masterdata" />
+  <include package=".menus" />
+  <include package=".messages" />
+  <include package=".person" />
+  <include package=".principals" />
+  <include package=".resources" />
+  <include package=".rootfolder" />
+  <include package=".search" />
+
+</configure>

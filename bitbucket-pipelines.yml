@@ -1,0 +1,22 @@
+image: python:2.7
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - pip
+          - buildout-eggs
+          - buildout-parts
+        script:
+          - apt-get -y remove liblzma-dev
+          - pip install setuptools==`grep 'setuptools' profiles/versions.cfg | cut -d"=" -f2 | tr -d '[:blank:]'`
+          - pip install six==`grep 'six' profiles/versions.cfg | cut -d"=" -f2 | tr -d '[:blank:]'`
+          - pip install zc.buildout==`grep 'zc.buildout' profiles/versions.cfg | cut -d"=" -f2 | tr -d '[:blank:]'`
+          - buildout -n buildout:eggs-directory=../eggs -c bitbucket-pipelines.cfg
+          - bin/py.test -k "not webdriver"
+
+definitions:
+  caches:
+    buildout-eggs: ../eggs
+    buildout-parts: parts
+

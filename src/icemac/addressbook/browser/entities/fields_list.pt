@@ -1,0 +1,38 @@
+<tal:i18n i18n:domain="icemac.addressbook">
+  <h2 tal:content="context/title" />
+  <div tal:replace="structure view/metadata" />
+  <table id="entity-fields">
+    <thead>
+      <tr>
+        <th i18n:translate="">Field</th>
+        <th />
+        <th />
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="field view/fields"
+          tal:attributes="id field/id;
+                          class python:repeat['field'].even() and 'table-even-row' or 'table-odd-row'">
+        <td tal:content="field/title">Field title</td>
+        <td><a tal:condition="field/delete-link"
+             tal:attributes="href field/delete-link"
+             i18n:translate="">Delete</a></td>
+        <td><a tal:condition="field/edit-link"
+             tal:attributes="href field/edit-link"
+             i18n:translate="">Edit</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="hint no-print"
+     i18n:translate="">You can reorder the fields using
+     drag'n'drop. To store a changed order use the `Save sortorder` button
+     below.</p>
+
+  <div class="js-form">
+    <div class="buttons">
+      <button id="entity-fields-save" i18n:translate="">Save sortorder</button>
+    </div>
+  </div>
+
+</tal:i18n>
