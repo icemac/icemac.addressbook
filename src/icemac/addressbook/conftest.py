@@ -2,9 +2,7 @@
 from icemac.addressbook.testing import pyTestAddressBookFixture, site
 from icemac.addressbook.testing import pyTestEmptyZodbFixture, DateTimeClass
 from icemac.addressbook.testing import pyTestStackDemoStorage
-import gocept.httpserverlayer.wsgi
-import gocept.selenium
-import gocept.selenium.wd_selenese
+import gocept.country.db
 import icemac.addressbook
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
