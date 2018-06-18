@@ -4,8 +4,6 @@ from icemac.addressbook.testing import TestHTTPPublicationRequestFactory
 from icemac.addressbook.testing import getRootFolder
 from icemac.addressbook.testing import interpolate_insted_of_translate
 import gocept.httpserverlayer.wsgi
-import gocept.selenium
-import gocept.selenium.wd_selenese
 import icemac.addressbook
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
@@ -17,6 +15,7 @@ import mock
 import os
 import os.path
 import pytest
+import selenium.webdriver
 import tempfile
 import zope.app.wsgi.testlayer
 import zope.browserpage.metaconfigure
@@ -40,10 +39,7 @@ def webdriver(webdriverS, httpServerS):  # pragma: no cover (webdriver)
     """Fixture to run tests using Webdriver."""
     assert icemac.addressbook.testing.CURRENT_CONNECTION is not None, \
         "The `webdriver` fixture needs a database fixture like `address_book`."
-    timeout = int(os.environ.get('GOCEPT_SELENIUM_TIMEOUT', 10))
-    webdriver = icemac.addressbook.testing.Webdriver(
-        gocept.selenium.wd_selenese.Selenese(
-            webdriverS, httpServerS, timeout))
+    webdriver = icemac.addressbook.testing.Webdriver(webdriverS, httpServerS)
     # Allow any language setting in the Webdriver browser by falling back to
     # interpolation instead of translation:
     translate = 'zope.i18n.translationdomain.TranslationDomain.translate'
@@ -326,8 +322,10 @@ def httpServerS(wsgiAppS):  # pragma: no cover (webriver)
 @pytest.yield_fixture(scope='session')
 def webdriverS(httpServerS):  # pragma: no cover (webdriver)
     """Open a browser for webriver tests."""
-    layer = gocept.selenium.WebdriverLayer(name='WebdriverLayer')
-    layer['http_address'] = httpServerS
-    layer.setUp()
-    yield layer['seleniumrc']
-    layer.tearDown()
+    driver = selenium.webdriver.Firefox()
+    timeout = int(os.environ.get('GOCEPT_SELENIUM_TIMEOUT', 10))
+    driver.implicitly_wait(timeout)  # in seconds
+    try:
+        yield driver
+    finally:
+        driver.quit()
