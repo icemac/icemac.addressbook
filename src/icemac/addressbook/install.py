@@ -44,6 +44,8 @@ class Configurator(object):
         self.get_global_options()
         self.get_server_options()
         self.get_log_options()
+        self.get_imprint_link_config()
+        self.get_data_protection_link_config()
         self.print_additional_packages_intro()
         self.get_additional_packages()
         self.get_migration_options()
@@ -156,6 +158,20 @@ class Configurator(object):
                 'Number of log file backups', 'log', 'backups')
         self.log_handler = log_handler
 
+    def get_imprint_link_config(self):
+        print(' Configuration of the imprint link. It is shown in the footer'
+              ' of each page. (Leave empty to omit the link.)')
+        self.imprint_url = self.ask_user('URL', 'links', 'imprint_url')
+        self.imprint_text = self.ask_user('Link text', 'links', 'imprint_text')
+
+    def get_data_protection_link_config(self):
+        print(' Configuration of the data protection link. It is shown in the '
+              ' footer of each page. (Leave empty to omit the link.)')
+        self.dataprotection_url = self.ask_user(
+            'URL', 'links', 'dataprotection_url')
+        self.dataprotection_text = self.ask_user(
+            'Link text', 'links', 'dataprotection_text')
+
     def print_additional_packages_intro(self):
         print(' When you need additional packages (e. g. import readers)')
         print(' enter the package names here separated by a newline.')
@@ -252,12 +268,26 @@ class Configurator(object):
 
         with open('buildout.cfg', 'w') as buildout_cfg_file:
             buildout_cfg.write(buildout_cfg_file)
+            buildout_cfg_file.write('[app]\n')
+            attrs = (
+                'imprint_text',
+                'imprint_url',
+                'dataprotection_text',
+                'dataprotection_url',
+            )
+            buildout_cfg_file.write('initialization += ')
+            buildout_cfg_file.write(
+                '\n    '.join(
+                    'os.environ["AB_LINK_{0}"] = "{1}'.format(
+                        x.upper(), getattr(self, x))
+                    for x in attrs
+                ))
+
             if self.packages:
                 # configparser can't write '+=' instead of '='
-                eggs = 'eggs += %s\n\n' % '\n      '.join(self.packages)
-                buildout_cfg_file.write('[app]\n')
+                eggs = '\neggs += %s\n\n' % '\n    '.join(self.packages)
                 buildout_cfg_file.write(eggs)
-                buildout_cfg_file.write('[test]\n')
+                buildout_cfg_file.write('[test]')
                 buildout_cfg_file.write(eggs)
 
     def store(self):

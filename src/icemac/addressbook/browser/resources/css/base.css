@@ -178,6 +178,11 @@ body {
     margin-top: 3px;
 }
 
+#foot ul li {
+    float: left;
+    margin-right: 10px;
+}
+
 .LoginLogoutBox {
     float: right;
 }
