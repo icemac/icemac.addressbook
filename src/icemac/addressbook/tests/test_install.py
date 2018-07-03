@@ -49,6 +49,12 @@ backups = 5
 do_migration = no
 stop_server = no
 start_server = no
+
+[links]
+imprint_text = Imprint
+imprint_url =
+dataprotection_text = Data Protection
+dataprotection_url =
 """)
 
 
@@ -57,6 +63,10 @@ def config(install_default_ini):
     """Return a `Configurator` instance running on `install.default.ini`."""
     config = Configurator(stdin=BytesIO())
     config.load()
+    config.imprint_text = 'imprint text'
+    config.imprint_url = 'imprint url'
+    config.dataprotection_text = 'data protection text'
+    config.dataprotection_url = 'data protection url'
     return config
 
 
@@ -459,6 +469,10 @@ def test_install__Configurator__create_buildout_cfg__1(
     config.username = ''
     config.log_handler = 'FileHandler'
     config.packages = ['icemac.ab.reporting', 'icemac.ab.relations']
+    config.imprint_text = 'Imprint'
+    config.imprint_url = 'https://my.site/imprint'
+    config.dataprotection_text = 'Data protection'
+    config.dataprotection_url = 'https://my.site/data-protection'
     config.create_buildout_cfg()
     assert 'creating buildout.cfg ...\n' == capsys.readouterr()[0]
     assert [
@@ -480,12 +494,16 @@ def test_install__Configurator__create_buildout_cfg__1(
         '\t<include package="icemac.ab.relations" />',
         '',
         '[app]',
+        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint',
+        '    os.environ["AB_LINK_IMPRINT_URL"] = "https://my.site/imprint',
+        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data protection',
+        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = "https://my.site/data-protection',  # noqa
         'eggs += icemac.ab.reporting',
-        '      icemac.ab.relations',
+        '    icemac.ab.relations',
         '',
         '[test]',
         'eggs += icemac.ab.reporting',
-        '      icemac.ab.relations',
+        '    icemac.ab.relations',
         ''
     ] == basedir.join('buildout.cfg').read().splitlines()
 
@@ -581,6 +599,12 @@ def test_install__Configurator__store__1(config, capsys, basedir):
         'start_server = no',
         'old_instance = ',
         '',
+        '[links]',
+        'imprint_text = Imprint',
+        'imprint_url = ',
+        'dataprotection_text = Data Protection',
+        'dataprotection_url = ',
+        '',
     ] == basedir.join('install.user.ini').read().splitlines()
 
 
@@ -592,35 +616,43 @@ def test_install__Configurator____call____1(config, capsys, basedir):
     with user_input('', config):
         config()
     assert [
-        'Welcome to icemac.addressbook installation',
-        '',
-        'Hint: to use the default value (the one in [brackets]), enter no '
-        'value.',
-        '',
-        ' Directory to store python eggs: [py-eggs] ',
-        ' Log-in name for the administrator: [me] ',
-        ' Password for the administrator: [secret] ',
-        ' Hostname: [my.computer.local] ',
-        ' Port number: [13090] ',
-        ' Username whether process should run as different user otherwise '
-        'emtpy: [] ',
-        ' Please choose Log-Handler:',
-        '    Details see http://docs.python.org/library/logging.html#'
-        'handler-objects',
-        ' Log-Handler, choose between FileHandler, RotatingFileHandler, '
-        'TimedRotatingFileHandler: [FileHandler] ',
-        ' When you need additional packages (e. g. import readers)',
-        ' enter the package names here separated by a newline.',
-        ' When you are done enter an empty line.',
-        ' Known packages:',
-        '   icemac.ab.importer -- Import of CSV files',
-        '   icemac.ab.importxls -- Import of XLS (Excel) files',
-        '   icemac.ab.calendar -- Calendar using persons in address book',
-        ' Package 1: [] ',
-        '  Migrate old address book content to new instance: [no] ',
-        'creating admin.zcml ...',
-        'creating buildout.cfg ...',
-        'saving config ...',
+        u'Welcome to icemac.addressbook installation',
+        u'',
+        u'Hint: to use the default value (the one in [brackets]), enter no '
+        u'value.',
+        u'',
+        u' Directory to store python eggs: [py-eggs] ',
+        u' Log-in name for the administrator: [me] ',
+        u' Password for the administrator: [secret] ',
+        u' Hostname: [my.computer.local] ',
+        u' Port number: [13090] ',
+        u' Username whether process should run as different user otherwise '
+        u'emtpy: [] ',
+        u' Please choose Log-Handler:',
+        u'    Details see http://docs.python.org/library/logging.html#'
+        u'handler-objects',
+        u' Log-Handler, choose between FileHandler, RotatingFileHandler, '
+        u'TimedRotatingFileHandler: [FileHandler] ',
+        u' Configuration of the imprint link. It is shown in the footer of'
+        u' each page. (Leave empty to omit the link.)',
+        u' URL: [] ',
+        u' Link text: [Imprint] ',
+        u' Configuration of the data protection link. It is shown in the '
+        u' footer of each page. (Leave empty to omit the link.)',
+        u' URL: [] ',
+        u' Link text: [Data Protection] ',
+        u' When you need additional packages (e. g. import readers)',
+        u' enter the package names here separated by a newline.',
+        u' When you are done enter an empty line.',
+        u' Known packages:',
+        u'   icemac.ab.importer -- Import of CSV files',
+        u'   icemac.ab.importxls -- Import of XLS (Excel) files',
+        u'   icemac.ab.calendar -- Calendar using persons in address book',
+        u' Package 1: [] ',
+        u'  Migrate old address book content to new instance: [no] ',
+        u'creating admin.zcml ...',
+        u'creating buildout.cfg ...',
+        u'saving config ...',
     ] == capsys.readouterr()[0].splitlines()
     assert [
         '[buildout]',
@@ -636,6 +668,11 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         'log-handler = FileHandler',
         "log-handler-args = 'a'",
         '',
+        '[app]',
+        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint',
+        '    os.environ["AB_LINK_IMPRINT_URL"] = "',
+        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data Protection',
+        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = "',
     ] == basedir.join('buildout.cfg').read().splitlines()
     assert [
         '[install]',
@@ -665,6 +702,12 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         'stop_server = no',
         'start_server = no',
         'old_instance = ',
+        '',
+        '[links]',
+        'imprint_text = Imprint',
+        'imprint_url = ',
+        'dataprotection_text = Data Protection',
+        'dataprotection_url = ',
         '',
     ] == basedir.join('install.user.ini').read().splitlines()
     assert [

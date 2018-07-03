@@ -20,6 +20,12 @@ Backward incompatible changes
 Features
 --------
 
+- Add ability to configure the following links during setup. They are shown at
+  the bottom of each page:
+
+  + imprint
+  + data protection declaration
+
 - Add a `schema_name` index to distinguish between entities in the catalog.
 
 - Add an ability disable `handle_errors` to debug all exception types.

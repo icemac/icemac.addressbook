@@ -1,5 +1,7 @@
 # The about screen displays some information about the application, its
 # version and licenses. It is accessable everywhere in the application.
+import os
+import mock
 
 ABOUT_URL = 'http://localhost/@@about.html'
 
@@ -43,3 +45,31 @@ def test_about__About__3(address_book, PersonFactory, browser):
     browser.open(browser.PERSON_EDIT_URL)
     browser.getLink(id="about-view").click()
     assert ABOUT_URL == browser.url
+
+
+def test_footer__ImprintLink__title__1(address_book, browser):
+    """It renders an imprint link if the necessary env vars are set."""
+    data = {'AB_LINK_IMPRINT_TEXT': 'My Imprint',
+            'AB_LINK_IMPRINT_URL': 'https://imprint.example.com'}
+    with mock.patch.dict(os.environ, data):
+        browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+        tags = browser.etree.xpath('//*[@id="foot"]/ul/li/a')
+        assert len(tags) == 1
+        tag = tags[0]
+        assert tag.get('target') == '_blank'
+        assert tag.get('href') == 'https://imprint.example.com'
+        assert tag.iterchildren().next().text == 'My Imprint'
+
+
+def test_footer__DataprotectionLink__title__1(address_book, browser):
+    """It renders a data protection link if the necessary env vars are set."""
+    data = {'AB_LINK_DATAPROTECTION_TEXT': 'Datenschutz',
+            'AB_LINK_DATAPROTECTION_URL': 'https://daten.example.com'}
+    with mock.patch.dict(os.environ, data):
+        browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
+        tags = browser.etree.xpath('//*[@id="foot"]/ul/li/a')
+        assert len(tags) == 1
+        tag = tags[0]
+        assert tag.get('target') == '_blank'
+        assert tag.get('href') == 'https://daten.example.com'
+        assert tag.iterchildren().next().text == 'Datenschutz'

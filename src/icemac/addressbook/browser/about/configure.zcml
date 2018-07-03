@@ -1,6 +1,8 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
    i18n_domain="icemac.addressbook">
 
   <gocept:pagelet
@@ -30,5 +32,37 @@
       provides="..interfaces.IIconProviderInfo"
       factory=".about.AddressBookIcon" />
 
+  <configure package="z3c.menu.ready2go">
+    <browser:viewletManager
+        for="*"
+        provides="icemac.addressbook.browser.about.footer.IFooterLinks"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        name="footer-links"
+        class="icemac.addressbook.browser.about.footer.FooterLinksManager"
+        template="menu.pt"
+        permission="zope.Public"
+        />
+  </configure>
+
+  <z3c:template
+    for=".footer.FooterLink"
+    layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+    template="item.pt" />
+
+  <browser:viewlet
+      manager=".footer.IFooterLinks"
+      layer="..interfaces.IAddressBookLayer"
+      class=".footer.ImprintLink"
+      name="imprint"
+      permission="zope.Public"
+      />
+
+  <browser:viewlet
+      manager=".footer.IFooterLinks"
+      layer="..interfaces.IAddressBookLayer"
+      class=".footer.DataprotectionLink"
+      name="dataprotection"
+      permission="zope.Public"
+      />
 
 </configure>

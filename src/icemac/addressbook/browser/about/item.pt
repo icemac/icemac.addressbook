@@ -1,0 +1,6 @@
+<li>
+  <a target="_blank"
+     tal:attributes="href view/approvedURL">
+    <span tal:content="view/title">Title</span>
+  </a>
+</li>
