@@ -1,5 +1,5 @@
 # The about screen displays some information about the application, its
-# version and licenses. It is accessable everywhere in the application.
+# version and licenses. It is accessible everywhere in the application.
 import os
 import mock
 
@@ -13,7 +13,7 @@ def test_about__About__1(address_book, browser):
     # The root view is basic auth protected, so we have to log-in to see
     # the root view.
     browser.login('mgr')
-    browser.open('http://localhost')
+    browser.open(browser.ROOT_URL_WITHOUT_SLASH)
     # There is a link on the root view pointing to the about dialog:
     browser.getLink(id="about-view").click()
     assert ABOUT_URL == browser.url
