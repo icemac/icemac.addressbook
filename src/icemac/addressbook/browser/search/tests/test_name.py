@@ -9,7 +9,8 @@ def test_name__Search__1(address_book, browser):
         ['You may use wildcards in this search: Use ? for a single character '
          'or * for multiple characters.'] ==
         browser.etree.xpath(
-            '//div[@id="content"]/div[@class="row no-print"]/text()'))
+            '//div[@id="content"]//div[@class="row no-print explanation"]'
+            '/text()'))
 
 
 def test_name__Search__2(address_book, browser):
@@ -28,7 +29,7 @@ def test_name__Search__3(address_book, browser):
     browser.getControl('Name').value = 'Unknown'
     browser.getControl('Search').click()
     assert ('No person found.' == browser.etree.xpath(
-        '//div[@id="content"]/div[@class="row"]/text()')[-1].strip())
+        '//div[@id="content"]//div[@class="row result"]/text()')[-1].strip())
 
 
 def test_name__Search__4(search_data, browser):

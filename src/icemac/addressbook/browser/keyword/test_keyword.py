@@ -7,7 +7,7 @@ def test_keyword__Table__1(address_book, browser):
     browser.open(browser.MASTER_DATA_URL)
     browser.getLink('Keywords').click()
     assert browser.KEYWORDS_LIST_URL == browser.url
-    assert '<div id="content">No keywords defined yet.' in browser.contents
+    assert '>No keywords defined yet.<' in browser.contents
 
 
 def test_keyword__Table__2(address_book, KeywordFactory, browser):
