@@ -96,13 +96,11 @@ select.set-field {
 form div.buttons,
 div.js-form div.buttons {
     clear: left;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: lightGrey;
-    opacity: 0.85;
-    padding: 5px 0 3px 10px;
-    width: 100%;
+    background-color: #e1e1e1;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+    float: left;
 }
 
 form div.widget div.buttons {
@@ -114,11 +112,6 @@ form div.widget div.buttons {
     width: inherit;
 }
 
-#content form div {
-    clear: both;
-}
-
-form div.buttons input,
 div.js-form div.buttons button {
     opacity: 1;
 }
@@ -144,14 +137,23 @@ form div.group + fieldset + fieldset{
     clear: left;
 }
 
-form#search-export-form div.buttons {
-    background-color: transparent;
-    left: 100px;
-}
-
 form#search-export-form div.buttons input#form-buttons-delete {
     margin-left: 25px;
 }
+
+.search-view .explanation {
+    clear: left;
+    margin-top: 5px;
+    float: left;
+}
+
+.search-view .result {
+    clear: left;
+    margin-top: 5px;
+    float: left;
+    font-weight: bold;
+}
+
 
 /* jQuery-UI selectable */
 form .widget .ui-selectable .ui-selected {

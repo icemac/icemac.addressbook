@@ -31,6 +31,13 @@ Features
 - Add an ability to disable `handle_errors` to debug all exception types.
   See https://icemacaddressbook.readthedocs.io/en/latest/hacking.html
 
+User interface
+--------------
+
+- No longer render the form submit buttons on the bottom border of the screen.
+  This did not work very well on mobile devices.
+
+
 Other
 -----
 
