@@ -183,6 +183,10 @@ body {
     margin-right: 10px;
 }
 
+#foot ul li a {
+    color: #8484CE;
+}
+
 .LoginLogoutBox {
     float: right;
 }
