@@ -116,7 +116,8 @@ def test_form__Widget__1_webdriver(address_book, FieldFactory, KeywordFactory, d
     dt.datetime_now()
     dt.save()
     # Successful apply leads back to keyword overview:
-    assert dt.KEYWORDS_LIST_URL == webdriver.path
+    assert dt.KEYWORDS_LIST_URL == webdriver.path,\
+        webdriver._selenium.screenshot()
 
 
 def test_form__TimeWidget__2(
