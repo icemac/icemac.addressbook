@@ -33,6 +33,8 @@ Features
 
 - Add cookie usage consent dialog.
 
+- Add ability to run tests in parallel.
+
 
 User interface
 --------------
