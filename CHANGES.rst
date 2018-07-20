@@ -31,6 +31,9 @@ Features
 - Add an ability to disable `handle_errors` to debug all exception types.
   See https://icemacaddressbook.readthedocs.io/en/latest/hacking.html
 
+- Add cookie usage consent dialog.
+
+
 User interface
 --------------
 

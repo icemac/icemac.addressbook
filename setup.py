@@ -63,6 +63,7 @@ setuptools.setup(
         'icalendar',
         'icemac.ab.locales [compile] >= 2.18',
         'icemac.truncatetext',
+        'js.cookieconsent',
         'js.jquery',
         'js.jquery_timepicker_addon',
         'js.jqueryui',

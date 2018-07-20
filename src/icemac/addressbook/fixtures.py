@@ -7,6 +7,7 @@ import gocept.httpserverlayer.wsgi
 import gocept.selenium
 import gocept.selenium.wd_selenese
 import icemac.addressbook
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.principals
@@ -25,6 +26,7 @@ import zope.event
 import zope.i18n
 import zope.principalregistry.principalregistry
 import zope.processlifetime
+import zope.publisher.browser
 import zope.testbrowser.wsgi
 
 # Integrate these fixtures using:
@@ -55,6 +57,16 @@ def webdriver(webdriverS, httpServerS):  # pragma: no cover (webdriver)
 
 
 # Factory fixtures to create objects:
+
+
+@pytest.fixture('function')
+def RequestFactory():
+    """Get a request object on the right skin layer."""
+    def get_request(**kw):
+        return zope.publisher.browser.TestRequest(
+            skin=icemac.addressbook.browser.interfaces.IAddressBookLayer,
+            **kw)
+    return get_request
 
 
 @pytest.fixture(scope='session')
