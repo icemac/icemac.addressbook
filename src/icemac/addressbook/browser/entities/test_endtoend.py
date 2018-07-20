@@ -15,23 +15,25 @@ class POEntities(WebdriverPageObjectBase):
     _ENTITY_SELECTOR = "//tr[{}]/td[1]"
 
     def get_pos(self, pos):
-        return self._selenium.getText(self._ENTITY_SELECTOR.format(pos))
+        return self._selenium.find_element_by_xpath(
+            self._ENTITY_SELECTOR.format(pos)).text
 
     def move_entity_on_pos_to_pos(self, start_pos, target_pos):
         """Move the entity on position `start_pos`  to `target_pos`."""
-        chain = ActionChains(self._selenium.selenium)
+        chain = ActionChains(self._selenium)
         chain.click_and_hold(
-            self._selenium._find(self._ENTITY_SELECTOR.format(start_pos)))
+            self._selenium.find_element_by_xpath(
+                self._ENTITY_SELECTOR.format(start_pos)))
         # We have to move the element some pixels away from the target element,
         # so jQueryUI can detect the move:
         chain.move_to_element_with_offset(
-            self._selenium._find(self._ENTITY_SELECTOR.format(target_pos)),
-            0, 2)
+            self._selenium.find_element_by_xpath(
+                self._ENTITY_SELECTOR.format(target_pos)), 0, 2)
         chain.release(None)
         chain.perform()
 
     def save(self):
-        self._selenium.click("entity-fields-save")
+        self._selenium.find_element_by_id("entity-fields-save").click()
 
 
 Webdriver.attach(POEntities, 'entities')
