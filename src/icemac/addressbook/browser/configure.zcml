@@ -118,6 +118,13 @@
       class=".resource.AddressBookResources"
       permission="zope.Public" />
 
+  <browser:viewlet
+      layer=".interfaces.IAddressBookLayer"
+      manager=".interfaces.IFanstaticViewletManager"
+      name="CookieConsent"
+      class=".cookieconsent.CookieConsentViewlet"
+      permission="zope.Public" />
+
   <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
 
   <adapter
