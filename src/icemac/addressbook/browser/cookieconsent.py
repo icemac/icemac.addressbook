@@ -31,6 +31,8 @@ class CookieConsentViewlet(zope.viewlet.viewlet.ViewletBase):
                       " store the log-in status. It gets deleted when"
                       " closing the browser.")),
                 "dismiss": self._t(_("I understand!")),
+                "href": None,
+                "link": None,
             }
         }
         url = os.environ.get('AB_LINK_DATAPROTECTION_URL', None)
