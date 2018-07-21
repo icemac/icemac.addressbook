@@ -54,8 +54,8 @@ def test_cookieconsent__CookieConsentViewlet__update__2(
         name='CookieConsent')
     viewlet.update()
     result = viewlet.render()
-    assert '"href": ' not in result
-    assert '"link": "Read more."' not in result
+    assert '"href": null' in result
+    assert '"link": null' in result
 
 
 @pytest.fixture('function')
