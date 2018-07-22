@@ -17,24 +17,20 @@ class POPerson(WebdriverPageObjectBase):
     ]
 
     def get_hints(self):
-        return self._selenium.getText("css=div.hint")
+        return self._selenium.find_element_by_css_selector("div.hint").text
 
     @property
     def keywords(self):
-        # XXX leaking abstraction:  there is no way in gocept.selenium to get
-        #     a list of multiple elements *sigh*
-        elements = self._selenium.selenium.find_elements_by_xpath(
+        elements = self._selenium.find_elements_by_xpath(
             '//li[@class="select2-selection__choice"]')
         return [x.get_attribute('title') for x in elements]
 
     @keywords.setter
     def keywords(self, values):
-        self._selenium.click("css=ul.select2-selection__rendered")
-        for x in values:
-            self._selenium.type("css=.select2-search__field", x + "\n")
+        self.select_from_drop_down(values)
 
     def submit(self):
-        self._selenium.click("id=form-buttons-apply")
+        self._selenium.find_element_by_id("form-buttons-apply").click()
 
 
 Webdriver.attach(POPerson, 'person')
