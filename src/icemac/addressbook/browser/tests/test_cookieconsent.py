@@ -87,7 +87,7 @@ def po_cookieconsent_webdriver():
 
         def _get_button(self, expect_to_be_visible):
             return self.Button(
-                self._selenium.selenium,
+                self._selenium,
                 '.cc-compliance .cc-dismiss',
                 expect_to_be_visible)
 
@@ -102,7 +102,7 @@ def po_cookieconsent_webdriver():
             return not button.is_displayed
 
         def button_click(self):
-            button = self._get_button(expect_to_be_visible=False)
+            button = self._get_button(expect_to_be_visible=True)
             button.click()
 
     Webdriver.attach(POCookieConsent, 'cookieconsent')

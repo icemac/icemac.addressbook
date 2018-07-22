@@ -10,20 +10,20 @@ class POKeywordSearch(WebdriverPageObjectBase):
     ]
 
     def search(self, keyword):
-        self._selenium.addSelection(
-            'id=form-widgets-keywords', 'label={}'.format(keyword))
-        self._selenium.click('id=form-buttons-search')
+        self.select_from_drop_down(keyword)
+        self._selenium.find_element_by_id('form-buttons-search').click()
 
     @property
     def num_results(self):
-        return self._selenium.getCssCount('name=persons:list')
+        return len(self._selenium.find_elements_by_name('persons:list'))
 
     @property
     def is_checked(self):
-        return self._selenium.isChecked('name=persons:list')
+        return self._selenium.find_element_by_name(
+            'persons:list').get_attribute('checked')
 
     def hit_checkall(self):
-        self._selenium.click('css=input.checkall')
+        self._selenium.find_element_by_css_selector('input.checkall').click()
 
 
 Webdriver.attach(POKeywordSearch, 'keyword_search')

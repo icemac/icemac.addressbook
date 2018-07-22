@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 from six.moves.urllib_parse import urlsplit
 import collections
 import datetime
@@ -415,7 +415,7 @@ class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
             'http://{}'.format(self._address), '')
 
     def windowMaximize(self):
-        self._selenium.windowMaximize()
+        self._selenium.maximize_window()
 
 
 class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
@@ -432,6 +432,20 @@ class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
             assert getattr(self, name, None) is None, \
                 'duplicate name {}'.format(name)
             setattr(self, name, path)
+
+    def select_from_drop_down(self, title_or_titles):
+        """Select elements with the given titles from the drop-down.
+
+        `title_or_titles` can be a string or a list of strings.
+        """
+        values = ([title_or_titles]
+                  if isinstance(title_or_titles, str)
+                  else title_or_titles)
+        self._selenium.find_element_by_css_selector(
+            "ul.select2-selection__rendered").click()
+        for x in values:
+            self._selenium.find_element_by_css_selector(
+                ".select2-search__field").send_keys(x + "\n")
 
 
 class TimeZoneMixIn(object):  # pragma: no cover (webdriver)
@@ -518,9 +532,7 @@ class POPersonList(WebdriverPageObjectBase):
     @property
     def column_headlines(self):
         """Get the headlines of the columns displayed on the person list."""
-        # XXX leaking abstraction:  there is no way in gocept.selenium to get
-        #     a list of multiple elements *sigh*
-        elements = self._selenium.selenium.find_elements_by_xpath(
+        elements = self._selenium.find_elements_by_xpath(
             '//div[@id="content"]/table/thead/tr/th/a')
         return [x.text for x in elements]
 
@@ -542,38 +554,38 @@ class POPreferences(WebdriverPageObjectBase, TimeZoneMixIn):
             EC.presence_of_element_located((By.ID, "form-widgets-time_zone")))
 
     def wait_for_fields_visible(self, visible):
+        wait = WebDriverWait(self._selenium, 3)  # seconds
         if visible:
-            attrib_name = 'waitForVisible'
+            attrib_name = 'until'
         else:
-            attrib_name = 'waitForNotVisible'
-        return getattr(self._selenium, attrib_name)(
-            "css=#form-widgets-columns-row")
+            attrib_name = 'until_not'
+        return getattr(wait, attrib_name)(EC.visibility_of(
+            self._selenium.find_element_by_id('form-widgets-columns-row')))
 
     def toggle_group(self, css_class):
-        self._selenium.click(
-            "//fieldset[@class='{}']/legend".format(css_class))
+        self._selenium.find_element_by_xpath(
+            "//fieldset[@class='{}']/legend".format(css_class)).click()
 
     def remove_first_column_selected_for_person_list(self):
-        self._selenium.click("css=span.select2-selection__choice__remove")
+        self._selenium.find_element_by_css_selector(
+            "span.select2-selection__choice__remove").click()
         # deselect column drop down
-        self._selenium.click("css=ul.select2-selection__rendered")
+        self._selenium.find_element_by_css_selector(
+            "ul.select2-selection__rendered").click()
 
     def select_column_for_person_list(self, title):
-        self._selenium.click("css=ul.select2-selection__rendered")
-        self._selenium.click('xpath=//li[text()="{}"]'.format(title))
+        self.select_from_drop_down(title)
 
     @property
     def selected_columns_for_person_list(self):
-        # XXX leaking abstraction:  there is no way in gocept.selenium to get
-        #     a list of multiple elements *sigh*
-        selection = self._selenium.selenium.find_elements_by_xpath(
+        selection = self._selenium.find_elements_by_xpath(
             '//div[@id="form-widgets-columns-row"]/div/span/span/span/ul/li')
         return [x.text.replace(u'\xd7', '')  # remove x used for delete link
                 for x in selection
                 if x.text]
 
     def submit(self):
-        self._selenium.click("id=form-buttons-apply")
+        self._selenium.find_element_by_id("form-buttons-apply").click()
 
 
 Webdriver.attach(POPreferences, 'prefs')
