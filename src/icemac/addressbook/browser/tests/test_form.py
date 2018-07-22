@@ -89,14 +89,14 @@ def po_datetime_webdriver():
         def datetime_now(self):
             s = self._selenium
             # Activate the datetime field which opens the JavaScript calendar
-            s.click('id=form-widgets-Field-1')
+            s.find_element_by_id('form-widgets-Field-1').click()
             # Click the `now` button:
-            s.click("//button[@type='button']")
+            s.find_element_by_xpath("//button[@type='button']").click()
             # And the `done` button:
-            s.click("xpath=(//button[@type='button'])[2]")
+            s.find_element_by_xpath("(//button[@type='button'])[2]").click()
 
         def save(self):
-            self._selenium.click("id=form-buttons-apply")
+            self._selenium.find_element_by_id("form-buttons-apply").click()
 
     Webdriver.attach(PODatetime, 'dt')
     yield
@@ -140,15 +140,15 @@ def po_date_webdriver():
         ]
 
         def select_first_of_month(self):
-            self._selenium.click('css=.date-field')
-            self._selenium.click("link=1")
+            self._selenium.find_element_by_css_selector('.date-field').click()
+            self._selenium.find_element_by_link_text("1").click()
 
         def save(self):
             # Fill in required fields:
-            self._selenium.type(
-                'id=IcemacAddressbookPersonPerson-widgets-'
-                'IcemacAddressbookPersonPerson-last_name', 'Tester')
-            self._selenium.click("id=form-buttons-add")
+            self._selenium.find_element_by_id(
+                'IcemacAddressbookPersonPerson-widgets-'
+                'IcemacAddressbookPersonPerson-last_name').send_keys('Tester')
+            self._selenium.find_element_by_id("form-buttons-add").click()
 
     Webdriver.attach(PODate, 'date')
     yield
