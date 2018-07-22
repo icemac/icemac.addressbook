@@ -48,6 +48,8 @@ Other
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Drop dependency on `gocept.selenium` by writing pure `selenium`.
+
 
 6.0.2 (2018-03-17)
 ==================
