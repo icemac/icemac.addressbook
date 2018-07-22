@@ -22,6 +22,7 @@ deploy.ini
 develop-eggs
 docs/_build
 eggs
+geckodriver.log
 htmlcov
 install.user.ini
 log/*
