@@ -1,4 +1,8 @@
 from bs4 import BeautifulSoup
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from six.moves.urllib_parse import urlsplit
 import collections
 import datetime
@@ -15,6 +19,7 @@ import plone.testing.zca
 import plone.testing.zodb
 import pytest
 import pytz
+import selenium.webdriver.support.ui
 import transaction
 import z3c.etestbrowser.wsgi
 import zope.app.publication.zopepublication
@@ -361,8 +366,9 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
 class WebdriverBase(object):  # pragma: no cover (webdriver)
     """Base for all Webdriver classes."""
 
-    def __init__(self, selenium):
+    def __init__(self, selenium, address):
         self._selenium = selenium
+        self._address = address
 
 
 class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
@@ -380,35 +386,36 @@ class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
         """Detach a page object from an attribute of the instance."""
         cls._to_attach.remove((factory, attrib_name))
 
-    def __init__(self, selenium):
-        super(Webdriver, self).__init__(selenium)
+    def __init__(self, selenium, address):
+        super(Webdriver, self).__init__(selenium, address)
         for factory, attrib_name in self._to_attach:
-            setattr(self, attrib_name, factory(selenium))
+            setattr(self, attrib_name, factory(selenium, address))
 
     def login(self, username, target_path):
         transaction.commit()
         (_, _, path, _, _) = urlsplit(Browser.SELENIUM_LOGIN_URL)
-        server = self._selenium.server
+        server = self._address
         password = USERNAME_PASSWORD_MAP.get(username, username)
         url = "http://{username}:{password}@{server}{path}".format(**locals())
-        self.open(url)
+        self._selenium.get(url)
         self.open(target_path)
 
     def open(self, path):
-        self._selenium.open(path)
+        url = "http://{server}{path}".format(server=self._address, path=path)
+        self._selenium.get(url)
 
     @property
     def message(self):
-        return self._selenium.getText('css=#info-messages')
+        return self._selenium.find_element_by_id('info-messages').text
 
     @property
     def path(self):
         """Return the path of the current URL."""
-        return self._selenium.getLocation().replace(
-            'http://{}'.format(self._selenium.server), '')
+        return self._selenium.current_url.replace(
+            'http://{}'.format(self._address), '')
 
     def windowMaximize(self):
-        self._selenium.windowMaximize()
+        self._selenium.maximize_window()
 
 
 class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
@@ -417,8 +424,8 @@ class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
     browser = Browser  # Browser class to get URLs from
     paths = []  # URL attributes on `browser` to be converted to local paths
 
-    def __init__(self, selenium):
-        super(WebdriverPageObjectBase, self).__init__(selenium)
+    def __init__(self, selenium, address):
+        super(WebdriverPageObjectBase, self).__init__(selenium, address)
         for name in self.paths:
             url = getattr(self.browser, name)
             path = url.replace('http://localhost', '')
@@ -426,19 +433,38 @@ class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
                 'duplicate name {}'.format(name)
             setattr(self, name, path)
 
+    def select_from_drop_down(self, title_or_titles):
+        """Select elements with the given titles from the drop-down.
+
+        `title_or_titles` can be a string or a list of strings.
+        """
+        values = ([title_or_titles]
+                  if isinstance(title_or_titles, str)
+                  else title_or_titles)
+        self._selenium.find_element_by_css_selector(
+            "ul.select2-selection__rendered").click()
+        for x in values:
+            self._selenium.find_element_by_css_selector(
+                ".select2-search__field").send_keys(x + "\n")
+
 
 class TimeZoneMixIn(object):  # pragma: no cover (webdriver)
     """Mix-in for page objects to handle time zones."""
 
     @property
     def timezone(self):
-        return self._selenium.getSelectedLabel("id=form-widgets-time_zone")
+        select = selenium.webdriver.support.ui.Select(
+            self._selenium.find_element_by_id("form-widgets-time_zone"))
+        return select.first_selected_option.text
 
     @timezone.setter
     def timezone(self, value):
-        # Default time zone can be selected:
-        self._selenium.select(
-            "id=form-widgets-time_zone", "label={}".format(value))
+        # Open drop down:
+        self._selenium.find_element_by_css_selector(
+            "#form-widgets-time_zone ~ span").click()
+        # Select value:
+        self._selenium.find_element_by_css_selector(
+            '.select2-container--open input').send_keys(value + '\n')
 
 
 class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
@@ -454,16 +480,18 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
 
     def create(self):
         # On the start page there is a link to add an address book:
-        self._selenium.click('link=address book')
+        self._selenium.find_element_by_link_text('address book').click()
 
     @property
     def title(self):
-        return self._selenium.getValue('id=form-widgets-title')
+        return self._selenium.find_element_by_id(
+            'form-widgets-title').get_attribute('value')
 
     @title.setter
     def title(self, title):
-        self._selenium.clear('id=form-widgets-title')
-        self._selenium.type('id=form-widgets-title', title)
+        el = self._selenium.find_element_by_id('form-widgets-title')
+        el.clear()
+        el.send_keys(title)
 
     # setter property!
     def startpage(self, value):
@@ -474,20 +502,23 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
 
     def assert_default_favicon_selected(self):
         # Default value of favicon is pre-selected:
-        self._selenium.assertCssCount(
-            'css=.ui-selected '
-            'img[src="/++resource++img/favicon-red-preview.png"]', 1)
+        assert 1 == len(self._selenium.find_elements_by_css_selector(
+            '.ui-selected img[src="/++resource++img/favicon-red-preview.png"]'
+        ))
 
     def select_favicon(self, index):
-        self._selenium.clickAt(
-            'form-widgets-favicon-{}'.format(index), '20,20')
+        el = self._selenium.find_element_by_id(
+            'form-widgets-favicon-{}'.format(index))
+        ac = ActionChains(self._selenium)
+        ac.move_to_element(el).move_by_offset(20, 20).click().perform()
 
     def assert_favicon_selected(self, index):
-        self._selenium.assertCssCount(
-            'css=#form-widgets-favicon-{}.ui-selected'.format(index), 1)
+        assert 1 == len(self._selenium.find_elements_by_css_selector(
+            '#form-widgets-favicon-{}.ui-selected'.format(index)))
 
     def submit(self, name):
-        self._selenium.click('form-buttons-{}'.format(name))
+        self._selenium.find_element_by_id(
+            'form-buttons-{}'.format(name)).click()
 
 
 Webdriver.attach(POAddressBook, 'address_book')
@@ -501,9 +532,7 @@ class POPersonList(WebdriverPageObjectBase):
     @property
     def column_headlines(self):
         """Get the headlines of the columns displayed on the person list."""
-        # XXX leaking abstraction:  there is no way in gocept.selenium to get
-        #     a list of multiple elements *sigh*
-        elements = self._selenium.selenium.find_elements_by_xpath(
+        elements = self._selenium.find_elements_by_xpath(
             '//div[@id="content"]/table/thead/tr/th/a')
         return [x.text for x in elements]
 
@@ -519,42 +548,44 @@ class POPreferences(WebdriverPageObjectBase, TimeZoneMixIn):
     ]
 
     def open_time_zone_element(self):
-        self._selenium.click("css=fieldset.timeZone")
-        self._selenium.waitForElementPresent("id=form-widgets-time_zone")
+        self._selenium.find_element_by_css_selector(
+            "fieldset.timeZone").click()
+        WebDriverWait(self._selenium, 10).until(
+            EC.presence_of_element_located((By.ID, "form-widgets-time_zone")))
 
     def wait_for_fields_visible(self, visible):
+        wait = WebDriverWait(self._selenium, 3)  # seconds
         if visible:
-            attrib_name = 'waitForVisible'
+            attrib_name = 'until'
         else:
-            attrib_name = 'waitForNotVisible'
-        return getattr(self._selenium, attrib_name)(
-            "css=#form-widgets-columns-row")
+            attrib_name = 'until_not'
+        return getattr(wait, attrib_name)(EC.visibility_of(
+            self._selenium.find_element_by_id('form-widgets-columns-row')))
 
     def toggle_group(self, css_class):
-        self._selenium.click(
-            "//fieldset[@class='{}']/legend".format(css_class))
+        self._selenium.find_element_by_xpath(
+            "//fieldset[@class='{}']/legend".format(css_class)).click()
 
     def remove_first_column_selected_for_person_list(self):
-        self._selenium.click("css=span.select2-selection__choice__remove")
+        self._selenium.find_element_by_css_selector(
+            "span.select2-selection__choice__remove").click()
         # deselect column drop down
-        self._selenium.click("css=ul.select2-selection__rendered")
+        self._selenium.find_element_by_css_selector(
+            "ul.select2-selection__rendered").click()
 
     def select_column_for_person_list(self, title):
-        self._selenium.click("css=ul.select2-selection__rendered")
-        self._selenium.click('xpath=//li[text()="{}"]'.format(title))
+        self.select_from_drop_down(title)
 
     @property
     def selected_columns_for_person_list(self):
-        # XXX leaking abstraction:  there is no way in gocept.selenium to get
-        #     a list of multiple elements *sigh*
-        selection = self._selenium.selenium.find_elements_by_xpath(
+        selection = self._selenium.find_elements_by_xpath(
             '//div[@id="form-widgets-columns-row"]/div/span/span/span/ul/li')
         return [x.text.replace(u'\xd7', '')  # remove x used for delete link
                 for x in selection
                 if x.text]
 
     def submit(self):
-        self._selenium.click("id=form-buttons-apply")
+        self._selenium.find_element_by_id("form-buttons-apply").click()
 
 
 Webdriver.attach(POPreferences, 'prefs')
