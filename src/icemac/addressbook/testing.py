@@ -406,7 +406,9 @@ class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
 
     @property
     def message(self):
-        return self._selenium.find_element_by_id('info-messages').text
+        """Get the message even if it is no longer displayed."""
+        return self._selenium.find_element_by_css_selector(
+            '#info-messages li').get_attribute('textContent')
 
     @property
     def path(self):
@@ -433,19 +435,44 @@ class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
                 'duplicate name {}'.format(name)
             setattr(self, name, path)
 
-    def select_from_drop_down(self, title_or_titles):
+    def select_from_drop_down(
+            self, title_or_titles, id=None, has_search_field=True):
         """Select elements with the given titles from the drop-down.
 
         `title_or_titles` can be a string or a list of strings.
+        `id` can be a CSS ID of an out element.
+        `has_search_field` ... set it to `False` if the drop down has no
+                               search field. (Requires `id` not to be `None`!)
         """
-        values = ([title_or_titles]
-                  if isinstance(title_or_titles, str)
-                  else title_or_titles)
-        self._selenium.find_element_by_css_selector(
-            "ul.select2-selection__rendered").click()
+        selector = self._get_drop_down_selector(id)
+        self._selenium.find_element_by_css_selector(selector).click()
+        values = (title_or_titles
+                  if isinstance(title_or_titles, (tuple, list))
+                  else [title_or_titles])
         for x in values:
-            self._selenium.find_element_by_css_selector(
-                ".select2-search__field").send_keys(x + "\n")
+            if has_search_field:
+                self._selenium.find_element_by_css_selector(
+                    ".select2-search__field").send_keys(str(x))
+                self._selenium.find_element_by_css_selector(
+                    ".select2-search__field").send_keys("\n")
+            else:
+                self._selenium.find_element_by_xpath(
+                    '//ul[@class="select2-results__options"]'
+                    '/li[contains(text(), "{}")]'.format(x)).click()
+
+    def get_drop_down_selection(self, id=None):
+        """Get the selected value of a drop down.
+
+        `id` can be a CSS ID of an out element.
+        """
+        selector = self._get_drop_down_selector(id)
+        return self._selenium.find_element_by_css_selector(selector).text
+
+    def _get_drop_down_selector(self, id=None):
+        selector = '.select2-selection__rendered'
+        if id is not None:
+            selector = '#{} {}'.format(id, selector)
+        return selector
 
 
 class TimeZoneMixIn(object):  # pragma: no cover (webdriver)
@@ -495,8 +522,8 @@ class POAddressBook(WebdriverPageObjectBase, TimeZoneMixIn):
 
     # setter property!
     def startpage(self, value):
-        self._selenium.select(
-            'id=form-widgets-startpage', 'label={}'.format(value))
+        self.select_from_drop_down(
+            value, id='form-widgets-startpage-row', has_search_field=False)
 
     startpage = property(None, startpage)
 

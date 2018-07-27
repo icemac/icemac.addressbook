@@ -1,4 +1,5 @@
 import icemac.addressbook.browser.interfaces
+import textwrap
 import z3c.flashmessage.receiver
 import zope.component
 import zope.contentprovider.provider
@@ -16,6 +17,7 @@ class MessagesContentProvider(
 
     template = zope.browserpage.viewpagetemplatefile.ViewPageTemplateFile(
         'messages.pt')
+    message_display_timeout = 3000  # ms
 
     def update(self):
         self.messages = list(self.receive())
@@ -24,3 +26,14 @@ class MessagesContentProvider(
         if self.messages:
             return self.template(self)
         return ''
+
+    def js(self):
+        return textwrap.dedent('''
+            $(document).ready(function() {
+                setTimeout(
+                    function() {
+                        $("#info-messages").fadeOut("normal")
+                    },
+                    %d);
+                })
+        ''' % self.message_display_timeout)

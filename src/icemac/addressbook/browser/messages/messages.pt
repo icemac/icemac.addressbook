@@ -1,6 +1,6 @@
 <div id="info-messages">
-  <script language="JavaScript">
-    $(document).ready(function() { setTimeout(function() {$("#info-messages").fadeOut("normal")}, 3000); })
+  <script language="JavaScript" tal:content="view/js">
+    JS code to hide message after some seconds.
   </script>
   <ul>
     <li tal:repeat="message view/messages"

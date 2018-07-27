@@ -47,8 +47,13 @@ def webdriver(webdriverS, httpServerS):  # pragma: no cover (webdriver)
     translate = 'zope.i18n.translationdomain.TranslationDomain.translate'
     getPreferredLanguages = (
         'zope.publisher.browser.BrowserLanguages.getPreferredLanguages')
+    message_display_timeout = (
+        'icemac.addressbook.browser.messages.messages.'
+        'MessagesContentProvider.message_display_timeout')
     with mock.patch(translate, new=interpolate_insted_of_translate), \
-            mock.patch(getPreferredLanguages, return_value=['en-us', 'en']):
+            mock.patch(getPreferredLanguages, return_value=['en-us', 'en']), \
+            mock.patch(message_display_timeout,
+                       new_callable=mock.PropertyMock, return_value=300):
         yield webdriver
 
 

@@ -4,6 +4,8 @@ from icemac.addressbook.interfaces import IKeyword
 from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 from mock import patch, Mock
 from pytz import utc, timezone
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 import gocept.testing.mock
 import icemac.addressbook.browser.form
 import pytest
@@ -149,6 +151,8 @@ def po_date_webdriver():
                 'IcemacAddressbookPersonPerson-widgets-'
                 'IcemacAddressbookPersonPerson-last_name').send_keys('Tester')
             self._selenium.find_element_by_id("form-buttons-add").click()
+            WebDriverWait(self._selenium, 5).until(
+                expected_conditions.url_contains(self.PERSONS_LIST_URL))
 
     Webdriver.attach(PODate, 'date')
     yield

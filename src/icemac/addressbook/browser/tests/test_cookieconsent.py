@@ -2,6 +2,7 @@ from ..cookieconsent import CookieConsentViewlet
 from icemac.addressbook.browser.interfaces import IFanstaticViewletManager
 from icemac.addressbook.testing import Webdriver
 from icemac.addressbook.testing import WebdriverPageObjectBase
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 import mock
@@ -82,8 +83,9 @@ def po_cookieconsent_webdriver():
 
             def click(self):
                 self.el.click()
-                self.wait.until_not(
-                    expected_conditions.visibility_of(self.el))
+                self.wait.until(
+                    expected_conditions.invisibility_of_element_located(
+                        (By.CSS_SELECTOR, self.selector)))
 
         def _get_button(self, expect_to_be_visible):
             return self.Button(
