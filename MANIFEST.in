@@ -1,4 +1,5 @@
 include *.TXT
+exclude doc-requirements.txt
 include *.py
 include *.rst
 
@@ -12,7 +13,21 @@ include default_skin.zcml
 exclude *.ini
 include install.default.ini
 
+include *.yml
+exclude *.yml
+
+include *.cfg
+exclude *.cfg
+
+include .hgignore
+exclude .hgignore
+
+include .hgtags
+exclude .hgtags
+
 exclude MANIFEST.in
+
+prune docs/
 
 recursive-include log *.txt
 recursive-include profiles *.cfg
