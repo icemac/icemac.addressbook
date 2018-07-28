@@ -19,6 +19,10 @@ This steps can be applied if you installed via :ref:`package-installation`.
 3. Answer the questions about admin user name, password and so on, they should
    be pre-filled with the values of the previous installation.
 
+   If the upgrade procedure breaks with an error, first try to upgrade to the
+   next major version (first digit of the version number) which comes after
+   your current version.
+
 4. Start the new instance of the application as described in
    :ref:`runtheapplication`.
 
