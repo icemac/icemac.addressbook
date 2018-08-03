@@ -147,33 +147,6 @@ Other
 - Also release as wheel.
 
 
-4.1.1 (2017-05-18)
-==================
-
-- Fix broken forms when using newlines in the description of user defined
-  fields.
-
-
-4.1 (2017-05-16)
-================
-
-Features
---------
-
-- Render the name of the logged-in user as a link to the edit form of his
-  personal data.
-
-Other changes
--------------
-
-- Style a secondary menu alike the main menu.
-
-- Update to a version of `icemac.recurrence` which fixed a bug in the
-  computation of monthly recurring events on DST borders.
-
-- Update most libraries needed for the address book to their newest versions.
-
-
 Previous Versions
 =================
 
