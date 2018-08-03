@@ -19,29 +19,22 @@ Run all tests
 These tests include some tests which require an actual browser to run.
 
 Prerequisites for the browser tests
-----------------------------------
+-----------------------------------
 
 These prerequisites are only needed to run some tests in an actual browser:
 
-* Selenium Server from SeleniumHQ_
+* `geckodriver`_ matching the ``selenium`` version used in the address book,
+  see `profiles/version.cfg`_ resp. the file you are actually using. It has to
+  be installed in the search path.
 
-* Firefox (version number >= 21.0 but < 46.0)
+* Firefox (version as described by `geckodriver`_)
 
 Run all tests
 -------------
 
-To run all tests including the browser tests following these steps:
-
-1. set the variable ``GOCEPT_WEBDRIVER_FF_BINARY`` like this::
-
-   $ export GOCEPT_WEBDRIVER_FF_BINARY='<Path to the Firefox binary>'
-
-2. start the Selenium server::
-
-   $ java -jar <Path to Selenium-Server-jar>
-
-3. run all tests using::
+Run all tests including the browser tests using::
 
    $ bin/py.test
 
-.. _SeleniumHQ: http://seleniumhq.org/download/
+.. _geckodriver : https://github.com/mozilla/geckodriver/releases
+.. _`profiles/version.cfg` : https://bitbucket.org/icemac/icemac.addressbook/src/default/profiles/versions.cfg
