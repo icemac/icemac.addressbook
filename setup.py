@@ -26,7 +26,7 @@ setuptools.setup(
     author_email='icemac@gmx.net',
     download_url='https://pypi.org/project/icemac.addressbook',
     url='https://bitbucket.org/icemac/icemac.addressbook',
-    license='ZPL 2.1',
+    license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -35,7 +35,7 @@ setuptools.setup(
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Information Technology',
         'Intended Audience :: Other Audience',
-        'License :: OSI Approved :: Zope Public License',
+        'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Natural Language :: German',
         'Operating System :: OS Independent',

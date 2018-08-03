@@ -13,7 +13,7 @@
     <dt i18n:translate="">Copyright:</dt>
     <dd tal:content="provider:copyright">(c) Michael Howitz</dd>
     <dt i18n:translate="">License:</dt>
-    <dd><a href="http://foundation.zope.org/agreements/ZPL_2.1.pdf" target="_blank">Zope Public License (ZPL) Version 2.1</a></dd>
+    <dd><a href="https://opensource.org/licenses/BSD-2-Clause" target="_blank">MIT License</a></dd>
     <dt i18n:translate="">Icons from:</dt>
     <dd tal:repeat="icon view/icons">
       <a target="_blank"
