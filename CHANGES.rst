@@ -50,7 +50,11 @@ Other
 
 - Update most libraries needed for the address book to their newest versions.
 
-- Drop dependency on `gocept.selenium` by writing pure `selenium`.
+- Drop dependency on `gocept.selenium` by writing pure `selenium` tests. This
+  requires ``geckodriver`` to run the tests. (See documentation about
+  `running the tests`_.)
+
+.. _`running the tests` : https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html#prerequisites-for-the-browser-tests
 
 
 6.0.2 (2018-03-17)
