@@ -17,6 +17,8 @@ Backward incompatible changes
   ``.testing.SiteMenu.get_menu_item_title_under_test()`` instead and compare
   its result with `menu_item_title`.
 
+- Change license from ZPL to MIT.
+
 Features
 --------
 
