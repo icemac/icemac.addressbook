@@ -12,7 +12,7 @@ syntax: glob
 .mr.developer.cfg
 .pytest_cache/
 .tox/
-DE_TODO.txt
+DE_TODO
 admin.zcml
 bin
 buildout.cfg
