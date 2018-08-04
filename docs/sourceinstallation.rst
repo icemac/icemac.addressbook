@@ -13,8 +13,9 @@ This installation should only be used to work on the address book code itself.
 2. Install the sources::
 
    $ cd icemac.addressbook
+   $ virtualenv-2.7 .
+   $ bin/pip install zc.buildout
    $ printf "[buildout]\nextends = profiles/%s\n" dev.cfg > buildout.cfg
-   $ python2.7 bootstrap.py
    $ bin/buildout
 
 3. :ref:`runthetests`

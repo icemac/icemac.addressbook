@@ -6,7 +6,9 @@ Change log
 7.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- No longer use `bootstrap.py` of ``zc.buildout`` during installation as
+  it can produce endless loops. Expect `bin/buildout` to be already installed
+  via ``virtualenv``.
 
 
 7.0 (2018-08-03)
