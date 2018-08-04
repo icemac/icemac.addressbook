@@ -278,7 +278,7 @@ class Configurator(object):
             buildout_cfg_file.write('initialization += ')
             buildout_cfg_file.write(
                 '\n    '.join(
-                    'os.environ["AB_LINK_{0}"] = "{1}'.format(
+                    'os.environ["AB_LINK_{0}"] = "{1}"'.format(
                         x.upper(), getattr(self, x))
                     for x in attrs
                 ))

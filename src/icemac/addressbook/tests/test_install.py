@@ -494,10 +494,10 @@ def test_install__Configurator__create_buildout_cfg__1(
         '\t<include package="icemac.ab.relations" />',
         '',
         '[app]',
-        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint',
-        '    os.environ["AB_LINK_IMPRINT_URL"] = "https://my.site/imprint',
-        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data protection',
-        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = "https://my.site/data-protection',  # noqa
+        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint"',
+        '    os.environ["AB_LINK_IMPRINT_URL"] = "https://my.site/imprint"',
+        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data protection"',
+        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = "https://my.site/data-protection"',  # noqa
         'eggs += icemac.ab.reporting',
         '    icemac.ab.relations',
         '',
@@ -669,10 +669,10 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         "log-handler-args = 'a'",
         '',
         '[app]',
-        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint',
-        '    os.environ["AB_LINK_IMPRINT_URL"] = "',
-        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data Protection',
-        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = "',
+        'initialization += os.environ["AB_LINK_IMPRINT_TEXT"] = "Imprint"',
+        '    os.environ["AB_LINK_IMPRINT_URL"] = ""',
+        '    os.environ["AB_LINK_DATAPROTECTION_TEXT"] = "Data Protection"',
+        '    os.environ["AB_LINK_DATAPROTECTION_URL"] = ""',
     ] == basedir.join('buildout.cfg').read().splitlines()
     assert [
         '[install]',
