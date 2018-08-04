@@ -102,7 +102,7 @@ if __name__ == '__main__':
         conf_args.append(os.path.join(sys.argv[1], USER_INI))
     icemac.addressbook.install.Configurator(*conf_args)()
 
-    run_process('running bin/buildout', 'bin/buildout')
+    run_process('running bin/buildout', '../bin/buildout')
     migrate()
 
     print('Installation complete.')
