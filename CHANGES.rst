@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-7.0.3 (unreleased)
+7.0.3 (2018-08-04)
 ==================
 
 - Fix contents of created `buildout.cfg`.
