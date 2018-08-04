@@ -6,7 +6,7 @@ Change log
 7.0.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix installation code to work with ``icemac.install.addressbook >= 1.3.1``.
 
 
 7.0.1 (2018-08-04)
