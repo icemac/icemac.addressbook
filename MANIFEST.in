@@ -30,7 +30,7 @@ exclude .hgtags
 
 exclude MANIFEST.in
 
-prune docs/
+prune docs
 
 recursive-include log *.txt
 recursive-include profiles *.cfg
