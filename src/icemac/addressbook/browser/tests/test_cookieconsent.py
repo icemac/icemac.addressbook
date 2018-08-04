@@ -42,7 +42,7 @@ def test_cookieconsent__CookieConsentViewlet__update__1(
 
 def test_cookieconsent__CookieConsentViewlet__update__2(
         address_book, RequestFactory):
-    """It contains neither data protection URL nor link text if ...
+    """It contains a null data protection URL and null link text if ...
 
     ... URL isn't set.
     """
@@ -53,8 +53,10 @@ def test_cookieconsent__CookieConsentViewlet__update__2(
          FakeFanstaticViewletManager()),
         zope.viewlet.interfaces.IViewlet,
         name='CookieConsent')
-    viewlet.update()
-    result = viewlet.render()
+    data = {'AB_LINK_DATAPROTECTION_URL': ''}
+    with mock.patch.dict(os.environ, data):
+        viewlet.update()
+        result = viewlet.render()
     assert '"href": null' in result
     assert '"link": null' in result
 

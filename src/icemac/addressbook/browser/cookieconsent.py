@@ -36,7 +36,7 @@ class CookieConsentViewlet(zope.viewlet.viewlet.ViewletBase):
             }
         }
         url = os.environ.get('AB_LINK_DATAPROTECTION_URL', None)
-        if url is not None:
+        if url:
             self.config['content']['href'] = url
             self.config['content']['link'] = self._t(_("Read more."))
 
