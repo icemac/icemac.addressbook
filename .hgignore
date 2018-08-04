@@ -4,6 +4,7 @@ syntax: glob
 *.pyc
 *.sublime-workspace
 .DS_Store
+.Python
 .cache
 .coverage
 .coverage.*
@@ -24,10 +25,13 @@ docs/_build
 eggs
 geckodriver.log
 htmlcov
+include/
 install.user.ini
+lib/
 log/*
 my-buildout.cfg
 parts
+pip-selfcheck.json
 site.zcml
 var/*
 var/chameleon-cache/*
