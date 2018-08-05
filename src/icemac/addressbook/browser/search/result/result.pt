@@ -8,9 +8,9 @@
     </div>
   </tal:result>
 
-  <tal:no_result
-     condition="python: result is not None and len(result) == 0"
-     i18n:translate="">
+  <div class="no-result"
+       tal:condition="python: result is not None and len(result) == 0"
+       i18n:translate="">
     No person found.
-  </tal:no_result>
+  </div>
 </tal:def>

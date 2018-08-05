@@ -198,6 +198,7 @@ div#body {
 /* Login page + forms */
 div#content div.row {
     margin-top: 3px;
+    clear: left;
 }
 
 /* bulleted list */
