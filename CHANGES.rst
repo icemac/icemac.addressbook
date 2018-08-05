@@ -9,6 +9,8 @@ Change log
 - No longer show an empty read more URL in the cookie consent banner if no
   data protection URL is set.
 
+- Fix styling issues introduced in version 7.0.
+
 
 7.0.3 (2018-08-04)
 ==================

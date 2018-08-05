@@ -149,8 +149,15 @@ form#search-export-form div.buttons input#form-buttons-delete {
 
 .search-view .result {
     clear: left;
-    margin-top: 5px;
     float: left;
+}
+
+.search-view .no-result {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.search-view .result table th {
     font-weight: bold;
 }
 

@@ -1,3 +1,6 @@
+from . import NO_RESULTS_TEXT
+
+
 def test_name__Search__1(address_book, browser):
     """`Search` for persons who have specified keywords assigned to."""
     browser.login('visitor')
@@ -29,7 +32,7 @@ def test_name__Search__3(address_book, browser):
     browser.getControl('Name').value = 'Unknown'
     browser.getControl('Search').click()
     assert ('No person found.' == browser.etree.xpath(
-        '//div[@id="content"]//div[@class="row result"]/text()')[-1].strip())
+        NO_RESULTS_TEXT)[-1].strip())
 
 
 def test_name__Search__4(search_data, browser):
