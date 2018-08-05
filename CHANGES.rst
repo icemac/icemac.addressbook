@@ -3,8 +3,8 @@ Change log
 ==========
 
 
-7.0.5 (unreleased)
-==================
+7.1 (unreleased)
+================
 
 - Update most libraries needed for the address book to their newest versions.
 
