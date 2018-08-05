@@ -6,7 +6,7 @@ Change log
 7.0.5 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
 
 
 7.0.4 (2018-08-05)
