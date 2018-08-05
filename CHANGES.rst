@@ -3,7 +3,7 @@ Change log
 ==========
 
 
-7.0.4 (unreleased)
+7.0.4 (2018-08-05)
 ==================
 
 - No longer show an empty read more URL in the cookie consent banner if no
