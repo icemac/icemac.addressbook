@@ -6,6 +6,9 @@ Change log
 7.1 (unreleased)
 ================
 
+- No longer install test and debugging infrastructure in a production
+  environment by default.
+
 - Update most libraries needed for the address book to their newest versions.
 
 

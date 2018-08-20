@@ -37,8 +37,6 @@ Neither you need any root privileges nor it installs anything outside its direct
 
 #. Answer the questions about admin user name, password and so on.
 
-#. :ref:`runthetests`
-
 #. :ref:`runtheapplication`
 
 .. _PyPI : https://pypi.org/project/icemac.addressbook/#files
