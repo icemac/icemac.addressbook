@@ -3,7 +3,18 @@
 Run the tests
 =============
 
-Running the tests is independent from your chosen installation kind.
+Running the tests is independent from your chosen installation kind but the prerequisites differ.
+
+Run the unit tests
+------------------
+
+Prerequisites for the unit tests
+++++++++++++++++++++++++++++++++
+
+If you have used the :ref:`package-installation` method you have to install the test scripts first::
+
+  $ cd current
+  $ ../bin/buildout install node pytest
 
 
 Run the unit tests
@@ -19,7 +30,7 @@ Run all tests
 These tests include some tests which require an actual browser to run.
 
 Prerequisites for the browser tests
------------------------------------
++++++++++++++++++++++++++++++++++++
 
 These prerequisites are only needed to run some tests in an actual browser:
 
@@ -30,7 +41,7 @@ These prerequisites are only needed to run some tests in an actual browser:
 * Firefox (version as described by `geckodriver`_)
 
 Run all tests
--------------
++++++++++++++
 
 Run all tests including the browser tests using::
 
