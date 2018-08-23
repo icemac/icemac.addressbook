@@ -5,11 +5,11 @@ Run the tests
 
 Running the tests is independent from your chosen installation kind but the prerequisites differ.
 
-Run the unit tests
-------------------
+Unit tests
+----------
 
-Prerequisites for the unit tests
-++++++++++++++++++++++++++++++++
+Prerequisites
++++++++++++++
 
 If you have used the :ref:`package-installation` method you have to install the test scripts first::
 
@@ -18,14 +18,14 @@ If you have used the :ref:`package-installation` method you have to install the 
 
 
 Run the unit tests
-------------------
+++++++++++++++++++
 
 Run the unit tests using::
 
   $ bin/py.test -k "not webdriver"
 
-Run all tests
--------------
+All tests
+---------
 
 These tests include some tests which require an actual browser to run.
 
