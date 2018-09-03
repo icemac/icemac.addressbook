@@ -1,8 +1,8 @@
-import zope.generations.utility
 import functools
-import icemac.addressbook.interfaces
 import icemac.addressbook.addressbook
+import icemac.addressbook.interfaces
 import logging
+import zope.generations.utility
 
 
 logger = logging.getLogger('evolve')
