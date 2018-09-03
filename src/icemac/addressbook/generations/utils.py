@@ -1,4 +1,5 @@
 import zope.generations.utility
+import functools
 import icemac.addressbook.interfaces
 import icemac.addressbook.addressbook
 import logging
@@ -9,6 +10,7 @@ logger = logging.getLogger('evolve')
 
 def evolve_addressbooks(func):
     """Decorator which evolves address books."""
+    @functools.wraps(func)
     def decorated(context):
         root = zope.generations.utility.getRootFolder(context)
         addressbooks = zope.generations.utility.findObjectsProviding(
