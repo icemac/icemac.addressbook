@@ -251,7 +251,10 @@ class GroupEditForm(z3c.form.group.GroupForm, BaseEditForm):
 
 
 class _BaseConfirmForm(_AbstractEditForm):
-    """Display a confirmation dialog before the action."""
+    """Display a confirmation dialog before the action.
+
+    Subclasses have to implement the `yes` action.
+    """
 
     label = NotImplemented
     interface = None
@@ -278,10 +281,6 @@ class _BaseConfirmForm(_AbstractEditForm):
         self.redirect_to_next_url(self.next_url_after_cancel)
         self.status = self.cancel_status_message
 
-    @z3c.form.button.buttonAndHandler(_(u'Yes'), name='action')
-    def handleAction(self, action):
-        self._handle_action()
-
 
 class BaseDeleteForm(_BaseConfirmForm):
     """Display a deletion confirmation dialog."""
@@ -290,6 +289,11 @@ class BaseDeleteForm(_BaseConfirmForm):
     next_view_after_delete = None  # None --> default view
     next_url_after_delete = 'parent'
     cancel_status_message = _('Deletion canceled.')
+    z3c.form.form.extends(_BaseConfirmForm, ignoreFields=True)
+
+    @z3c.form.button.buttonAndHandler(_(u'Yes, delete'), name='action')
+    def handleAction(self, action):
+        self._handle_action()
 
     def _handle_action(self):
         self.redirect_to_next_url(self.next_url_after_delete,
@@ -340,6 +344,11 @@ class BaseCloneForm(_BaseConfirmForm):
 
     label = _(u'Do you really want to clone this entry?')
     cancel_status_message = _('Cloning canceled.')
+    z3c.form.form.extends(_BaseConfirmForm, ignoreFields=True)
+
+    @z3c.form.button.buttonAndHandler(_(u'Yes, clone'), name='action')
+    def handleAction(self, action):
+        self._handle_action()
 
     def _handle_action(self):
         # clone object
