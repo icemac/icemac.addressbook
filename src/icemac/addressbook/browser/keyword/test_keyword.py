@@ -69,7 +69,7 @@ def test_keyword__EditForm__1(address_book, KeywordFactory, browser):
     assert '<span>Modification Date (UTC)</span>' in browser.contents
     # We correct the typo to show the edit form works:
     browser.getControl('keyword').value = 'Company co-worker'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     # To show that the changes where saved we go again to the form:
     browser.getLink('Company co-worker').click()
@@ -98,12 +98,12 @@ def test_keyword__EditForm__3(
     browser.login('editor')
     browser.open(browser.KEYWORD_EDIT_URL)
     browser.getControl('keyword').value = 'Familie'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
 
     browser.getLink('church').click()
     browser.getControl('keyword').value = 'Kirche'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
 
     browser.getLink('Person list').click()
@@ -137,7 +137,7 @@ def test_keyword__EditForm__5(
     browser.login('editor')
     browser.open(browser.KEYWORD_EDIT_URL)
     browser.getControl('keyword').value = 'Company co-worker'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert [] == browser.message
     assert browser.KEYWORD_EDIT_URL
     assert ['This keyword already exists.'] == browser.etree.xpath(

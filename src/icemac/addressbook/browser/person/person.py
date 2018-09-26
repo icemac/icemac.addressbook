@@ -183,7 +183,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
         self.groups = tuple(groups)
 
-    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
+    @z3c.form.button.buttonAndHandler(_('Save'), name='apply')
     def handleApply(self, action):
         super(PersonEditForm, self).handleApply(self, action)
         # update file's mime type after new file was uploaded

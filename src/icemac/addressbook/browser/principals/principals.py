@@ -154,7 +154,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
                     self.interface).getFieldValues()).omit(
                 'person', 'login'))
 
-    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
+    @z3c.form.button.buttonAndHandler(_('Save'), name='apply')
     def handleApply(self, action):
         # because we define a new action we have to duplicate the
         # existing action because otherwise we'll loose it.

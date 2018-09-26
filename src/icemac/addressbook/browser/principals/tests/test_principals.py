@@ -229,7 +229,7 @@ def test_principals__EditForm__1(localadmin, address_book, UserFactory):
     browser.getControl('notes').value = 'Hans the tester'
     browser.getControl('login').value = 'hans@example.com'
     browser.getControl('roles').displayValue = ['Editor']
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PRINCIPALS_LIST_URL == browser.url
     assert 'Hans the tester' in browser.contents
@@ -257,7 +257,7 @@ def test_principals__EditForm__3(localadmin, address_book, UserFactory):
                 '1234567890', ['Visitor'])
     browser = localadmin.open(localadmin.PRINCIPAL_EDIT_URL)
     browser.getControl('login').value = 'arne@example.com'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert [] == browser.message
     assert (['Principal Login already taken!'] ==
             browser.etree.xpath('//div[@class="error"]/text()'))
@@ -267,7 +267,7 @@ def test_principals__EditForm__4(localadmin):
     """Changing the mail address in persons data does change the login name."""
     browser = localadmin.open(localadmin.PERSON_EDIT_URL)
     browser.getControl('e-mail address', index=1).value = 'htester@example.com'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PRINCIPAL_EDIT_URL_1)
     assert 'arne@example.com' == browser.getControl('login').value
@@ -287,7 +287,7 @@ def test_principals__EditForm__5(address_book, UserFactory, browser):
             'form.widgets.password_repetition'] == browser.all_control_names
     browser.getControl('password', index=0).value = 'new_password'
     browser.getControl('password repetition').value = 'new_password'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     # Changing the password immediately asks the visitor for his new
     # credentials:
     assert (
@@ -309,7 +309,7 @@ def test_principals__EditForm__5_5(address_book, UserFactory, browser):
                 'u1u2u3u4', ['Visitor'])
     browser.formlogin(u'uu@example.com', 'u1u2u3u4')
     browser.open(browser.PRINCIPAL_EDIT_URL_1)
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     # Changing the password immediately asks the visitor for his new
     # credentials:
     assert 'Data successfully updated.' == browser.message
@@ -341,7 +341,7 @@ def test_principals__EditForm__6(address_book, UserFactory, browser):
     browser.getControl('password', index=0).value = 'testtest'
     browser.getControl('password repetition').value = 'testtest'
     browser.getControl('notes').value = 'The big HANS'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert (
         ['You changed the login name, please re-login.',
          'You changed the password, please re-login.',
@@ -373,7 +373,7 @@ def test_principals__EditForm__7(
     # When the administrator changes the roles of a user ...
     localadmin.open(localadmin.PRINCIPAL_EDIT_URL)
     localadmin.getControl('roles').displayValue = ['Editor']
-    localadmin.getControl('Apply').click()
+    localadmin.getControl('Save').click()
     assert 'Data successfully updated.' == localadmin.message
     assert localadmin.PRINCIPALS_LIST_URL == localadmin.url
     # ... he immediately gets the new permissions:
@@ -392,7 +392,7 @@ def test_principals__EditForm__8(
     url = browser.url
     localadmin.open(localadmin.PRINCIPAL_EDIT_URL)
     localadmin.getControl('roles').displayValue = []
-    localadmin.getControl('Apply').click()
+    localadmin.getControl('Save').click()
     assert 'Data successfully updated.' == localadmin.message
     assert localadmin.PRINCIPALS_LIST_URL == localadmin.url
     # ... he gets an exception that he is forbidden to see the page:

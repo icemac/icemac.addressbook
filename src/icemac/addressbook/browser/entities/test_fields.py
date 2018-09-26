@@ -139,7 +139,7 @@ def test_fields__EditForm__1(address_book, FieldFactory, browser):
     assert 'the baz field' == browser.getControl('notes').value
 
     browser.getControl('title').value = 'foobar'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
     browser.getLink('Edit').click()

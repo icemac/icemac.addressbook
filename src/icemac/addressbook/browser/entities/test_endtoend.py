@@ -149,7 +149,7 @@ def test_Fields__2(address_book, FieldFactory, KeywordFactory, browser):
     remove = browser.getControl(name='form.widgets.values.1.remove')
     remove.getControl(value='1').click()
     browser.getControl(name='form.widgets.values.buttons.remove').click()
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     # the value is no longer displayed for the keyword:
     browser.getLink('Master data').click()
