@@ -11,7 +11,7 @@ def test_browser__CategoryEditForm__1(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     browser.getControl('batch size').value = '0'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert [] == browser.message
     assert browser.url.startswith(browser.PREFS_URL)
     assert (['Value is too small'] ==
@@ -81,7 +81,7 @@ def test_browser__CategoryEditForm__4(
     browser.getControl('order by').displayValue = [
         'person -- photo permission?']
     browser.handleErrors = False
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
 
     delete_field(browser2, field)
@@ -131,7 +131,7 @@ def test_browser__CategoryEditForm__6(address_book, browser):
         'person -- first name',
         'person -- last name',
     ]
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PREFS_URL)
     # The non-JS wigdet variant cannot store the items in the selected order.
@@ -169,7 +169,7 @@ def test_browser__CategoryEditForm__9(address_book, browser, browser2):
     assert (['ascending (A-->Z)'] ==
             browser.getControl('sort direction').displayValue)
     browser.getControl('sort direction').displayValue = ['descending (Z-->A)']
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PREFS_URL)
     assert (['descending (Z-->A)'] ==
@@ -280,7 +280,7 @@ def test_browser__CategoryEditForm__14(address_book, browser):
     browser.login('visitor')
     browser.open(browser.PREFS_TIMEZONE_URL)
     browser.getControl('Time zone').displayValue = ['Europe/Berlin']
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert ['Europe/Berlin'] == browser.getControl('Time zone').displayValue
 

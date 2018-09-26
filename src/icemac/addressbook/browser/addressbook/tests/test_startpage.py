@@ -14,7 +14,7 @@ def test_startpage__Dispatch__2(address_book, browser):
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
     browser.getControl('start page after log-in').displayValue = 'Search'
     browser.select_favicon()
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     assert browser.SEARCH_URL == browser.url
@@ -30,7 +30,7 @@ def test_startpage__Dispatch__3(address_book, browser):
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
     browser.getControl('start page after log-in').displayValue = 'Search'
     browser.select_favicon()
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
 
     can_access_uri_part = (

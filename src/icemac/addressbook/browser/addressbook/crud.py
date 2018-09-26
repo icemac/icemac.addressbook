@@ -40,7 +40,7 @@ class EditForm(icemac.addressbook.browser.base.GroupEditForm):
     next_url = 'object'
     next_view = 'edit-address_book.html'
 
-    @z3c.form.button.buttonAndHandler(_('Apply'), name='apply')
+    @z3c.form.button.buttonAndHandler(_('Save'), name='apply')
     def handleApply(self, action):
         super(EditForm, self).handleApply(self, action)
 

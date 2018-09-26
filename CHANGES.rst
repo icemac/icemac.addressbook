@@ -2,12 +2,19 @@
 Change log
 ==========
 
-
-7.1 (unreleased)
+8.0 (unreleased)
 ================
+
+Backwards incompatible changes
+------------------------------
 
 - No longer install test and debugging infrastructure in a production
   environment by default.
+
+- Rename `Apply` button to `Save`.
+
+Other changes
+-------------
 
 - Update most libraries needed for the address book to their newest versions.
 

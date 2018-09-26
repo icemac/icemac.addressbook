@@ -160,7 +160,7 @@ def test_file__Add__Edit__Download__1(
     browser.open(browser.PERSON_EDIT_URL)
     fh, filename = tmpfile('3rd try', '.txt')
     browser.getControl('file', index=3).add_file(fh, 'text/enriched', filename)
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # Assert changes

@@ -207,8 +207,12 @@ class _AbstractEditForm(BaseForm, z3c.formui.form.EditForm):
 class BaseEditForm(_AbstractEditForm):
     """Base edit form.
 
-    It has a cancel button registered on it.
+    It has a cancel button registered on it and `Apply` is called `Save`.
     """
+
+    @z3c.form.button.buttonAndHandler(_('Save'), name='apply')
+    def handleApply(self, action):
+        return super(_AbstractEditForm, self).handleApply(self, action)
 
 
 class EditActions(z3c.form.button.ButtonActions,

@@ -24,7 +24,7 @@ def test_address__AddPhoneNumberForm__1(person_data, browser):
     assert '+4901761234567' == browser.getControl('number', index=2).value
     # It is now possible to change this phone number in the person edit form:
     browser.getControl('number', index=2).value = '+4901767654321'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     'Data successfully updated.' == browser.message
     browser.open(browser.PERSON_EDIT_URL)
     assert '+4901767654321' == browser.getControl('number', index=2).value
@@ -51,7 +51,7 @@ def test_address__AddPostalAddressForm__1(person_data, browser):
     assert 'Erfurt' == browser.getControl('city', index=2).value
     # It is now possible to change this postal address in the person edit form:
     browser.getControl('address prefix', index=2).value = 'RST-Software'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSON_EDIT_URL)
     assert 'RST-Software' == browser.getControl(
@@ -72,7 +72,7 @@ def test_address__AddEMailAddressForm__1(person_data, browser):
         'e-mail address', index=3).value
     # It is now possible to change this e-mail address in the person edit form:
     browser.getControl('e-mail address', index=3).value = 'pt@rst.example.edu'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSON_EDIT_URL)
     assert 'pt@rst.example.edu' == browser.getControl(
@@ -94,7 +94,7 @@ def test_address__AddHomePageAddressForm__1(person_data, browser):
     # It is now possible to change this home page address in the person edit
     # form:
     browser.getControl('URL', index=2).value = 'http://www.rst.example.edu'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSON_EDIT_URL)
     assert 'http://www.rst.example.edu' == browser.getControl(

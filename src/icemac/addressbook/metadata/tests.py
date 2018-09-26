@@ -51,7 +51,7 @@ def test_subscriber__LastModifierAnnotator__2(
     browser = browser2.formlogin('hans@test.de', '12345678')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('notes').value = 'I was here.'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert u'global editor' == IEditor(person).creator
     assert u'Tester, Hans' == IEditor(person).modifier

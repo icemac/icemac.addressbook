@@ -56,7 +56,7 @@ def test_crud__EditForm__1(address_book, browser):
     browser.login('mgr')
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
     browser.select_favicon()
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
 
 

@@ -261,14 +261,14 @@ def test_person__PersonEditForm__1(person_data, browser):
     # The last modification date is also displayed:
     assert '<legend>metadata</legend>' in browser.contents
     assert '<span>Modification Date (UTC)</span>' in browser.contents
-    # Changed values get persisted when selecting `Apply`:
+    # Changed values get persisted when selecting `Save`:
     browser.getControl('first name').value = u'Peter'
     browser.getControl('birth date').value = '2001 1 1 '
     browser.getControl('zip', index=0).value = u'99991'
     browser.getControl('e-mail address', index=1).value = u'petra9@example.com'
     browser.getControl('URL', index=0).value = 'http://petra23.example.com'
     browser.getControl('number', index=1).value = u'110'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     assert (['Tester', 'Peter'] ==
@@ -313,7 +313,7 @@ def test_person__PersonEditForm__3(person_data, browser):
     # button. If there are errors in the input data an error message is
     # displayed:
     browser.getControl('birth date').value = u'qqqq'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert [] == browser.message
     assert (
         ["The datetime string did not match the pattern u'yyyy MMM d '."] ==
@@ -326,7 +326,7 @@ def test_person__PersonEditForm__4(person_with_field_data, browser):
     browser.open(browser.PERSON_EDIT_URL)
     assert 'my value' == browser.getControl('foobar').value
     browser.getControl('foobar').value = 'monster'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     browser.getLink('Tester').click()
@@ -341,7 +341,7 @@ def test_person__PersonEditForm__5(person_with_field_data, browser):
     browser.open(browser.PERSON_EDIT_URL)
     assert 'my value' == browser.getControl('foobar').value
     browser.getControl('foobar').value = 'editor was here'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # The entered values got persisted:
@@ -393,7 +393,7 @@ def test_person__PersonEditForm__9(person_data, browser):
     assert browser.getControl('church').selected
     assert browser.getControl('family').selected
     browser.getControl('church').click()
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     address_book = person_data
     family = address_book.keywords.get_keyword_by_title(u'family')
@@ -503,7 +503,7 @@ def test_person__PersonEditForm__13(
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('name', index=2).value = 'my nice file.txt'
     browser.getControl('Mime Type').value = 'text/example'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
 
@@ -524,7 +524,7 @@ def test_person__PersonEditForm__14(
     fh, filename = tmpfile('special data, blah', '.js')
     browser.getControl('file', index=1).add_file(
         fh, 'application/octet-stream', filename)
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # The downloaded file behaves accordingly:
@@ -548,7 +548,7 @@ def test_person__PersonEditForm__15(
     browser.open(browser.PERSON_EDIT_URL)
     fh, filename = tmpfile('Ä, no content type, huh', '')
     browser.getControl('file', index=1).add_file(fh, '', filename)
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     browser.open(browser.PERSON_EDIT_URL)
@@ -565,7 +565,7 @@ def test_person__PersonEditForm__16(
     browser.open(browser.PERSON_EDIT_URL)
     assert 'first letter' == browser.getControl('mynotes').value
     browser.getControl('mynotes').value = 'second letter'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     browser.getLink('Tester').click()
@@ -638,7 +638,7 @@ def test_person__PersonEditGroup__2(address_book, FullPersonFactory, browser):
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('city').value = 'Heretown'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     assert IZopeDublinCore(person).modified == dt
@@ -660,7 +660,7 @@ def test_person__PersonEditGroup__3(address_book, FullPersonFactory, browser):
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('first name').value = 'Hans'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # Only person has a changed modification date:
@@ -702,7 +702,7 @@ def test_person__ClonePersonForm__1(person_with_field_data, browser):
     browser.getControl('e-mail', index=1).value = 'm@test333.de'
     browser.getControl('number', index=1).value = '333'
     browser.getControl('URL', index=0).value = 'http://test333.de'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     browser.getLink('Tester').click()
@@ -720,7 +720,7 @@ def test_person__ClonePersonForm__1(person_with_field_data, browser):
     browser.getControl('keywords').displayValue = ['church', 'friend']
     browser.getControl('foobar').value = 'your value'
     browser.getControl('number', index=1).value = '012354-234234-23'
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     browser.getLink('Testerella').click()
@@ -776,7 +776,7 @@ def test_person__DefaultSelectGroup__1(person_data, browser):
         'pt@rst.example.edu']
     browser.getControl('main home page address').displayValue = [
         'http://www.rst.example.edu']
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSON_EDIT_URL)
     assert (['http://www.rst.example.edu'] ==

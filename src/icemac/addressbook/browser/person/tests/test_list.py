@@ -176,7 +176,7 @@ def test_list__PersonList__6i(
     browser.login('visitor')
     browser.open(browser.PREFS_URL)
     browser.getControl('batch size').value = str(batch_size)
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSONS_LIST_URL)
     assert ([str(x + 1) for x in range(batch_number)] ==
@@ -299,7 +299,7 @@ def test_list__PersonList__10i(address_book, PersonFactory, browser):
         'person -- last name',
         'person -- notes',
     ]
-    browser.getControl('Apply').click()
+    browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     browser.open(browser.PERSONS_LIST_URL)
     assert (['Tester', 'my notes'] ==
