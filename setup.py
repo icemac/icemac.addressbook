@@ -136,7 +136,6 @@ setuptools.setup(
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt
       addressbook = icemac.addressbook.startup:zdaemon_controller
-      debug_ajax = icemac.addressbook.startup:zdaemon_controller_debug_ajax
       debug_pdb = icemac.addressbook.startup:zdaemon_controller_debug_pdb
       [paste.app_factory]
       main = icemac.addressbook.startup:application_factory
