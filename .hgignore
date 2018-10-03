@@ -17,8 +17,6 @@ admin.zcml
 bin
 buildout.cfg
 coverage
-debug-ajax.ini
-debug-pdb.ini
 deploy.ini
 develop-eggs
 docs/_build
@@ -35,7 +33,5 @@ pip-selfcheck.json
 site.zcml
 var/*
 var/chameleon-cache/*
-zdaemon-debug-ajax.conf
-zdaemon-debug-pdb.conf
 zdaemon.conf
 zope.conf

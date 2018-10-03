@@ -72,11 +72,3 @@ class ControllerCommands(zdaemon.zdctl.ZDCmd):  # pragma: no cover
 def zdaemon_controller(zdaemon_conf='zdaemon.conf'):  # pragma: no cover
     args = ['-C', zdaemon_conf] + sys.argv[1:]
     zdaemon.zdctl.main(args, options=None, cmdclass=ControllerCommands)
-
-
-def zdaemon_controller_debug_ajax():  # pragma: no cover (not testable)
-    zdaemon_controller('zdaemon-debug-ajax.conf')
-
-
-def zdaemon_controller_debug_pdb():  # pragma: no cover (not testable)
-    zdaemon_controller('zdaemon-debug-pdb.conf')
