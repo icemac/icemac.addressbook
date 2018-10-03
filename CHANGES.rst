@@ -13,8 +13,8 @@ Backwards incompatible changes
 
 - Rename `Apply` button to `Save`.
 
-- Remove scripts which drop into a debugger on an exception
-  (`bin/debug_ajax` and `bin/debug_pdb`).
+- Remove scripts which drop into a debugger on an exception and their
+  infrastructure (`bin/debug_ajax` and `bin/debug_pdb`).
 
 Other changes
 -------------
