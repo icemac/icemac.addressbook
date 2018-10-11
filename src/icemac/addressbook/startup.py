@@ -1,11 +1,7 @@
 from __future__ import print_function
 from zope.app.publication.httpfactory import HTTPPublicationRequestFactory
-import code
 import fanstatic
 import os
-import sys
-import zdaemon.zdctl
-import zope.app.debug
 import zope.app.wsgi
 import zope.app.wsgi.interfaces
 import zope.event
@@ -45,30 +41,3 @@ def application_factory(global_conf=None, zope_application=None):
         zope.app.wsgi.interfaces.WSGIPublisherApplicationCreated(application))
 
     return application
-
-
-def interactive_debug_prompt(zope_conf='zope.conf'):  # pragma: no cover
-    db = zope.app.wsgi.config(zope_conf)
-    debugger = zope.app.debug.Debugger.fromDatabase(db)
-    # Invoke an interactive interpreter shell
-    banner = ("Welcome to the interactive debug prompt.\n"
-              "The 'root' variable contains the ZODB root folder.\n"
-              "The 'app' variable contains the Debugger, 'app.publish(path)' "
-              "simulates a request.")
-    code.interact(banner=banner, local={
-        'debugger': debugger, 'app': debugger, 'root': debugger.root()})
-
-
-class ControllerCommands(zdaemon.zdctl.ZDCmd):  # pragma: no cover
-
-    def do_debug(self, rest):
-        interactive_debug_prompt()
-
-    def help_debug(self):
-        print("debug -- Initialize the application, providing a debugger")
-        print("         object at an interactive Python prompt.")
-
-
-def zdaemon_controller(zdaemon_conf='zdaemon.conf'):  # pragma: no cover
-    args = ['-C', zdaemon_conf] + sys.argv[1:]
-    zdaemon.zdctl.main(args, options=None, cmdclass=ControllerCommands)

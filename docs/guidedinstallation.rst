@@ -47,3 +47,11 @@ Installation steps:
 7. :ref:`runthetests`
 
 8. :ref:`runtheapplication`
+
+9. :ref:`loginintotheapplication`
+
+
+.. note::
+
+    This installation variant installs a cron job starting the address book
+    at each reboot and a cron job packing the database each week.

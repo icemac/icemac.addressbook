@@ -39,4 +39,11 @@ Neither you need any root privileges nor it installs anything outside its direct
 
 #. :ref:`runtheapplication`
 
+#. :ref:`loginintotheapplication`
+
 .. _PyPI : https://pypi.org/project/icemac.addressbook/#files
+
+.. note::
+
+    This installation variant installs a cron job starting the address book
+    at each reboot and a cron job packing the database each week.

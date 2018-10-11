@@ -20,4 +20,10 @@ This installation should only be used to work on the address book code itself.
 
 3. :ref:`runthetests`
 
-4. :ref:`runtheapplication`
+4. To run the application you have to start the database
+   (in demon mode) and the actual application in the foreground::
+
+   $ bin/zeoserver start
+   $ bin/addressbook
+
+5. :ref:`loginintotheapplication`

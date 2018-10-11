@@ -90,7 +90,6 @@ setuptools.setup(
         'zodbupdate',
         'zope.schema >= 4.3'
         'zope.app.appsetup',
-        'zope.app.debug',
         'zope.app.locales >= 3.6',
         'zope.app.wsgi',
         'zope.browserpage',
@@ -135,7 +134,6 @@ setuptools.setup(
     entry_points="""
       [console_scripts]
       debug = icemac.addressbook.startup:interactive_debug_prompt
-      addressbook = icemac.addressbook.startup:zdaemon_controller
       [paste.app_factory]
       main = icemac.addressbook.startup:application_factory
       [fanstatic.libraries]
