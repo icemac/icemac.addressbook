@@ -15,6 +15,7 @@ using a web browser.
    installation
    runthetests
    runtheapplication
+   login
    usermanagement
 
 Documentation in other languages:

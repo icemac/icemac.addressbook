@@ -1,0 +1,15 @@
+<zeo>
+  address ${hostname}:${port}
+</zeo>
+
+<filestorage>
+    path var/Data.fs
+    blob-dir var/blobs
+</filestorage>
+
+<eventlog>
+  <logfile>
+    path log/zeo.log
+    format %(asctime)s %(message)s
+  </logfile>
+</eventlog>

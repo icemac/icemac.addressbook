@@ -13,6 +13,10 @@ Backwards incompatible changes
 
 - Rename `Apply` button to `Save`.
 
+- Add ZEO server running the database. This requires a different commands to
+  start and stop the address book and the database server, see
+  `documentation <https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html>`_.
+
 - Remove scripts which drop into a debugger on an exception and their
   infrastructure (`bin/debug_ajax` and `bin/debug_pdb`).
 

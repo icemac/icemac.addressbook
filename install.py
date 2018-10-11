@@ -66,9 +66,16 @@ def migrate():
     cwd = os.getcwd()
     try:
         os.chdir(old_instance)
-        demon_path = os.path.join('bin', 'addressbook')
+        controller_path = os.path.join('bin', 'svctl')
+        shutdown_command = 'shutdown'
+        daemon_path = os.path.join('bin', 'svd')
+        if not os.path.exists(controller_path):
+            # Backwards compatibility up to version 7.x:
+            controller_path = os.path.join('bin', 'addressbook')
+            shutdown_command = 'stop'
         if bool_get(config, 'stop_server'):
-            run_process('Stopping old instance', demon_path, 'stop')
+            run_process(
+                'Stopping old instance', controller_path, shutdown_command)
         run_process('Packing the old instance keeping 1 day of old data',
                     os.path.join(cwd, 'bin', 'offlinepack'), '--days=1',
                     os.path.join('var', 'Data.fs'))
@@ -89,7 +96,7 @@ def migrate():
     delete_dir_contents(cwd, 'var', 'snapshotbackups')
 
     if bool_get(config, 'start_server'):
-        run_process('Starting new instance', demon_path, 'start')
+        run_process('Starting new instance', daemon_path)
 
 
 if __name__ == '__main__':

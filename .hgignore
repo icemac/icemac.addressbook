@@ -34,4 +34,5 @@ site.zcml
 var/*
 var/chameleon-cache/*
 zdaemon.conf
+zeo.conf
 zope.conf

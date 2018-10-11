@@ -45,4 +45,6 @@ deprecated manual installation method to the recent
 
 #. :ref:`runtheapplication`
 
+#. :ref:`loginintotheapplication`
+
 #. If the installation was successful you can remove the old installation.
