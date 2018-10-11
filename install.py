@@ -76,9 +76,6 @@ def migrate():
         if bool_get(config, 'stop_server'):
             run_process(
                 'Stopping old instance', controller_path, shutdown_command)
-        run_process('Packing the old instance keeping 1 day of old data',
-                    os.path.join(cwd, 'bin', 'offlinepack'), '--days=1',
-                    os.path.join('var', 'Data.fs'))
         run_process('Creating backup of old instance',
                     os.path.join('bin', 'snapshotbackup'))
         print('Copying data backups to new instance ...')
