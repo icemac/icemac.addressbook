@@ -11,7 +11,7 @@ pipelines:
           - apt-get -y remove liblzma-dev
           - pip install zc.buildout
           - buildout -n buildout:eggs-directory=../eggs -c bitbucket-pipelines.cfg
-          - bin/py.test -k "not webdriver" --numprocesses=3
+          - bin/py.test -k "not webdriver"
 definitions:
   caches:
     buildout-eggs: ../eggs
