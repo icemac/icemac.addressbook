@@ -9,7 +9,7 @@ Status:
 
 Copyright (c) 2008-2018 Michael Howitz
 
-This package is licensed under the MIT License, see LICENSE.txt inside the
+This package is licensed under the MIT License, see LICENSE.TXT inside the
 package.
 
 * Features_
