@@ -4,6 +4,49 @@
 
 Change log of releases more than 2 minor versions behind current version.
 
+
+5.0.2 (2017-12-27)
+==================
+
+- The install process seems to have to access PyPI using HTTPS nowadays.
+
+
+5.0.1 (2017-12-27)
+==================
+
+- Fix the install scripts to only depend on the standard library.
+
+
+5.0 (2017-12-26)
+================
+
+Backward incompatible changes
+-----------------------------
+
+- Use select2 JavaScript library to nicely render the select fields.
+
+Features
+--------
+
+- Render breadcrumbs to be able to access the parent object.
+
+Other
+-----
+
+- Update most libraries needed for the address book to their newest versions.
+
+- Move ``.conftest.tmpfile()`` to ``.fixtures.tmpfile()`` for reuse.
+
+- Make some Python 3 preparations as suggested by `pylint --py3k -d W1618`.
+  (No checks for future-absolute-imports as relative imports are not used
+  here.)
+
+- Change `zope.interface.implements[Only]` and `zope.component.adapts` to
+  class decorators.
+
+- Also release as wheel.
+
+
 4.1.1 (2017-05-18)
 ==================
 
