@@ -5,7 +5,7 @@ Change log
 8.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
 
 
 8.0 (2018-10-13)
