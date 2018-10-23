@@ -10,6 +10,11 @@ The default URL to access the application is:
 
 (You may have changed the port number during the :ref:`installation`\ .)
 
+.. caution:: This URL is only accessible for a browser running on the same
+             machine as the application. If you are installing it on an
+             (external) server you might need to create a port forward to your
+             local machine.
+
 To log-in at this URL you need a user name and a password.
 
 * If you installed via :ref:`package-installation` you had to chose both during
