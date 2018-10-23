@@ -41,6 +41,8 @@ Neither you need any root privileges nor it installs anything outside its direct
 
 #. :ref:`loginintotheapplication`
 
+#. :ref:`operations`
+
 .. _PyPI : https://pypi.org/project/icemac.addressbook/#files
 
 .. note::

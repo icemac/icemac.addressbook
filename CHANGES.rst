@@ -7,6 +7,10 @@ Change log
 
 - Update most libraries needed for the address book to their newest versions.
 
+Other changes
+-------------
+
+- Add some `operations tips <https://icemacaddressbook.readthedocs.io/en/latest/operations.html>`_ for the address book.
 
 8.0 (2018-10-13)
 ================

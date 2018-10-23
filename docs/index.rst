@@ -17,6 +17,7 @@ using a web browser.
    runtheapplication
    login
    usermanagement
+   operations
 
 Documentation in other languages:
 

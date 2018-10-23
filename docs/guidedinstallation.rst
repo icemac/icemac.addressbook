@@ -50,7 +50,7 @@ Installation steps:
 
 #. :ref:`loginintotheapplication`
 
-
+#. :ref:`operations`
 
 .. note::
 
