@@ -17,19 +17,19 @@ directory.
 
 Installation steps:
 
-1. Create a `virtualenv` using::
+#. Create a `virtualenv` using::
 
    $ virtualenv-2.7 addressbook
 
-2. Change into the directory of the `virtualenv` using::
+#. Change into the directory of the `virtualenv` using::
 
    $ cd addressbook
 
-3. Install the installation script using::
+#. Install the installation script using::
 
    $ bin/pip install icemac.install.addressbook
 
-4. Start the installation
+#. Start the installation
 
    *  call::
 
@@ -38,17 +38,18 @@ Installation steps:
    * ``VERSION_NUMBER`` can be omitted to install the latest version or
      should be replaced by the desired version.
 
-5. Answer the questions about admin user name, password and so on.
+#. Answer the questions about admin user name, password and so on.
 
-6. Change into the installation directory using::
+#. Change into the installation directory using::
 
    $ cd current
 
-7. :ref:`runthetests`
+#. :ref:`runthetests`
 
-8. :ref:`runtheapplication`
+#. :ref:`runtheapplication`
 
-9. :ref:`loginintotheapplication`
+#. :ref:`loginintotheapplication`
+
 
 
 .. note::
