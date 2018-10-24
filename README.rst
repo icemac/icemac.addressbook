@@ -20,6 +20,7 @@ package.
 * `Run the tests`_
 * `Run the application`_
 * `User management`_
+* `Operations`_
 * `To do`_
 
 .. _Features : https://icemacaddressbook.readthedocs.io/en/latest/features.html
@@ -31,3 +32,4 @@ package.
 .. _`Run the tests`: https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html
 .. _`Run the application` : https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html
 .. _`To do` : https://icemacaddressbook.readthedocs.io/en/latest/todo.html
+.. _`Operations` : https://icemacaddressbook.readthedocs.io/en/latest/operations.html
