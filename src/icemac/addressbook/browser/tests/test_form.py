@@ -4,6 +4,7 @@ from icemac.addressbook.interfaces import IKeyword
 from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 from mock import patch, Mock
 from pytz import utc, timezone
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 import gocept.testing.mock
@@ -98,6 +99,9 @@ def po_datetime_webdriver():
             s.find_element_by_xpath("(//button[@type='button'])[2]").click()
 
         def save(self):
+            WebDriverWait(self._selenium, 3).until(
+                expected_conditions.invisibility_of_element_located(
+                    (By.CSS_SELECTOR, '.ui-datepicker')))
             self._selenium.find_element_by_id("form-buttons-apply").click()
 
     Webdriver.attach(PODatetime, 'dt')
@@ -118,8 +122,7 @@ def test_form__Widget__1_webdriver(address_book, FieldFactory, KeywordFactory, d
     dt.datetime_now()
     dt.save()
     # Successful apply leads back to keyword overview:
-    assert dt.KEYWORDS_LIST_URL == webdriver.path,\
-        webdriver._selenium.screenshot()
+    assert dt.KEYWORDS_LIST_URL == webdriver.path
 
 
 def test_form__TimeWidget__2(

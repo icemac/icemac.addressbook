@@ -417,7 +417,7 @@ class Webdriver(WebdriverBase):  # pragma: no cover (webdriver)
             'http://{}'.format(self._address), '')
 
     def windowMaximize(self):
-        self._selenium.maximize_window()
+        self._selenium.set_window_size(1200, 800)
 
 
 class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
