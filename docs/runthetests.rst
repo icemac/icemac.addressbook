@@ -34,11 +34,10 @@ Prerequisites for the browser tests
 
 These prerequisites are only needed to run some tests in an actual browser:
 
-* `geckodriver`_ matching the ``selenium`` version used in the address book,
-  see `profiles/version.cfg`_ resp. the file you are actually using. It has to
-  be installed in the search path.
+* Fairly recent `chromedriver`_ version. It has to be installed in the search
+  path.
 
-* Firefox (version as described by `geckodriver`_)
+* Google Chrome (a version matching your `chromedriver`_ version)
 
 Run all tests
 +++++++++++++
@@ -47,5 +46,9 @@ Run all tests including the browser tests using::
 
    $ bin/py.test
 
-.. _geckodriver : https://github.com/mozilla/geckodriver/releases
+To additionally show the actual browser during the tests, call them using::
+
+   $ NOT_HEADLESS=1 bin/py.test
+
+.. _chromedriver : http://chromedriver.chromium.org/downloads
 .. _`profiles/version.cfg` : https://bitbucket.org/icemac/icemac.addressbook/src/default/profiles/versions.cfg
