@@ -339,11 +339,18 @@ def httpServerS(wsgiAppS):  # pragma: no cover (webriver)
 @pytest.yield_fixture(scope='session')
 def webdriverS(httpServerS):  # pragma: no cover (webdriver)
     """Open a browser for webriver tests."""
-    options = selenium.webdriver.ChromeOptions()
-    options.add_argument('window-size=1200x800')
-    if not os.environ.get('NOT_HEADLESS', False):
-        options.add_argument('headless')
-    driver = selenium.webdriver.Chrome(options=options)
+    if os.environ.get('SELENIUM_FIREFOX', False):
+        options = selenium.webdriver.FirefoxOptions()
+        options.add_argument('window-size=1200x800')
+        if not os.environ.get('NOT_HEADLESS', False):
+            options.headless = True
+        driver = selenium.webdriver.Firefox(options=options)
+    else:
+        options = selenium.webdriver.ChromeOptions()
+        options.add_argument('window-size=1200x800')
+        if not os.environ.get('NOT_HEADLESS', False):
+            options.add_argument('headless')
+        driver = selenium.webdriver.Chrome(options=options)
 
     timeout = int(os.environ.get('GOCEPT_SELENIUM_TIMEOUT', 10))
     driver.implicitly_wait(timeout)  # in seconds

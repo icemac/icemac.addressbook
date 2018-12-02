@@ -5,10 +5,12 @@ Change log
 8.1 (unreleased)
 ================
 
-Demanding changes
------------------
+Changes in testing
+------------------
 
-- Switch Selenium tests from Firefox to Chrome requiring `chromedriver`, See
+- Switch Selenium tests from Firefox to Chrome by default requiring
+  `chromedriver`, but allow to keep using Firefox via an environment variable.
+  Details see
   `documentation <https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html>`_.
 
 Other changes
