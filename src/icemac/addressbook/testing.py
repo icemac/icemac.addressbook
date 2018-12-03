@@ -256,14 +256,16 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         self.getControl('User Name').value = username
         self.getControl('Password').value = password
         self.getControl('Log in').click()
-        assert 'You have been logged-in successfully.' == self.message
+        assert 'You have been logged-in successfully.' == self.message, \
+            'Not successfully logged in: message={0.message!r}'.format(self)
         return self
 
     def logout(self):
         """Logout from the address book."""
         self.getLink('Logout').click()
         self.html_redirect()
-        assert 'You have been logged out successfully.' in self.message
+        assert 'You have been logged out successfully.' in self.message, \
+            'Not successfully logged out: message={0.message!r}'.format(self)
 
     def lang(self, lang):
         """Set the language for the browser."""
