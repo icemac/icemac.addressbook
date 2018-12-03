@@ -21,7 +21,7 @@ class DefaultsDeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
                 entity.getClass())
             icemac.addressbook.utils.add(parent, replacement_obj)
             setattr(parent, default_attr, replacement_obj)
-        super(DefaultsDeleteForm, self)._do_delete()
+        return super(DefaultsDeleteForm, self)._do_delete()
 
 
 class AddPhoneNumberForm(icemac.addressbook.browser.base.BaseAddForm):

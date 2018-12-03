@@ -302,12 +302,19 @@ class BaseDeleteForm(_BaseConfirmForm):
     def _handle_action(self):
         self.redirect_to_next_url(self.next_url_after_delete,
                                   self.next_view_after_delete)
-        self.status = _('"${title}" deleted.',
-                        mapping={'title': self.status_title})
-        self._do_delete()
+        if self._do_delete():
+            self.status = _('"${title}" deleted.',
+                            mapping={'title': self.status_title})
 
     def _do_delete(self):
+        """Execute the deletion.
+
+        Returns `True` on success.
+        Subclasses may also handle failure. They have to return `False` and
+        set the status message on their own.
+        """
         icemac.addressbook.utils.delete(self.context)
+        return True
 
     @property
     def status_title(self):

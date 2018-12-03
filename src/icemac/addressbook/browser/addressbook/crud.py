@@ -80,7 +80,7 @@ class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
         principals = self.context.principals
         for name in list(principals.keys()):
             del principals[name]
-        super(DeleteForm, self)._do_delete()
+        return super(DeleteForm, self)._do_delete()
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
