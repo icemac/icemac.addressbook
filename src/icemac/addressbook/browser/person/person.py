@@ -264,7 +264,7 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
     def _do_delete(self):
         try:
-            super(DeletePersonForm, self)._do_delete()
+            return super(DeletePersonForm, self)._do_delete()
         except gocept.reference.interfaces.IntegrityError:
             transaction.abort()
             message = _(
@@ -272,6 +272,7 @@ class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
                 'To delete this person, remove the reference before.')
             zope.component.getUtility(
                 z3c.flashmessage.interfaces.IMessageSource).send(message)
+            return False  # nothing deleted
 
 
 class ClonePersonForm(icemac.addressbook.browser.base.BaseCloneForm):

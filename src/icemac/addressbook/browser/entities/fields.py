@@ -170,3 +170,4 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
         entity.removeField(field)
         # We have no need for a super call here as `removeField()` already
         # did the job.
+        return True
