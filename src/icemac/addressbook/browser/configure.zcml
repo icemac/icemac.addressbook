@@ -125,8 +125,6 @@
       class=".cookieconsent.CookieConsentViewlet"
       permission="zope.Public" />
 
-  <utility factory="z3c.flashmessage.sources.SessionMessageSource" />
-
   <adapter
       factory=".metadata.ModifiedLabel"
       name="label" />

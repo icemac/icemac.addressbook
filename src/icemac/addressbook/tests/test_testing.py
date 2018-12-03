@@ -1,16 +1,20 @@
 from mock import patch
 from z3c.flashmessage.interfaces import IMessageSource
 import datetime
+import icemac.addressbook.browser.messages.messages
 import pytest
 import zope.component
 import zope.publisher.testing
 
 
 @pytest.yield_fixture('function')
-def fake_session(empty_zodb):
-    """Fake a user session to be static."""
-    with patch('zope.session.interfaces.ISession') as ISession:
-        ISession.return_value = {'z3c.flashmessage': {}}
+def fake_message_source(empty_zodb):
+    """Fake message source to be not user dependent."""
+    UserSpecificRAMMessageSource = (
+        icemac.addressbook.browser.messages.messages
+        .UserSpecificRAMMessageSource)
+    with patch.object(UserSpecificRAMMessageSource, '_get_storage') as storage:
+        storage.return_value = []
         yield
 
 
@@ -20,14 +24,14 @@ def send_msg(msg):
         zope.component.getUtility(IMessageSource).send(msg)
 
 
-def test_testing__Browser__message__1(fake_session, browser):
+def test_testing__Browser__message__1(fake_message_source, browser):
     """It is an empty list if there are no flash messages."""
     browser.login('mgr')
     browser.open('http://localhost')
     assert [] == browser.message
 
 
-def test_testing__Browser__message__2(fake_session, browser):
+def test_testing__Browser__message__2(fake_message_source, browser):
     """It is a string if there is exactly one flash message."""
     send_msg('foo')
     browser.login('mgr')
@@ -36,7 +40,7 @@ def test_testing__Browser__message__2(fake_session, browser):
     assert 'foo' == browser.message
 
 
-def test_testing__Browser__message__3(fake_session, browser):
+def test_testing__Browser__message__3(fake_message_source, browser):
     """It is a list of strings if there is more than one flash message."""
     send_msg('foo')
     send_msg('blah')

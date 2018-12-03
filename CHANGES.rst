@@ -20,6 +20,8 @@ Other changes
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Store messages rendered in UI in RAM instead of in ZODB.
+
 
 8.0 (2018-10-13)
 ================
