@@ -5,6 +5,11 @@ Change log
 8.1 (unreleased)
 ================
 
+Features
+--------
+
+- Add a cron job which does a daily backup of the database.
+
 Changes in testing
 ------------------
 

@@ -52,7 +52,4 @@ Installation steps:
 
 #. :ref:`operations`
 
-.. note::
-
-    This installation variant installs a cron job starting the address book
-    at each reboot and a cron job packing the database each week.
+.. include:: cronjobs.rst
