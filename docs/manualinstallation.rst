@@ -12,8 +12,8 @@ manually.
 
 .. warning::
 
-    This installation method is deprecated and will be removed in the next
-    major version of ``icemac.addressbook``.
+    This installation method is deprecated and will be removed one of the next
+    major versions of ``icemac.addressbook``.
 
     Switch to :ref:`package-installation` now as described in
     :ref:`upgrade-to-guided-installation`.
