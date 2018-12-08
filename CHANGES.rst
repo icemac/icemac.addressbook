@@ -18,6 +18,8 @@ Changes in testing
   Details see
   `documentation <https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html>`_.
 
+- Drop support for profiling using `z3c.profiler`.
+
 Other changes
 -------------
 
