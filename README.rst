@@ -2,6 +2,18 @@
 icemac.addressbook
 ==================
 
+.. image:: https://img.shields.io/pypi/v/icemac.addressbook.svg
+   :target: https://pypi.python.org/pypi/icemac.addressbook/
+   :alt: Latest release
+
+.. image:: https://img.shields.io/pypi/pyversions/icemac.addressbook.svg
+   :target: https://pypi.org/project/icemac.addressbook/
+   :alt: Supported Python versions
+
+.. image:: https://readthedocs.org/projects/zodb/badge/?version=latest
+   :target: https://icemacaddressbook.readthedocs.io/en/latest/
+   :alt: Documentation status
+
 Purpose:
     Store, search and export addresses and phone numbers using a web application.
 Status:
