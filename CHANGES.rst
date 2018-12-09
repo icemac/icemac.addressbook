@@ -15,8 +15,7 @@ Changes in testing
 
 - Switch Selenium tests from Firefox to Chrome by default requiring
   `chromedriver`, but allow to keep using Firefox via an environment variable.
-  Details see
-  `documentation <https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html>`_.
+  Details see `documentation`_.
 
 - Drop support for profiling using `z3c.profiler`.
 
@@ -45,7 +44,7 @@ Backwards incompatible changes
 
 - Add ZEO server running the database. This requires a different commands to
   start and stop the address book and the database server, see
-  `documentation <https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html>`_.
+  `documentation`_.
 
 - Remove scripts which drop into a debugger on an exception and their
   infrastructure (`bin/debug_ajax` and `bin/debug_pdb`).
@@ -193,3 +192,4 @@ Previous Versions
 See `OLD_CHANGES.rst`_.
 
 .. _`OLD_CHANGES.rst` : https://bitbucket.org/icemac/icemac.addressbook/src/default/OLD_CHANGES.rst
+.. _`documentation` :  https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html
