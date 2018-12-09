@@ -29,6 +29,8 @@ Other changes
 
 - Store messages rendered in UI in RAM instead of in ZODB.
 
+- Render URLs of the source code and documentation on the PyPI page.
+
 
 8.0 (2018-10-13)
 ================

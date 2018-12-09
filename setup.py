@@ -26,6 +26,11 @@ setuptools.setup(
     author_email='icemac@gmx.net',
     download_url='https://pypi.org/project/icemac.addressbook',
     url='https://bitbucket.org/icemac/icemac.addressbook',
+    project_urls={
+        'Documentation': 'https://icemacaddressbook.readthedocs.io',
+        'Source': 'https://bitbucket.org/icemac/icemac.addressbook',
+        'Tracker': 'https://bitbucket.org/icemac/icemac.addressbook/issues',
+    },
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
