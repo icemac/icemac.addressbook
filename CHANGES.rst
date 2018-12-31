@@ -8,6 +8,8 @@ Change log
 Features
 --------
 
+- Add a search result handler which renders a birthday list.
+
 - Add a cron job which does a daily backup of the database.
 
 Changes in testing

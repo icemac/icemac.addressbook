@@ -1,0 +1,32 @@
+<div i18n:domain="icemac.addressbook">
+  <h2 class="force-print"
+      i18n:translate="">Birthday list</h2>
+  <table>
+    <thead>
+      <tr>
+        <th i18n:translate="">
+          Name
+        </th>
+        <th i18n:translate="">
+          Birthday
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="person view/person_list">
+        <td tal:content="person/name" />
+        <td tal:content="person/birth_date" />
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <p i18n:translate="">
+    Number of persons: <span tal:replace="view/person_count"
+                             i18n:name="count" />
+  </p>
+  <br />
+  <a href="javascript:history.go(-1)"
+     class="no-print"
+     i18n:translate="">Go back</a>
+</div>
