@@ -38,6 +38,7 @@
      factory=".delete.delete_view" />
 
 
+  <include package=".birthday" />
   <include package=".checklist" />
   <include package=".export" />
   <include package=".mailto" />

@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:gocept="http://namespaces.gocept.com/zcml">
+
+  <gocept:pagelet
+      for="icemac.addressbook.interfaces.IAddressBook"
+      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+      name="person-birthdays.html"
+      class=".Birthdays"
+      template="list.pt"
+      permission="icemac.addressbook.ViewAddressBook" />
+
+  <z3c:siteMenuItem
+     manager="..manager.ISearchResultHandlers"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     name="person-birthdays"
+     title="Birthday list (Person names sorted by birthday.)"
+     viewName="person-birthdays.html"
+     class="..manager.SearchResultHandler"
+     permission="icemac.addressbook.ViewAddressBook"
+     weight="50"
+     />
+
+  <subscriber
+     for="*"
+     provides="icemac.addressbook.browser.search.interfaces.ISearchMenuItemOn"
+     factory=".birthdays" />
+
+</configure>
