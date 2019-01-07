@@ -71,7 +71,7 @@ class Breadcrumb(grok.MultiAdapter,
         return zope.traversing.api.getParent(self.context)
 
     def __repr__(self):
-        """Curstom representation for breadcrumbs."""
+        """Custom representation for breadcrumbs."""
         return '<{0}: {1.title!r}>'.format(
             icemac.addressbook.utils.dotted_name(self.__class__), self)
 
