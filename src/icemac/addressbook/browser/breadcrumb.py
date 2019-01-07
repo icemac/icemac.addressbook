@@ -79,6 +79,16 @@ class Breadcrumb(grok.MultiAdapter,
         return self.template()
 
 
+class DefaultBreadcrumb(Breadcrumb):
+    """Most unspecific breadcrumb implementation. Used as fall back."""
+
+    grok.adapts(
+        zope.interface.Interface,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    target_url = None
+
+
 class MasterdataChildBreadcrumb(Breadcrumb):
     """Breadcrumb those parent is `masterdata.html`."""
 
