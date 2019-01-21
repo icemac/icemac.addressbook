@@ -421,6 +421,7 @@ class FieldStorage(persistent.Persistent):
     """Storage for field values in annotations."""
 
     def __getattr__(self, attrib):
+        """Get a attribute value stored in `self.__dict__`."""
         # We have no default values on the class nor we might know them.
         if not attrib.startswith('__'):
             return self.__dict__.get(attrib, None)
