@@ -555,3 +555,19 @@ class IEntityOrder(zope.interface.Interface):
         When it would be moved beyond the end of the entity order a
         ValueError is raised.
         """
+
+
+class IFieldLabels(zope.interface.Interface):
+    """Custom labels for schema field to be shown in the UI."""
+
+    def set_label(field, label):
+        """Set a new label for the given field.
+
+        Use `None` as label to reset to the default value.
+        """
+
+    def get_label(field):
+        """Get the stored label for the field.
+
+        If no custom label is stored, return the title value of the field.
+        """

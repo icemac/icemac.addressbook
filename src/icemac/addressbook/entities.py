@@ -4,6 +4,7 @@ import grokcore.component as grok
 import icemac.addressbook.interfaces
 import persistent
 import persistent.interfaces
+import persistent.mapping
 import six
 import zc.sourcefactory.basic
 import zope.container.contained
@@ -454,3 +455,37 @@ def get_bound_schema_field(obj, entity, field, default_attrib_fallback=True):
         obj = icemac.addressbook.interfaces.IUserFieldStorage(obj)
         field = zope.schema.interfaces.IField(field)
     return field.bind(obj)
+
+
+@zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
+@zope.interface.implementer(icemac.addressbook.interfaces.IFieldLabels)
+class FieldLabels(persistent.mapping.PersistentMapping):
+    """Custom labels for schema field to be shown in the UI."""
+
+    def set_label(self, field, label):
+        """Set a new label for the given field.
+
+        Use `None` as label to reset to the default value.
+        """
+        if label is None:
+            try:
+                del self[self._key(field)]
+            except KeyError:
+                pass
+        else:
+            self[self._key(field)] = label
+
+    def get_label(self, field):
+        """Get the stored label for the field.
+
+        If no custom label is stored, return the title value of the field.
+        """
+        return self.get(self._key(field), field.title)
+
+    def _key(self, field):
+        """Compute the key for a field."""
+        return "{}:{}".format(dotted_name(field.interface), field.__name__)
+
+
+field_labels = zope.annotation.factory(
+    FieldLabels, key='icemac.predefinedfield.label.storage')
