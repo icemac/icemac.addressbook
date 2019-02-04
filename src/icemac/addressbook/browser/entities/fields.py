@@ -1,16 +1,25 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+from icemac.addressbook.interfaces import IMayHaveCustomFieldLabels
 from six.moves.urllib_parse import urlsplit
 import grokcore.component as grok
 import icemac.addressbook.browser.breadcrumb
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
 import z3c.form.group
+import z3c.form.interfaces
+import z3c.form.widget
 import z3c.formui.form
 import zope.app.publication.traversers
+import zope.component
+import zope.interface
+import zope.location
 import zope.publisher.interfaces
 import zope.publisher.interfaces.http
+import zope.schema
+import zope.schema.interfaces
 import zope.security.proxy
 import zope.traversing.browser
 
@@ -28,6 +37,47 @@ class FieldBreadCrumb(
         return icemac.addressbook.interfaces.IEntity(self.context)
 
 
+class IProxiedField(zope.interface.Interface):
+    """Wrapped zope.schema field used for renaming its title."""
+
+    title = zope.schema.TextLine(
+        title=_('title'),
+        description=_(
+            'Delete the value and submit the form to reset to the default'
+            ' value.'))
+
+
+@zope.interface.implementer(IProxiedField)
+class ProxiedField(object):
+    """Wrapper for a zope.schema field to allow access to the title attrib.
+
+    This wrapper is located, it has:
+    * __parent__ ... entity, the field belongs to
+    * __name__ ... name of the field in the interface.
+    """
+
+    def __init__(self, field):
+        pass
+
+    @property
+    def title(self):
+        return self._field_labels.get_label(self._field)
+
+    @title.setter
+    def title(self, value):
+        return self._field_labels.set_label(self._field, value)
+
+    @property
+    def _field_labels(self):
+        address_book = icemac.addressbook.interfaces.IAddressBook(
+            self.__parent__)
+        return icemac.addressbook.interfaces.IFieldLabels(address_book)
+
+    @property
+    def _field(self):
+        return self.__parent__.interface[self.__name__]
+
+
 @zope.component.adapter(
     icemac.addressbook.interfaces.IEntity,
     zope.publisher.interfaces.http.IHTTPRequest)
@@ -42,7 +92,15 @@ class FieldsTraverser(
         try:
             return entities[name]
         except KeyError:
-            return super(FieldsTraverser, self).publishTraverse(request, name)
+            try:
+                field = self.context.interface[name]
+            except KeyError:
+                return super(FieldsTraverser, self).publishTraverse(
+                    request, name)
+            else:
+                proxy = ProxiedField(field)
+                zope.location.locate(proxy, self.context, name)
+                return proxy
 
 
 def get_field_URL(entity, field, request, view=None):
@@ -76,6 +134,8 @@ class List(icemac.addressbook.browser.base.FlashView):
                 for name, field in self.context.getRawFields()]
 
     def fields(self):
+        have_custom_filed_labels = IMayHaveCustomFieldLabels.implementedBy(
+            self.context.getClass())
         for field in self._values():
             omit = False
             if icemac.addressbook.interfaces.IField.providedBy(field):
@@ -83,7 +143,11 @@ class List(icemac.addressbook.browser.base.FlashView):
                 delete_url = get_field_URL(
                     self.context, field, self.request, 'delete.html')
             else:
-                url = delete_url = None
+                if have_custom_filed_labels:
+                    url = get_field_URL(self.context, field, self.request)
+                else:
+                    url = None
+                delete_url = None
                 omit = field.queryTaggedValue('omit-from-field-list', False)
             if not omit:
                 yield {'title': field.title,
@@ -171,3 +235,27 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
         # We have no need for a super call here as `removeField()` already
         # did the job.
         return True
+
+
+def get_field_label(self):
+    """Get the label for a schema field which is possibly custom.
+
+    self … ComputedWidgetAttribute instance with the attributes context and
+           field.
+    """
+    address_book = icemac.addressbook.interfaces.IAddressBook(self.context)
+    field_labels = icemac.addressbook.interfaces.IFieldLabels(address_book)
+    return field_labels.get_label(self.field)
+
+
+custom_field_label = z3c.form.widget.ComputedWidgetAttribute(
+    get_field_label,
+    context=IMayHaveCustomFieldLabels,
+    field=zope.schema.interfaces.IField)
+
+
+class RenameForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):
+    """Rename the title of a pre-defined field on an entity."""
+
+    title = _(u'Rename field')
+    interface = IProxiedField

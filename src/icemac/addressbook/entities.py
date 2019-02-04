@@ -481,11 +481,18 @@ class FieldLabels(persistent.mapping.PersistentMapping):
 
         If no custom label is stored, return the title value of the field.
         """
-        return self.get(self._key(field), field.title)
+        return self.get(self._key(field), self._default(field))
 
-    def _key(self, field):
+    @staticmethod
+    def _key(field):
         """Compute the key for a field."""
-        return "{}:{}".format(dotted_name(field.interface), field.__name__)
+        unsecure_field = zope.security.proxy.getObject(field)
+        return "{}:{}".format(
+            dotted_name(unsecure_field.interface), field.__name__)
+
+    @staticmethod
+    def _default(field):
+        return zope.security.proxy.getObject(field).title
 
 
 field_labels = zope.annotation.factory(
