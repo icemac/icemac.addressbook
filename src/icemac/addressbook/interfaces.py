@@ -571,3 +571,11 @@ class IFieldLabels(zope.interface.Interface):
 
         If no custom label is stored, return the title value of the field.
         """
+
+
+class IMayHaveCustomFieldLabels(zope.interface.Interface):
+    """Marker interface for objects those fields my have custom labels.
+
+    This is only relevant for pre-defined fields as the user-defined ones
+    already have user defined titles.
+    """

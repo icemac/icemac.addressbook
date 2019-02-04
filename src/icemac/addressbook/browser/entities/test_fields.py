@@ -118,7 +118,8 @@ def test_fields__AddForm__3(address_book, FieldFactory, browser):
     browser.getControl(name='form.buttons.add').click()
     assert '"baz" added.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
-    assert browser.getLink('Edit').url.endswith(
+    open('response.html', 'w').write(browser.contents)
+    assert browser.getLink('Edit', index=5).url.endswith(
         '/icemac.addressbook.person.Person/Field-2')
     assert browser.ENTITIY_PERSON_EDIT_FIELD_URL != browser.getLink('Edit').url
 
@@ -132,7 +133,7 @@ def test_fields__EditForm__1(address_book, FieldFactory, browser):
         address_book, IPerson, 'TextLine', u'baz', notes=u'the baz field')
     browser.login('mgr')
     browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
-    browser.getLink('Edit').click()
+    browser.getLink('Edit', index=5).click()
     assert browser.ENTITIY_PERSON_EDIT_FIELD_URL == browser.url
     assert ['text line'] == browser.getControl('type').displayValue
     assert 'baz' == browser.getControl('title').value
@@ -142,7 +143,8 @@ def test_fields__EditForm__1(address_book, FieldFactory, browser):
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
-    browser.getLink('Edit').click()
+    browser.getLink('Edit', index=5).click()
+    assert browser.ENTITIY_PERSON_EDIT_FIELD_URL == browser.url
     assert 'foobar' == browser.getControl('title').value
 
 
@@ -154,7 +156,8 @@ def test_fields__EditForm__2(address_book, FieldFactory, browser):
     browser.getControl('title').value = 'barrrrrrr'
     browser.getControl('Cancel').click()
     assert 'No changes were applied.' == browser.message
-    browser.getLink('Edit').click()
+    browser.getLink('Edit', index=5).click()
+    assert browser.ENTITIY_PERSON_EDIT_FIELD_URL == browser.url
     assert 'foo' == browser.getControl('title').value
 
 
@@ -201,3 +204,23 @@ def test_fields__SaveSortorder__1(address_book, FieldFactory, browser):
     assert 'Saved sortorder.' == browser.message
     with zope.component.hooks.site(address_book):
         assert [u'last_name', u'Field-1'] == IEntity(IPerson).getFieldOrder()
+
+
+def test_fields__RenameForm__1(address_book, FullPersonFactory, browser):
+    """It enables renaming of a pre-defined field."""
+    FullPersonFactory(address_book, u'Tester', first_name=u'Ben')
+
+    browser.login('mgr')
+    browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
+    browser.getLink('Edit').click()
+    assert browser.ENTITIY_PERSON_RENAME_FIELD_URL == browser.url
+    assert 'first name' == browser.getControl('title').value
+    browser.getControl('title').value = 'given name'
+    browser.getControl('Save').click()
+    assert 'Data successfully updated.' == browser.message
+    assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
+    browser.getLink('Edit').click()
+    assert 'given name' == browser.getControl('title').value
+
+    browser.open(browser.PERSON_EDIT_URL)
+    assert 'Ben' == browser.getControl('given name').value
