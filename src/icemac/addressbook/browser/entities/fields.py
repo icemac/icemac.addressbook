@@ -16,6 +16,7 @@ import zope.app.publication.traversers
 import zope.component
 import zope.interface
 import zope.location
+import zope.proxy
 import zope.publisher.interfaces
 import zope.publisher.interfaces.http
 import zope.schema
