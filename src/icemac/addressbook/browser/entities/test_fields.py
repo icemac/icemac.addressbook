@@ -224,3 +224,11 @@ def test_fields__RenameForm__1(address_book, FullPersonFactory, browser):
 
     browser.open(browser.PERSON_EDIT_URL)
     assert 'Ben' == browser.getControl('given name').value
+
+
+def test_fields__RenameForm__2(translated_address_book, browser):
+    """It translates the default title."""
+    browser.lang('de')
+    browser.login('mgr')
+    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    assert 'Vorname' == browser.getControl('Bezeichnung').value

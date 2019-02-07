@@ -8,6 +8,7 @@ import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.metadata
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import z3c.form.group
 import z3c.form.interfaces
 import z3c.form.widget
@@ -62,7 +63,9 @@ class ProxiedField(object):
 
     @property
     def title(self):
-        return self._field_labels.get_label(self._field)
+        return icemac.addressbook.utils.translate(
+            self._field_labels.get_label(self._field),
+            zope.globalrequest.getRequest())
 
     @title.setter
     def title(self, value):
