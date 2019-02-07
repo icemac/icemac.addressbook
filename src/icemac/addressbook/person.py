@@ -17,7 +17,7 @@ person_schema = icemac.addressbook.interfaces.IPerson
     person_schema,
     icemac.addressbook.interfaces.IPersonDefaults,
     icemac.addressbook.interfaces.ISchemaProvider,
-    icemac.addressbook.interfaces.IMayHaveCustomFieldLabels,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
     zope.annotation.interfaces.IAttributeAnnotatable,
 )
 class Person(zope.container.btree.BTreeContainer):

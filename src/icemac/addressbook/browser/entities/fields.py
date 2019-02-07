@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
-from icemac.addressbook.interfaces import IMayHaveCustomFieldLabels
+from icemac.addressbook.interfaces import IMayHaveCustomizedPredfinedFields
 from six.moves.urllib_parse import urlsplit
 import grokcore.component as grok
 import icemac.addressbook.browser.breadcrumb
@@ -75,7 +75,7 @@ class ProxiedField(object):
     def _field_labels(self):
         address_book = icemac.addressbook.interfaces.IAddressBook(
             self.__parent__)
-        return icemac.addressbook.interfaces.IFieldLabels(address_book)
+        return icemac.addressbook.interfaces.IFieldCustomization(address_book)
 
     @property
     def _field(self):
@@ -149,7 +149,7 @@ class List(icemac.addressbook.browser.base.FlashView):
                 for name, field in self.context.getRawFields()]
 
     def fields(self):
-        have_custom_filed_labels = IMayHaveCustomFieldLabels.implementedBy(
+        is_customized = IMayHaveCustomizedPredfinedFields.implementedBy(
             self.context.getClass())
         for field in self._values():
             omit = False
@@ -158,12 +158,12 @@ class List(icemac.addressbook.browser.base.FlashView):
                 delete_url = get_field_URL(
                     self.context, field, self.request, 'delete.html')
             else:
-                if have_custom_filed_labels:
+                delete_url = None
+                omit = field.queryTaggedValue('omit-from-field-list', False)
+                if is_customized:
                     url = get_field_URL(self.context, field, self.request)
                 else:
                     url = None
-                delete_url = None
-                omit = field.queryTaggedValue('omit-from-field-list', False)
             if not omit:
                 yield {'title': field.title,
                        'delete-link': delete_url,
@@ -255,17 +255,18 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
 def get_field_label(self):
     """Get the label for a schema field which is possibly custom.
 
-    self … ComputedWidgetAttribute instance with the attributes context and
-           field.
+    self … ComputedWidgetAttribute instance with the attributes `context` and
+           `field`.
     """
     address_book = icemac.addressbook.interfaces.IAddressBook(self.context)
-    field_labels = icemac.addressbook.interfaces.IFieldLabels(address_book)
-    return field_labels.get_label(self.field)
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    return customization.get_label(self.field)
 
 
 custom_field_label = z3c.form.widget.ComputedWidgetAttribute(
     get_field_label,
-    context=IMayHaveCustomFieldLabels,
+    context=IMayHaveCustomizedPredfinedFields,
     field=zope.schema.interfaces.IField)
 
 

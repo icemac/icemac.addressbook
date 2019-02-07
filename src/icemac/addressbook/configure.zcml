@@ -135,7 +135,7 @@
   <adapter factory=".entities.entity_by_name" />
   <adapter factory=".entities.entity_by_interface" />
   <adapter factory=".entities.entity_by_obj" />
-  <adapter factory=".entities.field_labels" />
+  <adapter factory=".entities.field_customization" />
 
   <adapter
       for=".interfaces.IField"
