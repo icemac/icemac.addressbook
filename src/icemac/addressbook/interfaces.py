@@ -557,8 +557,8 @@ class IEntityOrder(zope.interface.Interface):
         """
 
 
-class IFieldLabels(zope.interface.Interface):
-    """Custom labels for schema field to be shown in the UI."""
+class IFieldCustomization(zope.interface.Interface):
+    """Custom date for schema fields to be shown in the UI."""
 
     def set_label(field, label):
         """Set a new label for the given field.
@@ -573,9 +573,9 @@ class IFieldLabels(zope.interface.Interface):
         """
 
 
-class IMayHaveCustomFieldLabels(zope.interface.Interface):
-    """Marker interface for objects those fields my have custom labels.
+class IMayHaveCustomizedPredfinedFields(zope.interface.Interface):
+    """Marker interface for objects those pre-definded fields my be customized.
 
     This is only relevant for pre-defined fields as the user-defined ones
-    already have user defined titles.
+    already have user defined data.
     """

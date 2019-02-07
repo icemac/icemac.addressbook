@@ -459,9 +459,9 @@ def get_bound_schema_field(obj, entity, field, default_attrib_fallback=True):
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
-@zope.interface.implementer(icemac.addressbook.interfaces.IFieldLabels)
-class FieldLabels(persistent.mapping.PersistentMapping):
-    """Custom labels for schema field to be shown in the UI."""
+@zope.interface.implementer(icemac.addressbook.interfaces.IFieldCustomization)
+class FieldCustomization(persistent.mapping.PersistentMapping):
+    """Custom data for schema field to be shown in the UI."""
 
     def set_label(self, field, label):
         """Set a new label for the given field.
@@ -495,5 +495,5 @@ class FieldLabels(persistent.mapping.PersistentMapping):
         return zope.security.proxy.getObject(field).title
 
 
-field_labels = zope.annotation.factory(
-    FieldLabels, key='icemac.predefinedfield.label.storage')
+field_customization = zope.annotation.factory(
+    FieldCustomization, key='icemac.predefined_field.customization')

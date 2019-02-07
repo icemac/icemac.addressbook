@@ -7,7 +7,7 @@ from icemac.addressbook.entities import EntityOrder
 from icemac.addressbook.interfaces import IAddressBook, IHomePageAddress
 from icemac.addressbook.interfaces import IEntities, IEntityOrder, IEntity
 from icemac.addressbook.interfaces import IField, IOrderStorage
-from icemac.addressbook.interfaces import IFieldLabels
+from icemac.addressbook.interfaces import IFieldCustomization
 from icemac.addressbook.interfaces import IPhoneNumber, IPerson, IKeyword
 from icemac.addressbook.interfaces import IUserFieldStorage
 from icemac.addressbook.tests.conftest import IDog, IKwack, Kwack
@@ -672,39 +672,39 @@ def test_entities__get_bound_schema_field__4(
     assert isinstance(field, zope.schema.Datetime)
 
 
-def test_entities__FieldLabels__1(address_book):
-    """It implements the IFieldLabels interface."""
-    fl = IFieldLabels(address_book)
+def test_entities__FieldCustomization__1(address_book):
+    """It implements the IFieldCustomization interface."""
+    fc = IFieldCustomization(address_book)
     from zope.interface.verify import verifyObject
-    assert verifyObject(IFieldLabels, fl)
+    assert verifyObject(IFieldCustomization, fc)
 
 
-def test_entities__FieldLabels__get_label__1(address_book):
+def test_entities__FieldCustomization__get_label__1(address_book):
     """It returns the title of the field is no custom label is stored."""
-    fl = IFieldLabels(address_book)
-    assert u'Time zone' == fl.get_label(IAddressBook['time_zone'])
+    fc = IFieldCustomization(address_book)
+    assert u'Time zone' == fc.get_label(IAddressBook['time_zone'])
 
 
-def test_entities__FieldLabels__set_label__1(address_book):
+def test_entities__FieldCustomization__set_label__1(address_book):
     """It stores the given custom label."""
-    fl = IFieldLabels(address_book)
+    fc = IFieldCustomization(address_book)
     field = IAddressBook['time_zone']
-    fl.set_label(field, u'Default time zone value 123')
-    assert u'Default time zone value 123' == fl.get_label(field)
+    fc.set_label(field, u'Default time zone value 123')
+    assert u'Default time zone value 123' == fc.get_label(field)
 
 
-def test_entities__FieldLabels__set_label__2(address_book):
-    """Storing `None` removed the custom label."""
-    fl = IFieldLabels(address_book)
+def test_entities__FieldCustomization__set_label__2(address_book):
+    """Storing `None` removes the custom label."""
+    fc = IFieldCustomization(address_book)
     field = IAddressBook['time_zone']
-    fl.set_label(field, u'Default time zone value 123')
-    fl.set_label(field, None)
-    assert u'Time zone' == fl.get_label(field)
+    fc.set_label(field, u'Default time zone value 123')
+    fc.set_label(field, None)
+    assert u'Time zone' == fc.get_label(field)
 
 
-def test_entities__FieldLabels__set_label__3(address_book):
+def test_entities__FieldCustomization__set_label__3(address_book):
     """It does not break on storing `None` with no custom label stored."""
-    fl = IFieldLabels(address_book)
+    fc = IFieldCustomization(address_book)
     field = IAddressBook['time_zone']
-    fl.set_label(field, None)
-    assert u'Time zone' == fl.get_label(field)
+    fc.set_label(field, None)
+    assert u'Time zone' == fc.get_label(field)
