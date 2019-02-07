@@ -4,10 +4,9 @@ import datetime
 import decimal
 import icemac.addressbook.export.base
 import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import six
 import xlwt
-import zope.i18n
-import zope.i18nmessageid
 import zope.security.proxy
 
 
@@ -60,9 +59,7 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
         return self.translate(icemac.addressbook.interfaces.ITitle(value))
 
     def translate(self, value):
-        if not isinstance(value, zope.i18nmessageid.Message):
-            return value
-        return zope.i18n.translate(value, context=self.request)
+        return icemac.addressbook.utils.translate(value, self.request)
 
     def export(self):
         self.workbook = xlwt.Workbook()
