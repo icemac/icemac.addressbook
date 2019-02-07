@@ -1,5 +1,7 @@
 import zope.container.interfaces
 import zope.event
+import zope.i18n
+import zope.i18nmessageid
 import zope.lifecycleevent
 import zope.traversing.api
 
@@ -65,3 +67,10 @@ def unique_by_attr_factory(attr_name, error_message):
 def dotted_name(cls):
     """Return the dotted name of a class."""
     return "{0.__module__}.{0.__name__}".format(cls)
+
+
+def translate(value, request):
+    """Translate a value but only if it is a message id."""
+    if not isinstance(value, zope.i18nmessageid.Message):
+        return value
+    return zope.i18n.translate(value, context=request)

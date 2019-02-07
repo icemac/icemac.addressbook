@@ -2,6 +2,7 @@ from icemac.addressbook.i18n import _
 import grokcore.component
 import icemac.addressbook.entities
 import icemac.addressbook.interfaces
+import icemac.addressbook.utils
 import persistent
 import six
 import zope.container.contained
@@ -36,12 +37,9 @@ def postal_address_title(address):
               if getattr(address, x)]
     if values:
         request = zope.globalrequest.getRequest()
-        translated_values = []
-        for val in values:
-            if isinstance(val, zope.i18nmessageid.Message):
-                val = zope.i18n.translate(val, context=request)
-            translated_values.append(val)
-        title = ', '.join(translated_values)
+        title = ', '.join(
+            icemac.addressbook.utils.translate(val, request)
+            for val in values)
     return title
 
 
