@@ -79,6 +79,17 @@ class ProxiedField(object):
         return self.__parent__.interface[self.__name__]
 
 
+class ProxiedFieldBreadCrumb(icemac.addressbook.browser.breadcrumb.Breadcrumb):
+    """Breadcrumb for a proxied pre-defined field."""
+
+    grok.adapts(IProxiedField,
+                icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    @property
+    def title(self):
+        return self.context.title
+
+
 @zope.component.adapter(
     icemac.addressbook.interfaces.IEntity,
     zope.publisher.interfaces.http.IHTTPRequest)
