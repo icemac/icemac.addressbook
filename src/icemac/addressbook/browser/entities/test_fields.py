@@ -122,7 +122,6 @@ def test_fields__AddForm__3(address_book, FieldFactory, browser):
     browser.getControl(name='form.buttons.add').click()
     assert '"baz" added.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
-    open('response.html', 'w').write(browser.contents)
     assert browser.getLink('Edit', index=5).url.endswith(
         '/icemac.addressbook.person.Person/Field-2')
     assert browser.ENTITIY_PERSON_EDIT_FIELD_URL != browser.getLink('Edit').url
