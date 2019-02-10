@@ -11,7 +11,7 @@ def set_current_princial_id(object, attribute):
     interaction = zope.security.management.queryInteraction()
     if interaction is None:
         return
-    # Seting the first participating principal is enough for now.
+    # Setting the first participating principal is enough for now.
     participation = interaction.participations[0]
     # Need to unwrap the object otherwise we get:
     # ForbiddenAttribute: ('__getitem__',
