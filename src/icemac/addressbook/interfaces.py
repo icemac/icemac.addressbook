@@ -563,14 +563,23 @@ class IFieldCustomization(zope.interface.Interface):
     def set_label(field, label):
         """Set a new label for the given field.
 
-        Use `None` as label to reset to the default value.
+        Use `None` as value of `label` to delete the stored custom value.
         """
 
     def get_label(field):
         """Get the stored label for the field.
 
-        If no custom label is stored, return the title value of the field.
+        If no custom label is stored, a KeyError is raised.
         """
+
+    def query_label(field):
+        """Get the stored label for the field.
+
+        If no custom label is stored, return the default label.
+        """
+
+    def default_label(field):
+        """Get the default label for the field."""
 
 
 class IMayHaveCustomizedPredfinedFields(zope.interface.Interface):

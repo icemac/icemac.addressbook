@@ -1,7 +1,11 @@
+from icemac.addressbook.browser.entities.fields import get_field_customization
 from icemac.addressbook.interfaces import IPerson, IEntity
 from zope.testbrowser.browser import LinkNotFoundError
+import icemac.addressbook.interfaces
+import icemac.addressbook.metadata.interfaces
 import pytest
 import zope.component.hooks
+import zope.dublincore.interfaces
 
 
 @pytest.mark.parametrize('username', ('editor', 'visitor'))
@@ -232,3 +236,55 @@ def test_fields__RenameForm__2(translated_address_book, browser):
     browser.login('mgr')
     browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
     assert 'Vorname' == browser.getControl('Bezeichnung').value
+
+
+class DummyAttrib(object):
+    """Dummy WidgetAttribute."""
+
+
+def test_fields__get_field_customization__1(address_book, PersonFactory):
+    """It returns the application customized title of a field, if
+
+    there is no user customization.
+    """
+    person = PersonFactory(address_book, u'Vukasinovitch')
+    attr = DummyAttrib()
+    attr.context = person
+    attr.field = zope.dublincore.interfaces.IDCTimes['created']
+    custom_value = get_field_customization('label')
+    with zope.publisher.testing.interaction('principal_1'):
+        assert u'Creation Date (${timezone})' == custom_value(attr)
+
+
+def test_fields__get_field_customization__2(address_book, PersonFactory):
+    """It returns the user customized title of a field, if
+
+    there is a user customization.
+    """
+    person = PersonFactory(address_book, u'Vukasinovitch')
+    attr = DummyAttrib()
+    attr.context = person
+    attr.field = zope.dublincore.interfaces.IDCTimes['created']
+
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_label(attr.field, u'Custom Creation Date Label')
+
+    custom_value = get_field_customization('label')
+    with zope.publisher.testing.interaction('principal_1'):
+        assert u'Custom Creation Date Label' == custom_value(attr)
+
+
+def test_fields__get_field_customization__3(address_book, PersonFactory):
+    """It returns the framework default title of a field, if
+
+    there is no customization at all.
+    """
+    person = PersonFactory(address_book, u'Vukasinovitch')
+    attr = DummyAttrib()
+    attr.context = person
+    attr.field = icemac.addressbook.metadata.interfaces.IEditor['creator']
+
+    custom_value = get_field_customization('label')
+    with zope.publisher.testing.interaction('principal_1'):
+        assert u'creator' == custom_value(attr)

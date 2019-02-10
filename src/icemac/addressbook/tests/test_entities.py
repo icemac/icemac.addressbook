@@ -4,18 +4,22 @@ from icemac.addressbook.addressbook import address_book_entity
 from icemac.addressbook.entities import Entities, PersistentEntities, Field
 from icemac.addressbook.entities import Entity, get_bound_schema_field
 from icemac.addressbook.entities import EntityOrder
+from icemac.addressbook.entities import FieldCustomization
+from icemac.addressbook.entities import NoFieldCustomization
 from icemac.addressbook.interfaces import IAddressBook, IHomePageAddress
 from icemac.addressbook.interfaces import IEntities, IEntityOrder, IEntity
 from icemac.addressbook.interfaces import IField, IOrderStorage
 from icemac.addressbook.interfaces import IFieldCustomization
 from icemac.addressbook.interfaces import IPhoneNumber, IPerson, IKeyword
 from icemac.addressbook.interfaces import IUserFieldStorage
+from icemac.addressbook.testing import pyTestStackDemoStorage
 from icemac.addressbook.tests.conftest import IDog, IKwack, Kwack
 import persistent
 import pytest
 import zope.component
 import zope.component.hooks
 import zope.interface
+import zope.interface.verify
 import zope.schema
 import zope.schema.interfaces
 
@@ -81,6 +85,13 @@ def entity_with_field(address_book, entity, field):
 def entities(address_book):
     """Get the entities utility."""
     return zope.component.getUtility(IEntities)
+
+
+@pytest.yield_fixture(scope='function')
+def root_folder(zodbS):
+    """Get the root folder of the ZODB."""
+    for connection in pyTestStackDemoStorage(zodbS, 'root_folder'):
+        yield connection.rootFolder
 
 
 # Helper classes
@@ -672,17 +683,71 @@ def test_entities__get_bound_schema_field__4(
     assert isinstance(field, zope.schema.Datetime)
 
 
+def test_entities__NoFieldCustomization__1(root_folder):
+    """It implements the IFieldCustomization interface."""
+    nfc = IFieldCustomization(root_folder)
+    assert isinstance(nfc, NoFieldCustomization)
+    assert zope.interface.verify.verifyObject(IFieldCustomization, nfc)
+
+
+def test_entities__NoFieldCustomization__get_label__1(root_folder):
+    """It raises a KeyError."""
+    nfc = IFieldCustomization(root_folder)
+    with pytest.raises(KeyError):
+        nfc.get_label(IAddressBook['time_zone'])
+
+
+def test_entities__NoFieldCustomization__default_label__1(root_folder):
+    """It returns the title of the field (default value)."""
+    nfc = IFieldCustomization(root_folder)
+    assert u'Time zone' == nfc.default_label(IAddressBook['time_zone'])
+
+
+def test_entities__NoFieldCustomization__query_label__1(root_folder):
+    """It returns the default value."""
+    nfc = IFieldCustomization(root_folder)
+    assert u'Time zone' == nfc.query_label(IAddressBook['time_zone'])
+
+
+def test_entities__NoFieldCustomization__set_label__1(root_folder):
+    """It is not implemented."""
+    nfc = IFieldCustomization(root_folder)
+    with pytest.raises(NotImplementedError):
+        nfc.set_label(IAddressBook['time_zone'], u'foo')
+
+
 def test_entities__FieldCustomization__1(address_book):
     """It implements the IFieldCustomization interface."""
     fc = IFieldCustomization(address_book)
-    from zope.interface.verify import verifyObject
-    assert verifyObject(IFieldCustomization, fc)
+    assert isinstance(fc, FieldCustomization)
+    assert zope.interface.verify.verifyObject(IFieldCustomization, fc)
 
 
 def test_entities__FieldCustomization__get_label__1(address_book):
-    """It returns the title of the field is no custom label is stored."""
+    """It raises a KeyError if no custom label is stored."""
     fc = IFieldCustomization(address_book)
-    assert u'Time zone' == fc.get_label(IAddressBook['time_zone'])
+    with pytest.raises(KeyError):
+        fc.get_label(IAddressBook['time_zone'])
+
+
+def test_entities__FieldCustomization__get_label__2(address_book):
+    """It raises a KeyError if the field does not belong to an interface."""
+    fc = IFieldCustomization(address_book)
+    field = zope.schema.Text()
+    with pytest.raises(KeyError):
+        fc.get_label(field)
+
+
+def test_entities__FieldCustomization__default_label__1(address_book):
+    """It returns the title of the field (default value)."""
+    fc = IFieldCustomization(address_book)
+    assert u'Time zone' == fc.default_label(IAddressBook['time_zone'])
+
+
+def test_entities__FieldCustomization__query_label__1(address_book):
+    """It returns the default value if no custom label is stored."""
+    fc = IFieldCustomization(address_book)
+    assert u'Time zone' == fc.query_label(IAddressBook['time_zone'])
 
 
 def test_entities__FieldCustomization__set_label__1(address_book):
@@ -691,6 +756,7 @@ def test_entities__FieldCustomization__set_label__1(address_book):
     field = IAddressBook['time_zone']
     fc.set_label(field, u'Default time zone value 123')
     assert u'Default time zone value 123' == fc.get_label(field)
+    assert u'Default time zone value 123' == fc.query_label(field)
 
 
 def test_entities__FieldCustomization__set_label__2(address_book):
@@ -699,7 +765,8 @@ def test_entities__FieldCustomization__set_label__2(address_book):
     field = IAddressBook['time_zone']
     fc.set_label(field, u'Default time zone value 123')
     fc.set_label(field, None)
-    assert u'Time zone' == fc.get_label(field)
+    with pytest.raises(KeyError):
+        fc.get_label(field)
 
 
 def test_entities__FieldCustomization__set_label__3(address_book):
@@ -707,4 +774,5 @@ def test_entities__FieldCustomization__set_label__3(address_book):
     fc = IFieldCustomization(address_book)
     field = IAddressBook['time_zone']
     fc.set_label(field, None)
-    assert u'Time zone' == fc.get_label(field)
+    with pytest.raises(KeyError):
+        fc.get_label(field)
