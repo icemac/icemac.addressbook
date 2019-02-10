@@ -64,7 +64,7 @@ class ProxiedField(object):
     @property
     def title(self):
         return icemac.addressbook.utils.translate(
-            self._field_labels.get_label(self._field),
+            self._field_labels.query_label(self._field),
             zope.globalrequest.getRequest())
 
     @title.setter
@@ -252,21 +252,47 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
         return True
 
 
-def get_field_label(self):
-    """Get the label for a schema field which is possibly custom.
+def get_field_customization(type):
+    """Get a function returning the customization of type.
 
-    self … ComputedWidgetAttribute instance with the attributes `context` and
-           `field`.
+    type ... `label`
     """
-    address_book = icemac.addressbook.interfaces.IAddressBook(self.context)
-    customization = icemac.addressbook.interfaces.IFieldCustomization(
-        address_book)
-    return customization.get_label(self.field)
+    def _get_field_customization(self):
+        """Get a possibly custom value for a schema field.
+
+        There are three possible return values depending on the level of
+        customization:
+
+        1) user customized value via IFieldCustomization
+        2) application customized value via WidgetAttribute with name
+           "custom-label"
+        3) default value set on the schema field itself
+
+        self … ComputedWidgetAttribute instance with the attributes `context`
+               and `field`.
+        """
+        # ``cust_context`` is either an address book or a root folder:
+        cust_context = icemac.addressbook.interfaces.IAddressBook(None)
+        customization = icemac.addressbook.interfaces.IFieldCustomization(
+            cust_context)
+        getter = getattr(customization, 'get_{}'.format(type))
+        try:
+            return getter(self.field)
+        except KeyError:
+            application_default_value = zope.component.queryMultiAdapter(
+                (self.context, None, None, self.field, None),
+                name="custom-{}".format(type))
+            if application_default_value is None:
+                default_getter = getattr(
+                    customization, 'default_{}'.format(type))
+                return default_getter(self.field)
+            else:
+                return application_default_value.get()
+    return _get_field_customization
 
 
 custom_field_label = z3c.form.widget.ComputedWidgetAttribute(
-    get_field_label,
-    context=IMayHaveCustomizedPredfinedFields,
+    get_field_customization('label'),
     field=zope.schema.interfaces.IField)
 
 

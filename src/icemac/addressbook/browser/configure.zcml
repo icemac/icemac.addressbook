@@ -127,7 +127,7 @@
 
   <adapter
       factory=".metadata.ModifiedLabel"
-      name="label" />
+      name="custom-label" />
 
   <adapter
       factory=".metadata.ModifiedHint"
@@ -135,7 +135,7 @@
 
   <adapter
       factory=".metadata.CreatedLabel"
-      name="label" />
+      name="custom-label" />
 
   <adapter
       factory=".metadata.CreatedHint"

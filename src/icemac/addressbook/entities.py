@@ -458,15 +458,45 @@ def get_bound_schema_field(obj, entity, field, default_attrib_fallback=True):
     return field.bind(obj)
 
 
+@zope.component.adapter(zope.site.interfaces.IRootFolder)
+@zope.interface.implementer(icemac.addressbook.interfaces.IFieldCustomization)
+class NoFieldCustomization(object):
+    """No custom data for schema field to be shown in the UI.
+
+    This happens on the root folder where no user customization is possible.
+    """
+
+    def __init__(self, context):
+        pass
+
+    def set_label(self, field, label):
+        """Cannot set a new label for the given field."""
+        raise NotImplementedError
+
+    def get_label(self, field):
+        """Cannot get the stored label for the field."""
+        raise KeyError
+
+    def query_label(self, field):
+        """Get the default label as there is no custom one."""
+        return self.default_label(field)
+
+    @staticmethod
+    def default_label(field):
+        """Get the default label for the field."""
+        return zope.security.proxy.getObject(field).title
+
+
 @zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
 @zope.interface.implementer(icemac.addressbook.interfaces.IFieldCustomization)
-class FieldCustomization(persistent.mapping.PersistentMapping):
+class FieldCustomization(persistent.mapping.PersistentMapping,
+                         NoFieldCustomization):
     """Custom data for schema field to be shown in the UI."""
 
     def set_label(self, field, label):
         """Set a new label for the given field.
 
-        Use `None` as label to reset to the default value.
+        Use `None` as value of `label` to delete the stored custom value.
         """
         if label is None:
             try:
@@ -479,20 +509,27 @@ class FieldCustomization(persistent.mapping.PersistentMapping):
     def get_label(self, field):
         """Get the stored label for the field.
 
-        If no custom label is stored, return the title value of the field.
+        If no custom label is stored, a KeyError is raised.
         """
-        return self.get(self._key(field), self._default(field))
+        return self[self._key(field)]
+
+    def query_label(self, field):
+        """Get the stored label for the field.
+
+        If no custom label is stored, return the default label.
+        """
+        return self.get(self._key(field), self.default_label(field))
 
     @staticmethod
     def _key(field):
         """Compute the key for a field."""
         unsecure_field = zope.security.proxy.getObject(field)
-        return "{}:{}".format(
-            dotted_name(unsecure_field.interface), field.__name__)
-
-    @staticmethod
-    def _default(field):
-        return zope.security.proxy.getObject(field).title
+        iface = unsecure_field.interface
+        if iface is None:
+            iface_dotted_name = "None"
+        else:
+            iface_dotted_name = dotted_name(iface)
+        return "{}:{}".format(iface_dotted_name, field.__name__)
 
 
 field_customization = zope.annotation.factory(
