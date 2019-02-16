@@ -1,4 +1,4 @@
-from ..form import zope_i18n_pattern_to_jquery_pattern, FieldDescriptionAsHint
+from ..form import zope_i18n_pattern_to_jquery_pattern
 from datetime import datetime
 from icemac.addressbook.interfaces import IKeyword
 from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
@@ -10,7 +10,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 import gocept.testing.mock
 import icemac.addressbook.browser.form
 import pytest
-import six
 import zope.i18nmessageid
 import zope.publisher.browser
 
@@ -179,31 +178,3 @@ def test_form__DateWidget__2(address_book, browser):
     browser.login('editor')
     browser.open(browser.PERSON_ADD_URL)
     assert '"dateFormat": "yy M d "' in browser.contents
-
-
-def test_form__FieldDescriptionAsHint__get__1(zcmlS):
-    """It returns the ComputedWidgetAttribute `hint` if it is registered."""
-    obj = FieldDescriptionAsHint(
-        field=zope.dublincore.interfaces.IDCTimes['modified'],
-        context=None, request=None, form=None, widget=None)
-    result = obj.get()
-    assert ('The date and time that the object was last modified '
-            'converted to the displayed time zone.' == result)
-    assert isinstance(result, zope.i18nmessageid.Message)
-
-
-def test_form__FieldDescriptionAsHint__get__2(address_book, FieldFactory):
-    """It returns the description of a user defined field.
-
-    It replaces newlines by spaces as the description is put into a TextLine
-    field later on.
-    """
-    field = FieldFactory(
-        address_book, icemac.addressbook.interfaces.IKeyword, u'Bool',
-        u'usable?', notes=u'Is\nthis\rkeyword\r\nusable?')
-    obj = FieldDescriptionAsHint(
-        field=zope.schema.interfaces.IField(field),
-        context=None, request=None, form=None, widget=None)
-    result = obj.get()
-    assert ('Is this keyword  usable?' == result)
-    assert isinstance(result, six.text_type)

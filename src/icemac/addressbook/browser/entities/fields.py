@@ -15,6 +15,7 @@ import z3c.form.widget
 import z3c.formui.form
 import zope.app.publication.traversers
 import zope.component
+import zope.i18n
 import zope.interface
 import zope.location
 import zope.proxy
@@ -48,6 +49,12 @@ class IProxiedField(zope.interface.Interface):
             'Delete the value and submit the form to reset to the default'
             ' value.'))
 
+    description = zope.schema.TextLine(
+        title=_('description'),
+        description=_(
+            'Delete the value and submit the form to reset to the default'
+            ' value.'))
+
 
 @zope.interface.implementer(IProxiedField)
 class ProxiedField(object):
@@ -64,15 +71,25 @@ class ProxiedField(object):
     @property
     def title(self):
         return icemac.addressbook.utils.translate(
-            self._field_labels.query_label(self._field),
+            self._field_customization.query_label(self._field),
             zope.globalrequest.getRequest())
 
     @title.setter
     def title(self, value):
-        return self._field_labels.set_label(self._field, value)
+        return self._field_customization.set_label(self._field, value)
 
     @property
-    def _field_labels(self):
+    def description(self):
+        return icemac.addressbook.utils.translate(
+            self._field_customization.query_description(self._field),
+            zope.globalrequest.getRequest())
+
+    @description.setter
+    def description(self, value):
+        return self._field_customization.set_description(self._field, value)
+
+    @property
+    def _field_customization(self):
         address_book = icemac.addressbook.interfaces.IAddressBook(
             self.__parent__)
         return icemac.addressbook.interfaces.IFieldCustomization(address_book)
@@ -252,12 +269,21 @@ class DeleteForm(BaseForm, icemac.addressbook.browser.base.BaseDeleteForm):
         return True
 
 
-def get_field_customization(type):
-    """Get a function returning the customization of type.
+def get_field_customization(type, name):
+    """Get `z3c.form:IValue` adapter for the customization of `type`.
 
-    type ... `label`
+    type ... `label` or `description`
+    name ... name for the adapter
     """
-    def _get_field_customization(self):
+    @zope.component.adapter(
+        zope.interface.Interface,
+        zope.interface.Interface,
+        zope.interface.Interface,
+        zope.schema.interfaces.IField,
+        zope.interface.Interface)
+    @zope.interface.named(name)
+    @zope.interface.implementer(z3c.form.interfaces.IValue)
+    class FieldCustomization(object):
         """Get a possibly custom value for a schema field.
 
         There are three possible return values depending on the level of
@@ -268,32 +294,73 @@ def get_field_customization(type):
            "custom-label"
         3) default value set on the schema field itself
 
-        self … ComputedWidgetAttribute instance with the attributes `context`
-               and `field`.
+        If no truthy value can be computed `None` is returned from the factory
+        aka `could not adapt`. This is necessary because ``z3c.form`` expects
+        an actual value if an adapter is found. The case that the value might
+        be ``None`` is not handled very well, thus we are not able to use
+        a ComputedWidgetAttribute.
         """
-        # ``cust_context`` is either an address book or a root folder:
-        cust_context = icemac.addressbook.interfaces.IAddressBook(None)
-        customization = icemac.addressbook.interfaces.IFieldCustomization(
-            cust_context)
-        getter = getattr(customization, 'get_{}'.format(type))
-        try:
-            return getter(self.field)
-        except KeyError:
-            application_default_value = zope.component.queryMultiAdapter(
-                (self.context, None, None, self.field, None),
-                name="custom-{}".format(type))
-            if application_default_value is None:
-                default_getter = getattr(
-                    customization, 'default_{}'.format(type))
-                return default_getter(self.field)
-            else:
-                return application_default_value.get()
-    return _get_field_customization
+
+        def __new__(cls, context, request, view, field, widget):
+            custom_value = cls._get_field_customization(
+                context, request, field, type)
+            if not custom_value:
+                return None
+            instance = super(FieldCustomization, cls).__new__(cls)
+            instance.custom_value = custom_value
+            return instance
+
+        def __init__(self, context, request, view, field, widget):
+            self.request = request
+
+        def get(self):
+            return self.custom_value
+
+        @staticmethod
+        def _get_field_customization(context, request, field, type):
+            # ``cust_context`` is either an address book or a root folder:
+            cust_context = icemac.addressbook.interfaces.IAddressBook(None)
+            customization = icemac.addressbook.interfaces.IFieldCustomization(
+                cust_context)
+            getter = getattr(customization, 'get_{}'.format(type))
+            try:
+                return getter(field)
+            except KeyError:
+                application_default_value = zope.component.queryMultiAdapter(
+                    (context, None, None, field, None),
+                    name="custom-{}".format(type))
+                if application_default_value is None:
+                    default_getter = getattr(
+                        customization, 'default_{}'.format(type))
+                    value = default_getter(field)
+                    if value:
+                        value = zope.i18n.translate(value, context=request)
+                        value = value.replace('\r', ' ').replace('\n', ' ')
+                    return value
+                else:
+                    return application_default_value.get()
+    return FieldCustomization
 
 
-custom_field_label = z3c.form.widget.ComputedWidgetAttribute(
-    get_field_customization('label'),
-    field=zope.schema.interfaces.IField)
+custom_field_label = get_field_customization('label', 'label')
+custom_field_hint = get_field_customization('description', 'title')
+
+
+@grok.adapter(
+    zope.interface.Interface,
+    zope.interface.Interface,
+    zope.interface.Interface,
+    z3c.form.interfaces.IButton,
+    zope.interface.Interface,
+    name="title")
+@grok.implementer(z3c.form.interfaces.IValue)
+def restore_button_title(*args):
+    """Do not use custom button titles.
+
+    For buttons the `title` adapter is used for the label, we do not to want
+    to change the title of buttons but keep the original value.
+    """
+    return None
 
 
 class RenameForm(BaseForm, icemac.addressbook.browser.base.BaseEditForm):

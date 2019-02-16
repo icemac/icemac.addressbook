@@ -581,9 +581,30 @@ class IFieldCustomization(zope.interface.Interface):
     def default_label(field):
         """Get the default label for the field."""
 
+    def set_description(field, description):
+        """Set a new description for the given field.
+
+        Use `None` as value of `description` to delete the stored custom value.
+        """
+
+    def get_description(field):
+        """Get the stored description for the field.
+
+        If no custom label is stored, a KeyError is raised.
+        """
+
+    def query_description(field):
+        """Get the stored description for the field.
+
+        If no custom description is stored, return the default description.
+        """
+
+    def default_description(field):
+        """Get the default description for the field."""
+
 
 class IMayHaveCustomizedPredfinedFields(zope.interface.Interface):
-    """Marker interface for objects those pre-definded fields my be customized.
+    """Marker interface for objects those pre-defined fields my be customized.
 
     This is only relevant for pre-defined fields as the user-defined ones
     already have user defined data.

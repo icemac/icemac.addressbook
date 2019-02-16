@@ -4,6 +4,7 @@ from zope.testbrowser.browser import LinkNotFoundError
 import icemac.addressbook.interfaces
 import icemac.addressbook.metadata.interfaces
 import pytest
+import six
 import zope.component.hooks
 import zope.dublincore.interfaces
 
@@ -210,7 +211,7 @@ def test_fields__SaveSortorder__1(address_book, FieldFactory, browser):
 
 
 def test_fields__RenameForm__1(address_book, FullPersonFactory, browser):
-    """It enables renaming of a pre-defined field."""
+    """It enables changing a pre-defined field."""
     FullPersonFactory(address_book, u'Tester', first_name=u'Ben')
 
     browser.login('mgr')
@@ -218,15 +219,19 @@ def test_fields__RenameForm__1(address_book, FullPersonFactory, browser):
     browser.getLink('Edit').click()
     assert browser.ENTITIY_PERSON_RENAME_FIELD_URL == browser.url
     assert 'first name' == browser.getControl('title').value
+    assert '' == browser.getControl('description').value
     browser.getControl('title').value = 'given name'
+    browser.getControl('description').value = 'changed default descr.'
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
     browser.getLink('Edit').click()
     assert 'given name' == browser.getControl('title').value
+    assert 'changed default descr.' == browser.getControl('description').value
 
     browser.open(browser.PERSON_EDIT_URL)
     assert 'Ben' == browser.getControl('given name').value
+    assert 'changed default descr.' in browser.contents
 
 
 def test_fields__RenameForm__2(translated_address_book, browser):
@@ -237,22 +242,18 @@ def test_fields__RenameForm__2(translated_address_book, browser):
     assert 'Vorname' == browser.getControl('Bezeichnung').value
 
 
-class DummyAttrib(object):
-    """Dummy WidgetAttribute."""
-
-
 def test_fields__get_field_customization__1(address_book, PersonFactory):
     """It returns the application customized title of a field, if
 
     there is no user customization.
     """
     person = PersonFactory(address_book, u'Vukasinovitch')
-    attr = DummyAttrib()
-    attr.context = person
-    attr.field = zope.dublincore.interfaces.IDCTimes['created']
-    custom_value = get_field_customization('label')
+    field = zope.dublincore.interfaces.IDCTimes['created']
+    adapter_factory = get_field_customization('label', 'label')
     with zope.publisher.testing.interaction('principal_1'):
-        assert u'Creation Date (${timezone})' == custom_value(attr)
+        request = zope.security.management.getInteraction().participations[0]
+        adapter = adapter_factory(person, request, None, field, None)
+        assert u'Creation Date (${timezone})' == adapter.get()
 
 
 def test_fields__get_field_customization__2(address_book, PersonFactory):
@@ -261,17 +262,17 @@ def test_fields__get_field_customization__2(address_book, PersonFactory):
     there is a user customization.
     """
     person = PersonFactory(address_book, u'Vukasinovitch')
-    attr = DummyAttrib()
-    attr.context = person
-    attr.field = zope.dublincore.interfaces.IDCTimes['created']
+    field = zope.dublincore.interfaces.IDCTimes['created']
 
     customization = icemac.addressbook.interfaces.IFieldCustomization(
         address_book)
-    customization.set_label(attr.field, u'Custom Creation Date Label')
+    customization.set_label(field, u'Custom Creation Date Label')
 
-    custom_value = get_field_customization('label')
+    adapter_factory = get_field_customization('label', 'label')
     with zope.publisher.testing.interaction('principal_1'):
-        assert u'Custom Creation Date Label' == custom_value(attr)
+        request = zope.security.management.getInteraction().participations[0]
+        adapter = adapter_factory(person, request, None, field, None)
+        assert u'Custom Creation Date Label' == adapter.get()
 
 
 def test_fields__get_field_customization__3(address_book, PersonFactory):
@@ -280,10 +281,47 @@ def test_fields__get_field_customization__3(address_book, PersonFactory):
     there is no customization at all.
     """
     person = PersonFactory(address_book, u'Vukasinovitch')
-    attr = DummyAttrib()
-    attr.context = person
-    attr.field = icemac.addressbook.metadata.interfaces.IEditor['creator']
+    field = icemac.addressbook.metadata.interfaces.IEditor['creator']
 
-    custom_value = get_field_customization('label')
+    adapter_factory = get_field_customization('label', 'label')
     with zope.publisher.testing.interaction('principal_1'):
-        assert u'creator' == custom_value(attr)
+        request = zope.security.management.getInteraction().participations[0]
+        adapter = adapter_factory(person, request, None, field, None)
+        assert u'creator' == adapter.get()
+
+
+def test_fields__get_field_customization__4(address_book, PersonFactory):
+    """It returns `None` as adapter if
+
+    there is no value set on the field interface.
+    """
+    person = PersonFactory(address_book, u'Vukasinovitch')
+    field = icemac.addressbook.interfaces.IPersonName['first_name']
+
+    adapter_factory = get_field_customization('description', 'title')
+    with zope.publisher.testing.interaction('principal_1'):
+        request = zope.security.management.getInteraction().participations[0]
+        adapter = adapter_factory(person, request, None, field, None)
+        assert adapter is None
+
+
+def test_fields__get_field_customization__5(
+        address_book, FieldFactory, KeywordFactory):
+    """It returns the description of a user defined field.
+
+    It replaces newlines by spaces as the description is put into a TextLine
+    field later on.
+    """
+    field = FieldFactory(
+        address_book, icemac.addressbook.interfaces.IKeyword, u'Bool',
+        u'usable?', notes=u'Is\nthis\rkeyword\r\nusable?')
+    schema_field = zope.schema.interfaces.IField(field)
+    keyword = KeywordFactory(address_book, u'Church')
+
+    adapter_factory = get_field_customization('description', 'title')
+    with zope.publisher.testing.interaction('principal_1'):
+        request = zope.security.management.getInteraction().participations[0]
+        adapter = adapter_factory(keyword, request, None, schema_field, None)
+        result = adapter.get()
+        assert ('Is this keyword  usable?' == result)
+        assert isinstance(result, six.text_type)
