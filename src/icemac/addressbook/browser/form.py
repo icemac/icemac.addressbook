@@ -231,19 +231,3 @@ class ImageSelectWidget(z3c.form.browser.select.SelectWidget):
 def SelectFieldWidget(field, source, request):
     """`IFieldWidget` factory for SelectWidget."""
     return z3c.form.widget.FieldWidget(field, ImageSelectWidget(request))
-
-
-class FieldDescriptionAsHint(z3c.form.hint.FieldDescriptionAsHint):
-    """Get description or adapter registered as `hint`."""
-
-    def get(self):
-        computed_value = zope.component.queryMultiAdapter(
-            (self.context, self.request, self.form, self.field, self.widget),
-            name='hint')
-        if computed_value is None:
-            desc = super(FieldDescriptionAsHint, self).get()
-            if desc and set(desc).intersection(set('\r\n')):
-                desc = desc.replace('\r', ' ').replace('\n', ' ')
-        else:
-            desc = computed_value.get()
-        return desc

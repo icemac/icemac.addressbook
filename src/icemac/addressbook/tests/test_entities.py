@@ -716,6 +716,36 @@ def test_entities__NoFieldCustomization__set_label__1(root_folder):
         nfc.set_label(IAddressBook['time_zone'], u'foo')
 
 
+def test_entities__NoFieldCustomization__get_description__1(root_folder):
+    """It raises a KeyError."""
+    nfc = IFieldCustomization(root_folder)
+    with pytest.raises(KeyError):
+        nfc.get_description(IAddressBook['time_zone'])
+
+
+def test_entities__NoFieldCustomization__default_description__1(root_folder):
+    """It returns the title of the field (default value)."""
+    nfc = IFieldCustomization(root_folder)
+    assert (
+        u'Fallback in case a user has not set up his personal time zone in the'
+        u' preferences.' == nfc.default_description(IAddressBook['time_zone']))
+
+
+def test_entities__NoFieldCustomization__query_description__1(root_folder):
+    """It returns the default value."""
+    nfc = IFieldCustomization(root_folder)
+    assert (
+        u'Fallback in case a user has not set up his personal time zone in the'
+        u' preferences.' == nfc.query_description(IAddressBook['time_zone']))
+
+
+def test_entities__NoFieldCustomization__set_description__1(root_folder):
+    """It is not implemented."""
+    nfc = IFieldCustomization(root_folder)
+    with pytest.raises(NotImplementedError):
+        nfc.set_description(IAddressBook['time_zone'], u'foo')
+
+
 def test_entities__FieldCustomization__1(address_book):
     """It implements the IFieldCustomization interface."""
     fc = IFieldCustomization(address_book)
@@ -776,3 +806,43 @@ def test_entities__FieldCustomization__set_label__3(address_book):
     fc.set_label(field, None)
     with pytest.raises(KeyError):
         fc.get_label(field)
+
+
+def test_entities__FieldCustomization__get_description__1(address_book):
+    """It raises a KeyError if no custom value is stored."""
+    fc = IFieldCustomization(address_book)
+    field = IAddressBook['time_zone']
+    with pytest.raises(KeyError):
+        fc.get_description(field)
+
+
+def test_entities__FieldCustomization__get_description__2(address_book):
+    """It raises a KeyError if the field does not belong to an interface."""
+    fc = IFieldCustomization(address_book)
+    field = zope.schema.Text()
+    with pytest.raises(KeyError):
+        fc.get_description(field)
+
+
+def test_entities__FieldCustomization__default_description__1(address_book):
+    """It returns the description of the field (default value)."""
+    fc = IFieldCustomization(address_book)
+    assert (
+        u'Fallback in case a user has not set up his personal time zone in the'
+        u' preferences.' == fc.default_description(IAddressBook['time_zone']))
+
+
+def test_entities__FieldCustomization__query_description__1(address_book):
+    """It returns the default value if no custom description is stored."""
+    fc = IFieldCustomization(address_book)
+    assert (
+        u'Fallback in case a user has not set up his personal time zone in the'
+        u' preferences.' == fc.query_description(IAddressBook['time_zone']))
+
+
+def test_entities__FieldCustomization__set_description__1(address_book):
+    """It stores the given custom description."""
+    fc = IFieldCustomization(address_book)
+    field = IAddressBook['time_zone']
+    fc.set_description(field, u'Default time zone value 123')
+    assert u'Default time zone value 123' == fc.get_description(field)

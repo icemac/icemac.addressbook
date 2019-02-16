@@ -131,7 +131,7 @@
 
   <adapter
       factory=".metadata.ModifiedHint"
-      name="hint" />
+      name="custom-description" />
 
   <adapter
       factory=".metadata.CreatedLabel"
@@ -139,7 +139,7 @@
 
   <adapter
       factory=".metadata.CreatedHint"
-      name="hint" />
+      name="custom-description" />
 
   <adapter
       factory=".metadata.MetadataGroupFieldsNotRequired"
@@ -304,10 +304,6 @@
        for="*"
        provides="icemac.addressbook.interfaces.IFaviconData"
        factory=".favicon.black" />
-
-  <adapter
-       factory=".form.FieldDescriptionAsHint"
-       name="title" />
 
   <gocept:pagelet
       for="*"

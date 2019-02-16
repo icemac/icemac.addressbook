@@ -12,7 +12,7 @@ Features
 
 - Add a cron job which does a daily backup of the database.
 
-- Allow to edit the labels of pre-defined fields.
+- Allow to edit the labels and descriptions of pre-defined fields.
 
 Changes in testing
 ------------------

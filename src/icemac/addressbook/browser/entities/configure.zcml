@@ -110,10 +110,10 @@
       class=".fields.RenameForm"
       />
 
-  <adapter
-      factory=".fields.custom_field_label"
-      name="label" />
+  <adapter factory=".fields.custom_field_label" />
 
+  <!-- Customized description for the fields: -->
+  <adapter factory=".fields.custom_field_hint" />
 
   <!-- move entity in entity sort order -->
   <browser:page
