@@ -71,22 +71,24 @@ class ProxiedField(object):
     @property
     def title(self):
         return icemac.addressbook.utils.translate(
-            self._field_customization.query_label(self._field),
+            self._field_customization.query_value(self._field, 'label'),
             zope.globalrequest.getRequest())
 
     @title.setter
     def title(self, value):
-        return self._field_customization.set_label(self._field, value)
+        return self._field_customization.set_value(
+            self._field, u'label', value)
 
     @property
     def description(self):
         return icemac.addressbook.utils.translate(
-            self._field_customization.query_description(self._field),
+            self._field_customization.query_value(self._field, 'description'),
             zope.globalrequest.getRequest())
 
     @description.setter
     def description(self, value):
-        return self._field_customization.set_description(self._field, value)
+        return self._field_customization.set_value(
+            self._field, u'description', value)
 
     @property
     def _field_customization(self):
@@ -322,17 +324,14 @@ def get_field_customization(type, name):
             cust_context = icemac.addressbook.interfaces.IAddressBook(None)
             customization = icemac.addressbook.interfaces.IFieldCustomization(
                 cust_context)
-            getter = getattr(customization, 'get_{}'.format(type))
             try:
-                return getter(field)
+                return customization.get_value(field, type)
             except KeyError:
                 application_default_value = zope.component.queryMultiAdapter(
                     (context, None, None, field, None),
                     name="custom-{}".format(type))
                 if application_default_value is None:
-                    default_getter = getattr(
-                        customization, 'default_{}'.format(type))
-                    value = default_getter(field)
+                    value = customization.default_value(field, type)
                     if value:
                         value = zope.i18n.translate(value, context=request)
                         value = value.replace('\r', ' ').replace('\n', ' ')

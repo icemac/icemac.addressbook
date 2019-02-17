@@ -466,42 +466,31 @@ class NoFieldCustomization(object):
     This happens on the root folder where no user customization is possible.
     """
 
+    DEFAULT_ATTRIB_MAP = {
+        'label': 'title',
+        'description': 'description',
+    }
+
     def __init__(self, context):
         pass
 
-    def set_label(self, field, label):
-        """Cannot set a new label for the given field."""
+    def set_value(self, field, kind, label):
+        """Cannot set a new value."""
         raise NotImplementedError
 
-    def get_label(self, field):
-        """Cannot get the stored label for the field."""
+    def get_value(self, field, kind):
+        """Cannot get a stored value."""
         raise KeyError
 
-    def query_label(self, field):
-        """Get the default label as there is no custom one."""
-        return self.default_label(field)
+    def query_value(self, field, kind):
+        """Get the default value as there is no custom one."""
+        return self.default_value(field, kind)
 
-    @staticmethod
-    def default_label(field):
-        """Get the default label for the field."""
-        return zope.security.proxy.getObject(field).title
-
-    def set_description(self, field, description):
-        """Cannot set a new description for the given field."""
-        raise NotImplementedError
-
-    def get_description(self, field):
-        """Cannot get the stored description for the field."""
-        raise KeyError
-
-    def query_description(self, field):
-        """Get the default description as there is no custom one."""
-        return self.default_description(field)
-
-    @staticmethod
-    def default_description(field):
-        """Get the default description for the field."""
-        return zope.security.proxy.getObject(field).description
+    def default_value(self, field, kind):
+        """Get the default value for the field."""
+        unsecure_field = zope.security.proxy.getObject(field)
+        attr = self.DEFAULT_ATTRIB_MAP[kind]
+        return getattr(unsecure_field, attr)
 
 
 @zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
@@ -510,75 +499,51 @@ class FieldCustomization(persistent.mapping.PersistentMapping,
                          NoFieldCustomization):
     """Custom data for schema field to be shown in the UI."""
 
-    def set_label(self, field, label):
-        """Set a new label for the given field.
+    def set_value(self, field, kind, value):
+        """Set a new value of type kind for the given field.
+
+        kind … either u'label' or u'description'
 
         Use `None` as value of `label` to delete the stored custom value.
         """
-        self._set(field, 'label', label)
+        if value is None:
+            try:
+                del self[self._key(field, kind)]
+            except KeyError:
+                pass
+        else:
+            self[self._key(field, kind)] = value
 
-    def get_label(self, field):
-        """Get the stored label for the field.
+    def get_value(self, field, kind):
+        """Get the stored value of type kind for the field.
 
-        If no custom label is stored, a KeyError is raised.
+        kind … either u'label' or u'description'
+
+        If no custom value is stored, a KeyError is raised.
         """
-        return self[self._key(field, 'label')]
+        return self[self._key(field, kind)]
 
-    def query_label(self, field):
-        """Get the stored label for the field.
+    def query_value(self, field, kind):
+        """Get the stored value of type kind for the field.
 
-        If no custom label is stored, return the default label.
+        If no custom value is stored, return the default value.
         """
-        return self.get(self._key(field, 'label'), self.default_label(field))
-
-    def set_description(self, field, description):
-        """Set a new description for the given field.
-
-        Use `None` as description to reset to the default value.
-        """
-        self._set(field, 'description', description)
-
-    def get_description(self, field):
-        """Get the stored description for the field.
-
-        If no custom description is stored, return the description value of the
-        field.
-        """
-        return self[self._key(field, 'description')]
-
-    def query_description(self, field):
-        """Get the stored description for the field.
-
-        If no custom description is stored, return the default description.
-        """
-        return self.get(self._key(field, 'description'),
-                        self.default_description(field))
+        try:
+            return self.get_value(field, kind)
+        except KeyError:
+            return self.default_value(field, kind)
 
     @staticmethod
-    def _key(field, type):
-        """Compute the key for a field."""
+    def _key(field, kind):
+        """Compute the key for a field and a kind."""
+        assert kind in ('label', 'description')
         unsecure_field = zope.security.proxy.getObject(field)
         iface = unsecure_field.interface
         if iface is None:
             iface_dotted_name = "None"
         else:
             iface_dotted_name = dotted_name(iface)
-        return "{}:{}:{}".format(iface_dotted_name, field.__name__, type)
-
-    def _set(self, field, type, value):
-        """Set a new value for the given field.
-
-        type ... `title` or `description`
-
-        Use `None` as value to reset to the default value.
-        """
-        if value is None:
-            try:
-                del self[self._key(field, type)]
-            except KeyError:
-                pass
-        else:
-            self[self._key(field, type)] = value
+        return u"{}:{}:{}".format(iface_dotted_name, field.__name__, kind)
 
 
 field_customization = zope.annotation.factory(
