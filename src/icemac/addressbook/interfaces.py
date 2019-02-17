@@ -560,47 +560,32 @@ class IEntityOrder(zope.interface.Interface):
 class IFieldCustomization(zope.interface.Interface):
     """Custom date for schema fields to be shown in the UI."""
 
-    def set_label(field, label):
-        """Set a new label for the given field.
+    def set_value(field, kind, label):
+        """Set a new value of type kind for the given field.
+
+        kind … either u'label' or u'description'
 
         Use `None` as value of `label` to delete the stored custom value.
         """
 
-    def get_label(field):
-        """Get the stored label for the field.
+    def get_value(field, kind):
+        """Get the stored value of type kind for the field.
 
-        If no custom label is stored, a KeyError is raised.
+        kind … either u'label' or u'description'
+
+        If no custom value is stored, a KeyError is raised.
         """
 
-    def query_label(field):
-        """Get the stored label for the field.
+    def query_value(field, kind):
+        """Get the stored value of type kind for the field.
 
-        If no custom label is stored, return the default label.
+        kind … either u'label' or u'description'
+
+        If no custom value is stored, return the default value.
         """
 
-    def default_label(field):
+    def default_value(field, kind):
         """Get the default label for the field."""
-
-    def set_description(field, description):
-        """Set a new description for the given field.
-
-        Use `None` as value of `description` to delete the stored custom value.
-        """
-
-    def get_description(field):
-        """Get the stored description for the field.
-
-        If no custom label is stored, a KeyError is raised.
-        """
-
-    def query_description(field):
-        """Get the stored description for the field.
-
-        If no custom description is stored, return the default description.
-        """
-
-    def default_description(field):
-        """Get the default description for the field."""
 
 
 class IMayHaveCustomizedPredfinedFields(zope.interface.Interface):

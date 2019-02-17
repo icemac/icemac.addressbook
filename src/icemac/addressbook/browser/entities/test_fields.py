@@ -266,7 +266,7 @@ def test_fields__get_field_customization__2(address_book, PersonFactory):
 
     customization = icemac.addressbook.interfaces.IFieldCustomization(
         address_book)
-    customization.set_label(field, u'Custom Creation Date Label')
+    customization.set_value(field, u'label', u'Custom Creation Date Label')
 
     adapter_factory = get_field_customization('label', 'label')
     with zope.publisher.testing.interaction('principal_1'):
