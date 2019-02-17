@@ -34,6 +34,8 @@ Other changes
 
 - Render URLs of the source code and documentation on the PyPI page.
 
+- Drop reruns of tests.
+
 
 8.0 (2018-10-13)
 ================
