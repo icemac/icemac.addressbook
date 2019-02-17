@@ -36,6 +36,8 @@ Other changes
 
 - Drop reruns of tests.
 
+- Show test failures instantly.
+
 
 8.0 (2018-10-13)
 ================
