@@ -179,7 +179,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     ENTITIY_PERSON_DELETE_FIELD_URL = (
         'http://localhost/ab/++attribute++entities/'
         'icemac.addressbook.person.Person/Field-1/@@delete.html')
-    ENTITIY_PERSON_RENAME_FIELD_URL = (
+    ENTITIY_PERSON_CUSTOMIZE_FIELD_URL = (
         'http://localhost/ab/++attribute++entities/'
         'icemac.addressbook.person.Person/first_name')
 
