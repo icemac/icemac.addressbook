@@ -242,6 +242,29 @@ def test_fields__RenameForm__2(translated_address_book, browser):
     assert 'Vorname' == browser.getControl('Bezeichnung').value
 
 
+def test_fields__RenameForm__3(address_book, browser):
+    """Deleting the custom value restores to the default one."""
+    field = icemac.addressbook.interfaces.IPersonName['first_name']
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(field, u'label', u'given name')
+    customization.set_value(field, u'description', u'Name given to person')
+
+    browser.login('mgr')
+    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    assert 'given name' == browser.getControl('title').value
+    assert 'Name given to person' == browser.getControl('description').value
+    browser.getControl('title').value = ''
+    browser.getControl('description').value = ''
+    browser.getControl('Save').click()
+    assert 'Data successfully updated.' == browser.message
+    assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
+
+    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    assert 'first name' == browser.getControl('title').value
+    assert '' == browser.getControl('description').value
+
+
 def test_fields__get_field_customization__1(address_book, PersonFactory):
     """It returns the application customized title of a field, if
 

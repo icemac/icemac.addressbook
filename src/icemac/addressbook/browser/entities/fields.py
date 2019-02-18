@@ -47,13 +47,15 @@ class IProxiedField(zope.interface.Interface):
         title=_('title'),
         description=_(
             'Delete the value and submit the form to reset to the default'
-            ' value.'))
+            ' value.'),
+        required=False)
 
     description = zope.schema.TextLine(
         title=_('description'),
         description=_(
             'Delete the value and submit the form to reset to the default'
-            ' value.'))
+            ' value.'),
+        required=False)
 
 
 @zope.interface.implementer(IProxiedField)
