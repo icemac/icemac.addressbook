@@ -55,6 +55,13 @@ def test_fields__security__6(address_book, FieldFactory, browser, username):
     browser.assert_forbidden(browser.ENTITIY_PERSON_DELETE_FIELD_URL)
 
 
+@pytest.mark.parametrize('username', ('editor', 'visitor'))
+def test_fields__security__7(address_book, browser, username):
+    """A a non-admin cannot edit a pre-defined field."""
+    browser.login(username)
+    browser.assert_forbidden(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+
+
 def test_fields__List__fields__1(address_book, browser):
     """It omits fields which are tagged with `omit-from-field-list`."""
     browser.login('mgr')
