@@ -59,7 +59,7 @@ def test_fields__security__6(address_book, FieldFactory, browser, username):
 def test_fields__security__7(address_book, browser, username):
     """A a non-admin cannot edit a pre-defined field."""
     browser.login(username)
-    browser.assert_forbidden(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    browser.assert_forbidden(browser.ENTITIY_PERSON_CUSTOMIZE_FIELD_URL)
 
 
 def test_fields__List__fields__1(address_book, browser):
@@ -243,7 +243,7 @@ def test_fields__RenameForm__1(address_book, FullPersonFactory, browser):
     browser.login('mgr')
     browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
     browser.getLink('Edit').click()
-    assert browser.ENTITIY_PERSON_RENAME_FIELD_URL == browser.url
+    assert browser.ENTITIY_PERSON_CUSTOMIZE_FIELD_URL == browser.url
     assert 'first name' == browser.getControl('title').value
     assert '' == browser.getControl('description').value
     browser.getControl('title').value = 'given name'
@@ -264,7 +264,7 @@ def test_fields__RenameForm__2(translated_address_book, browser):
     """It translates the default title."""
     browser.lang('de')
     browser.login('mgr')
-    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    browser.open(browser.ENTITIY_PERSON_CUSTOMIZE_FIELD_URL)
     assert 'Vorname' == browser.getControl('Bezeichnung').value
 
 
@@ -277,7 +277,7 @@ def test_fields__RenameForm__3(address_book, browser):
     customization.set_value(field, u'description', u'Name given to person')
 
     browser.login('mgr')
-    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    browser.open(browser.ENTITIY_PERSON_CUSTOMIZE_FIELD_URL)
     assert 'given name' == browser.getControl('title').value
     assert 'Name given to person' == browser.getControl('description').value
     browser.getControl('title').value = ''
@@ -286,7 +286,7 @@ def test_fields__RenameForm__3(address_book, browser):
     assert 'Data successfully updated.' == browser.message
     assert browser.ENTITY_PERSON_LIST_FIELDS_URL == browser.url
 
-    browser.open(browser.ENTITIY_PERSON_RENAME_FIELD_URL)
+    browser.open(browser.ENTITIY_PERSON_CUSTOMIZE_FIELD_URL)
     assert 'first name' == browser.getControl('title').value
     assert '' == browser.getControl('description').value
 
