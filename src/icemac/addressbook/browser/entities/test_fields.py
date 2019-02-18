@@ -70,6 +70,25 @@ def test_fields__List__fields__1(address_book, browser):
         IPerson['birth_date'].setTaggedValue('omit-from-field-list', False)
 
 
+def test_fields__List__fields__2(address_book, browser):
+    """It uses customized values for pre-defined fields."""
+    browser.login('mgr')
+    browser.handleErrors = False
+    browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
+    # Initially the field is displayed with its default label:
+    assert 'birth date' in browser.contents
+    assert 'date of birth' not in browser.contents
+
+    field = icemac.addressbook.interfaces.IPersonData['birth_date']
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(field, u'label', u'date of birth')
+
+    browser.open(browser.ENTITY_PERSON_LIST_FIELDS_URL)
+    assert 'birth date' not in browser.contents
+    assert 'date of birth' in browser.contents
+
+
 def test_fields__AddForm__1(address_book, browser):
     """New fields can be added to entities.
 
