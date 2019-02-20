@@ -132,9 +132,14 @@ def createFieldColumn(table, entity, field, weight):
          field.type == 'URI')):
         additional_column_args['linkTarget'] = '_blank'
 
+    address_book = icemac.addressbook.interfaces.IAddressBook(None)
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    title = customization.query_value(field, u'label')
+
     return z3c.table.column.addColumn(
         table, getColumnClass(entity, field), field.__name__,
-        header=field.title, weight=weight,
+        header=title, weight=weight,
         entity=entity, field=field, **additional_column_args)
 
 
