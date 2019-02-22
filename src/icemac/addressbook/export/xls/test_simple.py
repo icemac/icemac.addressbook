@@ -319,6 +319,50 @@ def test_simple__DefaultsExport__6(user_defined_fields_data):
                   for rx in range(work_sheet_0.nrows)]
 
 
+def test_simple__DefaultsExport__7(address_book):
+    """It respects the customized pre-defined field labels."""
+    first_name_field = icemac.addressbook.interfaces.IPersonName['first_name']
+    street_field = icemac.addressbook.interfaces.IPostalAddress['street']
+
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(first_name_field, u'label', u'Christian name')
+    customization.set_value(street_field, u'label', u'street and house number')
+
+    export = icemac.addressbook.export.xls.simple.DefaultsExport([]).export()
+    xls_workbook = xlrd.open_workbook(file_contents=export)
+    work_sheet_0 = xls_workbook.sheet_by_index(0)
+    assert (2, 13) == (work_sheet_0.nrows, work_sheet_0.ncols)
+    assert [
+        [u'person',
+         u'',
+         u'',
+         u'',
+         u'',
+         u'postal address',
+         u'',
+         u'',
+         u'',
+         u'',
+         u'phone number',
+         u'e-mail address',
+         u'home page address'],
+        [u'Christian name',
+         u'last name',
+         u'birth date',
+         u'keywords',
+         u'notes',
+         u'address prefix',
+         u'street and house number',
+         u'city',
+         u'zip',
+         u'country',
+         u'number',
+         u'e-mail address',
+         u'URL']] == [work_sheet_0.row_values(rx)
+                      for rx in range(work_sheet_0.nrows)]
+
+
 def test_simple__CompleteExport__1():
     """`CompleteExport` conforms to `IExporter`."""
     assert zope.interface.verify.verifyObject(
