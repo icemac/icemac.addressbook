@@ -3,6 +3,7 @@ import zope.event
 import zope.i18n
 import zope.i18nmessageid
 import zope.lifecycleevent
+import zope.schema
 import zope.traversing.api
 
 
@@ -74,3 +75,21 @@ def translate(value, request):
     if not isinstance(value, zope.i18nmessageid.Message):
         return value
     return zope.i18n.translate(value, context=request)
+
+
+def copy_schema_fields(source, destination):
+    """Copy the schema fields from ``source`` to ``destination``.
+
+    This can be used to mitigate a weakness in the way customizations for
+    pre-defined fields are stored: It cannot know that there are sub classes
+    of the interface which do not want to inherit the field customizations.
+
+    Caution: This function is intended for child classes to copy the fields
+    from their base class.
+    """
+    for name, field in zope.schema.getFieldsInOrder(source):
+        clone = field.bind(None)
+        clone.interface = destination
+        destination._InterfaceClass__attrs[name] = clone
+    # Recreate internal data structures:
+    destination.changed(destination)
