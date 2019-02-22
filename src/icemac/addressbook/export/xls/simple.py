@@ -77,8 +77,13 @@ class XLSExport(icemac.addressbook.export.base.BaseExporter):
         self.sheet.write(0, col, headline, group_style)
         fields = icemac.addressbook.interfaces.IEntity(
             interface).getFieldValues()
+
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        customization = icemac.addressbook.interfaces.IFieldCustomization(
+            address_book)
         for field in fields:
-            self.sheet.write(1, col, self.translate(field.title), head_style)
+            title = customization.query_value(field, u'label')
+            self.sheet.write(1, col, self.translate(title), head_style)
             col += 1
         return col
 
