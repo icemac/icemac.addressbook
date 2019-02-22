@@ -548,3 +548,11 @@ class FieldCustomization(persistent.mapping.PersistentMapping,
 
 field_customization = zope.annotation.factory(
     FieldCustomization, key='icemac.predefined_field.customization')
+
+
+def get_field_label(field):
+    """Get the possibly customized label of the field."""
+    address_book = icemac.addressbook.interfaces.IAddressBook(None)
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    return customization.query_value(field, u'label')
