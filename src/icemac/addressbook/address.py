@@ -11,7 +11,10 @@ import zope.interface
 import zope.schema.fieldproperty
 
 
-@zope.interface.implementer(icemac.addressbook.interfaces.IPostalAddress)
+@zope.interface.implementer(
+    icemac.addressbook.interfaces.IPostalAddress,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
+)
 class PostalAddress(persistent.Persistent,
                     zope.container.contained.Contained):
     """A postal address."""
@@ -44,7 +47,9 @@ def postal_address_title(address):
 
 
 @zope.interface.implementer(
-    icemac.addressbook.interfaces.IEMailAddress)
+    icemac.addressbook.interfaces.IEMailAddress,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
+)
 class EMailAddress(persistent.Persistent,
                    zope.container.contained.Contained):
     """An e-mail address."""
@@ -79,7 +84,9 @@ def email_address_of_person(person):
 
 
 @zope.interface.implementer(
-    icemac.addressbook.interfaces.IHomePageAddress)
+    icemac.addressbook.interfaces.IHomePageAddress,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
+)
 class HomePageAddress(persistent.Persistent,
                       zope.container.contained.Contained):
     """A home page address."""
@@ -106,7 +113,9 @@ def home_page_address_title(hp):
 
 
 @zope.interface.implementer(
-    icemac.addressbook.interfaces.IPhoneNumber)
+    icemac.addressbook.interfaces.IPhoneNumber,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
+)
 class PhoneNumber(persistent.Persistent,
                   zope.container.contained.Contained):
     """A phone number."""

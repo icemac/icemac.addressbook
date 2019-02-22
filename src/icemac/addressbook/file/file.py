@@ -53,7 +53,10 @@ class BaseFile(persistent.Persistent, zope.container.contained.Contained):
         return self._data.open(mode)
 
 
-@zope.interface.implementer(icemac.addressbook.interfaces.IPersonEntity)
+@zope.interface.implementer(
+    icemac.addressbook.interfaces.IPersonEntity,
+    icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
+)
 class File(BaseFile):
     """A file."""
 
