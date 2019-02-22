@@ -37,9 +37,10 @@ class Source(zc.sourcefactory.basic.BasicSourceFactory):
 
     def getTitle(self, value):
         entity, field = untokenize(value)
+        field_title = icemac.addressbook.entities.get_field_label(field)
         # The titles might be message ids so allow to translate them.
         return _(u"${prefix} -- ${title}", mapping=dict(
-            prefix=entity.title, title=field.title))
+            prefix=entity.title, title=field_title))
 
 
 source = Source()
