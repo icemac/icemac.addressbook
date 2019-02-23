@@ -38,6 +38,11 @@ Other changes
 
 - Show test failures instantly.
 
+Bug fixes
+=========
+
+- First time installation no longer asks for migration.
+
 
 8.0 (2018-10-13)
 ================

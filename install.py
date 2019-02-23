@@ -21,9 +21,15 @@ def run_process(text, *args):
         sys.exit(res)
 
 
-def bool_get(config, key):
+def bool_get(config, key, default=None):
     """Read value from config."""
-    value = config.get('migration', key)
+    try:
+        value = config.get('migration', key)
+    except configparser.NoOptionError:
+        if default is not None:
+            return default
+        else:
+            raise
     return value == 'yes'
 
 
@@ -54,7 +60,7 @@ def migrate():
     config = configparser.SafeConfigParser()
     config.read(USER_INI)
 
-    if not bool_get(config, 'do_migration'):
+    if not bool_get(config, 'do_migration', default=False):
         # no migration wanted
         return
     old_instance = config.get('migration', 'old_instance')

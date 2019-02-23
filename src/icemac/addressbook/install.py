@@ -196,6 +196,10 @@ class Configurator(object):
         self.packages = packages
 
     def get_migration_options(self):
+        if not self.user_config:
+            # first time installation
+            self.do_migration = 'no'
+            return
         yes_no = ('yes', 'no')
         self.do_migration = self.ask_user(
             ' Migrate old address book content to new instance', 'migration',
