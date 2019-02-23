@@ -391,6 +391,18 @@ def test_install__Configurator__get_additional_packages__1(config, capsys):
     assert '' == config.get('packages', 'package_3')
 
 
+def test_install__Configurator__get_migration_options__0_5(config, capsys):
+    """It does not ask anything, on the first installation.
+
+    The first installation is assumed, when there is no user config.
+    """
+    with user_input('no', config):
+        config.get_migration_options()
+    assert '' == capsys.readouterr()[0]
+    assert 'no' == config.do_migration
+    assert 'no' == config.get('migration', 'do_migration')
+
+
 def test_install__Configurator__get_migration_options__1(config, capsys):
     """It ask the user about the migration of existing content.
 
@@ -398,6 +410,7 @@ def test_install__Configurator__get_migration_options__1(config, capsys):
     additional questions are asked.
     """
     with user_input('no', config):
+        config.user_config = True
         config.get_migration_options()
     assert (u'  Migrate old address book content to new instance: [no] \n' ==
             capsys.readouterr()[0])
@@ -411,6 +424,7 @@ def test_install__Configurator__get_migration_options__2(config, capsys):
     When the user chooses to migrate he is asked some additional questions.
     """
     with user_input(['yes', 'no', 'yes'], config):
+        config.user_config = True
         config.get_migration_options()
     assert ([
         u'  Migrate old address book content to new instance: [no] ',
@@ -649,7 +663,6 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         u'   icemac.ab.importxls -- Import of XLS (Excel) files',
         u'   icemac.ab.calendar -- Calendar using persons in address book',
         u' Package 1: [] ',
-        u'  Migrate old address book content to new instance: [no] ',
         u'creating admin.zcml ...',
         u'creating buildout.cfg ...',
         u'saving config ...',
