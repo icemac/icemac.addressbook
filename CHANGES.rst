@@ -43,6 +43,9 @@ Bug fixes
 
 - First time installation no longer asks for migration.
 
+- During installation no longer store the admin password in the config file and
+  no longer present the password in clear text during update installation.
+
 
 8.0 (2018-10-13)
 ================
