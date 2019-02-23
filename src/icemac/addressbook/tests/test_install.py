@@ -1,3 +1,4 @@
+from icemac.addressbook._compat import configparser
 from icemac.addressbook.install import not_matched_prerequisites, Configurator
 from io import BytesIO
 import contextlib
@@ -29,7 +30,6 @@ eggs_dir = py-eggs
 
 [admin]
 login = me
-password = secret
 
 [server]
 host = my.computer.local
@@ -192,6 +192,23 @@ def test_install__Configurator__ask_user__4(config, capsys):
     assert 'yes' == config.get('migration', 'do_migration')
 
 
+def test_install__Configurator__ask_user__5(config, capsys):
+    """It enables requiring a value.
+
+    It retries to get an answer until the user entered a value.
+    """
+    with user_input(['', '', 'val'], config):
+        config.ask_user(
+            'Required field', 'admin', 'custom', global_default='',
+            required=True)
+    assert ([u' Required field: [] ',
+             u"ERROR: You have to enter a value.",
+             u' Required field: [] ',
+             u"ERROR: You have to enter a value.",
+             u' Required field: [] '] == capsys.readouterr()[0].splitlines())
+    assert 'val' == config.get('admin', 'custom')
+
+
 def test_install__Configurator__load__1(config):
     """It (Re-) loads the configuration from the configuration file(s)."""
     with user_input('4711', config):
@@ -262,7 +279,7 @@ def test_install__Configurator__get_server_options__1(config, capsys):
         config.get_server_options()
     assert ([
         u' Log-in name for the administrator: [me] ',
-        u' Password for the administrator: [secret] ',
+        u' Password for the administrator: [] ',
         u' Hostname: [my.computer.local] ',
         u' Port number: [13090] ',
         u' Username whether process should run as different user otherwise '
@@ -271,13 +288,49 @@ def test_install__Configurator__get_server_options__1(config, capsys):
     assert 'admin' == config.admin_login
     assert 'admin' == config.get('admin', 'login')
     assert 'geheim' == config.admin_passwd
-    assert 'geheim' == config.get('admin', 'password')
+    with pytest.raises(configparser.NoOptionError):
+        # The password is not stored in the config file.
+        assert 'geheim' == config.get('admin', 'password')
     assert 'localhost' == config.host
     assert 'localhost' == config.get('server', 'host')
     assert '8080' == config.port
     assert '8080' == config.get('server', 'port')
     assert 'mac' == config.username
     assert 'mac' == config.get('server', 'username')
+
+
+def test_install__Configurator__get_server_options__2(config, capsys):
+    """It requires to enter an admin password on the first installation."""
+    input = ['admin', '', 'geheim', 'localhost', '8080', 'mac']
+    with user_input(input, config):
+        config.get_server_options()
+    assert ([
+        u' Log-in name for the administrator: [me] ',
+        u' Password for the administrator: [] ',
+        u'ERROR: You have to enter a value.',
+        u' Password for the administrator: [] ',
+        u' Hostname: [my.computer.local] ',
+        u' Port number: [13090] ',
+        u' Username whether process should run as different user otherwise '
+        u'emtpy: [] ',
+    ] == capsys.readouterr()[0].splitlines())
+
+
+def test_install__Configurator__get_server_options__3(config, capsys):
+    """It allows to enter no admin_password on non-first installation."""
+    with user_input('', config):
+        config.user_config = True
+        config.get_server_options()
+    assert ([
+        u' Log-in name for the administrator: [me] ',
+        u' New password for the administrator (only enter a value if you want'
+        u' to change the existing password): [] ',
+        u' Hostname: [my.computer.local] ',
+        u' Port number: [13090] ',
+        u' Username whether process should run as different user otherwise '
+        u'emtpy: [] ',
+    ] == capsys.readouterr()[0].splitlines())
+    assert '' == config.admin_passwd
 
 
 def test_install__Configurator__get_log_options__1(config, capsys):
@@ -470,6 +523,15 @@ def test_install__Configurator__create_admin_zcml__1(config, capsys, basedir):
     ] == basedir.join('admin.zcml').read().splitlines()
 
 
+def test_install__Configurator__create_admin_zcml__2(config, capsys, basedir):
+    """It doesn't create `admin.zcml` file, if `admin_passwd` is not set."""
+    config.admin_login = 'root'
+    config.admin_passwd = ''
+    config.create_admin_zcml()
+    assert '' == capsys.readouterr()[0]
+    assert not basedir.join('admin.zcml').exists()
+
+
 def test_install__Configurator__create_buildout_cfg__1(
         config, capsys, basedir):
     """It creates the `buildout.cfg` file.
@@ -591,7 +653,6 @@ def test_install__Configurator__store__1(config, capsys, basedir):
         '',
         '[admin]',
         'login = me',
-        'password = secret',
         '',
         '[server]',
         'host = my.computer.local',
@@ -625,9 +686,9 @@ def test_install__Configurator__store__1(config, capsys, basedir):
 def test_install__Configurator____call____1(config, capsys, basedir):
     """It runs the complete configuration.
 
-    To ease testing changes we use only default values.
+    To ease testing changes we mostly use only default values.
     """
-    with user_input('', config):
+    with user_input(['', '', 'passwd'], config):
         config()
     assert [
         u'Welcome to icemac.addressbook installation',
@@ -637,7 +698,7 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         u'',
         u' Directory to store python eggs: [py-eggs] ',
         u' Log-in name for the administrator: [me] ',
-        u' Password for the administrator: [secret] ',
+        u' Password for the administrator: [] ',
         u' Hostname: [my.computer.local] ',
         u' Port number: [13090] ',
         u' Username whether process should run as different user otherwise '
@@ -693,7 +754,6 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         '',
         '[admin]',
         'login = me',
-        'password = secret',
         '',
         '[server]',
         'host = my.computer.local',
@@ -730,7 +790,7 @@ def test_install__Configurator____call____1(config, capsys, basedir):
         '    title="global administrator"',
         '    login="me"',
         '    password_manager="Plain Text"',
-        '    password="secret" />',
+        '    password="passwd" />',
         '  <grant',
         '    role="icemac.addressbook.global.Administrator"',
         '    principal="icemac.addressbook.global.Administrator" />',

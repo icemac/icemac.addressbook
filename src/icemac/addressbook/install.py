@@ -62,12 +62,18 @@ class Configurator(object):
         return not(self.user_config)
 
     def ask_user(
-            self, question, section, option, global_default=None, values=()):
+            self, question, section, option, global_default=None, values=(),
+            store_in_config=True, required=False):
         """Ask the user for a value of section/option and store it in config.
 
         global_default ... use this value as default value when it is not
                            defined in the global config file
         values ... when set, only this value can be entered
+        store_in_config ... boolean telling whether the value entered by the
+                            user should be stored in the config file as default
+                            value for the installation of an address book
+                            upgrade
+        required ... it is required to enter a value
         """
         try:
             default = self.get(section, option)
@@ -81,13 +87,16 @@ class Configurator(object):
             print()
             if not got:
                 got = default
+            if required and not got:
+                print('ERROR: You have to enter a value.')
+                continue
             if not values or got in values:
                 break
             else:
                 print('ERROR: %r is not in %r.' % (got, values))
                 print('Please choose a value out of the list.')
-
-        self._conf.set(section, option, got)
+        if store_in_config:
+            self._conf.set(section, option, got)
         return got
 
     def get(self, section, key):
@@ -132,8 +141,15 @@ class Configurator(object):
     def get_server_options(self):
         self.admin_login = self.ask_user(
             'Log-in name for the administrator', 'admin', 'login')
-        self.admin_passwd = self.ask_user(
-            'Password for the administrator', 'admin', 'password')
+        if self.first_time_installation:
+            self.admin_passwd = self.ask_user(
+                'Password for the administrator', 'admin', 'password',
+                global_default='', store_in_config=False, required=True)
+        else:
+            self.admin_passwd = self.ask_user(
+                'New password for the administrator (only enter a value if you'
+                ' want to change the existing password)', 'admin', 'password',
+                global_default='', store_in_config=False)
         self.host = self.ask_user('Hostname', 'server', 'host')
         self.port = self.ask_user('Port number', 'server', 'port')
         self.username = self.ask_user(
@@ -224,6 +240,8 @@ class Configurator(object):
             'migration', 'migration', 'start_server', values=yes_no)
 
     def create_admin_zcml(self):
+        if not self.admin_passwd:
+            return
         print('creating admin.zcml ...')
         with open('admin.zcml', 'w') as admin_zcml:
             admin_zcml.write('\n'.join(
