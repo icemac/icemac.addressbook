@@ -53,6 +53,14 @@ class Configurator(object):
         self.create_buildout_cfg()
         self.store()
 
+    @property
+    def first_time_installation(self):
+        """Return whether the address book is installed for the first time.
+
+        This means we do not need a migration but an admin password.
+        """
+        return not(self.user_config)
+
     def ask_user(
             self, question, section, option, global_default=None, values=()):
         """Ask the user for a value of section/option and store it in config.
@@ -196,8 +204,7 @@ class Configurator(object):
         self.packages = packages
 
     def get_migration_options(self):
-        if not self.user_config:
-            # first time installation
+        if self.first_time_installation:
             self.do_migration = 'no'
             return
         yes_no = ('yes', 'no')
