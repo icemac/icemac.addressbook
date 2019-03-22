@@ -10,6 +10,5 @@ release.)
    :maxdepth: 1
 
    Guided package installation (to be preferred) <guidedinstallation>
-   Manual package installation (deprecated -- slightly more control over the installation process) <manualinstallation>
    upgrade-installation-manual-to-guided
    Source installation (for development) <sourceinstallation>

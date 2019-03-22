@@ -2,8 +2,15 @@
 Change log
 ==========
 
-8.1 (unreleased)
+9.0 (unreleased)
 ================
+
+Backwards incompatible changes
+------------------------------
+
+- Drop support for `Manual package installation` which was deprecated since
+  version 6.0. If you are still using it, switch to
+  `Guided package installation` as described in `Upgrade installation`_.
 
 Features
 --------
@@ -199,7 +206,6 @@ Other
 
 .. _`Manual package installation` : https://icemacaddressbook.readthedocs.io/en/latest/manualinstallation.html
 .. _`Guided package installation` : https://icemacaddressbook.readthedocs.io/en/latest/guidedinstallation.html
-.. _`Upgrade installation` : https://icemacaddressbook.readthedocs.io/en/latest/upgrade-installation-manual-to-guided.html
 
 
 Previous Versions
@@ -209,3 +215,4 @@ See `OLD_CHANGES.rst`_.
 
 .. _`OLD_CHANGES.rst` : https://bitbucket.org/icemac/icemac.addressbook/src/default/OLD_CHANGES.rst
 .. _`documentation` :  https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html
+.. _`Upgrade installation` : https://icemacaddressbook.readthedocs.io/en/latest/upgrade-installation-manual-to-guided.html
