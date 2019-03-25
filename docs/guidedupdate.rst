@@ -4,11 +4,15 @@ Update guided package installation
 
 This steps can be applied if you installed via :ref:`package-installation`.
 
-1. Update the installer package using::
+#. Switch to the directory you created for the address book, in :ref:`package-installation` it was suggested to call it ``addressbook``::
+
+    $ cd addressbook
+
+#. Update the installer package using::
 
     $ bin/pip install -U icemac.install.addressbook
 
-2. Start the update
+#. Start the update
 
    * using::
 
@@ -16,17 +20,17 @@ This steps can be applied if you installed via :ref:`package-installation`.
 
    * ``VERSION_NUMBER`` can be omitted to install the latest version.
 
-3. Answer the questions about admin user name, password and so on, they should
+#. Answer the questions about admin user name, password and so on, they should
    be pre-filled with the values of the previous installation.
 
    If the upgrade procedure breaks with an error, first try to upgrade to the
    next major version (first digit of the version number) which comes after
    your current version.
 
-4. Start the new instance of the application as described in
+#. Start the new instance of the application as described in
    :ref:`runtheapplication`.
 
-5. You might archive the previous version
+#. You might archive the previous version
 
    * by calling::
 
