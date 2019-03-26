@@ -21,6 +21,8 @@ Features
 
 - Allow to edit the labels and descriptions of pre-defined fields.
 
+- Document how to uninstall the address book.
+
 Changes in testing
 ------------------
 
