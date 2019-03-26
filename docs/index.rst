@@ -18,6 +18,7 @@ using a web browser.
    login
    usermanagement
    operations
+   uninstall
 
 Documentation in other languages:
 
