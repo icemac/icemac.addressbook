@@ -19,7 +19,7 @@ Purpose:
 Status:
     stable version, used in production; some features will be added in future
 
-Copyright (c) 2008-2018 Michael Howitz
+Copyright (c) 2008-2019 Michael Howitz
 
 This package is licensed under the MIT License, see LICENSE.TXT inside the
 package.
