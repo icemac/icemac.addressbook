@@ -303,8 +303,11 @@ class BaseDeleteForm(_BaseConfirmForm):
         self.redirect_to_next_url(self.next_url_after_delete,
                                   self.next_view_after_delete)
         if self._do_delete():
-            self.status = _('"${title}" deleted.',
-                            mapping={'title': self.status_title})
+            self._set_status()
+
+    def _set_status(self):
+        self.status = _('"${title}" deleted.',
+                        mapping={'title': self.status_title})
 
     def _do_delete(self):
         """Execute the deletion.

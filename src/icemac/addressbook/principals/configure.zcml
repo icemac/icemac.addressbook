@@ -84,6 +84,10 @@
     factory=".roles.editor_role" />
   <subscriber
     for="*"
+    provides=".interfaces.IEditorRole"
+    factory=".roles.archivist_role" />
+  <subscriber
+    for="*"
     provides=".interfaces.IVisitorRole"
     factory=".roles.visitor_role" />
 

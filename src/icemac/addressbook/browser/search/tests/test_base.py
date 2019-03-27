@@ -16,6 +16,12 @@ def test_base__Search__1(address_book, browser):
             browser.etree.xpath('//ul[@class="bullet"]/li/a/span/text()'))
 
 
+def test_base__Search__2(address_book, browser):
+    """It cannot be accessed by an archivist."""
+    browser.login('archivist')
+    browser.assert_forbidden(browser.SEARCH_URL)
+
+
 def test_base__BaseSearch__1():
     """It implements `ISearch`."""
     assert verifyObject(ISearch, BaseSearch())

@@ -204,8 +204,10 @@ def test_keyword__DeleteForm__3(
     assert str(err.value).endswith("is still being referenced.")
 
 
-def test_keyword__DeleteForm__4(address_book, KeywordFactory, browser):
-    """A visitor is not able to open the `DeleteForm` even he knows the URL."""
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+def test_keyword__DeleteForm__4(
+        address_book, KeywordFactory, browser, loginname):
+    """It cannot be opened by some roles even knowing the URL."""
     KeywordFactory(address_book, u'work')
     browser.login('visitor')
     browser.assert_forbidden(browser.KEYWORD_DELETE_URL)

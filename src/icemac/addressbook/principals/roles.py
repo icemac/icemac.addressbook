@@ -6,6 +6,11 @@ def editor_role(ignored):
     return 'icemac.addressbook.global.Editor'
 
 
+def archivist_role(ignored):
+    """Archivist role which has the same weighting as the Editor role."""
+    return 'icemac.addressbook.global.Archivist'
+
+
 def visitor_role(ignored):
     return 'icemac.addressbook.global.Visitor'
 
