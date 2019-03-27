@@ -40,21 +40,21 @@ def test_inspector__Inspector__show_context__3(address_book, browser):
     assert 'zope.container.interfaces.IContainer' in browser.contents
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr', 'archivist'))
 def test_inspector__Inspector__1(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on a view."""
     browser.login(username)
     browser.assert_forbidden(browser.INSPECTOR_VIEW_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr', 'archivist'))
 def test_inspector__Inspector__2(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on an object."""
     browser.login(username)
     browser.assert_forbidden(browser.INSPECTOR_OBJECT_URL)
 
 
-@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr'))
+@pytest.mark.parametrize('username', ('editor', 'visitor', 'mgr', 'archivist'))
 def test_inspector__Inspector__3(address_book, browser, username):
     """It cannot be accessed by non-global-admin users on the root object."""
     browser.login(username)

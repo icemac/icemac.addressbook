@@ -1,9 +1,14 @@
+import transaction
+from icemac.addressbook.interfaces import IArchivedPerson
 from icemac.addressbook.interfaces import IEntityOrder
 from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
 from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
+from icemac.addressbook.interfaces import IPersonArchiving
 from icemac.addressbook.interfaces import ISchemaName
 from icemac.addressbook.person import Person, Keywords
+import gocept.reference.interfaces
 import gocept.reference.verify
+import zope.catalog.interfaces
 import zope.component
 
 
@@ -15,6 +20,11 @@ def test_person__Person__1():
 def test_person__Person__2():
     """It fulfils the `IPersonDefaults` interface."""
     assert gocept.reference.verify.verifyObject(IPersonDefaults, Person())
+
+
+def test_person__Person__3():
+    """It fulfils the `IPersonArchiving` interface."""
+    assert gocept.reference.verify.verifyObject(IPersonArchiving, Person())
 
 
 def test_person__Person__schema__1(zcmlS):
@@ -87,6 +97,31 @@ def test_person__Person__get_name__3():
 def test_person__Person__get_name__4():
     """It returns '' if neither first name nor last name is set."""
     assert u'' == Person().get_name()
+
+
+def test_person__Person__archive__1(address_book, FullPersonFactory):
+    """It moves the person to the archive and marks it as archived."""
+    person = FullPersonFactory(address_book, u'tester')
+    assert address_book == person.__parent__
+    assert not IArchivedPerson.providedBy(person)
+    rt = gocept.reference.interfaces.IReferenceTarget(person['PhoneNumber'])
+    assert rt.is_referenced()
+
+    person.archive()
+    transaction.commit()
+    assert address_book.archive == person.__parent__
+    assert IArchivedPerson.providedBy(person)
+    assert rt.is_referenced()
+
+
+def test_person__Person__archive__2(address_book, FullPersonFactory):
+    """It removes the person from the catalog."""
+    person = FullPersonFactory(address_book, u'Older')
+    catalog = zope.component.getUtility(zope.catalog.interfaces.ICatalog)
+    assert 1 == len(catalog.searchResults(name='Older'))
+
+    person.archive()
+    assert 0 == len(catalog.searchResults(name='Older'))
 
 
 def test_person__title__1(zcmlS):

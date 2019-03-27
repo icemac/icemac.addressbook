@@ -10,7 +10,7 @@
       name="name_search.html"
       class=".name.SearchView"
       template="search.pt"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       />
 
   <z3c:contextMenuItem
@@ -20,7 +20,7 @@
       name="Name-Seach"
       title="Name search"
       viewName="@@name_search.html"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       weight="20"
       />
 
@@ -30,7 +30,7 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="form"
       class=".name.SearchForm"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       />
 
   <adapter factory=".name.Search" />

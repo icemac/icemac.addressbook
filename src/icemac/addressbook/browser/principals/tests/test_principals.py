@@ -59,9 +59,9 @@ def test_principals__Overview__3(
                 '//table/tbody/tr/td/a/text()')
 
 
-@pytest.mark.parametrize('role', [u'Visitor', 'Editor'])
+@pytest.mark.parametrize('role', [u'Visitor', 'Editor', 'Archivist'])
 def test_principals__Overview__4(address_book, UserFactory, browser, role):
-    """`Overview` shows a non-admin only one user: himself."""
+    """It shows a non-admin only one user: himself."""
     UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',
                 'u1u2u3u4', [role])
     UserFactory(address_book, u'Urs2', u'Unstable2', u'uu2@example.com',
@@ -191,9 +191,9 @@ def test_principals__AddForm__5(localadmin, address_book, FullPersonFactory):
             browser.etree.xpath('//div[@class="error"]/text()'))
 
 
-@pytest.mark.parametrize('user', ['visitor', 'editor'])
+@pytest.mark.parametrize('user', ['visitor', 'editor', 'archivist'])
 def test_principals__AddForm__6(address_book, browser, user):
-    """`AddForm` cannot be accessed by a visitor or an editor."""
+    """It cannot be accessed by a non-admin users."""
     browser.login(user)
     browser.assert_forbidden(browser.PRINCIPAL_ADD_URL)
 
@@ -316,10 +316,11 @@ def test_principals__EditForm__5_5(address_book, UserFactory, browser):
     assert browser.PRINCIPALS_LIST_URL == browser.url
 
 
-def test_principals__EditForm__6(address_book, UserFactory, browser):
+@pytest.mark.parametrize('role', ('Editor', 'Archivist'))
+def test_principals__EditForm__6(address_book, UserFactory, browser, role):
     """An editor can edit his own user data but not the roles."""
     user = UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',
-                       'u1u2u3u4', ['Editor'])
+                       'u1u2u3u4', [role])
     user.description = u'Hans the tester'
     browser.formlogin(u'uu@example.com', 'u1u2u3u4')
     browser.open(browser.PRINCIPAL_EDIT_URL_1)
@@ -428,7 +429,7 @@ def test_principals__DeleteUserForm__2(address_book, UserFactory, localadmin):
     assert browser.PRINCIPAL_EDIT_URL == browser.url
 
 
-@pytest.mark.parametrize('username', ['visitor', 'editor'])
+@pytest.mark.parametrize('username', ['visitor', 'editor', 'archivist'])
 def test_principals__DeleteUserForm__3(
         address_book, UserFactory, browser, username):
     """Non-Admin users cannot access `DeleteUserForm`."""
