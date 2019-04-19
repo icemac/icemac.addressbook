@@ -8,9 +8,24 @@ import zope.viewlet.manager
 import zope.viewlet.viewlet
 
 
+class MainMenuManager(z3c.menu.ready2go.manager.MenuManager):
+    """MenuManager which filters out the deselected tabs."""
+
+    def filter(self, viewlets):
+        """Filter out deselected tabs."""
+        viewlets = super(MainMenuManager, self).filter(viewlets)
+        try:
+            deselected_tabs = self.context.deselected_tabs
+        except AttributeError:
+            deselected_tabs = []
+        for name, viewlet in viewlets:
+            if name not in deselected_tabs:
+                yield name, viewlet
+
+
 MainMenu = zope.viewlet.manager.ViewletManager(
     'main-menu', icemac.addressbook.browser.menus.interfaces.IMainMenu,
-    bases=(z3c.menu.ready2go.manager.MenuManager,))
+    bases=(MainMenuManager,))
 
 
 def getWeight(arg):

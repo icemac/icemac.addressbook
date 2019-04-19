@@ -128,6 +128,17 @@ class IAddressBook(zope.interface.Interface):
         title=_('favicon'),
         source=favicon_source,
         default=DEFAULT_FAVICON)
+
+    deselected_tabs = zope.schema.Set(
+        title=_('Deselected tabs'),
+        description=_(
+            'The tabs selected here are not shown in the navigation.'
+            ' Deselecting a tab can mean to disable the whole feature.'),
+        default=set(),
+        value_type=zope.schema.Choice(
+            title=_('Deselected tabs'),
+            source='tabs_source'))
+
     startpage = zope.schema.Choice(
         title=_('start page after log-in'),
         source=startpage_source,
