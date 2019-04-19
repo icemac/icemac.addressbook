@@ -19,6 +19,13 @@ Features
 
 - Add a cron job which does a daily backup of the database.
 
+- Add an archive, the ability to archive persons and an archivist role who is
+  only able to manage the archive.
+
+  - Archived persons cannot be found using the search abilities of the
+    address book.
+
+
 - Allow to edit the labels and descriptions of pre-defined fields.
 
 - Document how to uninstall the address book.

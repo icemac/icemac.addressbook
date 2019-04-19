@@ -30,6 +30,8 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ExportPerson
+        icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
@@ -57,6 +59,8 @@
      role="icemac.addressbook.global.Visitor"
      permissions="
         icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ExportPerson
+        icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
@@ -67,6 +71,26 @@
         icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+  <!-- Archivist -->
+  <role id="icemac.addressbook.global.Archivist"
+        title="Archivist"
+	    description="Role which an access the archive and (un)archive things."
+	    />
+
+  <grant
+     role="icemac.addressbook.global.Archivist"
+     permissions="
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewArchive
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewSomePrincipals
         z3c.preference.EditPreference
         zope.View
@@ -106,7 +130,10 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
+        icemac.addressbook.ExportPerson
+        icemac.addressbook.ListPersons
         icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewArchive
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
