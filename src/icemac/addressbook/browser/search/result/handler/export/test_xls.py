@@ -246,7 +246,7 @@ def test_xls__DefaultsExport__4(
     browser.getControl('Schlagwörter').displayValue = ['Kirche']
     browser.getControl('Suchen').click()
     browser.getControl('Auf ausgewählte Personen anwenden').displayValue = [
-        'wichtigste']
+        'bevorzugte']
     browser.getControl(name='form.buttons.apply').click()
     assert 'application/vnd.ms-excel' == browser.headers['Content-Type']
     xls_workbook = xlrd.open_workbook(file_contents=browser.contents)
@@ -324,7 +324,7 @@ def test_xls__CompleteExport__1(
          '',
          '',
          '',
-         u'wichtigste Anschrift',
+         u'bevorzugte Anschrift',
          '',
          '',
          '',
@@ -334,9 +334,9 @@ def test_xls__CompleteExport__1(
          '',
          '',
          '',
-         u'wichtigste Telefonnummer',
-         u'wichtigste E-Mail-Adresse',
-         u'wichtigste Homepage-Adresse'],
+         u'bevorzugte Telefonnummer',
+         u'bevorzugte E-Mail-Adresse',
+         u'bevorzugte Homepage-Adresse'],
         [u'Vorname',
          u'Familienname',
          u'Geburtsdatum',

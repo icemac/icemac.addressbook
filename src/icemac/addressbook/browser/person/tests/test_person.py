@@ -813,7 +813,7 @@ def test_person__DefaultSelectGroup__3(
     browser.lang('de-DE')
     browser.open(browser.PERSON_EDIT_URL)
     assert ['Thun, Schweiz'] == browser.getControl(
-        'wichtigste Anschrift').displayValue
+        'bevorzugte Anschrift').displayValue
     browser.getControl('Abbrechen').click()
     assert u'Keine Änderungen durchgeführt.' == browser.message
 
