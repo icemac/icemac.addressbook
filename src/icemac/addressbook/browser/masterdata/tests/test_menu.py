@@ -7,7 +7,7 @@ def md_menu(address_book, browser, sitemenu):
     """Fixture to test the master data menu."""
     browser.login('mgr')
     return sitemenu(
-        browser, 3, 'Master data', browser.MASTER_DATA_URL)
+        browser, 4, 'Master data', browser.MASTER_DATA_URL)
 
 
 def test_menu__master_data_menu__1(md_menu):

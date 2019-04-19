@@ -9,7 +9,7 @@
       name="mailto.html"
       class=".mailto.MailTo"
       template="mailto.pt"
-      permission="icemac.addressbook.ViewAddressBook" />
+      permission="icemac.addressbook.ExportPerson" />
 
   <z3c:siteMenuItem
      manager="icemac.addressbook.browser.search.result.handler.manager.ISearchResultHandlers"
@@ -18,7 +18,7 @@
      title="E-Mail (Creates a link to send e-mails.)"
      viewName="mailto.html"
      class="icemac.addressbook.browser.search.result.handler.manager.SearchResultHandler"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ExportPerson"
      weight="30"
      />
 

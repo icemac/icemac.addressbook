@@ -9,7 +9,7 @@
       name="person-names.html"
       class=".Names"
       template="list.pt"
-      permission="icemac.addressbook.ViewAddressBook" />
+      permission="icemac.addressbook.ExportPerson" />
 
   <z3c:siteMenuItem
      manager="..manager.ISearchResultHandlers"
@@ -18,7 +18,7 @@
      title="Names (Comma separated list of person names.)"
      viewName="person-names.html"
      class="..manager.SearchResultHandler"
-     permission="icemac.addressbook.ViewAddressBook"
+     permission="icemac.addressbook.ExportPerson"
      weight="40"
      />
 

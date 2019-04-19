@@ -60,6 +60,16 @@
     title="XXX"
     />
 
+  <permission
+    id="icemac.addressbook.ExportPerson"
+    title="Export a person and its data."
+    />
+
+  <permission
+    id="icemac.addressbook.ListPersons"
+    title="List the persons in the address book or search for them."
+    />
+
   <!-- PostalAddress -->
   <permission
     id="icemac.addressbook.AddPostalAddress"
@@ -165,6 +175,17 @@
   <!-- see the preferences tab and change prefs -->
   <permission
     id="icemac.addressbook.EditAllPreferences"
+    title="XXX"
+    />
+
+  <!-- Archive of persons -->
+  <permission
+    id="icemac.addressbook.EditArchive"
+    title="XXX"
+    />
+
+  <permission
+    id="icemac.addressbook.ViewArchive"
     title="XXX"
     />
 
