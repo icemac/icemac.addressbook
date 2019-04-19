@@ -24,22 +24,19 @@ def test_menu_MainMenu__1(address_book, browser):
     browser.login('mgr')
     browser.handleErrors = False
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
-    assert [
+    tabs = [
         'Person list',
         'Search',
+        'Archive',
         'Preferences',
         'Master data',
-    ] == browser.etree.xpath(tab_names_xpath)
-    assert [
-        'Person list',
-        'Search',
-        'Preferences',
-        'Master data',
-    ] == browser.getControl('Deselected tabs').displayOptions
+    ]
+    assert tabs == browser.etree.xpath(tab_names_xpath)
+    assert tabs == browser.getControl('Deselected tabs').displayOptions
     # By default no tabs are deselected:
     assert [] == browser.getControl('Deselected tabs').displayValue
 
-    browser.getControl('Deselected tabs').displayValue = ['Search']
+    browser.getControl('Deselected tabs').displayValue = ['Search', 'Archive']
     browser.select_favicon()
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
