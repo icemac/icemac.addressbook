@@ -16,3 +16,37 @@ def test_menu__AddMenu__1(address_book, FullPersonFactory, browser):
     browser.open(browser.PERSON_EDIT_URL)
     assert ['phone number', 'postal address'] == browser.etree.xpath(
         ADD_MENU_CONTENTS)[:2]
+
+
+def test_menu_MainMenu__1(address_book, browser):
+    """It omits deselected tabs from rendering."""
+    tab_names_xpath = '//ul[@id="main-menu"]/li/a/span/text()'
+    browser.login('mgr')
+    browser.handleErrors = False
+    browser.open(browser.ADDRESS_BOOK_EDIT_URL)
+    assert [
+        'Person list',
+        'Search',
+        'Preferences',
+        'Master data',
+    ] == browser.etree.xpath(tab_names_xpath)
+    assert [
+        'Person list',
+        'Search',
+        'Preferences',
+        'Master data',
+    ] == browser.getControl('Deselected tabs').displayOptions
+    # By default no tabs are deselected:
+    assert [] == browser.getControl('Deselected tabs').displayValue
+
+    browser.getControl('Deselected tabs').displayValue = ['Search']
+    browser.select_favicon()
+    browser.getControl('Save').click()
+    assert 'Data successfully updated.' == browser.message
+
+    # Deselected tabs are not longer rendered in the UI:
+    assert [
+        'Person list',
+        'Preferences',
+        'Master data',
+    ] == browser.etree.xpath(tab_names_xpath)

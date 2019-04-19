@@ -23,6 +23,8 @@ Features
 
 - Document how to uninstall the address book.
 
+- Add ability to deselect tabs in the main menu.
+
 Changes in testing
 ------------------
 

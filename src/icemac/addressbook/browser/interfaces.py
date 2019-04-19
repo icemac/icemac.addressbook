@@ -3,6 +3,8 @@ import z3c.form.interfaces
 import z3c.formui.interfaces
 import z3c.layer.pagelet
 import z3c.preference.interfaces
+import zc.sourcefactory.contextual
+import zope.globalrequest
 import zope.interface
 import zope.viewlet.interfaces
 
@@ -71,3 +73,33 @@ class IIconProviderInfo(zope.interface.Interface):
 
 class IAddressBookBackground(zope.interface.Interface):
     """Marker for views which should display the address book background."""
+
+
+class TabsSource(zc.sourcefactory.contextual.BasicContextualSourceFactory):
+    """Source of all switchable tabs in the first level navigation.
+
+    The values are the registered names of the viewlets in the main menu.
+    """
+
+    def getValues(self, context):
+        main_menu = self._get_main_menu(context)
+        tabs = zope.component.getAdapters(
+            (context, main_menu.request, main_menu.__parent__, main_menu),
+            zope.viewlet.interfaces.IViewlet)
+        return [x[0] for x in main_menu.sort(tabs)]
+
+    def getTitle(self, context, value):
+        main_menu = self._get_main_menu(context)
+        return main_menu[value].title
+
+    def _get_main_menu(self, context):
+        request = zope.globalrequest.getRequest()
+        view = zope.component.getMultiAdapter(
+            (context, request), name='index.html')
+        return zope.component.getMultiAdapter(
+            (context, request, view), name='main-menu')
+
+
+vr = zope.schema.vocabulary.getVocabularyRegistry()
+vr.register('tabs_source', TabsSource())
+del vr
