@@ -589,10 +589,12 @@ def test_person__PersonEditForm__17(
             'form.buttons.export'] == browser.all_control_names
 
 
-def test_person__PersonEditForm__18(address_book, FullPersonFactory, browser):
-    """It cannot be accessed by an archivist."""
+@pytest.mark.parametrize('login', ('archivist', 'archive-visitor'))
+def test_person__PersonEditForm__18(
+        address_book, FullPersonFactory, browser, login):
+    """It cannot be accessed by some roles."""
     FullPersonFactory(address_book, u'Test')
-    browser.login('archivist')
+    browser.login(login)
     browser.assert_forbidden(browser.PERSON_EDIT_URL)
 
 
