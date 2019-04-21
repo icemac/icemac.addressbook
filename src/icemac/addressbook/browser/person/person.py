@@ -202,8 +202,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     @z3c.form.button.buttonAndHandler(
         _(u'Archive person'), name='archive_person',
-        condition=icemac.addressbook.browser.base.can_access(
-            'archive_person.html'))
+        condition=lambda f:
+            icemac.addressbook.browser.base.can_access(
+                'archive_person.html')(f) and
+            icemac.addressbook.browser.base.tab_selected('Archive')(f))
     def handleArchivePerson(self, action):
         self.redirect_to_next_url('object', 'archive_person.html')
 
