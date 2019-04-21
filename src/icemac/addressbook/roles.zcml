@@ -18,6 +18,7 @@
         icemac.addressbook.AddPerson
         icemac.addressbook.AddPhoneNumber
         icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ArchivePerson
         icemac.addressbook.ClonePerson
         icemac.addressbook.EditAddressBookContents
         icemac.addressbook.EditAllPreferences
@@ -80,11 +81,33 @@
   <!-- Archivist -->
   <role id="icemac.addressbook.global.Archivist"
         title="Archivist"
-	    description="Role which an access the archive and (un)archive things."
-	    />
+        description="Role which can manage the archive."
+        />
 
   <grant
      role="icemac.addressbook.global.Archivist"
+     permissions="
+        icemac.addressbook.EditAllPreferences
+        icemac.addressbook.ViewPerson
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewArchive
+        icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+        zope.View
+        zope.dublincore.view
+     " />
+
+
+  <!-- Archive Visitor -->
+  <role id="icemac.addressbook.global.ArchiveVisitor"
+        title="Archive Visitor"
+        description="Role which can access the archive (read only)."
+        />
+
+  <grant
+     role="icemac.addressbook.global.ArchiveVisitor"
      permissions="
         icemac.addressbook.EditAllPreferences
         icemac.addressbook.ViewAddressBook
@@ -96,6 +119,7 @@
         zope.View
         zope.dublincore.view
      " />
+
 
   <!-- Administrator -->
   <role
@@ -116,6 +140,7 @@
         icemac.addressbook.AddPerson
         icemac.addressbook.AddPhoneNumber
         icemac.addressbook.AddPostalAddress
+        icemac.addressbook.ArchivePerson
         icemac.addressbook.ClonePerson
         icemac.addressbook.EditAddressBook
         icemac.addressbook.EditAddressBookContents

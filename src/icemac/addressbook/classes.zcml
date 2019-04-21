@@ -54,7 +54,7 @@
       set_attributes="__annotations__"
       />
     <require
-      permission="icemac.addressbook.EditPerson"
+      permission="icemac.addressbook.ArchivePerson"
       interface=".interfaces.IPersonArchiving"
       />
     <require

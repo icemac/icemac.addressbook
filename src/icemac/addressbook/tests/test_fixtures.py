@@ -7,5 +7,9 @@ def test_fixtures__UserFactory__1(address_book, UserFactory):
         UserFactory(address_book, u'first_name', u'last_name',
                     u'email@example.com', u'password', [u'unknown-role'])
     assert ("Role title u'unknown-role' unknown. Known ones:"
-            " [u'Administrator', u'Archivist', u'Editor', u'Visitor']"
+            " [u'Administrator',"
+            " u'Archive Visitor',"
+            " u'Archivist',"
+            " u'Editor',"
+            " u'Visitor']"
             == str(err.value))

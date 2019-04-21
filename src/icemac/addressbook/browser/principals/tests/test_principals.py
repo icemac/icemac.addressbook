@@ -127,7 +127,7 @@ def test_principals__AddForm__1(
     browser.getControl('person').displayValue = ['Tester, Hans']
     browser.getControl('password', index=0).value = '1234567890'
     browser.getControl('password repetition').value = '1234567890'
-    browser.getControl('Visitor').click()
+    browser.getControl('Archive Visitor').click()
     browser.getControl('Add').click()
     assert '"Tester, Hans" added.' == browser.message
     assert browser.PRINCIPALS_LIST_URL == browser.url
@@ -217,7 +217,7 @@ def test_principals__AddForm__7(address_book, UserFactory, localadmin):
 def test_principals__EditForm__1(localadmin, address_book, UserFactory):
     """`EditForm` allows to edit a principal."""
     UserFactory(address_book, 'Hans', 'Tester', 'hans@example.com',
-                '1234567890', ['Visitor'])
+                '1234567890', ['Archive Visitor'])
     browser = localadmin.open(localadmin.PRINCIPALS_LIST_URL)
     browser.getLink('Tester, Hans').click()
     assert browser.PRINCIPAL_EDIT_URL == browser.url
@@ -225,7 +225,7 @@ def test_principals__EditForm__1(localadmin, address_book, UserFactory):
     # The password is not displayed.
     assert '' == browser.getControl('password', index=0).value
     assert '' == browser.getControl('password repetition').value
-    assert browser.getControl('Visitor').selected
+    assert browser.getControl('Archive Visitor').selected
     browser.getControl('notes').value = 'Hans the tester'
     browser.getControl('login').value = 'hans@example.com'
     browser.getControl('roles').displayValue = ['Editor']

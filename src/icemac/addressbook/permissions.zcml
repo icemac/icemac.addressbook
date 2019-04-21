@@ -189,4 +189,9 @@
     title="XXX"
     />
 
+  <permission
+    id="icemac.addressbook.ArchivePerson"
+    title="XXX"
+    />
+
 </configure>

@@ -704,6 +704,7 @@ def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
     browser.getControl('No, cancel').click()
     assert browser.PERSON_EDIT_URL == browser.url
     assert 'Tester' in browser.contents
+    assert 'Deletion canceled.' == browser.message
 
 
 def test_person__ClonePersonForm__1(person_with_field_data, browser):
