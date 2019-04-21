@@ -24,7 +24,7 @@
   <z3c:pagelet
      name="archive_person.html"
      for="...interfaces.IPerson"
-     permission="icemac.addressbook.EditPerson"
+     permission="icemac.addressbook.ArchivePerson"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".person.ArchivePersonForm"
      />

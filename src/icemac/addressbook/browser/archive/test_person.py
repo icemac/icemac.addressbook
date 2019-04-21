@@ -16,8 +16,8 @@ def test_person__ArchivedPersonForm__1(address_book, PersonFactory, browser):
 
 @pytest.mark.parametrize('loginname', [
     'archivist',
+    'archive-visitor',
     'mgr',
-    'editor_and_archivist',
 ])
 def test_person__ArchivedPersonForm__2(
         address_book, FullPersonFactory, KeywordFactory, FileFactory, browser,

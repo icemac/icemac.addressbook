@@ -23,6 +23,7 @@ PERMS_NEEDED_IN_ARCHIVE = (
     'icemac.addressbook.ViewPostalAddress',
 )
 PERMS_DENIED_IN_ARCHIVE = (
+    'icemac.addressbook.ArchivePerson',
     'icemac.addressbook.ClonePerson',
     'icemac.addressbook.ExportPerson',
     'icemac.addressbook.EditEMailAddress',
@@ -98,6 +99,8 @@ class Person(zope.container.btree.BTreeContainer):
         for perm in PERMS_NEEDED_IN_ARCHIVE:
             rpm.grantPermissionToRole(
                 perm, 'icemac.addressbook.global.Archivist')
+            rpm.grantPermissionToRole(
+                perm, 'icemac.addressbook.global.ArchiveVisitor')
         for role in ROLES_WHO_HAVE_EDIT_PERMISSIONS:
             for perm in PERMS_DENIED_IN_ARCHIVE:
                 rpm.denyPermissionToRole(perm, role)
