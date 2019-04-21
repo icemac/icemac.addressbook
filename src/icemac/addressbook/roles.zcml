@@ -88,10 +88,10 @@
      role="icemac.addressbook.global.Archivist"
      permissions="
         icemac.addressbook.EditAllPreferences
-        icemac.addressbook.ViewPerson
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewPerson
         icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewSomePrincipals
         z3c.preference.EditPreference
@@ -113,6 +113,7 @@
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewKeyword
+        icemac.addressbook.ViewPerson
         icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewSomePrincipals
         z3c.preference.EditPreference
