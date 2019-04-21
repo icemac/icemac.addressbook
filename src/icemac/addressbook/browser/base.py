@@ -404,6 +404,14 @@ def can_access(uri_part):
     return can_access_form
 
 
+def tab_selected(tab):
+    """Condition checker factory to test whether `tab` is selected."""
+    def tab_selected(form):
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        return tab not in address_book.deselected_tabs
+    return tab_selected
+
+
 def get_session(request, name=icemac.addressbook.interfaces.PACKAGE_ID):
     """Get the browser session of the current user."""
     return zope.session.interfaces.ISession(request)[name]

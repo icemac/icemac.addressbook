@@ -19,12 +19,17 @@ Features
 
 - Add a cron job which does a daily backup of the database.
 
-- Add an archive, the ability to archive persons and an archivist role who is
-  only able to manage the archive.
+- Add an archive and the ability to archive persons.
+
+  - The archive can only be accessed by one of the two new roles:
+
+    + archive visitor -- read only access in the archive
+    + archivist -- access to the archive plus ability to un-archive persons
 
   - Archived persons cannot be found using the search abilities of the
     address book.
 
+  - To disable the archive feature see the `archive documentation`_.
 
 - Allow to edit the labels and descriptions of pre-defined fields.
 
@@ -227,3 +232,4 @@ See `OLD_CHANGES.rst`_.
 .. _`OLD_CHANGES.rst` : https://bitbucket.org/icemac/icemac.addressbook/src/default/OLD_CHANGES.rst
 .. _`documentation` :  https://icemacaddressbook.readthedocs.io/en/latest/runtheapplication.html
 .. _`Upgrade installation` : https://icemacaddressbook.readthedocs.io/en/latest/upgrade-installation-manual-to-guided.html
+.. _`archive documentation` :  https://icemacaddressbook.readthedocs.io/en/latest/operations.html

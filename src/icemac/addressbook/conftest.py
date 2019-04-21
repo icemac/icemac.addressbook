@@ -4,6 +4,7 @@ from icemac.addressbook.testing import pyTestEmptyZodbFixture, DateTimeClass
 from icemac.addressbook.testing import pyTestStackDemoStorage
 import gocept.country.db
 import icemac.addressbook
+import icemac.addressbook.browser.interfaces
 import icemac.addressbook.file.interfaces
 import icemac.addressbook.interfaces
 import icemac.addressbook.principals.principals
@@ -18,6 +19,7 @@ import zope.component.hooks
 import zope.event
 import zope.principalregistry.principalregistry
 import zope.processlifetime
+import zope.publisher.browser
 import zope.testbrowser.wsgi
 
 pytest_plugins = 'icemac.addressbook.fixtures'
@@ -56,6 +58,18 @@ def person_data(personDataS):
             personDataS.zodb, 'PersonFunction'):
         for addressbook in site(connection):
             yield addressbook
+
+
+@pytest.fixture(scope='function')
+def browser_request():
+    """Provide a browser request which is set as global request."""
+    request = zope.publisher.browser.TestRequest()
+    zope.interface.alsoProvides(
+        request, icemac.addressbook.browser.interfaces.IAddressBookLayer)
+    old_request = zope.globalrequest.getRequest()
+    zope.globalrequest.setRequest(request)
+    yield request
+    zope.globalrequest.setRequest(old_request)
 
 
 @pytest.fixture(scope='function')

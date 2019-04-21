@@ -3,12 +3,18 @@
 ## Roles
 
 Access to the address book is only granted after authentication. There
-are three roles to authorize a user:
+are five roles to authorize a user:
 
 - ``visitor``: visit all person's data, search and export, change own password
 
-- ``editor``: permissions of visitor and additionally edit all person's data,
-  change own log-in name
+- ``editor``: permissions of ``visitor`` and additionally edit all person's
+  data, delete resp. archive persons, change own log-in name
+
+- ``archive visitor``: visit persons and their data in the archive, change own
+  password
+
+- ``archivist``: permissions of ``archive visitor`` plus ability to un-archive
+  persons.
 
 - ``administrator``: permissions of editor and additionally create and change
   of address books, master data and users

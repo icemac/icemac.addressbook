@@ -598,6 +598,22 @@ def test_person__PersonEditForm__18(
     browser.assert_forbidden(browser.PERSON_EDIT_URL)
 
 
+def test_person__PersonEditForm__19(
+        address_book, FullPersonFactory, browser, browser_request):
+    """It does not render the `archive` button if the tab is deselected."""
+    address_book.deselected_tabs = {'Archive'}
+    FullPersonFactory(address_book, u'Test')
+    browser.login('editor')
+    browser.open(browser.PERSON_EDIT_URL)
+    assert [
+        'form.buttons.apply',
+        'form.buttons.cancel',
+        'form.buttons.clone_person',
+        'form.buttons.delete_entry',
+        'form.buttons.delete_person',
+        'form.buttons.export'] == browser.submit_control_names
+
+
 def test_person__PersonEditGroup__1(person_data, browser):
     """`PersonEditGroup` respects the user defined field sort order."""
     browser.login('editor')
