@@ -690,7 +690,7 @@ def test_person__ArchivePersonForm__1(address_book, PersonFactory, browser):
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('Archive person').click()
     assert browser.PERSON_ARCHIVE_URL == browser.url
-    browser.getControl('Yes').click()
+    browser.getControl('Yes, archive').click()
     assert '"Tester" archived.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     assert 'There are no persons' in browser.contents
@@ -704,7 +704,7 @@ def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
     browser.getControl('No, cancel').click()
     assert browser.PERSON_EDIT_URL == browser.url
     assert 'Tester' in browser.contents
-    assert 'Deletion canceled.' == browser.message
+    assert 'Archiving canceled.' == browser.message
 
 
 def test_person__ClonePersonForm__1(person_with_field_data, browser):

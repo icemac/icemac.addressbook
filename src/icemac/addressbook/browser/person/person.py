@@ -261,24 +261,28 @@ class KeywordDataManager(z3c.form.datamanager.AttributeField):
         return set(x for x in super(KeywordDataManager, self).get())
 
 
-class ArchivePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
+class ArchivePersonForm(icemac.addressbook.browser.base._BaseConfirmForm):
     """Move a person to the archive after confirmation."""
 
     title = _('Archive person')
-    label = _(u'Do you really want to archive this person?'
-              u' Afterwards the person can only be found in the archive,'
-              u' neither be edited nor found using searches.')
+    label = _('Do you really want to archive this person?'
+              ' Afterwards the person can only be found in the archive,'
+              ' neither be edited nor found using searches.')
+    cancel_status_message = _('Archiving canceled.')
     interface = icemac.addressbook.interfaces.IPerson
     field_names = ('first_name', 'last_name')
-    next_view_after_delete = 'person-list.html'
+    z3c.form.form.extends(
+        icemac.addressbook.browser.base._BaseConfirmForm, ignoreFields=True)
 
-    def _set_status(self):
-        self.status = _('"${title}" archived.',
-                        mapping={'title': self.status_title})
-
-    def _do_delete(self):
+    @z3c.form.button.buttonAndHandler(_(u'Yes, archive'), name='action')
+    def handleAction(self, action):
+        self.redirect_to_next_url('parent', 'person-list.html')
         self.context.archive()
-        return True
+        self.status = _(
+            '"${title}" archived.',
+            mapping={
+                'title': icemac.addressbook.interfaces.ITitle(
+                    self.getContent())})
 
 
 class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
