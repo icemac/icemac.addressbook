@@ -1,5 +1,6 @@
 import grokcore.component as grok
 import icemac.addressbook.browser.menus.interfaces
+import icemac.addressbook.interfaces
 import itertools
 import six
 import z3c.menu.ready2go.checker
@@ -14,8 +15,9 @@ class MainMenuManager(z3c.menu.ready2go.manager.MenuManager):
     def filter(self, viewlets):
         """Filter out deselected tabs."""
         viewlets = super(MainMenuManager, self).filter(viewlets)
+        address_book = icemac.addressbook.interfaces.IAddressBook(None, None)
         try:
-            deselected_tabs = self.context.deselected_tabs
+            deselected_tabs = address_book.deselected_tabs
         except AttributeError:
             deselected_tabs = []
         for name, viewlet in viewlets:
