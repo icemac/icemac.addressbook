@@ -34,7 +34,6 @@ def test_menu_MainMenu__1(address_book, browser):
         'Person list',
         'Search',
         'Preferences',
-        'Master data',
     ] == browser.getControl('Deselected tabs').displayOptions
     # By default no tabs are deselected:
     assert [] == browser.getControl('Deselected tabs').displayValue
