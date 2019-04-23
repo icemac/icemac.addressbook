@@ -29,7 +29,6 @@ def test_menu_MainMenu__1(address_book, browser):
         'Search',
         'Archive',
         'Preferences',
-        'Master data',
     ]
     assert tabs == browser.etree.xpath(tab_names_xpath)
     assert tabs == browser.getControl('Deselected tabs').displayOptions
@@ -42,6 +41,13 @@ def test_menu_MainMenu__1(address_book, browser):
     assert 'Data successfully updated.' == browser.message
 
     # Deselected tabs are not longer rendered in the UI:
+    assert [
+        'Person list',
+        'Preferences',
+        'Master data',
+    ] == browser.etree.xpath(tab_names_xpath)
+    # This is also true on a sub object:
+    browser.getLink('Preferences').click()
     assert [
         'Person list',
         'Preferences',
