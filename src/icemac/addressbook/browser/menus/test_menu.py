@@ -50,3 +50,10 @@ def test_menu_MainMenu__1(address_book, browser):
         'Preferences',
         'Master data',
     ] == browser.etree.xpath(tab_names_xpath)
+    # This is also true on a sub object:
+    browser.getLink('Preferences').click()
+    assert [
+        'Person list',
+        'Preferences',
+        'Master data',
+    ] == browser.etree.xpath(tab_names_xpath)
