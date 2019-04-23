@@ -81,12 +81,16 @@ class TabsSource(zc.sourcefactory.contextual.BasicContextualSourceFactory):
     The values are the registered names of the viewlets in the main menu.
     """
 
+    REQUIRED_TABS = frozenset(['Master data'])
+
     def getValues(self, context):
         main_menu = self._get_main_menu(context)
         tabs = zope.component.getAdapters(
             (context, main_menu.request, main_menu.__parent__, main_menu),
             zope.viewlet.interfaces.IViewlet)
-        return [x[0] for x in main_menu.sort(tabs)]
+        return [x[0]
+                for x in main_menu.sort(tabs)
+                if x[0] not in self.REQUIRED_TABS]
 
     def getTitle(self, context, value):
         main_menu = self._get_main_menu(context)
