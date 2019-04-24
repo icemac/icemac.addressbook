@@ -24,14 +24,19 @@ def test_menu_MainMenu__1(address_book, browser):
     browser.login('mgr')
     browser.handleErrors = False
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
-    tabs = [
+    assert [
         'Person list',
         'Search',
         'Archive',
         'Preferences',
-    ]
-    assert tabs == browser.etree.xpath(tab_names_xpath)
-    assert tabs == browser.getControl('Deselected tabs').displayOptions
+        'Master data',
+    ] == browser.etree.xpath(tab_names_xpath)
+    assert [
+        'Person list',
+        'Search',
+        'Archive',
+        'Preferences',
+    ] == browser.getControl('Deselected tabs').displayOptions
     # By default no tabs are deselected:
     assert [] == browser.getControl('Deselected tabs').displayValue
 
