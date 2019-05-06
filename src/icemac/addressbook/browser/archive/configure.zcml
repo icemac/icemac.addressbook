@@ -29,12 +29,13 @@
         />
 
     <!-- archived person -->
-    <z3c:pagelet
+    <gocept:pagelet
         name="index.html"
         for="icemac.addressbook.interfaces.IArchivedPerson"
         permission="icemac.addressbook.ViewPerson"
         layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
         class=".person.ArchivedPersonForm"
+        template="person.pt"
         />
 
 </configure>

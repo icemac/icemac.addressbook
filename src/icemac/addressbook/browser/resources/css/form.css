@@ -51,7 +51,7 @@
     float: right;
 }
 
-#content fieldset fieldset div.row {
+#content fieldset fieldset div.formrow {
     background-color: #f0f0e0;
     font-weight: normal;
     font-size: small;
@@ -196,7 +196,7 @@ form .select2-container--default .select2-selection--multiple .select2-selection
     #content fieldset,
     #content legend,
     #content fieldset fieldset,
-    #content fieldset fieldset div.row {
+    #content fieldset fieldset div.formrow {
         background-color: #fff;
     }
     #content label span.required,

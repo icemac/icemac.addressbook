@@ -6,7 +6,7 @@
           tal:define="widgets view/widgets/values"
           tal:condition="widgets">
        <tal:block repeat="widget widgets">
-         <div id="" class="row"
+         <div id="" class="formrow"
               tal:attributes="id string:${widget/id}-row"
               tal:condition="python:widget.mode != 'hidden'">
            <metal:block define-macro="widget-row">

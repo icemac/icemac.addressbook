@@ -346,10 +346,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     def html_redirect(self):
         """Redirect as requested by ``<meta http-equiv="refresh" ... />``."""
         soup = BeautifulSoup(self.contents, "lxml")
-        meta = soup.find('meta')
-        assert meta is not None, 'No <meta> tag found.'
-        assert meta.get('http-equiv') == 'refresh', \
-            '<meta http-equiv != "refresh"'
+        meta = soup.find('meta', **{'http-equiv': 'refresh'})
+        assert meta is not None, 'No <meta http-equiv="refresh" /> tag found.'
         url = meta.get('content').partition(';url=')[2]
         self.open(url)
 

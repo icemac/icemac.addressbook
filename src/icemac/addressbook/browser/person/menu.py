@@ -27,6 +27,9 @@ class PersonListSelectedChecker(
             return True
         if self.view.__name__ == 'addPerson.html':
             return True
+        if icemac.addressbook.interfaces.IArchivedPerson.providedBy(
+                self.context):
+            return False
         if icemac.addressbook.interfaces.IPerson.providedBy(self.context):
             return True
         return False
