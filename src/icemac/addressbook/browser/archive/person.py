@@ -19,7 +19,11 @@ class ArchivedPersonForm(
                 continue
             yield {
                 'label': group.label,
-                'metadata': [],
+                'metadata': [{
+                    'label': md_group.widgets.get(md_id).label,
+                    'value': md_group.widgets.get(md_id).render(),
+                } for md_group in group.groups
+                    for md_id, md_field in md_group.fields.items()],
                 'data': [{
                     'label': field.field.title,
                     'hint': field.field.description,

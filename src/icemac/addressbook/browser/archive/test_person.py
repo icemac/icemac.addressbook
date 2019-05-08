@@ -52,6 +52,8 @@ def test_person__ArchivedPersonForm__2(
     assert '>yes<' in browser.contents
     assert 'Austria' in browser.contents
     assert 'work number' in browser.contents
+    # Metadata is rendered:
+    assert '>Creation Date (UTC)<' in browser.contents
 
 
 @pytest.mark.parametrize('loginname', [
