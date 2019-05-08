@@ -34,7 +34,7 @@
               Erstellungsdatum (Europe/Berlin):
             </div>
             <div class="col-12 pl-4"
-                 tal:content="row/value">
+                 tal:content="structure row/value">
               Michael-Joab Howitz-Irgendwas
             </div>
           </div>
