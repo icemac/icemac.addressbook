@@ -48,7 +48,7 @@ def test_person__ArchivedPersonForm__2(
     browser.login('archivist')
     browser.open(browser.ARCHIVE_PERSON_URL)
     raw_text = lxml.html.document_fromstring(browser.contents).text_content()
-    assert 'family, church' in raw_text
+    assert 'church, family' in raw_text
     assert '>yes<' in browser.contents
     assert 'Austria' in browser.contents
     assert 'work number' in browser.contents

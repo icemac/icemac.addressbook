@@ -12,6 +12,7 @@ import z3c.flashmessage.interfaces
 import z3c.form.button
 import z3c.form.field
 import z3c.form.group
+import z3c.form.util
 import z3c.formui.form
 import zope.component
 import zope.interface
@@ -345,12 +346,20 @@ class PrefixGroup(z3c.form.group.Group):
 
     prefix = None  # to be set in subclass
     interface = None  # to be set in subclass
+    # mapping between field name and  (mode, widgetFactory):
+    widget_factories = {}
 
     @property
     def fields(self):
         fields = icemac.addressbook.interfaces.IEntity(self.interface)
-        return z3c.form.field.Fields(
+        form_fields = z3c.form.field.Fields(
             *fields.getFieldValues(), **dict(prefix=self.prefix))
+        for field_name, (mode, widgetFactory) in self.widget_factories.items():
+            field_with_prefix = "".join(
+                [z3c.form.util.expandPrefix(self.prefix), field_name])
+            form_fields.get(field_with_prefix).widgetFactory[
+                mode] = widgetFactory
+        return form_fields
 
 
 class BaseCloneForm(_BaseConfirmForm):

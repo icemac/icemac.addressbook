@@ -7,10 +7,12 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.person
 import icemac.addressbook.utils
 import transaction
+import z3c.form.browser.select
 import z3c.form.button
 import z3c.form.datamanager
 import z3c.form.form
 import z3c.form.group
+import z3c.form.widget
 import zc.sourcefactory.contextual
 import zope.interface
 
@@ -25,8 +27,24 @@ class AddGroup(icemac.addressbook.browser.base.PrefixGroup):
         self.prefix = prefix
 
 
+class SortedDisplayValuesWidget(z3c.form.browser.select.SelectWidget):
+
+    @property
+    def displayValue(self):
+        display_value = super(SortedDisplayValuesWidget, self).displayValue
+        return sorted(display_value)
+
+
+def SortedDisplayValuesWidgetFactory(field, request):
+    return z3c.form.widget.FieldWidget(
+        field, SortedDisplayValuesWidget(request))
+
+
 class PersonEditGroup(AddGroup):
     """PrefixGroup for addresses IPerson in EditForm."""
+
+    widget_factories = {
+        'keywords': ('display', SortedDisplayValuesWidgetFactory)}
 
     def __init__(self, context, request, parent, interface, label, prefix,
                  index, key):
@@ -44,6 +62,8 @@ class PersonEditGroup(AddGroup):
 
 class AddressEditGroup(PersonEditGroup):
     """PrefixGroup for addresses in EditForm."""
+
+    widget_factories = {}
 
     def getContent(self):
         return self.context[self.key]
