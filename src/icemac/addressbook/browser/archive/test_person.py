@@ -3,6 +3,7 @@ from icemac.addressbook.interfaces import IPerson
 from icemac.addressbook.interfaces import IPhoneNumber
 from zope.testbrowser.browser import LinkNotFoundError
 import gocept.country.db
+import icemac.addressbook.interfaces
 import lxml.html
 import pytest
 
@@ -45,6 +46,12 @@ def test_person__ArchivedPersonForm__2(
 
     person.archive()
 
+    field = icemac.addressbook.interfaces.IPerson['first_name']
+    customization = icemac.addressbook.interfaces.IFieldCustomization(
+        address_book)
+    customization.set_value(field, u'label', u'Christian Name')
+    customization.set_value(field, u'description', u'given at baptism')
+
     browser.login('archivist')
     browser.open(browser.ARCHIVE_PERSON_URL)
     raw_text = lxml.html.document_fromstring(browser.contents).text_content()
@@ -54,6 +61,9 @@ def test_person__ArchivedPersonForm__2(
     assert 'work number' in browser.contents
     # Metadata is rendered:
     assert '>Creation Date (UTC)<' in browser.contents
+    # Field customizations are rendered:
+    assert 'Christian Name' in browser.contents
+    assert 'given at baptism' in browser.contents
 
 
 @pytest.mark.parametrize('loginname', [
