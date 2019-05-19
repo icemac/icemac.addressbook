@@ -15,12 +15,12 @@ import z3c.form.group
 import z3c.form.util
 import z3c.formui.form
 import zope.component
+import zope.component.hooks
 import zope.interface
 import zope.security
 import zope.security.interfaces
 import zope.security.proxy
 import zope.session.interfaces
-import zope.component.hooks
 import zope.traversing.api
 import zope.traversing.browser
 import zope.traversing.publicationtraverse
