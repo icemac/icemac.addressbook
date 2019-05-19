@@ -19,18 +19,20 @@ class ArchivedPersonForm(
                 continue
             yield {
                 'label': group.label,
-                'metadata': [{
-                    'label': md_group.widgets.get(md_id).label,
-                    'value': md_group.widgets.get(md_id).render(),
-                } for md_group in group.groups
-                    for md_id, md_field in md_group.fields.items()],
-                'data': [{
-                    'label': field.field.title,
-                    'hint': field.field.description,
-                    'value': group.widgets.get(id).render(),
-                } for id, field in group.fields.items()
+                'metadata': [
+                    self._get_data(md_group.widgets.get(md_id))
+                    for md_group in group.groups
+                    for md_id in md_group.fields],
+                'data': [
+                    self._get_data(group.widgets.get(id))
+                    for id, field in group.fields.items()
                 ]
             }
+
+    def _get_data(self, widget):
+        return {'label': widget.label,
+                'hint': widget.label,
+                'value': widget.render()}
 
     def unarchive_url(self):
         return self.url(self.context, 'unarchive.html')
