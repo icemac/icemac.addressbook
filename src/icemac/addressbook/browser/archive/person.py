@@ -31,7 +31,7 @@ class ArchivedPersonForm(
 
     def _get_data(self, widget):
         return {'label': widget.label,
-                'hint': widget.label,
+                'hint': widget.title,
                 'value': widget.render()}
 
     def unarchive_url(self):
