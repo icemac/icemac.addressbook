@@ -58,6 +58,10 @@
       interface=".interfaces.IPersonArchiving"
       />
     <require
+      permission="icemac.addressbook.ViewArchive"
+      interface=".interfaces.IArchivalData"
+      />
+    <require
        permission="icemac.addressbook.EditPersonContents"
        interface="zope.container.interfaces.IWriteContainer"
        />

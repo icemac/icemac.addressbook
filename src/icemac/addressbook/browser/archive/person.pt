@@ -6,7 +6,7 @@
       <div class="col-12">
         <p class="h4" tal:content="block/label" />
       </div>
-      <div class="group row col-12"
+      <div tal:attributes="class python:'group row col-12{}'.format(' have-md' if block['metadata'] else '')"
            tal:repeat="row block/data">
         <div class="col-12 col-lg-4">
           <span tal:content="row/label">
@@ -26,7 +26,8 @@
         </div>
         <div class="metadata"
              aria-label="metadata"
-             i18n:attributes="aria-label">
+             i18n:attributes="aria-label"
+             tal:condition="block/metadata">
           <div class="row"
                tal:repeat="row block/metadata">
             <div class="col-12"

@@ -6,8 +6,14 @@ import zope.security.management
 import zope.security.proxy
 
 
-def set_current_princial_id(object, attribute):
-    """Get the id of the current principal."""
+def set_current_princial_id(
+        object, attribute,
+        iface=icemac.addressbook.metadata.interfaces.IEditor):
+    """Set the id of the current principal.
+
+    `object` gets first adpted to `iface` and than the id is written to
+    `attribute` on the adapter.
+    """
     interaction = zope.security.management.queryInteraction()
     if interaction is None:
         return
@@ -18,7 +24,7 @@ def set_current_princial_id(object, attribute):
     #                      <BTrees.OOBTree.OOBTree object...>)
     # when trying to access the annotation key.
     unsafe_object = zope.security.proxy.getObject(object)
-    metadata = icemac.addressbook.metadata.interfaces.IEditor(unsafe_object)
+    metadata = iface(unsafe_object)
     setattr(metadata, attribute, six.text_type(participation.principal.title))
 
 

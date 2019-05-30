@@ -1,6 +1,15 @@
 from icemac.addressbook.browser.person.person import DefaultSelectGroup
+from icemac.addressbook.i18n import _
 import icemac.addressbook.browser.person.person
 import icemac.addressbook.browser.resource
+import z3c.form.group
+
+
+class ArchivalData(z3c.form.group.Group):
+    """Group rendering the archival data."""
+
+    label = _('Archival data')
+    fields = z3c.form.field.Fields(icemac.addressbook.interfaces.IArchivalData)
 
 
 class ArchivedPersonForm(
@@ -8,6 +17,10 @@ class ArchivedPersonForm(
     """View the archived person."""
 
     title = icemac.addressbook.browser.breadcrumb.DO_NOT_SHOW
+
+    def __init__(self, context, request):
+        super(ArchivedPersonForm, self).__init__(context, request)
+        self.groups += (ArchivalData, )
 
     def update(self):
         icemac.addressbook.browser.resource.bootstrap.need()

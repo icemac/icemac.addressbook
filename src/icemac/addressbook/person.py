@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
+from icemac.addressbook.metadata.subscriber import set_current_princial_id
 import gocept.reference
 import icemac.addressbook.address
 import icemac.addressbook.entities
@@ -58,6 +59,7 @@ person_schema = icemac.addressbook.interfaces.IPerson
 class Person(zope.container.btree.BTreeContainer):
     """A person."""
 
+    archived_by = None
     schema = person_schema
 
     zope.schema.fieldproperty.createFieldProperties(
@@ -104,6 +106,9 @@ class Person(zope.container.btree.BTreeContainer):
         for role in ROLES_WHO_HAVE_EDIT_PERMISSIONS:
             for perm in PERMS_DENIED_IN_ARCHIVE:
                 rpm.denyPermissionToRole(perm, role)
+        self.archival_date = zope.dublincore.timeannotators._now()
+        set_current_princial_id(
+            self, 'archived_by', icemac.addressbook.interfaces.IArchivalData)
         # uncatalog the person
         event = zope.intid.interfaces.IntIdRemovedEvent(self, None)
         zope.catalog.catalog.unindexDocSubscriber(event)
