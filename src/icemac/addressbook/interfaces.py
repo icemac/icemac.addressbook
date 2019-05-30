@@ -256,8 +256,20 @@ class IPersonArchiving(zope.interface.Interface):
         """Move the person to the archive."""
 
 
+class IArchivalData(zope.interface.Interface):
+    """Data of the archival of a person."""
+
+    archival_date = zope.schema.Datetime(
+        title=_('archival date'),
+        description=_('Date when the person was archived.'))
+
+    archived_by = zope.schema.TextLine(
+        title=_('archived by'))
+
+
 class IArchivedPerson(
         IPerson,
+        IArchivalData,
         zope.catalog.interfaces.INoAutoIndex,
         zope.catalog.interfaces.INoAutoReindex):
     """A person who has been archived."""

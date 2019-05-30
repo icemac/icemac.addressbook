@@ -1,5 +1,5 @@
 $(function () {
-    $('.archive.person .group').popover({
+    $('.archive.person .group.have-md').popover({
         html: true,
         placement: "auto",
         trigger: "hover",

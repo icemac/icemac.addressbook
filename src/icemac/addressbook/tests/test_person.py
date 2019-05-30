@@ -10,6 +10,8 @@ import gocept.reference.verify
 import transaction
 import zope.catalog.interfaces
 import zope.component
+import zope.dublincore.timeannotators
+import zope.publisher.testing
 
 
 def test_person__Person__1():
@@ -99,19 +101,25 @@ def test_person__Person__get_name__4():
     assert u'' == Person().get_name()
 
 
-def test_person__Person__archive__1(address_book, FullPersonFactory):
+def test_person__Person__archive__1(
+        address_book, FullPersonFactory, monkeypatch):
     """It moves the person to the archive and marks it as archived."""
     person = FullPersonFactory(address_book, u'tester')
     assert address_book == person.__parent__
     assert not IArchivedPerson.providedBy(person)
     rt = gocept.reference.interfaces.IReferenceTarget(person['PhoneNumber'])
     assert rt.is_referenced()
+    now = zope.dublincore.timeannotators._now()
+    monkeypatch.setattr(zope.dublincore.timeannotators, '_NOW', now)
 
-    person.archive()
-    transaction.commit()
+    with zope.publisher.testing.interaction('principal_1'):
+        person.archive()
+        transaction.commit()
     assert address_book.archive == person.__parent__
     assert IArchivedPerson.providedBy(person)
     assert rt.is_referenced()
+    assert now == person.archival_date
+    assert 'principal_1' == person.archived_by
 
 
 def test_person__Person__archive__2(address_book, FullPersonFactory):
