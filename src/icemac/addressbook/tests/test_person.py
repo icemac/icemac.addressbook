@@ -1,4 +1,3 @@
-import transaction
 from icemac.addressbook.interfaces import IArchivedPerson
 from icemac.addressbook.interfaces import IEntityOrder
 from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
@@ -8,6 +7,7 @@ from icemac.addressbook.interfaces import ISchemaName
 from icemac.addressbook.person import Person, Keywords
 import gocept.reference.interfaces
 import gocept.reference.verify
+import transaction
 import zope.catalog.interfaces
 import zope.component
 
