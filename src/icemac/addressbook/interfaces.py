@@ -260,7 +260,7 @@ class IArchivedPerson(
         IPerson,
         zope.catalog.interfaces.INoAutoIndex,
         zope.catalog.interfaces.INoAutoReindex):
-    """A person which has been archived."""
+    """A person who has been archived."""
 
 
 class IPersonEntity(zope.interface.Interface):
