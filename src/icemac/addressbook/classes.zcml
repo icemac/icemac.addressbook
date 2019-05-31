@@ -58,6 +58,10 @@
       interface=".interfaces.IPersonArchiving"
       />
     <require
+      permission="icemac.addressbook.UnarchivePerson"
+      interface=".interfaces.IPersonUnarchiving"
+      />
+    <require
       permission="icemac.addressbook.ViewArchive"
       interface=".interfaces.IArchivalData"
       />

@@ -194,4 +194,9 @@
     title="XXX"
     />
 
+  <permission
+    id="icemac.addressbook.UnarchivePerson"
+    title="XXX"
+    />
+
 </configure>

@@ -88,6 +88,7 @@
      role="icemac.addressbook.global.Archivist"
      permissions="
         icemac.addressbook.EditAllPreferences
+        icemac.addressbook.UnarchivePerson
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewKeyword
@@ -158,6 +159,7 @@
         icemac.addressbook.EditPostalAddress
         icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
+        icemac.addressbook.UnarchivePerson
         icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewEMailAddress

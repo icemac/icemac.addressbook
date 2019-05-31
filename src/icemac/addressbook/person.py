@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from icemac.addressbook.i18n import _
 from icemac.addressbook.metadata.subscriber import set_current_princial_id
+import contextlib
 import gocept.reference
 import icemac.addressbook.address
 import icemac.addressbook.entities
@@ -44,14 +45,37 @@ ROLES_WHO_HAVE_EDIT_PERMISSIONS = (
     'icemac.addressbook.global.Administrator',
     'icemac.addressbook.global.Editor',
 )
+ROLES_WHO_HAVE_PERMISSIONS_IN_ARCHIVE = (
+    'icemac.addressbook.global.Archivist',
+    'icemac.addressbook.global.ArchiveVisitor',
+)
 
 person_schema = icemac.addressbook.interfaces.IPerson
+
+
+@contextlib.contextmanager
+def default_attribs_set_aside(person):
+    """Remove references to sub-objects and restore them afterwards.
+
+    This is needed because with these references `person` cannot be moved.
+    """
+    defaults = {}
+    for attrib in icemac.addressbook.interfaces.IPersonDefaults.names():
+        defaults[attrib] = getattr(person, attrib)
+        setattr(person, attrib, None)
+
+    try:
+        yield
+    finally:
+        for attrib, value in defaults.items():
+            setattr(person, attrib, value)
 
 
 @zope.interface.implementer(
     person_schema,
     icemac.addressbook.interfaces.IPersonDefaults,
     icemac.addressbook.interfaces.IPersonArchiving,
+    icemac.addressbook.interfaces.IPersonUnarchiving,
     icemac.addressbook.interfaces.ISchemaProvider,
     icemac.addressbook.interfaces.IMayHaveCustomizedPredfinedFields,
     zope.annotation.interfaces.IAttributeAnnotatable,
@@ -85,24 +109,16 @@ class Person(zope.container.btree.BTreeContainer):
         """Move the person to the archive."""
         # Remove references to sub-objects because with these references
         # the person cannot be moved. They are restored after the move.
-        defaults = {}
-        for attrib in icemac.addressbook.interfaces.IPersonDefaults.names():
-            defaults[attrib] = getattr(self, attrib)
-            setattr(self, attrib, None)
+        with default_attribs_set_aside(self):
+            zope.copypastemove.interfaces.IObjectMover(self).moveTo(
+                icemac.addressbook.interfaces.IArchive(None))
+            zope.interface.alsoProvides(
+                self, icemac.addressbook.interfaces.IArchivedPerson)
 
-        zope.copypastemove.interfaces.IObjectMover(self).moveTo(
-            icemac.addressbook.interfaces.IArchive(None))
-        zope.interface.alsoProvides(
-            self, icemac.addressbook.interfaces.IArchivedPerson)
-
-        for attrib, value in defaults.items():
-            setattr(self, attrib, value)
         rpm = zope.securitypolicy.interfaces.IRolePermissionManager(self)
         for perm in PERMS_NEEDED_IN_ARCHIVE:
-            rpm.grantPermissionToRole(
-                perm, 'icemac.addressbook.global.Archivist')
-            rpm.grantPermissionToRole(
-                perm, 'icemac.addressbook.global.ArchiveVisitor')
+            for role in ROLES_WHO_HAVE_PERMISSIONS_IN_ARCHIVE:
+                rpm.grantPermissionToRole(perm, role)
         for role in ROLES_WHO_HAVE_EDIT_PERMISSIONS:
             for perm in PERMS_DENIED_IN_ARCHIVE:
                 rpm.denyPermissionToRole(perm, role)
@@ -112,6 +128,30 @@ class Person(zope.container.btree.BTreeContainer):
         # uncatalog the person
         event = zope.intid.interfaces.IntIdRemovedEvent(self, None)
         zope.catalog.catalog.unindexDocSubscriber(event)
+
+    def unarchive(self):
+        """Move the person out of the archive.
+
+        May only be called on a person in the archive.
+        """
+        with default_attribs_set_aside(self):
+            zope.copypastemove.interfaces.IObjectMover(self).moveTo(
+                icemac.addressbook.interfaces.IAddressBook(None))
+            zope.interface.noLongerProvides(
+                self, icemac.addressbook.interfaces.IArchivedPerson)
+
+        rpm = zope.securitypolicy.interfaces.IRolePermissionManager(self)
+        for perm in PERMS_NEEDED_IN_ARCHIVE:
+            for role in ROLES_WHO_HAVE_PERMISSIONS_IN_ARCHIVE:
+                rpm.denyPermissionToRole(perm, role)
+        for role in ROLES_WHO_HAVE_EDIT_PERMISSIONS:
+            for perm in PERMS_DENIED_IN_ARCHIVE:
+                rpm.grantPermissionToRole(perm, role)
+        self.archival_date = None
+        self.archived_by = None
+        # re-catalog the person
+        event = zope.intid.interfaces.IntIdAddedEvent(self, None)
+        zope.catalog.catalog.indexDocSubscriber(event)
 
 
 person_entity = icemac.addressbook.entities.create_entity(
