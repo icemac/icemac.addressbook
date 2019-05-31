@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import fanstatic
+import js.bootstrap4
 import js.jquery
 import js.jqueryui
 import js.select2
@@ -33,6 +34,12 @@ no_max_content_css = fanstatic.Resource(
     css_lib, 'no_max_content.css', depends=[form_css])
 background_css = fanstatic.Resource(
     css_lib, 'background.css', depends=[base_css])
+bootstrap_css = fanstatic.Resource(
+    css_lib, 'bootstrap.css', depends=[
+        base_css,
+        no_max_content_css,
+        js.bootstrap4.bootstrap,
+    ])
 
 
 # JavaScript
@@ -46,6 +53,9 @@ prefs = fanstatic.Resource(
 form = fanstatic.Resource(
     js_lib, 'form.js', bottom=True,
     depends=[js.jquery.jquery, js.select2.select2])
+bootstrap_js = fanstatic.Resource(
+    js_lib, 'bootstrap.js', bottom=True,
+    depends=[js.bootstrap4.bootstrap])
 
 
 js_group = fanstatic.Group([
@@ -53,6 +63,10 @@ js_group = fanstatic.Group([
     masterdata_fields,
     prefs,
     table,
+])
+bootstrap = fanstatic.Group([
+    bootstrap_css,
+    bootstrap_js,
 ])
 
 

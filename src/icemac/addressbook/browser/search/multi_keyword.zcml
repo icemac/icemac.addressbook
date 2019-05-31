@@ -10,7 +10,7 @@
       name="multi_keyword.html"
       class=".multi_keyword.SearchView"
       template="search.pt"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       />
 
   <z3c:contextMenuItem
@@ -20,7 +20,7 @@
       name="Keyword-search"
       title="Keyword search"
       viewName="@@multi_keyword.html"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       weight="10"
       />
 
@@ -30,7 +30,7 @@
       layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
       name="form"
       class=".multi_keyword.SearchForm"
-      permission="icemac.addressbook.ViewPerson"
+      permission="icemac.addressbook.ListPersons"
       />
 
   <browser:viewlet

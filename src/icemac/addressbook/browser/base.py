@@ -12,14 +12,15 @@ import z3c.flashmessage.interfaces
 import z3c.form.button
 import z3c.form.field
 import z3c.form.group
+import z3c.form.util
 import z3c.formui.form
 import zope.component
+import zope.component.hooks
 import zope.interface
 import zope.security
 import zope.security.interfaces
 import zope.security.proxy
 import zope.session.interfaces
-import zope.component.hooks
 import zope.traversing.api
 import zope.traversing.browser
 import zope.traversing.publicationtraverse
@@ -303,8 +304,11 @@ class BaseDeleteForm(_BaseConfirmForm):
         self.redirect_to_next_url(self.next_url_after_delete,
                                   self.next_view_after_delete)
         if self._do_delete():
-            self.status = _('"${title}" deleted.',
-                            mapping={'title': self.status_title})
+            self._set_status()
+
+    def _set_status(self):
+        self.status = _('"${title}" deleted.',
+                        mapping={'title': self.status_title})
 
     def _do_delete(self):
         """Execute the deletion.
@@ -342,12 +346,20 @@ class PrefixGroup(z3c.form.group.Group):
 
     prefix = None  # to be set in subclass
     interface = None  # to be set in subclass
+    # mapping between field name and  (mode, widgetFactory):
+    widget_factories = {}
 
     @property
     def fields(self):
         fields = icemac.addressbook.interfaces.IEntity(self.interface)
-        return z3c.form.field.Fields(
+        form_fields = z3c.form.field.Fields(
             *fields.getFieldValues(), **dict(prefix=self.prefix))
+        for field_name, (mode, widgetFactory) in self.widget_factories.items():
+            field_with_prefix = "".join(
+                [z3c.form.util.expandPrefix(self.prefix), field_name])
+            form_fields.get(field_with_prefix).widgetFactory[
+                mode] = widgetFactory
+        return form_fields
 
 
 class BaseCloneForm(_BaseConfirmForm):
@@ -399,6 +411,14 @@ def can_access(uri_part):
     def can_access_form(form):
         return can_access_uri_part(form.context, form.request, uri_part)
     return can_access_form
+
+
+def tab_selected(tab):
+    """Condition checker factory to test whether `tab` is selected."""
+    def tab_selected(form):
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        return tab not in address_book.deselected_tabs
+    return tab_selected
 
 
 def get_session(request, name=icemac.addressbook.interfaces.PACKAGE_ID):

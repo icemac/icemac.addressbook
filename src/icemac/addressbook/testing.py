@@ -195,6 +195,9 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     PERSON_EDIT_URL = 'http://localhost/ab/Person'
     PERSONS_LIST_URL = 'http://localhost/ab/@@person-list.html'
     PERSON_DELETE_URL = 'http://localhost/ab/Person/@@delete_person.html'
+    PERSON_ARCHIVE_URL = 'http://localhost/ab/Person/@@archive_person.html'
+    UNARCHIVE_PERSON_CONFIRM_URL = (
+        'http://localhost/ab/++attribute++archive/Person/@@unarchive.html')
     PERSON_DELETE_ENTRY_URL = (
         'http://localhost/ab/Person/@@delete_entry.html')
     PERSON_EXPORT_URL = 'http://localhost/ab/Person/@@export.html'
@@ -239,6 +242,9 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     PREFS_URL = 'http://localhost/ab/++preferences++/ab'
     PREFS_TIMEZONE_URL = (
         'http://localhost/ab/++preferences++/ab.timeZone/@@index.html')
+
+    ARCHIVE_URL = ADDRESS_BOOK_DEFAULT_URL + '/++attribute++archive'
+    ARCHIVE_PERSON_URL = ARCHIVE_URL + '/Person'
 
     INSPECTOR_VIEW_URL = PERSONS_LIST_URL + '/@@inspector'
     INSPECTOR_OBJECT_URL = KEYWORDS_LIST_URL + '/@@inspector'
@@ -342,10 +348,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     def html_redirect(self):
         """Redirect as requested by ``<meta http-equiv="refresh" ... />``."""
         soup = BeautifulSoup(self.contents, "lxml")
-        meta = soup.find('meta')
-        assert meta is not None, 'No <meta> tag found.'
-        assert meta.get('http-equiv') == 'refresh', \
-            '<meta http-equiv != "refresh"'
+        meta = soup.find('meta', **{'http-equiv': 'refresh'})
+        assert meta is not None, 'No <meta http-equiv="refresh" /> tag found.'
         url = meta.get('content').partition(';url=')[2]
         self.open(url)
 

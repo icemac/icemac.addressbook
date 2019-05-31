@@ -35,3 +35,22 @@ It has the following assumptions:
 
 `CONTAINERNAME` is the ID of the address book.
 `SUBDOMAINNAME.DOMAIN.TLD` is the FQDN for the target sub domain.
+
+
+The archive
+===========
+
+The archive contains archived people. They cannot be found any more by the
+person search, cannot be changed and are only visible in the archive for users
+with the role ``archivist`` or ``archive visitor``. The ``archive visitor`` has
+read only access to the archive while the ``archivist`` is also able to
+un-archive a person which moves the person outside of the archive and makes it
+editable again.
+
+Users with the role Editor are able to move persons to the archive.
+
+Disable the archive function
+----------------------------
+
+If you don't need an archive of persons, and you want to disable the ability to
+archive a person, you only need to add the `Archive` tab to the list of deselected tabs in `Master data` --> `Address book`.

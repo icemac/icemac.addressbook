@@ -59,3 +59,9 @@ def test_name__Search__5(search_data, browser):
     assert 'No person found.' not in browser.contents
     browser.getControl('Search').click()
     assert 'No person found.' in browser.contents
+
+
+def test_name__Search__6(address_book, browser):
+    """It cannot be accessed by an archivist."""
+    browser.login('archivist')
+    browser.assert_forbidden(browser.SEARCH_BY_NAME_URL)

@@ -22,6 +22,14 @@
      />
 
   <z3c:pagelet
+     name="archive_person.html"
+     for="...interfaces.IPerson"
+     permission="icemac.addressbook.ArchivePerson"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     class=".person.ArchivePersonForm"
+     />
+
+  <z3c:pagelet
      name="delete_person.html"
      for="...interfaces.IPerson"
      permission="icemac.addressbook.EditPerson"
@@ -176,7 +184,7 @@
   <gocept:pagelet
      name="person-list.html"
      for="...interfaces.IAddressBook"
-     permission="icemac.addressbook.ViewPerson"
+     permission="icemac.addressbook.ListPersons"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
      class=".list.PersonList"
      template="list.pt"
@@ -199,7 +207,7 @@
      title="Person list"
      viewName="@@person-list.html"
      class=".menu.PersonListMenuItem"
-     permission="icemac.addressbook.ViewPerson"
+     permission="icemac.addressbook.ListPersons"
      weight="1"
      />
 
@@ -210,7 +218,7 @@
     name="export.html"
     template="export.pt"
     class=".export.ExportList"
-    permission="icemac.addressbook.ViewPerson"
+    permission="icemac.addressbook.ExportPerson"
     />
 
   <!-- ical export of birthdate -->

@@ -10,6 +10,7 @@ import re
 import zc.sourcefactory.basic
 import zc.sourcefactory.contextual
 import zc.sourcefactory.source
+import zope.catalog.interfaces
 import zope.component
 import zope.interface
 import zope.schema
@@ -111,6 +112,8 @@ time_zones = TimeZones()
 class IAddressBook(zope.interface.Interface):
     """An address book."""
 
+    archive = zope.interface.Attribute(
+        u'icemac.addressbook.interfaces.IArchive')
     keywords = zope.interface.Attribute(
         u'icemac.addressbook.interfaces.IKeywords')
     principals = zope.interface.Attribute(
@@ -244,6 +247,39 @@ class IPersonData(zope.interface.Interface):
 
 class IPerson(IPersonName, IPersonData):
     """A person."""
+
+
+class IPersonArchiving(zope.interface.Interface):
+    """Methods regarding archiving of a person."""
+
+    def archive():
+        """Move the person to the archive."""
+
+
+class IPersonUnarchiving(zope.interface.Interface):
+    """Methods regarding unarchiving of a person."""
+
+    def unarchive():
+        """Move the person from the archive back to the person list."""
+
+
+class IArchivalData(zope.interface.Interface):
+    """Data of the archival of a person."""
+
+    archival_date = zope.schema.Datetime(
+        title=_('archival date'),
+        description=_('Date when the person was archived.'))
+
+    archived_by = zope.schema.TextLine(
+        title=_('archived by'))
+
+
+class IArchivedPerson(
+        IPerson,
+        IArchivalData,
+        zope.catalog.interfaces.INoAutoIndex,
+        zope.catalog.interfaces.INoAutoReindex):
+    """A person who has been archived."""
 
 
 class IPersonEntity(zope.interface.Interface):
@@ -566,6 +602,10 @@ class IEntityOrder(zope.interface.Interface):
         When it would be moved beyond the end of the entity order a
         ValueError is raised.
         """
+
+
+class IArchive(zope.interface.Interface):
+    """Container of elements which are neither changeable nor searchable."""
 
 
 class IFieldCustomization(zope.interface.Interface):
