@@ -38,4 +38,12 @@
         template="person.pt"
         />
 
+    <gocept:pagelet
+        name="unarchive.html"
+        for="icemac.addressbook.interfaces.IArchivedPerson"
+        permission="icemac.addressbook.UnarchivePerson"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        class=".person.UnarchivePersonForm"
+        />
+
 </configure>

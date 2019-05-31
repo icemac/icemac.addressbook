@@ -196,6 +196,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
     PERSONS_LIST_URL = 'http://localhost/ab/@@person-list.html'
     PERSON_DELETE_URL = 'http://localhost/ab/Person/@@delete_person.html'
     PERSON_ARCHIVE_URL = 'http://localhost/ab/Person/@@archive_person.html'
+    UNARCHIVE_PERSON_CONFIRM_URL = (
+        'http://localhost/ab/++attribute++archive/Person/@@unarchive.html')
     PERSON_DELETE_ENTRY_URL = (
         'http://localhost/ab/Person/@@delete_entry.html')
     PERSON_EXPORT_URL = 'http://localhost/ab/Person/@@export.html'

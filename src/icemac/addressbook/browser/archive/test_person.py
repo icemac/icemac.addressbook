@@ -8,6 +8,18 @@ import lxml.html
 import pytest
 
 
+@pytest.fixture('function')
+def archived_person(
+        address_book, FullPersonFactory, KeywordFactory, FileFactory):
+    """Create an archived person."""
+    person = FullPersonFactory(
+        address_book, 'Vregga', first_name='V.',
+        keywords=set([KeywordFactory(address_book, 'friend')]))
+    FileFactory(person, 'cv.txt', data='boring text', mimeType=b'text/plain')
+    person.archive()
+    yield person
+
+
 def test_person__ArchivedPersonForm__1(address_book, PersonFactory, browser):
     """It can be accessed from the archive listing view."""
     person = PersonFactory(address_book, 'Vregga')
@@ -71,19 +83,11 @@ def test_person__ArchivedPersonForm__2(
     'archive-visitor',
     'mgr',
 ])
-def test_person__ArchivedPersonForm__3(
-        address_book, FullPersonFactory, KeywordFactory, FileFactory, browser,
-        loginname):
+def test_person__ArchivedPersonForm__3(archived_person, browser, loginname):
     """It renders a read-only form of person's data for all allowed users.
 
     There are no add links.
     """
-    person = FullPersonFactory(
-        address_book, 'Vregga', first_name='V.',
-        keywords=set([KeywordFactory(address_book, 'friend')]))
-    FileFactory(person, 'cv.txt', data='boring text', mimeType=b'text/plain')
-    person.archive()
-
     browser.login(loginname)
     browser.open(browser.ARCHIVE_PERSON_URL)
     assert [
@@ -104,3 +108,51 @@ def test_person__ArchivedPersonForm__4(
 
     browser.login(loginname)
     browser.assert_forbidden(browser.ARCHIVE_PERSON_URL)
+
+
+def test_person__UnarchivePersonForm__1(archived_person, browser, browser2):
+    """It allows to unarchive an archived person after confirmation."""
+    browser.login('archivist')
+    browser.open(browser.ARCHIVE_PERSON_URL)
+    browser.getControl('Unarchive person').click()
+    assert browser.UNARCHIVE_PERSON_CONFIRM_URL == browser.url
+    browser.getControl('Yes, unarchive').click()
+    assert browser.ARCHIVE_URL == browser.url
+    assert '"Vregga, V." unarchived.' == browser.message
+    browser.open(browser.ARCHIVE_URL)  # get rid of message
+    assert 'Vregga' not in browser.contents
+    del browser
+
+    # The person can be edited again:
+    browser2.login('editor')
+    browser2.open(browser2.PERSON_EDIT_URL)
+    assert browser2.getControl('first name').value == 'V.'
+    browser2.getControl('first name').value = 'Victor'
+    browser2.getControl('Save').click()
+    assert 'Data successfully updated.' == browser2.message
+
+    # can be found in search:
+    browser2.open(browser2.SEARCH_BY_NAME_URL)
+    browser2.open(browser2.SEARCH_BY_NAME_URL)
+    browser2.getControl('Name').value = 'Vregga'
+    browser2.getControl('Search').click()
+    assert browser2.getLink('Vregga').url.startswith(browser2.PERSON_EDIT_URL)
+
+
+def test_person__UnarchivePersonForm__2(archived_person, browser):
+    """It allows to cancel unarchiving an archived person."""
+    browser.login('archivist')
+    browser.open(browser.UNARCHIVE_PERSON_CONFIRM_URL)
+    browser.getControl('No, cancel').click()
+    assert browser.ARCHIVE_PERSON_URL == browser.url
+    assert 'Unarchiving canceled.' == browser.message
+    assert [
+        'form.buttons.unarchive',
+    ] == browser.all_control_names
+
+
+@pytest.mark.parametrize('loginname', ['editor', 'visitor', 'archive-visitor'])
+def test_person__UnarchivePersonForm__3(archived_person, browser, loginname):
+    """It cannot be accessed by several "lower" roles."""
+    browser.login(loginname)
+    browser.assert_forbidden(browser.UNARCHIVE_PERSON_CONFIRM_URL)

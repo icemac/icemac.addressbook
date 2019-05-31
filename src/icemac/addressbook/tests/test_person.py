@@ -3,6 +3,7 @@ from icemac.addressbook.interfaces import IEntityOrder
 from icemac.addressbook.interfaces import IKeywordTitles, ITitle, IPhoneNumber
 from icemac.addressbook.interfaces import IPerson, IPersonDefaults, IEntity
 from icemac.addressbook.interfaces import IPersonArchiving
+from icemac.addressbook.interfaces import IPersonUnarchiving
 from icemac.addressbook.interfaces import ISchemaName
 from icemac.addressbook.person import Person, Keywords
 import gocept.reference.interfaces
@@ -27,6 +28,11 @@ def test_person__Person__2():
 def test_person__Person__3():
     """It fulfils the `IPersonArchiving` interface."""
     assert gocept.reference.verify.verifyObject(IPersonArchiving, Person())
+
+
+def test_person__Person__4():
+    """It fulfils the `IPersonUnarchiving` interface."""
+    assert gocept.reference.verify.verifyObject(IPersonUnarchiving, Person())
 
 
 def test_person__Person__schema__1(zcmlS):

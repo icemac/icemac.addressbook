@@ -49,3 +49,27 @@ class ArchivedPersonForm(
 
     def unarchive_url(self):
         return self.url(self.context, 'unarchive.html')
+
+
+class UnarchivePersonForm(icemac.addressbook.browser.base._BaseConfirmForm):
+    """Move a person out of the archive after confirmation."""
+
+    title = _('Unarchive person')
+    label = _('Do you really want to unarchive this person?'
+              ' Afterwards the person is no longer in the archive.'
+              ' Editing and finding using searches is possible again.')
+    cancel_status_message = _('Unarchiving canceled.')
+    interface = icemac.addressbook.interfaces.IPerson
+    field_names = ('first_name', 'last_name')
+    z3c.form.form.extends(
+        icemac.addressbook.browser.base._BaseConfirmForm, ignoreFields=True)
+
+    @z3c.form.button.buttonAndHandler(_(u'Yes, unarchive'), name='action')
+    def handleAction(self, action):
+        self.status = _(
+            '"${title}" unarchived.',
+            mapping={
+                'title': icemac.addressbook.interfaces.ITitle(
+                    self.getContent())})
+        self.redirect_to_next_url('parent')
+        self.context.unarchive()

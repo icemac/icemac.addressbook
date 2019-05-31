@@ -256,6 +256,13 @@ class IPersonArchiving(zope.interface.Interface):
         """Move the person to the archive."""
 
 
+class IPersonUnarchiving(zope.interface.Interface):
+    """Methods regarding unarchiving of a person."""
+
+    def unarchive():
+        """Move the person from the archive back to the person list."""
+
+
 class IArchivalData(zope.interface.Interface):
     """Data of the archival of a person."""
 
