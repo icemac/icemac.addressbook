@@ -64,7 +64,6 @@ def test_session__FlashedSessionCredentialsLoginForm__2(
     browser.getLink('Master data').click()
     browser.getLink('Users').click()
     # Role name and last log-in are shown in user list:
-    print browser.contents
     assert (
         '<td>username@example.com</td><td>{}</td><td>{}</td>'.format(
             role, DateTime.format(user.last_login).replace(' ', '')) in

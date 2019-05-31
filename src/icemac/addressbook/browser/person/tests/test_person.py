@@ -53,9 +53,10 @@ def test_person__PersonAddForm__1(address_book, browser):
             browser.etree.xpath('//table/tbody/tr/td/a/text()'))
 
 
-def test_person__PersonAddForm__2(address_book, browser):
-    """`PersonAddForm` cannot be accessed by a visitor."""
-    browser.login('visitor')
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+def test_person__PersonAddForm__2(address_book, browser, loginname):
+    """It cannot be accessed by some roles."""
+    browser.login(loginname)
     browser.assert_forbidden(browser.PERSON_ADD_URL)
 
 
@@ -432,6 +433,7 @@ def test_person__PersonEditForm__10(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -475,6 +477,7 @@ def test_person__PersonEditForm__11(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -488,6 +491,7 @@ def test_person__PersonEditForm__12(address_book, UserFactory, browser):
     browser.login('mgr')
     browser.open(browser.PERSON_EDIT_URL)
     assert ['form.buttons.apply',
+            'form.buttons.archive_person',
             'form.buttons.cancel',
             'form.buttons.clone_person',
             'form.buttons.delete_entry',
@@ -585,6 +589,31 @@ def test_person__PersonEditForm__17(
             'form.buttons.export'] == browser.all_control_names
 
 
+@pytest.mark.parametrize('login', ('archivist', 'archive-visitor'))
+def test_person__PersonEditForm__18(
+        address_book, FullPersonFactory, browser, login):
+    """It cannot be accessed by some roles."""
+    FullPersonFactory(address_book, u'Test')
+    browser.login(login)
+    browser.assert_forbidden(browser.PERSON_EDIT_URL)
+
+
+def test_person__PersonEditForm__19(
+        address_book, FullPersonFactory, browser, browser_request):
+    """It does not render the `archive` button if the tab is deselected."""
+    address_book.deselected_tabs = {'Archive'}
+    FullPersonFactory(address_book, u'Test')
+    browser.login('editor')
+    browser.open(browser.PERSON_EDIT_URL)
+    assert [
+        'form.buttons.apply',
+        'form.buttons.cancel',
+        'form.buttons.clone_person',
+        'form.buttons.delete_entry',
+        'form.buttons.delete_person',
+        'form.buttons.export'] == browser.submit_control_names
+
+
 def test_person__PersonEditGroup__1(person_data, browser):
     """`PersonEditGroup` respects the user defined field sort order."""
     browser.login('editor')
@@ -621,6 +650,7 @@ def test_person__PersonEditGroup__1(person_data, browser):
             'Homepageaddress_1.url',
             'buttons.apply',
             'buttons.clone_person',
+            'buttons.archive_person',
             'buttons.delete_person',
             'buttons.delete_entry',
             'buttons.export',
@@ -669,6 +699,30 @@ def test_person__PersonEditGroup__3(address_book, FullPersonFactory, browser):
     assert IZopeDublinCore(person['HomePageAddress']).modified == dt
     assert IZopeDublinCore(person['EMailAddress']).modified == dt
     assert IZopeDublinCore(person['PostalAddress']).modified == dt
+
+
+def test_person__ArchivePersonForm__1(address_book, PersonFactory, browser):
+    """It archives a person."""
+    PersonFactory(address_book, u'Tester')
+    browser.login('editor')
+    browser.open(browser.PERSON_EDIT_URL)
+    browser.getControl('Archive person').click()
+    assert browser.PERSON_ARCHIVE_URL == browser.url
+    browser.getControl('Yes, archive').click()
+    assert '"Tester" archived.' == browser.message
+    assert browser.PERSONS_LIST_URL == browser.url
+    assert 'There are no persons' in browser.contents
+
+
+def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
+    """It allows to abort archiving."""
+    PersonFactory(address_book, u'Tester')
+    browser.login('editor')
+    browser.open(browser.PERSON_ARCHIVE_URL)
+    browser.getControl('No, cancel').click()
+    assert browser.PERSON_EDIT_URL == browser.url
+    assert 'Tester' in browser.contents
+    assert 'Archiving canceled.' == browser.message
 
 
 def test_person__ClonePersonForm__1(person_with_field_data, browser):
@@ -733,10 +787,12 @@ def test_person__ClonePersonForm__1(person_with_field_data, browser):
     assert 'http://test333.de' == browser.getControl('URL', index=0).value
 
 
-def test_person__ClonePersonForm__2(address_book, FullPersonFactory, browser):
-    """`ClonePersonForm` cannot be accessed by a visitor."""
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+def test_person__ClonePersonForm__2(
+        address_book, FullPersonFactory, browser, loginname):
+    """It cannot be accessed by some roles."""
     FullPersonFactory(address_book, u'Test')
-    browser.login('visitor')
+    browser.login(loginname)
     browser.assert_forbidden(browser.PERSON_CLONE_URL)
 
 
@@ -854,9 +910,10 @@ def test_person__DeleteSingleEntryForm__1(person_data, browser):
     assert browser.PERSON_EDIT_URL == browser.url
 
 
-def test_person__DeleteSingleEntryForm__2(person_data, browser):
-    """It cannot be accessed by a visitor."""
-    browser.login('visitor')
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+def test_person__DeleteSingleEntryForm__2(person_data, browser, loginname):
+    """It cannot be accessed by some roles."""
+    browser.login(loginname)
     browser.assert_forbidden(browser.PERSON_DELETE_ENTRY_URL)
 
 
@@ -893,9 +950,10 @@ def test_person__DeletePersonForm__2(person_data, browser):
     assert browser.PERSON_EDIT_URL == browser.url
 
 
-def test_person__DeletePersonForm__3(person_data, browser):
-    """`DeletePersonForm` cannot be accessed by a visitor."""
-    browser.login('visitor')
+@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+def test_person__DeletePersonForm__3(person_data, browser, loginname):
+    """It cannot be accessed by some roles."""
+    browser.login(loginname)
     browser.assert_forbidden(browser.PERSON_DELETE_URL)
 
 

@@ -1,0 +1,49 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:gocept="http://namespaces.gocept.com/zcml"
+   xmlns:z3c="http://namespaces.zope.org/z3c">
+
+    <!-- archive listing -->
+    <configure package="icemac.addressbook.browser.person">
+        <gocept:pagelet
+             name="index.html"
+             for="icemac.addressbook.interfaces.IArchive"
+             permission="icemac.addressbook.ViewArchive"
+             layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+             class="icemac.addressbook.browser.archive.list.ArchiveList"
+             template="list.pt"
+             />
+    </configure>
+
+    <z3c:siteMenuItem
+        for="*"
+        manager="icemac.addressbook.browser.menus.interfaces.IMainMenu"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        name="Archive"
+        title="Archive"
+        viewName="++attribute++archive"
+        class=".menu.ArchiveMenuItem"
+        permission="icemac.addressbook.ViewArchive"
+        weight="25"
+        />
+
+    <!-- archived person -->
+    <gocept:pagelet
+        name="index.html"
+        for="icemac.addressbook.interfaces.IArchivedPerson"
+        permission="icemac.addressbook.ViewPerson"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        class=".person.ArchivedPersonForm"
+        template="person.pt"
+        />
+
+    <gocept:pagelet
+        name="unarchive.html"
+        for="icemac.addressbook.interfaces.IArchivedPerson"
+        permission="icemac.addressbook.UnarchivePerson"
+        layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+        class=".person.UnarchivePersonForm"
+        />
+
+</configure>

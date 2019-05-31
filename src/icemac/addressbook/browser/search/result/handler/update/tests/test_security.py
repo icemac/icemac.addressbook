@@ -26,7 +26,7 @@ def test_update__security__1(search_data, browser, username):
             Browser.SEARCH_MULTI_UPDATE_ENTER_VALUE_URL,
             Browser.SEARCH_MULTI_UPDATE_CHECK_RESULT_URL,
             Browser.SEARCH_MULTI_UPDATE_COMPLETE_URL))
-@pytest.mark.parametrize('username', ('visitor', 'editor'))
+@pytest.mark.parametrize('username', ('visitor', 'editor', 'archivist'))
 def test_update__security__2(search_data, browser, url, username):
     """Some roles are not able to access update search result handler URLs.
 

@@ -1,0 +1,55 @@
+<tal:i18n i18n:domain="icemac.addressbook">
+  <div class="archive person container-fluid mb-4">
+
+    <div class="row justify-content-start"
+         tal:repeat="block view/person_data">
+      <div class="col-12">
+        <p class="h4" tal:content="block/label" />
+      </div>
+      <div tal:attributes="class python:'group row col-12{}'.format(' have-md' if block['metadata'] else '')"
+           tal:repeat="row block/data">
+        <div class="col-12 col-lg-4">
+          <span tal:content="row/label">
+            Name:
+          </span>
+        </div>
+        <div class="col-12 order-lg-3"
+             tal:condition="row/hint">
+          <small class="text-muted"
+                 tal:content="row/hint">
+            current name of the person
+          </small>
+        </div>
+        <div class="col-12 col-lg-8 pl-4 font-weight-bold"
+          tal:content="structure row/value">
+          Michael-Joab Howitz-Irgendwas
+        </div>
+        <div class="metadata"
+             aria-label="metadata"
+             i18n:attributes="aria-label"
+             tal:condition="block/metadata">
+          <div class="row"
+               tal:repeat="row block/metadata">
+            <div class="col-12"
+                 tal:content="row/label">
+              Erstellungsdatum (Europe/Berlin):
+            </div>
+            <div class="col-12 pl-4"
+                 tal:content="structure row/value">
+              Michael-Joab Howitz-Irgendwas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="buttons">
+    <form method="POST"
+          tal:attributes="action view/unarchive_url">
+      <button type="submit"
+              class="btn btn-primary"
+              name="form.buttons.unarchive"
+              i18n:translate="">Unarchive person</button>
+    </form>
+  </div>
+</tal:i18n>

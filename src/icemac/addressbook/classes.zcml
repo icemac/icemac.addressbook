@@ -54,6 +54,18 @@
       set_attributes="__annotations__"
       />
     <require
+      permission="icemac.addressbook.ArchivePerson"
+      interface=".interfaces.IPersonArchiving"
+      />
+    <require
+      permission="icemac.addressbook.UnarchivePerson"
+      interface=".interfaces.IPersonUnarchiving"
+      />
+    <require
+      permission="icemac.addressbook.ViewArchive"
+      interface=".interfaces.IArchivalData"
+      />
+    <require
        permission="icemac.addressbook.EditPersonContents"
        interface="zope.container.interfaces.IWriteContainer"
        />
@@ -253,5 +265,25 @@
        set_attributes="__annotations__"
        />
   </class>
+
+  <!-- Archive of persons -->
+  <class class=".addressbook.Archive">
+    <implements
+      interface="zope.annotation.interfaces.IAttributeAnnotatable"
+      />
+    <require
+       permission="icemac.addressbook.ViewArchive"
+       interface=".interfaces.IArchive
+                  zope.container.interfaces.IReadContainer"
+       attributes="__annotations__"
+       />
+    <require
+       permission="icemac.addressbook.EditArchive"
+       interface="zope.container.interfaces.IWriteContainer"
+       set_schema=".interfaces.IArchive"
+       set_attributes="__annotations__"
+      />
+  </class>
+
 
 </configure>
