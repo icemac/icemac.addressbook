@@ -2,7 +2,7 @@ from . import NO_RESULTS_TEXT
 
 
 def test_name__Search__1(address_book, browser):
-    """`Search` for persons who have specified keywords assigned to."""
+    """`Search` for persons who have a name."""
     browser.login('visitor')
     browser.open(browser.SEARCH_URL)
     browser.getLink('Name search').click()
