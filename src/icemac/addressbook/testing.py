@@ -359,7 +359,8 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         """Assert accessing a URL is forbidden for the current user."""
         with pytest.raises(zope.testbrowser.browser.HTTPError) as err:
             self.open(url)
-        assert 'HTTP Error 403: Forbidden' == str(err.value)
+        assert 'HTTP Error 403: Forbidden' == str(err.value), \
+            'Raised "{}" instead of HTTP-403 Forbidden'.format(err.value)
 
     def _get_control_names(self, interface, form):
         """Get a sorted list of names of controls providing `interface`."""
