@@ -2,6 +2,40 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="icemac.addressbook">
 
+  <securityPolicy
+     component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
+
+  <unauthenticatedPrincipal
+     id="zope.anybody"
+     title="Unauthenticated User" />
+  <unauthenticatedGroup
+     id="zope.Anybody"
+     title="Unauthenticated Users" />
+  <authenticatedGroup
+     id="zope.Authenticated"
+     title="Authenticated Users" />
+  <everybodyGroup
+     id="zope.Everybody"
+     title="All Users" />
+
+  <!-- Roles for anonymous and authenticated -->
+  <grant
+     principal="zope.Everybody"
+     permissions="
+        zope.View
+        zope.dublincore.view
+     " />
+
+  <!-- Roles for all authenticated users -->
+  <grant
+     principal="zope.Authenticated"
+     permissions="
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
+     " />
+
   <!-- Editor -->
   <role id="icemac.addressbook.global.Editor"
         title="Editor"
@@ -33,20 +67,14 @@
         icemac.addressbook.EditPostalAddress
         icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        icemac.addressbook.ViewSomePrincipals
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
 
 
@@ -62,20 +90,14 @@
         icemac.addressbook.EditAllPreferences
         icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        icemac.addressbook.ViewSomePrincipals
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
 
   <!-- Archivist -->
@@ -160,7 +182,6 @@
         icemac.addressbook.ExportPerson
         icemac.addressbook.ListPersons
         icemac.addressbook.UnarchivePerson
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewArchive
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
@@ -168,14 +189,8 @@
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
-
-
 
 </configure>

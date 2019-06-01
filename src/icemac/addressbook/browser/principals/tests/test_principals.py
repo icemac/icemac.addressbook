@@ -384,7 +384,10 @@ def test_principals__EditForm__7(
 
 def test_principals__EditForm__8(
         address_book, UserFactory, localadmin, browser2, browser3):
-    """Removing all roles from a user leads to a Forbidden for this user."""
+    """Removing all roles from a user only allows him to access master data.
+
+    He can see an empty users listing.
+    """
     UserFactory(address_book, u'Urs', u'Unstable', u'uu@example.com',
                 'u1u2u3u4', ['Visitor'])
     browser = browser2.formlogin(u'uu@example.com', 'u1u2u3u4')
@@ -396,14 +399,18 @@ def test_principals__EditForm__8(
     localadmin.getControl('Save').click()
     assert 'Data successfully updated.' == localadmin.message
     assert localadmin.PRINCIPALS_LIST_URL == localadmin.url
-    # ... he gets an exception that he is forbidden to see the page:
-    browser.assert_forbidden(url)
-    # When he logs in again he gets an error message telling him that he has
-    # not enough permissions to see anything:
-    with pytest.raises(HTTPError):
-        browser3.formlogin(u'uu@example.com', 'u1u2u3u4')
-    assert 'You have been logged-in successfully.' == browser3.message
-    assert 'You are not authorized.' in browser.contents
+
+    browser.open(url)
+    assert [
+        'Master data',
+    ] == browser.etree.xpath('//ul[@id="main-menu"]/li/a/span/text()')
+    browser.getLink('Master data').click()
+
+    assert ['Users'] == browser.etree.xpath(
+        '//ul[@class="bullet"]/li/a/span/child::text()')
+    browser.getLink('Users').click()
+    assert ('No users defined yet or you are not allowed to access any.'
+            in browser.contents)
 
 
 def test_principals__DeleteUserForm__1(address_book, UserFactory, localadmin):
