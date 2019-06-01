@@ -12,6 +12,9 @@ Backwards incompatible changes
   version 6.0. If you are still using it, switch to
   `Guided package installation` as described in `Upgrade installation`_.
 
+- Integrate `src/icemac/addressbook/base.zcml` into
+  `src/icemac/addressbook/roles.zcml`.
+
 Features
 --------
 
@@ -36,6 +39,9 @@ Features
 - Document how to uninstall the address book.
 
 - Add ability to deselect tabs in the main menu.
+
+- Users without any roles no longer get HTTP-403 Forbidden but can access a
+  minimal part of the application.
 
 Changes in testing
 ------------------

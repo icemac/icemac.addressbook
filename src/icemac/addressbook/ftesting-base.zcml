@@ -9,7 +9,6 @@
   <meta:provides feature="devmode" />
 
   <include package="icemac.addressbook" />
-  <include package="icemac.addressbook" file="base.zcml"/>
 
   <!-- Principal that has all permissions needed inside the address book -->
   <principal

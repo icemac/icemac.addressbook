@@ -7,8 +7,6 @@
 
   ${permissions_zcml}
 
-  <include package="icemac.addressbook" file="base.zcml"/>
-
   ${append_zcml}
 
 </configure>
