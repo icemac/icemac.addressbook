@@ -28,6 +28,9 @@ Features
 
 - Add ability to deselect tabs in the main menu.
 
+- Users without any roles no longer get HTTP-403 Forbidden but can access a
+  minimal part of the application.
+
 Changes in testing
 ------------------
 
