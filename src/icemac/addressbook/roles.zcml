@@ -18,11 +18,22 @@
      id="zope.Everybody"
      title="All Users" />
 
+  <!-- Roles for anonymous and authenticated -->
   <grant
-     principal="zope.Anybody"
+     principal="zope.Everybody"
      permissions="
         zope.View
         zope.dublincore.view
+     " />
+
+  <!-- Roles for all authenticated users -->
+  <grant
+     principal="zope.Authenticated"
+     permissions="
+        icemac.addressbook.ViewAddressBook
+        icemac.addressbook.ViewPersonName
+        icemac.addressbook.ViewSomePrincipals
+        z3c.preference.EditPreference
      " />
 
   <!-- Editor -->
@@ -53,20 +64,14 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        icemac.addressbook.ViewSomePrincipals
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
 
 
@@ -80,20 +85,14 @@
      role="icemac.addressbook.global.Visitor"
      permissions="
         icemac.addressbook.EditAllPreferences
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        icemac.addressbook.ViewSomePrincipals
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
 
   <!-- Administrator -->
@@ -129,21 +128,14 @@
         icemac.addressbook.EditPersonContents
         icemac.addressbook.EditPhoneNumber
         icemac.addressbook.EditPostalAddress
-        icemac.addressbook.ViewAddressBook
         icemac.addressbook.ViewEMailAddress
         icemac.addressbook.ViewFile
         icemac.addressbook.ViewHomePageAddress
         icemac.addressbook.ViewKeyword
         icemac.addressbook.ViewKeywordContainer
         icemac.addressbook.ViewPerson
-        icemac.addressbook.ViewPersonName
         icemac.addressbook.ViewPhoneNumber
         icemac.addressbook.ViewPostalAddress
-        z3c.preference.EditPreference
-        zope.View
-        zope.dublincore.view
      " />
-
-
 
 </configure>
