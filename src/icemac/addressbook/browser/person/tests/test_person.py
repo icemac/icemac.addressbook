@@ -53,7 +53,10 @@ def test_person__PersonAddForm__1(address_book, browser):
             browser.etree.xpath('//table/tbody/tr/td/a/text()'))
 
 
-@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+@pytest.mark.parametrize('loginname', [
+    'visitor',
+    'archivist',
+    'archive-visitor'])
 def test_person__PersonAddForm__2(address_book, browser, loginname):
     """It cannot be accessed by some roles."""
     browser.login(loginname)
@@ -725,6 +728,18 @@ def test_person__ArchivePersonForm__2(address_book, PersonFactory, browser):
     assert 'Archiving canceled.' == browser.message
 
 
+@pytest.mark.parametrize('loginname', [
+    'visitor',
+    'archivist',
+    'archive-visitor'])
+def test_person__ArchivePersonForm__3(
+        address_book, FullPersonFactory, browser, loginname):
+    """It cannot be accessed by some roles."""
+    FullPersonFactory(address_book, u'Test')
+    browser.login(loginname)
+    browser.assert_forbidden(browser.PERSON_ARCHIVE_URL)
+
+
 def test_person__ClonePersonForm__1(person_with_field_data, browser):
     """`ClonePersonForm` allows to clone a person and its data."""
     # As user defined fields and keywords may behave unusual, let's create
@@ -787,7 +802,10 @@ def test_person__ClonePersonForm__1(person_with_field_data, browser):
     assert 'http://test333.de' == browser.getControl('URL', index=0).value
 
 
-@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+@pytest.mark.parametrize('loginname', [
+    'visitor',
+    'archivist',
+    'archive-visitor'])
 def test_person__ClonePersonForm__2(
         address_book, FullPersonFactory, browser, loginname):
     """It cannot be accessed by some roles."""
@@ -910,7 +928,10 @@ def test_person__DeleteSingleEntryForm__1(person_data, browser):
     assert browser.PERSON_EDIT_URL == browser.url
 
 
-@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+@pytest.mark.parametrize('loginname', [
+    'visitor',
+    'archivist',
+    'archive-visitor'])
 def test_person__DeleteSingleEntryForm__2(person_data, browser, loginname):
     """It cannot be accessed by some roles."""
     browser.login(loginname)
@@ -950,7 +971,10 @@ def test_person__DeletePersonForm__2(person_data, browser):
     assert browser.PERSON_EDIT_URL == browser.url
 
 
-@pytest.mark.parametrize('loginname', ['visitor', 'archivist'])
+@pytest.mark.parametrize('loginname', [
+    'visitor',
+    'archivist',
+    'archive-visitor'])
 def test_person__DeletePersonForm__3(person_data, browser, loginname):
     """It cannot be accessed by some roles."""
     browser.login(loginname)
