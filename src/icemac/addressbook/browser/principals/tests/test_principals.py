@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from zope.testbrowser.browser import HTTPError, LinkNotFoundError
+from zope.testbrowser.browser import LinkNotFoundError
 import datetime
 import pytest
 import pytz
