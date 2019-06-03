@@ -1,5 +1,6 @@
 from icemac.addressbook.browser.person.person import DefaultSelectGroup
 from icemac.addressbook.i18n import _
+import icemac.addressbook.browser.base
 import icemac.addressbook.browser.person.person
 import icemac.addressbook.browser.resource
 import z3c.form.group
@@ -46,6 +47,10 @@ class ArchivedPersonForm(
         return {'label': widget.label,
                 'hint': widget.title,
                 'value': widget.render()}
+
+    def can_unarchive(self):
+        return icemac.addressbook.browser.base.can_access_uri_part(
+            self.context, self.request, 'unarchive.html')
 
     def unarchive_url(self):
         return self.url(self.context, 'unarchive.html')
