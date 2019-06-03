@@ -80,13 +80,12 @@ def test_person__ArchivedPersonForm__2(
 
 @pytest.mark.parametrize('loginname', [
     'archivist',
-    'archive-visitor',
     'mgr',
 ])
 def test_person__ArchivedPersonForm__3(archived_person, browser, loginname):
     """It renders a read-only form of person's data for all allowed users.
 
-    There are no add links.
+    There are no add links but an unarchive button.
     """
     browser.login(loginname)
     browser.open(browser.ARCHIVE_PERSON_URL)
@@ -99,8 +98,18 @@ def test_person__ArchivedPersonForm__3(archived_person, browser, loginname):
         browser.getLink('postal address')
 
 
+def test_person__ArchivedPersonForm__4(archived_person, browser):
+    """It renders a read-only form for 'archive-visitor' without an unarchive
+
+    form.
+    """
+    browser.login('archive-visitor')
+    browser.open(browser.ARCHIVE_PERSON_URL)
+    assert [] == browser._getAllResponseForms()
+
+
 @pytest.mark.parametrize('loginname', ['editor', 'visitor'])
-def test_person__ArchivedPersonForm__4(
+def test_person__ArchivedPersonForm__5(
         address_book, PersonFactory, browser, loginname):
     """It can only be accessed by allowed users."""
     person = PersonFactory(address_book, 'Vregga')

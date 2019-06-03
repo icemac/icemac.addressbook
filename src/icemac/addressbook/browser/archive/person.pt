@@ -43,7 +43,8 @@
       </div>
     </div>
   </div>
-  <div id="buttons">
+  <div id="buttons"
+       tal:condition="view/can_unarchive">
     <form method="POST"
           tal:attributes="action view/unarchive_url">
       <button type="submit"
