@@ -488,13 +488,16 @@ def test_person__PersonEditForm__11(person_data, browser):
 
 
 def test_person__PersonEditForm__12(address_book, UserFactory, browser):
-    """In `PersonEditForm` is no delete button for a persons who is a user."""
+    """It does not render the following buttons for a person who is a user:
+
+    * delete button
+    * archive button
+    """
     UserFactory(address_book, u'Andronicus', u'Loscher', u'l@scher.de',
                 u'7zhn8ujm', ['Visitor'])
     browser.login('mgr')
     browser.open(browser.PERSON_EDIT_URL)
     assert ['form.buttons.apply',
-            'form.buttons.archive_person',
             'form.buttons.cancel',
             'form.buttons.clone_person',
             'form.buttons.delete_entry',
@@ -738,6 +741,23 @@ def test_person__ArchivePersonForm__3(
     FullPersonFactory(address_book, u'Test')
     browser.login(loginname)
     browser.assert_forbidden(browser.PERSON_ARCHIVE_URL)
+
+
+def test_person__ArchivePersonForm__4(address_book, UserFactory, browser):
+    """It renders an error message on direct access for users leads.
+
+    Aka persons which are registered as users of the address book.
+    """
+    UserFactory(address_book, u'Andronicus', u'Loscher', u'l@scher.de',
+                u'7zhn8ujm', ['Visitor'])
+    browser.login('mgr')
+    browser.open(browser.PERSON_ARCHIVE_URL)
+    browser.handleErrors = False
+    browser.getControl('Yes').click()
+    assert ('Failed to archive person: This person is referenced. To archive'
+            ' this person, remove the reference before.' == browser.message)
+    assert browser.PERSONS_LIST_URL == browser.url
+    assert 'Loscher' in browser.contents
 
 
 def test_person__ClonePersonForm__1(person_with_field_data, browser):

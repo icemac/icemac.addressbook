@@ -129,8 +129,8 @@ class PersonAddForm(z3c.form.group.GroupForm,
         return person
 
 
-def person_deletable(form):
-    """Button display constraint checking whether a person is deleteable."""
+def person_not_referenced(form):
+    """Button display constraint checking if a person is not referenced."""
     person = form.context
     ref_target = gocept.reference.interfaces.IReferenceTarget(person)
     return not ref_target.is_referenced(recursive=False)
@@ -222,10 +222,10 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
 
     @z3c.form.button.buttonAndHandler(
         _(u'Archive person'), name='archive_person',
-        condition=lambda f:
-            icemac.addressbook.browser.base.can_access(
-                'archive_person.html')(f) and
-            icemac.addressbook.browser.base.tab_selected('Archive')(f))
+        condition=icemac.addressbook.browser.base.all_(
+            icemac.addressbook.browser.base.can_access('archive_person.html'),
+            icemac.addressbook.browser.base.tab_selected('Archive'),
+            person_not_referenced))
     def handleArchivePerson(self, action):
         self.redirect_to_next_url('object', 'archive_person.html')
 
@@ -233,7 +233,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         _(u'Delete whole person'), name='delete_person',
         condition=icemac.addressbook.browser.base.all_(
             icemac.addressbook.browser.base.can_access('delete_person.html'),
-            person_deletable))
+            person_not_referenced))
     def handleDeletePerson(self, action):
         self.redirect_to_next_url('object', 'delete_person.html')
 
@@ -299,12 +299,19 @@ class ArchivePersonForm(icemac.addressbook.browser.base._BaseConfirmForm):
     @z3c.form.button.buttonAndHandler(_(u'Yes, archive'), name='action')
     def handleAction(self, action):
         self.redirect_to_next_url('parent', 'person-list.html')
-        self.context.archive()
-        self.status = _(
-            '"${title}" archived.',
-            mapping={
-                'title': icemac.addressbook.interfaces.ITitle(
-                    self.getContent())})
+        try:
+            self.context.archive()
+        except gocept.reference.interfaces.IntegrityError:
+            transaction.abort()
+            self.status = _(
+                'Failed to archive person: This person is referenced. '
+                'To archive this person, remove the reference before.')
+        else:
+            self.status = _(
+                '"${title}" archived.',
+                mapping={
+                    'title': icemac.addressbook.interfaces.ITitle(
+                        self.getContent())})
 
 
 class DeletePersonForm(icemac.addressbook.browser.base.BaseDeleteForm):
