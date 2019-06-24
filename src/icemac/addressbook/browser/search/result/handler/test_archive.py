@@ -1,45 +1,47 @@
 import pytest
 
 
-def test_delete__DeleteForm__1(search_data, UserFactory, browser):
-    """`DeleteForm` allows an administrator to delete found persons."""
+def test_archive__ArchiveForm__1(search_data, UserFactory, browser):
+    """It allows an administrator to archive found persons."""
     address_book = search_data
-    # Create a user -- the person of a user cannot be deleted using this search
-    # result handler.
+    # Create a user -- the person of a user cannot be archived using this
+    # search result handler.
     UserFactory(address_book, u'Ben', u'Utzer', u'ben@example.com',
                 u'12345678', [], keywords=[u'church'])
     browser.login('mgr')
     browser.keyword_search('church')
-    # Only the selected persons get deleted. Deselected persons will not:
+    # Only the selected persons get archived. Deselected persons will not:
     browser.getControl(name='persons:list').getControl(
         value="Person-2").selected = False  # This this the person named "Koch"
     browser.getControl('Apply on selected persons').displayValue = [
-        'Delete']
+        'Archive']
+    browser.handleErrors = False
     browser.getControl(name='form.buttons.apply').click()
-    # The number of persons for deletion is shown on the question screen:
+    # The number of persons for archival is shown on the question screen:
     # (There are 3 persons with the church keyword in the fixture, one got
-    # deselected but there is additionally a newly created user.
+    # deselected but there is additionally a newly created user.)
     assert ['3'] == browser.etree.xpath(
         '//span[@id="form-widgets-count"]/text()')
-    assert browser.SEARCH_DELETE_URL == browser.url
+
+    assert browser.SEARCH_ARCHIVE_URL == browser.url
     browser.getControl('Yes').click()
-    assert 'Selected persons deleted: 2' == browser.message
+    assert 'Selected persons archived: 2' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
-    # Only the two non-users got deleted:
+    # Only the two non-users got archived:
     assert 'Koch' in browser.contents
     assert 'Utzer' in browser.contents
     assert 'Liebig' not in browser.contents
     assert 'Velleuer' not in browser.contents
 
 
-def test_delete__DeleteForm__2(search_data, browser):
-    """`DeleteForm` can be canceled."""
+def test_archive__ArchiveForm__2(search_data, browser):
+    """It can be cancelled."""
     browser.login('mgr')
-    browser.keyword_search('church', 'Delete')
-    # Seleting the `cancel` button leads to the person list without deleting
+    browser.keyword_search('church', 'Archive')
+    # Selecting the `cancel` button leads to the person list without archiving
     # anybody:
     browser.getControl('No, cancel').click()
-    assert 'Deletion canceled.' == browser.message
+    assert 'Archival canceled.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     assert 'Koch' in browser.contents
     assert 'Liebig' in browser.contents
@@ -47,11 +49,11 @@ def test_delete__DeleteForm__2(search_data, browser):
 
 
 @pytest.mark.parametrize('role', ['editor', 'visitor'])
-def test_delete__DeleteForm__3(search_data, browser, role):
-    """`DeleteForm` cannot be accessed by non-admin users."""
+def test_archive__ArchiveForm__3(search_data, browser, role):
+    """It cannot be accessed by non-admin users."""
     browser.login(role)
     browser.keyword_search('church')
-    # There is no delete option which can be applied:
+    # There is no archive option which can be applied:
     assert ([
         'XLS export main (Exports person data and main addresses resp. '
         'phone numbers.)',
@@ -64,11 +66,11 @@ def test_delete__DeleteForm__3(search_data, browser, role):
         ".ics file.)",
         'Birthday list (Person names sorted by birthday.)',
     ] == browser.getControl('Apply on selected persons').displayOptions)
-    browser.assert_forbidden(browser.SEARCH_DELETE_URL)
+    browser.assert_forbidden(browser.SEARCH_ARCHIVE_URL)
 
 
 @pytest.mark.parametrize('role', ['archivist', 'archive-visitor'])
-def test_delete__DeleteForm__4(address_book, browser, role):
+def test_archive__ArchiveForm__4(address_book, browser, role):
     """It cannot be accessed by the archive roles."""
     browser.login(role)
-    browser.assert_forbidden(browser.SEARCH_DELETE_URL)
+    browser.assert_forbidden(browser.SEARCH_ARCHIVE_URL)

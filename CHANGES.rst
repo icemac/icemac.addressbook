@@ -32,6 +32,8 @@ Features
   - Archived persons cannot be found using the search abilities of the
     address book.
 
+  - Add a search result handler which can move persons to the archive.
+
   - To disable the archive feature see the `archive documentation`_.
 
 - Allow to edit the labels and descriptions of pre-defined fields.
