@@ -1,48 +1,36 @@
 # -*- coding: utf-8 -*-
+from .base import BaseSelectionCount
+from .base import IBaseSelectionCount
+from .base import ISearchResultHandler
+from .base import get_selected_person_ids
 from icemac.addressbook.i18n import _
+import grokcore.component as grok
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
-import icemac.addressbook.browser.search.result.handler.base
 import icemac.addressbook.interfaces
-import zope.globalrequest
 import zope.i18n
 import zope.interface
-import zope.schema
 
 
-class ISelectionCount(zope.interface.Interface):
-    """Number of persons in selection."""
-
-    # Copied from IPersonCount as inheriting from it leads to usage of wrong
-    # adapter as the interface where the fields where initially defined on
-    # is stored on the fields.
-    count = zope.schema.Int(title=_(u'number of persons'), required=False)
-    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
+class ISelectionCount(IBaseSelectionCount):
+    """Number of persons in delete selection."""
 
 
-def get_selected_person_ids(request):
-    """Get the list of selected person ids from the session."""
-    session = icemac.addressbook.browser.base.get_session(request)
-    return session.get('person_ids', [])
-
-
-@zope.component.adapter(icemac.addressbook.interfaces.IAddressBook)
-@zope.interface.implementer(ISelectionCount)
-class SelectionCount(object):
-    """Adapter to count persons in selection."""
+@grok.implementer(ISelectionCount)
+class DeleteSelectionCount(BaseSelectionCount):
+    """Adapter to count persons in delete selection."""
 
     def __init__(self, address_book):
-        request = zope.globalrequest.getRequest()
-        self.count = len(get_selected_person_ids(request))
+        super(DeleteSelectionCount, self).__init__(address_book)
         self.notes = zope.i18n.translate(
             _(u'You are not able to delete a person which is referenced. '
               u'You have to remove the reference before.'),
-            context=request)
+            context=self.request)
 
 
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground,
-    icemac.addressbook.browser.search.result.handler.base.ISearchResultHandler)
+    ISearchResultHandler)
 class DeleteForm(icemac.addressbook.browser.base.BaseDeleteForm):
     """Delete selected persons."""
 

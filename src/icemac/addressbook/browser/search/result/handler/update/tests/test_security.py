@@ -14,10 +14,10 @@ def test_update__security__1(search_data, browser, username):
             'E-Mail (Creates a link to send e-mails.)',
             'Names (Comma separated list of person names.)',
             'Checklist (List of person names with check-boxes.)',
-            'Birthday list (Person names sorted by birthday.)',
             "iCalendar export birthday (Export person's birthdays as .ics "
-            "file.)"] == browser.getControl(
-                'Apply on selected persons').displayOptions
+            "file.)",
+            'Birthday list (Person names sorted by birthday.)',
+            ] == browser.getControl('Apply on selected persons').displayOptions
 
 
 @pytest.mark.parametrize(

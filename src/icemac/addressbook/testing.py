@@ -237,6 +237,7 @@ class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
         'http://localhost/ab/multi-update/checkResult')
     SEARCH_MULTI_UPDATE_COMPLETE_URL = (
         'http://localhost/ab/@@multi-update-completed')
+    SEARCH_ARCHIVE_URL = 'http://localhost/ab/@@archive_persons.html'
     SEARCH_DELETE_URL = 'http://localhost/ab/@@delete_persons.html'
 
     PREFS_URL = 'http://localhost/ab/++preferences++/ab'
