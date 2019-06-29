@@ -23,7 +23,7 @@ class DeleteSelectionCount(BaseSelectionCount):
     def __init__(self, address_book):
         super(DeleteSelectionCount, self).__init__(address_book)
         self.notes = zope.i18n.translate(
-            _(u'You are not able to delete a person which is referenced. '
+            _(u'You are not able to delete a person who is referenced. '
               u'You have to remove the reference before.'),
             context=self.request)
 

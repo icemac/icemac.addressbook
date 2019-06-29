@@ -21,8 +21,11 @@ def test_delete__DeleteForm__1(search_data, UserFactory, browser):
     # deselected but there is additionally a newly created user.
     assert ['3'] == browser.etree.xpath(
         '//span[@id="form-widgets-count"]/text()')
+    open('response.html', 'w').write(browser.contents)
+    assert ('You are not able to delete a person who is referenced.'
+            in browser.contents)
     assert browser.SEARCH_DELETE_URL == browser.url
-    browser.getControl('Yes').click()
+    browser.getControl('Yes, delete').click()
     assert 'Selected persons deleted: 2' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # Only the two non-users got deleted:
