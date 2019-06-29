@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-import zope.security.proxy
 from .base import BaseSelectionCount
 from .base import IBaseSelectionCount
 from .base import ISearchResultHandler
 from .base import get_selected_person_ids
+from .manager import SearchResultHandler
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
 import grokcore.component as grok
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
+import zope.security.proxy
 import zope.i18n
 import zope.interface
 
@@ -72,3 +73,14 @@ class ArchiveForm(icemac.addressbook.browser.base.BaseDeleteForm):
 
 archive_view = icemac.addressbook.browser.menus.menu.SelectMenuItemOn(
     'archive_persons.html')
+
+
+class ArchiveSearchResultHandler(SearchResultHandler):
+    """SearchResultHandler which is not available if archive is disabled."""
+
+    @property
+    def available(self):
+        if super(ArchiveSearchResultHandler, self).available:
+            address_book = icemac.addressbook.interfaces.IAddressBook(None)
+            return 'Archive' not in address_book.deselected_tabs
+        return False

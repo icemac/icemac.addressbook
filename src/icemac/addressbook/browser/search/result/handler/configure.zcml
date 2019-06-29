@@ -49,7 +49,7 @@
      name="archive"
      title="Archive (Archives the selected persons.)"
      viewName="archive_persons.html"
-     class=".manager.SearchResultHandler"
+     class=".archive.ArchiveSearchResultHandler"
      permission="icemac.addressbook.EditAddressBook"
      weight="200"
      />
