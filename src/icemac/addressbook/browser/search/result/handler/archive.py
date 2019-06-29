@@ -89,7 +89,5 @@ class ArchiveSearchResultHandler(SearchResultHandler):
 
     @property
     def available(self):
-        if super(ArchiveSearchResultHandler, self).available:
-            address_book = icemac.addressbook.interfaces.IAddressBook(None)
-            return 'Archive' not in address_book.deselected_tabs
-        return False
+        address_book = icemac.addressbook.interfaces.IAddressBook(None)
+        return 'Archive' not in address_book.deselected_tabs
