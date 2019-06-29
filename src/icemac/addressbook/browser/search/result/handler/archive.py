@@ -10,13 +10,16 @@ import grokcore.component as grok
 import icemac.addressbook.browser.base
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.interfaces
-import zope.security.proxy
+import z3c.form.button
 import zope.i18n
 import zope.interface
+import zope.security.proxy
 
 
 class ISelectionCount(IBaseSelectionCount):
     """Number of persons in archive selection."""
+
+    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
 
 
 @grok.implementer(ISelectionCount)
@@ -51,7 +54,7 @@ def archive_persons(address_book, ids):
 @zope.interface.implementer(
     icemac.addressbook.browser.interfaces.IAddressBookBackground,
     ISearchResultHandler)
-class ArchiveForm(icemac.addressbook.browser.base.BaseDeleteForm):
+class ArchiveForm(icemac.addressbook.browser.base._BaseConfirmForm):
     """Archive selected persons."""
 
     title = _('Archive persons')
@@ -62,6 +65,12 @@ class ArchiveForm(icemac.addressbook.browser.base.BaseDeleteForm):
     interface = ISelectionCount
     next_url = 'object'
     next_view = 'person-list.html'
+    z3c.form.form.extends(
+        icemac.addressbook.browser.base._BaseConfirmForm, ignoreFields=True)
+
+    @z3c.form.button.buttonAndHandler(_(u'Yes, archive'), name='action')
+    def handleAction(self, action):
+        self._handle_action()
 
     def _handle_action(self):
         ids = get_selected_person_ids(self.request)

@@ -35,16 +35,17 @@ def test_archive__ArchiveForm__1(search_data, UserFactory, browser):
         value="Person-2").selected = False  # This this the person named "Koch"
     browser.getControl('Apply on selected persons').displayValue = [
         'Archive']
-    browser.handleErrors = False
     browser.getControl(name='form.buttons.apply').click()
     # The number of persons for archival is shown on the question screen:
     # (There are 3 persons with the church keyword in the fixture, one got
     # deselected but there is additionally a newly created user.)
     assert ['3'] == browser.etree.xpath(
         '//span[@id="form-widgets-count"]/text()')
+    assert ('You are not able to archive a person who is referenced.'
+            in browser.contents)
 
     assert browser.SEARCH_ARCHIVE_URL == browser.url
-    browser.getControl('Yes').click()
+    browser.getControl('Yes, archive').click()
     assert 'Selected persons archived: 2' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     # Only the two non-users got archived:
