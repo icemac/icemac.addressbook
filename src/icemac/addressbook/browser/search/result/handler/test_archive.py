@@ -1,6 +1,26 @@
 import pytest
 
 
+search_result_handlers_without_archive_for_editor = [
+    'XLS export main (Exports person data and main addresses resp. '
+    'phone numbers.)',
+    'XLS export complete (Exports person data and all addresses resp. '
+    'phone numbers.)',
+    'E-Mail (Creates a link to send e-mails.)',
+    'Names (Comma separated list of person names.)',
+    'Checklist (List of person names with check-boxes.)',
+    'iCalendar export birthday (Export person\'s birthdays as .ics file.)',
+    'Birthday list (Person names sorted by birthday.)',
+]
+
+search_result_handlers_without_archive_for_mgr = \
+    search_result_handlers_without_archive_for_editor + [
+        'Update (Allows you to choose a field for update on each selected'
+        ' person.)',
+        'Deletion (Deletes selected persons.)'
+    ]
+
+
 def test_archive__ArchiveForm__1(search_data, UserFactory, browser):
     """It allows an administrator to archive found persons."""
     address_book = search_data
@@ -54,18 +74,8 @@ def test_archive__ArchiveForm__3(search_data, browser, role):
     browser.login(role)
     browser.keyword_search('church')
     # There is no archive option which can be applied:
-    assert ([
-        'XLS export main (Exports person data and main addresses resp. '
-        'phone numbers.)',
-        'XLS export complete (Exports person data and all addresses resp. '
-        'phone numbers.)',
-        'E-Mail (Creates a link to send e-mails.)',
-        'Names (Comma separated list of person names.)',
-        'Checklist (List of person names with check-boxes.)',
-        "iCalendar export birthday (Export person's birthdays as "
-        ".ics file.)",
-        'Birthday list (Person names sorted by birthday.)',
-    ] == browser.getControl('Apply on selected persons').displayOptions)
+    assert (search_result_handlers_without_archive_for_editor
+            == browser.getControl('Apply on selected persons').displayOptions)
     browser.assert_forbidden(browser.SEARCH_ARCHIVE_URL)
 
 
@@ -74,3 +84,15 @@ def test_archive__ArchiveForm__4(address_book, browser, role):
     """It cannot be accessed by the archive roles."""
     browser.login(role)
     browser.assert_forbidden(browser.SEARCH_ARCHIVE_URL)
+
+
+def test_archive__ArchiveForm__5(search_data, browser_request, browser):
+    """It is only shown in the options list if archive is enabled."""
+    address_book = search_data
+    address_book.deselected_tabs = {'Archive'}
+
+    browser.login('mgr')
+    browser.keyword_search('church')
+    # There is no archive option which can be applied:
+    assert (search_result_handlers_without_archive_for_mgr
+            == browser.getControl('Apply on selected persons').displayOptions)
