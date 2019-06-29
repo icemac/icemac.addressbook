@@ -175,16 +175,22 @@ class List(icemac.addressbook.browser.base.FlashView):
         address_book = icemac.addressbook.interfaces.IAddressBook(None)
         customization = icemac.addressbook.interfaces.IFieldCustomization(
             address_book)
+        field_types = icemac.addressbook.sources.FieldTypeSource().factory
 
         for field in self._values():
             omit = False
             title = field.title
             if icemac.addressbook.interfaces.IField.providedBy(field):
+                field_type = field_types.getTitle(field.type)
                 url = get_field_URL(self.context, field, self.request)
                 delete_url = get_field_URL(
                     self.context, field, self.request, 'delete.html')
             else:
                 delete_url = None
+                try:
+                    field_type = field_types.getTitle(field.__class__.__name__)
+                except KeyError:
+                    field_type = ''
                 omit = field.queryTaggedValue('omit-from-field-list', False)
                 if is_customized:
                     url = get_field_URL(self.context, field, self.request)
@@ -193,6 +199,7 @@ class List(icemac.addressbook.browser.base.FlashView):
                     url = None
             if not omit:
                 yield {'title': title,
+                       'type': field_type,
                        'delete-link': delete_url,
                        'edit-link': url,
                        'id': field.__name__}

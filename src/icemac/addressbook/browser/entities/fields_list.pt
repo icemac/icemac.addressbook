@@ -5,6 +5,7 @@
     <thead>
       <tr>
         <th i18n:translate="">Field</th>
+        <th i18n:translate="">Type</th>
         <th />
         <th />
       </tr>
@@ -14,6 +15,7 @@
           tal:attributes="id field/id;
                           class python:repeat['field'].even() and 'table-even-row' or 'table-odd-row'">
         <td tal:content="field/title">Field title</td>
+        <td tal:content="field/type">Field type</td>
         <td><a tal:condition="field/delete-link"
              tal:attributes="href field/delete-link"
              i18n:translate="">Delete</a></td>
