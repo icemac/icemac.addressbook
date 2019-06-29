@@ -46,7 +46,8 @@ class IBaseSelectionCount(zope.interface.Interface):
     # adapter as the interface where the fields where initially defined on
     # is stored on the fields.
     count = zope.schema.Int(title=_(u'number of persons'), required=False)
-    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
+    # Define this field in the interface inheriting from the base interface:
+    # notes = zope.schema.TextLine(title=_(u'notes'), required=False)
 
 
 def get_selected_person_ids(request):

@@ -15,6 +15,8 @@ import zope.interface
 class ISelectionCount(IBaseSelectionCount):
     """Number of persons in delete selection."""
 
+    notes = zope.schema.TextLine(title=_(u'notes'), required=False)
+
 
 @grok.implementer(ISelectionCount)
 class DeleteSelectionCount(BaseSelectionCount):
