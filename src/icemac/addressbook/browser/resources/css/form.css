@@ -125,6 +125,11 @@ div.js-form div.buttons button {
     font-weight:inherit;
 }
 
+#content form div.widget .multi-widget .buttons,
+#content form div.widget .multi-widget .label {
+    clear: both;
+}
+
 /* for forms: (metadata top right) */
 
 form#edit-form div.group {
