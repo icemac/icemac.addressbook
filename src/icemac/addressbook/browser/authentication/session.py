@@ -1,7 +1,11 @@
 from icemac.addressbook.i18n import _
 import datetime
+import grokcore.component as grok
 import icemac.addressbook.browser.base
+import icemac.addressbook.browser.breadcrumb
+import icemac.addressbook.browser.interfaces
 import pytz
+import z3c.authviewlet.auth
 import z3c.authviewlet.session
 import zope.pluggableauth.plugins.session
 
@@ -40,3 +44,25 @@ class FlashedSessionCredentialsLoginForm(
         elif 'SUBMIT' in self.request:
             self.send_flash(
                 _('Login failed. Username and/or password might be wrong.'))
+
+
+class HTTPAuthenticationLoginBreadcrumb(
+        icemac.addressbook.browser.breadcrumb.ViewBreadcrumb):
+    """Breadcrumb for authentication failed view."""
+
+    grok.adapts(
+        z3c.authviewlet.auth.HTTPAuthenticationLogin,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Login')
+
+
+class LoginFailedPageletBreadcrumb(
+        icemac.addressbook.browser.breadcrumb.ViewBreadcrumb):
+    """Breadcrumb for authentication failed pagelet."""
+
+    grok.adapts(
+        z3c.authviewlet.auth.LoginFailedPagelet,
+        icemac.addressbook.browser.interfaces.IAddressBookLayer)
+
+    title = _('Login failed')
