@@ -185,53 +185,6 @@ Other
 .. _`running the tests` : https://icemacaddressbook.readthedocs.io/en/latest/runthetests.html#prerequisites-for-the-browser-tests
 
 
-6.0.2 (2018-03-17)
-==================
-
-- Fix update process to be again able to copy data from the old installation.
-  This got broken in 6.0.
-
-
-6.0.1 (2018-03-17)
-==================
-
-- No longer build `lxml` via buildout recipe, as it might break and the
-  installation procedure of `lxml` should now be stable enough.
-
-
-6.0 (2018-03-16)
-================
-
-Backward incompatible changes
------------------------------
-
-- Add a `schema_name` index to distinguish between entities in the catalog.
-
-Bug fixes
----------
-
-- Fix the breadcrumbs on the about page and the logout page.
-
-- Searching for `*` in name search no longer provokes an error.
-
-Other
------
-
-- Move the documentation from
-  https://bitbucket.org/icemac/icemac.addressbook/wiki/ to
-  https://icemacaddressbook.readthedocs.io
-
-- Deprecate the `Manual package installation`_ variant to install this
-  package. It will be no longer supported in the next major version.
-  Switch to `Guided package installation`_ now as described in
-  `Upgrade installation`_.
-
-- Update most libraries needed for the address book to their newest versions.
-
-.. _`Manual package installation` : https://icemacaddressbook.readthedocs.io/en/latest/manualinstallation.html
-.. _`Guided package installation` : https://icemacaddressbook.readthedocs.io/en/latest/guidedinstallation.html
-
-
 Previous Versions
 =================
 
