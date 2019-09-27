@@ -34,6 +34,8 @@ Data
 - import data from XLS (Excel) or CSV files (via `icemac.ab.importer`_ resp.
   `icemac.ab.importxls`_)
 
+- archive persons
+
 .. _`icemac.ab.importer` : https://pypi.org/project/icemac.ab.importer)
 .. _`icemac.ab.importxls` : https://pypi.org/project/icemac.ab.importxls)
 
