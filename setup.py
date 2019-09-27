@@ -36,7 +36,7 @@ setuptools.setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Paste',
-        'Framework :: Zope3',
+        'Framework :: Zope :: 3',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Information Technology',
         'Intended Audience :: Other Audience',
