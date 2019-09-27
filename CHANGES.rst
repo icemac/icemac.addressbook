@@ -2,7 +2,7 @@
 Change log
 ==========
 
-9.0 (unreleased)
+9.0 (2019-09-27)
 ================
 
 Backwards incompatible changes
