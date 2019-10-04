@@ -36,8 +36,8 @@ Data
 
 - archive persons
 
-.. _`icemac.ab.importer` : https://pypi.org/project/icemac.ab.importer)
-.. _`icemac.ab.importxls` : https://pypi.org/project/icemac.ab.importxls)
+.. _`icemac.ab.importer` : https://pypi.org/project/icemac.ab.importer
+.. _`icemac.ab.importxls` : https://pypi.org/project/icemac.ab.importxls
 
 Search & Export
 ===============
