@@ -2,7 +2,7 @@
 Change log
 ==========
 
-9.0.1 (unreleased)
+9.0.1 (2019-10-04)
 ==================
 
 - Update to a trollius version which is still on PyPI.
