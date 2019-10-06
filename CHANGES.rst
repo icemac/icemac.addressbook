@@ -2,10 +2,11 @@
 Change log
 ==========
 
-9.0.2 (unreleased)
-==================
+9.1 (unreleased)
+================
 
-- Nothing changed yet.
+- In update search result handler render the previous value in the check step
+  of the wizard.
 
 
 9.0.1 (2019-10-04)

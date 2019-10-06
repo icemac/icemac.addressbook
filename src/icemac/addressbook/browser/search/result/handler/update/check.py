@@ -23,8 +23,20 @@ class TitleColumn(z3c.table.column.Column):
         return icemac.addressbook.interfaces.ITitle(person)
 
 
+class OldValueColumn(z3c.table.column.Column):
+    """Column displaying the previous value before the operation."""
+
+    header = _('previous value')
+
+    def renderCell(self, person):
+        session = get_update_data_session(self.request)
+        return session.get('old_values', {}).get(person.__name__, '')
+
+
 class ErrorColumn(z3c.table.column.Column):
     """Column displaying operation and validation errors."""
+
+    header = _('errors')
 
     def renderCell(self, person):
         session = get_update_data_session(self.request)
@@ -53,7 +65,9 @@ class ReviewTable(icemac.addressbook.browser.table.Table,
             icemac.addressbook.browser.personlist.createFieldColumn(
                 self, entity, field, 2),
             z3c.table.column.addColumn(
-                self, ErrorColumn, 'errors', weight=3, header=_('errors')),
+                self, OldValueColumn, 'old_values', weight=3),
+            z3c.table.column.addColumn(
+                self, ErrorColumn, 'errors', weight=4),
         ]
 
     @property
@@ -92,10 +106,9 @@ class Result(SessionStorageStep,
         entity, field = get_chosen_entity_and_field(self.request)
         fieldname = self.getContent()['field']
         update_data = self.update_data
-        errors = update_persons(
+        update_data['errors'], update_data['old_values'] = update_persons(
             self.persons, entity, field, update_data['operation'],
             update_data[get_fieldname_in_session(fieldname)])
-        update_data['errors'] = errors
 
     def renderResultTable(self):
         table = ReviewTable(self.context, self.request)

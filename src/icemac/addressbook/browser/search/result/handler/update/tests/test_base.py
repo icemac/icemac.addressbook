@@ -32,7 +32,7 @@ def test_base__update_persons__2(zcmlS):
         result = update_persons(
             [person1], person_entity,
             person_entity.getRawField('notes'), 'append', u'bar')
-    assert {'person1': u'Division by zero'} == result
+    assert ({'person1': u'Division by zero'}, {'person1': None}) == result
 
 
 def test_base__update_persons__3(zcmlS):
@@ -45,7 +45,8 @@ def test_base__update_persons__3(zcmlS):
         result = update_persons(
             [person1], person_entity,
             person_entity.getRawField('notes'), 'append', u'bar')
-    errors = {key: zope.i18n.translate(val) for key, val in result.items()}
+    errors = {key: zope.i18n.translate(val)
+              for key, val in result[0].items()}
     assert (
         {'person1': u'Unexpected error occurred: IOError: file not found'} ==
         errors)
