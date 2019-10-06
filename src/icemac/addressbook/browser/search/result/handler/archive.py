@@ -61,7 +61,7 @@ class ArchiveForm(icemac.addressbook.browser.base._BaseConfirmForm):
     label = _('Do you really want to archive the selected persons?'
               ' Afterwards these persons can only be found in the archive,'
               ' neither be edited nor found using searches.')
-    cancel_status_message = _('Archival canceled.')
+    cancel_status_message = _('Archiving canceled.')
     interface = ISelectionCount
     next_url = 'object'
     next_view = 'person-list.html'
