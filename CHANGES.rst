@@ -2,7 +2,7 @@
 Change log
 ==========
 
-9.1 (unreleased)
+9.1 (2019-10-06)
 ================
 
 - In update search result handler render the previous value in the check step
