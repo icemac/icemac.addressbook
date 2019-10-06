@@ -62,7 +62,7 @@ def test_archive__ArchiveForm__2(search_data, browser):
     # Selecting the `cancel` button leads to the person list without archiving
     # anybody:
     browser.getControl('No, cancel').click()
-    assert 'Archival canceled.' == browser.message
+    assert 'Archiving canceled.' == browser.message
     assert browser.PERSONS_LIST_URL == browser.url
     assert 'Koch' in browser.contents
     assert 'Liebig' in browser.contents
