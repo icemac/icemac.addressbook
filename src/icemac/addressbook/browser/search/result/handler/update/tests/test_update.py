@@ -200,7 +200,8 @@ def test_update__endtoend__7(
         UpdateablePersonFactory(address_book), set_as_default=True)
     _update_field_value(
         browser, 'e-mail address -- e-mail address', 'append', 'foo')
-    assert ('<td>Tester</td><td></td><td>fooisnotavalide-mailaddress.</td>' in
+    assert ('<td>Tester</td><td></td><td>None</td>'
+            '<td>fooisnotavalide-mailaddress.</td>' in
             browser.contents_without_whitespace)
     # Complete button is not shown:
     assert ['form.buttons.back'] == browser.submit_control_names
@@ -211,7 +212,7 @@ def test_update__endtoend__8(
     """Division by zero is handled like a validation error."""
     AddressWithUserdefinedFieldFactory(address_book, 'Int', 50)
     _update_field_value(browser, 'postal address -- distance', 'div', '0')
-    assert ('<td>Tester</td><td>50</td><td>Divisionbyzero</td>' in
+    assert ('<td>Tester</td><td>50</td><td>50</td><td>Divisionbyzero</td>' in
             browser.contents_without_whitespace)
     # Complete button is not shown:
     assert ['form.buttons.back'] == browser.submit_control_names

@@ -71,12 +71,18 @@ class SessionStorageStep(icemac.addressbook.browser.wizard.Step):
 
 
 def update_persons(persons, entity, field, operator_name, update_value):
-    """Update `entity.field` of persons by using function and update_value."""
+    """Update `entity.field` of persons by using function and update_value.
+
+    Return (errors, old_values) where each is a mapping between person ID and
+    a value.
+    """
     errors = dict()
+    old_values = dict()
     for person in persons:
         schema_field = icemac.addressbook.entities.get_bound_schema_field(
             person, entity, field)
         current_value = schema_field.get(schema_field.context)
+        old_values[person.__name__] = current_value
         operator = zope.component.getAdapter(
             current_value,
             icemac.addressbook.browser.search.result.handler.update.operators.
@@ -96,7 +102,7 @@ def update_persons(persons, entity, field, operator_name, update_value):
                         entity, schema_field.__name__, e))
             else:
                 zope.lifecycleevent.modified(person)
-    return errors
+    return errors, old_values
 
 
 def get_fieldname_in_session(fieldname):
