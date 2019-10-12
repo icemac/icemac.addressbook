@@ -64,8 +64,10 @@ class BasePersonTable(icemac.addressbook.browser.table.Table):
 class CheckBoxColumn(z3c.table.column.CheckBoxColumn):
     """Table column to show checkboxes to select result rows for export."""
 
-    header = u'<input type="checkbox" class="checkall" checked="checked" />'
     weight = -1
+
+    def renderHeadCell(self):
+        return u'<input type="checkbox" class="checkall" checked="checked" />'
 
     def getItemKey(self, item):
         return 'persons:list'

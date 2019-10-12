@@ -37,8 +37,8 @@ class ArchiveSelectionCount(BaseSelectionCount):
 def archive_persons(address_book, ids):
     """Archive persons specified by their ID, but not users."""
     archived = 0
-    for name in list(ids):  # this list() call is needed as we might delete
-                            # from the source of the ids
+    # this list() call is needed as we might delete from the source of the ids:
+    for name in list(ids):
         person = address_book[name]
         ref_target = gocept.reference.interfaces.IReferenceTarget(
             zope.security.proxy.getObject(person))

@@ -21,7 +21,7 @@ import pytest
 import pytz
 import selenium.webdriver.support.ui
 import transaction
-import z3c.etestbrowser.wsgi
+import z3c.etestbrowser.testing
 import zope.app.publication.zopepublication
 import zope.app.wsgi.testlayer
 import zope.component
@@ -146,7 +146,7 @@ USERNAME_PASSWORD_MAP = dict(
 )
 
 
-class Browser(z3c.etestbrowser.wsgi.ExtendedTestBrowser):
+class Browser(z3c.etestbrowser.testing.ExtendedTestBrowser):
     """Enriched test browser."""
 
     ROOT_URL_WITHOUT_SLASH = 'http://localhost'

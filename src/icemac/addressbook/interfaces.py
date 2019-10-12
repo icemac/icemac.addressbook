@@ -306,7 +306,8 @@ class IEMailAddress(IPersonEntity):
     email = zope.schema.TextLine(
         title=_(u'e-mail address'), required=False,
         constraint=re.compile(
-            "^[/$!%=+A-Za-z0-9_.-]+@([A-Za-z0-9_\-]+\.)+[A-Za-z]{2,6}$").match)
+            r"^[/$!%=+A-Za-z0-9_.-]+@([A-Za-z0-9_\-]+\.)+[A-Za-z]{2,6}$"
+        ).match)
 
 
 class IHomePageAddress(IPersonEntity):
