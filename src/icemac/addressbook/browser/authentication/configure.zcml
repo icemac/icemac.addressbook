@@ -45,4 +45,10 @@
      permission="zope.Public"
      />
 
+  <z3c:template
+     for="z3c.authviewlet.session.SessionCredentialsLoginForm"
+     layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="session_cred_loginform.pt"
+     />
+
 </configure>
