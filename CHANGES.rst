@@ -7,6 +7,8 @@ Change log
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Fix padding on log-in form.
+
 
 9.1 (2019-10-06)
 ================
