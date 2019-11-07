@@ -328,8 +328,9 @@ class BaseDeleteForm(_BaseConfirmForm):
 def delete_persons(address_book, ids):
     """Delete persons specified by their ID, but not users."""
     deleted = 0
-    for name in list(ids):  # this list() call is needed as we might delete
-                            # from the source of the ids
+    # The following list() call is needed as we might delete from the source of
+    # the ids:
+    for name in list(ids):
         ref_target = gocept.reference.interfaces.IReferenceTarget(
             zope.security.proxy.getObject(address_book[name]))
         if ref_target.is_referenced(recursive=False):
