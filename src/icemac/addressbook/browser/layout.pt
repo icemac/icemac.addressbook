@@ -15,9 +15,10 @@
           type="image/x-icon"
           tal:attributes="href context/@@favicon-url" />
   </head>
-  <body class="main">
+  <body class="main"
+        tal:define="main_menu provider:main-menu">
     <div id="head">
-      <h1>
+      <h1 tal:attributes="class python:'have-main-menu' if main_menu else None">
         <span tal:content="title">icemac.addressbook</span>
         <a tal:attributes="href string:${request/URL/0}/@@about.html"
            id="about-view"><img src="/++resource++img/Symbol-Information.png"
@@ -32,8 +33,7 @@
     </div>
 
     <div id="body">
-      <ul id="main-menu"
-          tal:content="structure provider:main-menu">Main menu</ul>
+      <div tal:replace="structure main_menu">Main menu</div>
       <div id="menu-bar">
         <ul id="breadcrumbs"
             tal:content="structure provider:breadcrumbs">Breadcrumbs</ul>

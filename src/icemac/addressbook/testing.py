@@ -663,7 +663,8 @@ class SiteMenu(object):
     @property
     def _xpath(self):
         # xpath is one based!
-        return '//ul[@id="main-menu"]/li[%s]' % (self.menu_item_index + 1)
+        return '//div[@class="menuToggle main-menu"]/ul/li[%s]' % (
+            self.menu_item_index + 1)
 
 
 class AddressBookAssertions:

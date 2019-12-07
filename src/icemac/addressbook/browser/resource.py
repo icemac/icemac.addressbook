@@ -14,7 +14,10 @@ js_lib = fanstatic.Library('js', os.path.join('resources', 'js'))
 
 # CSS
 reset_css = fanstatic.Resource(css_lib, 'reset.css')
-base_css = fanstatic.Resource(css_lib, 'base.css', depends=[reset_css])
+hamburger_fold_out_menu_css = fanstatic.Resource(
+    css_lib, 'pure-css-hamburger-fold-out-menu.css')
+base_css = fanstatic.Resource(css_lib, 'base.css', depends=[
+    reset_css, hamburger_fold_out_menu_css])
 print_css = fanstatic.Resource(css_lib, 'print.css', depends=[base_css])
 table_css = fanstatic.Resource(css_lib, 'table.css')
 form_css = fanstatic.Resource(css_lib, 'form.css')

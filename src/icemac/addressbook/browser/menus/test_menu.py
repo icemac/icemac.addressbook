@@ -20,9 +20,9 @@ def test_menu__AddMenu__1(address_book, FullPersonFactory, browser):
 
 def test_menu_MainMenu__1(address_book, browser):
     """It omits deselected tabs from rendering."""
-    tab_names_xpath = '//ul[@id="main-menu"]/li/a/span/text()'
+    tab_names_xpath = (
+        '//div[@class="menuToggle main-menu"]/ul/li/a/span/text()')
     browser.login('mgr')
-    browser.handleErrors = False
     browser.open(browser.ADDRESS_BOOK_EDIT_URL)
     assert [
         'Person list',

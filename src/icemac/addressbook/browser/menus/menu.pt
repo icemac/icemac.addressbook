@@ -1,0 +1,13 @@
+<div tal:define="viewlets options/viewlets"
+     tal:condition="viewlets"
+     tal:attributes="class string:menuToggle ${view/outer_css_class}">
+  <input type="checkbox" />
+  <!-- Some spans to act as a hamburger. -->
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <ul tal:attributes="class view/inner_css_class">
+    <li tal:repeat="viewlet viewlets"
+        tal:replace="structure viewlet/render" />
+  </ul>
+</div>
