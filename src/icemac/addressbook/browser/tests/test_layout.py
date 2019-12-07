@@ -7,7 +7,7 @@ def test__layout_pt__1(address_book, browser):
     address_book.title = u'My addresses'
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     assert 'My addresses' == browser.title
-    assert ['My addresses'] == browser.etree.xpath('//h1/span/text()')
+    assert ['My addresses'] == browser.etree.xpath('//h1/text()')
 
 
 def test__layout_pt__2(address_book, browser):
@@ -15,7 +15,7 @@ def test__layout_pt__2(address_book, browser):
     address_book.title = u''
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
     assert 'icemac.addressbook' == browser.title
-    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/span/text()')
+    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/text()')
 
 
 def test__layout_pt__3(address_book, browser):
@@ -23,7 +23,7 @@ def test__layout_pt__3(address_book, browser):
     browser.login('mgr')  # need to log in to avoid HTTP-401
     browser.open(browser.ROOT_URL)
     assert 'icemac.addressbook' == browser.title
-    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/span/text()')
+    assert ['icemac.addressbook'] == browser.etree.xpath('//h1/text()')
 
 
 def test__layout_pt__4(address_book, browser):

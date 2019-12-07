@@ -12,6 +12,9 @@ Change log
 - On mobile devices replace horizontal menus with vertical ones hidden behind a
   burger icon.
 
+- Make header of application in browser less tall and move link to the about
+  view to the main menu.
+
 
 9.1 (2019-10-06)
 ================

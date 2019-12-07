@@ -30,17 +30,20 @@ def test_menu_MainMenu__1(address_book, browser):
         'Archive',
         'Preferences',
         'Master data',
+        'About',
     ] == browser.etree.xpath(tab_names_xpath)
     assert [
         'Person list',
         'Search',
         'Archive',
         'Preferences',
+        'About',
     ] == browser.getControl('Deselected tabs').displayOptions
     # By default no tabs are deselected:
     assert [] == browser.getControl('Deselected tabs').displayValue
 
-    browser.getControl('Deselected tabs').displayValue = ['Search', 'Archive']
+    browser.getControl('Deselected tabs').displayValue = [
+        'Search', 'Archive', 'About']
     browser.select_favicon()
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
