@@ -17,9 +17,12 @@ body {
     padding: 0.5%;
 }
 
+#head {
+    min-height: 32px;
+}
+
 #head h1 {
     float: left;
-    font-size: 32px;
     font-weight: bold;
 }
 

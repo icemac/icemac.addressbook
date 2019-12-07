@@ -18,15 +18,8 @@
   <body class="main"
         tal:define="main_menu provider:main-menu">
     <div id="head">
-      <h1 tal:attributes="class python:'have-main-menu' if main_menu else None">
-        <span tal:content="title">icemac.addressbook</span>
-        <a tal:attributes="href string:${request/URL/0}/@@about.html"
-           id="about-view"><img src="/++resource++img/Symbol-Information.png"
-               alt="info-i"
-               i18n:attributes="title; alt"
-               title="Information about icemac.addressbook" />
-        </a>
-      </h1>
+      <h1 tal:attributes="class python:'have-main-menu' if main_menu else None"
+          tal:content="title">icemac.addressbook</h1>
       <span class="LoginLogoutBox">
         <tal:block replace="structure provider:login-logout" />
       </span>

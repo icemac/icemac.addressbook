@@ -384,7 +384,10 @@ def test_principals__EditForm__7(
 
 def test_principals__EditForm__8(
         address_book, UserFactory, localadmin, browser2, browser3):
-    """Removing all roles from a user only allows him to access master data.
+    """Removing all roles from a user only allows him to access following tabs:
+
+    * master data.
+    * about
 
     He can see an empty users listing.
     """
@@ -403,6 +406,7 @@ def test_principals__EditForm__8(
     browser.open(url)
     assert [
         'Master data',
+        'About',
     ] == browser.etree.xpath(
         '//div[@class="menuToggle main-menu"]/ul/li/a/span/text()')
     browser.getLink('Master data').click()
