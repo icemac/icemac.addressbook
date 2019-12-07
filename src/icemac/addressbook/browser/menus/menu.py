@@ -12,6 +12,9 @@ import zope.viewlet.viewlet
 class MainMenuManager(z3c.menu.ready2go.manager.MenuManager):
     """MenuManager which filters out the deselected tabs."""
 
+    outer_css_class = 'main-menu'
+    inner_css_class = 'abmenu'
+
     def filter(self, viewlets):
         """Filter out deselected tabs."""
         viewlets = super(MainMenuManager, self).filter(viewlets)

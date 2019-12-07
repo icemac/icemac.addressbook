@@ -7,6 +7,7 @@
      name="main-menu"
      class=".menu.MainMenu"
      layer="icemac.addressbook.browser.interfaces.IAddressBookLayer"
+     template="menu.pt"
      permission="zope.Public"
      />
 

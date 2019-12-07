@@ -403,7 +403,8 @@ def test_principals__EditForm__8(
     browser.open(url)
     assert [
         'Master data',
-    ] == browser.etree.xpath('//ul[@id="main-menu"]/li/a/span/text()')
+    ] == browser.etree.xpath(
+        '//div[@class="menuToggle main-menu"]/ul/li/a/span/text()')
     browser.getLink('Master data').click()
 
     assert ['Users'] == browser.etree.xpath(

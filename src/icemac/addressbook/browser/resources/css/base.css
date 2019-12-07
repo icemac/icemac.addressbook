@@ -40,53 +40,41 @@ body {
     -moz-border-radius-bottomright: 8px;
 }
 
-#main-menu,
-#secondary-menu {
+.abmenu {
     float: left;
 }
 
-#secondary-menu {
-    margin-top: -4px;
-    margin-left: -5px;
-}
-
-#main-menu li,
-#secondary-menu li {
-    float: left;
+.abmenu li {
     list-style-type: none;
     margin-right: 0.5em;
 }
 
-#main-menu li a:hover,
-#secondary-menu li a:hover {
+.abmenu li a:hover {
     background-color:#996633;
     color:White;
 }
 
-#main-menu a,
-#secondary-menu a {
-    border:1px solid #996633;
+.abmenu a {
     text-decoration: none;
     padding:0.1em 0.5em;
     color: Black;
 }
 
-#main-menu a {
+.main-menu .abmenu a {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     -moz-border-radius-topleft: 8px;
     -moz-border-radius-topright: 8px;
 }
 
-#secondary-menu a {
+ .secondary-menu .abmenu a {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     -moz-border-radius-bottomleft: 8px;
     -moz-border-radius-bottomright: 8px;
 }
 
-#main-menu li.selected a,
-#secondary-menu li.selected a {
+.abmenu li.selected a {
     background:#996633 none repeat scroll 0 0;
     color:White;
 }
@@ -292,4 +280,46 @@ p.hint {
 .archive.person .metadata {
     display: none;
     content: "";
+}
+
+@media (min-width: 700px) {
+
+    .menuToggle input {
+        display: none;
+    }
+
+    .secondary-menu .abmenu {
+        margin-top: -4px;
+        margin-left: -5px;
+    }
+    .abmenu li {
+        float: left;
+    }
+
+    .abmenu a {
+        border:1px solid #996633;
+    }
+}
+
+@media (max-width: 699px) {
+
+    #head h1.have-main-menu {
+        margin-left: 45px;
+    }
+
+    .abmenu li a:hover {
+        background-color: inherit;
+        color: inherit;
+    }
+    .abmenu li.selected a {
+        background-color: inherit;
+        color: #996633;
+    }
+    .menuToggle.secondary-menu {
+        left: -3px;
+    }
+    .menuToggle.main-menu {
+        top: -30px;
+        height: 0;
+    }
 }

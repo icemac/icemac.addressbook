@@ -9,6 +9,9 @@ Change log
 
 - Fix padding on log-in form.
 
+- On mobile devices replace horizontal menus with vertical ones hidden behind a
+  burger icon.
+
 
 9.1 (2019-10-06)
 ================
