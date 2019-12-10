@@ -1,10 +1,17 @@
 <div id="add-menu"
+     class="menuToggle right-side add-menu"
+     tal:condition="view/have_viewlets"
      i18n:domain="icemac.addressbook">
-  <div tal:condition="view/have_viewlets">
-    <ul>
+  <div>
+    <ul class="add-text">
       <li i18n:translate="Add-menu-Add">Add</li>
     </ul>
-    <ul id="add-menu-content">
+    <input type="checkbox" />
+    <!-- Some spans to act as a plus sign. -->
+    <span class="plus"></span>
+    <span class="plus horizontal"></span>
+    <ul id="add-menu-content"
+        class="abmenu">
       <li tal:repeat="viewlet options/viewlets"
           tal:replace="structure viewlet/render" />
     </ul>

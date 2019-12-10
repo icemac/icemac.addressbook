@@ -9,8 +9,8 @@ Change log
 
 - Fix padding on log-in form.
 
-- On mobile devices replace horizontal menus with vertical ones hidden behind a
-  burger icon.
+- On mobile devices replace horizontal menus (tabs) and the add menu with
+  vertical ones hidden behind a burger icon resp. plus sign.
 
 - Make header of application in browser less tall and move link to the about
   view to the main menu.
