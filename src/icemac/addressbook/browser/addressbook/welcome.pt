@@ -1,7 +1,9 @@
-<p i18n:domain="icemac.addressbook"
-   i18n:translate="">
-  Welcome to
-  <span i18n:name="title"
-        tal:replace="provider:addressbook-title">icemac.addressbook</span>.
-  Please select one of the tabs above.
-</p>
+<tal:i18n i18n:domain="icemac.addressbook">
+  <p i18n:translate="">
+    Welcome to
+    <span i18n:name="title"
+          tal:replace="provider:addressbook-title">icemac.addressbook</span>.
+  </p>
+  <p class="desktop">Please select one of the tabs above.</p>
+  <p class="mobile">Please select an item from the burger menu on the left.</p>
+</tal:i18n>
