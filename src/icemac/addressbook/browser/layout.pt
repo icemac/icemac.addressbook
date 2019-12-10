@@ -16,11 +16,13 @@
           tal:attributes="href context/@@favicon-url" />
   </head>
   <body class="main"
-        tal:define="main_menu provider:main-menu">
+        tal:define="main_menu provider:main-menu;
+                    add_menu provider:add-menu;
+                    add_menu python:add_menu.strip()">
     <div id="head">
       <h1 tal:attributes="class python:'have-main-menu' if main_menu else None"
           tal:content="title">icemac.addressbook</h1>
-      <span class="LoginLogoutBox">
+      <span tal:attributes="class python:'LoginLogoutBox have-add-menu' if add_menu else 'LoginLogoutBox'">
         <tal:block replace="structure provider:login-logout" />
       </span>
     </div>
@@ -30,7 +32,7 @@
       <div id="menu-bar">
         <ul id="breadcrumbs"
             tal:content="structure provider:breadcrumbs">Breadcrumbs</ul>
-        <ul tal:replace="structure provider:add-menu">Add menu</ul>
+        <ul tal:replace="structure add_menu">Add menu</ul>
       </div>
       <div tal:replace="structure provider:messages" />
       <div id="content"

@@ -52,11 +52,6 @@ body {
     margin-right: 0.5em;
 }
 
-.abmenu li a:hover {
-    background-color:#996633;
-    color:White;
-}
-
 .abmenu a {
     text-decoration: none;
     padding:0.1em 0.5em;
@@ -121,40 +116,8 @@ body {
     color: white;
 }
 
-#add-menu a {
-    color: White;
-}
-
-#add-menu div {
-    background-color: #996633;
-    display: inline-block;
-    float: right;
-}
-
-#add-menu ul {
-    float: left;
-}
-
-#add-menu li {
-    list-style-type: none;
-    padding: 5px 8px;
-}
-
-#add-menu-content li {
-    float: left;
-    padding-left: 0.5em;
-    border-left: 1px dashed white;
-}
-
 #add-menu-content li span {
     padding: 0 2px;
-}
-
-#add-menu-content li a:hover {
-    background-color: White;
-    color: #996633;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
 }
 
 #add-menu-content a {
@@ -287,10 +250,13 @@ p.hint {
 
 @media (min-width: 700px) {
 
-    .menuToggle input {
+    .mobile {
         display: none;
     }
 
+    .menuToggle input {
+        display: none;
+    }
     .secondary-menu .abmenu {
         margin-top: -4px;
         margin-left: -5px;
@@ -298,22 +264,58 @@ p.hint {
     .abmenu li {
         float: left;
     }
-
     .abmenu a {
         border:1px solid #996633;
     }
+    .abmenu li a:hover {
+        background-color:#996633;
+        color:White;
+    }
+
+
+    #add-menu div {
+        background-color: #996633;
+        display: inline-block;
+        float: right;
+    }
+    #add-menu ul {
+        float: left;
+    }
+    #add-menu-content li {
+        float: left;
+        padding-left: 0.5em;
+        border-left: 1px dashed white;
+    }
+    #add-menu li {
+        list-style-type: none;
+        padding: 5px 8px;
+    }
+    #add-menu a {
+        color: White;
+    }
+    #add-menu-content li a:hover {
+        background-color: White;
+        color: #996633;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+    }
+
 }
 
 @media (max-width: 699px) {
+
+    .desktop {
+        display: none;
+    }
 
     #head h1.have-main-menu {
         margin-left: 45px;
     }
 
-    .abmenu li a:hover {
-        background-color: inherit;
-        color: inherit;
+    .LoginLogoutBox.have-add-menu {
+        margin-right: 40px;
     }
+
     .abmenu li.selected a {
         background-color: inherit;
         color: #996633;
@@ -325,4 +327,14 @@ p.hint {
         top: -30px;
         height: 0;
     }
+    .menuToggle.add-menu {
+        top: -20px;
+        float: right;
+        height: 0;
+    }
+
+    .add-menu .add-text {
+        display: none;
+    }
+
 }
