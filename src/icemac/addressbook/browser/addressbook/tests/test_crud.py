@@ -178,5 +178,4 @@ def test_crud__welcome_pt__1(address_book, browser):
     address_book.title = u'ftest-ab'
     browser.login('visitor')
     browser.open(browser.ADDRESS_BOOK_DEFAULT_URL)
-    assert ('<p>Welcome to ftest-ab. Please select one of the tabs above.</p>'
-            in browser.contents)
+    assert '<p>Welcome to ftest-ab.</p>'in browser.contents
