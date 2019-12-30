@@ -31,6 +31,8 @@ exclude MANIFEST.in
 
 prune docs
 
+recursive-include licences *.rst
+recursive-include licences *.txt
 recursive-include log *.txt
 recursive-include profiles *.cfg
 recursive-include profiles *.in
