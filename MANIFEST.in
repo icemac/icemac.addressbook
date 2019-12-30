@@ -1,5 +1,4 @@
 include *.TXT
-include install.py
 
 include *.txt
 exclude doc-requirements.txt
