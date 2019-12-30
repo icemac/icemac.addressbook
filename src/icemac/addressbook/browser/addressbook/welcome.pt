@@ -4,6 +4,8 @@
     <span i18n:name="title"
           tal:replace="provider:addressbook-title">icemac.addressbook</span>.
   </p>
-  <p class="desktop">Please select one of the tabs above.</p>
-  <p class="mobile">Please select an item from the burger menu on the left.</p>
+  <p class="desktop"
+     i18n:translate="">Please select one of the tabs above.</p>
+  <p class="mobile"
+     i18n:translate="">Please select an item from the burger menu on the left.</p>
 </tal:i18n>
