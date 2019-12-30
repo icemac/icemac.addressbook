@@ -105,30 +105,6 @@ Bug fixes
   no longer present the password in clear text during update installation.
 
 
-8.0 (2018-10-13)
-================
-
-Backwards incompatible changes
-------------------------------
-
-- No longer install test and debugging infrastructure in a production
-  environment by default.
-
-- Rename `Apply` button to `Save`.
-
-- Add ZEO server running the database. This requires a different commands to
-  start and stop the address book and the database server, see
-  `documentation`_.
-
-- Remove scripts which drop into a debugger on an exception and their
-  infrastructure (`bin/debug_ajax` and `bin/debug_pdb`).
-
-Other changes
--------------
-
-- Update most libraries needed for the address book to their newest versions.
-
-
 Previous Versions
 =================
 
