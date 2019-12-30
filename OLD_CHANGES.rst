@@ -5,6 +5,31 @@
 Change log of releases more than 2 major or minor versions behind current
 version.
 
+
+8.0 (2018-10-13)
+================
+
+Backwards incompatible changes
+------------------------------
+
+- No longer install test and debugging infrastructure in a production
+  environment by default.
+
+- Rename `Apply` button to `Save`.
+
+- Add ZEO server running the database. This requires a different commands to
+  start and stop the address book and the database server, see
+  `documentation`_.
+
+- Remove scripts which drop into a debugger on an exception and their
+  infrastructure (`bin/debug_ajax` and `bin/debug_pdb`).
+
+Other changes
+-------------
+
+- Update most libraries needed for the address book to their newest versions.
+
+
 7.0.4 (2018-08-05)
 ==================
 
