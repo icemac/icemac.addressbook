@@ -2,7 +2,7 @@
 Change log
 ==========
 
-9.2 (unreleased)
+9.2 (2019-12-30)
 ================
 
 - Update most libraries needed for the address book to their newest versions.
