@@ -281,8 +281,8 @@ class Browser(z3c.etestbrowser.testing.ExtendedTestBrowser):
         """Set the language for the browser."""
         self.addHeader('Accept-Language', lang)
 
-    def open(self, url):
-        super(Browser, self).open(url)
+    def open(self, url, **kw):
+        super(Browser, self).open(url, **kw)
         return self
 
     @property
