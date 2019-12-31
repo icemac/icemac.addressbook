@@ -57,7 +57,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'icemac.addressbook'
-copyright = '2008-2019, Michael Howitz'
+copyright = '2008-2020, Michael Howitz'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
