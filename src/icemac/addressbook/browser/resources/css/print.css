@@ -1,7 +1,7 @@
 @media only print {
     #head .LoginLogoutBox,
     #about-view,
-    #main-menu,
+    .abmenu,
     #menu-bar,
     #info-messages,
     div#content h1,
@@ -22,7 +22,7 @@
     }
 
     #head h1 {
-        font-size: 24px;
+        font-size: 18px;
     }
 
     #prefs-category-edit-form fieldset div.group {
