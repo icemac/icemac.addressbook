@@ -7,6 +7,8 @@ Change log
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Adapt `print.css` to menu changes in version 9.2.
+
 
 9.2 (2019-12-30)
 ================
