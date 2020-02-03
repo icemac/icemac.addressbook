@@ -1,6 +1,7 @@
 # -*- coding: latin-1 -*-
 from icemac.addressbook.i18n import _
 import collections
+import datetime
 import gocept.country
 import gocept.country.db
 import gocept.reference.field
@@ -22,6 +23,7 @@ FIELD_NS_PREFIX = 'fields-'
 DEFAULT_FAVICON = '/++resource++img/favicon-red.ico'
 DEFAULT_STARTPAGE_DATA = (
     'icemac.addressbook.interfaces.IAddressBook', 'welcome.html')
+MIN_SUPPORTED_DATE = datetime.date(1900, 1, 1)
 
 
 class ITitle(zope.interface.Interface):
@@ -236,7 +238,8 @@ class IPersonName(zope.interface.Interface):
 class IPersonData(zope.interface.Interface):
     """Data of a person."""
 
-    birth_date = zope.schema.Date(title=_(u'birth date'), required=False)
+    birth_date = zope.schema.Date(
+        title=_(u'birth date'), required=False, min=MIN_SUPPORTED_DATE)
     keywords = gocept.reference.field.Set(
         title=_('keywords'), required=False,
         value_type=zope.schema.Choice(

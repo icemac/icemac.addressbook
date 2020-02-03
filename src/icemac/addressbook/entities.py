@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from icemac.addressbook.interfaces import MIN_SUPPORTED_DATE
 from icemac.addressbook.utils import dotted_name
 import grokcore.component as grok
 import icemac.addressbook.interfaces
@@ -176,16 +177,14 @@ class ChoiceFieldValuesSource(zc.sourcefactory.basic.BasicSourceFactory):
 @grok.implementer(zope.schema.interfaces.IField)
 def user_field_to_schema_field(field):
     """Convert a user defined field (IField) into a zope.schema field."""
+    kwargs = dict(title=field.title, description=field.notes, required=False)
     if field.type == 'Choice':
-        schema_field = zope.schema.Choice(
-            title=field.title, description=field.notes, required=False,
-            source=ChoiceFieldValuesSource(field.values))
-    else:
-        schema_field = getattr(zope.schema, field.type)(
-            title=field.title, description=field.notes, required=False)
+        kwargs['source'] = ChoiceFieldValuesSource(field.values)
+    elif field.type == 'Date':
+        kwargs['min'] = MIN_SUPPORTED_DATE
+    schema_field = getattr(zope.schema, field.type)(**kwargs)
     schema_field.__name__ = str(field.__name__)
-    schema_field.interface = (
-        icemac.addressbook.interfaces.IUserFieldStorage)
+    schema_field.interface = icemac.addressbook.interfaces.IUserFieldStorage
     return schema_field
 
 
