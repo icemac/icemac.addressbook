@@ -225,6 +225,29 @@ def test_person__PersonAddForm__11(translated_address_book, browser):
         '//ul[@class="errors"]/li/div/text()')
 
 
+def test_person__PersonAddForm__12(address_book, browser):
+    """It requires birth dates after 1900."""
+    browser.login('editor')
+    browser.open(browser.PERSON_ADD_URL)
+    browser.getControl('last name').value = 'Tester'
+    browser.getControl('birth date').value = '1899 12 31 '
+    browser.getControl('Add').click()
+    assert ['Value is too small'] == browser.etree.xpath(
+        '//ul[@class="errors"]/li/div/text()')
+
+
+def test_person__PersonAddForm__13(address_book, FieldFactory, browser):
+    """It prevents entering date values before 1900 in a user defined field."""
+    FieldFactory(address_book, IPerson, 'Date', u'my date')
+    browser.login('editor')
+    browser.open(browser.PERSON_ADD_URL)
+    browser.getControl('last name').value = 'Bester'
+    browser.getControl('my date').value = '1899 12 31 '
+    browser.getControl('Add').click()
+    assert ['Value is too small'] == browser.etree.xpath(
+        '//ul[@class="errors"]/li/div/text()')
+
+
 def test_person__AddGroup__1(address_book, browser):
     """`AddGroup` respects the user definded field sort order."""
     browser.login('editor')

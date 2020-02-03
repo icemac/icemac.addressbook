@@ -9,6 +9,9 @@ Change log
 
 - Adapt `print.css` to menu changes in version 9.2.
 
+- Prevent entering date values before 1900 as they cannot be rendered, so they
+  even cannot be changed.
+
 
 9.2 (2019-12-30)
 ================
