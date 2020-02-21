@@ -12,6 +12,11 @@ python:
 install:
   - pip install zc.buildout
   - buildout -c .travis.cfg
+before_script:
+  - chromium --version
+  - chromedriver --version
+  - chromedriver-update 80.0.3987.106
+  - chromedriver --version
 script:
   - bin/py.test
 cache:
