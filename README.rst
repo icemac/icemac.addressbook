@@ -2,6 +2,12 @@
 icemac.addressbook
 ==================
 
+.. image:: https://travis-ci.com/icemac/icemac.addressbook.svg?branch=master
+   :target: https://travis-ci.com/icemac/icemac.addressbook
+
+.. image:: https://coveralls.io/repos/github/icemac/icemac.addressbook/badge.svg?branch=master
+   :target: https://coveralls.io/github/icemac/icemac.addressbook?branch=master
+
 .. image:: https://img.shields.io/pypi/v/icemac.addressbook.svg
    :target: https://pypi.python.org/pypi/icemac.addressbook/
    :alt: Latest release
