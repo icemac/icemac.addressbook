@@ -2,9 +2,9 @@
 Hacking
 =======
 
-Fork me on: https://bitbucket.org/icemac/icemac.addressbook
+Fork me on: https://github.com/icemac/icemac.addressbook
 
-File an issue on: https://bitbucket.org/icemac/icemac.addressbook/issues
+File an issue on: https://github.com/icemac/icemac.addressbook/issues
 
 Create the documentation using ``tox``.
 

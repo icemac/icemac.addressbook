@@ -8,7 +8,7 @@ This installation should only be used to work on the address book code itself.
 
 1. Get the source code::
 
-   $ hg clone https://bitbucket.org/icemac/icemac.addressbook
+   $ git clone https://github.com/icemac/icemac.addressbook
 
 2. Install the sources::
 

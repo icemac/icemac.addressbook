@@ -74,4 +74,4 @@ Firefox also supports the non-headless mode::
 
 .. _chromedriver : http://chromedriver.chromium.org/downloads
 .. _geckodriver : https://github.com/mozilla/geckodriver/releases
-.. _`profiles/version.cfg` : https://bitbucket.org/icemac/icemac.addressbook/src/default/profiles/versions.cfg
+.. _`profiles/version.cfg` : https://github.com/icemac/icemac.addressbook/blob/master/profiles/versions.cfg

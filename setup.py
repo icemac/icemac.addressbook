@@ -25,11 +25,11 @@ setuptools.setup(
     author='Michael Howitz',
     author_email='icemac@gmx.net',
     download_url='https://pypi.org/project/icemac.addressbook',
-    url='https://bitbucket.org/icemac/icemac.addressbook',
+    url='https://github.com/icemac/icemac.addressbook',
     project_urls={
         'Documentation': 'https://icemacaddressbook.readthedocs.io',
-        'Source': 'https://bitbucket.org/icemac/icemac.addressbook',
-        'Tracker': 'https://bitbucket.org/icemac/icemac.addressbook/issues',
+        'Source': 'https://github.com/icemac/icemac.addressbook',
+        'Tracker': 'https://github.com/icemac/icemac.addressbook/issues',
     },
     license='MIT',
     classifiers=[
