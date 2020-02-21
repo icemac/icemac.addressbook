@@ -1,26 +1,7 @@
+version: ~> 1.0
 language: python
-dist: bionic
-services:
-  - xvfb
-addons:
-  apt:
-    packages:
-      - chromium-chromedriver
-python:
-  - 2.7
-before_install:
-  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  - sudo apt install ./google-chrome-stable_current_amd64.deb
-  - google-chrome --version
-  - chromedriver --version
+import:
+  - source: icemac/icemac.addressbook:.travis-blueprint.yml
+    mode: merge
 install:
-  - pip install zc.buildout coveralls
   - buildout -c .travis.cfg
-script:
-  - bin/py.test
-after_success:
-  - coveralls
-cache:
-  pip: true
-  directories:
-    - eggs/
