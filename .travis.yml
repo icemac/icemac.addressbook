@@ -9,14 +9,14 @@ addons:
       - chromium-chromedriver
 python:
   - 2.7
-install:
-  - pip install zc.buildout
-  - buildout -c .travis.cfg
-before_script:
-  - chromium --version
+before_install:
+  - chromium-browser --version
   - chromedriver --version
   - chromedriver-update 80.0.3987.106
   - chromedriver --version
+install:
+  - pip install zc.buildout
+  - buildout -c .travis.cfg
 script:
   - bin/py.test
 cache:
