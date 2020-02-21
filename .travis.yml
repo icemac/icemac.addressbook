@@ -4,7 +4,7 @@ services:
 addons:
   apt:
     packages:
-      - chromium
+      - chromium-browser
       - chromium-chromedriver
 python:
   - 2.7
