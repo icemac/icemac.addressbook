@@ -5,14 +5,12 @@ services:
 addons:
   apt:
     packages:
-      - chromium-browser
       - chromium-chromedriver
 python:
   - 2.7
 before_install:
   - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   - sudo apt install ./google-chrome-stable_current_amd64.deb
-  - chromium-browser --version
   - google-chrome --version
   - chromedriver --version
 install:
