@@ -12,4 +12,8 @@ install:
   - pip install zc.buildout
   - buildout -c .travis.cfg
 script:
-  - bin/test --all -vv --ndiff
+  - bin/py.test
+cache:
+  pip: true
+  directories:
+    - eggs/
