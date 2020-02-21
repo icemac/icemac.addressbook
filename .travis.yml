@@ -4,8 +4,8 @@ services:
 addons:
   apt:
     packages:
-      - firefox
-      - firefox-geckodriver
+      - chromium
+      - chromium-chromedriver
 python:
   - 2.7
 install:
