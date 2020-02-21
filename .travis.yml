@@ -14,10 +14,12 @@ before_install:
   - google-chrome --version
   - chromedriver --version
 install:
-  - pip install zc.buildout
+  - pip install zc.buildout coveralls
   - buildout -c .travis.cfg
 script:
   - bin/py.test
+after_success:
+  - coveralls
 cache:
   pip: true
   directories:
