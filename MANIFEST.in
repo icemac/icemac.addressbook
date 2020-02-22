@@ -21,11 +21,8 @@ exclude *.yml
 include *.cfg
 exclude *.cfg
 
-include .hgignore
-exclude .hgignore
-
-include .hgtags
-exclude .hgtags
+include .gitignore
+exclude .gitignore
 
 exclude MANIFEST.in
 
