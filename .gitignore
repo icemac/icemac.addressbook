@@ -25,6 +25,7 @@ include/
 install.user.ini
 lib/
 log/*
+mac/
 my-buildout.cfg
 parts
 pip-selfcheck.json
