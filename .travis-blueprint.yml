@@ -15,7 +15,7 @@ before_install:
   - chromedriver --version
   - pip install zc.buildout coveralls
 install:
-  - buildout
+  - buildout -n
 script:
   - bin/py.test
 after_success:
