@@ -26,7 +26,8 @@ def test_root__FrontPage__3(address_book, browser):
     address_book.__parent__['btree'] = BTreeContainer()
     browser.login('mgr')
     browser.open(browser.ROOT_URL)
-    assert ['test addressbook'] == browser.etree.xpath('//ul/li/a[1]/text()')
+    assert 'test addressbook' == ''.join(
+        browser.etree.xpath('//ul/li/a[1]/text()')).strip()
 
 
 def test_root__FrontPage__4(

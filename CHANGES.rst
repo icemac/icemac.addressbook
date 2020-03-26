@@ -5,7 +5,7 @@ Change log
 9.4 (unreleased)
 ================
 
-- Nothing changed yet.
+- Update most libraries needed for the address book to their newest versions.
 
 
 9.3 (2020-03-23)
