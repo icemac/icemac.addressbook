@@ -8,6 +8,7 @@ import persistent.interfaces
 import persistent.mapping
 import six
 import zc.sourcefactory.basic
+import zope.container.btree
 import zope.container.contained
 import zope.dottedname.resolve
 import zope.interface.interfaces
@@ -15,6 +16,7 @@ import zope.schema
 import zope.schema.fieldproperty
 import zope.schema.interfaces
 import zope.security.proxy
+import zope.site
 import zope.traversing.api
 
 
