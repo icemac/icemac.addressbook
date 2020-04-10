@@ -60,6 +60,7 @@ setuptools.setup(
     install_requires=[
         'ZConfig',
         'ZODB',
+        'collective.monkeypatcher',
         'fanstatic',
         'gocept.country',
         'gocept.pagelet',
