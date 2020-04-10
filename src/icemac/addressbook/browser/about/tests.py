@@ -47,7 +47,7 @@ def test_footer__ImprintLink__title__1(address_book, browser):
         tag = tags[0]
         assert tag.get('target') == '_blank'
         assert tag.get('href') == 'https://imprint.example.com'
-        assert tag.iterchildren().next().text == 'My Imprint'
+        assert next(tag.iterchildren()).text == 'My Imprint'
 
 
 def test_footer__DataprotectionLink__title__1(address_book, browser):
@@ -61,4 +61,4 @@ def test_footer__DataprotectionLink__title__1(address_book, browser):
         tag = tags[0]
         assert tag.get('target') == '_blank'
         assert tag.get('href') == 'https://daten.example.com'
-        assert tag.iterchildren().next().text == 'Datenschutz'
+        assert next(tag.iterchildren()).text == 'Datenschutz'

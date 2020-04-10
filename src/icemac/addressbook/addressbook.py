@@ -7,8 +7,8 @@ import icemac.addressbook.interfaces
 import icemac.addressbook.keyword
 import icemac.addressbook.orderstorage
 import icemac.addressbook.preferences.default
-import zope.schema.fieldproperty
 import icemac.addressbook.utils
+import six
 import zc.catalog.catalogindex
 import zope.app.appsetup.bootstrap
 import zope.authentication.interfaces
@@ -18,6 +18,7 @@ import zope.catalog.text
 import zope.component
 import zope.component.hooks
 import zope.container.btree
+import zope.schema.fieldproperty
 import zope.container.interfaces
 import zope.event
 import zope.index.text.lexicon
@@ -50,9 +51,14 @@ class AddressBook(zope.container.btree.BTreeContainer,
         """Nice representation of the address book."""
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
-    def __nonzero__(self):
-        """Make sure an empty address book does not evaluate to `False`."""
-        return True
+    if six.PY2:
+        def __nonzero__(self):
+            """Make sure an empty address book does not evaluate to `False`."""
+            return True
+    else:
+        def __bool__(self):
+            """Make sure an empty address book does not evaluate to `False`."""
+            return True
 
     @property
     def time_zone(self):

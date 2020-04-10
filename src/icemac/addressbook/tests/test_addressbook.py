@@ -119,7 +119,7 @@ def test_addressbook__AddressBook____repr____2():
     assert "<AddressBook None (None)>" == repr(AddressBook())
 
 
-def test_addressbook__AddressBook____nonzero____1(address_book):
+def test_addressbook__AddressBook____bool____1(address_book):
     """It is `True` even for an empty address book."""
     assert bool(address_book)
 
