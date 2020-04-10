@@ -51,14 +51,12 @@ class AddressBook(zope.container.btree.BTreeContainer,
         """Nice representation of the address book."""
         return "<AddressBook %r (%r)>" % (self.__name__, self.title)
 
-    if six.PY2:
-        def __nonzero__(self):
-            """Make sure an empty address book does not evaluate to `False`."""
-            return True
-    else:
-        def __bool__(self):
-            """Make sure an empty address book does not evaluate to `False`."""
-            return True
+    def __bool__(self):
+        """Make sure an empty address book does not evaluate to `False`."""
+        return True
+
+    if six.PY2:  # pragma: no cover
+        __nonzero__ = __bool__
 
     @property
     def time_zone(self):

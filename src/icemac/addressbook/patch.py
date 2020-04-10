@@ -8,7 +8,7 @@ def _get_cmp_keys(self, other):
     https://github.com/zopefoundation/zope.keyreference/pull/6.
 
     """
-    if self.key_type_id == other.key_type_id:
+    if self.key_type_id == other.key_type_id:  # pragma: no cover
         # While it makes subclassing this class inconvenient,
         # comparing the object's type is faster than doing an
         # isinstance check.  The intent of using type instead
@@ -44,4 +44,4 @@ def _get_cmp_keys(self, other):
             other_oid = other_obj._p_oid
         return (self_name, self_oid), (other_name, other_oid)
 
-    return self.key_type_id, other.key_type_id
+    return self.key_type_id, other.key_type_id  # pragma: no cover
