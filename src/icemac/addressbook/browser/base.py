@@ -1,7 +1,7 @@
 # -*- coding: latin-1 -*-
 from icemac.addressbook.i18n import _
 import gocept.reference.interfaces
-import grokcore.component
+import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
@@ -218,12 +218,12 @@ class BaseEditForm(_AbstractEditForm):
 
 
 class EditActions(z3c.form.button.ButtonActions,
-                  grokcore.component.MultiAdapter):
+                  grok.MultiAdapter):
     """Custom edit actions to add a cancel button on each edit form."""
 
-    grokcore.component.adapts(BaseEditForm,
-                              zope.interface.Interface,
-                              zope.interface.Interface)
+    grok.adapts(BaseEditForm,
+                zope.interface.Interface,
+                zope.interface.Interface)
 
     def update(self):
         self.form.buttons = z3c.form.button.Buttons(
@@ -233,13 +233,13 @@ class EditActions(z3c.form.button.ButtonActions,
 
 
 class EditActionHandler(z3c.form.button.ButtonActionHandler,
-                        grokcore.component.MultiAdapter):
+                        grok.MultiAdapter):
     """Edit action handler which is able to handle the cancel action."""
 
-    grokcore.component.adapts(BaseEditForm,
-                              zope.interface.Interface,
-                              zope.interface.Interface,
-                              z3c.form.button.ButtonAction)
+    grok.adapts(BaseEditForm,
+                zope.interface.Interface,
+                zope.interface.Interface,
+                z3c.form.button.ButtonAction)
 
     def __call__(self):
         if self.action.name == 'form.buttons.cancel':
