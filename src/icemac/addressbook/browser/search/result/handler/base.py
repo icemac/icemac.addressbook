@@ -12,11 +12,10 @@ class ISearchResultHandler(zope.interface.Interface):
 
 
 @zope.interface.implementer(
-    icemac.addressbook.browser.interfaces.IAddressBookBackground)
+    icemac.addressbook.browser.interfaces.IAddressBookBackground,
+    ISearchResultHandler)
 class Base(icemac.addressbook.browser.base.BaseView):
     """Base for search result handlers."""
-
-    zope.interface.implements(ISearchResultHandler)
 
     @property
     def persons(self):
