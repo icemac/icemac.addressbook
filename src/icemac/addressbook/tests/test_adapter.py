@@ -1,6 +1,7 @@
 from icemac.addressbook.interfaces import ITitle
 import icemac.addressbook.interfaces
 import zope.interface
+import six
 
 
 def test_adapter__default_title__1(zcmlS):
@@ -35,11 +36,11 @@ def test_adapter__SchemaProvider_SchemaName__schema_name__1(zcmlS):
 
     schema_name = icemac.addressbook.interfaces.ISchemaName(Foo()).schema_name
     assert 'ITitle' == schema_name
-    assert isinstance(schema_name, unicode)
+    assert isinstance(schema_name, six.text_type)
 
 
 def test_adapter__Interface__schema_name__1(zcmlS):
     """It is the name of the interface."""
     schema_name = icemac.addressbook.interfaces.ISchemaName(ITitle).schema_name
     assert 'ITitle' == schema_name
-    assert isinstance(schema_name, unicode)
+    assert isinstance(schema_name, six.text_type)

@@ -54,7 +54,7 @@ class SchemaProvider_SchemaName(grok.Adapter):
         # Instead of removing the security proxy I could require a ZCML class
         # definition of the usable interfaces. They are not writeable so it
         # seems too much effort to require the declaration.
-        self.schema_name = unicode(
+        self.schema_name = six.text_type(
             zope.security.proxy.getObject(context.schema).getName())
 
 
@@ -65,4 +65,4 @@ class Interface_SchemaName(grok.Adapter):
     grok.context(zope.interface.interfaces.IInterface)
 
     def __init__(self, context):
-        self.schema_name = unicode(context.getName())
+        self.schema_name = six.text_type(context.getName())

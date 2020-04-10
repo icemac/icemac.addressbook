@@ -258,7 +258,7 @@ class PersonEditForm(icemac.addressbook.browser.base.GroupEditForm):
         """
         content = self.getContent()
         changed = {}
-        assert self.fields.items() == []  # Each field is in a group.
+        assert list(self.fields.items()) == []  # Each field is in a group.
         for group in self.groups:
             groupChanged = group.applyChanges(data)
             if groupChanged:

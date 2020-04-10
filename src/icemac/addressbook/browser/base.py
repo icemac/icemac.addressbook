@@ -6,8 +6,8 @@ import icemac.addressbook.browser.interfaces
 import icemac.addressbook.browser.resource
 import icemac.addressbook.interfaces
 import icemac.addressbook.utils
+import six.moves.urllib.parse
 import transaction
-import urllib
 import z3c.flashmessage.interfaces
 import z3c.form.button
 import z3c.form.field
@@ -61,7 +61,8 @@ class BaseView(FlashView):
                 url_parts.append('@@')
             url_parts.append(view_name)
         if kw:
-            url_parts.extend(['?', urllib.urlencode(kw, doseq=True)])
+            url_parts.extend(
+                ['?', six.moves.urllib.parse.urlencode(kw, doseq=True)])
         return ''.join(url_parts)
 
     @property
