@@ -377,7 +377,7 @@ class Entity(object):
         # objects are used in the look-up
         adapters = zope.component.getAdapters(
             (self, self._fake_object), icemac.addressbook.interfaces.IField)
-        for name, field in adapters:
+        for name, field in sorted(adapters):
             yield str(field.__name__), field
 
 

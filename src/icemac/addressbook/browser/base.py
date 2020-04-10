@@ -1,5 +1,6 @@
 # -*- coding: latin-1 -*-
 from icemac.addressbook.i18n import _
+import collections
 import gocept.reference.interfaces
 import grokcore.component as grok
 import icemac.addressbook.browser.interfaces
@@ -61,6 +62,8 @@ class BaseView(FlashView):
                 url_parts.append('@@')
             url_parts.append(view_name)
         if kw:
+            # Remove the following line on PY3-only:
+            kw = collections.OrderedDict(sorted(kw.items()))
             url_parts.extend(
                 ['?', six.moves.urllib.parse.urlencode(kw, doseq=True)])
         return ''.join(url_parts)

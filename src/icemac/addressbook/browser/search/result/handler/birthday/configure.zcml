@@ -19,7 +19,7 @@
      viewName="person-birthdays.html"
      class="..manager.SearchResultHandler"
      permission="icemac.addressbook.ViewAddressBook"
-     weight="50"
+     weight="60"
      />
 
   <subscriber

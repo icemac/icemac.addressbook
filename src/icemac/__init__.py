@@ -2,7 +2,7 @@
 # package can be installed on a vanilla python where setuptools is not
 # installed. The global install.py calls functions inside this
 # package.
-try:
+try:   # pragma: no cover
     import pkg_resources
     pkg_resources.declare_namespace(__name__)
 except ImportError:  # pragma: no cover
