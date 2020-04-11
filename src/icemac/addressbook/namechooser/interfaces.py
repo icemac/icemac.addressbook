@@ -1,3 +1,4 @@
+import six
 import zope.interface
 
 
@@ -14,5 +15,9 @@ class INameSuffix(zope.interface.Interface):
     def __iadd__(value):
         """Increment the suffix by `value`."""
 
-    def __unicode__():
-        """Convert suffix to unicode."""
+    def __str__():
+        """Convert suffix to str."""
+
+    if six.PY2:  # pragma: no cover
+        def __unicode__():
+            """Convert suffix to unicode."""

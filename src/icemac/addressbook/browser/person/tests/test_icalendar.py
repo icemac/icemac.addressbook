@@ -22,4 +22,4 @@ def test_icalendar__iCalendar__1(search_data, browser):
             'RRULE:FREQ=YEARLY',
             'END:VEVENT',
             'END:VCALENDAR',
-            ''] == browser.contents.split('\r\n')
+            ''] == browser.contents.decode('ascii').split('\r\n')

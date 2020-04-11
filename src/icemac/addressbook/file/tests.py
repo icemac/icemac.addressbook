@@ -17,53 +17,53 @@ def test_file__File__size__1():
 
 def test_file__File__size__2():
     """`size` counts the length of the file.."""
-    assert 10 == File('1234567\n90').size
+    assert 10 == File(b'1234567\n90').size
 
 
 def test_file__File__open__1():
     """`open()` allows to read and write the underlying file."""
     f = File()
     fd = f.open('w')
-    fd.write('qwertz.123')
+    fd.write(b'qwertz.123')
     fd.close()
     try:
         fd = f.open('r')
-        assert 'qwertz.123' == fd.read()
+        assert b'qwertz.123' == fd.read()
     finally:
         fd.close()
 
 
 def test_file__File__data__1():
-    """`data` always returns '' to trick z3c.form."""
+    """`data` always returns b'' to trick z3c.form."""
     f = File()
-    f.data = 'data'
-    assert '' == f.data
+    f.data = b'data'
+    assert b'' == f.data
 
 
 def test_file__File__openDetached__1(empty_zodb):
-    """`openDetached` returns file data disconnected from db connection."""
+    """It returns file data disconnected from db connection."""
     # need to assign to tree, so commit works
-    empty_zodb.rootFolder['f'] = f = File('data\n\nfoobar')
-    # commit as openDetached expects a committed blob
+    empty_zodb.rootFolder['f'] = f = File(b'data\n\nfoobar')
+    # read as openDetached expects a committed blob
     transaction.commit()
     try:
         fd = f.openDetached()
-        assert 'data\n\nfoobar' == fd.read()
+        assert b'data\n\nfoobar' == fd.read()
     finally:
         fd.close()
 
 
 def test_file__File__replace__1(empty_zodb, tmpdir):
-    """`replace` allows to replace a file by another using its filename."""
+    """It allows to replace a file by another using its filename."""
     # need to assign to tree, so commit works
-    empty_zodb.rootFolder['f2'] = f = File('1234')
+    empty_zodb.rootFolder['f2'] = f = File(b'1234')
     fdw = tmpdir.join('other.file')
-    fdw.write('6789\n0123')
+    fdw.write(b'6789\n0123')
     filename = str(fdw)
     f.replace(filename)
     transaction.commit()
     try:
         fdr = f.openDetached()
-        assert '6789\n0123' == fdr.read()
+        assert b'6789\n0123' == fdr.read()
     finally:
         fdr.close()

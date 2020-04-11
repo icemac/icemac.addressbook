@@ -293,9 +293,9 @@ def tmpfile():
         fd, filename = tempfile.mkstemp(suffix=suffix)
         # It does not seem to be possible to use os.fdopen with 'rw' -- it
         # leads to "[Errno 9] Bad file descriptor"
-        with os.fdopen(fd, 'w') as fhw:
+        with os.fdopen(fd, 'wb') as fhw:
             fhw.write(content)
-        data['fhr'] = open(filename, 'r')
+        data['fhr'] = open(filename, 'rb')
         data['filename'] = filename
         return data['fhr'], os.path.basename(filename)
     yield tmpfile

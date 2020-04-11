@@ -197,7 +197,7 @@ def _create_person(
         postal__street=u'Demoweg 23', postal__city=u'Testhausen',
         postal__country=gocept.country.db.Country('AT'),
         phone__number=u'+4901767654321', email__email=u'petra@example.com',
-        homepage__url=b'http://petra.example.com', **kw)
+        homepage__url='http://petra.example.com', **kw)
     PostalAddressFactory(
         person, address_prefix=u'RST-Software',
         street=u'Forsterstraße 302a', zip=u'98344', city=u'Erfurt')

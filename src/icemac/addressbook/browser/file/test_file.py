@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from StringIO import StringIO
 from icemac.addressbook.browser.file.file import cleanup_filename
 from icemac.addressbook.file.interfaces import IFile
+from io import BytesIO
 from zope.testbrowser.browser import LinkNotFoundError
 import pytest
 
@@ -38,7 +38,7 @@ def test_file__Add__1(address_book, FullPersonFactory, browser, tmpfile):
     browser.open(browser.PERSON_EDIT_URL)
     browser.getLink('file').click()
     assert browser.FILE_ADD_URL == browser.url
-    fh, filename = tmpfile('File contents', '.txt')
+    fh, filename = tmpfile(b'File contents', '.txt')
     browser.getControl('file').add_file(fh, 'text/plain', filename)
     browser.getControl('Add').click()
     assert '"%s" added.' % filename == browser.message
@@ -56,7 +56,7 @@ def test_file__Add__1(address_book, FullPersonFactory, browser, tmpfile):
     assert browser.headers[
         'content-disposition'] == 'attachment; filename=' + filename
     assert '13' == browser.headers['content-length']
-    assert 'File contents' == browser.contents
+    assert b'File contents' == browser.contents
 
 
 def test_file__Add__2(address_book, FullPersonFactory, browser):
@@ -91,7 +91,7 @@ def test_file__Add__4(address_book, FieldFactory, FullPersonFactory, browser):
     browser.login('editor')
     browser.open(browser.FILE_ADD_URL)
     browser.getControl('file').add_file(
-        StringIO('Dear Tester, CU.'), 'text/plain', 'letter.txt')
+        BytesIO(b'Dear Tester, CU.'), 'text/plain', b'letter.txt')
     browser.getControl('mynotes').value = 'first letter'
     browser.getControl('Add').click()
     assert '"letter.txt" added.' == browser.message
@@ -124,20 +124,20 @@ def test_file__Add__5_2(address_book, FullPersonFactory, browser):
 def test_file__Add__6(address_book, FullPersonFactory, browser, tmpfile):
     """It can handle larger files.
 
-    Small files are not written to disk but handled via a StringIO.
+    Small files are not written to disk but handled via a BytesIO.
 
     """
     FullPersonFactory(address_book, u'Tester')
     browser.login('editor')
     browser.open(browser.FILE_ADD_URL)
-    fh, filename = tmpfile('File contents ' * 1024, '.txt')
+    fh, filename = tmpfile(b'File contents ' * 1024, '.txt')
     browser.getControl('file').add_file(fh, 'text/plain', filename)
     browser.getControl('Add').click()
     assert '"%s" added.' % filename == browser.message
     # A larger file can be downloaded successfully.
     browser.getLink('Download file').click()
     assert '14336' == browser.headers['content-length']
-    assert browser.contents.startswith('File contents File contents')
+    assert browser.contents.startswith(b'File contents File contents')
 
 
 def test_file__Add__Edit__Download__1(
@@ -145,11 +145,11 @@ def test_file__Add__Edit__Download__1(
     """It allows to upload, change and download more than one file."""
     # Upload
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login('editor')
     browser.open(browser.FILE_ADD_URL)
     browser.getControl('file').add_file(
-        StringIO('2nd file'), 'text/plain', '2nd.txt')
+        BytesIO(b'2nd file'), 'text/plain', '2nd.txt')
     browser.getControl('Add').click()
     assert '"2nd.txt" added.' == browser.message
     assert browser.PERSON_EDIT_URL == browser.url
@@ -162,10 +162,10 @@ def test_file__Add__Edit__Download__1(
     assert (browser.headers['content-disposition'] ==
             'attachment; filename=2nd.txt')
     assert '8' == browser.headers['content-length']
-    assert '2nd file' == browser.contents
+    assert b'2nd file' == browser.contents
     # Change
     browser.open(browser.PERSON_EDIT_URL)
-    fh, filename = tmpfile('3rd try', '.txt')
+    fh, filename = tmpfile(b'3rd try', '.txt')
     browser.getControl('file', index=3).add_file(fh, 'text/enriched', filename)
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
@@ -179,15 +179,15 @@ def test_file__Add__Edit__Download__1(
     assert 'text/enriched' == browser.headers['content-type']
     assert (browser.headers['content-disposition'] ==
             'attachment; filename=' + filename)
-    assert '3rd try' == browser.contents
+    assert b'3rd try' == browser.contents
 
 
 def test_file__DeleteFileForm__1(
         address_book, FullPersonFactory, FileFactory, browser):
     """A File can be deleted using the ``Delete single entry`` button."""
     person = FullPersonFactory(address_book, u'Test')
-    FileFactory(person, u'my-file.txt', data='boring text')
-    FileFactory(person, u'data.dat', data='<XML :/>')
+    FileFactory(person, u'my-file.txt', data=b'boring text')
+    FileFactory(person, u'data.dat', data=b'<XML :/>')
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('Delete single entry').click()
@@ -219,6 +219,6 @@ def test_file__DeleteFileForm__2(
         address_book, FullPersonFactory, FileFactory, browser, loginname):
     """`DeleteFileForm` cannot be accessed by some roles."""
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login(loginname)
     browser.assert_forbidden(browser.FILE_DELETE_URL)

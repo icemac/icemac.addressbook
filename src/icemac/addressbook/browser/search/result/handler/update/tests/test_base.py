@@ -41,14 +41,14 @@ def test_base__update_persons__3(zcmlS):
             'operators.NoneAppend.__call__')
     person1 = Person()
     person1.__name__ = 'person1'
-    with mock.patch(call, side_effect=IOError('file not found')):
+    with mock.patch(call, side_effect=EOFError('file too short')):
         result = update_persons(
             [person1], person_entity,
             person_entity.getRawField('notes'), 'append', u'bar')
     errors = {key: zope.i18n.translate(val)
               for key, val in result[0].items()}
     assert (
-        {'person1': u'Unexpected error occurred: IOError: file not found'} ==
+        {'person1': u'Unexpected error occurred: EOFError: file too short'} ==
         errors)
 
 

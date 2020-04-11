@@ -3,6 +3,7 @@ from icemac.addressbook.interfaces import IKeyword
 from icemac.addressbook.testing import WebdriverPageObjectBase, Webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 import pytest
+import six
 
 
 class POEntities(WebdriverPageObjectBase):
@@ -114,8 +115,12 @@ def test_Fields__1(address_book, browser):
     # the user defined field (a person in our case):
     browser.getLink('Person list').click()
     browser.getLink('person').click()
-    assert ['No value', 'K\xc3\xbcche'] == browser.getControl(
-        'Ümläuttößt').displayOptions
+    if six.PY2:  # pragma: no cover
+        assert ['No value', 'K\xc3\xbcche'] == browser.getControl(
+            'Ümläuttößt').displayOptions
+    else:  # pragma: no cover
+        assert ['No value', 'Küche'] == browser.getControl(
+            'Ümläuttößt').displayOptions
 
 
 def test_Fields__2(address_book, FieldFactory, KeywordFactory, browser):

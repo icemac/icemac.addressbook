@@ -76,9 +76,9 @@ def test__mailto__MailTo___link__1(mailto_data, browser):
     """The view displays the e-mail adresses of the persons as a link."""
     browser.login('visitor')
     browser.keyword_search('mail-me', apply='E-Mail')
-    assert [['<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
-             'Click here to open your e-mail client</a>'],
-            ['<a href="javascript:history.go(-1)" '
-             'class="no-print">Go back</a>']] == [
+    assert [[b'<a href="mailto:?bcc=icemac@example.net,mail@example.com">'
+             b'Click here to open your e-mail client</a>'],
+            [b'<a href="javascript:history.go(-1)" '
+             b'class="no-print">Go back</a>']] == [
         browser.etree_to_list(x)
         for x in browser.etree.xpath('//div[@id="mailto"]//a')]

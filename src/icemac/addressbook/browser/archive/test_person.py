@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from icemac.addressbook.interfaces import IPerson
 from icemac.addressbook.interfaces import IPhoneNumber
 from zope.testbrowser.browser import LinkNotFoundError
@@ -13,16 +12,16 @@ def archived_person(
         address_book, FullPersonFactory, KeywordFactory, FileFactory):
     """Create an archived person."""
     person = FullPersonFactory(
-        address_book, 'Vregga', first_name='V.',
-        keywords=set([KeywordFactory(address_book, 'friend')]))
-    FileFactory(person, 'cv.txt', data='boring text', mimeType=b'text/plain')
+        address_book, u'Vregga', first_name=u'V.',
+        keywords=set([KeywordFactory(address_book, u'friend')]))
+    FileFactory(person, u'cv.txt', data=b'boring text', mimeType='text/plain')
     person.archive()
     yield person
 
 
 def test_person__ArchivedPersonForm__1(address_book, PersonFactory, browser):
     """It can be accessed from the archive listing view."""
-    person = PersonFactory(address_book, 'Vregga')
+    person = PersonFactory(address_book, u'Vregga')
     person.archive()
 
     browser.login('archivist')
@@ -36,10 +35,10 @@ def test_person__ArchivedPersonForm__2(
         browser):
     """It can be accessed from the archive listing view."""
     bool_field = FieldFactory(
-        address_book, IPerson, 'Bool', 'alive?').__name__
+        address_book, IPerson, 'Bool', u'alive?').__name__
     select_field = FieldFactory(
-        address_book, IPhoneNumber, 'Choice', 'kind',
-        values=['private', 'work number']).__name__
+        address_book, IPhoneNumber, 'Choice', u'kind',
+        values=[u'private', u'work number']).__name__
 
     person = FullPersonFactory(
         address_book, u'Tester', first_name=u'Petra',
@@ -48,7 +47,7 @@ def test_person__ArchivedPersonForm__2(
         postal__street=u'Demoweg 23', postal__city=u'Testhausen',
         postal__country=gocept.country.db.Country('AT'),
         phone__number=u'+4901767654321', email__email=u'petra@example.com',
-        homepage__url=b'http://petra.example.com',
+        homepage__url='http://petra.example.com',
         **{bool_field: True})
 
     PhoneNumberFactory(
@@ -112,7 +111,7 @@ def test_person__ArchivedPersonForm__4(archived_person, browser):
 def test_person__ArchivedPersonForm__5(
         address_book, PersonFactory, browser, loginname):
     """It can only be accessed by allowed users."""
-    person = PersonFactory(address_book, 'Vregga')
+    person = PersonFactory(address_book, u'Vregga')
     person.archive()
 
     browser.login(loginname)

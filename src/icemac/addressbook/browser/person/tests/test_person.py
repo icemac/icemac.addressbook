@@ -6,6 +6,7 @@ from icemac.addressbook.testing import set_modified, delete_field
 from zope.dublincore.interfaces import IZopeDublinCore
 import gocept.country.db
 import pytest
+import six
 import zope.component.hooks
 import zope.testbrowser.interfaces
 
@@ -79,8 +80,17 @@ def test_person__PersonAddForm__3(address_book, browser):
     browser.getControl('Add').click()
     assert [] == browser.message
     assert browser.PERSON_ADD_URL == browser.url
-    assert (['Required input is missing.',
+    if six.PY2:  # pragma: no cover
+        assert (
+            ['Required input is missing.',
              "The datetime string did not match the pattern u'yyyy MMM d '.",
+             'Constraint not satisfied',
+             'The specified URI is not valid.'] ==
+            browser.etree.xpath('//ul[@class="errors"]/li/div/text()'))
+    else:  # pragma: no cover
+        assert (
+            ['Required input is missing.',
+             "The datetime string did not match the pattern 'yyyy MMM d '.",
              'Constraint not satisfied',
              'The specified URI is not valid.'] ==
             browser.etree.xpath('//ul[@class="errors"]/li/div/text()'))
@@ -342,9 +352,14 @@ def test_person__PersonEditForm__3(person_data, browser):
     browser.getControl('birth date').value = u'qqqq'
     browser.getControl('Save').click()
     assert [] == browser.message
-    assert (
-        ["The datetime string did not match the pattern u'yyyy MMM d '."] ==
-        browser.etree.xpath('//ul[@class="errors"]/li/div/text()'))
+    if six.PY2:  # pragma: no cover
+        assert (
+            ["The datetime string did not match the pattern u'yyyy MMM d '."]
+            == browser.etree.xpath('//ul[@class="errors"]/li/div/text()'))
+    else:  # pragma: no cover
+        assert (
+            ["The datetime string did not match the pattern 'yyyy MMM d '."]
+            == browser.etree.xpath('//ul[@class="errors"]/li/div/text()'))
 
 
 def test_person__PersonEditForm__4(person_with_field_data, browser):
@@ -531,7 +546,7 @@ def test_person__PersonEditForm__13(
         address_book, FullPersonFactory, FileFactory, browser):
     """It allows to change the name and mimetype of a file entity."""
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('name', index=2).value = 'my nice file.txt'
@@ -551,10 +566,10 @@ def test_person__PersonEditForm__14(
 
     """
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
-    fh, filename = tmpfile('special data, blah', '.js')
+    fh, filename = tmpfile(b'special data, blah', '.js')
     browser.getControl('file', index=1).add_file(
         fh, 'application/octet-stream', filename)
     browser.getControl('Save').click()
@@ -576,10 +591,10 @@ def test_person__PersonEditForm__15(
 
     """
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login('editor')
     browser.open(browser.PERSON_EDIT_URL)
-    fh, filename = tmpfile('Ä, no content type, huh', '')
+    fh, filename = tmpfile(u'Ä, no content type, huh'.encode('utf-8'), '')
     browser.getControl('file', index=1).add_file(fh, '', filename)
     browser.getControl('Save').click()
     assert 'Data successfully updated.' == browser.message
@@ -609,7 +624,7 @@ def test_person__PersonEditForm__17(
         address_book, FullPersonFactory, FileFactory, browser):
     """A visitor is not able to edit a file."""
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my-file.txt',
-                data='boring text')
+                data=b'boring text')
     browser.login('visitor')
     browser.open(browser.PERSON_EDIT_URL)
     # There are neither any input widgets nor a delete button:
@@ -887,8 +902,12 @@ def test_person__DefaultSelectGroup__1(person_data, browser):
             browser.getControl('main home page address').displayValue)
     # Set the other addresses as default:
 
-    browser.getControl('main postal address').displayValue = [
-        'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
+    if six.PY2:  # pragma: no cover
+        browser.getControl('main postal address').displayValue = [
+            'RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany']
+    else:  # pragma: no cover
+        browser.getControl('main postal address').displayValue = [
+            'RST-Software, Forsterstraße 302a, 98344, Erfurt, Germany']
     browser.getControl('main e-mail address').displayValue = [
         'pt@rst.example.edu']
     browser.getControl('main home page address').displayValue = [
@@ -954,17 +973,32 @@ def test_person__DeleteSingleEntryForm__1(person_data, browser):
     browser.open(browser.PERSON_EDIT_URL)
     browser.getControl('Delete single entry').click()
     assert browser.PERSON_DELETE_ENTRY_URL == browser.url
-    assert (
-        ['postal address -- c/o Mama, Demoweg 23, 88888, Testhausen, Austria',
-         'postal address -- RST-Software, Forsterstra\xc3\x9fe 302a, 98344,'
-         ' Erfurt, Germany',
-         'phone number -- +4901767654321',
-         'phone number -- +4901761234567',
-         'e-mail address -- petra@example.com',
-         'e-mail address -- pt@rst.example.edu',
-         'home page address -- http://petra.example.com',
-         'home page address -- http://www.rst.example.edu'] ==
-        browser.getControl('Entries').displayOptions)
+    if six.PY2:  # pragma: no cover
+        assert ([
+            'postal address -- c/o Mama, Demoweg 23, 88888, Testhausen,'
+            ' Austria',
+            'postal address -- RST-Software, Forsterstra\xc3\x9fe 302a, 98344,'
+            ' Erfurt, Germany',
+            'phone number -- +4901767654321',
+            'phone number -- +4901761234567',
+            'e-mail address -- petra@example.com',
+            'e-mail address -- pt@rst.example.edu',
+            'home page address -- http://petra.example.com',
+            'home page address -- http://www.rst.example.edu'
+        ] == browser.getControl('Entries').displayOptions)
+    else:  # pragma: no cover
+        assert ([
+            'postal address -- c/o Mama, Demoweg 23, 88888, Testhausen,'
+            ' Austria',
+            'postal address -- RST-Software, Forsterstraße 302a, 98344,'
+            ' Erfurt, Germany',
+            'phone number -- +4901767654321',
+            'phone number -- +4901761234567',
+            'e-mail address -- petra@example.com',
+            'e-mail address -- pt@rst.example.edu',
+            'home page address -- http://petra.example.com',
+            'home page address -- http://www.rst.example.edu'
+        ] == browser.getControl('Entries').displayOptions)
     # Deletion can be cancelled:
     browser.getControl('Cancel').click()
     assert 'No changes were applied.' == browser.message

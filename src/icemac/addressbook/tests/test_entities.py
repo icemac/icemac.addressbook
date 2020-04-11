@@ -158,8 +158,8 @@ def test_entities__getEntities__1(stubSortOrder, stubEntities):
 def test_entities__getEntities__2(stubEntities):
     """`(Persistent)Entities.getEntities()` might return entities unsorted."""
     e = stubEntities
-    assert (sorted([e.kwack, e.duck, e.cat]) ==
-            sorted(e.entities.getEntities(sorted=False)))
+    assert (set([e.kwack, e.duck, e.cat]) ==
+            set(e.entities.getEntities(sorted=False)))
 
 
 def test_entities__getEntities__3(stubSortOrder, stubEntities):

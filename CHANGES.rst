@@ -7,6 +7,8 @@ Change log
 
 - Update most libraries needed for the address book to their newest versions.
 
+- Port code to Python 3.8, supporting now additionally to Python 2.7.
+
 
 9.3 (2020-03-23)
 ================

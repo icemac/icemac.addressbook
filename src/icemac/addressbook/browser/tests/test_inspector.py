@@ -1,11 +1,15 @@
 import pytest
+import six
 
 
 def test_inspector__Inspector__show_context__1(address_book, browser):
     """It renders context information on a view."""
     browser.login('globalmgr')
     browser.open(browser.INSPECTOR_VIEW_URL)
-    assert "PersonList u'person-list.html'" in browser.contents
+    if six.PY2:  # pragma: no cover
+        assert "PersonList u'person-list.html'" in browser.contents
+    else:  # pragma: no cover
+        assert "PersonList 'person-list.html'" in browser.contents
     # the base classes of the view
     assert (
         "(&lt;class 'icemac.addressbook.browser.person.list.PersonList'&gt;, "
