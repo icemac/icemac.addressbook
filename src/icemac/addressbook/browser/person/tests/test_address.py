@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
+import six
 
 
 def test_address__menu__1(person_data, browser):
@@ -143,10 +144,16 @@ def test_address__DeletePostalAddressForm__3(person_data, browser):
     assert browser.PERSON_EDIT_URL == browser.url
     assert (['Germany'] ==
             browser.getControl('main postal address').displayValue)
-    assert (
-        ['RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany',
-         'Germany'] ==
-        browser.getControl('main postal address').displayOptions)
+    if six.PY2:  # pragma: no cover
+        assert (
+            ['RST-Software, Forsterstra\xc3\x9fe 302a, 98344, Erfurt, Germany',
+             'Germany'] ==
+            browser.getControl('main postal address').displayOptions)
+    else:  # pragma: no cover
+        assert (
+            ['RST-Software, Forsterstraße 302a, 98344, Erfurt, Germany',
+             'Germany'] ==
+            browser.getControl('main postal address').displayOptions)
 
 
 @pytest.mark.parametrize('loginname', ['visitor', 'archivist'])

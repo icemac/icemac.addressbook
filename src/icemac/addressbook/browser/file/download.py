@@ -41,5 +41,5 @@ def bodyIterator(f):
         chunk = f.read(CHUNK_SIZE)
         if not chunk:
             f.close()
-            raise StopIteration()
+            return
         yield chunk

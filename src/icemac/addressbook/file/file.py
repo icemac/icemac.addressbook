@@ -16,7 +16,7 @@ class BaseFile(persistent.Persistent, zope.container.contained.Contained):
     zope.schema.fieldproperty.createFieldProperties(
         icemac.addressbook.file.interfaces.IFile, omit=['data', 'size'])
 
-    def __init__(self, data='', *args, **kw):
+    def __init__(self, data=b'', *args, **kw):
         super(BaseFile, self).__init__(*args, **kw)
         # initialize blob with no data
         self._data = ZODB.blob.Blob()
@@ -35,7 +35,7 @@ class BaseFile(persistent.Persistent, zope.container.contained.Contained):
         # This method can't be used to read the data, use openDetached instead.
         # This is necessary because of the stupidity of z3c.form which reads
         # the whole file when rendering a form.
-        return ''
+        return b''
 
     @data.setter
     def data(self, data):

@@ -95,7 +95,7 @@ def test_address__email_address_of_person__2(address_book, PersonFactory):
     person = PersonFactory(address_book, u'Tester')
     with pytest.raises(TypeError) as err:
         IEMailAddress(person)
-    assert 'Could not adapt' == err.value[0]
+    assert 'Could not adapt' == err.value.args[0]
 
 
 def test_address__postal_address_title__1(zcmlS):

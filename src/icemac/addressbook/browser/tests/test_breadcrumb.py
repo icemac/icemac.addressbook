@@ -2,6 +2,7 @@ from ..breadcrumb import IBreadcrumb, Breadcrumb
 from zope.testbrowser.browser import HTTPError
 import mock
 import pytest
+import six
 import zope.interface.verify
 
 
@@ -19,8 +20,14 @@ def test_breadcrumb__Breadcrumb____repr____1():
         title = u'my title'
 
     breadcrumb = MyBreadcrumb(None, None)
-    assert ("<icemac.addressbook.browser.tests.test_breadcrumb.MyBreadcrumb:"
+    if six.PY2:  # pragma: no cover
+        assert (
+            "<icemac.addressbook.browser.tests.test_breadcrumb.MyBreadcrumb:"
             " u'my title'>" == repr(breadcrumb))
+    else:  # pragma: no cover
+        assert (
+            "<icemac.addressbook.browser.tests.test_breadcrumb.MyBreadcrumb:"
+            " 'my title'>" == repr(breadcrumb))
 
 
 def test_breadcrumb__NotFoundBreadcrumb__1(address_book, browser):

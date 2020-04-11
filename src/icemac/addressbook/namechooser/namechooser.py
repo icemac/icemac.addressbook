@@ -21,8 +21,11 @@ class NameSuffix(persistent.Persistent, zope.container.contained.Contained):
         self._suffix.change(value)
         return self
 
-    def __unicode__(self):
+    def __str__(self):
         return six.text_type(self._suffix.value)
+
+    if six.PY2:  # pragma: no cover
+        __unicode__ = __str__
 
 
 name_suffix = zope.annotation.factory(

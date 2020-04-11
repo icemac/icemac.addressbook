@@ -6,7 +6,7 @@ def test_download__Download__1(
 
     """
     FileFactory(FullPersonFactory(address_book, u'Test'), u'my nice file.txt',
-                data='boring text', mimeType='text/example')
+                data=b'boring text', mimeType='text/example')
     browser.login('visitor')
     browser.open(browser.PERSON_EDIT_URL)
     browser.getLink('Download file').click()
@@ -14,7 +14,7 @@ def test_download__Download__1(
     assert 'text/example' == browser.headers['content-type']
     assert 'attachment; filename=my_nice_file.txt' == browser.headers[
         'content-disposition']
-    assert 'boring text' == browser.contents
+    assert b'boring text' == browser.contents
 
 
 def test_download__Download__2(
@@ -33,12 +33,12 @@ def test_download__Download__2(
 
 def test_download__Download__3(
         address_book, FullPersonFactory, FileFactory, browser):
-    """A visitor can download a file-"""
+    """A visitor can download a file."""
     FileFactory(FullPersonFactory(address_book, u'Test'), u'v.txt',
-                data='visiting', mimeType='text/plain')
+                data=b'visiting', mimeType='text/plain')
     browser.login('visitor')
     browser.open(browser.FILE_DOWNLOAD_URL)
     assert 'text/plain' == browser.headers['content-type']
     assert (browser.headers['content-disposition'] ==
             'attachment; filename=v.txt')
-    assert 'visiting' == browser.contents
+    assert b'visiting' == browser.contents

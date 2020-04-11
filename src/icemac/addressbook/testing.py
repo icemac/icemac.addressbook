@@ -293,7 +293,7 @@ class Browser(z3c.etestbrowser.testing.ExtendedTestBrowser):
     def etree_to_list(self, etree):
         """"Convert an etree into a list (lines without leading whitespace.)"""
         return [x.strip()
-                for x in lxml.etree.tostring(etree).split('\n')
+                for x in lxml.etree.tostring(etree).split(b'\n')
                 if x.strip()]
 
     @property

@@ -3,6 +3,7 @@ from icemac.addressbook.addressbook import create_address_book_infrastructure
 from icemac.addressbook.interfaces import IAddressBook, IKeywords, IEntities
 from icemac.addressbook.interfaces import IArchive
 from icemac.addressbook.interfaces import IOrderStorage, ENTITIES
+import six
 import zope.authentication.interfaces
 import zope.catalog.interfaces
 import zope.component
@@ -111,7 +112,10 @@ def test_addressbook__AddressBook__1(address_book):
 def test_addressbook__AddressBook____repr____1(address_book):
     """`__repr__()` renders name and title."""
     address_book.title = u'My address book'
-    assert "<AddressBook u'ab' (u'My address book')>" == repr(address_book)
+    if six.PY2:  # pragma: no cover
+        assert "<AddressBook u'ab' (u'My address book')>" == repr(address_book)
+    else:  # pragma: no cover
+        assert "<AddressBook 'ab' ('My address book')>" == repr(address_book)
 
 
 def test_addressbook__AddressBook____repr____2():
