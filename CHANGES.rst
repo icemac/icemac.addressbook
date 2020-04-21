@@ -37,13 +37,6 @@ Change log
   view to the main menu.
 
 
-9.1 (2019-10-06)
-================
-
-- In update search result handler render the previous value in the check step
-  of the wizard.
-
-
 Previous Versions
 =================
 

@@ -6,6 +6,13 @@ Change log of releases more than 2 minor or even major versions behind current
 version.
 
 
+9.1 (2019-10-06)
+================
+
+- In update search result handler render the previous value in the check step
+  of the wizard.
+
+
 9.0.1 (2019-10-04)
 ==================
 

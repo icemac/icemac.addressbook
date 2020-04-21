@@ -61,7 +61,7 @@ hexagonit.recipe.cmmi==2.0
 hexagonit.recipe.download==1.7.1
 httpagentparser==1.9.0
 icalendar==4.0.5
-icemac.ab.locales==2.24
+icemac.ab.locales==2.25
 icemac.recurrence==1.7
 icemac.truncatetext==1.1.1
 importlib-metadata==1.5.2
