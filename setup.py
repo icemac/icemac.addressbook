@@ -61,6 +61,7 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         'ZConfig',
+        'ZEO',
         'ZODB',
         'collective.monkeypatcher',
         'fanstatic',
