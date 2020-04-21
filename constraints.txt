@@ -122,7 +122,7 @@ supervisor==4.1.0
 termcolor==1.1.0
 tl.buildout-gtk==0.2.2
 tl.eggdeps==0.5.1
-toll==4.1.1
+toll==4.2.1
 transaction==3.0.0
 trollius==2.2.post1
 typing==3.7.4.1
