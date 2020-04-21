@@ -9,6 +9,9 @@ include profiles/prod.cfg
 include profiles/base.cfg
 include profiles/versions.cfg
 
+include update_constraints.py
+exclude update_constraints.py
+
 exclude *.zcml
 include default_skin.zcml
 
