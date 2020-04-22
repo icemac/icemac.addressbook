@@ -14,6 +14,7 @@ import zope.location.interfaces
 import zope.preference.interfaces
 import zope.publisher.interfaces
 import zope.schema
+import zope.site.interfaces
 import zope.traversing.api
 
 DO_NOT_SHOW = 'I do not want to show up as a breadcrumb!'
