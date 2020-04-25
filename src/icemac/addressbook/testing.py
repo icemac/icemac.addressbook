@@ -474,7 +474,7 @@ class WebdriverPageObjectBase(WebdriverBase):  # pragma: no cover (webdriver)
     def get_drop_down_selection(self, id=None):
         """Get the selected value of a drop down.
 
-        `id` can be a CSS ID of an out element.
+        `id` can be a CSS ID of an outer element.
         """
         selector = self._get_drop_down_selector(id)
         return self._selenium.find_element_by_css_selector(selector).text
