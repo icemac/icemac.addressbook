@@ -29,6 +29,7 @@ mac/
 my-buildout.cfg
 parts
 pip-selfcheck.json
+pyvenv.cfg
 site.zcml
 var/*
 var/chameleon-cache/*
