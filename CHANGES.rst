@@ -5,6 +5,8 @@ Change log
 9.5 (unreleased)
 ================
 
+- Fix breadcrumb on root view.
+
 - Update most libraries needed for the address book to their newest versions.
 
 
