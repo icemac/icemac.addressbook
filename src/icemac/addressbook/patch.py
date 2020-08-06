@@ -1,5 +1,5 @@
 from ZODB.ConflictResolution import PersistentReference
-import zope.security
+import zope.security.proxy
 
 
 def _get_cmp_keys(self, other):
